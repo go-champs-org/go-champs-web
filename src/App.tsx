@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import Schedule from './Tournament/Schedule';
 import './App.scss';
 
 const App: React.FC = () => {
@@ -9,9 +10,7 @@ const App: React.FC = () => {
         <h1 className="title">
           Hello World
         </h1>
-        <p className="subtitle">
-          My first website with <strong>Bulma</strong>!
-        </p>
+        <Schedule />
       </div>
     </section>
   );
