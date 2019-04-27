@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
-import Schedule from './Tournament/Schedule';
 import './App.scss';
+import Schedule from './Tournament/Schedule';
 
 const App: React.FC = () => {
   return (
