@@ -1,26 +1,27 @@
 import React from 'react';
+import { Game, mockScheduleData } from './data';
 
-const GameRow: React.FC = () => {
+const GameRow: React.FC<{ game: Game }> = ({ game }) => {
     return (
         <div className="columns">
             <div className="column is-four-fifths">
                 <div className="columns is-vcentered">
-                    <div className="column">Old School</div>
-                    <div className="column is-1">100</div>
+                    <div className="column">{game.homeTeam.name}</div>
+                    <div className="column is-1">{game.homeScore}</div>
                     <div className="column is-1">x</div>
-                    <div className="column is-1">101</div>
-                    <div className="column">Cosseno</div>
+                    <div className="column is-1">{game.awayScore}</div>
+                    <div className="column">{game.awayTeam.name}</div>
                 </div>
             </div>
             <div className="column is-3">
-                10:00
+                {game.time}
             </div>
         </div>
     );
 }
 
 const Schedule: React.FC = () => {
-    const games = [1, 2, 3, 4];
+    const schedule = mockScheduleData;
     return (
         <div className="container">
             <div className="columns is-vcentered">
@@ -31,7 +32,7 @@ const Schedule: React.FC = () => {
                         </span>
                     </a>
                 </div>
-                <div className="column">20/10</div>
+                <div className="column">{schedule.date}</div>
                 <div className="column is-1">
                     <a className="button">
                         <span className="icon is-small">
@@ -42,7 +43,7 @@ const Schedule: React.FC = () => {
             </div>
             <div className="columns">
                 <div className="column">
-                    {games.map((number: number) => <GameRow key={number} />)}
+                    {schedule.games.map((game: Game) => <GameRow key={game.id} game={game} />)}
                 </div>
             </div>
         </div>
