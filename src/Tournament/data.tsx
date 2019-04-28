@@ -16,6 +16,46 @@ export interface Team {
     name: string;
 }
 
+export interface Standandings {
+    team: Team;
+    stats: { [key: string]: string };
+}
+
+export interface StatInfo {
+    key: string;
+    title: string;
+}
+
+export interface StatStructure {
+    [position: string]: StatInfo,
+}
+
+export const mockTournamentStats: StatStructure = {
+    ['0']: {
+        key: 'wins',
+        title: 'Wins',
+    },
+    ['1']: {
+        key: 'loses',
+        title: 'Loses',
+    }
+}
+
+export const mockTournamentStandings: { [position: string]: Standandings } = {
+    ['1']: {
+        team: { name: 'Panteras' },
+        stats: { ['wins']: '9', ['loses']: '1' }
+    },
+    ['2']: {
+        team: { name: 'Titios' },
+        stats: { ['wins']: '8', ['loses']: '2' }
+    },
+    ['3']: {
+        team: { name: 'Old School' },
+        stats: { ['wins']: '7', ['loses']: '3' }
+    },
+}
+
 export const mockScheduleData: Schedule = {
     date: '20/10',
     games: [
