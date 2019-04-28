@@ -1,7 +1,7 @@
 import React from 'react';
-import { mockTournamentStandings, mockTournamentStats, Standandings, StatInfo, StatStructure } from './data';
+import { mockTournamentStandings, mockTournamentStats, StatInfo, StatStructure, TeamStats } from './data';
 
-const StatRow: React.FC<{ position: string, stats: Standandings, statStructure: StatStructure }> = ({ position, stats, statStructure }) => {
+const StatRow: React.FC<{ position: string, stats: TeamStats, statStructure: StatStructure }> = ({ position, stats, statStructure }) => {
     return (
         <tr>
             <td>{position}</td>
@@ -19,7 +19,7 @@ const Standings: React.FC = () => {
     const statsStructure = mockTournamentStats;
     const standings = mockTournamentStandings;
     return (
-        <table className="table">
+        <table className="table is-fullwidth">
             <thead>
                 <tr>
                     <th><abbr title="Position">Pos</abbr></th>

@@ -4,9 +4,13 @@ import Standings from './Standings';
 
 const Home: React.FC = () => {
     return (
-        <div>
-            <Standings />
-            <Schedule />
+        <div className="columns">
+            <div className="column">
+                <Standings />
+            </div>
+            <div className="column is-3">
+                <Schedule />
+            </div>
         </div>
     );
 }

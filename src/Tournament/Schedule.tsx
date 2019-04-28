@@ -23,7 +23,7 @@ const GameRow: React.FC<{ game: Game }> = ({ game }) => {
 const Schedule: React.FC = () => {
     const schedule = mockScheduleData;
     return (
-        <div className="container">
+        <div>
             <div className="columns is-vcentered">
                 <div className="column is-1">
                     <a className="button">

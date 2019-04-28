@@ -16,7 +16,7 @@ export interface Team {
     name: string;
 }
 
-export interface Standandings {
+export interface TeamStats {
     team: Team;
     stats: { [key: string]: string };
 }
@@ -41,7 +41,11 @@ export const mockTournamentStats: StatStructure = {
     }
 }
 
-export const mockTournamentStandings: { [position: string]: Standandings } = {
+export interface StandandingStructure {
+    [position: string]: TeamStats,
+}
+
+export const mockTournamentStandings: StandandingStructure = {
     ['1']: {
         team: { name: 'Panteras' },
         stats: { ['wins']: '9', ['loses']: '1' }
@@ -97,3 +101,23 @@ export const mockScheduleData: Schedule = {
         },
     ],
 };
+
+export interface Group {
+    name: string;
+    standings: StandandingStructure;
+}
+
+export interface GroupStructure {
+    [key: string]: Group;
+}
+
+export const mockGroupData: GroupStructure = {
+    ['0']: {
+        name: 'Grupo A',
+        standings: mockTournamentStandings,
+    },
+    ['1']: {
+        name: 'Group B',
+        standings: mockTournamentStandings,
+    }
+}
