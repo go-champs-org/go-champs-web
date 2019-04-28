@@ -1,5 +1,5 @@
 import React from 'react';
-import { mockTournamentStandings, mockTournamentStats, StatInfo, StatStructure, TeamStats } from './data';
+import { Group, mockGroupData, mockTournamentStats, StandandingStructure, StatInfo, StatStructure, TeamStats } from './data';
 
 const StatRow: React.FC<{ position: string, stats: TeamStats, statStructure: StatStructure }> = ({ position, stats, statStructure }) => {
     return (
@@ -15,9 +15,7 @@ const StatHeader: React.FC<{ stat: StatInfo }> = ({ stat }) => {
     return <th><abbr title={stat.title}>{stat.title}</abbr></th>
 }
 
-const Standings: React.FC = () => {
-    const statsStructure = mockTournamentStats;
-    const standings = mockTournamentStandings;
+const Table: React.FC<{ standings: StandandingStructure, statsStructure: StatStructure }> = ({ standings, statsStructure }) => {
     return (
         <table className="table is-fullwidth">
             <thead>
@@ -31,7 +29,27 @@ const Standings: React.FC = () => {
                 {Object.keys(standings).map((key: string) => <StatRow position={key} stats={standings[key]} statStructure={statsStructure} />)}
             </tbody>
         </table>
+
+    );
+}
+
+const GroupComponent: React.FC<{ group: Group, statsStructure: StatStructure }> = ({ group, statsStructure }) => {
+    return (
+        <div>
+            {group.name}
+            <Table standings={group.standings} statsStructure={statsStructure} />
+        </div>
     )
+}
+
+const Standings: React.FC = () => {
+    const statsStructure = mockTournamentStats;
+    const groups = mockGroupData;
+    return (
+        <div>
+            {Object.keys(groups).map((key: string) => <GroupComponent group={groups[key]} statsStructure={statsStructure} />)}
+        </div>
+    );
 }
 
 export default Standings;
