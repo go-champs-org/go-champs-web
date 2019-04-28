@@ -35,7 +35,7 @@ const Table: React.FC<{ standings: StandandingStructure, statsStructure: StatStr
 
 const GroupComponent: React.FC<{ group: Group, statsStructure: StatStructure }> = ({ group, statsStructure }) => {
     return (
-        <div className="tile">
+        <div className="tile box">
             <h4 className="title is-4">{group.name}</h4>
             <Table standings={group.standings} statsStructure={statsStructure} />
         </div>

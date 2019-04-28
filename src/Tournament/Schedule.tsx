@@ -25,15 +25,15 @@ const Schedule: React.FC = () => {
     return (
         <div>
             <div className="columns is-vcentered">
-                <div className="column is-1">
+                <div className="column is-3">
                     <a className="button">
                         <span className="icon is-small">
                             <i className="fas fa-angle-left"></i>
                         </span>
                     </a>
                 </div>
-                <div className="column">{schedule.date}</div>
-                <div className="column is-1">
+                <div className="column is-6 has-text-centered">{schedule.date}</div>
+                <div className="column is-3 has-text-right">
                     <a className="button">
                         <span className="icon is-small">
                             <i className="fas fa-angle-right"></i>

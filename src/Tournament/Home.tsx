@@ -8,7 +8,7 @@ const Home: React.FC = () => {
             <div className="column">
                 <Standings />
             </div>
-            <div className="column is-3">
+            <div className="column is-4">
                 <Schedule />
             </div>
         </div>
