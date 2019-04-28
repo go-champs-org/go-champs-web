@@ -121,3 +121,23 @@ export const mockGroupData: GroupStructure = {
         standings: mockTournamentStandings,
     }
 }
+
+export interface TournamentData {
+    name: string;
+    link: string;
+}
+
+export const mockTournamentData: TournamentData = {
+    name: 'Liga Municipal de Porto Alegre',
+    link: 'liga-municipal-de-porto-alegre',
+}
+
+export interface OrganizationData {
+    name: string;
+    link: string;
+}
+
+export const mockOrganizationData: OrganizationData = {
+    name: 'Prefeitura municipal de Porto Alegre',
+    link: 'prefeitura-municipal-de-porto-alegre',
+}
