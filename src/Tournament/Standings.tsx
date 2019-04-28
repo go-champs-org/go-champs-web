@@ -17,7 +17,7 @@ const StatHeader: React.FC<{ stat: StatInfo }> = ({ stat }) => {
 
 const Table: React.FC<{ standings: StandandingStructure, statsStructure: StatStructure }> = ({ standings, statsStructure }) => {
     return (
-        <table className="table is-fullwidth">
+        <table className="table is-fullwidth is-bordered">
             <thead>
                 <tr>
                     <th><abbr title="Position">Pos</abbr></th>
@@ -35,8 +35,8 @@ const Table: React.FC<{ standings: StandandingStructure, statsStructure: StatStr
 
 const GroupComponent: React.FC<{ group: Group, statsStructure: StatStructure }> = ({ group, statsStructure }) => {
     return (
-        <div>
-            {group.name}
+        <div className="tile">
+            <h4 className="title is-4">{group.name}</h4>
             <Table standings={group.standings} statsStructure={statsStructure} />
         </div>
     )
