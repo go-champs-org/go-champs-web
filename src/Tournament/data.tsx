@@ -65,13 +65,13 @@ export const mockScheduleData: Schedule = {
     games: [
         {
             id: '1',
-            awayScore: 100,
+            awayScore: 3,
             awayTeam: {
-                name: 'São Luís',
+                name: 'Ilumis',
             },
-            homeScore: 110,
+            homeScore: 2,
             homeTeam: {
-                name: 'Corinthians',
+                name: 'Quiuchin',
             },
             time: '19:00',
         },
