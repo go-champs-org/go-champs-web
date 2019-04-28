@@ -132,12 +132,12 @@ export const mockTournamentData: TournamentData = {
     link: 'liga-municipal-de-porto-alegre',
 }
 
-export interface OrganizationData {
+export interface UserData {
     name: string;
     link: string;
 }
 
-export const mockOrganizationData: OrganizationData = {
+export const mockUserData: UserData = {
     name: 'Prefeitura municipal de Porto Alegre',
     link: 'prefeitura-municipal-de-porto-alegre',
 }
