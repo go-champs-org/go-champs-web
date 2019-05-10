@@ -1,20 +1,34 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import './App.scss';
+import { fetchOrganizations } from './Organizations/actions';
 import store from './store';
 import { default as TournamentHome } from './Tournament/Home';
 import { default as UserHome } from './User/Home';
 
-
-const Index: React.FC = () => {
-  return (
-    <div>
-      <h1>Index</h1>
-      <Link to="/secretaria-esportes-poa">Secretaria Municipal de Esportes</Link>
-    </div>
-  );
+interface DispatchFromProps {
+  dispatch: (func: any) => void;
 }
+
+class OrganizationList extends React.Component<DispatchFromProps> {
+  render() {
+    return (
+      <div>
+        <h1>Index</h1>
+        <Link to="/secretaria-esportes-poa">Secretaria Municipal de Esportes</Link>
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    console.log('arroz', this.props)
+    const f = fetchOrganizations();
+    this.props.dispatch(fetchOrganizations());
+  }
+}
+
+const Index = connect<any, DispatchFromProps>(state => state)(OrganizationList);
 
 const NavBar: React.FC = () => {
   return (
