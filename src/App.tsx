@@ -1,6 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import './App.scss';
+import store from './store';
 import { default as TournamentHome } from './Tournament/Home';
 import { default as UserHome } from './User/Home';
 
@@ -81,16 +83,18 @@ const NavBar: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <NavBar />
-      <section className="section">
-        <div className="container">
-          <Route exact path="/" component={Index} />
-          <Route exact path={`/:userId`} component={UserHome} />
-          <Route exact path={`/:userId/:tournamentId`} component={TournamentHome} />
-        </div>
-      </section>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <NavBar />
+        <section className="section">
+          <div className="container">
+            <Route exact path="/" component={Index} />
+            <Route exact path={`/:userId`} component={UserHome} />
+            <Route exact path={`/:userId/:tournamentId`} component={TournamentHome} />
+          </div>
+        </section>
+      </Router>
+    </Provider>
   );
 }
 
