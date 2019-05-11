@@ -11,11 +11,17 @@ const organizationReducer = (state: OrganizationState = initialState, action: Ac
         }
         case REQUEST_ORGANIZATIONS_FAILURE: {
             console.log('failure')
-            return state;
+            return {
+                ...state,
+                isLoadingRequestOrganizations: false,
+            };
         }
         case REQUEST_ORGANIZATIONS_SUCCESS: {
             console.log('success')
-            return state;
+            return {
+                ...state,
+                isLoadingRequestOrganizations: false,
+            };
         }
         default: { return state; }
     }

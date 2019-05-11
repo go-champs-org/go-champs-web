@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, Provider } from 'react-redux';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import './App.scss';
-import { fetchOrganizations } from './Organizations/actions';
+import { requestOrganizations } from './Organizations/actions';
 import store from './store';
 import { default as TournamentHome } from './Tournament/Home';
 import { default as UserHome } from './User/Home';
@@ -23,8 +23,7 @@ class OrganizationList extends React.Component<DispatchFromProps> {
 
   componentDidMount() {
     console.log('arroz', this.props)
-    const f = fetchOrganizations();
-    this.props.dispatch(fetchOrganizations());
+    this.props.dispatch(requestOrganizations());
   }
 }
 

@@ -1,21 +1,15 @@
 import { OrganizationEntity } from "./state";
 
-export const REQUEST_ORGANIZATIONS = 'REQUEST_ORGANIZATIONS';
-export const REQUEST_ORGANIZATIONS_SUCCESS = 'REQUEST_ORGANIZATIONS_SUCCESS';
-export const REQUEST_ORGANIZATIONS_FAILURE = 'REQUEST_ORGANIZATIONS_FAILURE';
+export const REQUEST_ORGANIZATIONS = 'API_REQUEST_ORGANIZATIONS';
+export const REQUEST_ORGANIZATIONS_SUCCESS = 'API_REQUEST_ORGANIZATIONS_SUCCESS';
+export const REQUEST_ORGANIZATIONS_FAILURE = 'API_REQUEST_ORGANIZATIONS_FAILURE';
 
 export interface HttpAction {
     type: ActionTypes,
-    payload?: OrganizationEntity,
+    payload?: any,
 };
 
-export const fetchOrganizations = () => (dispatch: any) => {
-    dispatch(requestOrganizations());
-
-    return fetch('http://yochamps-api.herokuapp.com/api/organizations').then(response => response.json()).then(data => dispatch(requestOrganizationsSuccess(data))).catch(error => dispatch(requestOrganizationsFailure(error)))
-}
-
-export const requestOrganizations = (): HttpAction => ({ type: REQUEST_ORGANIZATIONS, });
+export const requestOrganizations = (): HttpAction => ({ type: REQUEST_ORGANIZATIONS, payload: { url: 'http://yochamps-api.herokuapp.com/api/organizations' } });
 
 export const requestOrganizationsSuccess = (payload: OrganizationEntity): HttpAction => ({
     type: REQUEST_ORGANIZATIONS_SUCCESS,
