@@ -1,3 +1,7 @@
+export interface DispatchFromProps {
+    dispatch: (func: any) => void;
+}
+
 export const createReducer = (initialState: any, handlers: { [key: string]: any }) => (state: any = initialState, action: any) => {
     if (handlers.hasOwnProperty(action.type)) {
         return handlers[action.type](state, action);

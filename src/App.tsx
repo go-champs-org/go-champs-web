@@ -1,32 +1,11 @@
 import React from 'react';
-import { connect, Provider } from 'react-redux';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.scss';
-import { requestOrganizations } from './Organizations/actions';
+import Home from './Pages/Home';
 import store from './store';
 import { default as TournamentHome } from './Tournament/Home';
 import { default as UserHome } from './User/Home';
-
-interface DispatchFromProps {
-  dispatch: (func: any) => void;
-}
-
-class OrganizationList extends React.Component<DispatchFromProps> {
-  render() {
-    return (
-      <div>
-        <h1>Index</h1>
-        <Link to="/secretaria-esportes-poa">Secretaria Municipal de Esportes</Link>
-      </div>
-    );
-  }
-
-  componentDidMount() {
-    this.props.dispatch(requestOrganizations());
-  }
-}
-
-const Index = connect<any, DispatchFromProps>(state => state)(OrganizationList);
 
 const NavBar: React.FC = () => {
   return (
@@ -100,7 +79,7 @@ const App: React.FC = () => {
         <NavBar />
         <section className="section">
           <div className="container">
-            <Route exact path="/" component={Index} />
+            <Route exact path="/" component={Home} />
             <Route exact path={`/:userId`} component={UserHome} />
             <Route exact path={`/:userId/:tournamentId`} component={TournamentHome} />
           </div>
