@@ -1,4 +1,3 @@
-import { OrganizationEntity } from "./state";
 
 export const REQUEST_ORGANIZATIONS = 'API_REQUEST_ORGANIZATIONS';
 export const REQUEST_ORGANIZATIONS_SUCCESS = 'API_REQUEST_ORGANIZATIONS_SUCCESS';
@@ -11,12 +10,12 @@ export interface HttpAction {
 
 export const requestOrganizations = (): HttpAction => ({ type: REQUEST_ORGANIZATIONS, payload: { url: 'http://yochamps-api.herokuapp.com/api/organizations' } });
 
-export const requestOrganizationsSuccess = (payload: OrganizationEntity): HttpAction => ({
+export const requestOrganizationsSuccess = (payload: any): HttpAction => ({
     type: REQUEST_ORGANIZATIONS_SUCCESS,
     payload,
 });
 
-export const requestOrganizationsFailure = (payload: OrganizationEntity): HttpAction => ({
+export const requestOrganizationsFailure = (payload: any): HttpAction => ({
     type: REQUEST_ORGANIZATIONS_FAILURE,
     payload,
 });

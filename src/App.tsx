@@ -22,7 +22,6 @@ class OrganizationList extends React.Component<DispatchFromProps> {
   }
 
   componentDidMount() {
-    console.log('arroz', this.props)
     this.props.dispatch(requestOrganizations());
   }
 }
