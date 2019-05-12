@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.scss';
 import Home from './Pages/Home';
 import OrganizationHome from './Pages/OrganizationHome';
+import TournamentHome from './Pages/TournamentHome';
 import NavBar from './Shared/NavBar';
 import store from './store';
 
@@ -17,6 +18,7 @@ const App: React.FC = () => {
           <div className="container">
             <Route exact path="/" component={Home} />
             <Route exact path="/:organizationId" component={OrganizationHome} />
+            <Route exact path="/:organizationId/:tournamentId" component={TournamentHome} />
           </div>
         </section>
       </Router>
