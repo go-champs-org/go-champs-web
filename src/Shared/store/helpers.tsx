@@ -1,7 +1,8 @@
 export const mapEntities = (entitiesMap: { [key: string]: any }, apiData: any) => {
+    const key = apiData.slug;
     return {
         ...entitiesMap,
-        [apiData.id]: {
+        [key]: {
             id: apiData.id,
             name: apiData.name,
             slug: apiData.slug,

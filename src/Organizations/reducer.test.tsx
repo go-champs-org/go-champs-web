@@ -49,12 +49,12 @@ describe('requestOrganizationsSuccess', () => {
     it('sets entities', () => {
         const newState = (requestOrganizationsSuccess(initialState, action));
 
-        expect(newState.organizations['first-id']).toEqual({
+        expect(newState.organizations['first-slug']).toEqual({
             id: 'first-id',
             name: 'first-name',
             slug: 'first-slug',
         });
-        expect(newState.organizations['second-id']).toEqual({
+        expect(newState.organizations['second-slug']).toEqual({
             id: 'second-id',
             name: 'second-name',
             slug: 'second-slug',

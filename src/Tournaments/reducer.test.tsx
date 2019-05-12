@@ -43,7 +43,7 @@ describe('requestTournamentSuccess', () => {
     it('set entity', () => {
         const newState = (requestTournamentSuccess(initialState, action));
 
-        expect(newState.tournaments['first-id']).toEqual({
+        expect(newState.tournaments['first-slug']).toEqual({
             id: 'first-id',
             name: 'first-name',
             slug: 'first-slug',
@@ -54,7 +54,7 @@ describe('requestTournamentSuccess', () => {
         const someState: TournamentState = {
             ...initialState,
             tournaments: {
-                ['some-id']: {
+                ['some-slug']: {
                     id: 'some-id',
                     name: 'some-name',
                     slug: 'some-slug',
@@ -64,7 +64,7 @@ describe('requestTournamentSuccess', () => {
 
         const newState = (requestTournamentSuccess(someState, action));
 
-        expect(newState.tournaments['some-id']).toEqual({
+        expect(newState.tournaments['some-slug']).toEqual({
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
@@ -118,12 +118,12 @@ describe('requestTournamentsSuccess', () => {
     it('sets entities', () => {
         const newState = (requestTournamentsSuccess(initialState, action));
 
-        expect(newState.tournaments['first-id']).toEqual({
+        expect(newState.tournaments['first-slug']).toEqual({
             id: 'first-id',
             name: 'first-name',
             slug: 'first-slug',
         });
-        expect(newState.tournaments['second-id']).toEqual({
+        expect(newState.tournaments['second-slug']).toEqual({
             id: 'second-id',
             name: 'second-name',
             slug: 'second-slug',
