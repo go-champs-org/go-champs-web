@@ -5,11 +5,13 @@ export interface TournamentEntity {
 }
 
 export interface TournamentState {
+    isLoadingRequestTournament: boolean;
     isLoadingRequestTournaments: boolean;
     tournaments: { [key: string]: TournamentEntity; };
 }
 
 export const initialState: TournamentState = {
+    isLoadingRequestTournament: false,
     isLoadingRequestTournaments: false,
     tournaments: {},
 }
