@@ -1,5 +1,4 @@
-import { createReducer } from "../redux_helpers";
-import { mapEntities } from "../Shared/store/helpers";
+import { createReducer, mapEntities } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
 import { ActionTypes, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
 import { initialState, OrganizationState } from "./state";

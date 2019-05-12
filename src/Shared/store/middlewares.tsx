@@ -1,14 +1,3 @@
-export interface DispatchFromProps {
-    dispatch: (func: any) => void;
-}
-
-export const createReducer = (initialState: any, handlers: { [key: string]: any }) => (state: any = initialState, action: any) => {
-    if (handlers.hasOwnProperty(action.type)) {
-        return handlers[action.type](state, action);
-    }
-    return state;
-};
-
 export const fetchMiddleware = (store: any) => (next: any) => (action: any) => {
     if (!action.type.startsWith('API')) {
         return next(action);
