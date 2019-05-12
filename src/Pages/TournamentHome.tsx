@@ -1,13 +1,40 @@
 import React from "react";
+import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router";
+import { bindActionCreators } from "redux";
+import { requestTournament } from "../Tournaments/actions";
+import { TournamentState } from "../Tournaments/state";
 
-class TournamentHome extends React.Component {
+interface TournamentHomeProps extends RouteComponentProps {
+    tournamentState: TournamentState,
+    requestTournament: any,
+}
+
+class TournamentHome extends React.Component<TournamentHomeProps> {
     render() {
         return (
-            <div>Tournament Home</div>
+            <div>
+                {this.props.tournamentState.isLoadingRequestTournament ?
+                    <div>Loading...</div> :
+                    <div>{this.props.tournamentState.tournaments["a0f1ffed-8e1c-46f2-8179-41085d10401d"] && this.props.tournamentState.tournaments["a0f1ffed-8e1c-46f2-8179-41085d10401d"].name}</div>
+                }
+            </div>
         )
     }
 
-    //a0f1ffed-8e1c-46f2-8179-41085d10401d
+    componentDidMount() {
+        this.props.requestTournament("a0f1ffed-8e1c-46f2-8179-41085d10401d");
+    }
 }
 
-export default TournamentHome;
+const mapStateToProps = (state: any) => ({
+    tournamentState: state.tournaments,
+});
+
+const mapDispatchToProps = (dispatch: any) => (
+    bindActionCreators({
+        requestTournament,
+    }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentHome);
