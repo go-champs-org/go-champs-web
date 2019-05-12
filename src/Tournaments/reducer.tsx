@@ -1,29 +1,20 @@
 import { createReducer } from "../redux_helpers";
-import { HttpAction, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS } from "./actions";
-import { initialState, TournamentEntity, TournamentState } from "./state";
+import { mapEntities } from "../Shared/store/helpers";
+import { HttpAction } from "../Shared/store/interfaces";
+import { ActionTypes, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS } from "./actions";
+import { initialState, TournamentState } from "./state";
 
-const mapEntities = (entitiesMap: { [key: string]: TournamentEntity }, apiData: any) => {
-    return {
-        ...entitiesMap,
-        [apiData.id]: {
-            id: apiData.id,
-            name: apiData.name,
-            slug: apiData.slug,
-        },
-    };
-};
-
-export const requestTournaments = (state: TournamentState, action: HttpAction) => ({
+export const requestTournaments = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
     ...state,
     isLoadingRequestTournaments: true,
 });
 
-export const requestTournamentsFailure = (state: TournamentState, action: HttpAction) => ({
+export const requestTournamentsFailure = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
     ...state,
     isLoadingRequestTournaments: false,
 });
 
-export const requestTournamentsSuccess = (state: TournamentState, action: HttpAction) => ({
+export const requestTournamentsSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
     ...state,
     isLoadingRequestTournaments: false,
     tournaments: action.payload.data.reduce(mapEntities, {}),

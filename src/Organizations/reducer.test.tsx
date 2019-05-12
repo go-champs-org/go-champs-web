@@ -1,9 +1,10 @@
-import { HttpAction, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
+import { HttpAction } from '../Shared/store/interfaces';
+import { ActionTypes, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
 import { requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess } from './reducer';
 import { initialState } from './state';
 
 describe('requestOrganizations', () => {
-    const action: HttpAction = {
+    const action: HttpAction<ActionTypes> = {
         type: REQUEST_ORGANIZATIONS,
     };
 
@@ -13,7 +14,7 @@ describe('requestOrganizations', () => {
 });
 
 describe('requestOrganizationsFailure', () => {
-    const action: HttpAction = {
+    const action: HttpAction<ActionTypes> = {
         type: REQUEST_ORGANIZATIONS_FAILURE,
     };
 
@@ -23,7 +24,7 @@ describe('requestOrganizationsFailure', () => {
 });
 
 describe('requestOrganizationsSuccess', () => {
-    const action: HttpAction = {
+    const action: HttpAction<ActionTypes> = {
         type: REQUEST_ORGANIZATIONS_SUCCESS,
         payload: {
             data: [

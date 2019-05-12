@@ -1,9 +1,10 @@
-import { HttpAction, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS } from './actions';
+import { HttpAction } from '../Shared/store/interfaces';
+import { ActionTypes, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS } from './actions';
 import { requestTournaments, requestTournamentsFailure, requestTournamentsSuccess } from './reducer';
 import { initialState } from './state';
 
 describe('requestTournaments', () => {
-    const action: HttpAction = {
+    const action: HttpAction<ActionTypes> = {
         type: REQUEST_TOURNAMENTS,
     };
 
@@ -13,7 +14,7 @@ describe('requestTournaments', () => {
 });
 
 describe('requestTournamentsFailure', () => {
-    const action: HttpAction = {
+    const action: HttpAction<ActionTypes> = {
         type: REQUEST_TOURNAMENTS_FAILURE,
     };
 
@@ -23,7 +24,7 @@ describe('requestTournamentsFailure', () => {
 });
 
 describe('requestTournamentsSuccess', () => {
-    const action: HttpAction = {
+    const action: HttpAction<ActionTypes> = {
         type: REQUEST_TOURNAMENTS_SUCCESS,
         payload: {
             data: [
