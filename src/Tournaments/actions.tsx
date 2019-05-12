@@ -7,7 +7,7 @@ export const REQUEST_TOURNAMENT = 'API_REQUEST_TOURNAMENT';
 export const REQUEST_TOURNAMENT_SUCCESS = 'API_REQUEST_TOURNAMENT_SUCCESS';
 export const REQUEST_TOURNAMENT_FAILURE = 'API_REQUEST_TOURNAMENT_FAILURE';
 
-const TOURNAMENTS_API = 'http://yochamps-api.herokuapp.com/api/tournaments';
+const TOURNAMENTS_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
 export const requestTournament = (tournamentId: string): HttpAction<ActionTypes> => ({ type: REQUEST_TOURNAMENT, payload: { url: `${TOURNAMENTS_API}/${tournamentId}` } });
 

@@ -4,7 +4,7 @@ export const REQUEST_ORGANIZATIONS = 'API_REQUEST_ORGANIZATIONS';
 export const REQUEST_ORGANIZATIONS_SUCCESS = 'API_REQUEST_ORGANIZATIONS_SUCCESS';
 export const REQUEST_ORGANIZATIONS_FAILURE = 'API_REQUEST_ORGANIZATIONS_FAILURE';
 
-export const requestOrganizations = (): HttpAction<ActionTypes> => ({ type: REQUEST_ORGANIZATIONS, payload: { url: 'http://yochamps-api.herokuapp.com/api/organizations' } });
+export const requestOrganizations = (): HttpAction<ActionTypes> => ({ type: REQUEST_ORGANIZATIONS, payload: { url: 'https://yochamps-api.herokuapp.com/api/organizations' } });
 
 export const requestOrganizationsSuccess = (payload: any): HttpAction<ActionTypes> => ({
     type: REQUEST_ORGANIZATIONS_SUCCESS,
