@@ -6,8 +6,8 @@ import { requestTournament } from "../Tournaments/actions";
 import { TournamentState } from "../Tournaments/state";
 
 interface MatchProps {
-    tournamentId: string,
-    organizationId: string,
+    tournamentSlug: string,
+    organizationSlug: string,
 }
 
 interface TournamentHomeProps extends RouteComponentProps<MatchProps> {
@@ -21,7 +21,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
             <div>
                 {this.props.tournamentState.isLoadingRequestTournament ?
                     <div>Loading...</div> :
-                    <div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentId] && this.props.tournamentState.tournaments[this.props.match.params.tournamentId].name}</div>
+                    <div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].name}</div>
                 }
             </div>
         )

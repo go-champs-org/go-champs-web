@@ -17,8 +17,8 @@ const App: React.FC = () => {
         <section className="section">
           <div className="container">
             <Route exact path="/" component={Home} />
-            <Route exact path="/:organizationId" component={OrganizationHome} />
-            <Route exact path="/:organizationId/:tournamentId" component={TournamentHome} />
+            <Route exact path="/:organizationSlug" component={OrganizationHome} />
+            <Route exact path="/:organizationSlug/:tournamentSlug" component={TournamentHome} />
           </div>
         </section>
       </Router>
