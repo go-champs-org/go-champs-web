@@ -1,7 +1,66 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { ActionTypes, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from './actions';
-import { requestTournament, requestTournamentFailure, requestTournaments, requestTournamentsFailure, requestTournamentsSuccess, requestTournamentSuccess } from './reducer';
+import { ActionTypes, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from './actions';
+import { requestFilterTournaments, requestFilterTournamentsFailure, requestFilterTournamentsSuccess, requestTournament, requestTournamentFailure, requestTournaments, requestTournamentsFailure, requestTournamentsSuccess, requestTournamentSuccess } from './reducer';
 import { initialState, TournamentState } from './state';
+
+describe('requestFilterTournaments', () => {
+    const action: HttpAction<ActionTypes> = {
+        type: REQUEST_FILTER_TOURNAMENTS,
+    };
+
+    it('sets isLoadingRequestTournaments to true', () => {
+        expect(requestFilterTournaments(initialState, action).isLoadingRequestTournaments).toBe(true);
+    });
+});
+
+describe('requestFilterTournamentsFailure', () => {
+    const action: HttpAction<ActionTypes> = {
+        type: REQUEST_FILTER_TOURNAMENTS_FAILURE,
+    };
+
+    it('sets isLoadingRequestTournaments to false', () => {
+        expect(requestFilterTournamentsFailure(initialState, action).isLoadingRequestTournaments).toBe(false);
+    });
+});
+
+describe('requestFilterTournamentsSuccess', () => {
+    const action: HttpAction<ActionTypes> = {
+        type: REQUEST_FILTER_TOURNAMENTS_SUCCESS,
+        payload: {
+            data: [
+                {
+                    id: 'first-id',
+                    name: 'first-name',
+                    slug: 'first-slug',
+                },
+                {
+                    id: 'second-id',
+                    name: 'second-name',
+                    slug: 'second-slug',
+                },
+            ]
+        }
+    };
+
+    it('sets isLoadingRequestTournaments to false', () => {
+        expect(requestFilterTournamentsSuccess(initialState, action).isLoadingRequestTournaments).toBe(false);
+    });
+
+    it('sets entities', () => {
+        const newState = (requestFilterTournamentsSuccess(initialState, action));
+
+        expect(newState.tournaments['first-slug']).toEqual({
+            id: 'first-id',
+            name: 'first-name',
+            slug: 'first-slug',
+        });
+        expect(newState.tournaments['second-slug']).toEqual({
+            id: 'second-id',
+            name: 'second-name',
+            slug: 'second-slug',
+        });
+    });
+});
 
 describe('requestTournament', () => {
     const action: HttpAction<ActionTypes> = {
