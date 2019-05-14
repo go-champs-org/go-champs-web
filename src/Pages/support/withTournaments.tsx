@@ -6,12 +6,12 @@ import { requestFilterTournaments } from "../../Tournaments/actions";
 import { TournamentState } from "../../Tournaments/state";
 import { TournamentHomeMatchProps } from "./routerInterfaces";
 
-const withTournaments = (WrappedComponent: any) => {
-    interface WithTournamentsProps extends RouteComponentProps<TournamentHomeMatchProps> {
-        tournamentState: TournamentState,
-        requestFilterTournaments: any,
-    }
+interface WithTournamentsProps extends RouteComponentProps<TournamentHomeMatchProps> {
+    tournamentState: TournamentState,
+    requestFilterTournaments: any,
+}
 
+const withTournaments = (WrappedComponent: any) => {
     class WithTournaments extends React.Component<WithTournamentsProps> {
         render() {
             const canRender = this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && !this.props.tournamentState.isLoadingRequestTournaments;
@@ -24,7 +24,9 @@ const withTournaments = (WrappedComponent: any) => {
         }
 
         componentDidMount() {
-            this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
+            if (!this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug]) {
+                this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
+            }
         }
     }
 
