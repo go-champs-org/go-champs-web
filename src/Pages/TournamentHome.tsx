@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { bindActionCreators } from "redux";
-import { requestTournament } from "../Tournaments/actions";
+import { requestFilterTournaments, requestTournament } from "../Tournaments/actions";
 import { TournamentState } from "../Tournaments/state";
 
 interface MatchProps {
@@ -28,8 +28,8 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
     }
 
     componentDidMount() {
-        // TODO: Allow request with slug
-        this.props.requestTournament("a0f1ffed-8e1c-46f2-8179-41085d10401d");
+        const tournamentId = this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].id;
+        this.props.requestTournament(tournamentId);
     }
 }
 
@@ -40,7 +40,31 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => (
     bindActionCreators({
         requestTournament,
+        requestFilterTournaments,
     }, dispatch)
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(TournamentHome);
+interface WithTournamentsProps extends RouteComponentProps<MatchProps> {
+    tournamentState: TournamentState,
+    requestFilterTournaments: any,
+}
+
+const withTournaments = (WrappedComponent: any) => {
+    return class extends React.Component<WithTournamentsProps> {
+        render() {
+            const canRender = this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && !this.props.tournamentState.isLoadingRequestTournaments;
+            return (
+                canRender ?
+                    <WrappedComponent {...this.props} /> :
+                    <div>Loading...</div>
+
+            )
+        }
+
+        componentDidMount() {
+            this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTournaments(TournamentHome));
