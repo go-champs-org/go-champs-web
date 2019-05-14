@@ -2,15 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { bindActionCreators } from "redux";
-import { requestFilterTournaments, requestTournament } from "../Tournaments/actions";
+import { requestTournament } from "../Tournaments/actions";
 import { TournamentState } from "../Tournaments/state";
+import { TournamentHomeMatchProps } from "./support/routerInterfaces";
+import withTournaments from "./support/withTournaments";
 
-interface MatchProps {
-    tournamentSlug: string,
-    organizationSlug: string,
-}
-
-interface TournamentHomeProps extends RouteComponentProps<MatchProps> {
+interface TournamentHomeProps extends RouteComponentProps<TournamentHomeMatchProps> {
     tournamentState: TournamentState,
     requestTournament: any,
 }
@@ -40,31 +37,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => (
     bindActionCreators({
         requestTournament,
-        requestFilterTournaments,
     }, dispatch)
 )
 
-interface WithTournamentsProps extends RouteComponentProps<MatchProps> {
-    tournamentState: TournamentState,
-    requestFilterTournaments: any,
-}
-
-const withTournaments = (WrappedComponent: any) => {
-    return class extends React.Component<WithTournamentsProps> {
-        render() {
-            const canRender = this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && !this.props.tournamentState.isLoadingRequestTournaments;
-            return (
-                canRender ?
-                    <WrappedComponent {...this.props} /> :
-                    <div>Loading...</div>
-
-            )
-        }
-
-        componentDidMount() {
-            this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTournaments(TournamentHome));
+export default withTournaments(connect(mapStateToProps, mapDispatchToProps)(TournamentHome));

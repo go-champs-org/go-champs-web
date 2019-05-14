@@ -5,12 +5,9 @@ import { bindActionCreators } from 'redux';
 import { requestFilterTournaments } from '../Tournaments/actions';
 import { List } from '../Tournaments/List';
 import { TournamentState } from '../Tournaments/state';
+import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 
-interface MatchParams {
-    organizationSlug: string;
-}
-
-interface OrganizationHomeProps extends RouteComponentProps<MatchParams> {
+interface OrganizationHomeProps extends RouteComponentProps<OrganizationHomeMatchProps> {
     tournamentState: TournamentState,
     requestFilterTournaments: any,
 }
