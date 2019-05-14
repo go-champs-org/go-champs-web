@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { requestTournaments } from '../Tournaments/actions';
+import { requestFilterTournaments } from '../Tournaments/actions';
 import { List } from '../Tournaments/List';
 import { TournamentState } from '../Tournaments/state';
 
-interface OrganizationHomeProps extends RouteComponentProps {
+interface MatchParams {
+    organizationSlug: string;
+}
+
+interface OrganizationHomeProps extends RouteComponentProps<MatchParams> {
     tournamentState: TournamentState,
-    requestTournaments: any,
+    requestFilterTournaments: any,
 }
 
 class OrganizationHome extends React.Component<OrganizationHomeProps> {
@@ -21,7 +25,7 @@ class OrganizationHome extends React.Component<OrganizationHomeProps> {
     }
 
     componentDidMount() {
-        this.props.requestTournaments();
+        this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
     }
 }
 
@@ -31,7 +35,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => (
     bindActionCreators({
-        requestTournaments,
+        requestFilterTournaments,
     }, dispatch)
 )
 
