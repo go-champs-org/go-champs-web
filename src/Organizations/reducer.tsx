@@ -1,6 +1,6 @@
 import { createReducer, mapEntities } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
-import { ActionTypes, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
+import { ActionTypes, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
 import { initialState, OrganizationState } from "./state";
 
 export const postOrganization = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
@@ -36,6 +36,9 @@ export const requestOrganizationsSuccess = (state: OrganizationState, action: Ht
 });
 
 export default createReducer(initialState, {
+	[POST_ORGANIZATION]: postOrganization,
+	[POST_ORGANIZATION_FAILURE]: postOrganizationFailure,
+	[POST_ORGANIZATION_SUCCESS]: postOrganizationSuccess,
 	[REQUEST_ORGANIZATIONS]: requestOrganizations,
 	[REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
 	[REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,

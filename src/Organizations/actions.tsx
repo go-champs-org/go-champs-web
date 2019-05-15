@@ -10,7 +10,17 @@ export const POST_ORGANIZATION_FAILURE = 'API_POST_ORGANIZATION_FAILURE';
 
 const ORGANIZATION_API = 'https://yochamps-api.herokuapp.com/api/organizations';
 
-export const postOrganization = (organization: OrganizationEntity): HttpAction<ActionTypes> => ({ type: POST_ORGANIZATION, payload: { url: ORGANIZATION_API, requestConfig: { method: 'POST', body: JSON.stringify({ organization }) } } });
+export const postOrganization = (organization: OrganizationEntity): HttpAction<ActionTypes> => ({
+	type: POST_ORGANIZATION, payload: {
+		url: ORGANIZATION_API, requestConfig: {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ organization })
+		}
+	}
+});
 
 export const postOrganizationSuccess = (payload: any): HttpAction<ActionTypes> => ({
 	type: POST_ORGANIZATION_SUCCESS,
