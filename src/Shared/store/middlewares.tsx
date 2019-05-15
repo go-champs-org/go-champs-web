@@ -10,7 +10,16 @@ export const fetchMiddleware = (store: any) => (next: any) => (action: any) => {
 	next(action);
 
 	return fetch(url, requestConfig)
-		.then((response) => response.json())
+		.then(resolveResponse)
 		.then((data) => next({ type: successAction, payload: data }))
 		.catch((error) => next({ type: errorAction, payload: error }));
 };
+
+const resolveResponse = (response: any) => {
+	if (response.status === 204) {
+		const splittedUrl = response.url.split('/');
+		return splittedUrl[splittedUrl.length - 1];
+	}
+
+	return response.json();
+}

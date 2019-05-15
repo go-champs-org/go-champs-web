@@ -1,7 +1,83 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { ActionTypes, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
-import { postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess } from './reducer';
+import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
+import { deleteOrganization, deleteOrganizationFailure, deleteOrganizationSuccess, postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess } from './reducer';
 import { initialState, OrganizationState } from './state';
+
+describe('deleteOrganization', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_ORGANIZATION,
+		payload: {
+			id: 'first-id',
+		}
+	};
+
+	it('sets isLoadingDeleteOrganization to true', () => {
+		expect(deleteOrganization(initialState, action).isLoadingDeleteOrganization).toBe(true);
+	});
+});
+
+describe('deleteOrganizationFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_ORGANIZATION_FAILURE,
+		payload: {
+			id: 'first-id',
+		}
+	};
+
+	it('sets isLoadingDeleteOrganization to false', () => {
+		expect(deleteOrganizationFailure(initialState, action).isLoadingDeleteOrganization).toBe(false);
+	});
+});
+
+describe('deleteOrganizationSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_ORGANIZATION_SUCCESS,
+		payload: 'first-id',
+	};
+
+	const deleteState = {
+		...initialState,
+		organizations: {
+			['first-slug']: {
+				id: 'first-id',
+				name: 'first-name',
+				slug: 'first-slug',
+			}
+		}
+	}
+
+	it('sets isLoadingDeleteOrganization to false', () => {
+		expect(deleteOrganizationSuccess(deleteState, action).isLoadingDeleteOrganization).toBe(false);
+	});
+
+	it('remove entity', () => {
+		const newState = deleteOrganizationSuccess(deleteState, action);
+
+		expect(newState.organizations['first-slug']).toBeUndefined()
+	});
+
+	it('keeps others entities in other', () => {
+		const someState: OrganizationState = {
+			...initialState,
+			organizations: {
+				['some-slug']: {
+					id: 'some-id',
+					name: 'some-name',
+					slug: 'some-slug',
+				},
+				...deleteState.organizations,
+			}
+		}
+
+		const newState = deleteOrganizationSuccess(someState, action);
+
+		expect(newState.organizations['some-slug']).toEqual({
+			id: 'some-id',
+			name: 'some-name',
+			slug: 'some-slug',
+		});
+	});
+});
 
 describe('postOrganization', () => {
 	const action: HttpAction<ActionTypes> = {

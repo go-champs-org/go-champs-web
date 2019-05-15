@@ -3,11 +3,12 @@ import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { postOrganization, requestOrganizations } from '../Organizations/actions';
+import { deleteOrganization, postOrganization, requestOrganizations } from '../Organizations/actions';
 import { List } from '../Organizations/List';
 import { OrganizationState } from '../Organizations/state';
 
 interface HomeProps extends RouteComponentProps {
+	deleteOrganization: any,
 	organizationState: OrganizationState,
 	postOrganization: any,
 	requestOrganizations: any,
@@ -46,7 +47,7 @@ class Home extends React.Component<HomeProps> {
             	</button>
 						</form>
 					)} />
-				<List organizationState={this.props.organizationState} url={this.props.match.url} />
+				<List organizationState={this.props.organizationState} url={this.props.match.url} deleteOrganization={this.props.deleteOrganization} />
 			</div>
 		);
 	}
@@ -62,6 +63,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => (
 	bindActionCreators({
+		deleteOrganization,
 		postOrganization,
 		requestOrganizations,
 	}, dispatch)
