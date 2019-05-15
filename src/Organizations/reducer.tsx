@@ -4,23 +4,23 @@ import { ActionTypes, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQU
 import { initialState, OrganizationState } from "./state";
 
 export const requestOrganizations = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestOrganizations: true,
+	...state,
+	isLoadingRequestOrganizations: true,
 });
 
 export const requestOrganizationsFailure = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestOrganizations: false,
+	...state,
+	isLoadingRequestOrganizations: false,
 });
 
 export const requestOrganizationsSuccess = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestOrganizations: false,
-    organizations: action.payload.data.reduce(mapEntities, {}),
+	...state,
+	isLoadingRequestOrganizations: false,
+	organizations: action.payload.data.reduce(mapEntities, {}),
 });
 
 export default createReducer(initialState, {
-    [REQUEST_ORGANIZATIONS]: requestOrganizations,
-    [REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
-    [REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,
+	[REQUEST_ORGANIZATIONS]: requestOrganizations,
+	[REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
+	[REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,
 });

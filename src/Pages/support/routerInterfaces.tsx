@@ -1,8 +1,8 @@
 export interface OrganizationHomeMatchProps {
-    organizationSlug: string,
+	organizationSlug: string,
 }
 
 export interface TournamentHomeMatchProps {
-    tournamentSlug: string,
-    organizationSlug: string,
+	tournamentSlug: string,
+	organizationSlug: string,
 }

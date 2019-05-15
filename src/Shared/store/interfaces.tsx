@@ -1,4 +1,4 @@
 export interface HttpAction<T> {
-    type: T,
-    payload?: any,
+	type: T,
+	payload?: any,
 };

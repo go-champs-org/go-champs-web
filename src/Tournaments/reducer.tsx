@@ -5,61 +5,61 @@ import { initialState, TournamentState } from "./state";
 
 
 export const requestFilterTournaments = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournaments: true,
+	...state,
+	isLoadingRequestTournaments: true,
 });
 
 export const requestFilterTournamentsFailure = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournaments: false,
+	...state,
+	isLoadingRequestTournaments: false,
 });
 
 export const requestFilterTournamentsSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournaments: false,
-    tournaments: action.payload.data.reduce(mapEntities, {}),
+	...state,
+	isLoadingRequestTournaments: false,
+	tournaments: action.payload.data.reduce(mapEntities, {}),
 });
 
 export const requestTournament = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournament: true,
+	...state,
+	isLoadingRequestTournament: true,
 });
 
 export const requestTournamentFailure = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournament: false,
+	...state,
+	isLoadingRequestTournament: false,
 });
 
 export const requestTournamentSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournament: false,
-    tournaments: [action.payload.data].reduce(mapEntities, state.tournaments),
+	...state,
+	isLoadingRequestTournament: false,
+	tournaments: [action.payload.data].reduce(mapEntities, state.tournaments),
 });
 
 export const requestTournaments = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournaments: true,
+	...state,
+	isLoadingRequestTournaments: true,
 });
 
 export const requestTournamentsFailure = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournaments: false,
+	...state,
+	isLoadingRequestTournaments: false,
 });
 
 export const requestTournamentsSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
-    ...state,
-    isLoadingRequestTournaments: false,
-    tournaments: action.payload.data.reduce(mapEntities, {}),
+	...state,
+	isLoadingRequestTournaments: false,
+	tournaments: action.payload.data.reduce(mapEntities, {}),
 });
 
 export default createReducer(initialState, {
-    [REQUEST_FILTER_TOURNAMENTS]: requestFilterTournaments,
-    [REQUEST_FILTER_TOURNAMENTS_FAILURE]: requestFilterTournamentsFailure,
-    [REQUEST_FILTER_TOURNAMENTS_SUCCESS]: requestFilterTournamentsSuccess,
-    [REQUEST_TOURNAMENT]: requestTournament,
-    [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-    [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
-    [REQUEST_TOURNAMENTS]: requestTournaments,
-    [REQUEST_TOURNAMENTS_FAILURE]: requestTournamentsFailure,
-    [REQUEST_TOURNAMENTS_SUCCESS]: requestTournamentsSuccess,
+	[REQUEST_FILTER_TOURNAMENTS]: requestFilterTournaments,
+	[REQUEST_FILTER_TOURNAMENTS_FAILURE]: requestFilterTournamentsFailure,
+	[REQUEST_FILTER_TOURNAMENTS_SUCCESS]: requestFilterTournamentsSuccess,
+	[REQUEST_TOURNAMENT]: requestTournament,
+	[REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
+	[REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
+	[REQUEST_TOURNAMENTS]: requestTournaments,
+	[REQUEST_TOURNAMENTS_FAILURE]: requestTournamentsFailure,
+	[REQUEST_TOURNAMENTS_SUCCESS]: requestTournamentsSuccess,
 });

@@ -5,11 +5,11 @@ import { fetchMiddleware } from './Shared/store/middlewares';
 import { default as tournamentReducer } from './Tournaments/reducer';
 
 export default createStore(
-    combineReducers({
-        organizations: organizationReducer,
-        tournaments: tournamentReducer,
-    }),
-    composeWithDevTools(
-        applyMiddleware(fetchMiddleware),
-    ),
+	combineReducers({
+		organizations: organizationReducer,
+		tournaments: tournamentReducer,
+	}),
+	composeWithDevTools(
+		applyMiddleware(fetchMiddleware),
+	),
 );

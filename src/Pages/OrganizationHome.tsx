@@ -8,32 +8,32 @@ import { TournamentState } from '../Tournaments/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 
 interface OrganizationHomeProps extends RouteComponentProps<OrganizationHomeMatchProps> {
-    tournamentState: TournamentState,
-    requestFilterTournaments: any,
+  tournamentState: TournamentState,
+  requestFilterTournaments: any,
 }
 
 class OrganizationHome extends React.Component<OrganizationHomeProps> {
-    render() {
-        return (
-            <div>
-                <List tournamentState={this.props.tournamentState} url={this.props.match.url} />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <List tournamentState={this.props.tournamentState} url={this.props.match.url} />
+      </div>
+    )
+  }
 
-    componentDidMount() {
-        this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
-    }
+  componentDidMount() {
+    this.props.requestFilterTournaments({ organization_slug: this.props.match.params.organizationSlug })
+  }
 }
 
 const mapStateToProps = (state: any) => ({
-    tournamentState: state.tournaments,
+  tournamentState: state.tournaments,
 });
 
 const mapDispatchToProps = (dispatch: any) => (
-    bindActionCreators({
-        requestFilterTournaments,
-    }, dispatch)
+  bindActionCreators({
+    requestFilterTournaments,
+  }, dispatch)
 )
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationHome);
