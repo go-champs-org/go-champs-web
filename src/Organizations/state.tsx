@@ -5,11 +5,13 @@ export interface OrganizationEntity {
 }
 
 export interface OrganizationState {
+	isLoadingPostOrganization: boolean;
 	isLoadingRequestOrganizations: boolean;
 	organizations: { [key: string]: OrganizationEntity; };
 }
 
 export const initialState: OrganizationState = {
+	isLoadingPostOrganization: false,
 	isLoadingRequestOrganizations: false,
 	organizations: {},
 }
