@@ -3,7 +3,7 @@ import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { OrganizationEntity, OrganizationState } from '../Organizations/state';
+import { OrganizationState } from '../Organizations/state';
 import { deleteTournament, postTournament, requestFilterTournaments } from '../Tournaments/actions';
 import { List } from '../Tournaments/List';
 import { TournamentState } from '../Tournaments/state';
@@ -16,16 +16,7 @@ interface OrganizationHomeProps extends RouteComponentProps<OrganizationHomeMatc
   postTournament: any,
   tournamentState: TournamentState,
   requestFilterTournaments: any,
-}
-
-const appendOrganizationIdAndTrigger = (organization: OrganizationEntity, f: any) => (tournament: any) => {
-  const completeTournament = {
-    ...tournament,
-    organization_id: organization.id,
-  }
-
-  f(completeTournament);
-}
+};
 
 class OrganizationHome extends React.Component<OrganizationHomeProps> {
   render() {
