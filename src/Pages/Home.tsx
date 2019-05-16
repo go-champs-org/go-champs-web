@@ -18,7 +18,6 @@ class Home extends React.Component<HomeProps> {
 	render() {
 		return (
 			<div>
-				<h1>Index</h1>
 				<Form
 					onSubmit={this.props.postOrganization}
 					initialValues={{ name: '', slug: '' }}
