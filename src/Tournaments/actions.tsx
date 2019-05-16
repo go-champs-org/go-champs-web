@@ -1,5 +1,12 @@
 import { HttpAction } from "../Shared/store/interfaces";
+import { TournamentEntity } from "./state";
 
+export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
+export const DELETE_TOURNAMENT_SUCCESS = 'API_DELETE_TOURNAMENT_SUCCESS';
+export const DELETE_TOURNAMENT_FAILURE = 'API_DELETE_TOURNAMENT_FAILURE';
+export const POST_TOURNAMENT = 'API_POST_TOURNAMENT';
+export const POST_TOURNAMENT_SUCCESS = 'API_POST_TOURNAMENT_SUCCESS';
+export const POST_TOURNAMENT_FAILURE = 'API_POST_TOURNAMENT_FAILURE';
 export const REQUEST_FILTER_TOURNAMENTS = 'API_REQUEST_FILTER_TOURNAMENTS';
 export const REQUEST_FILTER_TOURNAMENTS_SUCCESS = 'API_REQUEST_FILTER_TOURNAMENTS_SUCCESS';
 export const REQUEST_FILTER_TOURNAMENTS_FAILURE = 'API_REQUEST_FILTER_TOURNAMENTS_FAILURE';
@@ -21,6 +28,46 @@ const mapRequestFilterToQueryString = (filter: RequestFilter) => {
 		`where[${key}]=${filter[key]}`
 	).join('&');
 };
+
+export const deleteTournament = (tournament: TournamentEntity): HttpAction<ActionTypes> => ({
+	type: DELETE_TOURNAMENT, payload: {
+		url: `${TOURNAMENTS_API}/${tournament.id}`, requestConfig: {
+			method: 'DELETE',
+		}
+	}
+});
+
+export const deleteTournamentSuccess = (payload: any): HttpAction<ActionTypes> => ({
+	type: DELETE_TOURNAMENT_SUCCESS,
+	payload,
+});
+
+export const deleteTournamentFailure = (payload: any): HttpAction<ActionTypes> => ({
+	type: DELETE_TOURNAMENT_FAILURE,
+	payload,
+});
+
+export const postTournament = (tournament: TournamentEntity): HttpAction<ActionTypes> => ({
+	type: POST_TOURNAMENT, payload: {
+		url: TOURNAMENTS_API, requestConfig: {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ tournament })
+		}
+	}
+});
+
+export const postTournamentSuccess = (payload: any): HttpAction<ActionTypes> => ({
+	type: POST_TOURNAMENT_SUCCESS,
+	payload,
+});
+
+export const postTournamentFailure = (payload: any): HttpAction<ActionTypes> => ({
+	type: POST_TOURNAMENT_FAILURE,
+	payload,
+});
 
 export const requestFilterTournaments = (filter: RequestFilter): HttpAction<ActionTypes> => ({ type: REQUEST_FILTER_TOURNAMENTS, payload: { url: `${TOURNAMENTS_API}?${mapRequestFilterToQueryString(filter)}` } });
 
@@ -59,6 +106,12 @@ export const requestTournamentsFailure = (payload: any): HttpAction<ActionTypes>
 });
 
 export type ActionTypes =
+	typeof DELETE_TOURNAMENT |
+	typeof DELETE_TOURNAMENT_FAILURE |
+	typeof DELETE_TOURNAMENT_SUCCESS |
+	typeof POST_TOURNAMENT |
+	typeof POST_TOURNAMENT_FAILURE |
+	typeof POST_TOURNAMENT_SUCCESS |
 	typeof REQUEST_FILTER_TOURNAMENTS |
 	typeof REQUEST_FILTER_TOURNAMENTS_FAILURE |
 	typeof REQUEST_FILTER_TOURNAMENTS_SUCCESS |

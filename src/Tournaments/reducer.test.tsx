@@ -1,7 +1,152 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { ActionTypes, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from './actions';
-import { requestFilterTournaments, requestFilterTournamentsFailure, requestFilterTournamentsSuccess, requestTournament, requestTournamentFailure, requestTournaments, requestTournamentsFailure, requestTournamentsSuccess, requestTournamentSuccess } from './reducer';
+import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from './actions';
+import { deleteTournament, deleteTournamentFailure, deleteTournamentSuccess, postTournament, postTournamentFailure, postTournamentSuccess, requestFilterTournaments, requestFilterTournamentsFailure, requestFilterTournamentsSuccess, requestTournament, requestTournamentFailure, requestTournaments, requestTournamentsFailure, requestTournamentsSuccess, requestTournamentSuccess } from './reducer';
 import { initialState, TournamentState } from './state';
+
+describe('deleteTournament', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_TOURNAMENT,
+		payload: {
+			id: 'first-id',
+		}
+	};
+
+	it('sets isLoadingDeleteTournament to true', () => {
+		expect(deleteTournament(initialState, action).isLoadingDeleteTournament).toBe(true);
+	});
+});
+
+describe('deleteTournamentFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_TOURNAMENT_FAILURE,
+		payload: {
+			id: 'first-id',
+		}
+	};
+
+	it('sets isLoadingDeleteTournament to false', () => {
+		expect(deleteTournamentFailure(initialState, action).isLoadingDeleteTournament).toBe(false);
+	});
+});
+
+describe('deleteTournamentSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_TOURNAMENT_SUCCESS,
+		payload: 'first-id',
+	};
+
+	const deleteState = {
+		...initialState,
+		tournaments: {
+			['first-slug']: {
+				id: 'first-id',
+				name: 'first-name',
+				slug: 'first-slug',
+			}
+		}
+	}
+
+	it('sets isLoadingDeleteTournament to false', () => {
+		expect(deleteTournamentSuccess(deleteState, action).isLoadingDeleteTournament).toBe(false);
+	});
+
+	it('remove entity', () => {
+		const newState = deleteTournamentSuccess(deleteState, action);
+
+		expect(newState.tournaments['first-slug']).toBeUndefined()
+	});
+
+	it('keeps others entities in other', () => {
+		const someState: TournamentState = {
+			...initialState,
+			tournaments: {
+				['some-slug']: {
+					id: 'some-id',
+					name: 'some-name',
+					slug: 'some-slug',
+				},
+				...deleteState.tournaments,
+			}
+		}
+
+		const newState = deleteTournamentSuccess(someState, action);
+
+		expect(newState.tournaments['some-slug']).toEqual({
+			id: 'some-id',
+			name: 'some-name',
+			slug: 'some-slug',
+		});
+	});
+});
+
+describe('postTournament', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: POST_TOURNAMENT,
+	};
+
+	it('sets isLoadingPostTournament to true', () => {
+		expect(postTournament(initialState, action).isLoadingPostTournament).toBe(true);
+	});
+});
+
+describe('postTournamentFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: POST_TOURNAMENT_FAILURE,
+	};
+
+	it('sets isLoadingPostTournament to false', () => {
+		expect(postTournamentFailure(initialState, action).isLoadingPostTournament).toBe(false);
+	});
+});
+
+describe('postTournamentSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: POST_TOURNAMENT_SUCCESS,
+		payload: {
+			data:
+			{
+				id: 'first-id',
+				name: 'first-name',
+				slug: 'first-slug',
+			}
+		}
+	};
+
+	it('sets isLoadingPostTournament to false', () => {
+		expect(postTournamentSuccess(initialState, action).isLoadingPostTournament).toBe(false);
+	});
+
+	it('set entity', () => {
+		const newState = (postTournamentSuccess(initialState, action));
+
+		expect(newState.tournaments['first-slug']).toEqual({
+			id: 'first-id',
+			name: 'first-name',
+			slug: 'first-slug',
+		});
+	});
+
+	it('keeps others entities in other', () => {
+		const someState: TournamentState = {
+			...initialState,
+			tournaments: {
+				['some-slug']: {
+					id: 'some-id',
+					name: 'some-name',
+					slug: 'some-slug',
+				},
+			}
+		}
+
+		const newState = (postTournamentSuccess(someState, action));
+
+		expect(newState.tournaments['some-slug']).toEqual({
+			id: 'some-id',
+			name: 'some-name',
+			slug: 'some-slug',
+		});
+	});
+});
 
 describe('requestFilterTournaments', () => {
 	const action: HttpAction<ActionTypes> = {
