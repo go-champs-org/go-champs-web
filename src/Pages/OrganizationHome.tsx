@@ -8,6 +8,7 @@ import { deleteTournament, postTournament, requestFilterTournaments } from '../T
 import { List } from '../Tournaments/List';
 import { TournamentState } from '../Tournaments/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
+import withOrganizations from './support/withOrganizations';
 
 interface OrganizationHomeProps extends RouteComponentProps<OrganizationHomeMatchProps> {
   deleteTournament: any,
@@ -83,4 +84,4 @@ const mapDispatchToProps = (dispatch: any) => (
   }, dispatch)
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrganizationHome);
+export default withOrganizations(connect(mapStateToProps, mapDispatchToProps)(OrganizationHome));
