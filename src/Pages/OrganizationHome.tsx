@@ -1,9 +1,8 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { OrganizationState } from '../Organizations/state';
 import { deleteTournament, postTournament, requestFilterTournaments } from '../Tournaments/actions';
 import { List } from '../Tournaments/List';
 import { TournamentState } from '../Tournaments/state';
@@ -12,7 +11,6 @@ import withOrganizations from './support/withOrganizations';
 
 interface OrganizationHomeProps extends RouteComponentProps<OrganizationHomeMatchProps> {
   deleteTournament: any,
-  organizationState: OrganizationState,
   postTournament: any,
   tournamentState: TournamentState,
   requestFilterTournaments: any,
@@ -20,38 +18,9 @@ interface OrganizationHomeProps extends RouteComponentProps<OrganizationHomeMatc
 
 class OrganizationHome extends React.Component<OrganizationHomeProps> {
   render() {
-    const organizationId = this.props.organizationState.organizations[this.props.match.params.organizationSlug].id;
-
     return (
       <div>
-        <Form
-          onSubmit={this.props.postTournament}
-          initialValues={{ name: '', slug: '', organization_id: organizationId, }}
-          render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label>Name</label>
-                <Field
-                  name="name"
-                  component="input"
-                  type="text"
-                  placeholder="Name"
-                />
-              </div>
-              <div>
-                <label>Slug</label>
-                <Field
-                  name="slug"
-                  component="input"
-                  type="text"
-                  placeholder="slug"
-                />
-              </div>
-              <button type="submit" disabled={submitting || pristine}>
-                Submit
-            	</button>
-            </form>
-          )} />
+        <Link to={`${this.props.match.url}/Edit`}>New</Link>
         <List tournamentState={this.props.tournamentState} url={this.props.match.url} deleteTournament={this.props.deleteTournament} />
       </div>
     )
@@ -63,7 +32,6 @@ class OrganizationHome extends React.Component<OrganizationHomeProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-  organizationState: state.organizations,
   tournamentState: state.tournaments,
 });
 

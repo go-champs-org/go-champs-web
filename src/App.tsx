@@ -5,6 +5,7 @@ import './App.scss';
 import Home from './Pages/Home';
 import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
+import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
 import NavBar from './Shared/NavBar';
 import store from './store';
@@ -21,6 +22,7 @@ const App: React.FC = () => {
 							<Route exact path="/" component={Home} />
 							<Route exact sensitive path="/Edit" component={OrganizationEdit} />
 							<Route exact path="/:organizationSlug" component={OrganizationHome} />
+							<Route exact sensitive path="/:organizationSlug/Edit" component={TournamentEdit} />
 							<Route exact path="/:organizationSlug/:tournamentSlug" component={TournamentHome} />
 						</Switch>
 					</div>
