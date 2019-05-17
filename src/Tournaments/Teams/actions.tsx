@@ -11,14 +11,14 @@ const tournamentTeamsAPI = (tournamentId: string) => (
 	`${TOURNAMENTS_API}/${tournamentId}/teams`
 )
 
-export const postTournamentTeam = (tournamentId: string, tournamentTeam: TournamentTeamEntity): HttpAction<ActionTypes> => ({
+export const postTournamentTeam = (tournamentId: string) => (tournamentTeam: TournamentTeamEntity): HttpAction<ActionTypes> => ({
 	type: POST_TOURNAMENT_TEAM, payload: {
 		url: tournamentTeamsAPI(tournamentId), requestConfig: {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ tournamentTeam })
+			body: JSON.stringify({ tournament_team: tournamentTeam })
 		}
 	}
 });

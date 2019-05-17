@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { requestTournament } from "../Tournaments/actions";
 import { TournamentState } from "../Tournaments/state";
@@ -16,6 +17,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 	render() {
 		return (
 			<div>
+				<Link to={`${this.props.match.url}/TournamentEdit`}>New team</Link>
 				{this.props.tournamentState.isLoadingRequestTournament ?
 					<div>Loading...</div> :
 					<div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].name}</div>

@@ -1,7 +1,7 @@
-import { mapEntities, returnProperty } from "../../Shared/store/helpers";
+import { createReducer, mapEntities, returnProperty } from "../../Shared/store/helpers";
 import { HttpAction } from "../../Shared/store/interfaces";
-import { ActionTypes } from "./actions";
-import { TournamentTeamState } from "./state";
+import { ActionTypes, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
+import { initialState, TournamentTeamState } from "./state";
 
 const tournamentTeamMapEntities = mapEntities(returnProperty('id'));
 
@@ -19,4 +19,10 @@ export const postTournamentTeamSuccess = (state: TournamentTeamState, action: Ht
 	...state,
 	isLoadingPostTournamentTeam: false,
 	tournamentTeams: [action.payload.data].reduce(tournamentTeamMapEntities, state.tournamentTeams),
+});
+
+export default createReducer(initialState, {
+	[POST_TOURNAMENT_TEAM]: postTournamentTeam,
+	[POST_TOURNAMENT_TEAM_FAILURE]: postTournamentTeamFailure,
+	[POST_TOURNAMENT_TEAM_SUCCESS]: postTournamentTeamSuccess,
 });
