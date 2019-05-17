@@ -1,7 +1,9 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey } from "../Shared/store/helpers";
+import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
 import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "./actions";
 import { initialState, TournamentState } from "./state";
+
+const tournamentMapEntities = mapEntities(returnProperty('slug'));
 
 export const deleteTournament = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,
@@ -37,7 +39,7 @@ export const postTournamentFailure = (state: TournamentState, action: HttpAction
 export const postTournamentSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingPostTournament: false,
-	tournaments: [action.payload.data].reduce(mapEntities, state.tournaments),
+	tournaments: [action.payload.data].reduce(tournamentMapEntities, state.tournaments),
 });
 
 export const requestFilterTournaments = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
@@ -53,7 +55,7 @@ export const requestFilterTournamentsFailure = (state: TournamentState, action: 
 export const requestFilterTournamentsSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestTournaments: false,
-	tournaments: action.payload.data.reduce(mapEntities, {}),
+	tournaments: action.payload.data.reduce(tournamentMapEntities, {}),
 });
 
 export const requestTournament = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
@@ -69,7 +71,7 @@ export const requestTournamentFailure = (state: TournamentState, action: HttpAct
 export const requestTournamentSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestTournament: false,
-	tournaments: [action.payload.data].reduce(mapEntities, state.tournaments),
+	tournaments: [action.payload.data].reduce(tournamentMapEntities, state.tournaments),
 });
 
 export const requestTournaments = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
@@ -85,7 +87,7 @@ export const requestTournamentsFailure = (state: TournamentState, action: HttpAc
 export const requestTournamentsSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestTournaments: false,
-	tournaments: action.payload.data.reduce(mapEntities, {}),
+	tournaments: action.payload.data.reduce(tournamentMapEntities, {}),
 });
 
 export default createReducer(initialState, {

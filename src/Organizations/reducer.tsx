@@ -1,7 +1,9 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey } from "../Shared/store/helpers";
+import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
 import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
 import { initialState, OrganizationState } from "./state";
+
+const organizationMapEntities = mapEntities(returnProperty('slug'));
 
 export const deleteOrganization = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
 	...state,
@@ -37,7 +39,7 @@ export const postOrganizationFailure = (state: OrganizationState, action: HttpAc
 export const postOrganizationSuccess = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingPostOrganization: false,
-	organizations: [action.payload.data].reduce(mapEntities, state.organizations),
+	organizations: [action.payload.data].reduce(organizationMapEntities, state.organizations),
 });
 
 export const requestOrganizations = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
@@ -53,7 +55,7 @@ export const requestOrganizationsFailure = (state: OrganizationState, action: Ht
 export const requestOrganizationsSuccess = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestOrganizations: false,
-	organizations: action.payload.data.reduce(mapEntities, {}),
+	organizations: action.payload.data.reduce(organizationMapEntities, {}),
 });
 
 export default createReducer(initialState, {

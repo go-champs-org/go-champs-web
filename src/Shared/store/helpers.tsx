@@ -1,5 +1,7 @@
-export const mapEntities = (entitiesMap: { [key: string]: any }, apiData: any) => {
-	const key = apiData.slug;
+export const returnProperty = (key: string) => (entity: { [key: string]: any }) => entity[key];
+
+export const mapEntities = (keyFunction: (obj: { [key: string]: any }) => any) => (entitiesMap: { [key: string]: any }, apiData: any) => {
+	const key = keyFunction(apiData);
 	return {
 		...entitiesMap,
 		[key]: {
