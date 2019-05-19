@@ -1,5 +1,5 @@
 import { HttpAction } from "../../Shared/store/interfaces";
-import { REQUEST_TOURNAMENT_SUCCESS } from "../actions";
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "../actions";
 import { TournamentTeamEntity } from "./state";
 
 export const POST_TOURNAMENT_TEAM = 'API_POST_TOURNAMENT_TEAM';
@@ -38,5 +38,7 @@ export type ActionTypes =
 	typeof POST_TOURNAMENT_TEAM |
 	typeof POST_TOURNAMENT_TEAM_SUCCESS |
 	typeof POST_TOURNAMENT_TEAM_FAILURE |
+	typeof REQUEST_TOURNAMENT |
+	typeof REQUEST_TOURNAMENT_FAILURE |
 	typeof REQUEST_TOURNAMENT_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;

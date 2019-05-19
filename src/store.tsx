@@ -9,7 +9,7 @@ export default createStore(
 	combineReducers({
 		organizations: organizationReducer,
 		tournaments: tournamentReducer,
-		tournamentTeam: tournamentTeamReducer,
+		tournamentTeams: tournamentTeamReducer,
 	}),
 	composeWithDevTools(
 		applyMiddleware(fetchMiddleware),

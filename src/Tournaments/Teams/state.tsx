@@ -6,10 +6,12 @@ export interface TournamentTeamEntity {
 
 export interface TournamentTeamState {
 	isLoadingPostTournamentTeam: boolean;
+	isLoadingRequestTournament: boolean;
 	tournamentTeams: { [key: string]: TournamentTeamEntity; };
 }
 
 export const initialState: TournamentTeamState = {
 	isLoadingPostTournamentTeam: false,
+	isLoadingRequestTournament: false,
 	tournamentTeams: {},
 }

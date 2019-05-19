@@ -1,7 +1,7 @@
 import { HttpAction } from "../../Shared/store/interfaces";
-import { REQUEST_TOURNAMENT_SUCCESS } from "../actions";
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "../actions";
 import { ActionTypes, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
-import { postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournamentSuccess } from "./reducer";
+import { postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from "./reducer";
 import { initialState, TournamentTeamState } from "./state";
 
 describe('postTournamentTeam', () => {
@@ -69,6 +69,26 @@ describe('postTournamentTeamSuccess', () => {
 	});
 });
 
+describe('requestTournament', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: REQUEST_TOURNAMENT,
+	};
+
+	it('sets isLoadingRequestTournament to true', () => {
+		expect(requestTournament(initialState, action).isLoadingRequestTournament).toBe(true);
+	});
+});
+
+describe('requestTournamentFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: REQUEST_TOURNAMENT_FAILURE,
+	};
+
+	it('sets isLoadingRequestTournament to false', () => {
+		expect(requestTournamentFailure(initialState, action).isLoadingRequestTournament).toBe(false);
+	});
+});
+
 describe('requestTournamentSuccess', () => {
 	const action: HttpAction<ActionTypes> = {
 		type: REQUEST_TOURNAMENT_SUCCESS,
@@ -88,6 +108,10 @@ describe('requestTournamentSuccess', () => {
 			},
 		}
 	};
+
+	it('sets isLoadingRequestTournament to false', () => {
+		expect(requestTournamentSuccess(initialState, action).isLoadingRequestTournament).toBe(false);
+	});
 
 	it('sets entities', () => {
 		const newState = (requestTournamentSuccess(initialState, action));
