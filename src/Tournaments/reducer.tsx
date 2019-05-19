@@ -3,7 +3,13 @@ import { HttpAction } from "../Shared/store/interfaces";
 import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "./actions";
 import { initialState, TournamentState } from "./state";
 
-const tournamentMapEntities = mapEntities(returnProperty('slug'));
+const mapTournament = (apiData: any) => ({
+	id: apiData.id,
+	name: apiData.name,
+	slug: apiData.slug,
+});
+
+const tournamentMapEntities = mapEntities(returnProperty('slug'), mapTournament);
 
 export const deleteTournament = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,

@@ -1,14 +1,10 @@
 export const returnProperty = (key: string) => (entity: { [key: string]: any }) => entity[key];
 
-export const mapEntities = (keyFunction: (obj: { [key: string]: any }) => any) => (entitiesMap: { [key: string]: any }, apiData: any) => {
+export const mapEntities = (keyFunction: (obj: { [key: string]: any }) => any, mapEntity: (apiData: any) => any) => (entitiesMap: { [key: string]: any }, apiData: any) => {
 	const key = keyFunction(apiData);
 	return {
 		...entitiesMap,
-		[key]: {
-			id: apiData.id,
-			name: apiData.name,
-			slug: apiData.slug,
-		},
+		[key]: mapEntity(apiData),
 	};
 };
 

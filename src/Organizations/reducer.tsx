@@ -3,7 +3,13 @@ import { HttpAction } from "../Shared/store/interfaces";
 import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
 import { initialState, OrganizationState } from "./state";
 
-const organizationMapEntities = mapEntities(returnProperty('slug'));
+const mapOrganization = (apiData: any) => ({
+	id: apiData.id,
+	name: apiData.name,
+	slug: apiData.slug,
+});
+
+const organizationMapEntities = mapEntities(returnProperty('slug'), mapOrganization);
 
 export const deleteOrganization = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
 	...state,
