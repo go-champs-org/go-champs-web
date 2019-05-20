@@ -1,8 +1,81 @@
 import { HttpAction } from "../../Shared/store/interfaces";
 import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "../actions";
-import { ActionTypes, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
-import { postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from "./reducer";
+import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
+import { deleteTournamentTeam, deleteTournamentTeamFailure, deleteTournamentTeamSuccess, postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from "./reducer";
 import { initialState, TournamentTeamState } from "./state";
+
+describe('deleteTournamentTeam', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_TOURNAMENT_TEAM,
+		payload: {
+			id: 'first-id',
+		}
+	};
+
+	it('sets isLoadingDeleteTournamentTeam to true', () => {
+		expect(deleteTournamentTeam(initialState, action).isLoadingDeleteTournamentTeam).toBe(true);
+	});
+});
+
+describe('deleteTournamentTeamFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_TOURNAMENT_TEAM_FAILURE,
+		payload: {
+			id: 'first-id',
+		}
+	};
+
+	it('sets isLoadingDeleteTournamentTeam to false', () => {
+		expect(deleteTournamentTeamFailure(initialState, action).isLoadingDeleteTournamentTeam).toBe(false);
+	});
+});
+
+describe('deleteTournamentTeamSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: DELETE_TOURNAMENT_TEAM_SUCCESS,
+		payload: 'first-id',
+	};
+
+	const deleteState = {
+		...initialState,
+		tournamentTeams: {
+			['first-id']: {
+				id: 'first-id',
+				name: 'first-name',
+			}
+		}
+	}
+
+	it('sets isLoadingDeleteTournamentTeam to false', () => {
+		expect(deleteTournamentTeamSuccess(deleteState, action).isLoadingDeleteTournamentTeam).toBe(false);
+	});
+
+	it('remove entity', () => {
+		const newState = deleteTournamentTeamSuccess(deleteState, action);
+
+		expect(newState.tournamentTeams['first-id']).toBeUndefined()
+	});
+
+	it('keeps others entities in other', () => {
+		const someState: TournamentTeamState = {
+			...initialState,
+			tournamentTeams: {
+				['some-id']: {
+					id: 'some-id',
+					name: 'some-name',
+				},
+				...deleteState.tournamentTeams,
+			}
+		}
+
+		const newState = deleteTournamentTeamSuccess(someState, action);
+
+		expect(newState.tournamentTeams['some-id']).toEqual({
+			id: 'some-id',
+			name: 'some-name',
+		});
+	});
+});
 
 describe('postTournamentTeam', () => {
 	const action: HttpAction<ActionTypes> = {

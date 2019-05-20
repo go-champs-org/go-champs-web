@@ -5,6 +5,7 @@ export interface TournamentEntity {
 }
 
 export interface TournamentState {
+	isLoadingDeleteTournament: boolean;
 	isLoadingPostTournament: boolean;
 	isLoadingRequestTournament: boolean;
 	isLoadingRequestTournaments: boolean;
@@ -12,6 +13,7 @@ export interface TournamentState {
 }
 
 export const initialState: TournamentState = {
+	isLoadingDeleteTournament: false,
 	isLoadingPostTournament: false,
 	isLoadingRequestTournament: false,
 	isLoadingRequestTournaments: false,
