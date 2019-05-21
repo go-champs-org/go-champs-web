@@ -40,7 +40,7 @@ export const postTournamentGroup = (tournamentId: string) => (tournamentGroup: T
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ tournament_team: tournamentGroup })
+			body: JSON.stringify({ tournament_group: tournamentGroup })
 		}
 	}
 });
