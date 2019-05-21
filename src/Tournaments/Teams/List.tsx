@@ -20,3 +20,5 @@ export const List: React.FC<{ deleteTournamentTeam: any, tournamentTeamState: To
 		}
 	</div>
 );
+
+export default List;

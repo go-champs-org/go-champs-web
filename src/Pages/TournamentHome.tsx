@@ -4,16 +4,21 @@ import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { requestTournament } from "../Tournaments/actions";
+import { deleteTournamentGroup } from "../Tournaments/Groups/actions";
+import { default as TournamentGroupList } from "../Tournaments/Groups/List";
+import { TournamentGroupState } from "../Tournaments/Groups/state";
 import { TournamentState } from "../Tournaments/state";
 import { deleteTournamentTeam } from "../Tournaments/Teams/actions";
-import { List } from "../Tournaments/Teams/List";
+import { default as TournamentTeamList } from "../Tournaments/Teams/List";
 import { TournamentTeamState } from "../Tournaments/Teams/state";
 import { TournamentHomeMatchProps } from "./support/routerInterfaces";
 import withTournaments from "./support/withTournaments";
 
 interface TournamentHomeProps extends RouteComponentProps<TournamentHomeMatchProps> {
+	deleteTournamentGroup: any,
 	deleteTournamentTeam: any,
 	tournamentState: TournamentState,
+	tournamentGroupState: TournamentGroupState,
 	tournamentTeamState: TournamentTeamState,
 	requestTournament: any,
 }
@@ -29,7 +34,9 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 					<div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].name}</div>
 				}
 				<h1>Teams</h1>
-				<List tournamentTeamState={this.props.tournamentTeamState} deleteTournamentTeam={this.props.deleteTournamentTeam} />
+				<TournamentTeamList tournamentTeamState={this.props.tournamentTeamState} deleteTournamentTeam={this.props.deleteTournamentTeam} />
+				<h1>Groups</h1>
+				<TournamentGroupList tournamentGroupState={this.props.tournamentGroupState} deleteTournamentGroup={this.props.deleteTournamentGroup} />
 			</div>
 		)
 	}
@@ -42,12 +49,14 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 
 const mapStateToProps = (state: any) => ({
 	tournamentState: state.tournaments,
+	tournamentGroupState: state.tournamentGroups,
 	tournamentTeamState: state.tournamentTeams,
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {
 	const tournamentId = state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
 	return bindActionCreators({
+		deleteTournamentGroup: deleteTournamentGroup(tournamentId),
 		deleteTournamentTeam: deleteTournamentTeam(tournamentId),
 		requestTournament,
 	}, dispatch)
