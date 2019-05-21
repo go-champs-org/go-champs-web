@@ -13,7 +13,7 @@ interface TournamentEditProps extends RouteComponentProps<OrganizationHomeMatchP
 	postTournament: any,
 }
 
-class OrganizationEdit extends React.Component<TournamentEditProps> {
+class TournamentEdit extends React.Component<TournamentEditProps> {
 	render() {
 		const organizationId = this.props.organizationState.organizations[this.props.match.params.organizationSlug].id;
 		return (
@@ -59,4 +59,4 @@ const mapDispatchToProps = (dispatch: any) => (
 	}, dispatch)
 )
 
-export default withOrganizations(connect(mapStateToProps, mapDispatchToProps)(OrganizationEdit));
+export default withOrganizations(connect(mapStateToProps, mapDispatchToProps)(TournamentEdit));

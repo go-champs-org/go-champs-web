@@ -7,11 +7,11 @@ import { postTournamentTeam } from '../Tournaments/Teams/actions';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentEditProps extends RouteComponentProps<TournamentHomeMatchProps> {
+interface TournamentTeamEditProps extends RouteComponentProps<TournamentHomeMatchProps> {
 	postTournamentTeam: any,
 }
 
-class OrganizationEdit extends React.Component<TournamentEditProps> {
+class TournamentTeamEdit extends React.Component<TournamentTeamEditProps> {
 	render() {
 		return (
 			<Form
@@ -46,4 +46,4 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
 	)
 }
 
-export default withTournaments(connect(state => state, mapDispatchToProps)(OrganizationEdit));
+export default withTournaments(connect(state => state, mapDispatchToProps)(TournamentTeamEdit));
