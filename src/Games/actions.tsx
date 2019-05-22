@@ -38,7 +38,16 @@ export const postGame = (game: GameEntity): HttpAction<ActionTypes> => ({
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ game })
+			body: JSON.stringify({
+				game: {
+					away_score: game.awayScore,
+					away_team_name: game.awayTeamName,
+					datetime: game.datetime,
+					home_score: game.homeScore,
+					home_team_name: game.homeTeamName,
+					location: game.location,
+				}
+			})
 		}
 	}
 });

@@ -28,7 +28,11 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 		return (
 			<div>
 				<Link to={`${this.props.match.url}/TournamentTeamEdit`}>New team</Link>
+				<br />
 				<Link to={`${this.props.match.url}/TournamentGroupEdit`}>New group</Link>
+				<br />
+				<Link to={`${this.props.match.url}/TournamentGameEdit`}>New game</Link>
+				<br />
 				{this.props.tournamentState.isLoadingRequestTournament ?
 					<div>Loading...</div> :
 					<div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].name}</div>
