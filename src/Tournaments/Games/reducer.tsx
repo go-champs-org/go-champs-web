@@ -1,6 +1,6 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../../Shared/store/helpers";
 import { HttpAction } from "../../Shared/store/interfaces";
-import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS } from "./actions";
+import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS } from "./actions";
 import { initialState, TournamentGameState } from "./state";
 
 const mapTournamentGame = (apiData: any) => ({
@@ -54,6 +54,22 @@ export const postTournamentGameSuccess = (state: TournamentGameState, action: Ht
 	tournamentGames: [action.payload.data].reduce(tournamentGameMapEntities, state.tournamentGames),
 });
 
+export const requestTournamentGames = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGames: true,
+});
+
+export const requestTournamentGamesFailure = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGames: false,
+});
+
+export const requestTournamentGamesSuccess = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGames: false,
+	tournamentGroups: action.payload.data.reduce(tournamentGameMapEntities, {}),
+});
+
 export default createReducer(initialState, {
 	[DELETE_TOURNAMENT_GAME]: deleteTournamentGame,
 	[DELETE_TOURNAMENT_GAME_FAILURE]: deleteTournamentGameFailure,
@@ -61,4 +77,7 @@ export default createReducer(initialState, {
 	[POST_TOURNAMENT_GAME]: postTournamentGame,
 	[POST_TOURNAMENT_GAME_FAILURE]: postTournamentGameFailure,
 	[POST_TOURNAMENT_GAME_SUCCESS]: postTournamentGameSuccess,
+	[REQUEST_TOURNAMENT_GAMES]: requestTournamentGames,
+	[REQUEST_TOURNAMENT_GAMES_FAILURE]: requestTournamentGamesFailure,
+	[REQUEST_TOURNAMENT_GAMES_SUCCESS]: requestTournamentGamesSuccess,
 });
