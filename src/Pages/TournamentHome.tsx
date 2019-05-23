@@ -4,6 +4,7 @@ import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { requestTournament } from "../Tournaments/actions";
+import { requestTournamentGames } from "../Tournaments/Games/actions";
 import { deleteTournamentGroup } from "../Tournaments/Groups/actions";
 import { default as TournamentGroupList } from "../Tournaments/Groups/List";
 import { TournamentGroupState } from "../Tournaments/Groups/state";
@@ -21,6 +22,7 @@ interface TournamentHomeProps extends RouteComponentProps<TournamentHomeMatchPro
 	tournamentGroupState: TournamentGroupState,
 	tournamentTeamState: TournamentTeamState,
 	requestTournament: any,
+	requestTournamentGames: any,
 }
 
 class TournamentHome extends React.Component<TournamentHomeProps> {
@@ -48,6 +50,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 	componentDidMount() {
 		const tournamentId = this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].id;
 		this.props.requestTournament(tournamentId);
+		this.props.requestTournamentGames(tournamentId);
 	}
 }
 
@@ -62,6 +65,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
 	return bindActionCreators({
 		deleteTournamentGroup: deleteTournamentGroup(tournamentId),
 		deleteTournamentTeam: deleteTournamentTeam(tournamentId),
+		requestTournamentGames: requestTournamentGames(tournamentId),
 		requestTournament,
 	}, dispatch)
 };

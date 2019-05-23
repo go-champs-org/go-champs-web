@@ -67,7 +67,7 @@ export const requestTournamentGamesFailure = (state: TournamentGameState, action
 export const requestTournamentGamesSuccess = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestTournamentGames: false,
-	tournamentGroups: action.payload.data.reduce(tournamentGameMapEntities, {}),
+	tournamentGames: action.payload.data.reduce(tournamentGameMapEntities, {}),
 });
 
 export default createReducer(initialState, {

@@ -225,7 +225,7 @@ describe('requestTournamentGamesSuccess', () => {
 	it('sets entities', () => {
 		const newState = (requestTournamentGamesSuccess(initialState, action));
 
-		expect(newState.tournamentGroups['first-id']).toEqual({
+		expect(newState.tournamentGames['first-id']).toEqual({
 			id: 'first-id',
 			game: {
 				awayScore: 10,
@@ -236,7 +236,7 @@ describe('requestTournamentGamesSuccess', () => {
 				location: 'first location',
 			},
 		});
-		expect(newState.tournamentGroups['second-id']).toEqual({
+		expect(newState.tournamentGames['second-id']).toEqual({
 			id: 'second-id',
 			game: {
 				awayScore: 30,

@@ -68,7 +68,7 @@ export const postTournamentGameFailure = (payload: any): HttpAction<ActionTypes>
 	payload,
 });
 
-export const requestTournamentGames = (tournamentId: string): HttpAction<ActionTypes> => ({ type: REQUEST_TOURNAMENT_GAMES, payload: { url: `${tournamentGamesAPI(tournamentId)}` } });
+export const requestTournamentGames = (tournamentId: string) => (): HttpAction<ActionTypes> => ({ type: REQUEST_TOURNAMENT_GAMES, payload: { url: `${tournamentGamesAPI(tournamentId)}` } });
 
 export const requestTournamentGamesSuccess = (payload: any): HttpAction<ActionTypes> => ({
 	type: REQUEST_TOURNAMENT_GAMES_SUCCESS,
