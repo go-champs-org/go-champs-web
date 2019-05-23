@@ -4,7 +4,9 @@ import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { requestTournament } from "../Tournaments/actions";
-import { requestTournamentGames } from "../Tournaments/Games/actions";
+import { deleteTournamentGame, requestTournamentGames } from "../Tournaments/Games/actions";
+import { default as TournamentGameList } from "../Tournaments/Games/List";
+import { TournamentGameState } from "../Tournaments/Games/state";
 import { deleteTournamentGroup } from "../Tournaments/Groups/actions";
 import { default as TournamentGroupList } from "../Tournaments/Groups/List";
 import { TournamentGroupState } from "../Tournaments/Groups/state";
@@ -16,9 +18,11 @@ import { TournamentHomeMatchProps } from "./support/routerInterfaces";
 import withTournaments from "./support/withTournaments";
 
 interface TournamentHomeProps extends RouteComponentProps<TournamentHomeMatchProps> {
+	deleteTournamentGame: any,
 	deleteTournamentGroup: any,
 	deleteTournamentTeam: any,
 	tournamentState: TournamentState,
+	tournamentGameState: TournamentGameState,
 	tournamentGroupState: TournamentGroupState,
 	tournamentTeamState: TournamentTeamState,
 	requestTournament: any,
@@ -39,10 +43,16 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 					<div>Loading...</div> :
 					<div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].name}</div>
 				}
+				<br />
 				<h1>Teams</h1>
 				<TournamentTeamList tournamentTeamState={this.props.tournamentTeamState} deleteTournamentTeam={this.props.deleteTournamentTeam} />
+				<br />
 				<h1>Groups</h1>
 				<TournamentGroupList tournamentGroupState={this.props.tournamentGroupState} deleteTournamentGroup={this.props.deleteTournamentGroup} />
+				<br />
+				<h1>Games</h1>
+				<TournamentGameList tournamentGameState={this.props.tournamentGameState}
+					deleteTournamentGame={this.props.deleteTournamentGame} />
 			</div>
 		)
 	}
@@ -56,6 +66,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 
 const mapStateToProps = (state: any) => ({
 	tournamentState: state.tournaments,
+	tournamentGameState: state.tournamentGames,
 	tournamentGroupState: state.tournamentGroups,
 	tournamentTeamState: state.tournamentTeams,
 });
@@ -63,6 +74,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any, state: any) => {
 	const tournamentId = state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
 	return bindActionCreators({
+		deleteTournamentGame: deleteTournamentGame(tournamentId),
 		deleteTournamentGroup: deleteTournamentGroup(tournamentId),
 		deleteTournamentTeam: deleteTournamentTeam(tournamentId),
 		requestTournamentGames: requestTournamentGames(tournamentId),
