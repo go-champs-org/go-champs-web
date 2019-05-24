@@ -5,6 +5,7 @@ export interface TournamentGroupEntity {
 
 export interface TournamentGroupState {
 	isLoadingDeleteTournamentGroup: boolean;
+	isLoadingPatchTournamentGroup: boolean;
 	isLoadingPostTournamentGroup: boolean;
 	isLoadingRequestTournament: boolean;
 	tournamentGroups: { [key: string]: TournamentGroupEntity; };
@@ -12,6 +13,7 @@ export interface TournamentGroupState {
 
 export const initialState: TournamentGroupState = {
 	isLoadingDeleteTournamentGroup: false,
+	isLoadingPatchTournamentGroup: false,
 	isLoadingPostTournamentGroup: false,
 	isLoadingRequestTournament: false,
 	tournamentGroups: {},
