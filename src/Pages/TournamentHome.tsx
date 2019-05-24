@@ -45,7 +45,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 				}
 				<br />
 				<h1>Teams</h1>
-				<TournamentTeamList tournamentTeamState={this.props.tournamentTeamState} deleteTournamentTeam={this.props.deleteTournamentTeam} />
+				<TournamentTeamList tournamentTeamState={this.props.tournamentTeamState} deleteTournamentTeam={this.props.deleteTournamentTeam} url={this.props.match.url} />
 				<br />
 				<h1>Groups</h1>
 				<TournamentGroupList tournamentGroupState={this.props.tournamentGroupState} deleteTournamentGroup={this.props.deleteTournamentGroup} />

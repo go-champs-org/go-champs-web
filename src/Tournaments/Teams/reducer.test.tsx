@@ -1,7 +1,7 @@
 import { HttpAction } from "../../Shared/store/interfaces";
 import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "../actions";
-import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
-import { deleteTournamentTeam, deleteTournamentTeamFailure, deleteTournamentTeamSuccess, postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from "./reducer";
+import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, PATCH_TOURNAMENT_TEAM, PATCH_TOURNAMENT_TEAM_FAILURE, PATCH_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
+import { deleteTournamentTeam, deleteTournamentTeamFailure, deleteTournamentTeamSuccess, patchTournamentTeam, patchTournamentTeamFailure, patchTournamentTeamSuccess, postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from "./reducer";
 import { initialState, TournamentTeamState } from "./state";
 
 describe('deleteTournamentTeam', () => {
@@ -69,6 +69,81 @@ describe('deleteTournamentTeamSuccess', () => {
 		}
 
 		const newState = deleteTournamentTeamSuccess(someState, action);
+
+		expect(newState.tournamentTeams['some-id']).toEqual({
+			id: 'some-id',
+			name: 'some-name',
+		});
+	});
+});
+
+describe('patchTournamentTeam', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: PATCH_TOURNAMENT_TEAM,
+	};
+
+	it('sets isLoadingPatchTournamentTeam to true', () => {
+		expect(patchTournamentTeam(initialState, action).isLoadingPatchTournamentTeam).toBe(true);
+	});
+});
+
+describe('patchTournamentTeamFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: PATCH_TOURNAMENT_TEAM_FAILURE,
+	};
+
+	it('sets isLoadingPatchTournamentTeam to false', () => {
+		expect(patchTournamentTeamFailure(initialState, action).isLoadingPatchTournamentTeam).toBe(false);
+	});
+});
+
+describe('patchTournamentTeamSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: PATCH_TOURNAMENT_TEAM_SUCCESS,
+		payload: {
+			data:
+			{
+				id: 'first-id',
+				name: 'some-first-name',
+			}
+		}
+	};
+
+	const updateState: TournamentTeamState = {
+		...initialState,
+		tournamentTeams: {
+			['first-id']: {
+				id: 'first-id',
+				name: 'first-name',
+			},
+		}
+	};
+
+	it('sets isLoadingPatchTournamentTeam to false', () => {
+		expect(patchTournamentTeamSuccess(updateState, action).isLoadingPatchTournamentTeam).toBe(false);
+	});
+
+	it('set entity', () => {
+		const newState = (patchTournamentTeamSuccess(updateState, action));
+
+		expect(newState.tournamentTeams['first-id']).toEqual({
+			id: 'first-id',
+			name: 'some-first-name',
+		});
+	});
+
+	it('keeps others entities in other', () => {
+		const someState: TournamentTeamState = {
+			...updateState,
+			tournamentTeams: {
+				['some-id']: {
+					id: 'some-id',
+					name: 'some-name',
+				},
+			}
+		}
+
+		const newState = (patchTournamentTeamSuccess(someState, action));
 
 		expect(newState.tournamentTeams['some-id']).toEqual({
 			id: 'some-id',

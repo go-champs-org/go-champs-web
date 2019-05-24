@@ -1,7 +1,7 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../../Shared/store/helpers";
 import { HttpAction } from "../../Shared/store/interfaces";
 import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "../actions";
-import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
+import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, PATCH_TOURNAMENT_TEAM, PATCH_TOURNAMENT_TEAM_FAILURE, PATCH_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from "./actions";
 import { initialState, TournamentTeamState } from "./state";
 
 const mapTournamentTeam = (apiData: any) => ({
@@ -31,6 +31,22 @@ export const deleteTournamentTeamSuccess = (state: TournamentTeamState, action: 
 		isLoadingDeleteTournamentTeam: false,
 	}
 };
+
+export const patchTournamentTeam = (state: TournamentTeamState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchTournamentTeam: true,
+});
+
+export const patchTournamentTeamFailure = (state: TournamentTeamState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchTournamentTeam: false,
+});
+
+export const patchTournamentTeamSuccess = (state: TournamentTeamState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchTournamentTeam: false,
+	tournamentTeams: [action.payload.data].reduce(tournamentTeamMapEntities, state.tournamentTeams),
+});
 
 export const postTournamentTeam = (state: TournamentTeamState, action: HttpAction<ActionTypes>) => ({
 	...state,
@@ -68,6 +84,9 @@ export default createReducer(initialState, {
 	[DELETE_TOURNAMENT_TEAM]: deleteTournamentTeam,
 	[DELETE_TOURNAMENT_TEAM_FAILURE]: deleteTournamentTeamFailure,
 	[DELETE_TOURNAMENT_TEAM_SUCCESS]: deleteTournamentTeamSuccess,
+	[PATCH_TOURNAMENT_TEAM]: patchTournamentTeam,
+	[PATCH_TOURNAMENT_TEAM_FAILURE]: patchTournamentTeamFailure,
+	[PATCH_TOURNAMENT_TEAM_SUCCESS]: patchTournamentTeamSuccess,
 	[POST_TOURNAMENT_TEAM]: postTournamentTeam,
 	[POST_TOURNAMENT_TEAM_FAILURE]: postTournamentTeamFailure,
 	[POST_TOURNAMENT_TEAM_SUCCESS]: postTournamentTeamSuccess,
