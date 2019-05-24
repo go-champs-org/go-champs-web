@@ -7,7 +7,7 @@ import { postTournamentGame } from '../Tournaments/Games/actions';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentGameEditProps extends RouteComponentProps<TournamentHomeMatchProps> {
+interface TournamentGameNewProps extends RouteComponentProps<TournamentHomeMatchProps> {
 	postTournamentGame: any,
 }
 
@@ -70,7 +70,7 @@ const GameForm: React.FC<{ name: string }> = ({ name }) => (
 	</div>
 );
 
-class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
+class TournamentGameNew extends React.Component<TournamentGameNewProps> {
 	render() {
 		return (
 			<Form
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
 	)
 }
 
-export default withTournaments(connect(state => state, mapDispatchToProps)(TournamentGameEdit));
+export default withTournaments(connect(state => state, mapDispatchToProps)(TournamentGameNew));

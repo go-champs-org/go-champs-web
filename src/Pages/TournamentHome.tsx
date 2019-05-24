@@ -33,11 +33,11 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 	render() {
 		return (
 			<div>
-				<Link to={`${this.props.match.url}/TournamentTeamEdit`}>New team</Link>
+				<Link to={`${this.props.match.url}/TournamentTeamNew`}>New team</Link>
 				<br />
-				<Link to={`${this.props.match.url}/TournamentGroupEdit`}>New group</Link>
+				<Link to={`${this.props.match.url}/TournamentGroupNew`}>New group</Link>
 				<br />
-				<Link to={`${this.props.match.url}/TournamentGameEdit`}>New game</Link>
+				<Link to={`${this.props.match.url}/TournamentGameNew`}>New game</Link>
 				<br />
 				{this.props.tournamentState.isLoadingRequestTournament ?
 					<div>Loading...</div> :

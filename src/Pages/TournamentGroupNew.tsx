@@ -3,19 +3,19 @@ import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { postTournamentTeam } from '../Tournaments/Teams/actions';
+import { postTournamentGroup } from '../Tournaments/Groups/actions';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentTeamEditProps extends RouteComponentProps<TournamentHomeMatchProps> {
-	postTournamentTeam: any,
+interface TournamentGroupNewProps extends RouteComponentProps<TournamentHomeMatchProps> {
+	postTournamentGroup: any,
 }
 
-class TournamentTeamEdit extends React.Component<TournamentTeamEditProps> {
+class TournamentGroupNew extends React.Component<TournamentGroupNewProps> {
 	render() {
 		return (
 			<Form
-				onSubmit={this.props.postTournamentTeam}
+				onSubmit={this.props.postTournamentGroup}
 				initialValues={{ name: '' }}
 				render={({ handleSubmit, form, submitting, pristine, values }) => (
 					<form onSubmit={handleSubmit}>
@@ -41,9 +41,9 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
 	const tournamentId = state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
 	return (
 		bindActionCreators({
-			postTournamentTeam: postTournamentTeam(tournamentId),
+			postTournamentGroup: postTournamentGroup(tournamentId),
 		}, dispatch)
 	)
 }
 
-export default withTournaments(connect(state => state, mapDispatchToProps)(TournamentTeamEdit));
+export default withTournaments(connect(state => state, mapDispatchToProps)(TournamentGroupNew));
