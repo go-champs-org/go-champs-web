@@ -8,12 +8,12 @@ import { postTournament } from '../Tournaments/actions';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 
-interface TournamentEditProps extends RouteComponentProps<OrganizationHomeMatchProps> {
+interface TournamentNewProps extends RouteComponentProps<OrganizationHomeMatchProps> {
 	organizationState: OrganizationState,
 	postTournament: any,
 }
 
-class TournamentEdit extends React.Component<TournamentEditProps> {
+class TournamentNew extends React.Component<TournamentNewProps> {
 	render() {
 		const organizationId = this.props.organizationState.organizations[this.props.match.params.organizationSlug].id;
 		return (
@@ -59,4 +59,4 @@ const mapDispatchToProps = (dispatch: any) => (
 	}, dispatch)
 )
 
-export default withOrganizations(connect(mapStateToProps, mapDispatchToProps)(TournamentEdit));
+export default withOrganizations(connect(mapStateToProps, mapDispatchToProps)(TournamentNew));
