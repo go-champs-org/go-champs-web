@@ -1,7 +1,3 @@
-export interface OrganizationEditMatchProps {
-	organizationId: string,
-}
-
 export interface OrganizationHomeMatchProps {
 	organizationSlug: string,
 }

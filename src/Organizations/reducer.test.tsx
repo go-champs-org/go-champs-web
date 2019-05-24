@@ -1,5 +1,5 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
+import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
 import { deleteOrganization, deleteOrganizationFailure, deleteOrganizationSuccess, patchOrganization, patchOrganizationFailure, patchOrganizationSuccess, postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess } from './reducer';
 import { initialState, OrganizationState } from './state';
 
@@ -81,7 +81,7 @@ describe('deleteOrganizationSuccess', () => {
 
 describe('patchOrganization', () => {
 	const action: HttpAction<ActionTypes> = {
-		type: POST_ORGANIZATION,
+		type: PATCH_ORGANIZATION,
 	};
 
 	it('sets isLoadingPatchOrganization to true', () => {
@@ -91,7 +91,7 @@ describe('patchOrganization', () => {
 
 describe('patchOrganizationFailure', () => {
 	const action: HttpAction<ActionTypes> = {
-		type: POST_ORGANIZATION_FAILURE,
+		type: PATCH_ORGANIZATION_FAILURE,
 	};
 
 	it('sets isLoadingPatchOrganization to false', () => {
@@ -101,7 +101,7 @@ describe('patchOrganizationFailure', () => {
 
 describe('patchOrganizationSuccess', () => {
 	const action: HttpAction<ActionTypes> = {
-		type: POST_ORGANIZATION_SUCCESS,
+		type: PATCH_ORGANIZATION_SUCCESS,
 		payload: {
 			data:
 			{

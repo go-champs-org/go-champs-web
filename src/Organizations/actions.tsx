@@ -35,7 +35,7 @@ export const deleteOrganizationFailure = (payload: any): HttpAction<ActionTypes>
 });
 
 export const patchOrganization = (organization: OrganizationEntity): HttpAction<ActionTypes> => ({
-	type: POST_ORGANIZATION, payload: {
+	type: PATCH_ORGANIZATION, payload: {
 		url: `${ORGANIZATION_API}/${organization.id}`, requestConfig: {
 			method: 'PATCH',
 			headers: {
@@ -47,12 +47,12 @@ export const patchOrganization = (organization: OrganizationEntity): HttpAction<
 });
 
 export const patchOrganizationSuccess = (payload: any): HttpAction<ActionTypes> => ({
-	type: POST_ORGANIZATION_SUCCESS,
+	type: PATCH_ORGANIZATION_SUCCESS,
 	payload,
 });
 
 export const patchOrganizationFailure = (payload: any): HttpAction<ActionTypes> => ({
-	type: POST_ORGANIZATION_FAILURE,
+	type: PATCH_ORGANIZATION_FAILURE,
 	payload,
 });
 

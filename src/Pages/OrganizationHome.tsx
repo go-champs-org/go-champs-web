@@ -20,7 +20,7 @@ class OrganizationHome extends React.Component<OrganizationHomeProps> {
   render() {
     return (
       <div>
-        <Link to={`${this.props.match.url}/Edit`}>New</Link>
+        <Link to={`${this.props.match.url}/TournamentEdit`}>New</Link>
         <List tournamentState={this.props.tournamentState} url={this.props.match.url} deleteTournament={this.props.deleteTournament} />
       </div>
     )

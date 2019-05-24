@@ -1,6 +1,6 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
-import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
+import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from "./actions";
 import { initialState, OrganizationState } from "./state";
 
 const mapOrganization = (apiData: any) => ({
@@ -84,6 +84,9 @@ export default createReducer(initialState, {
 	[DELETE_ORGANIZATION]: deleteOrganization,
 	[DELETE_ORGANIZATION_FAILURE]: deleteOrganizationFailure,
 	[DELETE_ORGANIZATION_SUCCESS]: deleteOrganizationSuccess,
+	[PATCH_ORGANIZATION]: patchOrganization,
+	[PATCH_ORGANIZATION_FAILURE]: patchOrganizationFailure,
+	[PATCH_ORGANIZATION_SUCCESS]: patchOrganizationSuccess,
 	[POST_ORGANIZATION]: postOrganization,
 	[POST_ORGANIZATION_FAILURE]: postOrganizationFailure,
 	[POST_ORGANIZATION_SUCCESS]: postOrganizationSuccess,

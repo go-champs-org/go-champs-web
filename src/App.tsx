@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import Home from './Pages/Home';
+import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
 import OrganizationNew from './Pages/OrganizationNew';
 import TournamentEdit from './Pages/TournamentEdit';
@@ -24,7 +25,8 @@ const App: React.FC = () => {
 							<Route exact path="/" component={Home} />
 							<Route exact sensitive path="/New" component={OrganizationNew} />
 							<Route exact path="/:organizationSlug" component={OrganizationHome} />
-							<Route exact sensitive path="/:organizationSlug/Edit" component={TournamentEdit} />
+							<Route exact sensitive path="/:organizationSlug/OrganizationEdit" component={OrganizationEdit} />
+							<Route exact sensitive path="/:organizationSlug/TournamentEdit" component={TournamentEdit} />
 							<Route exact path="/:organizationSlug/:tournamentSlug" component={TournamentHome} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentTeamEdit" component={TournamentTeamEdit} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGroupEdit" component={TournamentGroupEdit} />
