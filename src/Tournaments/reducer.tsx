@@ -1,6 +1,6 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
-import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "./actions";
+import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, PATCH_TOURNAMENT, PATCH_TOURNAMENT_FAILURE, PATCH_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from "./actions";
 import { initialState, TournamentState } from "./state";
 
 const mapTournament = (apiData: any) => ({
@@ -31,6 +31,22 @@ export const deleteTournamentSuccess = (state: TournamentState, action: HttpActi
 		tournaments,
 	}
 };
+
+export const patchTournament = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchTournament: true,
+});
+
+export const patchTournamentFailure = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchTournament: false,
+});
+
+export const patchTournamentSuccess = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchTournament: false,
+	tournaments: [action.payload.data].reduce(tournamentMapEntities, state.tournaments),
+});
 
 export const postTournament = (state: TournamentState, action: HttpAction<ActionTypes>) => ({
 	...state,
@@ -100,6 +116,9 @@ export default createReducer(initialState, {
 	[DELETE_TOURNAMENT]: deleteTournament,
 	[DELETE_TOURNAMENT_FAILURE]: deleteTournamentFailure,
 	[DELETE_TOURNAMENT_SUCCESS]: deleteTournamentSuccess,
+	[PATCH_TOURNAMENT]: patchTournament,
+	[PATCH_TOURNAMENT_FAILURE]: patchTournamentFailure,
+	[PATCH_TOURNAMENT_SUCCESS]: patchTournamentSuccess,
 	[POST_TOURNAMENT]: postTournament,
 	[POST_TOURNAMENT_FAILURE]: postTournamentFailure,
 	[POST_TOURNAMENT_SUCCESS]: postTournamentSuccess,

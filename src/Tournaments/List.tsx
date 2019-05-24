@@ -8,6 +8,9 @@ const TournamentCard: React.FC<{ tournament: TournamentEntity, url: string, onDe
       {tournament.name}
     </Link>
     <button onClick={() => onDeleteTournament(tournament)}>Delete</button>
+    <Link to={`${url}/${tournament.slug}/TournamentEdit`}>
+      Edit
+    </Link>
   </div>
 );
 

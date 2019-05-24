@@ -4,6 +4,9 @@ import { TournamentEntity } from "./state";
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
 export const DELETE_TOURNAMENT_SUCCESS = 'API_DELETE_TOURNAMENT_SUCCESS';
 export const DELETE_TOURNAMENT_FAILURE = 'API_DELETE_TOURNAMENT_FAILURE';
+export const PATCH_TOURNAMENT = 'API_PATCH_TOURNAMENT';
+export const PATCH_TOURNAMENT_SUCCESS = 'API_PATCH_TOURNAMENT_SUCCESS';
+export const PATCH_TOURNAMENT_FAILURE = 'API_PATCH_TOURNAMENT_FAILURE';
 export const POST_TOURNAMENT = 'API_POST_TOURNAMENT';
 export const POST_TOURNAMENT_SUCCESS = 'API_POST_TOURNAMENT_SUCCESS';
 export const POST_TOURNAMENT_FAILURE = 'API_POST_TOURNAMENT_FAILURE';
@@ -44,6 +47,28 @@ export const deleteTournamentSuccess = (payload: any): HttpAction<ActionTypes> =
 
 export const deleteTournamentFailure = (payload: any): HttpAction<ActionTypes> => ({
 	type: DELETE_TOURNAMENT_FAILURE,
+	payload,
+});
+
+export const patchTournament = (tournament: TournamentEntity): HttpAction<ActionTypes> => ({
+	type: PATCH_TOURNAMENT, payload: {
+		url: `${TOURNAMENTS_API}/${tournament.id}`, requestConfig: {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ tournament })
+		}
+	}
+});
+
+export const patchTournamentSuccess = (payload: any): HttpAction<ActionTypes> => ({
+	type: PATCH_TOURNAMENT_SUCCESS,
+	payload,
+});
+
+export const patchTournamentFailure = (payload: any): HttpAction<ActionTypes> => ({
+	type: PATCH_TOURNAMENT_FAILURE,
 	payload,
 });
 
@@ -109,6 +134,9 @@ export type ActionTypes =
 	typeof DELETE_TOURNAMENT |
 	typeof DELETE_TOURNAMENT_FAILURE |
 	typeof DELETE_TOURNAMENT_SUCCESS |
+	typeof PATCH_TOURNAMENT |
+	typeof PATCH_TOURNAMENT_FAILURE |
+	typeof PATCH_TOURNAMENT_SUCCESS |
 	typeof POST_TOURNAMENT |
 	typeof POST_TOURNAMENT_FAILURE |
 	typeof POST_TOURNAMENT_SUCCESS |
