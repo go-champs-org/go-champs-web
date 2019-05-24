@@ -36,7 +36,7 @@ export const deleteOrganizationFailure = (payload: any): HttpAction<ActionTypes>
 
 export const patchOrganization = (organization: OrganizationEntity): HttpAction<ActionTypes> => ({
 	type: POST_ORGANIZATION, payload: {
-		url: ORGANIZATION_API, requestConfig: {
+		url: `${ORGANIZATION_API}/${organization.id}`, requestConfig: {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'

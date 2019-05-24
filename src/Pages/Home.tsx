@@ -18,7 +18,7 @@ class Home extends React.Component<HomeProps> {
 	render() {
 		return (
 			<div>
-				<Link to="/Edit">New</Link>
+				<Link to="/New">New</Link>
 				<List organizationState={this.props.organizationState} url={this.props.match.url} deleteOrganization={this.props.deleteOrganization} />
 			</div>
 		);

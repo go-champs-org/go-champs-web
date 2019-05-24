@@ -5,11 +5,11 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { postOrganization } from '../Organizations/actions';
 
-interface OrganizationEditProps extends RouteComponentProps {
+interface OrganizationNewProps extends RouteComponentProps {
 	postOrganization: any,
 }
 
-class OrganizationEdit extends React.Component<OrganizationEditProps> {
+class OrganizationNew extends React.Component<OrganizationNewProps> {
 	render() {
 		return (
 			<Form
@@ -49,4 +49,4 @@ const mapDispatchToProps = (dispatch: any) => (
 	}, dispatch)
 )
 
-export default connect(state => state, mapDispatchToProps)(OrganizationEdit);
+export default connect(state => state, mapDispatchToProps)(OrganizationNew);

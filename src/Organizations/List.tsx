@@ -8,6 +8,9 @@ const OrganizationCard: React.FC<{ organization: OrganizationEntity, url: string
 			{organization.name}
 		</Link>
 		<button onClick={() => onDeleteOrganization(organization)}>Delete</button>
+		<Link to={`/Edit/${organization.id}`}>
+			Edit
+		</Link>
 	</div>
 );
 
