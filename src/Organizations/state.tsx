@@ -6,6 +6,7 @@ export interface OrganizationEntity {
 
 export interface OrganizationState {
 	isLoadingDeleteOrganization: boolean;
+	isLoadingPatchOrganization: boolean;
 	isLoadingPostOrganization: boolean;
 	isLoadingRequestOrganizations: boolean;
 	organizations: { [key: string]: OrganizationEntity; };
@@ -13,6 +14,7 @@ export interface OrganizationState {
 
 export const initialState: OrganizationState = {
 	isLoadingDeleteOrganization: false,
+	isLoadingPatchOrganization: false,
 	isLoadingPostOrganization: false,
 	isLoadingRequestOrganizations: false,
 	organizations: {},

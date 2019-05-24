@@ -32,6 +32,22 @@ export const deleteOrganizationSuccess = (state: OrganizationState, action: Http
 	}
 };
 
+export const patchOrganization = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchOrganization: true,
+});
+
+export const patchOrganizationFailure = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchOrganization: false,
+});
+
+export const patchOrganizationSuccess = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchOrganization: false,
+	organizations: [action.payload.data].reduce(organizationMapEntities, state.organizations),
+});
+
 export const postOrganization = (state: OrganizationState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingPostOrganization: true,

@@ -1,6 +1,6 @@
 import { HttpAction } from '../Shared/store/interfaces';
 import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
-import { deleteOrganization, deleteOrganizationFailure, deleteOrganizationSuccess, postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess } from './reducer';
+import { deleteOrganization, deleteOrganizationFailure, deleteOrganizationSuccess, patchOrganization, patchOrganizationFailure, patchOrganizationSuccess, postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess } from './reducer';
 import { initialState, OrganizationState } from './state';
 
 describe('deleteOrganization', () => {
@@ -70,6 +70,86 @@ describe('deleteOrganizationSuccess', () => {
 		}
 
 		const newState = deleteOrganizationSuccess(someState, action);
+
+		expect(newState.organizations['some-slug']).toEqual({
+			id: 'some-id',
+			name: 'some-name',
+			slug: 'some-slug',
+		});
+	});
+});
+
+describe('patchOrganization', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: POST_ORGANIZATION,
+	};
+
+	it('sets isLoadingPatchOrganization to true', () => {
+		expect(patchOrganization(initialState, action).isLoadingPatchOrganization).toBe(true);
+	});
+});
+
+describe('patchOrganizationFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: POST_ORGANIZATION_FAILURE,
+	};
+
+	it('sets isLoadingPatchOrganization to false', () => {
+		expect(patchOrganizationFailure(initialState, action).isLoadingPatchOrganization).toBe(false);
+	});
+});
+
+describe('patchOrganizationSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: POST_ORGANIZATION_SUCCESS,
+		payload: {
+			data:
+			{
+				id: 'first-id',
+				name: 'some-first-name',
+				slug: 'first-slug',
+			}
+		}
+	};
+
+	const updateState: OrganizationState = {
+		...initialState,
+		organizations: {
+			['first-slug']: {
+				id: 'first-id',
+				name: 'first-name',
+				slug: 'first-slug',
+			},
+		}
+	};
+
+	it('sets isLoadingPatchOrganization to false', () => {
+		expect(patchOrganizationSuccess(updateState, action).isLoadingPatchOrganization).toBe(false);
+	});
+
+	it('set entity', () => {
+		const newState = (patchOrganizationSuccess(updateState, action));
+
+		expect(newState.organizations['first-slug']).toEqual({
+			id: 'first-id',
+			name: 'some-first-name',
+			slug: 'first-slug',
+		});
+	});
+
+	it('keeps others entities in other', () => {
+		const someState: OrganizationState = {
+			...updateState,
+			organizations: {
+				['some-slug']: {
+					id: 'some-id',
+					name: 'some-name',
+					slug: 'some-slug',
+				},
+			}
+		}
+
+		const newState = (patchOrganizationSuccess(someState, action));
 
 		expect(newState.organizations['some-slug']).toEqual({
 			id: 'some-id',
