@@ -1,6 +1,6 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
-import { REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS } from "../Tournaments/Games/actions";
+import { REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from "../Tournaments/Games/actions";
 import { ActionTypes, DELETE_GAME, DELETE_GAME_FAILURE, DELETE_GAME_SUCCESS, POST_GAME, POST_GAME_FAILURE, POST_GAME_SUCCESS } from "./actions";
 import { GameState, initialState } from "./state";
 
@@ -84,6 +84,22 @@ export const postGameSuccess = (state: GameState, action: HttpAction<ActionTypes
 	games: [action.payload.data].reduce(gameMapEntities, state.games),
 });
 
+export const requestTournamentGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGame: true,
+});
+
+export const requestTournamentGameFailure = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGame: false,
+});
+
+export const requestTournamentGameSuccess = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGame: false,
+	games: [action.payload.data].reduce(tournamentGameMapEntities, {}),
+});
+
 export const requestTournamentGames = (state: GameState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestTournamentGames: true,
@@ -107,6 +123,9 @@ export default createReducer(initialState, {
 	[POST_GAME]: postGame,
 	[POST_GAME_FAILURE]: postGameFailure,
 	[POST_GAME_SUCCESS]: postGameSuccess,
+	[REQUEST_TOURNAMENT_GAME]: requestTournamentGame,
+	[REQUEST_TOURNAMENT_GAME_FAILURE]: requestTournamentGameFailure,
+	[REQUEST_TOURNAMENT_GAME_SUCCESS]: requestTournamentGameSuccess,
 	[REQUEST_TOURNAMENT_GAMES]: requestTournamentGames,
 	[REQUEST_TOURNAMENT_GAMES_FAILURE]: requestTournamentGamesFailure,
 	[REQUEST_TOURNAMENT_GAMES_SUCCESS]: requestTournamentGamesSuccess,
