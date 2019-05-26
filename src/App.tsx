@@ -7,6 +7,7 @@ import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
 import OrganizationNew from './Pages/OrganizationNew';
 import TournamentEdit from './Pages/TournamentEdit';
+import TournamentGameEdit from './Pages/TournamentGameEdit';
 import TournamentGameNew from './Pages/TournamentGameNew';
 import TournamentGroupEdit from './Pages/TournamentGroupEdit';
 import TournamentGroupNew from './Pages/TournamentGroupNew';
@@ -37,6 +38,7 @@ const App: React.FC = () => {
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGroupEdit/:tournamentGroupId" component={TournamentGroupEdit} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGroupNew" component={TournamentGroupNew} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGameNew" component={TournamentGameNew} />yar
+							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGameEdit/:tournamentGameId" component={TournamentGameEdit} />
 						</Switch>
 					</div>
 				</section>

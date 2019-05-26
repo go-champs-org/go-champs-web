@@ -5,15 +5,20 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { patchGame } from '../Games/actions';
 import { GameState } from '../Games/state';
+import { requestTournamentGame } from '../Tournaments/Games/actions';
+import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
+import withTournaments from './support/withTournaments';
 
 interface TournamentGameEditMatchProps extends TournamentHomeMatchProps {
-	gameId: string;
+	tournamentGameId: string;
 };
 
 interface TournamentGameEditProps extends RouteComponentProps<TournamentGameEditMatchProps> {
 	gameState: GameState,
+	tournamentGameState: TournamentGameState,
 	patchGame: any,
+	requestTournamentGame: any,
 }
 
 const GameForm: React.FC = () => (
@@ -77,10 +82,24 @@ const GameForm: React.FC = () => (
 
 class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
 	render() {
+		const canRender = this.props.tournamentGameState.tournamentGames[this.props.match.params.tournamentGameId] && !this.props.tournamentGameState.isLoadingRequestTournamentGame;
+		return (
+			<div>
+				{canRender ?
+					this.renderForm() :
+					<div>Loading...</div>}
+			</div>
+		)
+	}
+
+	renderForm() {
+		const gameId = this.props.tournamentGameState.tournamentGames[this.props.match.params.tournamentGameId].game.id;
+		const game = this.props.gameState.games[gameId];
+
 		return (
 			<Form
 				onSubmit={this.props.patchGame}
-				initialValues={{ awayTeamName: '', awayScore: 0, homeTeamName: '', homeScore: 0, location: '', datetime: '' }}
+				initialValues={game}
 				render={({ handleSubmit, form, submitting, pristine, values }) => (
 					<form onSubmit={handleSubmit}>
 						<GameForm />
@@ -89,16 +108,29 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
 						</button>
 					</form>
 				)} />
-		)
+		);
+	}
+
+	componentDidMount() {
+		if (!this.props.tournamentGameState.tournamentGames[this.props.match.params.tournamentGameId]) {
+			this.props.requestTournamentGame(this.props.match.params.tournamentGameId);
+		}
 	}
 }
 
+const mapStateToProps = (state: any) => ({
+	tournamentGameState: state.tournamentGames,
+	gameState: state.games,
+})
+
 const mapDispatchToProps = (dispatch: any, state: any) => {
+	const tournamentId = state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
 	return (
 		bindActionCreators({
-			patchGame: patchGame,
+			patchGame,
+			requestTournamentGame: requestTournamentGame(tournamentId),
 		}, dispatch)
 	)
 }
 
-export default connect(state => state, mapDispatchToProps)(TournamentGameEdit);
+export default withTournaments(connect(mapStateToProps, mapDispatchToProps)(TournamentGameEdit));

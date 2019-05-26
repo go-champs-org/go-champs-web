@@ -52,7 +52,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 				<br />
 				<h1>Games</h1>
 				<TournamentGameList tournamentGameState={this.props.tournamentGameState}
-					deleteTournamentGame={this.props.deleteTournamentGame} />
+					deleteTournamentGame={this.props.deleteTournamentGame} url={this.props.match.url} />
 			</div>
 		)
 	}
