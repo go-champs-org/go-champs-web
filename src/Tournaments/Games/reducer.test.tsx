@@ -1,6 +1,6 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS } from './actions';
-import { deleteTournamentGame, deleteTournamentGameFailure, deleteTournamentGameSuccess, postTournamentGame, postTournamentGameFailure, postTournamentGameSuccess, requestTournamentGames, requestTournamentGamesFailure, requestTournamentGamesSuccess } from './reducer';
+import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from './actions';
+import { deleteTournamentGame, deleteTournamentGameFailure, deleteTournamentGameSuccess, postTournamentGame, postTournamentGameFailure, postTournamentGameSuccess, requestTournamentGame, requestTournamentGameFailure, requestTournamentGames, requestTournamentGamesFailure, requestTournamentGamesSuccess, requestTournamentGameSuccess } from './reducer';
 import { initialState, TournamentGameState } from './state';
 
 describe('deleteTournamentGame', () => {
@@ -161,6 +161,68 @@ describe('postTournamentGameSuccess', () => {
 				homeScore: 40,
 				homeTeamName: 'some home team name',
 				location: 'some location',
+			},
+		});
+	});
+});
+
+describe('requestTournamentGame', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: REQUEST_TOURNAMENT_GAME,
+	};
+
+	it('sets isLoadingRequestTournamentGame to true', () => {
+		expect(requestTournamentGame(initialState, action).isLoadingRequestTournamentGame).toBe(true);
+	});
+});
+
+describe('requestTournamentGameFailure', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: REQUEST_TOURNAMENT_GAME_FAILURE,
+	};
+
+	it('sets isLoadingRequestTournamentGame to false', () => {
+		expect(requestTournamentGameFailure(initialState, action).isLoadingRequestTournamentGame).toBe(false);
+	});
+});
+
+describe('requestTournamentGameSuccess', () => {
+	const action: HttpAction<ActionTypes> = {
+		type: REQUEST_TOURNAMENT_GAME_SUCCESS,
+		payload: {
+			data:
+			{
+				id: 'first-id',
+				game: {
+					id: 'first-game-id',
+					away_score: 10,
+					away_team_name: 'first away team name',
+					datetime: '2019-05-22T03:21:21.248Z',
+					home_score: 20,
+					home_team_name: 'first home team name',
+					location: 'first location',
+				},
+			},
+		},
+	};
+
+	it('sets isLoadingRequestTournamentGame to false', () => {
+		expect(requestTournamentGameSuccess(initialState, action).isLoadingRequestTournamentGame).toBe(false);
+	});
+
+	it('sets entities', () => {
+		const newState = (requestTournamentGameSuccess(initialState, action));
+
+		expect(newState.tournamentGames['first-id']).toEqual({
+			id: 'first-id',
+			game: {
+				id: 'first-game-id',
+				awayScore: 10,
+				awayTeamName: 'first away team name',
+				datetime: '2019-05-22T03:21:21.248Z',
+				homeScore: 20,
+				homeTeamName: 'first home team name',
+				location: 'first location',
 			},
 		});
 	});

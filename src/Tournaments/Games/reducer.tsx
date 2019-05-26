@@ -1,11 +1,12 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../../Shared/store/helpers";
 import { HttpAction } from "../../Shared/store/interfaces";
-import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS } from "./actions";
+import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from "./actions";
 import { initialState, TournamentGameState } from "./state";
 
 const mapTournamentGame = (apiData: any) => ({
 	id: apiData.id,
 	game: {
+		id: apiData.game.id,
 		awayScore: apiData.game.away_score,
 		awayTeamName: apiData.game.away_team_name,
 		datetime: apiData.game.datetime,
@@ -54,6 +55,22 @@ export const postTournamentGameSuccess = (state: TournamentGameState, action: Ht
 	tournamentGames: [action.payload.data].reduce(tournamentGameMapEntities, state.tournamentGames),
 });
 
+export const requestTournamentGame = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGame: true,
+});
+
+export const requestTournamentGameFailure = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGame: false,
+});
+
+export const requestTournamentGameSuccess = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGame: false,
+	tournamentGames: [action.payload.data].reduce(tournamentGameMapEntities, {}),
+});
+
 export const requestTournamentGames = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingRequestTournamentGames: true,
@@ -77,6 +94,9 @@ export default createReducer(initialState, {
 	[POST_TOURNAMENT_GAME]: postTournamentGame,
 	[POST_TOURNAMENT_GAME_FAILURE]: postTournamentGameFailure,
 	[POST_TOURNAMENT_GAME_SUCCESS]: postTournamentGameSuccess,
+	[REQUEST_TOURNAMENT_GAME]: requestTournamentGame,
+	[REQUEST_TOURNAMENT_GAME_FAILURE]: requestTournamentGameFailure,
+	[REQUEST_TOURNAMENT_GAME_SUCCESS]: requestTournamentGameSuccess,
 	[REQUEST_TOURNAMENT_GAMES]: requestTournamentGames,
 	[REQUEST_TOURNAMENT_GAMES_FAILURE]: requestTournamentGamesFailure,
 	[REQUEST_TOURNAMENT_GAMES_SUCCESS]: requestTournamentGamesSuccess,

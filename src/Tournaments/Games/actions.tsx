@@ -4,6 +4,9 @@ import { TournamentGameEntity } from "./state";
 export const DELETE_TOURNAMENT_GAME = 'API_DELETE_TOURNAMENT_GAME';
 export const DELETE_TOURNAMENT_GAME_SUCCESS = 'API_DELETE_TOURNAMENT_GAME_SUCCESS';
 export const DELETE_TOURNAMENT_GAME_FAILURE = 'API_DELETE_TOURNAMENT_GAME_FAILURE';
+export const REQUEST_TOURNAMENT_GAME = 'API_REQUEST_TOURNAMENT_GAME';
+export const REQUEST_TOURNAMENT_GAME_SUCCESS = 'API_REQUEST_TOURNAMENT_GAME_SUCCESS';
+export const REQUEST_TOURNAMENT_GAME_FAILURE = 'API_REQUEST_TOURNAMENT_GAME_FAILURE';
 export const REQUEST_TOURNAMENT_GAMES = 'API_REQUEST_TOURNAMENT_GAMES';
 export const REQUEST_TOURNAMENT_GAMES_SUCCESS = 'API_REQUEST_TOURNAMENT_GAMES_SUCCESS';
 export const REQUEST_TOURNAMENT_GAMES_FAILURE = 'API_REQUEST_TOURNAMENT_GAMES_FAILURE';
@@ -68,6 +71,18 @@ export const postTournamentGameFailure = (payload: any): HttpAction<ActionTypes>
 	payload,
 });
 
+export const requestTournamentGame = (tournamentId: string) => (id: string): HttpAction<ActionTypes> => ({ type: REQUEST_TOURNAMENT_GAMES, payload: { url: `${tournamentGamesAPI(tournamentId)}/${id}` } });
+
+export const requestTournamentGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
+	type: REQUEST_TOURNAMENT_GAMES_SUCCESS,
+	payload,
+});
+
+export const requestTournamentGameFailure = (payload: any): HttpAction<ActionTypes> => ({
+	type: REQUEST_TOURNAMENT_GAMES_FAILURE,
+	payload,
+});
+
 export const requestTournamentGames = (tournamentId: string) => (): HttpAction<ActionTypes> => ({ type: REQUEST_TOURNAMENT_GAMES, payload: { url: `${tournamentGamesAPI(tournamentId)}` } });
 
 export const requestTournamentGamesSuccess = (payload: any): HttpAction<ActionTypes> => ({
@@ -87,6 +102,9 @@ export type ActionTypes =
 	typeof POST_TOURNAMENT_GAME |
 	typeof POST_TOURNAMENT_GAME_FAILURE |
 	typeof POST_TOURNAMENT_GAME_SUCCESS |
+	typeof REQUEST_TOURNAMENT_GAME |
+	typeof REQUEST_TOURNAMENT_GAME_FAILURE |
+	typeof REQUEST_TOURNAMENT_GAME_SUCCESS |
 	typeof REQUEST_TOURNAMENT_GAMES |
 	typeof REQUEST_TOURNAMENT_GAMES_FAILURE |
 	typeof REQUEST_TOURNAMENT_GAMES_SUCCESS;
