@@ -1,5 +1,6 @@
 import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from "../Shared/store/helpers";
 import { HttpAction } from "../Shared/store/interfaces";
+import { REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS } from "../Tournaments/Games/actions";
 import { ActionTypes, DELETE_GAME, DELETE_GAME_FAILURE, DELETE_GAME_SUCCESS, POST_GAME, POST_GAME_FAILURE, POST_GAME_SUCCESS } from "./actions";
 import { GameState, initialState } from "./state";
 
@@ -13,7 +14,18 @@ const mapGame = (apiData: any) => ({
 	location: apiData.location,
 });
 
+const mapTournamentGame = (apiData: any) => ({
+	awayScore: apiData.game.away_score,
+	awayTeamName: apiData.game.away_team_name,
+	datetime: apiData.game.datetime,
+	homeScore: apiData.game.home_score,
+	homeTeamName: apiData.game.home_team_name,
+	location: apiData.game.location,
+});
+
+
 const gameMapEntities = mapEntities(returnProperty('id'), mapGame);
+const tournamentGameMapEntities = mapEntities(returnProperty('id'), mapTournamentGame);
 
 export const deleteGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
 	...state,
@@ -52,6 +64,22 @@ export const postGameSuccess = (state: GameState, action: HttpAction<ActionTypes
 	games: [action.payload.data].reduce(gameMapEntities, state.games),
 });
 
+export const requestTournamentGames = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGames: true,
+});
+
+export const requestTournamentGamesFailure = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGames: false,
+});
+
+export const requestTournamentGamesSuccess = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingRequestTournamentGames: false,
+	games: action.payload.data.reduce(tournamentGameMapEntities, {}),
+});
+
 export default createReducer(initialState, {
 	[DELETE_GAME]: deleteGame,
 	[DELETE_GAME_FAILURE]: deleteGameFailure,
@@ -59,4 +87,7 @@ export default createReducer(initialState, {
 	[POST_GAME]: postGame,
 	[POST_GAME_FAILURE]: postGameFailure,
 	[POST_GAME_SUCCESS]: postGameSuccess,
+	[REQUEST_TOURNAMENT_GAMES]: requestTournamentGames,
+	[REQUEST_TOURNAMENT_GAMES_FAILURE]: requestTournamentGamesFailure,
+	[REQUEST_TOURNAMENT_GAMES_SUCCESS]: requestTournamentGamesSuccess,
 });

@@ -1,4 +1,5 @@
 import { HttpAction } from "../Shared/store/interfaces";
+import { REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS } from "../Tournaments/Games/actions";
 import { GameEntity } from "./state";
 
 export const DELETE_GAME = 'API_DELETE_GAME';
@@ -65,5 +66,8 @@ export type ActionTypes =
 	typeof DELETE_GAME_SUCCESS |
 	typeof POST_GAME |
 	typeof POST_GAME_FAILURE |
-	typeof POST_GAME_SUCCESS;
+	typeof POST_GAME_SUCCESS |
+	typeof REQUEST_TOURNAMENT_GAMES |
+	typeof REQUEST_TOURNAMENT_GAMES_FAILURE |
+	typeof REQUEST_TOURNAMENT_GAMES_SUCCESS;
 export type Actions = HttpAction<ActionTypes>; 	
