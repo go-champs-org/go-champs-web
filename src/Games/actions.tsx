@@ -5,6 +5,9 @@ import { GameEntity } from "./state";
 export const DELETE_GAME = 'API_DELETE_GAME';
 export const DELETE_GAME_SUCCESS = 'API_DELETE_GAME_SUCCESS';
 export const DELETE_GAME_FAILURE = 'API_DELETE_GAME_FAILURE';
+export const PATCH_GAME = 'API_PATCH_GAME';
+export const PATCH_GAME_SUCCESS = 'API_PATCH_GAME_SUCCESS';
+export const PATCH_GAME_FAILURE = 'API_PATCH_GAME_FAILURE';
 export const POST_GAME = 'API_POST_GAME';
 export const POST_GAME_SUCCESS = 'API_POST_GAME_SUCCESS';
 export const POST_GAME_FAILURE = 'API_POST_GAME_FAILURE';
@@ -26,6 +29,37 @@ export const deleteGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
 
 export const deleteGameFailure = (payload: any): HttpAction<ActionTypes> => ({
 	type: DELETE_GAME_FAILURE,
+	payload,
+});
+
+export const patchGame = (game: GameEntity): HttpAction<ActionTypes> => ({
+	type: PATCH_GAME, payload: {
+		url: `${GAME_API}/${game.id}`, requestConfig: {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				game: {
+					away_score: game.awayScore,
+					away_team_name: game.awayTeamName,
+					datetime: game.datetime,
+					home_score: game.homeScore,
+					home_team_name: game.homeTeamName,
+					location: game.location,
+				}
+			})
+		}
+	}
+});
+
+export const patchGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
+	type: PATCH_GAME_SUCCESS,
+	payload,
+});
+
+export const patchGameFailure = (payload: any): HttpAction<ActionTypes> => ({
+	type: PATCH_GAME_FAILURE,
 	payload,
 });
 
@@ -64,6 +98,9 @@ export type ActionTypes =
 	typeof DELETE_GAME |
 	typeof DELETE_GAME_FAILURE |
 	typeof DELETE_GAME_SUCCESS |
+	typeof PATCH_GAME |
+	typeof PATCH_GAME_FAILURE |
+	typeof PATCH_GAME_SUCCESS |
 	typeof POST_GAME |
 	typeof POST_GAME_FAILURE |
 	typeof POST_GAME_SUCCESS |

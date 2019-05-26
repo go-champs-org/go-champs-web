@@ -15,6 +15,7 @@ const mapGame = (apiData: any) => ({
 });
 
 const mapTournamentGame = (apiData: any) => ({
+	id: apiData.game.id,
 	awayScore: apiData.game.away_score,
 	awayTeamName: apiData.game.away_team_name,
 	datetime: apiData.game.datetime,
@@ -23,9 +24,12 @@ const mapTournamentGame = (apiData: any) => ({
 	location: apiData.game.location,
 });
 
+const returnTournamentGameId = (apiData: any) => (
+	apiData.game.id
+);
 
 const gameMapEntities = mapEntities(returnProperty('id'), mapGame);
-const tournamentGameMapEntities = mapEntities(returnProperty('id'), mapTournamentGame);
+const tournamentGameMapEntities = mapEntities(returnTournamentGameId, mapTournamentGame);
 
 export const deleteGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
 	...state,
@@ -47,6 +51,22 @@ export const deleteGameSuccess = (state: GameState, action: HttpAction<ActionTyp
 		games,
 	}
 };
+
+export const patchGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchGame: true,
+});
+
+export const patchGameFailure = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchGame: false,
+});
+
+export const patchGameSuccess = (state: GameState, action: HttpAction<ActionTypes>) => ({
+	...state,
+	isLoadingPatchGame: false,
+	games: [action.payload.data].reduce(gameMapEntities, state.games),
+});
 
 export const postGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
 	...state,
