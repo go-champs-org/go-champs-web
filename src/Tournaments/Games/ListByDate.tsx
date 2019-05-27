@@ -14,9 +14,9 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 	return (
 		<div className="card">
 			<div className="card-content">
-				<div className="columns is-multiline">
+				<div className="columns is-multiline is-mobile">
 					<div className="column is-12 is-size-7 has-text-weight-bold">
-						<div className="columns">
+						<div className="columns is-mobile">
 							<div className="column is-8" style={{ padding: '.3rem' }}>
 								{timeFromDate(game.datetime)}
 							</div>
@@ -26,7 +26,7 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 						</div>
 					</div>
 					<div className="column is-12">
-						<div className="columns">
+						<div className="columns is-mobile">
 							<div className="column is-8" style={{ padding: '.3rem' }}>
 								{game.awayTeamName}
 							</div>
@@ -36,7 +36,7 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 						</div>
 					</div>
 					<div className="column is-12">
-						<div className="columns">
+						<div className="columns is-mobile">
 							<div className="column is-8" style={{ padding: '.3rem' }}>
 								{game.homeTeamName}
 							</div>
@@ -105,7 +105,7 @@ class ListByDate extends React.Component<ListByDateProps> {
 
 		return (
 			<div>
-				<nav className="columns">
+				<nav className="columns is-mobile">
 					<div className="column is-2">
 						<button disabled={!previousDate} className="button" onClick={this.handleDecrementSelectedDatePosition}>
 							<span className="icon is-small">
