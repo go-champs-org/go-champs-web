@@ -51,10 +51,15 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 	);
 }
 
+const byGameDate = (games: { [key: string]: GameEntity }) => (keyA: string, keyB: string) => (
+	games[keyA].datetime.localeCompare(games[keyB].datetime)
+);
+
 const List: React.FC<{ games: { [key: string]: GameEntity } }> = ({ games }) => {
+	const byGameDateCompare = byGameDate(games);
 	return (
 		<div>
-			{Object.keys(games).map((key: string) => <MiniGameCard key={key} game={games[key]} />)}
+			{Object.keys(games).sort(byGameDateCompare).map((key: string) => <MiniGameCard key={key} game={games[key]} />)}
 		</div>
 	);
 };
