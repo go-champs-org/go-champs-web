@@ -15,14 +15,13 @@ import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
 import TournamentTeamEdit from './Pages/TournamentTeamEdit';
 import TournamentTeamNew from './Pages/TournamentTeamNew';
-import NavBar from './Shared/NavBar';
 import store from './store';
 
 const App: React.FC = () => {
 	return (
 		<Provider store={store}>
 			<Router>
-				<NavBar />
+				{/* <NavBar /> */}
 				<section className="section">
 					<div className="container">
 						<Switch>

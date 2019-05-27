@@ -19,7 +19,7 @@ const Home: React.FC<HomeProps> = ({ tournamentState, tournamentGameState, tourn
 	return (
 		<div className="columns is-multiline">
 			<header className="column is-12">
-				<h1>
+				<h1 className="title">
 					{tournament.name}
 				</h1>
 			</header>

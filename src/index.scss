@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 // Import a Google Font
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
 
 // Set your brand colors
 $purple: #8A4D76;
@@ -9,15 +9,16 @@ $pink: #FA7C91;
 $brown: #757763;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
-$dark: #1a2531;
+$dark: #181810;
+$dark-light: #343434;
 
 // Update Bulma's global variables
-$family-sans-serif: "Roboto", sans-serif;
+$family-sans-serif: 'Fira Sans', sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
 $link: $pink;
-$widescreen-enabled: false;
+$widescreen-enabled: true;
 $fullhd-enabled: false;
 
 // Update some of Bulma's component variables
@@ -27,9 +28,20 @@ $input-border-color: transparent;
 $input-shadow: none;
 
 // Custom values
-$title-color: hsl(204, 86%, 53%);
-$table-background-color: #6f90b8;
-$text: hsl(0, 0%, 96%);
+$title-color: #e3c4a8;
+$subtitle-color: #f3f3f3;
+$text: #f6f5f5;
+
+// Custom table values
+$table-background-color: transparent;
+$table-color: $text;
+$table-head-cell-color: $title-color;
+$table-row-hover-background-color: $dark-light;
+
+
+// Custom card values
+$card-background-color: $dark-light;
+$card-shadow: 0 2px 3px rgba($beige-light, 0.1), 0 0 0 1px rgba($beige-light, 0.1);
 
 // Import only what you need from Bulma
 @import "../node_modules/bulma/sass/utilities/_all.sass";

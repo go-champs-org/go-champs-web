@@ -2,15 +2,51 @@ import React from 'react';
 import { GameEntity } from '../../Games/state';
 import { TournamentGameState } from "./state";
 
+const timeFromDate = (date: string) => (
+	date.substring(11, 16)
+);
+
+const dateFromDate = (date: string) => (
+	`${date.substring(8, 10)}/${date.substring(5, 7)}/${date.substring(0, 4)}`
+);
+
 const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 	return (
-		<div>
-			{game.awayTeamName}: {game.awayScore}
-			<br />
-			x
-			{game.homeTeamName}: {game.homeScore}
-			<br />
-			{game.location}
+		<div className="card">
+			<div className="card-content">
+				<div className="columns is-multiline">
+					<div className="column is-12 is-size-7 has-text-weight-bold">
+						<div className="columns">
+							<div className="column is-8" style={{ padding: '.3rem' }}>
+								{timeFromDate(game.datetime)}
+							</div>
+							<div className="column is-4 has-text-right" style={{ padding: '.3rem' }}>
+								{game.location}
+							</div>
+						</div>
+					</div>
+					<div className="column is-12">
+						<div className="columns">
+							<div className="column is-8" style={{ padding: '.3rem' }}>
+								{game.awayTeamName}
+							</div>
+							<div className="column is-4 has-text-right" style={{ padding: '.3rem' }}>
+								{game.awayScore}
+							</div>
+						</div>
+					</div>
+					<div className="column is-12">
+						<div className="columns">
+							<div className="column is-8" style={{ padding: '.3rem' }}>
+								{game.homeTeamName}
+							</div>
+							<div className="column is-4 has-text-right" style={{ padding: '.3rem' }}>
+								{game.homeScore}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
@@ -64,10 +100,26 @@ class ListByDate extends React.Component<ListByDateProps> {
 
 		return (
 			<div>
-				<nav>
-					<button disabled={!previousDate} onClick={this.handleDecrementSelectedDatePosition}>Previuos</button>
-					{selectedDate}
-					<button disabled={!nextDate} onClick={this.handleIncrementSelectedDatePosition}>Next</button>
+				<nav className="columns">
+					<div className="column is-2">
+						<button disabled={!previousDate} className="button" onClick={this.handleDecrementSelectedDatePosition}>
+							<span className="icon is-small">
+								<i className="fas fa-chevron-left"></i>
+							</span>
+						</button>
+					</div>
+
+					<div className="column has-text-centered">
+						{dateFromDate(selectedDate)}
+					</div>
+
+					<div className="column is-2 has-text-right">
+						<button disabled={!nextDate} className="button" onClick={this.handleIncrementSelectedDatePosition}>
+							<span className="icon is-small">
+								<i className="fas fa-chevron-right"></i>
+							</span>
+						</button>
+					</div>
 				</nav>
 				<List games={tournamentGamesByDate[selectedDate]} />
 			</div>
@@ -111,7 +163,13 @@ const Wrapper: React.FC<{ tournamentGameState: TournamentGameState }> = ({ tourn
 	const closerAvailableDatePosition = findCloserAvailableDatePosition(currentDate, Object.keys(tournamentGameState.tournamentGamesByDate));
 
 	return (
-		<ListByDate tournamentGameState={tournamentGameState} initialDatePosition={closerAvailableDatePosition!} />
+		<div>
+			<h2 className="subtitle">
+				Games
+			</h2>
+			<ListByDate tournamentGameState={tournamentGameState} initialDatePosition={closerAvailableDatePosition!} />
+		</div>
+
 	);
 };
 
