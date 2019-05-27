@@ -3,6 +3,7 @@ import ListByDate from './Games/ListByDate';
 import { TournamentGameState } from './Games/state';
 import { TournamentGroupState } from './Groups/state';
 import { TournamentState } from './state';
+import Standings from './Teams/Standings';
 import { TournamentTeamState } from './Teams/state';
 
 interface HomeProps {
@@ -23,7 +24,7 @@ const Home: React.FC<HomeProps> = ({ tournamentState, tournamentGameState, tourn
 				</h1>
 			</header>
 			<div className="column is-8">
-				Tournament teams
+				<Standings teams={tournamentTeamState.tournamentTeams} />
 			</div>
 			<aside className="column is-4">
 				<ListByDate tournamentGameState={tournamentGameState} />
