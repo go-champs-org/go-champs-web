@@ -11,6 +11,9 @@ export interface TournamentGameState {
 	isLoadingRequestTournamentGame: boolean;
 	isLoadingRequestTournamentGames: boolean;
 	tournamentGames: { [key: string]: TournamentGameEntity; };
+	tournamentGamesByDate: {
+		[key: string]: { [key: string]: GameEntity; };
+	};
 }
 
 export const initialState: TournamentGameState = {
@@ -19,4 +22,5 @@ export const initialState: TournamentGameState = {
 	isLoadingRequestTournamentGame: false,
 	isLoadingRequestTournamentGames: false,
 	tournamentGames: {},
+	tournamentGamesByDate: {},
 }

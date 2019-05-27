@@ -18,6 +18,42 @@ const mapTournamentGame = (apiData: any) => ({
 
 const tournamentGameMapEntities = mapEntities(returnProperty('id'), mapTournamentGame);
 
+const returnDateId = (apiData: any) => (
+	apiData.game.datetime.substring(0, 10)
+);
+
+const mapTournamentGameToDateEntity = (apiData: any) => ({
+	[apiData.id]: {
+		id: apiData.game.id,
+		awayScore: apiData.game.away_score,
+		awayTeamName: apiData.game.away_team_name,
+		datetime: apiData.game.datetime,
+		homeScore: apiData.game.home_score,
+		homeTeamName: apiData.game.home_team_name,
+		location: apiData.game.location,
+	},
+});
+
+const tournamentGameMapToDateEntity = mapEntities(returnDateId, mapTournamentGameToDateEntity);
+
+const removeTournamentGameByDate = (state: TournamentGameState, tournamentGameId: string) => {
+	const dateKey = returnDateId(state.tournamentGames[tournamentGameId]);
+
+	if (state.tournamentGamesByDate[dateKey] && Object.keys(state.tournamentGamesByDate[dateKey]).length > 1) {
+		const newTournamentGamesDate = Object.keys(state.tournamentGamesByDate[dateKey])
+			.filter((key: string) => key !== tournamentGameId)
+			.reduce(mapEntitiesByKey(state.tournamentGamesByDate[dateKey]), {});
+		return {
+			...state.tournamentGamesByDate,
+			[dateKey]: newTournamentGamesDate,
+		};
+	}
+
+	return Object.keys(state.tournamentGamesByDate)
+		.filter((key: string) => key !== dateKey)
+		.reduce(mapEntitiesByKey(state.tournamentGamesByDate), {});
+};
+
 export const deleteTournamentGame = (state: TournamentGameState, action: HttpAction<ActionTypes>) => ({
 	...state,
 	isLoadingDeleteTournamentGame: true,
@@ -36,6 +72,7 @@ export const deleteTournamentGameSuccess = (state: TournamentGameState, action: 
 		...state,
 		isLoadingDeleteTournamentGame: false,
 		tournamentGames,
+		tournamentGamesByDate: removeTournamentGameByDate(state, action.payload),
 	}
 };
 
@@ -85,6 +122,7 @@ export const requestTournamentGamesSuccess = (state: TournamentGameState, action
 	...state,
 	isLoadingRequestTournamentGames: false,
 	tournamentGames: action.payload.data.reduce(tournamentGameMapEntities, {}),
+	tournamentGamesByDate: action.payload.data.reduce(tournamentGameMapToDateEntity, {})
 });
 
 export default createReducer(initialState, {

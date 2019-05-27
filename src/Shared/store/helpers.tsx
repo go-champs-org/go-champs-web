@@ -4,7 +4,10 @@ export const mapEntities = (keyFunction: (obj: { [key: string]: any }) => any, m
 	const key = keyFunction(apiData);
 	return {
 		...entitiesMap,
-		[key]: mapEntity(apiData),
+		[key]: {
+			...entitiesMap[key],
+			...mapEntity(apiData),
+		}
 	};
 };
 

@@ -40,7 +40,29 @@ describe('deleteTournamentGameSuccess', () => {
 		tournamentGames: {
 			['first-id']: {
 				id: 'first-id',
+				game: {
+					id: 'first-game-id',
+					awayScore: 10,
+					awayTeamName: 'first away team name',
+					datetime: '2019-05-22T03:21:21.248Z',
+					homeScore: 20,
+					homeTeamName: 'first home team name',
+					location: 'first location',
+				},
 			}
+		},
+		tournamentGamesByDate: {
+			['2019-05-22']: {
+				['first-id']: {
+					id: 'first-game-id',
+					awayScore: 10,
+					awayTeamName: 'first away team name',
+					datetime: '2019-05-22T03:21:21.248Z',
+					homeScore: 20,
+					homeTeamName: 'first home team name',
+					location: 'first location',
+				}
+			},
 		}
 	}
 
@@ -69,6 +91,53 @@ describe('deleteTournamentGameSuccess', () => {
 
 		expect(newState.tournamentGames['some-id']).toEqual({
 			id: 'some-id',
+		});
+	});
+
+	it('remove entity by date', () => {
+		const newState = deleteTournamentGameSuccess(deleteState, action);
+
+		expect(newState.tournamentGamesByDate['2019-05-22']).toBeUndefined();
+	});
+
+	it('remove entity by date keeping object in the same date', () => {
+		const deleteStateWithMultipleEntitiesInSameDate = {
+			...deleteState,
+			tournamentGamesByDate: {
+				['2019-05-22']: {
+					['first-id']: {
+						id: 'first-game-id',
+						awayScore: 10,
+						awayTeamName: 'first away team name',
+						datetime: '2019-05-22T03:21:21.248Z',
+						homeScore: 20,
+						homeTeamName: 'first home team name',
+						location: 'first location',
+					},
+					['second-id']: {
+						id: 'second-game-id',
+						awayScore: 30,
+						awayTeamName: 'second away team name',
+						datetime: '2019-05-22T05:21:21.248Z',
+						homeScore: 40,
+						homeTeamName: 'second home team name',
+						location: 'second location',
+					},
+				},
+			},
+		};
+
+		const newState = deleteTournamentGameSuccess(deleteStateWithMultipleEntitiesInSameDate, action);
+
+		expect(newState.tournamentGamesByDate['2019-05-22']['first-id']).toBeUndefined();
+		expect(newState.tournamentGamesByDate['2019-05-22']['second-id']).toEqual({
+			id: 'second-game-id',
+			awayScore: 30,
+			awayTeamName: 'second away team name',
+			datetime: '2019-05-22T05:21:21.248Z',
+			homeScore: 40,
+			homeTeamName: 'second home team name',
+			location: 'second location',
 		});
 	});
 });
@@ -257,6 +326,7 @@ describe('requestTournamentGamesSuccess', () => {
 					{
 						id: 'first-id',
 						game: {
+							id: 'first-game-id',
 							away_score: 10,
 							away_team_name: 'first away team name',
 							datetime: '2019-05-22T03:21:21.248Z',
@@ -268,6 +338,7 @@ describe('requestTournamentGamesSuccess', () => {
 					{
 						id: 'second-id',
 						game: {
+							id: 'second-game-id',
 							away_score: 30,
 							away_team_name: 'second away team name',
 							datetime: '2019-05-22T03:21:21.248Z',
@@ -290,6 +361,7 @@ describe('requestTournamentGamesSuccess', () => {
 		expect(newState.tournamentGames['first-id']).toEqual({
 			id: 'first-id',
 			game: {
+				id: 'first-game-id',
 				awayScore: 10,
 				awayTeamName: 'first away team name',
 				datetime: '2019-05-22T03:21:21.248Z',
@@ -301,6 +373,32 @@ describe('requestTournamentGamesSuccess', () => {
 		expect(newState.tournamentGames['second-id']).toEqual({
 			id: 'second-id',
 			game: {
+				id: 'second-game-id',
+				awayScore: 30,
+				awayTeamName: 'second away team name',
+				datetime: '2019-05-22T03:21:21.248Z',
+				homeScore: 40,
+				homeTeamName: 'second home team name',
+				location: 'second location',
+			},
+		});
+	});
+
+	it('sets entities by date', () => {
+		const newState = (requestTournamentGamesSuccess(initialState, action));
+
+		expect(newState.tournamentGamesByDate['2019-05-22']).toEqual({
+			['first-id']: {
+				id: 'first-game-id',
+				awayScore: 10,
+				awayTeamName: 'first away team name',
+				datetime: '2019-05-22T03:21:21.248Z',
+				homeScore: 20,
+				homeTeamName: 'first home team name',
+				location: 'first location',
+			},
+			['second-id']: {
+				id: 'second-game-id',
 				awayScore: 30,
 				awayTeamName: 'second away team name',
 				datetime: '2019-05-22T03:21:21.248Z',
