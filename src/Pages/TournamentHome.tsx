@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { requestTournament } from "../Tournaments/actions";
 import { deleteTournamentGame, requestTournamentGames } from "../Tournaments/Games/actions";
-import { default as TournamentGameList } from "../Tournaments/Games/List";
+import { default as TournamentGameListByDate } from "../Tournaments/Games/ListByDate";
 import { TournamentGameState } from "../Tournaments/Games/state";
 import { deleteTournamentGroup } from "../Tournaments/Groups/actions";
 import { default as TournamentGroupList } from "../Tournaments/Groups/List";
@@ -51,8 +51,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 				<TournamentGroupList tournamentGroupState={this.props.tournamentGroupState} deleteTournamentGroup={this.props.deleteTournamentGroup} url={this.props.match.url} />
 				<br />
 				<h1>Games</h1>
-				<TournamentGameList tournamentGameState={this.props.tournamentGameState}
-					deleteTournamentGame={this.props.deleteTournamentGame} url={this.props.match.url} />
+				<TournamentGameListByDate tournamentGameState={this.props.tournamentGameState} />
 			</div>
 		)
 	}
