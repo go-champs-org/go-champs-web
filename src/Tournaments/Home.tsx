@@ -8,7 +8,7 @@ import { TournamentEntity, TournamentState } from './state';
 import Standings from './Teams/Standings';
 import { TournamentTeamState } from './Teams/state';
 
-const NavBar: React.FC<{ tournament: TournamentEntity }> = ({ tournament }) => (
+const NavBar: React.FC<{ tournament: TournamentEntity, url: string }> = ({ tournament, url }) => (
 	<nav className="level">
 		<div className="level-left">
 			<div className="level-item">
@@ -24,17 +24,17 @@ const NavBar: React.FC<{ tournament: TournamentEntity }> = ({ tournament }) => (
 			<p className="level-item">
 				<Dropdown label="Manage" className="is-right">
 					<DropdownItem>
-						<Link to={''}>Settings</Link>
+						<Link to={`${url}/TournamentEdit`}>Settings</Link>
 					</DropdownItem>
 					<DropdownDivider />
 					<DropdownItem>
-						<Link to={''}>Games</Link>
+						<Link to={`${url}/TournamentGameList`}>Games</Link>
 					</DropdownItem>
 					<DropdownItem>
-						<Link to={''}>Groups</Link>
+						<Link to={`${url}/TournamentGroupList`}>Groups</Link>
 					</DropdownItem>
 					<DropdownItem>
-						<Link to={''}>Teams</Link>
+						<Link to={`${url}/TournamentTeamList`}>Teams</Link>
 					</DropdownItem>
 				</Dropdown>
 			</p>
@@ -48,14 +48,15 @@ interface HomeProps {
 	tournamentGameState: TournamentGameState;
 	tournamentGroupState: TournamentGroupState;
 	tournamentTeamState: TournamentTeamState;
+	url: string;
 };
 
-const Home: React.FC<HomeProps> = ({ tournamentState, tournamentGameState, tournamentGroupState, tournamentTeamState, currentTournamentSlug }) => {
+const Home: React.FC<HomeProps> = ({ tournamentState, tournamentGameState, tournamentGroupState, tournamentTeamState, currentTournamentSlug, url }) => {
 	const tournament = tournamentState.tournaments[currentTournamentSlug];
 	return (
 		<div className="columns is-multiline">
 			<header className="column is-12">
-				<NavBar tournament={tournament} />
+				<NavBar tournament={tournament} url={url} />
 			</header>
 			<div className="column is-8">
 				<Standings teams={tournamentTeamState.tournamentTeams} />

@@ -58,7 +58,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 			tournamentTeamState,
 		} = this.props;
 		return (
-			<Home currentTournamentSlug={match.params.tournamentSlug} tournamentState={tournamentState} tournamentGameState={tournamentGameState} tournamentGroupState={tournamentGroupState} tournamentTeamState={tournamentTeamState} />
+			<Home currentTournamentSlug={match.params.tournamentSlug} tournamentState={tournamentState} tournamentGameState={tournamentGameState} tournamentGroupState={tournamentGroupState} tournamentTeamState={tournamentTeamState} url={match.url} />
 		)
 	}
 
