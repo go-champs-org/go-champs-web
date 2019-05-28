@@ -11,6 +11,7 @@ import TournamentGameEdit from './Pages/TournamentGameEdit';
 import TournamentGameList from './Pages/TournamentGameList';
 import TournamentGameNew from './Pages/TournamentGameNew';
 import TournamentGroupEdit from './Pages/TournamentGroupEdit';
+import TournamentGroupList from './Pages/TournamentGroupList';
 import TournamentGroupNew from './Pages/TournamentGroupNew';
 import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
@@ -36,6 +37,7 @@ const App: React.FC = () => {
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentTeamEdit/:tournamentTeamId" component={TournamentTeamEdit} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentTeamNew" component={TournamentTeamNew} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGroupEdit/:tournamentGroupId" component={TournamentGroupEdit} />
+							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGroupList" component={TournamentGroupList} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGroupNew" component={TournamentGroupNew} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGameList" component={TournamentGameList} />
 							<Route exact sensitive path="/:organizationSlug/:tournamentSlug/TournamentGameNew" component={TournamentGameNew} />
