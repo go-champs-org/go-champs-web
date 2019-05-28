@@ -24,7 +24,7 @@ interface TournamentHomeProps extends RouteComponentProps<TournamentHomeMatchPro
 	tournamentTeamState: TournamentTeamState,
 	requestTournament: any,
 	requestTournamentGames: any,
-}
+};
 
 {/* <div>
 <Link to={`${this.props.match.url}/TournamentTeamNew`}>New team</Link>
@@ -58,7 +58,14 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 			tournamentTeamState,
 		} = this.props;
 		return (
-			<Home currentTournamentSlug={match.params.tournamentSlug} tournamentState={tournamentState} tournamentGameState={tournamentGameState} tournamentGroupState={tournamentGroupState} tournamentTeamState={tournamentTeamState} url={match.url} />
+			<Home
+				currentOrganizationSlug={match.params.organizationSlug}
+				currentTournamentSlug={match.params.tournamentSlug}
+				tournamentState={tournamentState}
+				tournamentGameState={tournamentGameState}
+				tournamentGroupState={tournamentGroupState}
+				tournamentTeamState={tournamentTeamState}
+				url={match.url} />
 		)
 	}
 
