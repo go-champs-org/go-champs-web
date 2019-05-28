@@ -25,8 +25,7 @@ const Home: React.FC<HomeProps> = ({ currentOrganizationSlug, currentTournamentS
 				<NavBar
 					organizationSlug={currentOrganizationSlug}
 					tournament={tournament}
-					tournamentSlug={currentTournamentSlug}
-					url={url} />
+					tournamentSlug={currentTournamentSlug} />
 			</header>
 			<div className="column is-8">
 				<Standings teams={tournamentTeamState.tournamentTeams} />

@@ -29,7 +29,13 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
 		} = this.props;
 
 		return (
-			<List url={match.url} deleteTournamentGame={deleteTournamentGame} tournamentGameState={tournamentGameState} />
+			<List
+				currentOrganizationSlug={match.params.organizationSlug}
+				currentTournamentSlug={match.params.tournamentSlug}
+				deleteTournamentGame={deleteTournamentGame}
+				tournamentState={tournamentState}
+				tournamentGameState={tournamentGameState}
+				url={match.url} />
 		)
 	}
 

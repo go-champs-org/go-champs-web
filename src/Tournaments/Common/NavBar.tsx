@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Dropdown, { DropdownDivider, DropdownItem } from '../../Shared/UI/Dropdown';
 import { TournamentEntity } from '../state';
 
-const NavBar: React.FC<{ organizationSlug: string, tournament: TournamentEntity, tournamentSlug: string, url: string }> = ({ organizationSlug, tournament, tournamentSlug, url }) => (
+const NavBar: React.FC<{ organizationSlug: string, tournament: TournamentEntity, tournamentSlug: string }> = ({ organizationSlug, tournament, tournamentSlug }) => (
 	<nav className="level">
 		<div className="level-left">
 			<div className="level-item">
@@ -19,17 +19,17 @@ const NavBar: React.FC<{ organizationSlug: string, tournament: TournamentEntity,
 			<p className="level-item">
 				<Dropdown label="Manage" className="is-right">
 					<DropdownItem>
-						<Link to={`${url}/TournamentEdit`}>Settings</Link>
+						<Link to={`/${organizationSlug}/${tournamentSlug}/TournamentEdit`}>Settings</Link>
 					</DropdownItem>
 					<DropdownDivider />
 					<DropdownItem>
-						<Link to={`${url}/TournamentGameList`}>Games</Link>
+						<Link to={`/${organizationSlug}/${tournamentSlug}/TournamentGameList`}>Games</Link>
 					</DropdownItem>
 					<DropdownItem>
-						<Link to={`${url}/TournamentGroupList`}>Groups</Link>
+						<Link to={`/${organizationSlug}/${tournamentSlug}/TournamentGroupList`}>Groups</Link>
 					</DropdownItem>
 					<DropdownItem>
-						<Link to={`${url}/TournamentTeamList`}>Teams</Link>
+						<Link to={`/${organizationSlug}/${tournamentSlug}/TournamentTeamList`}>Teams</Link>
 					</DropdownItem>
 				</Dropdown>
 			</p>

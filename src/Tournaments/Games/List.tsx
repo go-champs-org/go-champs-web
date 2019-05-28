@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import NavBar from '../Common/NavBar';
+import { TournamentState } from '../state';
 import { TournamentGameEntity, TournamentGameState } from "./state";
 
 const TournamentGameCard: React.FC<{ onDeleteTournamentGame: any, url: string, tournamentGame: TournamentGameEntity }> = ({ onDeleteTournamentGame, url, tournamentGame }) => (
@@ -26,17 +28,43 @@ const TournamentGameCard: React.FC<{ onDeleteTournamentGame: any, url: string, t
 	</div>
 );
 
+const List: React.FC<{ deleteTournamentGame: any, currentOrganizationSlug: string, currentTournamentSlug: string, tournamentState: TournamentState, tournamentGameState: TournamentGameState, url: string }> = ({ currentOrganizationSlug, currentTournamentSlug, deleteTournamentGame, tournamentState, tournamentGameState, url }) => {
+	const tournament = tournamentState.tournaments[currentTournamentSlug];
+	const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+	return (
+		<div className="columns is-multiline">
+			<header className="column is-12">
+				<NavBar
+					organizationSlug={currentOrganizationSlug}
+					tournament={tournament}
+					tournamentSlug={currentTournamentSlug} />
+			</header>
+			<div className="column is-12">
+				<h2 className="subtitle">
+					Games
+				</h2>
+				{Object.keys(tournamentGameState.tournamentGames).map((key: string) => <TournamentGameCard key={key} url={baseTournamentUrl} tournamentGame={tournamentGameState.tournamentGames[key]} onDeleteTournamentGame={deleteTournamentGame} />)}
+			</div>
+		</div>
+	);
+};
+
 const Loading: React.FC = () => (
 	<div>Loading...</div>
 )
 
-export const List: React.FC<{ deleteTournamentGame: any, url: string, tournamentGameState: TournamentGameState, }> = ({ deleteTournamentGame, url, tournamentGameState }) => (
-	<div>
-		{tournamentGameState.isLoadingRequestTournamentGames ?
-			<Loading /> :
-			Object.keys(tournamentGameState.tournamentGames).map((key: string) => <TournamentGameCard key={key} url={url} tournamentGame={tournamentGameState.tournamentGames[key]} onDeleteTournamentGame={deleteTournamentGame} />)
-		}
-	</div>
-);
+export const Wrapper: React.FC<{ deleteTournamentGame: any, currentOrganizationSlug: string, currentTournamentSlug: string, tournamentState: TournamentState, tournamentGameState: TournamentGameState, url: string }> = ({ currentOrganizationSlug, currentTournamentSlug, deleteTournamentGame, tournamentState, tournamentGameState, url }) => {
+	if (tournamentGameState.isLoadingRequestTournamentGames) {
+		return <Loading />
+	}
 
-export default List;
+	return <List
+		currentOrganizationSlug={currentOrganizationSlug}
+		currentTournamentSlug={currentTournamentSlug}
+		deleteTournamentGame={deleteTournamentGame}
+		tournamentState={tournamentState}
+		tournamentGameState={tournamentGameState}
+		url={url} />;
+};
+
+export default Wrapper;
