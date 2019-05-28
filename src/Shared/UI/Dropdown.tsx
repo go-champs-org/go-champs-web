@@ -7,9 +7,9 @@ export const DropdownDivider: React.FC = () => (
 );
 
 export const DropdownItem: React.FC<{ children: ReactNode }> = ({ children }) => (
-	<div className="dropdown-item">
+	<a className="dropdown-item">
 		{children}
-	</div>
+	</a>
 );
 
 interface DropdownProps {
@@ -42,14 +42,14 @@ class Dropdown extends React.Component<DropdownProps> {
 		return (
 			<div className={dropdownClasses} ref={this.domRef}>
 				<div className="dropdown-trigger">
-					<button className="button" aria-haspopup="true" aria-controls="dropdown-menu6" onClick={this.toogleIsActive}>
+					<button className="button" aria-haspopup="true" onClick={this.toogleIsActive}>
 						<span>{this.props.label}</span>
 						<span className="icon is-small">
 							<i className="fas fa-angle-down" aria-hidden="true"></i>
 						</span>
 					</button>
 				</div>
-				<div className="dropdown-menu" id="dropdown-menu6" role="menu">
+				<div className="dropdown-menu" role="menu">
 					<div className="dropdown-content">
 						{this.props.children}
 					</div>

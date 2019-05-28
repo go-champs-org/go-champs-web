@@ -11,13 +11,15 @@ $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
 $dark: #181810;
 $dark-light: #343434;
+$orange-light: #e3c4a8;
 
 // Update Bulma's global variables
 $family-sans-serif: 'Fira Sans', sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
-$link: $pink;
+$link: $beige-lighter;
+$link-hover: $orange-light;
 $widescreen-enabled: true;
 $fullhd-enabled: false;
 
@@ -29,7 +31,7 @@ $input-shadow: none;
 
 // Custom values
 $title-color: #f3f3f3;
-$subtitle-color: #e3c4a8;
+$subtitle-color: $orange-light;
 $text: #f6f5f5;
 
 // Custom table values
@@ -42,6 +44,10 @@ $table-row-hover-background-color: $dark-light;
 // Custom card values
 $card-background-color: $dark-light;
 $card-shadow: 0 2px 3px rgba($beige-light, 0.1), 0 0 0 1px rgba($beige-light, 0.1);
+
+// Custom dropdown values
+$dropdown-content-background-color: hsl(0, 0%, 29%);
+$dropdown-item-hover-background-color: $dark;
 
 // Import only what you need from Bulma
 @import "../node_modules/bulma/sass/utilities/_all.sass";
