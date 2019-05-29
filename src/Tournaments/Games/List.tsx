@@ -1,30 +1,59 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
 import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
 import { TournamentGameEntity, TournamentGameState } from "./state";
 
 const TournamentGameCard: React.FC<{ onDeleteTournamentGame: any, url: string, tournamentGame: TournamentGameEntity }> = ({ onDeleteTournamentGame, url, tournamentGame }) => (
-	<div>
-		<br />
-		<div style={{ background: 'red' }}>
-			{tournamentGame.game.awayTeamName}
-			-
-			{tournamentGame.game.awayScore}
+	<div className="card item">
+		<div className="card-header">
+			<Link className="card-header-title" to={`${url}/TournamentGameEdit/${tournamentGame.id}`}>
+				<div className="columns" style={{ flex: '1' }}>
+					<div className="column is-4 has-text-centered">
+						<span className="title is-6">
+							{tournamentGame.game.awayTeamName}
+						</span>
+					</div>
+					<div className="column is-2 has-text-centered">
+						<span className="title is-7">
+							{tournamentGame.game.awayScore}
+						</span>
+					</div>
+					<div className="column is-2 has-text-centered">
+						<span className="title is-7">
+							{tournamentGame.game.homeScore}
+						</span>
+					</div>
+					<div className="column is-4 has-text-centered">
+						<span className="title is-6">
+							{tournamentGame.game.homeTeamName}
+						</span>
+					</div>
+				</div>
+			</Link>
+			<div className="card-header-icon">
+				<button className="button is-text"
+					onClick={() => onDeleteTournamentGame(tournamentGame)}>
+					<i className="fas fa-trash"></i>
+				</button>
+			</div>
 		</div>
-		<div style={{ background: 'green' }}>
-			{tournamentGame.game.homeTeamName}
-			-
-			{tournamentGame.game.homeScore}
-		</div>
-		<p>
-			{tournamentGame.game.location}
-		</p>
-		<p>
-			{tournamentGame.game.datetime}
-		</p>
-		<button onClick={() => onDeleteTournamentGame(tournamentGame)}>Delete</button>
-		<Link to={`${url}/TournamentGameEdit/${tournamentGame.id}`}>Edit</Link>
+
+		<footer className="card-footer">
+			<div className="columns is-mobile" style={{ flex: '1' }}>
+				<div className="column is-6 has-text-centered">
+					<span className="title is-7">
+						{`${dateFromDate(tournamentGame.game.datetime)} : ${timeFromDate(tournamentGame.game.datetime)}`}
+					</span>
+				</div>
+				<div className="column is-6 has-text-centered">
+					<span className="title is-7">
+						{tournamentGame.game.location}
+					</span>
+				</div>
+			</div>
+		</footer>
 	</div>
 );
 
@@ -39,10 +68,19 @@ const List: React.FC<{ deleteTournamentGame: any, currentOrganizationSlug: strin
 					tournament={tournament}
 					tournamentSlug={currentTournamentSlug} />
 			</header>
-			<div className="column is-12">
-				<h2 className="subtitle">
-					Games
-				</h2>
+			<div className="column is-8">
+				<div className="columns is-mobile is-vcentered">
+					<div className="column is-8">
+						<h2 className="subtitle">
+							Games
+						</h2>
+					</div>
+					<div className="column is-4 has-text-right">
+						<Link className="button" to={`./TournamentGameNew`}>
+							New game
+						</Link>
+					</div>
+				</div>
 				{Object.keys(tournamentGameState.tournamentGames).map((key: string) => <TournamentGameCard key={key} url={baseTournamentUrl} tournamentGame={tournamentGameState.tournamentGames[key]} onDeleteTournamentGame={deleteTournamentGame} />)}
 			</div>
 		</div>

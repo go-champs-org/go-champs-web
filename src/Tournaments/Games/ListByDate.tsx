@@ -1,14 +1,7 @@
 import React from 'react';
 import { GameEntity } from '../../Games/state';
+import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
 import { TournamentGameState } from "./state";
-
-const timeFromDate = (date: string) => (
-	date.substring(11, 16)
-);
-
-const dateFromDate = (date: string) => (
-	`${date.substring(8, 10)}/${date.substring(5, 7)}/${date.substring(0, 4)}`
-);
 
 const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 	return (
