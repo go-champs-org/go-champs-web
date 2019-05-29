@@ -17,7 +17,7 @@ $orange-light: #e3c4a8;
 $family-sans-serif: 'Fira Sans', sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
-$primary: $purple;
+$primary: $orange-light;
 $link: $beige-lighter;
 $link-hover: $orange-light;
 $widescreen-enabled: true;
@@ -48,6 +48,9 @@ $card-shadow: 0 2px 3px rgba($beige-light, 0.1), 0 0 0 1px rgba($beige-light, 0.
 // Custom dropdown values
 $dropdown-content-background-color: hsl(0, 0%, 29%);
 $dropdown-item-hover-background-color: $dark;
+
+// Custom form values
+$label-color: $beige-lighter;
 
 // Import only what you need from Bulma
 @import "../node_modules/bulma/sass/utilities/_all.sass";
