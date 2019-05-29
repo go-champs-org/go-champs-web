@@ -2,13 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
+import './List.scss';
 import { TournamentTeamEntity, TournamentTeamState } from "./state";
 
 const TournamentTeamCard: React.FC<{ onDeleteTournamentTeam: any, url: string, tournamentTeam: TournamentTeamEntity }> = ({ onDeleteTournamentTeam, url, tournamentTeam }) => (
-	<div>
-		{tournamentTeam.name}
-		<button onClick={() => onDeleteTournamentTeam(tournamentTeam)}>Delete</button>
-		<Link to={`${url}/TournamentTeamEdit/${tournamentTeam.id}`}>Edit</Link>
+	<div className="card item">
+		<div className="card-header">
+			<Link className="card-header-title" to={`${url}/TournamentTeamEdit/${tournamentTeam.id}`}>
+				<p className="title is-6">
+					{tournamentTeam.name}
+				</p>
+			</Link>
+			<div className="card-header-icon">
+				<button className="button is-text"
+					onClick={() => onDeleteTournamentTeam(tournamentTeam)}>
+					<i className="fas fa-trash"></i>
+				</button>
+			</div>
+		</div>
 	</div>
 );
 
@@ -23,10 +34,19 @@ export const List: React.FC<{ currentOrganizationSlug: string, currentTournament
 					tournament={tournament}
 					tournamentSlug={currentTournamentSlug} />
 			</header>
-			<div className="column is-12">
-				<h2 className="subtitle">
-					Teams
-				</h2>
+			<div className="column is-8">
+				<div className="columns is-mobile is-vcentered">
+					<div className="column is-8">
+						<h2 className="subtitle">
+							Teams
+						</h2>
+					</div>
+					<div className="column is-4 has-text-right">
+						<Link className="button" to={`./TournamentTeamNew`}>
+							New team
+						</Link>
+					</div>
+				</div>
 				{Object.keys(tournamentTeamState.tournamentTeams).map((key: string) => <TournamentTeamCard key={key} url={baseTournamentUrl} tournamentTeam={tournamentTeamState.tournamentTeams[key]} onDeleteTournamentTeam={deleteTournamentTeam} />)}
 			</div>
 		</div>
