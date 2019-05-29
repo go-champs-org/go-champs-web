@@ -5,10 +5,20 @@ import { TournamentState } from '../state';
 import { TournamentGroupEntity, TournamentGroupState } from "./state";
 
 const TournamentGroupCard: React.FC<{ onDeleteTournamentGroup: any, url: string, tournamentGroup: TournamentGroupEntity }> = ({ onDeleteTournamentGroup, url, tournamentGroup }) => (
-	<div>
-		{tournamentGroup.name}
-		<button onClick={() => onDeleteTournamentGroup(tournamentGroup)}>Delete</button>
-		<Link to={`${url}/TournamentGroupEdit/${tournamentGroup.id}`}>Edit</Link>
+	<div className="card item">
+		<div className="card-header">
+			<Link className="card-header-title" to={`${url}/TournamentTeamEdit/${tournamentGroup.id}`}>
+				<p className="title is-6">
+					{tournamentGroup.name}
+				</p>
+			</Link>
+			<div className="card-header-icon">
+				<button className="button is-text"
+					onClick={() => onDeleteTournamentGroup(tournamentGroup)}>
+					<i className="fas fa-trash"></i>
+				</button>
+			</div>
+		</div>
 	</div>
 );
 
@@ -23,11 +33,24 @@ export const List: React.FC<{ currentOrganizationSlug: string, currentTournament
 					tournament={tournament}
 					tournamentSlug={currentTournamentSlug} />
 			</header>
-			<div className="column is-12">
-				<h2 className="subtitle">
-					Groups
-				</h2>
-				{Object.keys(tournamentGroupState.tournamentGroups).map((key: string) => <TournamentGroupCard key={key} url={baseTournamentUrl} tournamentGroup={tournamentGroupState.tournamentGroups[key]} onDeleteTournamentGroup={deleteTournamentGroup} />)}
+			<div className="column is-8">
+				<div className="columns is-mobile is-vcentered">
+					<div className="column is-8">
+						<h2 className="subtitle">
+							Groups
+						</h2>
+					</div>
+					<div className="column is-4 has-text-right">
+						<Link className="button" to={`./TournamentGroupNew`}>
+							New group
+						</Link>
+					</div>
+				</div>
+				{Object.keys(tournamentGroupState.tournamentGroups)
+					.map((key: string) =>
+						<TournamentGroupCard key={key}
+							url={baseTournamentUrl}
+							tournamentGroup={tournamentGroupState.tournamentGroups[key]} onDeleteTournamentGroup={deleteTournamentGroup} />)}
 			</div>
 		</div>
 	);
