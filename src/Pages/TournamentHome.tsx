@@ -26,28 +26,6 @@ interface TournamentHomeProps extends RouteComponentProps<TournamentHomeMatchPro
 	requestTournamentGames: any,
 };
 
-{/* <div>
-<Link to={`${this.props.match.url}/TournamentTeamNew`}>New team</Link>
-<br />
-<Link to={`${this.props.match.url}/TournamentGroupNew`}>New group</Link>
-<br />
-<Link to={`${this.props.match.url}/TournamentGameNew`}>New game</Link>
-<br />
-{this.props.tournamentState.isLoadingRequestTournament ?
-	<div>Loading...</div> :
-	<div>{this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug] && this.props.tournamentState.tournaments[this.props.match.params.tournamentSlug].name}</div>
-}
-<br />
-<h1>Teams</h1>
-<TournamentTeamList tournamentTeamState={this.props.tournamentTeamState} deleteTournamentTeam={this.props.deleteTournamentTeam} url={this.props.match.url} />
-<br />
-<h1>Groups</h1>
-<TournamentGroupList tournamentGroupState={this.props.tournamentGroupState} deleteTournamentGroup={this.props.deleteTournamentGroup} url={this.props.match.url} />
-<br />
-<h1>Games</h1>
-<TournamentGameListByDate tournamentGameState={this.props.tournamentGameState} />
-</div> */}
-
 class TournamentHome extends React.Component<TournamentHomeProps> {
 	render() {
 		const {
