@@ -9,9 +9,9 @@ const TournamentTeamCard: React.FC<{ onDeleteTournamentTeam: any, url: string, t
 	<div className="card item">
 		<div className="card-header">
 			<Link className="card-header-title" to={`${url}/TournamentTeamEdit/${tournamentTeam.id}`}>
-				<p className="title is-6">
+				<span className="title is-6">
 					{tournamentTeam.name}
-				</p>
+				</span>
 			</Link>
 			<div className="card-header-icon">
 				<button className="button is-text"

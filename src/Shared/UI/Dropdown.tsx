@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+import './Dropdown.scss';
 
 
 export const DropdownDivider: React.FC = () => (
@@ -7,9 +8,9 @@ export const DropdownDivider: React.FC = () => (
 );
 
 export const DropdownItem: React.FC<{ children: ReactNode }> = ({ children }) => (
-	<a className="dropdown-item">
+	<span className="dropdown-item">
 		{children}
-	</a>
+	</span>
 );
 
 interface DropdownProps {

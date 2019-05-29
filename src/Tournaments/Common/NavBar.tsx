@@ -16,7 +16,7 @@ const NavBar: React.FC<{ organizationSlug: string, tournament: TournamentEntity,
 		</div>
 
 		<div className="level-right">
-			<p className="level-item">
+			<span className="level-item">
 				<Dropdown label="Manage" className="is-right">
 					<DropdownItem>
 						<Link to={`/${organizationSlug}/${tournamentSlug}/TournamentEdit`}>Settings</Link>
@@ -32,7 +32,7 @@ const NavBar: React.FC<{ organizationSlug: string, tournament: TournamentEntity,
 						<Link to={`/${organizationSlug}/${tournamentSlug}/TournamentTeamList`}>Teams</Link>
 					</DropdownItem>
 				</Dropdown>
-			</p>
+			</span>
 		</div>
 	</nav>
 );

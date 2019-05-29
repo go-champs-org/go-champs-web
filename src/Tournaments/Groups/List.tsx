@@ -2,15 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
+import './List.scss';
 import { TournamentGroupEntity, TournamentGroupState } from "./state";
 
 const TournamentGroupCard: React.FC<{ onDeleteTournamentGroup: any, url: string, tournamentGroup: TournamentGroupEntity }> = ({ onDeleteTournamentGroup, url, tournamentGroup }) => (
 	<div className="card item">
 		<div className="card-header">
 			<Link className="card-header-title" to={`${url}/TournamentTeamEdit/${tournamentGroup.id}`}>
-				<p className="title is-6">
+				<span className="title is-6">
 					{tournamentGroup.name}
-				</p>
+				</span>
 			</Link>
 			<div className="card-header-icon">
 				<button className="button is-text"
