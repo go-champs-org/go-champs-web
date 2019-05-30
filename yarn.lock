@@ -1568,6 +1568,11 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+animate.css@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.7.1.tgz#07da14b94185b73f06fcb90faeddb97846b2d481"
+  integrity sha512-FglP5lfDn2hRefXxXkvqBH2YGJRDRCuytbRU2bD86TIPyVe6yFQIx/XDmijOVoYRvBGKz3B8Y7cgzvLez4pTjA==
+
 ansi-colors@^3.0.0:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
@@ -2256,6 +2261,11 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
+
+bulma-toast@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-1.5.1.tgz#a88a4c0aee224b6344dfa5dfbcc49f7a25e865d1"
+  integrity sha512-RgJ9jaQmN418PySZSMHk9ukG6gOpmPu5U96ahe21kgaN3jS6FoA1T8RLu3v73GSLGIAfayyVS73hbR71lh7fug==
 
 bulma@^0.7.4:
   version "0.7.4"

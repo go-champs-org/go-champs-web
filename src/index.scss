@@ -3,6 +3,9 @@
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans');
 
+// Import animantions.css
+@import '../node_modules/animate.css/animate.css';
+
 // Set your brand colors
 $purple: #8a4d76;
 $pink: #fa7c91;
@@ -58,6 +61,7 @@ $label-color: $beige-lighter;
 @import '../node_modules/bulma/sass/elements/button.sass';
 @import '../node_modules/bulma/sass/elements/container.sass';
 @import '../node_modules/bulma/sass/elements/form.sass';
+@import '../node_modules/bulma/sass/elements/notification.sass';
 @import '../node_modules/bulma/sass/elements/title.sass';
 @import '../node_modules/bulma/sass/elements/table.sass';
 @import '../node_modules/bulma/sass/components/navbar.sass';
