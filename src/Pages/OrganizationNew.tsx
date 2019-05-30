@@ -6,47 +6,53 @@ import { bindActionCreators } from 'redux';
 import { postOrganization } from '../Organizations/actions';
 
 interface OrganizationNewProps extends RouteComponentProps {
-	postOrganization: any,
+  postOrganization: any;
 }
 
 class OrganizationNew extends React.Component<OrganizationNewProps> {
-	render() {
-		return (
-			<Form
-				onSubmit={this.props.postOrganization}
-				initialValues={{ name: '', slug: '' }}
-				render={({ handleSubmit, form, submitting, pristine, values }) => (
-					<form onSubmit={handleSubmit}>
-						<div>
-							<label>Name</label>
-							<Field
-								name="name"
-								component="input"
-								type="text"
-								placeholder="Name"
-							/>
-						</div>
-						<div>
-							<label>Slug</label>
-							<Field
-								name="slug"
-								component="input"
-								type="text"
-								placeholder="slug"
-							/>
-						</div>
-						<button type="submit" disabled={submitting || pristine}>
-							Submit
-						</button>
-					</form>
-				)} />
-		)
-	}
+  render() {
+    return (
+      <Form
+        onSubmit={this.props.postOrganization}
+        initialValues={{ name: '', slug: '' }}
+        render={({ handleSubmit, form, submitting, pristine, values }) => (
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Name</label>
+              <Field
+                name="name"
+                component="input"
+                type="text"
+                placeholder="Name"
+              />
+            </div>
+            <div>
+              <label>Slug</label>
+              <Field
+                name="slug"
+                component="input"
+                type="text"
+                placeholder="slug"
+              />
+            </div>
+            <button type="submit" disabled={submitting || pristine}>
+              Submit
+            </button>
+          </form>
+        )}
+      />
+    );
+  }
 }
-const mapDispatchToProps = (dispatch: any) => (
-	bindActionCreators({
-		postOrganization,
-	}, dispatch)
-)
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      postOrganization
+    },
+    dispatch
+  );
 
-export default connect(state => state, mapDispatchToProps)(OrganizationNew);
+export default connect(
+  state => state,
+  mapDispatchToProps
+)(OrganizationNew);

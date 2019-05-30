@@ -9,15 +9,13 @@ import { default as tournamentReducer } from './Tournaments/reducer';
 import { default as tournamentTeamReducer } from './Tournaments/Teams/reducer';
 
 export default createStore(
-	combineReducers({
-		games: gameReducer,
-		organizations: organizationReducer,
-		tournaments: tournamentReducer,
-		tournamentGames: tournamentGameReducer,
-		tournamentGroups: tournamentGroupReducer,
-		tournamentTeams: tournamentTeamReducer,
-	}),
-	composeWithDevTools(
-		applyMiddleware(fetchMiddleware),
-	),
+  combineReducers({
+    games: gameReducer,
+    organizations: organizationReducer,
+    tournaments: tournamentReducer,
+    tournamentGames: tournamentGameReducer,
+    tournamentGroups: tournamentGroupReducer,
+    tournamentTeams: tournamentTeamReducer
+  }),
+  composeWithDevTools(applyMiddleware(fetchMiddleware))
 );
