@@ -1,5 +1,12 @@
 export const fetchMiddleware = (store: any) => (next: any) => (action: any) => {
-  if (!action.type.startsWith('API')) {
+  if (action instanceof Function) {
+    return next(action);
+  }
+
+  if (
+    !action.type.startsWith('API') ||
+    action.type.indexOf('ORGANIZATION') > 0
+  ) {
     return next(action);
   }
 

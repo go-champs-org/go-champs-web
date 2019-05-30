@@ -1,4 +1,6 @@
+import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
+import httpClient from './httpClient';
 import { OrganizationEntity } from './state';
 
 export const DELETE_ORGANIZATION = 'API_DELETE_ORGANIZATION';
@@ -16,19 +18,20 @@ export const REQUEST_ORGANIZATIONS_SUCCESS =
 export const REQUEST_ORGANIZATIONS_FAILURE =
   'API_REQUEST_ORGANIZATIONS_FAILURE';
 
-const ORGANIZATION_API = 'https://yochamps-api.herokuapp.com/api/organizations';
+export const deleteOrganization = (organization: OrganizationEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: DELETE_ORGANIZATION });
 
-export const deleteOrganization = (
-  organization: OrganizationEntity
-): HttpAction<ActionTypes> => ({
-  type: DELETE_ORGANIZATION,
-  payload: {
-    url: `${ORGANIZATION_API}/${organization.id}`,
-    requestConfig: {
-      method: 'DELETE'
-    }
+  try {
+    const response = await httpClient.delete(organization.id);
+
+    dispatch(deleteOrganizationSuccess(response));
+    displayToast(`${organization.name} deleted!`, 'is-success');
+  } catch (err) {
+    dispatch(deleteOrganizationFailure(err));
   }
-});
+};
 
 export const deleteOrganizationSuccess = (
   payload: any
@@ -44,21 +47,20 @@ export const deleteOrganizationFailure = (
   payload
 });
 
-export const patchOrganization = (
-  organization: OrganizationEntity
-): HttpAction<ActionTypes> => ({
-  type: PATCH_ORGANIZATION,
-  payload: {
-    url: `${ORGANIZATION_API}/${organization.id}`,
-    requestConfig: {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ organization })
-    }
+export const patchOrganization = (organization: OrganizationEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: PATCH_ORGANIZATION });
+
+  try {
+    const response = await httpClient.patch(organization);
+
+    dispatch(patchOrganizationSuccess(response));
+    displayToast(`${organization.name} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchOrganizationFailure(err));
   }
-});
+};
 
 export const patchOrganizationSuccess = (
   payload: any
@@ -74,21 +76,20 @@ export const patchOrganizationFailure = (
   payload
 });
 
-export const postOrganization = (
-  organization: OrganizationEntity
-): HttpAction<ActionTypes> => ({
-  type: POST_ORGANIZATION,
-  payload: {
-    url: ORGANIZATION_API,
-    requestConfig: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ organization })
-    }
+export const postOrganization = (organization: OrganizationEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: POST_ORGANIZATION });
+
+  try {
+    const response = await httpClient.post(organization);
+
+    dispatch(postOrganizationSuccess(response));
+    displayToast(`${organization.name} created!`, 'is-success');
+  } catch (err) {
+    dispatch(postOrganizationFailure(err));
   }
-});
+};
 
 export const postOrganizationSuccess = (
   payload: any
@@ -104,10 +105,17 @@ export const postOrganizationFailure = (
   payload
 });
 
-export const requestOrganizations = (): HttpAction<ActionTypes> => ({
-  type: REQUEST_ORGANIZATIONS,
-  payload: { url: ORGANIZATION_API }
-});
+export const requestOrganizations = () => async (dispatch: any) => {
+  dispatch({ type: REQUEST_ORGANIZATIONS });
+
+  try {
+    const response = await httpClient.getAll();
+
+    dispatch(requestOrganizationsSuccess(response));
+  } catch (err) {
+    dispatch(requestOrganizationsFailure(err));
+  }
+};
 
 export const requestOrganizationsSuccess = (
   payload: any

@@ -1,5 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 import { default as gameReducer } from './Games/reducer';
 import { default as organizationReducer } from './Organizations/reducer';
 import { fetchMiddleware } from './Shared/store/middlewares';
@@ -17,5 +18,5 @@ export default createStore(
     tournamentGroups: tournamentGroupReducer,
     tournamentTeams: tournamentTeamReducer
   }),
-  composeWithDevTools(applyMiddleware(fetchMiddleware))
+  composeWithDevTools(applyMiddleware(fetchMiddleware, thunk))
 );
