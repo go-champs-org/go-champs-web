@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PageLoader from '../Shared/UI/PageLoader';
 import { OrganizationEntity, OrganizationState } from './state';
 
 const OrganizationCard: React.FC<{
@@ -14,25 +15,19 @@ const OrganizationCard: React.FC<{
   </div>
 );
 
-const Loading: React.FC = () => <div>Loading...</div>;
-
 export const List: React.FC<{
   organizationState: OrganizationState;
   url: string;
   deleteOrganization: any;
 }> = ({ organizationState, url, deleteOrganization }) => (
-  <div>
-    {organizationState.isLoadingRequestOrganizations ? (
-      <Loading />
-    ) : (
-      Object.keys(organizationState.organizations).map((key: string) => (
-        <OrganizationCard
-          key={key}
-          organization={organizationState.organizations[key]}
-          url={url}
-          onDeleteOrganization={deleteOrganization}
-        />
-      ))
-    )}
-  </div>
+  <PageLoader canRender={!organizationState.isLoadingRequestOrganizations}>
+    {Object.keys(organizationState.organizations).map((key: string) => (
+      <OrganizationCard
+        key={key}
+        organization={organizationState.organizations[key]}
+        url={url}
+        onDeleteOrganization={deleteOrganization}
+      />
+    ))}
+  </PageLoader>
 );
