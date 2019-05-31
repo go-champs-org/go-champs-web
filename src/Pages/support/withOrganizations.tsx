@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestOrganizations } from '../../Organizations/actions';
 import { OrganizationState } from '../../Organizations/state';
+import PageLoader from '../../Shared/UI/PageLoader';
 import { OrganizationHomeMatchProps } from './routerInterfaces';
 
 interface WithOrganizationsProps
@@ -17,19 +18,19 @@ const withOrganizations = (WrappedComponent: any) => {
     render() {
       const canRender =
         this.props.organizationState.organizations[
-          this.props.match.params.organizationSlug
+        this.props.match.params.organizationSlug
         ] && !this.props.organizationState.isLoadingRequestOrganizations;
-      return canRender ? (
-        <WrappedComponent {...this.props} />
-      ) : (
-        <div>Loading...</div>
+      return (
+        <PageLoader canRender={canRender}>
+          <WrappedComponent {...this.props} />
+        </PageLoader>
       );
     }
 
     componentDidMount() {
       if (
         !this.props.organizationState.organizations[
-          this.props.match.params.organizationSlug
+        this.props.match.params.organizationSlug
         ]
       ) {
         this.props.requestOrganizations();

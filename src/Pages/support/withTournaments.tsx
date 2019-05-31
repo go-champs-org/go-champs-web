@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import PageLoader from '../../Shared/UI/PageLoader';
 import { requestFilterTournaments } from '../../Tournaments/actions';
 import { TournamentState } from '../../Tournaments/state';
 import { TournamentHomeMatchProps } from './routerInterfaces';
@@ -17,19 +18,19 @@ const withTournaments = (WrappedComponent: any) => {
     render() {
       const canRender =
         this.props.tournamentState.tournaments[
-          this.props.match.params.tournamentSlug
+        this.props.match.params.tournamentSlug
         ] && !this.props.tournamentState.isLoadingRequestTournaments;
-      return canRender ? (
-        <WrappedComponent {...this.props} />
-      ) : (
-        <div>Loading...</div>
+      return (
+        <PageLoader canRender={canRender}>
+          <WrappedComponent {...this.props} />
+        </PageLoader>
       );
     }
 
     componentDidMount() {
       if (
         !this.props.tournamentState.tournaments[
-          this.props.match.params.tournamentSlug
+        this.props.match.params.tournamentSlug
         ]
       ) {
         this.props.requestFilterTournaments({
