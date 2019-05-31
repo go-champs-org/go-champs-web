@@ -1,12 +1,7 @@
+import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES,
-  REQUEST_TOURNAMENT_GAMES_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_SUCCESS,
-  REQUEST_TOURNAMENT_GAME_FAILURE,
-  REQUEST_TOURNAMENT_GAME_SUCCESS
-} from '../Tournaments/Games/actions';
+import { REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from '../Tournaments/Games/actions';
+import httpClient from './httpClient';
 import { GameEntity } from './state';
 
 export const DELETE_GAME = 'API_DELETE_GAME';
@@ -19,17 +14,20 @@ export const POST_GAME = 'API_POST_GAME';
 export const POST_GAME_SUCCESS = 'API_POST_GAME_SUCCESS';
 export const POST_GAME_FAILURE = 'API_POST_GAME_FAILURE';
 
-const GAME_API = 'https://yochamps-api.herokuapp.com/api/games';
+export const deleteGame = (game: GameEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: DELETE_GAME });
 
-export const deleteGame = (game: GameEntity): HttpAction<ActionTypes> => ({
-  type: DELETE_GAME,
-  payload: {
-    url: `${GAME_API}/${game.id}`,
-    requestConfig: {
-      method: 'DELETE'
-    }
+  try {
+    const response = await httpClient.delete(game.id);
+
+    dispatch(deleteGameSuccess(response));
+    displayToast(`Game deleted!`, 'is-success');
+  } catch (err) {
+    dispatch(deleteGameFailure(err));
   }
-});
+};
 
 export const deleteGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: DELETE_GAME_SUCCESS,
@@ -41,28 +39,20 @@ export const deleteGameFailure = (payload: any): HttpAction<ActionTypes> => ({
   payload
 });
 
-export const patchGame = (game: GameEntity): HttpAction<ActionTypes> => ({
-  type: PATCH_GAME,
-  payload: {
-    url: `${GAME_API}/${game.id}`,
-    requestConfig: {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        game: {
-          away_score: game.awayScore,
-          away_team_name: game.awayTeamName,
-          datetime: game.datetime,
-          home_score: game.homeScore,
-          home_team_name: game.homeTeamName,
-          location: game.location
-        }
-      })
-    }
+export const patchGame = (game: GameEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: PATCH_GAME });
+
+  try {
+    const response = await httpClient.patch(game);
+
+    dispatch(patchGameSuccess(response));
+    displayToast(`Game updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchGameFailure(err));
   }
-});
+};
 
 export const patchGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: PATCH_GAME_SUCCESS,
@@ -74,28 +64,20 @@ export const patchGameFailure = (payload: any): HttpAction<ActionTypes> => ({
   payload
 });
 
-export const postGame = (game: GameEntity): HttpAction<ActionTypes> => ({
-  type: POST_GAME,
-  payload: {
-    url: GAME_API,
-    requestConfig: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        game: {
-          away_score: game.awayScore,
-          away_team_name: game.awayTeamName,
-          datetime: game.datetime,
-          home_score: game.homeScore,
-          home_team_name: game.homeTeamName,
-          location: game.location
-        }
-      })
-    }
+export const postGame = (game: GameEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: POST_GAME });
+
+  try {
+    const response = await httpClient.post(game);
+
+    dispatch(postGameSuccess(response));
+    displayToast(`Game created!`, 'is-success');
+  } catch (err) {
+    dispatch(postGameFailure(err));
   }
-});
+};
 
 export const postGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: POST_GAME_SUCCESS,

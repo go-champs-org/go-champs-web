@@ -1,4 +1,6 @@
+import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
+import httpClient, { RequestFilter } from './httpClient';
 import { TournamentEntity } from './state';
 
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
@@ -22,29 +24,20 @@ export const REQUEST_TOURNAMENT = 'API_REQUEST_TOURNAMENT';
 export const REQUEST_TOURNAMENT_SUCCESS = 'API_REQUEST_TOURNAMENT_SUCCESS';
 export const REQUEST_TOURNAMENT_FAILURE = 'API_REQUEST_TOURNAMENT_FAILURE';
 
-const TOURNAMENTS_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
+export const deleteTournament = (tournament: TournamentEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: DELETE_TOURNAMENT });
 
-interface RequestFilter {
-  [key: string]: string;
-}
+  try {
+    const response = await httpClient.delete(tournament.id);
 
-const mapRequestFilterToQueryString = (filter: RequestFilter) => {
-  return Object.keys(filter)
-    .map((key: string) => `where[${key}]=${filter[key]}`)
-    .join('&');
-};
-
-export const deleteTournament = (
-  tournament: TournamentEntity
-): HttpAction<ActionTypes> => ({
-  type: DELETE_TOURNAMENT,
-  payload: {
-    url: `${TOURNAMENTS_API}/${tournament.id}`,
-    requestConfig: {
-      method: 'DELETE'
-    }
+    dispatch(deleteTournamentSuccess(response));
+    displayToast(`${tournament.name} deleted!`, 'is-success');
+  } catch (err) {
+    dispatch(deleteTournamentFailure(err));
   }
-});
+};
 
 export const deleteTournamentSuccess = (
   payload: any
@@ -60,21 +53,20 @@ export const deleteTournamentFailure = (
   payload
 });
 
-export const patchTournament = (
-  tournament: TournamentEntity
-): HttpAction<ActionTypes> => ({
-  type: PATCH_TOURNAMENT,
-  payload: {
-    url: `${TOURNAMENTS_API}/${tournament.id}`,
-    requestConfig: {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tournament })
-    }
+export const patchTournament = (tournament: TournamentEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: PATCH_TOURNAMENT });
+
+  try {
+    const response = await httpClient.patch(tournament);
+
+    dispatch(patchTournamentSuccess(response));
+    displayToast(`${tournament.name} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchTournamentFailure(err));
   }
-});
+};
 
 export const patchTournamentSuccess = (
   payload: any
@@ -90,21 +82,20 @@ export const patchTournamentFailure = (
   payload
 });
 
-export const postTournament = (
-  tournament: TournamentEntity
-): HttpAction<ActionTypes> => ({
-  type: POST_TOURNAMENT,
-  payload: {
-    url: TOURNAMENTS_API,
-    requestConfig: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tournament })
-    }
+export const postTournament = (tournament: TournamentEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: POST_TOURNAMENT });
+
+  try {
+    const response = await httpClient.post(tournament);
+
+    dispatch(postTournamentSuccess(response));
+    displayToast(`${tournament.name} created!`, 'is-success');
+  } catch (err) {
+    dispatch(postTournamentFailure(err));
   }
-});
+};
 
 export const postTournamentSuccess = (
   payload: any
@@ -120,14 +111,17 @@ export const postTournamentFailure = (
   payload
 });
 
-export const requestFilterTournaments = (
-  filter: RequestFilter
-): HttpAction<ActionTypes> => ({
-  type: REQUEST_FILTER_TOURNAMENTS,
-  payload: {
-    url: `${TOURNAMENTS_API}?${mapRequestFilterToQueryString(filter)}`
+export const requestFilterTournaments = (where: RequestFilter) => async (dispatch: any) => {
+  dispatch({ type: REQUEST_TOURNAMENT });
+
+  try {
+    const response = await httpClient.getByFilter(where);
+
+    dispatch(requestFilterTournamentsSuccess(response));
+  } catch (err) {
+    dispatch(requestFilterTournamentsFailure(err));
   }
-});
+};
 
 export const requestFilterTournamentsSuccess = (
   payload: any
@@ -143,12 +137,17 @@ export const requestFilterTournamentsFailure = (
   payload
 });
 
-export const requestTournament = (
-  tournamentId: string
-): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT,
-  payload: { url: `${TOURNAMENTS_API}/${tournamentId}` }
-});
+export const requestTournament = (tournamentId: string) => async (dispatch: any) => {
+  dispatch({ type: REQUEST_TOURNAMENT });
+
+  try {
+    const response = await httpClient.getOne(tournamentId);
+
+    dispatch(requestTournamentSuccess(response));
+  } catch (err) {
+    dispatch(requestTournamentFailure(err));
+  }
+};
 
 export const requestTournamentSuccess = (
   payload: any
@@ -164,10 +163,17 @@ export const requestTournamentFailure = (
   payload
 });
 
-export const requestTournaments = (): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENTS,
-  payload: { url: `${TOURNAMENTS_API}` }
-});
+export const requestTournaments = () => async (dispatch: any) => {
+  dispatch({ type: REQUEST_TOURNAMENTS });
+
+  try {
+    const response = await httpClient.getAll();
+
+    dispatch(requestTournamentsSuccess(response));
+  } catch (err) {
+    dispatch(requestTournamentsFailure(err));
+  }
+};
 
 export const requestTournamentsSuccess = (
   payload: any

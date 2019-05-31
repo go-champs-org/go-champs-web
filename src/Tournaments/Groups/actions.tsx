@@ -1,9 +1,7 @@
+import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
+import httpClient from './httpClient';
 import { TournamentGroupEntity } from './state';
 
 export const DELETE_TOURNAMENT_GROUP = 'API_DELETE_TOURNAMENT_GROUP';
@@ -22,22 +20,20 @@ export const POST_TOURNAMENT_GROUP_SUCCESS =
 export const POST_TOURNAMENT_GROUP_FAILURE =
   'API_POST_TOURNAMENT_GROUP_FAILURE';
 
-const TOURNAMENTS_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
+export const deleteTournamentGroup = (tournamentId: string) => (tournamentGroup: TournamentGroupEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: DELETE_TOURNAMENT_GROUP });
 
-const tournamentGroupsAPI = (tournamentId: string) =>
-  `${TOURNAMENTS_API}/${tournamentId}/groups`;
+  try {
+    const response = await httpClient.delete(tournamentId, tournamentGroup.id);
 
-export const deleteTournamentGroup = (tournamentId: string) => (
-  tournamentGroup: TournamentGroupEntity
-): HttpAction<ActionTypes> => ({
-  type: DELETE_TOURNAMENT_GROUP,
-  payload: {
-    url: `${tournamentGroupsAPI(tournamentId)}/${tournamentGroup.id}`,
-    requestConfig: {
-      method: 'DELETE'
-    }
+    dispatch(deleteTournamentGroupSuccess(response));
+    displayToast(`${tournamentGroup.name} deleted!`, 'is-success');
+  } catch (err) {
+    dispatch(deleteTournamentGroupFailure(err));
   }
-});
+};
 
 export const deleteTournamentGroupSuccess = (
   payload: any
@@ -53,21 +49,20 @@ export const deleteTournamentGroupFailure = (
   payload
 });
 
-export const patchTournamentGroup = (tournamentId: string) => (
-  tournamentGroup: TournamentGroupEntity
-): HttpAction<ActionTypes> => ({
-  type: PATCH_TOURNAMENT_GROUP,
-  payload: {
-    url: `${tournamentGroupsAPI(tournamentId)}/${tournamentGroup.id}`,
-    requestConfig: {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tournament_group: tournamentGroup })
-    }
+export const patchTournamentGroup = (tournamentId: string) => (tournamentGroup: TournamentGroupEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: PATCH_TOURNAMENT_GROUP });
+
+  try {
+    const response = await httpClient.patch(tournamentId, tournamentGroup);
+
+    dispatch(patchTournamentGroupSuccess(response));
+    displayToast(`${tournamentGroup.name} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchTournamentGroupFailure(err));
   }
-});
+};
 
 export const patchTournamentGroupSuccess = (
   payload: any
@@ -83,21 +78,20 @@ export const patchTournamentGroupFailure = (
   payload
 });
 
-export const postTournamentGroup = (tournamentId: string) => (
-  tournamentGroup: TournamentGroupEntity
-): HttpAction<ActionTypes> => ({
-  type: POST_TOURNAMENT_GROUP,
-  payload: {
-    url: tournamentGroupsAPI(tournamentId),
-    requestConfig: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ tournament_group: tournamentGroup })
-    }
+export const postTournamentGroup = (tournamentId: string) => (tournamentGroup: TournamentGroupEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: POST_TOURNAMENT_GROUP });
+
+  try {
+    const response = await httpClient.post(tournamentId, tournamentGroup);
+
+    dispatch(postTournamentGroupSuccess(response));
+    displayToast(`${tournamentGroup.name} created!`, 'is-success');
+  } catch (err) {
+    dispatch(postTournamentGroupFailure(err));
   }
-});
+};
 
 export const postTournamentGroupSuccess = (
   payload: any

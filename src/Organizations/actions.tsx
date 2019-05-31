@@ -35,14 +35,14 @@ export const deleteOrganization = (organization: OrganizationEntity) => async (
 
 export const deleteOrganizationSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: DELETE_ORGANIZATION_SUCCESS,
   payload
 });
 
 export const deleteOrganizationFailure = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: DELETE_ORGANIZATION_FAILURE,
   payload
 });
@@ -64,14 +64,14 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
 
 export const patchOrganizationSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: PATCH_ORGANIZATION_SUCCESS,
   payload
 });
 
 export const patchOrganizationFailure = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: PATCH_ORGANIZATION_FAILURE,
   payload
 });
@@ -93,14 +93,14 @@ export const postOrganization = (organization: OrganizationEntity) => async (
 
 export const postOrganizationSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: POST_ORGANIZATION_SUCCESS,
   payload
 });
 
 export const postOrganizationFailure = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: POST_ORGANIZATION_FAILURE,
   payload
 });
@@ -119,14 +119,14 @@ export const requestOrganizations = () => async (dispatch: any) => {
 
 export const requestOrganizationsSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: REQUEST_ORGANIZATIONS_SUCCESS,
   payload
 });
 
 export const requestOrganizationsFailure = (
   payload: any
-): HttpAction<ActionTypes> => ({
+) => ({
   type: REQUEST_ORGANIZATIONS_FAILURE,
   payload
 });

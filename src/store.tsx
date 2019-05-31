@@ -3,7 +3,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { default as gameReducer } from './Games/reducer';
 import { default as organizationReducer } from './Organizations/reducer';
-import { fetchMiddleware } from './Shared/store/middlewares';
 import { default as tournamentGameReducer } from './Tournaments/Games/reducer';
 import { default as tournamentGroupReducer } from './Tournaments/Groups/reducer';
 import { default as tournamentReducer } from './Tournaments/reducer';
@@ -18,5 +17,5 @@ export default createStore(
     tournamentGroups: tournamentGroupReducer,
     tournamentTeams: tournamentTeamReducer
   }),
-  composeWithDevTools(applyMiddleware(fetchMiddleware, thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 );
