@@ -24,7 +24,6 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
-        {/* <NavBar /> */}
         <section className="section">
           <div className="container">
             <Switch>
