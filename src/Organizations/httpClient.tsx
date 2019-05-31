@@ -1,19 +1,7 @@
+import { DEFAULT_HEADERS, resolveResponse } from '../Shared/httpClient';
 import { OrganizationEntity } from './state';
 
 const ORGANIZATION_API = 'https://yochamps-api.herokuapp.com/api/organizations';
-
-const DEFAULT_HEADERS = {
-  'Content-Type': 'application/json'
-};
-
-const resolveResponse = (response: any) => {
-  if (response.status === 204) {
-    const splittedUrl = response.url.split('/');
-    return splittedUrl[splittedUrl.length - 1];
-  }
-
-  return response.json();
-};
 
 const deleteRequest = (organizationId: string) => {
   const url = `${ORGANIZATION_API}/${organizationId}`;
