@@ -85,7 +85,7 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
   render() {
     const canRender =
       this.props.tournamentGameState.tournamentGames[
-        this.props.match.params.tournamentGameId
+      this.props.match.params.tournamentGameId
       ] && !this.props.tournamentGameState.isLoadingRequestTournamentGame;
     return <div>{canRender ? this.renderForm() : <div>Loading...</div>}</div>;
   }
@@ -115,7 +115,7 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
   componentDidMount() {
     if (
       !this.props.tournamentGameState.tournamentGames[
-        this.props.match.params.tournamentGameId
+      this.props.match.params.tournamentGameId
       ]
     ) {
       this.props.requestTournamentGame(

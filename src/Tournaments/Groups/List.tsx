@@ -36,12 +36,10 @@ export const List: React.FC<{
   deleteTournamentGroup: any;
   tournamentGroupState: TournamentGroupState;
   tournamentState: TournamentState;
-  url: string;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGroup,
-  url,
   tournamentGroupState,
   tournamentState
 }) => {
@@ -82,27 +80,19 @@ export const List: React.FC<{
     );
   };
 
-const Loading: React.FC = () => <div>Loading...</div>;
-
 export const Wrapper: React.FC<{
   deleteTournamentGroup: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   tournamentState: TournamentState;
   tournamentGroupState: TournamentGroupState;
-  url: string;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGroup,
   tournamentState,
   tournamentGroupState,
-  url
 }) => {
-    if (tournamentGroupState.isLoadingRequestTournament) {
-      return <Loading />;
-    }
-
     return (
       <List
         currentOrganizationSlug={currentOrganizationSlug}
@@ -110,7 +100,6 @@ export const Wrapper: React.FC<{
         deleteTournamentGroup={deleteTournamentGroup}
         tournamentState={tournamentState}
         tournamentGroupState={tournamentGroupState}
-        url={url}
       />
     );
   };

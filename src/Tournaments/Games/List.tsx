@@ -68,51 +68,47 @@ const List: React.FC<{
   currentTournamentSlug: string;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
-  url: string;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGame,
   tournamentState,
   tournamentGameState,
-  url
 }) => {
-  const tournament = tournamentState.tournaments[currentTournamentSlug];
-  const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
-  return (
-    <div className="columns is-multiline">
-      <header className="column is-12">
-        <NavBar
-          organizationSlug={currentOrganizationSlug}
-          tournament={tournament}
-          tournamentSlug={currentTournamentSlug}
-        />
-      </header>
-      <div className="column is-8">
-        <div className="columns is-mobile is-vcentered">
-          <div className="column is-8">
-            <h2 className="subtitle">Games</h2>
-          </div>
-          <div className="column is-4 has-text-right">
-            <Link className="button" to={`./TournamentGameNew`}>
-              New game
-            </Link>
-          </div>
-        </div>
-        {Object.keys(tournamentGameState.tournamentGames).map((key: string) => (
-          <TournamentGameCard
-            key={key}
-            url={baseTournamentUrl}
-            tournamentGame={tournamentGameState.tournamentGames[key]}
-            onDeleteTournamentGame={deleteTournamentGame}
+    const tournament = tournamentState.tournaments[currentTournamentSlug];
+    const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+    return (
+      <div className="columns is-multiline">
+        <header className="column is-12">
+          <NavBar
+            organizationSlug={currentOrganizationSlug}
+            tournament={tournament}
+            tournamentSlug={currentTournamentSlug}
           />
-        ))}
+        </header>
+        <div className="column is-8">
+          <div className="columns is-mobile is-vcentered">
+            <div className="column is-8">
+              <h2 className="subtitle">Games</h2>
+            </div>
+            <div className="column is-4 has-text-right">
+              <Link className="button" to={`./TournamentGameNew`}>
+                New game
+            </Link>
+            </div>
+          </div>
+          {Object.keys(tournamentGameState.tournamentGames).map((key: string) => (
+            <TournamentGameCard
+              key={key}
+              url={baseTournamentUrl}
+              tournamentGame={tournamentGameState.tournamentGames[key]}
+              onDeleteTournamentGame={deleteTournamentGame}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
-
-const Loading: React.FC = () => <div>Loading...</div>;
+    );
+  };
 
 export const Wrapper: React.FC<{
   deleteTournamentGame: any;
@@ -120,29 +116,22 @@ export const Wrapper: React.FC<{
   currentTournamentSlug: string;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
-  url: string;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGame,
   tournamentState,
   tournamentGameState,
-  url
 }) => {
-  if (tournamentGameState.isLoadingRequestTournamentGames) {
-    return <Loading />;
-  }
-
-  return (
-    <List
-      currentOrganizationSlug={currentOrganizationSlug}
-      currentTournamentSlug={currentTournamentSlug}
-      deleteTournamentGame={deleteTournamentGame}
-      tournamentState={tournamentState}
-      tournamentGameState={tournamentGameState}
-      url={url}
-    />
-  );
-};
+    return (
+      <List
+        currentOrganizationSlug={currentOrganizationSlug}
+        currentTournamentSlug={currentTournamentSlug}
+        deleteTournamentGame={deleteTournamentGame}
+        tournamentState={tournamentState}
+        tournamentGameState={tournamentGameState}
+      />
+    );
+  };
 
 export default Wrapper;

@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestTournament } from '../Tournaments/actions';
-import {
-  deleteTournamentGame,
-  requestTournamentGames
-} from '../Tournaments/Games/actions';
+import { deleteTournamentGame, requestTournamentGames } from '../Tournaments/Games/actions';
 import List from '../Tournaments/Games/List';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentState } from '../Tournaments/state';
@@ -38,7 +35,6 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
         deleteTournamentGame={deleteTournamentGame}
         tournamentState={tournamentState}
         tournamentGameState={tournamentGameState}
-        url={match.url}
       />
     );
   }

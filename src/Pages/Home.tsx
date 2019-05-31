@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import {
-  deleteOrganization,
-  postOrganization,
-  requestOrganizations
-} from '../Organizations/actions';
+import { deleteOrganization, postOrganization, requestOrganizations } from '../Organizations/actions';
 import { List } from '../Organizations/List';
 import { OrganizationState } from '../Organizations/state';
 

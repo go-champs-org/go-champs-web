@@ -34,7 +34,6 @@ class TournamentTeamList extends React.Component<TournamentTeamListProps> {
         deleteTournamentTeam={deleteTournamentTeam}
         tournamentTeamState={tournamentTeamState}
         tournamentState={tournamentState}
-        url={match.url}
       />
     );
   }
