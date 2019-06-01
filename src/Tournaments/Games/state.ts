@@ -1,8 +1,13 @@
-import { GameEntity } from '../../Games/state';
+import { TournamentTeamEntity } from '../Teams/state';
 
 export interface TournamentGameEntity {
   id: string;
-  game: GameEntity;
+  awayScore: number;
+  awayTeam: TournamentTeamEntity;
+  datetime: string;
+  homeScore: number;
+  homeTeam: TournamentTeamEntity;
+  location: string;
 }
 
 export interface TournamentGameState {
@@ -12,7 +17,7 @@ export interface TournamentGameState {
   isLoadingRequestTournamentGames: boolean;
   tournamentGames: { [key: string]: TournamentGameEntity };
   tournamentGamesByDate: {
-    [key: string]: { [key: string]: GameEntity };
+    [key: string]: { [key: string]: TournamentGameEntity };
   };
 }
 

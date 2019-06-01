@@ -1,39 +1,16 @@
-import {
-  createReducer,
-  entityById,
-  mapEntities,
-  mapEntitiesByKey,
-  returnProperty
-} from '../../Shared/store/helpers';
+import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
-import {
-  ActionTypes,
-  DELETE_TOURNAMENT_GAME,
-  DELETE_TOURNAMENT_GAME_FAILURE,
-  DELETE_TOURNAMENT_GAME_SUCCESS,
-  POST_TOURNAMENT_GAME,
-  POST_TOURNAMENT_GAME_FAILURE,
-  POST_TOURNAMENT_GAME_SUCCESS,
-  REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES,
-  REQUEST_TOURNAMENT_GAMES_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_SUCCESS,
-  REQUEST_TOURNAMENT_GAME_FAILURE,
-  REQUEST_TOURNAMENT_GAME_SUCCESS
-} from './actions';
+import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from './actions';
 import { initialState, TournamentGameState } from './state';
 
 const mapTournamentGame = (apiData: any) => ({
   id: apiData.id,
-  game: {
-    id: apiData.game.id,
-    awayScore: apiData.game.away_score,
-    awayTeamName: apiData.game.away_team_name,
-    datetime: apiData.game.datetime,
-    homeScore: apiData.game.home_score,
-    homeTeamName: apiData.game.home_team_name,
-    location: apiData.game.location
-  }
+  awayScore: apiData.away_score,
+  awayTeam: apiData.away_team,
+  datetime: apiData.datetime,
+  homeScore: apiData.home_score,
+  homeTeam: apiData.home_team,
+  location: apiData.location
 });
 
 const tournamentGameMapEntities = mapEntities(
@@ -41,17 +18,17 @@ const tournamentGameMapEntities = mapEntities(
   mapTournamentGame
 );
 
-const returnDateId = (apiData: any) => apiData.game.datetime.substring(0, 10);
+const returnDateId = (apiData: any) => apiData.datetime.substring(0, 10);
 
 const mapTournamentGameToDateEntity = (apiData: any) => ({
   [apiData.id]: {
-    id: apiData.game.id,
-    awayScore: apiData.game.away_score,
-    awayTeamName: apiData.game.away_team_name,
-    datetime: apiData.game.datetime,
-    homeScore: apiData.game.home_score,
-    homeTeamName: apiData.game.home_team_name,
-    location: apiData.game.location
+    id: apiData.id,
+    awayScore: apiData.away_score,
+    awayTeam: apiData.away_team,
+    datetime: apiData.datetime,
+    homeScore: apiData.home_score,
+    homeTeam: apiData.home_team,
+    location: apiData.location
   }
 });
 

@@ -33,14 +33,12 @@ const patch = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
     method: 'PATCH',
     body: JSON.stringify({
       tournament_game: {
-        game: {
-          away_score: tournamentGame.game.awayScore,
-          away_team_name: tournamentGame.game.awayTeamName,
-          datetime: tournamentGame.game.datetime,
-          home_score: tournamentGame.game.homeScore,
-          home_team_name: tournamentGame.game.homeTeamName,
-          location: tournamentGame.game.location
-        }
+        away_score: tournamentGame.awayScore,
+        away_team_id: tournamentGame.awayTeam.id,
+        datetime: tournamentGame.datetime,
+        home_score: tournamentGame.homeScore,
+        home_team_id: tournamentGame.homeTeam.id,
+        location: tournamentGame.location
       }
     })
   }).then(resolveResponse);
@@ -54,14 +52,12 @@ const post = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
     method: 'POST',
     body: JSON.stringify({
       tournament_game: {
-        game: {
-          away_score: tournamentGame.game.awayScore,
-          away_team_name: tournamentGame.game.awayTeamName,
-          datetime: tournamentGame.game.datetime,
-          home_score: tournamentGame.game.homeScore,
-          home_team_name: tournamentGame.game.homeTeamName,
-          location: tournamentGame.game.location
-        }
+        away_score: tournamentGame.awayScore,
+        away_team_id: tournamentGame.awayTeam.id,
+        datetime: tournamentGame.datetime,
+        home_score: tournamentGame.homeScore,
+        home_team_id: tournamentGame.homeTeam.id,
+        location: tournamentGame.location
       }
     })
   }).then(resolveResponse);

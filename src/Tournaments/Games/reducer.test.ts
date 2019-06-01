@@ -1,33 +1,6 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  ActionTypes,
-  DELETE_TOURNAMENT_GAME,
-  DELETE_TOURNAMENT_GAME_FAILURE,
-  DELETE_TOURNAMENT_GAME_SUCCESS,
-  POST_TOURNAMENT_GAME,
-  POST_TOURNAMENT_GAME_FAILURE,
-  POST_TOURNAMENT_GAME_SUCCESS,
-  REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES,
-  REQUEST_TOURNAMENT_GAMES_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_SUCCESS,
-  REQUEST_TOURNAMENT_GAME_FAILURE,
-  REQUEST_TOURNAMENT_GAME_SUCCESS
-} from './actions';
-import {
-  deleteTournamentGame,
-  deleteTournamentGameFailure,
-  deleteTournamentGameSuccess,
-  postTournamentGame,
-  postTournamentGameFailure,
-  postTournamentGameSuccess,
-  requestTournamentGame,
-  requestTournamentGameFailure,
-  requestTournamentGames,
-  requestTournamentGamesFailure,
-  requestTournamentGamesSuccess,
-  requestTournamentGameSuccess
-} from './reducer';
+import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from './actions';
+import { deleteTournamentGame, deleteTournamentGameFailure, deleteTournamentGameSuccess, postTournamentGame, postTournamentGameFailure, postTournamentGameSuccess, requestTournamentGame, requestTournamentGameFailure, requestTournamentGames, requestTournamentGamesFailure, requestTournamentGamesSuccess, requestTournamentGameSuccess } from './reducer';
 import { initialState, TournamentGameState } from './state';
 
 describe('deleteTournamentGame', () => {
@@ -72,27 +45,36 @@ describe('deleteTournamentGameSuccess', () => {
     tournamentGames: {
       ['first-id']: {
         id: 'first-id',
-        game: {
-          id: 'first-game-id',
-          awayScore: 10,
-          awayTeamName: 'first away team name',
-          datetime: '2019-05-22T03:21:21.248Z',
-          homeScore: 20,
-          homeTeamName: 'first home team name',
-          location: 'first location'
-        }
-      }
+        awayScore: 10,
+        awayTeam: {
+          id: 'first-away-team-id',
+          name: 'first-away-team',
+        },
+        datetime: '2019-05-22T03:21:21.248Z',
+        homeScore: 20,
+        homeTeam: {
+          id: 'first-home-team-id',
+          name: 'first-home-team',
+        },
+        location: 'first location',
+      },
     },
     tournamentGamesByDate: {
       ['2019-05-22']: {
         ['first-id']: {
-          id: 'first-game-id',
+          id: 'first-id',
           awayScore: 10,
-          awayTeamName: 'first away team name',
+          awayTeam: {
+            id: 'first-away-team-id',
+            name: 'first-away-team',
+          },
           datetime: '2019-05-22T03:21:21.248Z',
           homeScore: 20,
-          homeTeamName: 'first home team name',
-          location: 'first location'
+          homeTeam: {
+            id: 'first-home-team-id',
+            name: 'first-home-team',
+          },
+          location: 'first location',
         }
       }
     }
@@ -141,22 +123,34 @@ describe('deleteTournamentGameSuccess', () => {
       tournamentGamesByDate: {
         ['2019-05-22']: {
           ['first-id']: {
-            id: 'first-game-id',
+            id: 'first-id',
             awayScore: 10,
-            awayTeamName: 'first away team name',
+            awayTeam: {
+              id: 'first-away-team-id',
+              name: 'first-away-team',
+            },
             datetime: '2019-05-22T03:21:21.248Z',
             homeScore: 20,
-            homeTeamName: 'first home team name',
-            location: 'first location'
+            homeTeam: {
+              id: 'first-home-team-id',
+              name: 'first-home-team',
+            },
+            location: 'first location',
           },
           ['second-id']: {
-            id: 'second-game-id',
+            id: 'second-id',
             awayScore: 30,
-            awayTeamName: 'second away team name',
+            awayTeam: {
+              id: 'second-away-team-id',
+              name: 'second-away-team',
+            },
             datetime: '2019-05-22T05:21:21.248Z',
             homeScore: 40,
-            homeTeamName: 'second home team name',
-            location: 'second location'
+            homeTeam: {
+              id: 'second-home-team-id',
+              name: 'second-home-team',
+            },
+            location: 'second location',
           }
         }
       }
@@ -171,12 +165,18 @@ describe('deleteTournamentGameSuccess', () => {
       newState.tournamentGamesByDate['2019-05-22']['first-id']
     ).toBeUndefined();
     expect(newState.tournamentGamesByDate['2019-05-22']['second-id']).toEqual({
-      id: 'second-game-id',
+      id: 'second-id',
       awayScore: 30,
-      awayTeamName: 'second away team name',
+      awayTeam: {
+        id: 'second-away-team-id',
+        name: 'second-away-team',
+      },
       datetime: '2019-05-22T05:21:21.248Z',
       homeScore: 40,
-      homeTeamName: 'second home team name',
+      homeTeam: {
+        id: 'second-home-team-id',
+        name: 'second-home-team',
+      },
       location: 'second location'
     });
   });
@@ -213,14 +213,18 @@ describe('postTournamentGameSuccess', () => {
     payload: {
       data: {
         id: 'first-id',
-        game: {
-          away_score: 10,
-          away_team_name: 'away team name',
-          datetime: '2019-05-22T03:21:21.248Z',
-          home_score: 20,
-          home_team_name: 'home team name',
-          location: 'location'
-        }
+        away_score: 10,
+        away_team: {
+          id: 'first-away-team-id',
+          name: 'first-away-team',
+        },
+        datetime: '2019-05-22T03:21:21.248Z',
+        home_score: 20,
+        home_team: {
+          id: 'first-home-team-id',
+          name: 'first-home-team',
+        },
+        location: 'first location',
       }
     }
   };
@@ -237,14 +241,18 @@ describe('postTournamentGameSuccess', () => {
 
     expect(newState.tournamentGames['first-id']).toEqual({
       id: 'first-id',
-      game: {
-        awayScore: 10,
-        awayTeamName: 'away team name',
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 20,
-        homeTeamName: 'home team name',
-        location: 'location'
-      }
+      awayScore: 10,
+      awayTeam: {
+        id: 'first-away-team-id',
+        name: 'first-away-team',
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 20,
+      homeTeam: {
+        id: 'first-home-team-id',
+        name: 'first-home-team',
+      },
+      location: 'first location',
     });
   });
 
@@ -254,14 +262,18 @@ describe('postTournamentGameSuccess', () => {
       tournamentGames: {
         ['some-id']: {
           id: 'some-id',
-          game: {
-            awayScore: 30,
-            awayTeamName: 'some away team name',
-            datetime: '2019-05-22T03:21:21.248Z',
-            homeScore: 40,
-            homeTeamName: 'some home team name',
-            location: 'some location'
-          }
+          awayScore: 30,
+          awayTeam: {
+            id: 'some-away-team-id',
+            name: 'some-away-team',
+          },
+          datetime: '2019-05-22T03:21:21.248Z',
+          homeScore: 40,
+          homeTeam: {
+            id: 'some-home-team-id',
+            name: 'some-home-team',
+          },
+          location: 'some location',
         }
       }
     };
@@ -270,14 +282,18 @@ describe('postTournamentGameSuccess', () => {
 
     expect(newState.tournamentGames['some-id']).toEqual({
       id: 'some-id',
-      game: {
-        awayScore: 30,
-        awayTeamName: 'some away team name',
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 40,
-        homeTeamName: 'some home team name',
-        location: 'some location'
-      }
+      awayScore: 30,
+      awayTeam: {
+        id: 'some-away-team-id',
+        name: 'some-away-team',
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 40,
+      homeTeam: {
+        id: 'some-home-team-id',
+        name: 'some-home-team',
+      },
+      location: 'some location',
     });
   });
 });
@@ -313,15 +329,18 @@ describe('requestTournamentGameSuccess', () => {
     payload: {
       data: {
         id: 'first-id',
-        game: {
-          id: 'first-game-id',
-          away_score: 10,
-          away_team_name: 'first away team name',
-          datetime: '2019-05-22T03:21:21.248Z',
-          home_score: 20,
-          home_team_name: 'first home team name',
-          location: 'first location'
-        }
+        away_score: 10,
+        away_team: {
+          id: 'first-away-team-id',
+          name: 'first-away-team',
+        },
+        datetime: '2019-05-22T03:21:21.248Z',
+        home_score: 20,
+        home_team: {
+          id: 'first-home-team-id',
+          name: 'first-home-team',
+        },
+        location: 'first location',
       }
     }
   };
@@ -338,15 +357,18 @@ describe('requestTournamentGameSuccess', () => {
 
     expect(newState.tournamentGames['first-id']).toEqual({
       id: 'first-id',
-      game: {
-        id: 'first-game-id',
-        awayScore: 10,
-        awayTeamName: 'first away team name',
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 20,
-        homeTeamName: 'first home team name',
-        location: 'first location'
-      }
+      awayScore: 10,
+      awayTeam: {
+        id: 'first-away-team-id',
+        name: 'first-away-team',
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 20,
+      homeTeam: {
+        id: 'first-home-team-id',
+        name: 'first-home-team',
+      },
+      location: 'first location',
     });
   });
 });
@@ -384,27 +406,33 @@ describe('requestTournamentGamesSuccess', () => {
       data: [
         {
           id: 'first-id',
-          game: {
-            id: 'first-game-id',
-            away_score: 10,
-            away_team_name: 'first away team name',
-            datetime: '2019-05-22T03:21:21.248Z',
-            home_score: 20,
-            home_team_name: 'first home team name',
-            location: 'first location'
-          }
+          away_score: 10,
+          away_team: {
+            id: 'first-away-team-id',
+            name: 'first-away-team',
+          },
+          datetime: '2019-05-22T03:21:21.248Z',
+          home_score: 20,
+          home_team: {
+            id: 'first-home-team-id',
+            name: 'first-home-team',
+          },
+          location: 'first location',
         },
         {
           id: 'second-id',
-          game: {
-            id: 'second-game-id',
-            away_score: 30,
-            away_team_name: 'second away team name',
-            datetime: '2019-05-22T03:21:21.248Z',
-            home_score: 40,
-            home_team_name: 'second home team name',
-            location: 'second location'
-          }
+          away_score: 30,
+          away_team: {
+            id: 'second-away-team-id',
+            name: 'second-away-team',
+          },
+          datetime: '2019-05-22T03:21:21.248Z',
+          home_score: 40,
+          home_team: {
+            id: 'second-home-team-id',
+            name: 'second-home-team',
+          },
+          location: 'second location',
         }
       ]
     }
@@ -422,27 +450,33 @@ describe('requestTournamentGamesSuccess', () => {
 
     expect(newState.tournamentGames['first-id']).toEqual({
       id: 'first-id',
-      game: {
-        id: 'first-game-id',
-        awayScore: 10,
-        awayTeamName: 'first away team name',
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 20,
-        homeTeamName: 'first home team name',
-        location: 'first location'
-      }
+      awayScore: 10,
+      awayTeam: {
+        id: 'first-away-team-id',
+        name: 'first-away-team',
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 20,
+      homeTeam: {
+        id: 'first-home-team-id',
+        name: 'first-home-team',
+      },
+      location: 'first location',
     });
     expect(newState.tournamentGames['second-id']).toEqual({
       id: 'second-id',
-      game: {
-        id: 'second-game-id',
-        awayScore: 30,
-        awayTeamName: 'second away team name',
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 40,
-        homeTeamName: 'second home team name',
-        location: 'second location'
-      }
+      awayScore: 30,
+      awayTeam: {
+        id: 'second-away-team-id',
+        name: 'second-away-team',
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 40,
+      homeTeam: {
+        id: 'second-home-team-id',
+        name: 'second-home-team',
+      },
+      location: 'second location',
     });
   });
 
@@ -451,22 +485,34 @@ describe('requestTournamentGamesSuccess', () => {
 
     expect(newState.tournamentGamesByDate['2019-05-22']).toEqual({
       ['first-id']: {
-        id: 'first-game-id',
+        id: 'first-id',
         awayScore: 10,
-        awayTeamName: 'first away team name',
+        awayTeam: {
+          id: 'first-away-team-id',
+          name: 'first-away-team',
+        },
         datetime: '2019-05-22T03:21:21.248Z',
         homeScore: 20,
-        homeTeamName: 'first home team name',
-        location: 'first location'
+        homeTeam: {
+          id: 'first-home-team-id',
+          name: 'first-home-team',
+        },
+        location: 'first location',
       },
       ['second-id']: {
-        id: 'second-game-id',
+        id: 'second-id',
         awayScore: 30,
-        awayTeamName: 'second away team name',
+        awayTeam: {
+          id: 'second-away-team-id',
+          name: 'second-away-team',
+        },
         datetime: '2019-05-22T03:21:21.248Z',
         homeScore: 40,
-        homeTeamName: 'second home team name',
-        location: 'second location'
+        homeTeam: {
+          id: 'second-home-team-id',
+          name: 'second-home-team',
+        },
+        location: 'second location',
       }
     });
   });

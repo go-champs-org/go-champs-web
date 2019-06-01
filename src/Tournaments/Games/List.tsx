@@ -19,18 +19,18 @@ const TournamentGameCard: React.FC<{
         <div className="columns" style={{ flex: '1' }}>
           <div className="column is-4 has-text-centered">
             <span className="title is-6">
-              {tournamentGame.game.awayTeamName}
+              {tournamentGame.awayTeam.name}
             </span>
           </div>
           <div className="column is-2 has-text-centered">
-            <span className="title is-7">{tournamentGame.game.awayScore}</span>
+            <span className="title is-7">{tournamentGame.awayScore}</span>
           </div>
           <div className="column is-2 has-text-centered">
-            <span className="title is-7">{tournamentGame.game.homeScore}</span>
+            <span className="title is-7">{tournamentGame.homeScore}</span>
           </div>
           <div className="column is-4 has-text-centered">
             <span className="title is-6">
-              {tournamentGame.game.homeTeamName}
+              {tournamentGame.homeTeam.name}
             </span>
           </div>
         </div>
@@ -49,13 +49,13 @@ const TournamentGameCard: React.FC<{
       <div className="columns is-mobile" style={{ flex: '1' }}>
         <div className="column is-6 has-text-centered">
           <span className="title is-7">
-            {`${dateFromDate(tournamentGame.game.datetime)} : ${timeFromDate(
-              tournamentGame.game.datetime
+            {`${dateFromDate(tournamentGame.datetime)} : ${timeFromDate(
+              tournamentGame.datetime
             )}`}
           </span>
         </div>
         <div className="column is-6 has-text-centered">
-          <span className="title is-7">{tournamentGame.game.location}</span>
+          <span className="title is-7">{tournamentGame.location}</span>
         </div>
       </div>
     </footer>

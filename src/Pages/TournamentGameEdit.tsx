@@ -3,8 +3,6 @@ import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { patchGame } from '../Games/actions';
-import { GameState } from '../Games/state';
 import { requestTournamentGame } from '../Tournaments/Games/actions';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
@@ -16,7 +14,6 @@ interface TournamentGameEditMatchProps extends TournamentHomeMatchProps {
 
 interface TournamentGameEditProps
   extends RouteComponentProps<TournamentGameEditMatchProps> {
-  gameState: GameState;
   tournamentGameState: TournamentGameState;
   patchGame: any;
   requestTournamentGame: any;
@@ -91,15 +88,10 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
   }
 
   renderForm() {
-    const gameId = this.props.tournamentGameState.tournamentGames[
-      this.props.match.params.tournamentGameId
-    ].game.id;
-    const game = this.props.gameState.games[gameId];
-
     return (
       <Form
         onSubmit={this.props.patchGame}
-        initialValues={game}
+        initialValues={{}}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
             <GameForm />
@@ -135,7 +127,6 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
   return bindActionCreators(
     {
-      patchGame,
       requestTournamentGame: requestTournamentGame(tournamentId)
     },
     dispatch
