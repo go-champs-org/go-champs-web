@@ -1,10 +1,10 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestTournament } from '../Tournaments/actions';
 import { patchTournamentGroup } from '../Tournaments/Groups/actions';
+import Edit from '../Tournaments/Groups/Edit';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
@@ -28,25 +28,12 @@ class TournamentGroupEdit extends React.Component<TournamentGroupEditProps> {
       this.props.match.params.tournamentGroupId
     ];
     return (
-      <Form
-        onSubmit={this.props.patchTournamentGroup}
-        initialValues={tournamentGroup}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Name</label>
-              <Field
-                name="name"
-                component="input"
-                type="text"
-                placeholder="Name"
-              />
-            </div>
-            <button type="submit" disabled={submitting || pristine}>
-              Submit
-            </button>
-          </form>
-        )}
+      <Edit
+        currentOrganizationSlug={this.props.match.params.organizationSlug}
+        currentTournamentSlug={this.props.match.params.tournamentSlug}
+        postTournamentGroup={this.props.patchTournamentGroup}
+        tournamentState={this.props.tournamentState}
+        tournamentGroup={tournamentGroup}
       />
     );
   }

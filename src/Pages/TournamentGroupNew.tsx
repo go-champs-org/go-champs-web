@@ -1,39 +1,27 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { postTournamentGroup } from '../Tournaments/Groups/actions';
+import New from '../Tournaments/Groups/New';
+import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
 interface TournamentGroupNewProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   postTournamentGroup: any;
+  tournamentState: TournamentState;
 }
 
 class TournamentGroupNew extends React.Component<TournamentGroupNewProps> {
   render() {
     return (
-      <Form
-        onSubmit={this.props.postTournamentGroup}
-        initialValues={{ name: '' }}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Name</label>
-              <Field
-                name="name"
-                component="input"
-                type="text"
-                placeholder="Name"
-              />
-            </div>
-            <button type="submit" disabled={submitting || pristine}>
-              Submit
-            </button>
-          </form>
-        )}
+      <New
+        currentOrganizationSlug={this.props.match.params.organizationSlug}
+        currentTournamentSlug={this.props.match.params.tournamentSlug}
+        postTournamentGroup={this.props.postTournamentGroup}
+        tournamentState={this.props.tournamentState}
       />
     );
   }
