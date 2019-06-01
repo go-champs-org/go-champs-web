@@ -18,6 +18,9 @@ export const REQUEST_TOURNAMENT_GAMES_SUCCESS =
   'API_REQUEST_TOURNAMENT_GAMES_SUCCESS';
 export const REQUEST_TOURNAMENT_GAMES_FAILURE =
   'API_REQUEST_TOURNAMENT_GAMES_FAILURE';
+export const PATCH_TOURNAMENT_GAME = 'API_PATCH_TOURNAMENT_GAME';
+export const PATCH_TOURNAMENT_GAME_SUCCESS = 'API_PATCH_TOURNAMENT_GAME_SUCCESS';
+export const PATCH_TOURNAMENT_GAME_FAILURE = 'API_PATCH_TOURNAMENT_GAME_FAILURE';
 export const POST_TOURNAMENT_GAME = 'API_POST_TOURNAMENT_GAME';
 export const POST_TOURNAMENT_GAME_SUCCESS = 'API_POST_TOURNAMENT_GAME_SUCCESS';
 export const POST_TOURNAMENT_GAME_FAILURE = 'API_POST_TOURNAMENT_GAME_FAILURE';
@@ -51,6 +54,35 @@ export const deleteTournamentGameFailure = (
   payload
 });
 
+export const patchTournamentGame = (tournamentId: string) => (tournamentGame: TournamentGameEntity) => async (
+  dispatch: any
+) => {
+  dispatch({ type: PATCH_TOURNAMENT_GAME });
+
+  try {
+    const response = await httpClient.patch(tournamentId, tournamentGame);
+
+    dispatch(patchTournamentGameSuccess(response));
+    displayToast(`Game updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchTournamentGameFailure(err));
+  }
+};
+
+export const patchTournamentGameSuccess = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: PATCH_TOURNAMENT_GAME_SUCCESS,
+  payload
+});
+
+export const patchTournamentGameFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: PATCH_TOURNAMENT_GAME_FAILURE,
+  payload
+});
+
 export const postTournamentGame = (tournamentId: string) => (tournamentGame: TournamentGameEntity) => async (
   dispatch: any
 ) => {
@@ -80,7 +112,7 @@ export const postTournamentGameFailure = (
   payload
 });
 
-export const requestTournamentGame = (tournamentId: string) => (tournamentGameId: string) => async (dispatch: any) => {
+export const requestTournamentGame = (tournamentId: string, tournamentGameId: string) => async (dispatch: any) => {
   dispatch({ type: REQUEST_TOURNAMENT_GAME });
 
   try {
@@ -114,6 +146,7 @@ export const requestTournamentGames = (tournamentId: string) => () => async (dis
 
     dispatch(requestTournamentGamesSuccess(response));
   } catch (err) {
+    console.log(err)
     dispatch(requestTournamentGamesFailure(err));
   }
 };
@@ -136,6 +169,9 @@ export type ActionTypes =
   | typeof DELETE_TOURNAMENT_GAME
   | typeof DELETE_TOURNAMENT_GAME_FAILURE
   | typeof DELETE_TOURNAMENT_GAME_SUCCESS
+  | typeof PATCH_TOURNAMENT_GAME
+  | typeof PATCH_TOURNAMENT_GAME_FAILURE
+  | typeof PATCH_TOURNAMENT_GAME_SUCCESS
   | typeof POST_TOURNAMENT_GAME
   | typeof POST_TOURNAMENT_GAME_FAILURE
   | typeof POST_TOURNAMENT_GAME_SUCCESS

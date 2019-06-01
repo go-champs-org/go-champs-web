@@ -18,7 +18,7 @@ const tournamentGameMapEntities = mapEntities(
   mapTournamentGame
 );
 
-const returnDateId = (apiData: any) => apiData.datetime.substring(0, 10);
+const returnDateId = (apiData: any) => apiData.datetime && apiData.datetime.substring(0, 10);
 
 const mapTournamentGameToDateEntity = (apiData: any) => ({
   [apiData.id]: {

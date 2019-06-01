@@ -433,6 +433,15 @@ describe('requestTournamentGamesSuccess', () => {
             name: 'second-home-team',
           },
           location: 'second location',
+        },
+        {
+          id: 'third-id',
+          away_score: null,
+          away_team: null,
+          datetime: '2019-06-22T03:21:21.248Z',
+          home_score: null,
+          home_team: null,
+          location: 'third location',
         }
       ]
     }

@@ -19,7 +19,7 @@ const TournamentGameCard: React.FC<{
         <div className="columns" style={{ flex: '1' }}>
           <div className="column is-4 has-text-centered">
             <span className="title is-6">
-              {tournamentGame.awayTeam.name}
+              {tournamentGame.awayTeam && tournamentGame.awayTeam.name}
             </span>
           </div>
           <div className="column is-2 has-text-centered">
@@ -30,7 +30,7 @@ const TournamentGameCard: React.FC<{
           </div>
           <div className="column is-4 has-text-centered">
             <span className="title is-6">
-              {tournamentGame.homeTeam.name}
+              {tournamentGame.homeTeam && tournamentGame.homeTeam.name}
             </span>
           </div>
         </div>
@@ -49,7 +49,7 @@ const TournamentGameCard: React.FC<{
       <div className="columns is-mobile" style={{ flex: '1' }}>
         <div className="column is-6 has-text-centered">
           <span className="title is-7">
-            {`${dateFromDate(tournamentGame.datetime)} : ${timeFromDate(
+            {tournamentGame.datetime && `${dateFromDate(tournamentGame.datetime)} : ${timeFromDate(
               tournamentGame.datetime
             )}`}
           </span>

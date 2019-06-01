@@ -34,10 +34,10 @@ const patch = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
     body: JSON.stringify({
       tournament_game: {
         away_score: tournamentGame.awayScore,
-        away_team_id: tournamentGame.awayTeam.id,
+        away_team_id: tournamentGame.awayTeam && tournamentGame.awayTeam.id,
         datetime: tournamentGame.datetime,
         home_score: tournamentGame.homeScore,
-        home_team_id: tournamentGame.homeTeam.id,
+        home_team_id: tournamentGame.homeTeam && tournamentGame.homeTeam.id,
         location: tournamentGame.location
       }
     })
@@ -53,10 +53,10 @@ const post = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
     body: JSON.stringify({
       tournament_game: {
         away_score: tournamentGame.awayScore,
-        away_team_id: tournamentGame.awayTeam.id,
+        away_team_id: tournamentGame.awayTeam && tournamentGame.awayTeam.id,
         datetime: tournamentGame.datetime,
         home_score: tournamentGame.homeScore,
-        home_team_id: tournamentGame.homeTeam.id,
+        home_team_id: tournamentGame.homeTeam && tournamentGame.homeTeam.id,
         location: tournamentGame.location
       }
     })
