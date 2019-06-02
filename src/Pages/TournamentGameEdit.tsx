@@ -7,6 +7,7 @@ import { patchTournamentGame, requestTournamentGame } from '../Tournaments/Games
 import Edit from '../Tournaments/Games/Edit';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentState } from '../Tournaments/state';
+import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
@@ -21,6 +22,7 @@ interface TournamentGameEditProps
   requestTournamentGame: any;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
+  tournamentTeamState: TournamentTeamState;
 }
 
 class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
@@ -35,6 +37,7 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
         patchTournamentGame={this.props.patchTournamentGame}
         tournamentState={this.props.tournamentState}
         tournamentGame={tournamentGame}
+        tournamentTeams={this.props.tournamentTeamState.tournamentTeams}
       />
     );
   }
@@ -43,13 +46,15 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
     const tournamentId = this.props.tournamentState.tournaments[
       this.props.match.params.tournamentSlug
     ].id;
+    this.props.requestTournament(tournamentId);
     this.props.requestTournamentGame(tournamentId, this.props.match.params.tournamentGameId);
   }
 }
 
 const mapStateToProps = (state: any) => ({
   tournamentState: state.tournaments,
-  tournamentGameState: state.tournamentGames
+  tournamentGameState: state.tournamentGames,
+  tournamentTeamState: state.tournamentTeams
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {

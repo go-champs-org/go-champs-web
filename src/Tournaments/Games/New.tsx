@@ -2,6 +2,7 @@ import React from 'react';
 import { Form } from 'react-final-form';
 import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
+import { TournamentTeamEntity } from '../Teams/state';
 import { default as TournamentGameForm } from './Form';
 
 interface TournamentGameNewProps {
@@ -9,13 +10,15 @@ interface TournamentGameNewProps {
 	currentTournamentSlug: string;
 	postTournamentGame: any;
 	tournamentState: TournamentState;
+	tournamentTeams: { [key: string]: TournamentTeamEntity };
 }
 
 export const New: React.FC<TournamentGameNewProps> = ({
 	currentOrganizationSlug,
 	currentTournamentSlug,
 	postTournamentGame,
-	tournamentState
+	tournamentState,
+	tournamentTeams,
 }) => {
 	const tournament = tournamentState.tournaments[currentTournamentSlug];
 	return (
@@ -36,7 +39,7 @@ export const New: React.FC<TournamentGameNewProps> = ({
 				<Form
 					onSubmit={postTournamentGame}
 					initialValues={{ datetime: '', location: '' }}
-					render={TournamentGameForm}
+					render={(props: any) => <TournamentGameForm {...props} tournamentTeams={tournamentTeams} />}
 				/>
 			</div>
 		</div>

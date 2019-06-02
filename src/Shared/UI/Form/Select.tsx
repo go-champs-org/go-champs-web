@@ -3,18 +3,21 @@ import { FieldRenderProps } from 'react-final-form';
 import { default as ReactSelect } from 'react-select';
 
 interface SelectProps extends FieldRenderProps<HTMLSelectElement> {
-	selectOptions: { value: string, label: string }[],
+	selectOptions: any[],
+	getOptionLabel: any
 };
 
 class Select extends React.Component<SelectProps> {
 	render() {
 		const {
 			input,
-			selectOptions
+			getOptionLabel,
+			selectOptions,
 		} = this.props;
 		return (
 			<ReactSelect
 				{...input}
+				getOptionLabel={getOptionLabel}
 				options={selectOptions}
 				searchable
 				onChange={(value: any) => this.onChange(value)}
@@ -37,8 +40,6 @@ class Select extends React.Component<SelectProps> {
 	}
 }
 
-const ReactSelectAdapter = ({ input, meta, ...rest }: any) => (
+export default ({ input, meta, ...rest }: any) => (
 	<Select input={input} meta={meta} {...rest} />
 );
-
-export default ReactSelectAdapter

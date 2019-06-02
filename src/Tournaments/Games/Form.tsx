@@ -1,10 +1,11 @@
 import React from 'react';
-import { Field, FieldRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
+import Select from '../../Shared/UI/Form/Select';
+import { TournamentTeamEntity } from '../Teams/state';
 
-interface FromProps {
-	handleSubmit: any;
-	submitting: boolean;
-	pristine: boolean;
+
+interface FromProps extends FormRenderProps {
+	tournamentTeams: { [key: string]: TournamentTeamEntity }
 }
 
 const Input: React.FC<FieldRenderProps<HTMLInputElement>> = ({
@@ -12,13 +13,34 @@ const Input: React.FC<FieldRenderProps<HTMLInputElement>> = ({
 	meta
 }) => <input className="input" type="text" {...input} />;
 
-const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
+const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine, values, tournamentTeams }) => {
+	const selectTeams = Object.keys(tournamentTeams).map((key: string) => tournamentTeams[key]);
 	return (
 		<form onSubmit={handleSubmit}>
+			<div className="field">
+				<label className="label">Away team</label>
+				<div className="control">
+					<Field name="awayTeam"
+						component={Select}
+						selectOptions={selectTeams}
+						getOptionLabel={(team: TournamentTeamEntity) => team.name} />
+				</div>
+			</div>
+
 			<div className="field">
 				<label className="label">Away score</label>
 				<div className="control">
 					<Field name="awayScore" component={Input} type="number" />
+				</div>
+			</div>
+
+			<div className="field">
+				<label className="label">Home team</label>
+				<div className="control">
+					<Field name="homeTeam"
+						component={Select}
+						selectOptions={selectTeams}
+						getOptionLabel={(team: TournamentTeamEntity) => team.name} />
 				</div>
 			</div>
 
