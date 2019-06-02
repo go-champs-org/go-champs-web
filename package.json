@@ -9,6 +9,7 @@
     "@types/react": "16.8.14",
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.2",
+    "@types/react-select": "^2.0.19",
     "animate.css": "^3.7.1",
     "bulma": "^0.7.4",
     "bulma-toast": "^1.5.1",
@@ -20,6 +21,7 @@
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "react-select": "^3.0.3",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "typescript": "3.4.5"
