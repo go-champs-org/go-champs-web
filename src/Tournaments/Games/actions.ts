@@ -19,15 +19,17 @@ export const REQUEST_TOURNAMENT_GAMES_SUCCESS =
 export const REQUEST_TOURNAMENT_GAMES_FAILURE =
   'API_REQUEST_TOURNAMENT_GAMES_FAILURE';
 export const PATCH_TOURNAMENT_GAME = 'API_PATCH_TOURNAMENT_GAME';
-export const PATCH_TOURNAMENT_GAME_SUCCESS = 'API_PATCH_TOURNAMENT_GAME_SUCCESS';
-export const PATCH_TOURNAMENT_GAME_FAILURE = 'API_PATCH_TOURNAMENT_GAME_FAILURE';
+export const PATCH_TOURNAMENT_GAME_SUCCESS =
+  'API_PATCH_TOURNAMENT_GAME_SUCCESS';
+export const PATCH_TOURNAMENT_GAME_FAILURE =
+  'API_PATCH_TOURNAMENT_GAME_FAILURE';
 export const POST_TOURNAMENT_GAME = 'API_POST_TOURNAMENT_GAME';
 export const POST_TOURNAMENT_GAME_SUCCESS = 'API_POST_TOURNAMENT_GAME_SUCCESS';
 export const POST_TOURNAMENT_GAME_FAILURE = 'API_POST_TOURNAMENT_GAME_FAILURE';
 
-export const deleteTournamentGame = (tournamentId: string) => (tournamentGame: TournamentGameEntity) => async (
-  dispatch: any
-) => {
+export const deleteTournamentGame = (tournamentId: string) => (
+  tournamentGame: TournamentGameEntity
+) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_GAME });
 
   try {
@@ -54,9 +56,9 @@ export const deleteTournamentGameFailure = (
   payload
 });
 
-export const patchTournamentGame = (tournamentId: string) => (tournamentGame: TournamentGameEntity) => async (
-  dispatch: any
-) => {
+export const patchTournamentGame = (tournamentId: string) => (
+  tournamentGame: TournamentGameEntity
+) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT_GAME });
 
   try {
@@ -83,9 +85,9 @@ export const patchTournamentGameFailure = (
   payload
 });
 
-export const postTournamentGame = (tournamentId: string) => (tournamentGame: TournamentGameEntity) => async (
-  dispatch: any
-) => {
+export const postTournamentGame = (tournamentId: string) => (
+  tournamentGame: TournamentGameEntity
+) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_GAME });
 
   try {
@@ -112,7 +114,10 @@ export const postTournamentGameFailure = (
   payload
 });
 
-export const requestTournamentGame = (tournamentId: string, tournamentGameId: string) => async (dispatch: any) => {
+export const requestTournamentGame = (
+  tournamentId: string,
+  tournamentGameId: string
+) => async (dispatch: any) => {
   dispatch({ type: REQUEST_TOURNAMENT_GAME });
 
   try {
@@ -138,7 +143,9 @@ export const requestTournamentGameFailure = (
   payload
 });
 
-export const requestTournamentGames = (tournamentId: string) => () => async (dispatch: any) => {
+export const requestTournamentGames = (tournamentId: string) => () => async (
+  dispatch: any
+) => {
   dispatch({ type: REQUEST_TOURNAMENT_GAMES });
 
   try {
@@ -146,7 +153,7 @@ export const requestTournamentGames = (tournamentId: string) => () => async (dis
 
     dispatch(requestTournamentGamesSuccess(response));
   } catch (err) {
-    console.log(err)
+    console.log(err);
     dispatch(requestTournamentGamesFailure(err));
   }
 };

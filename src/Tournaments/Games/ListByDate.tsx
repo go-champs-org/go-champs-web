@@ -2,7 +2,9 @@ import React from 'react';
 import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
 import { TournamentGameEntity, TournamentGameState } from './state';
 
-const MiniGameCard: React.FC<{ tournamentGame: TournamentGameEntity }> = ({ tournamentGame }) => {
+const MiniGameCard: React.FC<{ tournamentGame: TournamentGameEntity }> = ({
+  tournamentGame
+}) => {
   return (
     <div className="card">
       <div className="card-content">

@@ -3,9 +3,8 @@ import { TournamentTeamEntity } from './state';
 
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
-const tournamentTeamsApi = (tournamentId: string) => (
-  `${TOURNAMENT_API}/${tournamentId}/teams`
-);
+const tournamentTeamsApi = (tournamentId: string) =>
+  `${TOURNAMENT_API}/${tournamentId}/teams`;
 
 const deleteRequest = (tournamentId: string, tournamentTeamId: string) => {
   const url = `${tournamentTeamsApi(tournamentId)}/${tournamentTeamId}`;
@@ -43,5 +42,5 @@ export default {
   delete: deleteRequest,
   getAll,
   patch,
-  post,
+  post
 };

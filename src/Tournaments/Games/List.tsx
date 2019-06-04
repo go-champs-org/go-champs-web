@@ -49,9 +49,10 @@ const TournamentGameCard: React.FC<{
       <div className="columns is-mobile" style={{ flex: '1' }}>
         <div className="column is-6 has-text-centered">
           <span className="title is-7">
-            {tournamentGame.datetime && `${dateFromDate(tournamentGame.datetime)} : ${timeFromDate(
-              tournamentGame.datetime
-            )}`}
+            {tournamentGame.datetime &&
+              `${dateFromDate(tournamentGame.datetime)} : ${timeFromDate(
+                tournamentGame.datetime
+              )}`}
           </span>
         </div>
         <div className="column is-6 has-text-centered">
@@ -73,42 +74,42 @@ const List: React.FC<{
   currentTournamentSlug,
   deleteTournamentGame,
   tournamentState,
-  tournamentGameState,
+  tournamentGameState
 }) => {
-    const tournament = tournamentState.tournaments[currentTournamentSlug];
-    const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
-    return (
-      <div className="columns is-multiline">
-        <header className="column is-12">
-          <NavBar
-            organizationSlug={currentOrganizationSlug}
-            tournament={tournament}
-            tournamentSlug={currentTournamentSlug}
-          />
-        </header>
-        <div className="column is-8">
-          <div className="columns is-mobile is-vcentered">
-            <div className="column is-8">
-              <h2 className="subtitle">Games</h2>
-            </div>
-            <div className="column is-4 has-text-right">
-              <Link className="button" to={`./TournamentGameNew`}>
-                New game
-            </Link>
-            </div>
+  const tournament = tournamentState.tournaments[currentTournamentSlug];
+  const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+  return (
+    <div className="columns is-multiline">
+      <header className="column is-12">
+        <NavBar
+          organizationSlug={currentOrganizationSlug}
+          tournament={tournament}
+          tournamentSlug={currentTournamentSlug}
+        />
+      </header>
+      <div className="column is-8">
+        <div className="columns is-mobile is-vcentered">
+          <div className="column is-8">
+            <h2 className="subtitle">Games</h2>
           </div>
-          {Object.keys(tournamentGameState.tournamentGames).map((key: string) => (
-            <TournamentGameCard
-              key={key}
-              url={baseTournamentUrl}
-              tournamentGame={tournamentGameState.tournamentGames[key]}
-              onDeleteTournamentGame={deleteTournamentGame}
-            />
-          ))}
+          <div className="column is-4 has-text-right">
+            <Link className="button" to={`./TournamentGameNew`}>
+              New game
+            </Link>
+          </div>
         </div>
+        {Object.keys(tournamentGameState.tournamentGames).map((key: string) => (
+          <TournamentGameCard
+            key={key}
+            url={baseTournamentUrl}
+            tournamentGame={tournamentGameState.tournamentGames[key]}
+            onDeleteTournamentGame={deleteTournamentGame}
+          />
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export const Wrapper: React.FC<{
   deleteTournamentGame: any;
@@ -121,17 +122,17 @@ export const Wrapper: React.FC<{
   currentTournamentSlug,
   deleteTournamentGame,
   tournamentState,
-  tournamentGameState,
+  tournamentGameState
 }) => {
-    return (
-      <List
-        currentOrganizationSlug={currentOrganizationSlug}
-        currentTournamentSlug={currentTournamentSlug}
-        deleteTournamentGame={deleteTournamentGame}
-        tournamentState={tournamentState}
-        tournamentGameState={tournamentGameState}
-      />
-    );
-  };
+  return (
+    <List
+      currentOrganizationSlug={currentOrganizationSlug}
+      currentTournamentSlug={currentTournamentSlug}
+      deleteTournamentGame={deleteTournamentGame}
+      tournamentState={tournamentState}
+      tournamentGameState={tournamentGameState}
+    />
+  );
+};
 
 export default Wrapper;

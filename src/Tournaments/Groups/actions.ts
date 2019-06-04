@@ -1,6 +1,10 @@
 import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../actions';
 import httpClient from './httpClient';
 import { TournamentGroupEntity } from './state';
 
@@ -20,9 +24,9 @@ export const POST_TOURNAMENT_GROUP_SUCCESS =
 export const POST_TOURNAMENT_GROUP_FAILURE =
   'API_POST_TOURNAMENT_GROUP_FAILURE';
 
-export const deleteTournamentGroup = (tournamentId: string) => (tournamentGroup: TournamentGroupEntity) => async (
-  dispatch: any
-) => {
+export const deleteTournamentGroup = (tournamentId: string) => (
+  tournamentGroup: TournamentGroupEntity
+) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_GROUP });
 
   try {
@@ -49,9 +53,9 @@ export const deleteTournamentGroupFailure = (
   payload
 });
 
-export const patchTournamentGroup = (tournamentId: string) => (tournamentGroup: TournamentGroupEntity) => async (
-  dispatch: any
-) => {
+export const patchTournamentGroup = (tournamentId: string) => (
+  tournamentGroup: TournamentGroupEntity
+) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT_GROUP });
 
   try {
@@ -78,9 +82,9 @@ export const patchTournamentGroupFailure = (
   payload
 });
 
-export const postTournamentGroup = (tournamentId: string) => (tournamentGroup: TournamentGroupEntity) => async (
-  dispatch: any
-) => {
+export const postTournamentGroup = (tournamentId: string) => (
+  tournamentGroup: TournamentGroupEntity
+) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_GROUP });
 
   try {

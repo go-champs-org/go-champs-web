@@ -1,6 +1,11 @@
 import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import { PATCH_TOURNAMENT, REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
+import {
+  PATCH_TOURNAMENT,
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../actions';
 import httpClient from './httpClient';
 import { TournamentTeamEntity } from './state';
 
@@ -18,9 +23,9 @@ export const POST_TOURNAMENT_TEAM = 'API_POST_TOURNAMENT_TEAM';
 export const POST_TOURNAMENT_TEAM_SUCCESS = 'API_POST_TOURNAMENT_TEAM_SUCCESS';
 export const POST_TOURNAMENT_TEAM_FAILURE = 'API_POST_TOURNAMENT_TEAM_FAILURE';
 
-export const deleteTournamentTeam = (tournamentId: string) => (tournamentTeam: TournamentTeamEntity) => async (
-  dispatch: any
-) => {
+export const deleteTournamentTeam = (tournamentId: string) => (
+  tournamentTeam: TournamentTeamEntity
+) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_TEAM });
 
   try {
@@ -47,9 +52,9 @@ export const deleteTournamentTeamFailure = (
   payload
 });
 
-export const patchTournamentTeam = (tournamentId: string) => (tournamentTeam: TournamentTeamEntity) => async (
-  dispatch: any
-) => {
+export const patchTournamentTeam = (tournamentId: string) => (
+  tournamentTeam: TournamentTeamEntity
+) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {
@@ -76,9 +81,9 @@ export const patchTournamentTeamFailure = (
   payload
 });
 
-export const postTournamentTeam = (tournamentId: string) => (tournamentTeam: TournamentTeamEntity) => async (
-  dispatch: any
-) => {
+export const postTournamentTeam = (tournamentId: string) => (
+  tournamentTeam: TournamentTeamEntity
+) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_TEAM });
 
   try {

@@ -111,7 +111,9 @@ export const postTournamentFailure = (
   payload
 });
 
-export const requestFilterTournaments = (where: RequestFilter) => async (dispatch: any) => {
+export const requestFilterTournaments = (where: RequestFilter) => async (
+  dispatch: any
+) => {
   dispatch({ type: REQUEST_TOURNAMENT });
 
   try {
@@ -137,7 +139,9 @@ export const requestFilterTournamentsFailure = (
   payload
 });
 
-export const requestTournament = (tournamentId: string) => async (dispatch: any) => {
+export const requestTournament = (tournamentId: string) => async (
+  dispatch: any
+) => {
   dispatch({ type: REQUEST_TOURNAMENT });
 
   try {

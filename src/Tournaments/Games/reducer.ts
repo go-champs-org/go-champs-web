@@ -1,6 +1,26 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../../Shared/store/helpers';
+import {
+  createReducer,
+  entityById,
+  mapEntities,
+  mapEntitiesByKey,
+  returnProperty
+} from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
-import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES, REQUEST_TOURNAMENT_GAMES_FAILURE, REQUEST_TOURNAMENT_GAMES_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from './actions';
+import {
+  ActionTypes,
+  DELETE_TOURNAMENT_GAME,
+  DELETE_TOURNAMENT_GAME_FAILURE,
+  DELETE_TOURNAMENT_GAME_SUCCESS,
+  POST_TOURNAMENT_GAME,
+  POST_TOURNAMENT_GAME_FAILURE,
+  POST_TOURNAMENT_GAME_SUCCESS,
+  REQUEST_TOURNAMENT_GAME,
+  REQUEST_TOURNAMENT_GAMES,
+  REQUEST_TOURNAMENT_GAMES_FAILURE,
+  REQUEST_TOURNAMENT_GAMES_SUCCESS,
+  REQUEST_TOURNAMENT_GAME_FAILURE,
+  REQUEST_TOURNAMENT_GAME_SUCCESS
+} from './actions';
 import { initialState, TournamentGameState } from './state';
 
 const mapTournamentGame = (apiData: any) => ({
@@ -18,7 +38,8 @@ const tournamentGameMapEntities = mapEntities(
   mapTournamentGame
 );
 
-const returnDateId = (apiData: any) => apiData.datetime && apiData.datetime.substring(0, 10);
+const returnDateId = (apiData: any) =>
+  apiData.datetime && apiData.datetime.substring(0, 10);
 
 const mapTournamentGameToDateEntity = (apiData: any) => ({
   [apiData.id]: {

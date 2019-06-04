@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestTournament } from '../Tournaments/actions';
-import { patchTournamentGame, requestTournamentGame } from '../Tournaments/Games/actions';
+import {
+  patchTournamentGame,
+  requestTournamentGame
+} from '../Tournaments/Games/actions';
 import Edit from '../Tournaments/Games/Edit';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentState } from '../Tournaments/state';
@@ -47,7 +50,10 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
       this.props.match.params.tournamentSlug
     ].id;
     this.props.requestTournament(tournamentId);
-    this.props.requestTournamentGame(tournamentId, this.props.match.params.tournamentGameId);
+    this.props.requestTournamentGame(
+      tournamentId,
+      this.props.match.params.tournamentGameId
+    );
   }
 }
 
@@ -64,7 +70,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
     {
       patchTournamentGame: patchTournamentGame(tournamentId),
       requestTournament,
-      requestTournamentGame,
+      requestTournamentGame
     },
     dispatch
   );

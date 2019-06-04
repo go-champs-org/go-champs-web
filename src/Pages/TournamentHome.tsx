@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestTournament } from '../Tournaments/actions';
-import { deleteTournamentGame, requestTournamentGames } from '../Tournaments/Games/actions';
+import {
+  deleteTournamentGame,
+  requestTournamentGames
+} from '../Tournaments/Games/actions';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
 import { TournamentGroupState } from '../Tournaments/Groups/state';

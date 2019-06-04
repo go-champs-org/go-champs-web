@@ -18,7 +18,7 @@ const withOrganizations = (WrappedComponent: any) => {
     render() {
       const canRender =
         this.props.organizationState.organizations[
-        this.props.match.params.organizationSlug
+          this.props.match.params.organizationSlug
         ] && !this.props.organizationState.isLoadingRequestOrganizations;
       return (
         <PageLoader canRender={canRender}>
@@ -30,7 +30,7 @@ const withOrganizations = (WrappedComponent: any) => {
     componentDidMount() {
       if (
         !this.props.organizationState.organizations[
-        this.props.match.params.organizationSlug
+          this.props.match.params.organizationSlug
         ]
       ) {
         this.props.requestOrganizations();

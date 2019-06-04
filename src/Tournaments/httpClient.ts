@@ -5,7 +5,7 @@ const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
 export interface RequestFilter {
   [key: string]: string;
-};
+}
 
 const mapRequestFilterToQueryString = (filter: RequestFilter) => {
   return Object.keys(filter)

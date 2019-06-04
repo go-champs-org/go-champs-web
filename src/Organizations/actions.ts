@@ -33,16 +33,12 @@ export const deleteOrganization = (organization: OrganizationEntity) => async (
   }
 };
 
-export const deleteOrganizationSuccess = (
-  payload: any
-) => ({
+export const deleteOrganizationSuccess = (payload: any) => ({
   type: DELETE_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const deleteOrganizationFailure = (
-  payload: any
-) => ({
+export const deleteOrganizationFailure = (payload: any) => ({
   type: DELETE_ORGANIZATION_FAILURE,
   payload
 });
@@ -62,16 +58,12 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
   }
 };
 
-export const patchOrganizationSuccess = (
-  payload: any
-) => ({
+export const patchOrganizationSuccess = (payload: any) => ({
   type: PATCH_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const patchOrganizationFailure = (
-  payload: any
-) => ({
+export const patchOrganizationFailure = (payload: any) => ({
   type: PATCH_ORGANIZATION_FAILURE,
   payload
 });
@@ -91,16 +83,12 @@ export const postOrganization = (organization: OrganizationEntity) => async (
   }
 };
 
-export const postOrganizationSuccess = (
-  payload: any
-) => ({
+export const postOrganizationSuccess = (payload: any) => ({
   type: POST_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const postOrganizationFailure = (
-  payload: any
-) => ({
+export const postOrganizationFailure = (payload: any) => ({
   type: POST_ORGANIZATION_FAILURE,
   payload
 });
@@ -117,16 +105,12 @@ export const requestOrganizations = () => async (dispatch: any) => {
   }
 };
 
-export const requestOrganizationsSuccess = (
-  payload: any
-) => ({
+export const requestOrganizationsSuccess = (payload: any) => ({
   type: REQUEST_ORGANIZATIONS_SUCCESS,
   payload
 });
 
-export const requestOrganizationsFailure = (
-  payload: any
-) => ({
+export const requestOrganizationsFailure = (payload: any) => ({
   type: REQUEST_ORGANIZATIONS_FAILURE,
   payload
 });

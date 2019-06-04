@@ -43,42 +43,42 @@ export const List: React.FC<{
   tournamentGroupState,
   tournamentState
 }) => {
-    const tournament = tournamentState.tournaments[currentTournamentSlug];
-    const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
-    return (
-      <div className="columns is-multiline">
-        <header className="column is-12">
-          <NavBar
-            organizationSlug={currentOrganizationSlug}
-            tournament={tournament}
-            tournamentSlug={currentTournamentSlug}
-          />
-        </header>
-        <div className="column is-8">
-          <div className="columns is-mobile is-vcentered">
-            <div className="column is-8">
-              <h2 className="subtitle">Groups</h2>
-            </div>
-            <div className="column is-4 has-text-right">
-              <Link className="button" to={`./TournamentGroupNew`}>
-                New group
-            </Link>
-            </div>
+  const tournament = tournamentState.tournaments[currentTournamentSlug];
+  const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+  return (
+    <div className="columns is-multiline">
+      <header className="column is-12">
+        <NavBar
+          organizationSlug={currentOrganizationSlug}
+          tournament={tournament}
+          tournamentSlug={currentTournamentSlug}
+        />
+      </header>
+      <div className="column is-8">
+        <div className="columns is-mobile is-vcentered">
+          <div className="column is-8">
+            <h2 className="subtitle">Groups</h2>
           </div>
-          {Object.keys(tournamentGroupState.tournamentGroups).map(
-            (key: string) => (
-              <TournamentGroupCard
-                key={key}
-                url={baseTournamentUrl}
-                tournamentGroup={tournamentGroupState.tournamentGroups[key]}
-                onDeleteTournamentGroup={deleteTournamentGroup}
-              />
-            )
-          )}
+          <div className="column is-4 has-text-right">
+            <Link className="button" to={`./TournamentGroupNew`}>
+              New group
+            </Link>
+          </div>
         </div>
+        {Object.keys(tournamentGroupState.tournamentGroups).map(
+          (key: string) => (
+            <TournamentGroupCard
+              key={key}
+              url={baseTournamentUrl}
+              tournamentGroup={tournamentGroupState.tournamentGroups[key]}
+              onDeleteTournamentGroup={deleteTournamentGroup}
+            />
+          )
+        )}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export const Wrapper: React.FC<{
   deleteTournamentGroup: any;
@@ -91,17 +91,17 @@ export const Wrapper: React.FC<{
   currentTournamentSlug,
   deleteTournamentGroup,
   tournamentState,
-  tournamentGroupState,
+  tournamentGroupState
 }) => {
-    return (
-      <List
-        currentOrganizationSlug={currentOrganizationSlug}
-        currentTournamentSlug={currentTournamentSlug}
-        deleteTournamentGroup={deleteTournamentGroup}
-        tournamentState={tournamentState}
-        tournamentGroupState={tournamentGroupState}
-      />
-    );
-  };
+  return (
+    <List
+      currentOrganizationSlug={currentOrganizationSlug}
+      currentTournamentSlug={currentTournamentSlug}
+      deleteTournamentGroup={deleteTournamentGroup}
+      tournamentState={tournamentState}
+      tournamentGroupState={tournamentGroupState}
+    />
+  );
+};
 
 export default Wrapper;

@@ -18,7 +18,7 @@ const withTournaments = (WrappedComponent: any) => {
     render() {
       const canRender =
         this.props.tournamentState.tournaments[
-        this.props.match.params.tournamentSlug
+          this.props.match.params.tournamentSlug
         ] && !this.props.tournamentState.isLoadingRequestTournaments;
       return (
         <PageLoader canRender={canRender}>
@@ -30,7 +30,7 @@ const withTournaments = (WrappedComponent: any) => {
     componentDidMount() {
       if (
         !this.props.tournamentState.tournaments[
-        this.props.match.params.tournamentSlug
+          this.props.match.params.tournamentSlug
         ]
       ) {
         this.props.requestFilterTournaments({

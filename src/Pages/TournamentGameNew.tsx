@@ -44,14 +44,13 @@ const mapStateToProps = (state: any) => ({
   tournamentTeamState: state.tournamentTeams
 });
 
-
 const mapDispatchToProps = (dispatch: any, state: any) => {
   const tournamentId =
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
   return bindActionCreators(
     {
       postTournamentGame: postTournamentGame(tournamentId),
-      requestTournament,
+      requestTournament
     },
     dispatch
   );
