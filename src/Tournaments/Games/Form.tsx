@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
+import Datetime from '../../Shared/UI/Form/Datetime';
 import Select from '../../Shared/UI/Form/Select';
 import { TournamentTeamEntity } from '../Teams/state';
 
@@ -67,7 +68,7 @@ const Form: React.FC<FromProps> = ({
         <div className="control">
           <Field
             name="datetime"
-            component={Input}
+            component={Datetime}
             type="text"
             placeholder="Date / time"
           />
@@ -89,8 +90,7 @@ const Form: React.FC<FromProps> = ({
       <button
         className="button is-primary"
         type="submit"
-        disabled={submitting || pristine}
-      >
+        disabled={submitting || pristine}>
         Submit
       </button>
     </form>
