@@ -65,14 +65,12 @@ const Form: React.FC<FromProps> = ({
 
       <div className="field">
         <label className="label">Date / Time</label>
-        <div className="control">
-          <Field
-            name="datetime"
-            component={Datetime}
-            type="text"
-            placeholder="Date / time"
-          />
-        </div>
+        <Field
+          name="datetime"
+          component={Datetime}
+          type="text"
+          placeholder="Date / time"
+        />
       </div>
 
       <div className="field">
