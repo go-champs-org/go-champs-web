@@ -82,13 +82,13 @@ export const patchTournamentFailure = (
   payload
 });
 
-export const postTournament = (tournament: TournamentEntity) => async (
-  dispatch: any
-) => {
+export const postTournament = (organizationId: string) => (
+  tournament: TournamentEntity
+) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT });
 
   try {
-    const response = await httpClient.post(tournament);
+    const response = await httpClient.post(organizationId, tournament);
 
     dispatch(postTournamentSuccess(response));
     displayToast(`${tournament.name} created!`, 'is-success');

@@ -47,13 +47,19 @@ const patch = (tournament: TournamentEntity) => {
   }).then(resolveResponse);
 };
 
-const post = (tournament: TournamentEntity) => {
+const post = (organizationId: string, tournament: TournamentEntity) => {
   const url = TOURNAMENT_API;
 
   return fetch(url, {
     headers: DEFAULT_HEADERS,
     method: 'POST',
-    body: JSON.stringify({ tournament })
+    body: JSON.stringify({
+      tournament: {
+        name: tournament.name,
+        slug: tournament.slug,
+        organization_id: organizationId
+      }
+    })
   }).then(resolveResponse);
 };
 
