@@ -1,26 +1,7 @@
-import {
-  createReducer,
-  entityById,
-  mapEntities,
-  mapEntitiesByKey,
-  returnProperty
-} from '../Shared/store/helpers';
+import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  ActionTypes,
-  DELETE_ORGANIZATION,
-  DELETE_ORGANIZATION_FAILURE,
-  DELETE_ORGANIZATION_SUCCESS,
-  PATCH_ORGANIZATION,
-  PATCH_ORGANIZATION_FAILURE,
-  PATCH_ORGANIZATION_SUCCESS,
-  POST_ORGANIZATION,
-  POST_ORGANIZATION_FAILURE,
-  POST_ORGANIZATION_SUCCESS,
-  REQUEST_ORGANIZATIONS,
-  REQUEST_ORGANIZATIONS_FAILURE,
-  REQUEST_ORGANIZATIONS_SUCCESS
-} from './actions';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
 import { initialState, OrganizationState } from './state';
 
 const mapOrganization = (apiData: any) => ({
@@ -145,6 +126,31 @@ export const requestOrganizationsSuccess = (
   organizations: action.payload.data.reduce(organizationMapEntities, {})
 });
 
+export const requestTournament = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestOrganization: true,
+});
+
+export const requestTournamentFailure = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestOrganization: false,
+});
+
+export const requestTournamentSuccess = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestOrganization: false,
+  organizations: [action.payload.data.organization].reduce(organizationMapEntities, {}),
+});
+
 export default createReducer(initialState, {
   [DELETE_ORGANIZATION]: deleteOrganization,
   [DELETE_ORGANIZATION_FAILURE]: deleteOrganizationFailure,
@@ -157,5 +163,8 @@ export default createReducer(initialState, {
   [POST_ORGANIZATION_SUCCESS]: postOrganizationSuccess,
   [REQUEST_ORGANIZATIONS]: requestOrganizations,
   [REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
-  [REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess
+  [REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,
+  [REQUEST_TOURNAMENT]: requestTournament,
+  [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
+  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
 });
