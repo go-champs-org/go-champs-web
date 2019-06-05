@@ -53,13 +53,13 @@ export const deleteTournamentFailure = (
   payload
 });
 
-export const patchTournament = (tournament: TournamentEntity) => async (
+export const patchTournament = (organizationId: string) => (tournament: TournamentEntity) => async (
   dispatch: any
 ) => {
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {
-    const response = await httpClient.patch(tournament);
+    const response = await httpClient.patch(organizationId, tournament);
 
     dispatch(patchTournamentSuccess(response));
     displayToast(`${tournament.name} updated!`, 'is-success');
@@ -114,7 +114,7 @@ export const postTournamentFailure = (
 export const requestFilterTournaments = (where: RequestFilter) => async (
   dispatch: any
 ) => {
-  dispatch({ type: REQUEST_TOURNAMENT });
+  dispatch({ type: REQUEST_FILTER_TOURNAMENTS });
 
   try {
     const response = await httpClient.getByFilter(where);

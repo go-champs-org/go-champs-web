@@ -37,13 +37,19 @@ const getOne = (tournamentId: string) => {
   return fetch(url).then(resolveResponse);
 };
 
-const patch = (tournament: TournamentEntity) => {
+const patch = (organizationId: string, tournament: TournamentEntity) => {
   const url = `${TOURNAMENT_API}/${tournament.id}`;
 
   return fetch(url, {
     headers: DEFAULT_HEADERS,
     method: 'PATCH',
-    body: JSON.stringify({ tournament })
+    body: JSON.stringify({
+      tournament: {
+        name: tournament.name,
+        slug: tournament.slug,
+        organization_id: organizationId
+      }
+    })
   }).then(resolveResponse);
 };
 

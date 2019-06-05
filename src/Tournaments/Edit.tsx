@@ -3,17 +3,20 @@ import { Form } from 'react-final-form';
 import { default as OrganizationNavBar } from '../Organizations/Common/NavBar';
 import { OrganizationState } from '../Organizations/state';
 import { default as TournamentForm } from './Form';
+import { TournamentEntity } from './state';
 
-interface TournamentNewProps {
+interface TournamentEditProps {
 	organizationSlug: string;
 	organizationState: OrganizationState;
-	postTournament: any;
+	patchTournament: any;
+	tournament: TournamentEntity;
 }
 
-export const New: React.FC<TournamentNewProps> = ({
+export const Edit: React.FC<TournamentEditProps> = ({
 	organizationSlug,
 	organizationState,
-	postTournament
+	patchTournament,
+	tournament,
 }) => {
 	const organization = organizationState.organizations[organizationSlug];
 	return (
@@ -27,12 +30,12 @@ export const New: React.FC<TournamentNewProps> = ({
 			<div className="column is-8">
 				<div className="columns is-mobile is-vcentered">
 					<div className="column is-8">
-						<h2 className="subtitle">New Tournament</h2>
+						<h2 className="subtitle">Edit Tournament</h2>
 					</div>
 				</div>
 				<Form
-					onSubmit={postTournament}
-					initialValues={{ name: '', slug: '' }}
+					onSubmit={patchTournament}
+					initialValues={tournament}
 					render={TournamentForm}
 				/>
 			</div>
@@ -40,4 +43,4 @@ export const New: React.FC<TournamentNewProps> = ({
 	);
 };
 
-export default New;
+export default Edit;

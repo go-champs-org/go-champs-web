@@ -1,73 +1,72 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { patchTournament } from '../Tournaments/actions';
+import { OrganizationState } from '../Organizations/state';
+import PageLoader from '../Shared/UI/PageLoader';
+import { patchTournament, requestTournament } from '../Tournaments/actions';
+import Edit from '../Tournaments/Edit';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentNewProps
+interface TournamentEditProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
+  organizationState: OrganizationState;
   tournamentState: TournamentState;
   patchTournament: any;
+  requestTournament: any;
 }
 
-class TournamentNew extends React.Component<TournamentNewProps> {
+class TournamentEdit extends React.Component<TournamentEditProps> {
   render() {
     const tournament = this.props.tournamentState.tournaments[
       this.props.match.params.tournamentSlug
     ];
+    const canRender = !this.props.organizationState.isLoadingRequestOrganization &&
+      !!this.props.organizationState.organizations[this.props.match.params.organizationSlug];
     return (
-      <Form
-        onSubmit={this.props.patchTournament}
-        initialValues={tournament}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Name</label>
-              <Field
-                name="name"
-                component="input"
-                type="text"
-                placeholder="Name"
-              />
-            </div>
-            <div>
-              <label>Slug</label>
-              <Field
-                name="slug"
-                component="input"
-                type="text"
-                placeholder="slug"
-              />
-            </div>
-            <button type="submit" disabled={submitting || pristine}>
-              Submit
-            </button>
-          </form>
-        )}
-      />
+      <PageLoader canRender={canRender}>
+        <Edit
+          organizationSlug={this.props.match.params.organizationSlug}
+          organizationState={this.props.organizationState}
+          patchTournament={this.props.patchTournament}
+          tournament={tournament} />
+      </PageLoader>
+
     );
+  }
+
+  componentDidMount() {
+    const tournamentId = this.props.tournamentState.tournaments[
+      this.props.match.params.tournamentSlug
+    ].id;
+    this.props.requestTournament(tournamentId);
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  tournamentState: state.tournaments
-});
+const mapStateToProps = (state: any) => {
+  return {
+    organizationState: state.organizations,
+    tournamentState: state.tournaments,
+  }
+};
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
+const mapDispatchToProps = (dispatch: any, state: TournamentEditProps) => {
+  const currentOrganization = state.organizationState.organizations[state.match.params.organizationSlug];
+  const organizationId = currentOrganization ? currentOrganization.id : '';
+  return bindActionCreators(
     {
-      patchTournament
+      patchTournament: patchTournament(organizationId),
+      requestTournament,
     },
     dispatch
   );
+};
 
 export default withTournaments(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TournamentNew)
+  )(TournamentEdit)
 );
