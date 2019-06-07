@@ -32,8 +32,7 @@ const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
       <button
         className="button is-primary"
         type="submit"
-        disabled={submitting || pristine}
-      >
+        disabled={submitting || pristine}>
         Submit
       </button>
     </form>

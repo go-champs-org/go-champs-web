@@ -1,9 +1,9 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { postOrganization } from '../Organizations/actions';
+import New from '../Organizations/New';
 
 interface OrganizationNewProps extends RouteComponentProps {
   postOrganization: any;
@@ -12,35 +12,7 @@ interface OrganizationNewProps extends RouteComponentProps {
 class OrganizationNew extends React.Component<OrganizationNewProps> {
   render() {
     return (
-      <Form
-        onSubmit={this.props.postOrganization}
-        initialValues={{ name: '', slug: '' }}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Name</label>
-              <Field
-                name="name"
-                component="input"
-                type="text"
-                placeholder="Name"
-              />
-            </div>
-            <div>
-              <label>Slug</label>
-              <Field
-                name="slug"
-                component="input"
-                type="text"
-                placeholder="slug"
-              />
-            </div>
-            <button type="submit" disabled={submitting || pristine}>
-              Submit
-            </button>
-          </form>
-        )}
-      />
+      <New postOrganization={this.props.postOrganization} />
     );
   }
 }
