@@ -1,31 +1,7 @@
-import {
-  createReducer,
-  entityById,
-  mapEntities,
-  mapEntitiesByKey,
-  returnProperty
-} from '../Shared/store/helpers';
+import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
-import {
-  ActionTypes,
-  DELETE_ORGANIZATION,
-  DELETE_ORGANIZATION_FAILURE,
-  DELETE_ORGANIZATION_SUCCESS,
-  PATCH_ORGANIZATION,
-  PATCH_ORGANIZATION_FAILURE,
-  PATCH_ORGANIZATION_SUCCESS,
-  POST_ORGANIZATION,
-  POST_ORGANIZATION_FAILURE,
-  POST_ORGANIZATION_SUCCESS,
-  REQUEST_ORGANIZATIONS,
-  REQUEST_ORGANIZATIONS_FAILURE,
-  REQUEST_ORGANIZATIONS_SUCCESS
-} from './actions';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATION, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS, REQUEST_ORGANIZATION_FAILURE, REQUEST_ORGANIZATION_SUCCESS } from './actions';
 import { initialState, OrganizationState } from './state';
 
 const mapOrganization = (apiData: any) => ({
@@ -125,6 +101,31 @@ export const postOrganizationSuccess = (
   )
 });
 
+export const requestOrganization = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestOrganization: true
+});
+
+export const requestOrganizationFailure = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestOrganization: false
+});
+
+export const requestOrganizationSuccess = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestOrganization: false,
+  organizations: [action.payload.data].reduce(organizationMapEntities, state.organizations)
+});
+
 export const requestOrganizations = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
@@ -188,6 +189,9 @@ export default createReducer(initialState, {
   [POST_ORGANIZATION]: postOrganization,
   [POST_ORGANIZATION_FAILURE]: postOrganizationFailure,
   [POST_ORGANIZATION_SUCCESS]: postOrganizationSuccess,
+  [REQUEST_ORGANIZATION]: requestOrganization,
+  [REQUEST_ORGANIZATION_FAILURE]: requestOrganizationFailure,
+  [REQUEST_ORGANIZATION_SUCCESS]: requestOrganizationSuccess,
   [REQUEST_ORGANIZATIONS]: requestOrganizations,
   [REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
   [REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,

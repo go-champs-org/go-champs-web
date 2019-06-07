@@ -15,6 +15,12 @@ const getAll = () => {
   return fetch(url).then(resolveResponse);
 };
 
+const getOne = (organizationId: string) => {
+  const url = ORGANIZATION_API;
+
+  return fetch(`${url}/${organizationId}`).then(resolveResponse);
+};
+
 const patch = (organization: OrganizationEntity) => {
   const url = `${ORGANIZATION_API}/${organization.id}`;
 
@@ -38,6 +44,7 @@ const post = (organization: OrganizationEntity) => {
 export default {
   delete: deleteRequest,
   getAll,
+  getOne,
   patch,
   post
 };

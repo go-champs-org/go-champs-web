@@ -1,41 +1,7 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
-import {
-  ActionTypes,
-  DELETE_ORGANIZATION,
-  DELETE_ORGANIZATION_FAILURE,
-  DELETE_ORGANIZATION_SUCCESS,
-  PATCH_ORGANIZATION,
-  PATCH_ORGANIZATION_FAILURE,
-  PATCH_ORGANIZATION_SUCCESS,
-  POST_ORGANIZATION,
-  POST_ORGANIZATION_FAILURE,
-  POST_ORGANIZATION_SUCCESS,
-  REQUEST_ORGANIZATIONS,
-  REQUEST_ORGANIZATIONS_FAILURE,
-  REQUEST_ORGANIZATIONS_SUCCESS
-} from './actions';
-import {
-  deleteOrganization,
-  deleteOrganizationFailure,
-  deleteOrganizationSuccess,
-  patchOrganization,
-  patchOrganizationFailure,
-  patchOrganizationSuccess,
-  postOrganization,
-  postOrganizationFailure,
-  postOrganizationSuccess,
-  requestOrganizations,
-  requestOrganizationsFailure,
-  requestOrganizationsSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournamentSuccess
-} from './reducer';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
+import { deleteOrganization, deleteOrganizationFailure, deleteOrganizationSuccess, patchOrganization, patchOrganizationFailure, patchOrganizationSuccess, postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganization, requestOrganizationFailure, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess, requestOrganizationSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from './reducer';
 import { initialState, OrganizationState } from './state';
 
 describe('deleteOrganization', () => {
@@ -271,6 +237,82 @@ describe('postOrganizationSuccess', () => {
     };
 
     const newState = postOrganizationSuccess(someState, action);
+
+    expect(newState.organizations['some-slug']).toEqual({
+      id: 'some-id',
+      name: 'some-name',
+      slug: 'some-slug'
+    });
+  });
+});
+
+describe('requestOrganization', () => {
+  const action: HttpAction<ActionTypes> = {
+    type: REQUEST_ORGANIZATIONS
+  };
+
+  it('sets isLoadingRequestOrganization to true', () => {
+    expect(
+      requestOrganization(initialState, action).isLoadingRequestOrganization
+    ).toBe(true);
+  });
+});
+
+describe('requestOrganizationFailure', () => {
+  const action: HttpAction<ActionTypes> = {
+    type: REQUEST_ORGANIZATIONS_FAILURE
+  };
+
+  it('sets isLoadingRequestOrganization to false', () => {
+    expect(
+      requestOrganizationFailure(initialState, action)
+        .isLoadingRequestOrganization
+    ).toBe(false);
+  });
+});
+
+describe('requestOrganizationSuccess', () => {
+  const action: HttpAction<ActionTypes> = {
+    type: REQUEST_ORGANIZATIONS_SUCCESS,
+    payload: {
+      data: {
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug'
+      },
+    }
+  };
+
+  it('sets isLoadingRequestOrganization to false', () => {
+    expect(
+      requestOrganizationSuccess(initialState, action)
+        .isLoadingRequestOrganization
+    ).toBe(false);
+  });
+
+  it('sets entities', () => {
+    const newState = requestOrganizationSuccess(initialState, action);
+
+    expect(newState.organizations['first-slug']).toEqual({
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
+    });
+  });
+
+  it('keeps others entities in other', () => {
+    const someState: OrganizationState = {
+      ...initialState,
+      organizations: {
+        ['some-slug']: {
+          id: 'some-id',
+          name: 'some-name',
+          slug: 'some-slug'
+        }
+      }
+    };
+
+    const newState = requestOrganizationSuccess(someState, action);
 
     expect(newState.organizations['some-slug']).toEqual({
       id: 'some-id',
