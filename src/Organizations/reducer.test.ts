@@ -1,7 +1,41 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
-import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS } from './actions';
-import { deleteOrganization, deleteOrganizationFailure, deleteOrganizationSuccess, patchOrganization, patchOrganizationFailure, patchOrganizationSuccess, postOrganization, postOrganizationFailure, postOrganizationSuccess, requestOrganizations, requestOrganizationsFailure, requestOrganizationsSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from './reducer';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../Tournaments/actions';
+import {
+  ActionTypes,
+  DELETE_ORGANIZATION,
+  DELETE_ORGANIZATION_FAILURE,
+  DELETE_ORGANIZATION_SUCCESS,
+  PATCH_ORGANIZATION,
+  PATCH_ORGANIZATION_FAILURE,
+  PATCH_ORGANIZATION_SUCCESS,
+  POST_ORGANIZATION,
+  POST_ORGANIZATION_FAILURE,
+  POST_ORGANIZATION_SUCCESS,
+  REQUEST_ORGANIZATIONS,
+  REQUEST_ORGANIZATIONS_FAILURE,
+  REQUEST_ORGANIZATIONS_SUCCESS
+} from './actions';
+import {
+  deleteOrganization,
+  deleteOrganizationFailure,
+  deleteOrganizationSuccess,
+  patchOrganization,
+  patchOrganizationFailure,
+  patchOrganizationSuccess,
+  postOrganization,
+  postOrganizationFailure,
+  postOrganizationSuccess,
+  requestOrganizations,
+  requestOrganizationsFailure,
+  requestOrganizationsSuccess,
+  requestTournament,
+  requestTournamentFailure,
+  requestTournamentSuccess
+} from './reducer';
 import { initialState, OrganizationState } from './state';
 
 describe('deleteOrganization', () => {
@@ -315,7 +349,7 @@ describe('requestOrganizationsSuccess', () => {
 
 describe('requestTournament', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT,
+    type: REQUEST_TOURNAMENT
   };
 
   it('sets isLoadingRequestOrganization to true', () => {
@@ -348,7 +382,7 @@ describe('requestTournamentSuccess', () => {
           id: 'first-id',
           name: 'first-name',
           slug: 'first-slug'
-        },
+        }
       }
     }
   };
@@ -370,4 +404,3 @@ describe('requestTournamentSuccess', () => {
     });
   });
 });
-

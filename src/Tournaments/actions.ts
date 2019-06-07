@@ -53,9 +53,9 @@ export const deleteTournamentFailure = (
   payload
 });
 
-export const patchTournament = (organizationId: string) => (tournament: TournamentEntity) => async (
-  dispatch: any
-) => {
+export const patchTournament = (organizationId: string) => (
+  tournament: TournamentEntity
+) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {

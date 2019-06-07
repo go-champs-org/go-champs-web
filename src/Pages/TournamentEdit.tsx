@@ -23,17 +23,20 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     const tournament = this.props.tournamentState.tournaments[
       this.props.match.params.tournamentSlug
     ];
-    const canRender = !this.props.organizationState.isLoadingRequestOrganization &&
-      !!this.props.organizationState.organizations[this.props.match.params.organizationSlug];
+    const canRender =
+      !this.props.organizationState.isLoadingRequestOrganization &&
+      !!this.props.organizationState.organizations[
+        this.props.match.params.organizationSlug
+      ];
     return (
       <PageLoader canRender={canRender}>
         <Edit
           organizationSlug={this.props.match.params.organizationSlug}
           organizationState={this.props.organizationState}
           patchTournament={this.props.patchTournament}
-          tournament={tournament} />
+          tournament={tournament}
+        />
       </PageLoader>
-
     );
   }
 
@@ -48,17 +51,18 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
 const mapStateToProps = (state: any) => {
   return {
     organizationState: state.organizations,
-    tournamentState: state.tournaments,
-  }
+    tournamentState: state.tournaments
+  };
 };
 
 const mapDispatchToProps = (dispatch: any, state: TournamentEditProps) => {
-  const currentOrganization = state.organizationState.organizations[state.match.params.organizationSlug];
+  const currentOrganization =
+    state.organizationState.organizations[state.match.params.organizationSlug];
   const organizationId = currentOrganization ? currentOrganization.id : '';
   return bindActionCreators(
     {
       patchTournament: patchTournament(organizationId),
-      requestTournament,
+      requestTournament
     },
     dispatch
   );

@@ -1,6 +1,10 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../Tournaments/actions';
 import httpClient from './httpClient';
 import { OrganizationEntity } from './state';
 
@@ -131,5 +135,5 @@ export type ActionTypes =
   | typeof REQUEST_ORGANIZATIONS_SUCCESS
   | typeof REQUEST_TOURNAMENT
   | typeof REQUEST_TOURNAMENT_FAILURE
-  | typeof REQUEST_TOURNAMENT_SUCCESS
+  | typeof REQUEST_TOURNAMENT_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;
