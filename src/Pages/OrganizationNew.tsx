@@ -11,9 +11,7 @@ interface OrganizationNewProps extends RouteComponentProps {
 
 class OrganizationNew extends React.Component<OrganizationNewProps> {
   render() {
-    return (
-      <New postOrganization={this.props.postOrganization} />
-    );
+    return <New postOrganization={this.props.postOrganization} />;
   }
 }
 const mapDispatchToProps = (dispatch: any) =>

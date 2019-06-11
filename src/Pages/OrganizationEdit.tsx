@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { patchOrganization, requestOrganization } from '../Organizations/actions';
+import {
+  patchOrganization,
+  requestOrganization
+} from '../Organizations/actions';
 import { Edit } from '../Organizations/Edit';
 import { OrganizationState } from '../Organizations/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
@@ -21,8 +24,10 @@ class OrganizationEdit extends React.Component<OrganizationEditProps> {
       this.props.match.params.organizationSlug
     ];
     return (
-      <Edit organization={organization}
-        patchOrganization={this.props.patchOrganization} />
+      <Edit
+        organization={organization}
+        patchOrganization={this.props.patchOrganization}
+      />
     );
   }
 

@@ -1,7 +1,34 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../Shared/store/helpers';
+import {
+  createReducer,
+  entityById,
+  mapEntities,
+  mapEntitiesByKey,
+  returnProperty
+} from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
-import { ActionTypes, DELETE_ORGANIZATION, DELETE_ORGANIZATION_FAILURE, DELETE_ORGANIZATION_SUCCESS, PATCH_ORGANIZATION, PATCH_ORGANIZATION_FAILURE, PATCH_ORGANIZATION_SUCCESS, POST_ORGANIZATION, POST_ORGANIZATION_FAILURE, POST_ORGANIZATION_SUCCESS, REQUEST_ORGANIZATION, REQUEST_ORGANIZATIONS, REQUEST_ORGANIZATIONS_FAILURE, REQUEST_ORGANIZATIONS_SUCCESS, REQUEST_ORGANIZATION_FAILURE, REQUEST_ORGANIZATION_SUCCESS } from './actions';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../Tournaments/actions';
+import {
+  ActionTypes,
+  DELETE_ORGANIZATION,
+  DELETE_ORGANIZATION_FAILURE,
+  DELETE_ORGANIZATION_SUCCESS,
+  PATCH_ORGANIZATION,
+  PATCH_ORGANIZATION_FAILURE,
+  PATCH_ORGANIZATION_SUCCESS,
+  POST_ORGANIZATION,
+  POST_ORGANIZATION_FAILURE,
+  POST_ORGANIZATION_SUCCESS,
+  REQUEST_ORGANIZATION,
+  REQUEST_ORGANIZATIONS,
+  REQUEST_ORGANIZATIONS_FAILURE,
+  REQUEST_ORGANIZATIONS_SUCCESS,
+  REQUEST_ORGANIZATION_FAILURE,
+  REQUEST_ORGANIZATION_SUCCESS
+} from './actions';
 import { initialState, OrganizationState } from './state';
 
 const mapOrganization = (apiData: any) => ({
@@ -123,7 +150,10 @@ export const requestOrganizationSuccess = (
 ) => ({
   ...state,
   isLoadingRequestOrganization: false,
-  organizations: [action.payload.data].reduce(organizationMapEntities, state.organizations)
+  organizations: [action.payload.data].reduce(
+    organizationMapEntities,
+    state.organizations
+  )
 });
 
 export const requestOrganizations = (

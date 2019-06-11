@@ -1,6 +1,10 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../Tournaments/actions';
 import httpClient from './httpClient';
 import { OrganizationEntity } from './state';
 
@@ -14,10 +18,8 @@ export const POST_ORGANIZATION = 'API_POST_ORGANIZATION';
 export const POST_ORGANIZATION_SUCCESS = 'API_POST_ORGANIZATION_SUCCESS';
 export const POST_ORGANIZATION_FAILURE = 'API_POST_ORGANIZATION_FAILURE';
 export const REQUEST_ORGANIZATION = 'API_REQUEST_ORGANIZATION';
-export const REQUEST_ORGANIZATION_SUCCESS =
-  'API_REQUEST_ORGANIZATION_SUCCESS';
-export const REQUEST_ORGANIZATION_FAILURE =
-  'API_REQUEST_ORGANIZATION_FAILURE';
+export const REQUEST_ORGANIZATION_SUCCESS = 'API_REQUEST_ORGANIZATION_SUCCESS';
+export const REQUEST_ORGANIZATION_FAILURE = 'API_REQUEST_ORGANIZATION_FAILURE';
 export const REQUEST_ORGANIZATIONS = 'API_REQUEST_ORGANIZATIONS';
 export const REQUEST_ORGANIZATIONS_SUCCESS =
   'API_REQUEST_ORGANIZATIONS_SUCCESS';
@@ -99,7 +101,9 @@ export const postOrganizationFailure = (payload: any) => ({
   payload
 });
 
-export const requestOrganization = (organizationId: string) => async (dispatch: any) => {
+export const requestOrganization = (organizationId: string) => async (
+  dispatch: any
+) => {
   dispatch({ type: REQUEST_ORGANIZATION });
 
   try {
