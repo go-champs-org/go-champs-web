@@ -83,6 +83,7 @@ const getNavDates = (dates: string[], selectedDatePosition: number) => ({
 });
 
 interface ListByDateProps {
+  dateKeys: string[],
   tournamentGameState: TournamentGameState;
   initialDatePosition: number;
 }
@@ -107,7 +108,7 @@ class ListByDate extends React.Component<ListByDateProps> {
     const tournamentGamesByDate = this.props.tournamentGameState
       .tournamentGamesByDate;
     const { previousDate, selectedDate, nextDate } = getNavDates(
-      Object.keys(tournamentGamesByDate),
+      this.props.dateKeys,
       this.state.selectedPosition
     );
 
@@ -184,7 +185,8 @@ const Wrapper: React.FC<{ tournamentGameState: TournamentGameState }> = ({
     return <Loading />;
   }
 
-  if (Object.keys(tournamentGameState.tournamentGamesByDate).length === 0) {
+  const dateKeys = Object.keys(tournamentGameState.tournamentGamesByDate).sort();
+  if (dateKeys.length === 0) {
     return <div>No games</div>;
   }
 
@@ -192,15 +194,16 @@ const Wrapper: React.FC<{ tournamentGameState: TournamentGameState }> = ({
 
   const closerAvailableDatePosition = findCloserAvailableDatePosition(
     currentDate,
-    Object.keys(tournamentGameState.tournamentGamesByDate)
+    dateKeys
   );
 
   return (
     <div>
       <h2 className="subtitle">Games</h2>
       <ListByDate
-        tournamentGameState={tournamentGameState}
+        dateKeys={dateKeys}
         initialDatePosition={closerAvailableDatePosition!}
+        tournamentGameState={tournamentGameState}
       />
     </div>
   );
