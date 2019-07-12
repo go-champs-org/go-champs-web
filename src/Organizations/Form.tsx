@@ -1,18 +1,12 @@
 import React from 'react';
-import { Field, FieldRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 
-interface FromProps {
-  handleSubmit: any;
-  submitting: boolean;
-  pristine: boolean;
-}
-
-const Input: React.FC<FieldRenderProps<HTMLInputElement>> = ({
+const Input: React.FC<FieldRenderProps<any, HTMLInputElement>> = ({
   input,
   meta
 }) => <input className="input" type="text" {...input} />;
 
-const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
+const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -32,8 +26,7 @@ const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
       <button
         className="button is-primary"
         type="submit"
-        disabled={submitting || pristine}
-      >
+        disabled={submitting || pristine}>
         Submit
       </button>
     </form>

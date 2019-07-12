@@ -1,5 +1,7 @@
 import React from 'react';
-import { Field, FieldRenderProps } from 'react-final-form';
+import { Field } from 'react-final-form';
+import StringInput from '../Shared/UI/Form/StringInput';
+import TeamStatsStructure from '../Shared/UI/Form/TeamStatsStructure';
 
 interface FromProps {
   handleSubmit: any;
@@ -7,25 +9,27 @@ interface FromProps {
   pristine: boolean;
 }
 
-const Input: React.FC<FieldRenderProps<HTMLInputElement>> = ({
-  input,
-  meta
-}) => <input className="input" type="text" {...input} />;
-
 const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
         <label className="label">Name</label>
         <div className="control">
-          <Field name="name" component={Input} type="text" placeholder="Name" />
+          <Field name="name" component={StringInput} placeholder="Name" />
         </div>
       </div>
 
       <div className="field">
         <label className="label">Slug</label>
         <div className="control">
-          <Field name="slug" component={Input} type="text" placeholder="slug" />
+          <Field name="slug" component={StringInput} placeholder="slug" />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Team stats</label>
+        <div className="control">
+          <Field name="team_stats_structure" component={TeamStatsStructure} />
         </div>
       </div>
 

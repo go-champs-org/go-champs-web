@@ -27,7 +27,7 @@ export const Edit: React.FC<OrganizationEditProps> = ({
         <Form
           onSubmit={patchOrganization}
           initialValues={organization}
-          render={OrganizationForm}
+          component={OrganizationForm}
         />
       </div>
     </div>
