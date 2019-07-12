@@ -1,17 +1,13 @@
 import React from 'react';
-import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
+import { Field, FormRenderProps } from 'react-final-form';
 import Datetime from '../../Shared/UI/Form/Datetime';
 import Select from '../../Shared/UI/Form/Select';
+import StringInput from '../../Shared/UI/Form/StringInput';
 import { TournamentTeamEntity } from '../Teams/state';
 
 interface FromProps extends FormRenderProps {
   tournamentTeams: { [key: string]: TournamentTeamEntity };
 }
-
-const Input: React.FC<FieldRenderProps<HTMLInputElement>> = ({
-  input,
-  meta
-}) => <input className="input" type="text" {...input} />;
 
 const Form: React.FC<FromProps> = ({
   handleSubmit,
@@ -40,7 +36,7 @@ const Form: React.FC<FromProps> = ({
       <div className="field">
         <label className="label">Away score</label>
         <div className="control">
-          <Field name="awayScore" component={Input} type="number" />
+          <Field name="awayScore" component={StringInput} type="number" />
         </div>
       </div>
 
@@ -59,7 +55,7 @@ const Form: React.FC<FromProps> = ({
       <div className="field">
         <label className="label">Home score</label>
         <div className="control">
-          <Field name="homeScore" component={Input} type="number" />
+          <Field name="homeScore" component={StringInput} type="number" />
         </div>
       </div>
 
@@ -78,7 +74,7 @@ const Form: React.FC<FromProps> = ({
         <div className="control">
           <Field
             name="location"
-            component={Input}
+            component={StringInput}
             type="text"
             placeholder="Location"
           />

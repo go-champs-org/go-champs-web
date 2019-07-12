@@ -83,7 +83,7 @@ const getNavDates = (dates: string[], selectedDatePosition: number) => ({
 });
 
 interface ListByDateProps {
-  dateKeys: string[],
+  dateKeys: string[];
   tournamentGameState: TournamentGameState;
   initialDatePosition: number;
 }
@@ -185,7 +185,9 @@ const Wrapper: React.FC<{ tournamentGameState: TournamentGameState }> = ({
     return <Loading />;
   }
 
-  const dateKeys = Object.keys(tournamentGameState.tournamentGamesByDate).sort();
+  const dateKeys = Object.keys(
+    tournamentGameState.tournamentGamesByDate
+  ).sort();
   if (dateKeys.length === 0) {
     return <div>No games</div>;
   }

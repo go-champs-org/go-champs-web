@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { default as ReactSelect } from 'react-select';
 
-interface SelectProps extends FieldRenderProps<HTMLSelectElement> {
+interface SelectProps extends FieldRenderProps<string, HTMLSelectElement> {
   selectOptions: any[];
   getOptionLabel: any;
 }

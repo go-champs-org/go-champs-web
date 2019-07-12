@@ -5,7 +5,9 @@ import 'react-datetime/css/react-datetime.css';
 import { FieldRenderProps } from 'react-final-form';
 import './Datetime.scss';
 
-class Datetime extends React.Component<FieldRenderProps<HTMLInputElement>> {
+class Datetime extends React.Component<
+  FieldRenderProps<string, HTMLInputElement>
+> {
   render() {
     const { input } = this.props;
     return (

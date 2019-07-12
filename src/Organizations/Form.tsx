@@ -6,7 +6,11 @@ const Input: React.FC<FieldRenderProps<any, HTMLInputElement>> = ({
   meta
 }) => <input className="input" type="text" {...input} />;
 
-const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine }) => {
+const Form: React.FC<FormRenderProps> = ({
+  handleSubmit,
+  submitting,
+  pristine
+}) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -26,7 +30,8 @@ const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine })
       <button
         className="button is-primary"
         type="submit"
-        disabled={submitting || pristine}>
+        disabled={submitting || pristine}
+      >
         Submit
       </button>
     </form>
