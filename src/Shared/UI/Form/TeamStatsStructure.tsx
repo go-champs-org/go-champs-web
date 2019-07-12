@@ -1,7 +1,9 @@
+import arrayMutators from 'final-form-arrays';
 import React from 'react';
 import { Field, FieldRenderProps, Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import StringInput from './StringInput';
+
 
 const initialTeamStatsStructureState = {
   value: {}
@@ -11,7 +13,7 @@ type State = Readonly<typeof initialTeamStatsStructureState>;
 
 class TeamStatsStructure extends React.Component<
   FieldRenderProps<any, HTMLElement>
-> {
+  > {
   readonly state: State = initialTeamStatsStructureState;
 
   render() {
@@ -20,6 +22,9 @@ class TeamStatsStructure extends React.Component<
       <div>
         <Form
           onSubmit={this.addStats}
+          mutators={{
+            ...arrayMutators
+          }}
           render={props => {
             return (
               <div className="columns is-multiline">
