@@ -17,7 +17,6 @@ class TeamStatsStructure extends React.Component<
   readonly state: State = initialTeamStatsStructureState;
 
   render() {
-    console.log(this.props, 'arroz');
     return (
       <div>
         <Form
@@ -25,14 +24,16 @@ class TeamStatsStructure extends React.Component<
           mutators={{
             ...arrayMutators
           }}
-          render={props => {
+          render={({ form: {
+            mutators: { push, pop }
+          }, }) => {
             return (
               <div className="columns is-multiline">
                 <FieldArray name="customers">
                   {({ fields }: any) =>
                     fields.map((name: any, index: any) => {
                       return (
-                        <div key={name}>
+                        <div key={name} className="column is-12 columns is-gapless" style={{ marginBottom: 0 }}>
                           <div className="column is-6">
                             <Field
                               name="title"
@@ -43,7 +44,7 @@ class TeamStatsStructure extends React.Component<
 
                           <div className="column is-6">
                             <div className="columns is-gapless is-mobile">
-                              <div className="column is-10">
+                              <div className="column is-10" style={{ marginLeft: '1rem', marginRight: '-1rem', }}>
                                 <Field
                                   name="key"
                                   component={StringInput}
@@ -65,6 +66,14 @@ class TeamStatsStructure extends React.Component<
                     })
                   }
                 </FieldArray>
+                <div className="column is-12">
+                  <button
+                    className="button is-secondary is-fullwidth "
+                    type="button"
+                    onClick={() => push('customers', undefined)}>
+                    New stat
+                  </button>
+                </div>
               </div>
             );
           }}
@@ -87,6 +96,7 @@ class TeamStatsStructure extends React.Component<
   }
 
   onChange(value: any) {
+    console.log(value, 'arroz');
     this.props.input.onChange(value);
   }
 

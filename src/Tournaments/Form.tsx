@@ -1,15 +1,9 @@
 import React from 'react';
-import { Field } from 'react-final-form';
+import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import TeamStatsStructure from '../Shared/UI/Form/TeamStatsStructure';
 
-interface FromProps {
-  handleSubmit: any;
-  submitting: boolean;
-  pristine: boolean;
-}
-
-const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
+const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine, values }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -31,6 +25,10 @@ const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
         <div className="control">
           <Field name="team_stats_structure" component={TeamStatsStructure} />
         </div>
+      </div>
+
+      <div className="field">
+        {JSON.stringify(values)}
       </div>
 
       <button
