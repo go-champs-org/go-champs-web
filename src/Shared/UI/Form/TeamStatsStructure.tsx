@@ -1,12 +1,21 @@
-import arrayMutators from 'final-form-arrays';
 import React from 'react';
-import { Field, FieldRenderProps, Form } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
-import StringInput from './StringInput';
+import { FieldRenderProps } from 'react-final-form';
 
+interface Stat {
+  key: string;
+  title: string;
+}
 
-const initialTeamStatsStructureState = {
-  value: {}
+const initialTeamStatsStructureState: { value: Stat[] } = {
+  value: []
+};
+
+const apiDataToFormArray = (initialValue: { [key: string]: string }) => {
+  return {
+    value: Object.keys(initialValue).map((key: string) => {
+      return { key, title: initialValue[key], };
+    }),
+  };
 };
 
 type State = Readonly<typeof initialTeamStatsStructureState>;
@@ -14,80 +23,89 @@ type State = Readonly<typeof initialTeamStatsStructureState>;
 class TeamStatsStructure extends React.Component<
   FieldRenderProps<any, HTMLElement>
   > {
-  readonly state: State = initialTeamStatsStructureState;
+  readonly state: { value: Stat[] };
+  constructor(props: any) {
+    super(props);
+    this.state = props.input.value ? apiDataToFormArray(props.input.value) : initialTeamStatsStructureState;
+  }
 
   render() {
     return (
-      <div>
-        <Form
-          onSubmit={this.addStats}
-          mutators={{
-            ...arrayMutators
-          }}
-          render={({ form: {
-            mutators: { push, pop }
-          }, }) => {
-            return (
-              <div className="columns is-multiline">
-                <FieldArray name="customers">
-                  {({ fields }: any) =>
-                    fields.map((name: any, index: any) => {
-                      return (
-                        <div key={name} className="column is-12 columns is-gapless" style={{ marginBottom: 0 }}>
-                          <div className="column is-6">
-                            <Field
-                              name="title"
-                              component={StringInput}
-                              placeholder="Title"
-                            />
-                          </div>
+      <div className="columns is-multiline">
+        {this.state.value.map((stat: Stat, index: number) => {
+          return (
+            <div key={index} className="column is-12 columns is-gapless" style={{ marginBottom: 0 }}>
+              <div className="column is-6">
+                <input className="input" type="text" value={stat.title} onChange={this.onTitleChange(index)} />
+              </div>
 
-                          <div className="column is-6">
-                            <div className="columns is-gapless is-mobile">
-                              <div className="column is-10" style={{ marginLeft: '1rem', marginRight: '-1rem', }}>
-                                <Field
-                                  name="key"
-                                  component={StringInput}
-                                  placeholder="key"
-                                />
-                              </div>
+              <div className="column is-6">
+                <div className="columns is-gapless is-mobile">
+                  <div className="column is-10" style={{ marginLeft: '1rem', marginRight: '-1rem', }}>
+                    <input className="input" type="text" value={stat.key} onChange={this.onKeyChange(index)} />
+                  </div>
 
-                              <div className="column is-2 has-text-right">
-                                <button type="button" className="button">
-                                  <span className="icon is-small">
-                                    <i className="fas fa-plus" />
-                                  </span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  }
-                </FieldArray>
-                <div className="column is-12">
-                  <button
-                    className="button is-secondary is-fullwidth "
-                    type="button"
-                    onClick={() => push('customers', undefined)}>
-                    New stat
-                  </button>
+                  <div className="column is-2 has-text-right">
+                    <button type="button" className="button">
+                      <span className="icon is-small">
+                        <i className="fas fa-plus" />
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            );
-          }}
-        />
-      </div>
+            </div>
+          );
+        })}
+
+        <div className="column is-12">
+          <button className="button is-secondary is-fullwidth" type="button"
+            onClick={this.addStats.bind(this)}>
+            New stat
+          </button>
+        </div>
+      </div >
     );
   }
 
-  addStats(values: any) {
-    console.log(values, 'arroz3');
-    this.setState({
-      value: {
-        ...this.state.value
+  onKeyChange = (index: number) => (event: any) => {
+    const updatedStats = this.state.value.map((stat, stateIndex) => {
+      if (index !== stateIndex) {
+        return stat;
+      } else {
+        return {
+          ...stat,
+          key: event.target.value,
+        };
       }
+    });
+
+    this.setState({ value: updatedStats });
+    this.onChange(updatedStats);
+  };
+
+  onTitleChange = (index: number) => (event: any) => {
+    const updatedStats = this.state.value.map((stat, stateIndex) => {
+      if (index !== stateIndex) {
+        return stat;
+      } else {
+        return {
+          ...stat,
+          title: event.target.value,
+        };
+      }
+    });
+
+    this.setState({ value: updatedStats });
+    this.onChange(updatedStats);
+  };
+
+  addStats() {
+    this.setState({
+      value: [
+        ...this.state.value,
+        { key: '', title: '', },
+      ]
     });
   }
 
@@ -95,9 +113,15 @@ class TeamStatsStructure extends React.Component<
     this.props.input.onBlur(event);
   }
 
-  onChange(value: any) {
-    console.log(value, 'arroz');
-    this.props.input.onChange(value);
+  onChange(values: Stat[]) {
+    const initialTeamStats = {};
+    const teamStats = values ? values.reduce((acc: any, stat: Stat) => {
+      return {
+        ...acc,
+        [stat.key]: stat.title,
+      }
+    }, initialTeamStats) : initialTeamStats;
+    this.props.input.onChange(teamStats);
   }
 
   onFocus(event: any) {

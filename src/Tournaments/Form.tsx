@@ -23,7 +23,7 @@ const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine, v
       <div className="field">
         <label className="label">Team stats</label>
         <div className="control">
-          <Field name="team_stats_structure" component={TeamStatsStructure} />
+          <Field name="teamStatsStructure" component={TeamStatsStructure} />
         </div>
       </div>
 

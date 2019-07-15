@@ -2,6 +2,7 @@ export interface TournamentEntity {
   id: string;
   name: string;
   slug: string;
+  teamStatsStructure: { [key: string]: string };
 }
 
 export interface TournamentState {
