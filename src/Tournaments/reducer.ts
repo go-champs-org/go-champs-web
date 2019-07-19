@@ -1,13 +1,39 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../Shared/store/helpers';
+import {
+  createReducer,
+  entityById,
+  mapEntities,
+  mapEntitiesByKey,
+  returnProperty
+} from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, PATCH_TOURNAMENT, PATCH_TOURNAMENT_FAILURE, PATCH_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from './actions';
+import {
+  ActionTypes,
+  DELETE_TOURNAMENT,
+  DELETE_TOURNAMENT_FAILURE,
+  DELETE_TOURNAMENT_SUCCESS,
+  PATCH_TOURNAMENT,
+  PATCH_TOURNAMENT_FAILURE,
+  PATCH_TOURNAMENT_SUCCESS,
+  POST_TOURNAMENT,
+  POST_TOURNAMENT_FAILURE,
+  POST_TOURNAMENT_SUCCESS,
+  REQUEST_FILTER_TOURNAMENTS,
+  REQUEST_FILTER_TOURNAMENTS_FAILURE,
+  REQUEST_FILTER_TOURNAMENTS_SUCCESS,
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENTS,
+  REQUEST_TOURNAMENTS_FAILURE,
+  REQUEST_TOURNAMENTS_SUCCESS,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from './actions';
 import { initialState, TournamentState } from './state';
 
 const mapTournament = (apiData: any) => ({
   id: apiData.id,
   name: apiData.name,
   slug: apiData.slug,
-  teamStatsStructure: apiData.team_stats_structure,
+  teamStatsStructure: apiData.team_stats_structure
 });
 
 const tournamentMapEntities = mapEntities(

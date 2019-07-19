@@ -48,7 +48,7 @@ const patch = (organizationId: string, tournament: TournamentEntity) => {
         name: tournament.name,
         slug: tournament.slug,
         organization_id: organizationId,
-        team_stats_structure: tournament.teamStatsStructure,
+        team_stats_structure: tournament.teamStatsStructure
       }
     })
   }).then(resolveResponse);
@@ -65,7 +65,7 @@ const post = (organizationId: string, tournament: TournamentEntity) => {
         name: tournament.name,
         slug: tournament.slug,
         organization_id: organizationId,
-        team_stats_structure: tournament.teamStatsStructure,
+        team_stats_structure: tournament.teamStatsStructure
       }
     })
   }).then(resolveResponse);

@@ -3,7 +3,12 @@ import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import TeamStatsStructure from '../Shared/UI/Form/TeamStatsStructure';
 
-const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine, values }) => {
+const Form: React.FC<FormRenderProps> = ({
+  handleSubmit,
+  submitting,
+  pristine,
+  values
+}) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -27,9 +32,7 @@ const Form: React.FC<FormRenderProps> = ({ handleSubmit, submitting, pristine, v
         </div>
       </div>
 
-      <div className="field">
-        {JSON.stringify(values)}
-      </div>
+      <div className="field">{JSON.stringify(values)}</div>
 
       <button
         className="button is-primary"

@@ -13,8 +13,8 @@ const initialTeamStatsStructureState: { value: Stat[] } = {
 const apiDataToFormArray = (initialValue: { [key: string]: string }) => {
   return {
     value: Object.keys(initialValue).map((key: string) => {
-      return { key, title: initialValue[key], };
-    }),
+      return { key, title: initialValue[key] };
+    })
   };
 };
 
@@ -22,11 +22,13 @@ type State = Readonly<typeof initialTeamStatsStructureState>;
 
 class TeamStatsStructure extends React.Component<
   FieldRenderProps<any, HTMLElement>
-  > {
+> {
   readonly state: { value: Stat[] };
   constructor(props: any) {
     super(props);
-    this.state = props.input.value ? apiDataToFormArray(props.input.value) : initialTeamStatsStructureState;
+    this.state = props.input.value
+      ? apiDataToFormArray(props.input.value)
+      : initialTeamStatsStructureState;
   }
 
   render() {
@@ -34,21 +36,42 @@ class TeamStatsStructure extends React.Component<
       <div className="columns is-multiline">
         {this.state.value.map((stat: Stat, index: number) => {
           return (
-            <div key={index} className="column is-12 columns is-gapless" style={{ marginBottom: 0 }}>
+            <div
+              key={index}
+              className="column is-12 columns is-gapless"
+              style={{ marginBottom: 0 }}
+            >
               <div className="column is-6">
-                <input className="input" type="text" value={stat.title} onChange={this.onTitleChange(index)} />
+                <input
+                  className="input"
+                  type="text"
+                  value={stat.title}
+                  onChange={this.onTitleChange(index)}
+                />
               </div>
 
               <div className="column is-6">
                 <div className="columns is-gapless is-mobile">
-                  <div className="column is-10" style={{ marginLeft: '1rem', marginRight: '-1rem', }}>
-                    <input className="input" type="text" value={stat.key} onChange={this.onKeyChange(index)} />
+                  <div
+                    className="column is-10"
+                    style={{ marginLeft: '1rem', marginRight: '-1rem' }}
+                  >
+                    <input
+                      className="input"
+                      type="text"
+                      value={stat.key}
+                      onChange={this.onKeyChange(index)}
+                    />
                   </div>
 
                   <div className="column is-2 has-text-right">
-                    <button type="button" className="button">
+                    <button
+                      type="button"
+                      className="button"
+                      onClick={this.removeStats(index)}
+                    >
                       <span className="icon is-small">
-                        <i className="fas fa-plus" />
+                        <i className="fas fa-minus" />
                       </span>
                     </button>
                   </div>
@@ -59,12 +82,15 @@ class TeamStatsStructure extends React.Component<
         })}
 
         <div className="column is-12">
-          <button className="button is-secondary is-fullwidth" type="button"
-            onClick={this.addStats.bind(this)}>
+          <button
+            className="button is-secondary is-fullwidth"
+            type="button"
+            onClick={this.addStats.bind(this)}
+          >
             New stat
           </button>
         </div>
-      </div >
+      </div>
     );
   }
 
@@ -75,7 +101,7 @@ class TeamStatsStructure extends React.Component<
       } else {
         return {
           ...stat,
-          key: event.target.value,
+          key: event.target.value
         };
       }
     });
@@ -91,7 +117,7 @@ class TeamStatsStructure extends React.Component<
       } else {
         return {
           ...stat,
-          title: event.target.value,
+          title: event.target.value
         };
       }
     });
@@ -102,12 +128,19 @@ class TeamStatsStructure extends React.Component<
 
   addStats() {
     this.setState({
-      value: [
-        ...this.state.value,
-        { key: '', title: '', },
-      ]
+      value: [...this.state.value, { key: '', title: '' }]
     });
   }
+
+  removeStats = (index: number) => () => {
+    const newValue = this.state.value.filter(
+      (item: Stat, i: number) => i !== index
+    );
+    this.setState({
+      value: newValue
+    });
+    this.onChange(newValue);
+  };
 
   onBlur(event: any) {
     this.props.input.onBlur(event);
@@ -115,12 +148,14 @@ class TeamStatsStructure extends React.Component<
 
   onChange(values: Stat[]) {
     const initialTeamStats = {};
-    const teamStats = values ? values.reduce((acc: any, stat: Stat) => {
-      return {
-        ...acc,
-        [stat.key]: stat.title,
-      }
-    }, initialTeamStats) : initialTeamStats;
+    const teamStats = values
+      ? values.reduce((acc: any, stat: Stat) => {
+          return {
+            ...acc,
+            [stat.key]: stat.title
+          };
+        }, initialTeamStats)
+      : initialTeamStats;
     this.props.input.onChange(teamStats);
   }
 
