@@ -6,7 +6,6 @@ const Form: React.FC<FormRenderProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  values
 }) => {
   return (
     <form onSubmit={handleSubmit}>
