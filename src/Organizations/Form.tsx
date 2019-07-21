@@ -32,7 +32,7 @@ const Form: React.FC<FormRenderProps> = ({
         type="submit"
         disabled={submitting || pristine}
       >
-        Submit
+        Save
       </button>
     </form>
   );

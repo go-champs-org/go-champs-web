@@ -86,7 +86,7 @@ const Form: React.FC<FromProps> = ({
         type="submit"
         disabled={submitting || pristine}
       >
-        Submit
+        Save
       </button>
     </form>
   );

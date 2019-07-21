@@ -1,7 +1,6 @@
 import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
-import TeamStatsStructure from '../Shared/UI/Form/TeamStatsStructure';
 
 const Form: React.FC<FormRenderProps> = ({
   handleSubmit,
@@ -25,21 +24,12 @@ const Form: React.FC<FormRenderProps> = ({
         </div>
       </div>
 
-      <div className="field">
-        <label className="label">Team stats</label>
-        <div className="control">
-          <Field name="teamStatsStructure" component={TeamStatsStructure} />
-        </div>
-      </div>
-
-      <div className="field">{JSON.stringify(values)}</div>
-
       <button
         className="button is-primary"
         type="submit"
         disabled={submitting || pristine}
       >
-        Submit
+        Save
       </button>
     </form>
   );
