@@ -5,7 +5,7 @@ import StringInput from '../Shared/UI/Form/StringInput';
 const Form: React.FC<FormRenderProps> = ({
   handleSubmit,
   submitting,
-  pristine,
+  pristine
 }) => {
   return (
     <form onSubmit={handleSubmit}>

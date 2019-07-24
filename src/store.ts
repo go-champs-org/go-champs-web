@@ -5,6 +5,7 @@ import { default as organizationReducer } from './Organizations/reducer';
 import { default as tournamentGameReducer } from './Tournaments/Games/reducer';
 import { default as tournamentGroupReducer } from './Tournaments/Groups/reducer';
 import { default as tournamentReducer } from './Tournaments/reducer';
+import { default as tournamentStatReducer } from './Tournaments/Stats/reducer';
 import { default as tournamentTeamReducer } from './Tournaments/Teams/reducer';
 
 export default createStore(
@@ -13,7 +14,8 @@ export default createStore(
     tournaments: tournamentReducer,
     tournamentGames: tournamentGameReducer,
     tournamentGroups: tournamentGroupReducer,
-    tournamentTeams: tournamentTeamReducer
+    tournamentTeams: tournamentTeamReducer,
+    tournamentStats: tournamentStatReducer
   }),
   composeWithDevTools(applyMiddleware(thunk))
 );
