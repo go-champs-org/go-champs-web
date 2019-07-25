@@ -4,19 +4,27 @@ import { default as OrganizationNavBar } from '../Organizations/Common/NavBar';
 import { OrganizationState } from '../Organizations/state';
 import { default as TournamentForm } from './Form';
 import { TournamentEntity } from './state';
+import FormArray from './Stats/FormArray';
+import { TournamentStatState } from './Stats/state';
 
 interface TournamentEditProps {
   organizationSlug: string;
   organizationState: OrganizationState;
   patchTournament: any;
+  patchTournamentStat: any;
+  postTournamentStat: any;
   tournament: TournamentEntity;
+  tournamentStatState: TournamentStatState;
 }
 
 export const Edit: React.FC<TournamentEditProps> = ({
   organizationSlug,
   organizationState,
   patchTournament,
-  tournament
+  patchTournamentStat,
+  postTournamentStat,
+  tournament,
+  tournamentStatState,
 }) => {
   const organization = organizationState.organizations[organizationSlug];
   return (
@@ -38,6 +46,15 @@ export const Edit: React.FC<TournamentEditProps> = ({
           initialValues={tournament}
           render={TournamentForm}
         />
+        <div className="columns is-mobile is-vcentered">
+          <div className="column is-8">
+            <h2 className="subtitle">Edit Tournament Team Stats</h2>
+          </div>
+        </div>
+        <FormArray
+          pacthTournamentStat={patchTournamentStat}
+          postTournamentStat={postTournamentStat}
+          tournamentStat={tournamentStatState.tournamentStats} />
       </div>
     </div>
   );

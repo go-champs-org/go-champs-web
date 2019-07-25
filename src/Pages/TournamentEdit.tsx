@@ -7,6 +7,8 @@ import PageLoader from '../Shared/UI/PageLoader';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
 import { TournamentState } from '../Tournaments/state';
+import { patchTournamentStat, postTournamentStat } from '../Tournaments/Stats/actions';
+import { TournamentStatState } from '../Tournaments/Stats/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
@@ -14,7 +16,10 @@ interface TournamentEditProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   organizationState: OrganizationState;
   tournamentState: TournamentState;
+  tournamentStatState: TournamentStatState;
   patchTournament: any;
+  patchTournamentStat: any;
+  postTournamentStat: any;
   requestTournament: any;
 }
 
@@ -26,7 +31,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     const canRender =
       !this.props.organizationState.isLoadingRequestOrganization &&
       !!this.props.organizationState.organizations[
-        this.props.match.params.organizationSlug
+      this.props.match.params.organizationSlug
       ];
     return (
       <PageLoader canRender={canRender}>
@@ -34,7 +39,10 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
           organizationSlug={this.props.match.params.organizationSlug}
           organizationState={this.props.organizationState}
           patchTournament={this.props.patchTournament}
+          patchTournamentStat={this.props.patchTournamentStat(tournament.id)}
+          postTournamentStat={this.props.postTournamentStat(tournament.id)}
           tournament={tournament}
+          tournamentStatState={this.props.tournamentStatState}
         />
       </PageLoader>
     );
@@ -51,7 +59,8 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
 const mapStateToProps = (state: any) => {
   return {
     organizationState: state.organizations,
-    tournamentState: state.tournaments
+    tournamentState: state.tournaments,
+    tournamentStatState: state.tournamentStats,
   };
 };
 
@@ -62,6 +71,8 @@ const mapDispatchToProps = (dispatch: any, state: TournamentEditProps) => {
   return bindActionCreators(
     {
       patchTournament: patchTournament(organizationId),
+      patchTournamentStat: patchTournamentStat,
+      postTournamentStat: postTournamentStat,
       requestTournament
     },
     dispatch
