@@ -8,6 +8,7 @@ import FormArray from './Stats/FormArray';
 import { TournamentStatState } from './Stats/state';
 
 interface TournamentEditProps {
+  deleteTournamentStat: any;
   organizationSlug: string;
   organizationState: OrganizationState;
   patchTournament: any;
@@ -18,6 +19,7 @@ interface TournamentEditProps {
 }
 
 export const Edit: React.FC<TournamentEditProps> = ({
+  deleteTournamentStat,
   organizationSlug,
   organizationState,
   patchTournament,
@@ -46,12 +48,13 @@ export const Edit: React.FC<TournamentEditProps> = ({
           initialValues={tournament}
           render={TournamentForm}
         />
-        <div className="columns is-mobile is-vcentered">
+        <div className="columns is-mobile is-vcentered" style={{ marginTop: '.5em' }}>
           <div className="column is-8">
-            <h2 className="subtitle">Edit Tournament Team Stats</h2>
+            <h2 className="subtitle">Team Stats</h2>
           </div>
         </div>
         <FormArray
+          deleteTournamentStat={deleteTournamentStat}
           pacthTournamentStat={patchTournamentStat}
           postTournamentStat={postTournamentStat}
           tournamentStat={tournamentStatState.tournamentStats} />
