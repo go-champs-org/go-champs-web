@@ -7,7 +7,11 @@ import PageLoader from '../Shared/UI/PageLoader';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
 import { TournamentState } from '../Tournaments/state';
-import { deleteTournamentStat, patchTournamentStat, postTournamentStat } from '../Tournaments/Stats/actions';
+import {
+  deleteTournamentStat,
+  patchTournamentStat,
+  postTournamentStat
+} from '../Tournaments/Stats/actions';
 import { TournamentStatState } from '../Tournaments/Stats/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -32,7 +36,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     const canRender =
       !this.props.organizationState.isLoadingRequestOrganization &&
       !!this.props.organizationState.organizations[
-      this.props.match.params.organizationSlug
+        this.props.match.params.organizationSlug
       ];
     return (
       <PageLoader canRender={canRender}>
@@ -62,7 +66,7 @@ const mapStateToProps = (state: any) => {
   return {
     organizationState: state.organizations,
     tournamentState: state.tournaments,
-    tournamentStatState: state.tournamentStats,
+    tournamentStatState: state.tournamentStats
   };
 };
 

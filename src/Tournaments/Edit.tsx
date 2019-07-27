@@ -26,7 +26,7 @@ export const Edit: React.FC<TournamentEditProps> = ({
   patchTournamentStat,
   postTournamentStat,
   tournament,
-  tournamentStatState,
+  tournamentStatState
 }) => {
   const organization = organizationState.organizations[organizationSlug];
   return (
@@ -48,7 +48,10 @@ export const Edit: React.FC<TournamentEditProps> = ({
           initialValues={tournament}
           render={TournamentForm}
         />
-        <div className="columns is-mobile is-vcentered" style={{ marginTop: '.5em' }}>
+        <div
+          className="columns is-mobile is-vcentered"
+          style={{ marginTop: '.5em' }}
+        >
           <div className="column is-8">
             <h2 className="subtitle">Team Stats</h2>
           </div>
@@ -57,7 +60,8 @@ export const Edit: React.FC<TournamentEditProps> = ({
           deleteTournamentStat={deleteTournamentStat}
           pacthTournamentStat={patchTournamentStat}
           postTournamentStat={postTournamentStat}
-          tournamentStat={tournamentStatState.tournamentStats} />
+          tournamentStat={tournamentStatState.tournamentStats}
+        />
       </div>
     </div>
   );
