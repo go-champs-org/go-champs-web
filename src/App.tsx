@@ -15,6 +15,7 @@ import TournamentGroupList from './Pages/TournamentGroupList';
 import TournamentGroupNew from './Pages/TournamentGroupNew';
 import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
+import TournamentStandingsEdit from './Pages/TournamentStandingsEdit';
 import TournamentTeamEdit from './Pages/TournamentTeamEdit';
 import TournamentTeamList from './Pages/TournamentTeamList';
 import TournamentTeamNew from './Pages/TournamentTeamNew';
@@ -110,6 +111,12 @@ const App: React.FC = () => {
                 sensitive
                 path="/:organizationSlug/:tournamentSlug/TournamentGameEdit/:tournamentGameId"
                 component={TournamentGameEdit}
+              />
+              <Route
+                exact
+                sensitive
+                path="/:organizationSlug/:tournamentSlug/TournamentStandingsEdit"
+                component={TournamentStandingsEdit}
               />
             </Switch>
           </div>
