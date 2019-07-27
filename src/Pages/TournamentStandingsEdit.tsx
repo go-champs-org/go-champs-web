@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestTournament } from '../Tournaments/actions';
+import { Edit } from '../Tournaments/Standings/Edit';
 import { TournamentState } from '../Tournaments/state';
 import { patchTournamentTeam } from '../Tournaments/Teams/actions';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
@@ -18,7 +19,11 @@ interface TournamentStandingsEditProps
 class TournamentStandingsEdit extends React.Component<TournamentStandingsEditProps> {
 	render() {
 		return (
-			<div>Tournament Standings</div>
+			<Edit
+				currentOrganizationSlug={this.props.match.params.organizationSlug}
+				currentTournamentSlug={this.props.match.params.tournamentSlug}
+				postTournamentTeam={this.props.patchTournamentTeam}
+				tournamentState={this.props.tournamentState} />
 		);
 	}
 
