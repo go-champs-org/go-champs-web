@@ -3,19 +3,16 @@ import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
 import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
 import { TournamentTeamEntity, TournamentTeamState } from '../Teams/state';
-/*
-{
-	tournamentStats: { [key: string]: TournamentStatEntity };
-	tournamentTeam: TournamentTeamEntity;
-	url: string;
-	patchTournamentTeam: any;
-}
-{ tournamentStats, tournamentTeam, url, patchTournamentTeam }
-*/
 
-const TournamentTeamStandingsCard: React.FC = () => (
+const TournamentTeamStandingsRow: React.FC<{
+  tournamentStats: { [key: string]: TournamentStatEntity };
+  tournamentTeam: TournamentTeamEntity;
+}> = ({ tournamentStats, tournamentTeam }) => (
   <tr>
-    <td>tournamentTeam.name</td>
+    <td>{tournamentTeam.name}</td>
+    {Object.keys(tournamentStats).map((key: string) => (
+      <td key={key}>{tournamentTeam.stats[key] || `no data`}</td>
+    ))}
   </tr>
 );
 
@@ -25,7 +22,7 @@ const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
 
 const Standings: React.FC<{
   tournamentStats: { [key: string]: TournamentStatEntity };
-  tournamentTeams?: { [key: string]: TournamentTeamEntity };
+  tournamentTeams: { [key: string]: TournamentTeamEntity };
 }> = ({ tournamentStats, tournamentTeams }) => {
   return (
     <table className="table is-fullwidth">
@@ -33,10 +30,18 @@ const Standings: React.FC<{
         <tr>
           <th>Name</th>
           {Object.keys(tournamentStats).map((key: string) => (
-            <StandingHeader tournamentStat={tournamentStats[key]} />
+            <StandingHeader key={key} tournamentStat={tournamentStats[key]} />
           ))}
         </tr>
       </thead>
+      <tbody>
+        {Object.keys(tournamentTeams).map((key: string) => (
+          <TournamentTeamStandingsRow
+            tournamentStats={tournamentStats}
+            tournamentTeam={tournamentTeams[key]}
+          />
+        ))}
+      </tbody>
     </table>
   );
 };
@@ -75,7 +80,10 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
             <h2 className="subtitle">Edit Tournament Standings</h2>
           </div>
         </div>
-        <Standings tournamentStats={tournamentStatState.tournamentStats} />
+        <Standings
+          tournamentStats={tournamentStatState.tournamentStats}
+          tournamentTeams={tournamentTeamState.tournamentTeams}
+        />
       </div>
     </div>
   );

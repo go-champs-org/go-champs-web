@@ -27,7 +27,8 @@ import { initialState, TournamentTeamState } from './state';
 
 const mapTournamentTeam = (apiData: any) => ({
   id: apiData.id,
-  name: apiData.name
+  name: apiData.name,
+  stats: apiData.stats || {}
 });
 
 const tournamentTeamMapEntities = mapEntities(
