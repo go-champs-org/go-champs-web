@@ -4,26 +4,71 @@ import { TournamentState } from '../state';
 import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
 import { TournamentTeamEntity, TournamentTeamState } from '../Teams/state';
 
-const TournamentTeamStandingsRow: React.FC<{
+interface TournamentTeamStandingsRowProps {
+  patchTournamentTeam: any;
   tournamentStats: { [key: string]: TournamentStatEntity };
   tournamentTeam: TournamentTeamEntity;
-}> = ({ tournamentStats, tournamentTeam }) => (
-  <tr>
-    <td>{tournamentTeam.name}</td>
-    {Object.keys(tournamentStats).map((key: string) => (
-      <td key={key}>{tournamentTeam.stats[key] || `no data`}</td>
-    ))}
-  </tr>
-);
+}
+
+class TournamentTeamStandingsRow extends React.Component<
+  TournamentTeamStandingsRowProps
+> {
+  readonly state: TournamentTeamEntity;
+
+  constructor(props: TournamentTeamStandingsRowProps) {
+    super(props);
+    this.state = props.tournamentTeam;
+  }
+
+  render() {
+    const { patchTournamentTeam, tournamentStats, tournamentTeam } = this.props;
+    return (
+      <tr>
+        <td>{tournamentTeam.name}</td>
+        {Object.keys(tournamentStats).map((key: string) => (
+          <td key={key}>
+            <input
+              className="input"
+              type="text"
+              onChange={this.changeTournamentStat(key)}
+              value={this.state.stats[key] || ''}
+            />
+          </td>
+        ))}
+        <td>
+          <button
+            className="button is-primary"
+            onClick={() => patchTournamentTeam(this.state)}
+          >
+            Save
+          </button>
+        </td>
+      </tr>
+    );
+  }
+
+  changeTournamentStat = (statId: string) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    this.setState({
+      ...this.state,
+      stats: {
+        ...this.state.stats,
+        [statId]: event.currentTarget.value
+      }
+    });
+  };
+}
 
 const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
   tournamentStat
 }) => <th>{tournamentStat.title}</th>;
 
 const Standings: React.FC<{
+  patchTournamentTeam: any;
   tournamentStats: { [key: string]: TournamentStatEntity };
   tournamentTeams: { [key: string]: TournamentTeamEntity };
-}> = ({ tournamentStats, tournamentTeams }) => {
+}> = ({ patchTournamentTeam, tournamentStats, tournamentTeams }) => {
   return (
     <table className="table is-fullwidth">
       <thead>
@@ -32,11 +77,14 @@ const Standings: React.FC<{
           {Object.keys(tournamentStats).map((key: string) => (
             <StandingHeader key={key} tournamentStat={tournamentStats[key]} />
           ))}
+          <th>Save</th>
         </tr>
       </thead>
       <tbody>
         {Object.keys(tournamentTeams).map((key: string) => (
           <TournamentTeamStandingsRow
+            key={key}
+            patchTournamentTeam={patchTournamentTeam}
             tournamentStats={tournamentStats}
             tournamentTeam={tournamentTeams[key]}
           />
@@ -81,6 +129,7 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
           </div>
         </div>
         <Standings
+          patchTournamentTeam={patchTournamentTeam}
           tournamentStats={tournamentStatState.tournamentStats}
           tournamentTeams={tournamentTeamState.tournamentTeams}
         />
