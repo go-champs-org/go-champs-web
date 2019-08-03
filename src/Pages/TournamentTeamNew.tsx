@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { TournamentGroupState } from '../Tournaments/Groups/state';
 import { TournamentState } from '../Tournaments/state';
 import { postTournamentTeam } from '../Tournaments/Teams/actions';
 import New from '../Tournaments/Teams/New';
@@ -12,6 +13,7 @@ interface TournamentTeamNewProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   postTournamentTeam: any;
   tournamentState: TournamentState;
+  tournamentGroupState: TournamentGroupState;
 }
 
 class TournamentTeamNew extends React.Component<TournamentTeamNewProps> {
@@ -22,13 +24,15 @@ class TournamentTeamNew extends React.Component<TournamentTeamNewProps> {
         currentTournamentSlug={this.props.match.params.tournamentSlug}
         postTournamentTeam={this.props.postTournamentTeam}
         tournamentState={this.props.tournamentState}
+        tournamentGroups={this.props.tournamentGroupState.tournamentGroups}
       />
     );
   }
 }
 
 const mapStateToProps = (state: any) => ({
-  tournamentState: state.tournaments
+  tournamentState: state.tournaments,
+  tournamentGroupState: state.tournamentGroups
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {

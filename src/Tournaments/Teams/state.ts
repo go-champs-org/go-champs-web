@@ -1,7 +1,10 @@
+import { TournamentGroupEntity } from '../Groups/state';
+
 export interface TournamentTeamEntity {
   id: string;
   name: string;
   stats: { [key: string]: any };
+  group: TournamentGroupEntity;
 }
 
 export interface TournamentTeamState {

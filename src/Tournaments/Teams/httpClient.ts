@@ -24,7 +24,13 @@ const patch = (tournamentId: string, tournamentTeam: TournamentTeamEntity) => {
   return fetch(url, {
     headers: DEFAULT_HEADERS,
     method: 'PATCH',
-    body: JSON.stringify({ tournament_team: tournamentTeam })
+    body: JSON.stringify({
+      tournament_team: {
+        name: tournamentTeam.name,
+        stats: tournamentTeam.stats,
+        tournament_group_id: tournamentTeam.group.id
+      }
+    })
   }).then(resolveResponse);
 };
 
@@ -34,7 +40,13 @@ const post = (tournamentId: string, tournamentTeam: TournamentTeamEntity) => {
   return fetch(url, {
     headers: DEFAULT_HEADERS,
     method: 'POST',
-    body: JSON.stringify({ tournament_team: tournamentTeam })
+    body: JSON.stringify({
+      tournament_team: {
+        name: tournamentTeam.name,
+        stats: tournamentTeam.stats,
+        tournament_group_id: tournamentTeam.group.id
+      }
+    })
   }).then(resolveResponse);
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import NavBar from '../Common/NavBar';
+import { TournamentGroupEntity } from '../Groups/state';
 import { TournamentState } from '../state';
 import { default as TournamentTeamForm } from './Form';
 import { TournamentTeamEntity } from './state';
@@ -11,6 +12,7 @@ interface TournamentTeamEditProps {
   postTournamentTeam: any;
   tournamentState: TournamentState;
   tournamentTeam: TournamentTeamEntity;
+  tournamentGroups: { [key: string]: TournamentGroupEntity };
 }
 
 export const Edit: React.FC<TournamentTeamEditProps> = ({
@@ -18,7 +20,8 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
   currentTournamentSlug,
   postTournamentTeam,
   tournamentState,
-  tournamentTeam
+  tournamentTeam,
+  tournamentGroups
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -39,7 +42,12 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
         <Form
           onSubmit={postTournamentTeam}
           initialValues={tournamentTeam}
-          render={TournamentTeamForm}
+          render={(props: any) => (
+            <TournamentTeamForm
+              {...props}
+              tournamentGroups={tournamentGroups}
+            />
+          )}
         />
       </div>
     </div>

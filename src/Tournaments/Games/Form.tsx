@@ -13,7 +13,6 @@ const Form: React.FC<FromProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  values,
   tournamentTeams
 }) => {
   const selectTeams = Object.keys(tournamentTeams).map(
