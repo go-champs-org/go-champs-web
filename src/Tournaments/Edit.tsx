@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import { default as OrganizationNavBar } from '../Organizations/Common/NavBar';
 import { OrganizationState } from '../Organizations/state';
+import NavBar from './Common/NavBar';
 import { default as TournamentForm } from './Form';
 import { TournamentEntity } from './state';
 import FormArray from './Stats/FormArray';
@@ -32,9 +32,10 @@ export const Edit: React.FC<TournamentEditProps> = ({
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <OrganizationNavBar
-          organizationSlug={organizationSlug}
-          organization={organization}
+        <NavBar
+          organizationSlug={organization.slug}
+          tournament={tournament}
+          tournamentSlug={tournament.slug}
         />
       </header>
       <div className="column is-8">
