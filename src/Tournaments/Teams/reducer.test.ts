@@ -171,7 +171,9 @@ describe('patchTournamentTeamSuccess', () => {
 
     expect(newState.tournamentTeams['first-id']).toEqual({
       id: 'first-id',
-      name: 'some-first-name'
+      name: 'some-first-name',
+      stats: {},
+      group: {}
     });
   });
 
@@ -243,7 +245,9 @@ describe('postTournamentTeamSuccess', () => {
 
     expect(newState.tournamentTeams['first-id']).toEqual({
       id: 'first-id',
-      name: 'first-name'
+      name: 'first-name',
+      stats: {},
+      group: {}
     });
   });
 
@@ -302,11 +306,25 @@ describe('requestTournamentSuccess', () => {
         teams: [
           {
             id: 'first-team-id',
-            name: 'first team name'
+            name: 'first team name',
+            stats: {
+              someStat: 'first-stat'
+            },
+            group: {
+              id: 'first-group-id',
+              name: 'first group name'
+            }
           },
           {
             id: 'second-team-id',
-            name: 'second team name'
+            name: 'second team name',
+            stats: {
+              someStat: 'second-stat'
+            },
+            group: {
+              id: 'second-group-id',
+              name: 'second group name'
+            }
           }
         ]
       }
@@ -324,11 +342,25 @@ describe('requestTournamentSuccess', () => {
 
     expect(newState.tournamentTeams['first-team-id']).toEqual({
       id: 'first-team-id',
-      name: 'first team name'
+      name: 'first team name',
+      stats: {
+        someStat: 'first-stat'
+      },
+      group: {
+        id: 'first-group-id',
+        name: 'first group name'
+      }
     });
     expect(newState.tournamentTeams['second-team-id']).toEqual({
       id: 'second-team-id',
-      name: 'second team name'
+      name: 'second team name',
+      stats: {
+        someStat: 'second-stat'
+      },
+      group: {
+        id: 'second-group-id',
+        name: 'second group name'
+      }
     });
   });
 });
