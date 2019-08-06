@@ -22,6 +22,8 @@ export const PATCH_TOURNAMENT_TEAM_FAILURE =
 export const POST_TOURNAMENT_TEAM = 'API_POST_TOURNAMENT_TEAM';
 export const POST_TOURNAMENT_TEAM_SUCCESS = 'API_POST_TOURNAMENT_TEAM_SUCCESS';
 export const POST_TOURNAMENT_TEAM_FAILURE = 'API_POST_TOURNAMENT_TEAM_FAILURE';
+export const UPDATE_TOURNAMENT_TEAM_BY_GROUP =
+  'UPDATE_TOURNAMENT_TEAM_BY_GROUP';
 
 export const deleteTournamentTeam = (tournamentId: string) => (
   tournamentTeam: TournamentTeamEntity
@@ -32,6 +34,7 @@ export const deleteTournamentTeam = (tournamentId: string) => (
     const response = await httpClient.delete(tournamentId, tournamentTeam.id);
 
     dispatch(deleteTournamentTeamSuccess(response));
+    dispatch(updateTournamentTeamByGroup());
     displayToast(`${tournamentTeam.name} deleted!`, 'is-success');
   } catch (err) {
     dispatch(deleteTournamentTeamFailure(err));
@@ -61,6 +64,7 @@ export const patchTournamentTeam = (tournamentId: string) => (
     const response = await httpClient.patch(tournamentId, tournamentTeam);
 
     dispatch(patchTournamentTeamSuccess(response));
+    dispatch(updateTournamentTeamByGroup());
     displayToast(`${tournamentTeam.name} updated!`, 'is-success');
   } catch (err) {
     dispatch(patchTournamentTeamFailure(err));
@@ -90,6 +94,7 @@ export const postTournamentTeam = (tournamentId: string) => (
     const response = await httpClient.post(tournamentId, tournamentTeam);
 
     dispatch(postTournamentTeamSuccess(response));
+    dispatch(updateTournamentTeamByGroup());
     displayToast(`${tournamentTeam.name} created!`, 'is-success');
   } catch (err) {
     dispatch(postTournamentTeamFailure(err));
@@ -110,6 +115,10 @@ export const postTournamentTeamFailure = (
   payload
 });
 
+export const updateTournamentTeamByGroup = (): HttpAction<ActionTypes> => ({
+  type: UPDATE_TOURNAMENT_TEAM_BY_GROUP
+});
+
 export type ActionTypes =
   | typeof DELETE_TOURNAMENT_TEAM
   | typeof DELETE_TOURNAMENT_TEAM_SUCCESS
@@ -122,5 +131,6 @@ export type ActionTypes =
   | typeof POST_TOURNAMENT_TEAM_FAILURE
   | typeof REQUEST_TOURNAMENT
   | typeof REQUEST_TOURNAMENT_FAILURE
-  | typeof REQUEST_TOURNAMENT_SUCCESS;
+  | typeof REQUEST_TOURNAMENT_SUCCESS
+  | typeof UPDATE_TOURNAMENT_TEAM_BY_GROUP;
 export type Actions = HttpAction<ActionTypes>;

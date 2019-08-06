@@ -2,6 +2,7 @@ import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
 import httpClient, { RequestFilter } from './httpClient';
 import { TournamentEntity } from './state';
+import { updateTournamentTeamByGroup } from './Teams/actions';
 
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
 export const DELETE_TOURNAMENT_SUCCESS = 'API_DELETE_TOURNAMENT_SUCCESS';
@@ -148,6 +149,7 @@ export const requestTournament = (tournamentId: string) => async (
     const response = await httpClient.getOne(tournamentId);
 
     dispatch(requestTournamentSuccess(response));
+    dispatch(updateTournamentTeamByGroup());
   } catch (err) {
     dispatch(requestTournamentFailure(err));
   }
