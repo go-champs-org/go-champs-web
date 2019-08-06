@@ -122,6 +122,7 @@ export const requestFilterTournaments = (where: RequestFilter) => async (
 
     dispatch(requestFilterTournamentsSuccess(response));
   } catch (err) {
+    console.log(err);
     dispatch(requestFilterTournamentsFailure(err));
   }
 };

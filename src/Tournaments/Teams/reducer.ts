@@ -26,6 +26,8 @@ import {
 } from './actions';
 import { initialState, TournamentTeamState } from './state';
 
+export const NO_GROUP_KEY = 'no-group';
+
 const mapTournamentTeam = (apiData: any) => ({
   id: apiData.id,
   name: apiData.name,
@@ -38,7 +40,8 @@ const tournamentTeamMapEntities = mapEntities(
   mapTournamentTeam
 );
 
-const returnGroupIdProperty = (apiData: any) => apiData.group.id || 'no-group';
+const returnGroupIdProperty = (apiData: any) =>
+  apiData.group.id || NO_GROUP_KEY;
 
 const mapTournamentTeamToTeamByGroup = (apiData: any) => ({
   [apiData.id]: {

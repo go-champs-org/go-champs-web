@@ -1,7 +1,9 @@
 import React from 'react';
 import NavBar from '../Common/NavBar';
+import { TournamentGroupEntity, TournamentGroupState } from '../Groups/state';
 import { TournamentState } from '../state';
 import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
+import { NO_GROUP_KEY } from '../Teams/reducer';
 import { TournamentTeamEntity, TournamentTeamState } from '../Teams/state';
 
 interface TournamentTeamStandingsRowProps {
@@ -12,7 +14,7 @@ interface TournamentTeamStandingsRowProps {
 
 class TournamentTeamStandingsRow extends React.Component<
   TournamentTeamStandingsRowProps
-> {
+  > {
   readonly state: TournamentTeamEntity;
 
   constructor(props: TournamentTeamStandingsRowProps) {
@@ -94,10 +96,38 @@ const Standings: React.FC<{
   );
 };
 
+const GroupStandings: React.FC<{
+  patchTournamentTeam: any;
+  tournamentGroup: TournamentGroupEntity;
+  tournamentStats: { [key: string]: TournamentStatEntity };
+  tournamentTeams: { [key: string]: TournamentTeamEntity };
+}> = ({
+  patchTournamentTeam,
+  tournamentGroup,
+  tournamentStats,
+  tournamentTeams
+}) => {
+    return (
+      <div>
+        <div className="columns">
+          <div className="column is-12">
+            <h5 className="subtitle">{tournamentGroup.name}</h5>
+          </div>
+        </div>
+        <Standings
+          patchTournamentTeam={patchTournamentTeam}
+          tournamentStats={tournamentStats}
+          tournamentTeams={tournamentTeams}
+        />
+      </div>
+    );
+  };
+
 interface TournamentTeamEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   patchTournamentTeam: any;
+  tournamentGroupState: TournamentGroupState;
   tournamentState: TournamentState;
   tournamentStatState: TournamentStatState;
   tournamentTeamState: TournamentTeamState;
@@ -107,6 +137,7 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   patchTournamentTeam,
+  tournamentGroupState,
   tournamentState,
   tournamentStatState,
   tournamentTeamState
@@ -128,11 +159,26 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
             <h2 className="subtitle">Edit Tournament Standings</h2>
           </div>
         </div>
-        <Standings
-          patchTournamentTeam={patchTournamentTeam}
-          tournamentStats={tournamentStatState.tournamentStats}
-          tournamentTeams={tournamentTeamState.tournamentTeams}
-        />
+        {tournamentTeamState.tournamentTeamsByGroup[NO_GROUP_KEY] && (
+          <Standings
+            patchTournamentTeam={patchTournamentTeam}
+            tournamentStats={tournamentStatState.tournamentStats}
+            tournamentTeams={
+              tournamentTeamState.tournamentTeamsByGroup[NO_GROUP_KEY]
+            }
+          />
+        )}
+        {Object.keys(tournamentTeamState.tournamentTeamsByGroup)
+          .filter((key: string) => key !== NO_GROUP_KEY)
+          .map((key: string) => (
+            <GroupStandings
+              key={key}
+              patchTournamentTeam={patchTournamentTeam}
+              tournamentGroup={tournamentGroupState.tournamentGroups[key]}
+              tournamentStats={tournamentStatState.tournamentStats}
+              tournamentTeams={tournamentTeamState.tournamentTeamsByGroup[key]}
+            />
+          ))}
       </div>
     </div>
   );
