@@ -3,8 +3,9 @@ import NavBar from './Common/NavBar';
 import ListByDate from './Games/ListByDate';
 import { TournamentGameState } from './Games/state';
 import { TournamentGroupState } from './Groups/state';
+import { default as StandingsView } from './Standings/View';
 import { TournamentState } from './state';
-import Standings from './Teams/Standings';
+import { TournamentStatState } from './Stats/state';
 import { TournamentTeamState } from './Teams/state';
 
 interface HomeProps {
@@ -14,7 +15,7 @@ interface HomeProps {
   tournamentGameState: TournamentGameState;
   tournamentGroupState: TournamentGroupState;
   tournamentTeamState: TournamentTeamState;
-  url: string;
+  tournamentStatState: TournamentStatState;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -24,7 +25,7 @@ const Home: React.FC<HomeProps> = ({
   tournamentGameState,
   tournamentGroupState,
   tournamentTeamState,
-  url
+  tournamentStatState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -37,7 +38,11 @@ const Home: React.FC<HomeProps> = ({
         />
       </header>
       <div className="column is-8">
-        <Standings teams={tournamentTeamState.tournamentTeams} />
+        <StandingsView
+          tournamentGroupState={tournamentGroupState}
+          tournamentStatState={tournamentStatState}
+          tournamentTeamState={tournamentTeamState}
+        />
       </div>
       <aside className="column is-4">
         <ListByDate tournamentGameState={tournamentGameState} />

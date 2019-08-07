@@ -12,6 +12,7 @@ import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import Home from '../Tournaments/Home';
 import { TournamentState } from '../Tournaments/state';
+import { TournamentStatState } from '../Tournaments/Stats/state';
 import { deleteTournamentTeam } from '../Tournaments/Teams/actions';
 import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
@@ -26,6 +27,7 @@ interface TournamentHomeProps
   tournamentGameState: TournamentGameState;
   tournamentGroupState: TournamentGroupState;
   tournamentTeamState: TournamentTeamState;
+  tournamentStatState: TournamentStatState;
   requestTournament: any;
   requestTournamentGames: any;
 }
@@ -37,7 +39,8 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       tournamentState,
       tournamentGameState,
       tournamentGroupState,
-      tournamentTeamState
+      tournamentTeamState,
+      tournamentStatState
     } = this.props;
     return (
       <Home
@@ -47,7 +50,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
         tournamentGameState={tournamentGameState}
         tournamentGroupState={tournamentGroupState}
         tournamentTeamState={tournamentTeamState}
-        url={match.url}
+        tournamentStatState={tournamentStatState}
       />
     );
   }
@@ -65,7 +68,8 @@ const mapStateToProps = (state: any) => ({
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
   tournamentGroupState: state.tournamentGroups,
-  tournamentTeamState: state.tournamentTeams
+  tournamentTeamState: state.tournamentTeams,
+  tournamentStatState: state.tournamentStats
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {

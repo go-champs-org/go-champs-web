@@ -14,7 +14,7 @@ interface TournamentTeamStandingsRowProps {
 
 class TournamentTeamStandingsRow extends React.Component<
   TournamentTeamStandingsRowProps
-  > {
+> {
   readonly state: TournamentTeamEntity;
 
   constructor(props: TournamentTeamStandingsRowProps) {
@@ -107,23 +107,23 @@ const GroupStandings: React.FC<{
   tournamentStats,
   tournamentTeams
 }) => {
-    return (
-      <div>
-        <div className="columns">
-          <div className="column is-12">
-            <h5 className="subtitle">{tournamentGroup.name}</h5>
-          </div>
+  return (
+    <div>
+      <div className="columns">
+        <div className="column is-12">
+          <h5 className="subtitle">{tournamentGroup.name}</h5>
         </div>
-        <Standings
-          patchTournamentTeam={patchTournamentTeam}
-          tournamentStats={tournamentStats}
-          tournamentTeams={tournamentTeams}
-        />
       </div>
-    );
-  };
+      <Standings
+        patchTournamentTeam={patchTournamentTeam}
+        tournamentStats={tournamentStats}
+        tournamentTeams={tournamentTeams}
+      />
+    </div>
+  );
+};
 
-interface TournamentTeamEditProps {
+interface TournamentStandingsEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   patchTournamentTeam: any;
@@ -133,7 +133,7 @@ interface TournamentTeamEditProps {
   tournamentTeamState: TournamentTeamState;
 }
 
-export const Edit: React.FC<TournamentTeamEditProps> = ({
+export const Edit: React.FC<TournamentStandingsEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   patchTournamentTeam,
