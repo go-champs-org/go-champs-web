@@ -12,9 +12,11 @@ $pink: #fa7c91;
 $brown: #757763;
 $beige-light: #d0d1cd;
 $beige-lighter: #eff0eb;
-$dark: #181810;
+$dark: #1E1200;
 $dark-light: #343434;
 $orange-light: #e3c4a8;
+$white: #fdfdff;
+$red: #970C10;
 
 // Update Bulma's global variables
 $family-sans-serif: 'Fira Sans', sans-serif;
@@ -22,20 +24,20 @@ $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $orange-light;
 $link: $beige-lighter;
-$link-hover: $orange-light;
+$link-hover: $red;
 $widescreen-enabled: true;
 $fullhd-enabled: false;
 
 // Update some of Bulma's component variables
-$body-background-color: $dark;
+$body-background-color: $white;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
 // Custom values
-$title-color: #f3f3f3;
-$subtitle-color: $orange-light;
-$text: #f6f5f5;
+$title-color: $dark;
+$subtitle-color: $red;
+$text: $dark;
 
 // Custom table values
 $table-background-color: transparent;
@@ -44,13 +46,14 @@ $table-head-cell-color: $title-color;
 $table-row-hover-background-color: $dark-light;
 
 // Custom card values
-$card-background-color: $dark-light;
-$card-shadow: 0 2px 3px rgba($beige-light, 0.1),
-  0 0 0 1px rgba($beige-light, 0.1);
+$card-background-color: $white;
+$card-color: $dark;
+$card-shadow: 0 2px 3px rgba($dark-light, 0.1),
+  0 0 0 1px rgba($dark-light, 0.1);
 
 // Custom dropdown values
-$dropdown-content-background-color: hsl(0, 0%, 29%);
-$dropdown-item-hover-background-color: $dark;
+$dropdown-content-background-color: $red;
+$dropdown-item-hover-background-color: $white;
 
 // Custom form values
 $label-color: $beige-lighter;
@@ -71,3 +74,4 @@ $label-color: $beige-lighter;
 @import '../node_modules/bulma/sass/layout/hero.sass';
 @import '../node_modules/bulma/sass/layout/section.sass';
 @import '../node_modules/bulma/sass/grid/columns.sass';
+@import '../node_modules/bulma-divider/dist/css/bulma-divider.sass';

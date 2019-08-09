@@ -3,6 +3,7 @@ import { TournamentGroupEntity, TournamentGroupState } from '../Groups/state';
 import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
 import { NO_GROUP_KEY } from '../Teams/reducer';
 import { TournamentTeamEntity, TournamentTeamState } from '../Teams/state';
+import './View.scss';
 
 const TournamentTeamStandingsRow: React.FC<{
   tournamentStats: { [key: string]: TournamentStatEntity };
@@ -10,9 +11,13 @@ const TournamentTeamStandingsRow: React.FC<{
 }> = ({ tournamentStats, tournamentTeam }) => {
   return (
     <tr>
-      <td>{tournamentTeam.name}</td>
+      <td style={{ paddingLeft: '0', width: '225px' }}>
+        {tournamentTeam.name}
+      </td>
       {Object.keys(tournamentStats).map((key: string) => (
-        <td key={key}>{tournamentTeam.stats[key]}</td>
+        <td key={key} className="has-text-centered">
+          {tournamentTeam.stats[key]}
+        </td>
       ))}
     </tr>
   );
@@ -20,7 +25,7 @@ const TournamentTeamStandingsRow: React.FC<{
 
 const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
   tournamentStat
-}) => <th>{tournamentStat.title}</th>;
+}) => <th className="has-text-centered">{tournamentStat.title}</th>;
 
 const Standings: React.FC<{
   tournamentStats: { [key: string]: TournamentStatEntity };
@@ -30,7 +35,7 @@ const Standings: React.FC<{
     <table className="table is-fullwidth">
       <thead>
         <tr>
-          <th>Name</th>
+          <th style={{ paddingLeft: '0', width: '225px' }}>Name</th>
           {Object.keys(tournamentStats).map((key: string) => (
             <StandingHeader key={key} tournamentStat={tournamentStats[key]} />
           ))}
@@ -55,7 +60,7 @@ const GroupStandings: React.FC<{
   tournamentTeams: { [key: string]: TournamentTeamEntity };
 }> = ({ tournamentGroup, tournamentStats, tournamentTeams }) => {
   return (
-    <div>
+    <div className="group">
       <div className="columns">
         <div className="column is-12">
           <h5 className="subtitle">{tournamentGroup.name}</h5>

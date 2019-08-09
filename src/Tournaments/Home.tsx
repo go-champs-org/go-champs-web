@@ -37,13 +37,14 @@ const Home: React.FC<HomeProps> = ({
           tournamentSlug={currentTournamentSlug}
         />
       </header>
-      <div className="column is-8">
+      <div className="column">
         <StandingsView
           tournamentGroupState={tournamentGroupState}
           tournamentStatState={tournamentStatState}
           tournamentTeamState={tournamentTeamState}
         />
       </div>
+      <div className="is-divider-vertical"></div>
       <aside className="column is-4">
         <ListByDate tournamentGameState={tournamentGameState} />
       </aside>
