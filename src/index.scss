@@ -19,6 +19,7 @@ $white: #fdfdff;
 $white-dark: #eeeeee;
 $red: #970c10;
 $red-light: rgb(160, 24, 29);
+$green: #2b5615;
 
 // Update Bulma's global variables
 $family-sans-serif: 'Fira Sans', sans-serif;
@@ -56,6 +57,8 @@ $dropdown-item-hover-background-color: $white;
 
 // Custom navbar values
 $navbar-background-color: $red;
+$navbar-item-color: $white;
+$navbar-item-hover-background-color: $green;
 
 // Custom form values
 $label-color: $dark;
