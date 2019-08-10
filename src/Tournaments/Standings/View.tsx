@@ -32,7 +32,7 @@ const Standings: React.FC<{
   tournamentTeams: { [key: string]: TournamentTeamEntity };
 }> = ({ tournamentStats, tournamentTeams }) => {
   return (
-    <table className="table is-fullwidth">
+    <table className="table is-fullwidth is-striped is-hoverable">
       <thead>
         <tr>
           <th style={{ paddingLeft: '0', width: '225px' }}>Name</th>

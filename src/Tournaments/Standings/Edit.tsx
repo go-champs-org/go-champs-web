@@ -26,18 +26,20 @@ class TournamentTeamStandingsRow extends React.Component<
     const { patchTournamentTeam, tournamentStats, tournamentTeam } = this.props;
     return (
       <tr>
-        <td>{tournamentTeam.name}</td>
+        <td style={{ paddingLeft: '0', width: '225px' }}>
+          {tournamentTeam.name}
+        </td>
         {Object.keys(tournamentStats).map((key: string) => (
-          <td key={key}>
+          <td key={key} className="has-text-centered">
             <input
-              className="input"
+              className="input is-primary"
               type="text"
               onChange={this.changeTournamentStat(key)}
               value={this.state.stats[key] || ''}
             />
           </td>
         ))}
-        <td>
+        <td className="has-text-centered">
           <button
             className="button is-primary"
             onClick={() => patchTournamentTeam(this.state)}
@@ -64,7 +66,7 @@ class TournamentTeamStandingsRow extends React.Component<
 
 const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
   tournamentStat
-}) => <th>{tournamentStat.title}</th>;
+}) => <th className="has-text-centered">{tournamentStat.title}</th>;
 
 const Standings: React.FC<{
   patchTournamentTeam: any;
@@ -75,11 +77,11 @@ const Standings: React.FC<{
     <table className="table is-fullwidth">
       <thead>
         <tr>
-          <th>Name</th>
+          <th style={{ paddingLeft: '0', width: '225px' }}>Name</th>
           {Object.keys(tournamentStats).map((key: string) => (
             <StandingHeader key={key} tournamentStat={tournamentStats[key]} />
           ))}
-          <th>Save</th>
+          <th className="has-text-centered">Save</th>
         </tr>
       </thead>
       <tbody>

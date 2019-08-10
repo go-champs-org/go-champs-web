@@ -12,17 +12,19 @@ $pink: #fa7c91;
 $brown: #757763;
 $beige-light: #d0d1cd;
 $beige-lighter: #eff0eb;
-$dark: #1E1200;
+$dark: #1e1200;
 $dark-light: #343434;
 $orange-light: #e3c4a8;
 $white: #fdfdff;
-$red: #970C10;
+$white-dark: #eeeeee;
+$red: #970c10;
+$red-light: rgb(160, 24, 29);
 
 // Update Bulma's global variables
 $family-sans-serif: 'Fira Sans', sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
-$primary: $orange-light;
+$primary: $red;
 $link: $beige-lighter;
 $link-hover: $red;
 $widescreen-enabled: true;
@@ -31,8 +33,6 @@ $fullhd-enabled: false;
 // Update some of Bulma's component variables
 $body-background-color: $white;
 $control-border-width: 2px;
-$input-border-color: transparent;
-$input-shadow: none;
 
 // Custom values
 $title-color: $dark;
@@ -43,13 +43,12 @@ $text: $dark;
 $table-background-color: transparent;
 $table-color: $text;
 $table-head-cell-color: $title-color;
-$table-row-hover-background-color: $dark-light;
+$table-row-hover-background-color: $white-dark;
 
 // Custom card values
 $card-background-color: $white;
 $card-color: $dark;
-$card-shadow: 0 2px 3px rgba($dark-light, 0.1),
-  0 0 0 1px rgba($dark-light, 0.1);
+$card-shadow: 0 2px 3px rgba($dark-light, 0.1), 0 0 0 1px rgba($dark-light, 0.1);
 
 // Custom dropdown values
 $dropdown-content-background-color: $red;
@@ -59,7 +58,12 @@ $dropdown-item-hover-background-color: $white;
 $navbar-background-color: $red;
 
 // Custom form values
-$label-color: $beige-lighter;
+$label-color: $dark;
+
+// Custom input values
+$input-border-color: transparent;
+$input-shadow: none;
+$input-color: $dark;
 
 // Import only what you need from Bulma
 @import '../node_modules/bulma/sass/utilities/_all.sass';

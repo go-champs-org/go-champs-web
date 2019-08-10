@@ -25,14 +25,21 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
-        <nav className="navbar" role="navigation" aria-label="dropdown navigation">
+        <nav
+          className="navbar"
+          role="navigation"
+          aria-label="dropdown navigation"
+        >
           <a className="navbar-item">
-            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: Free" width="112" height="28" />
+            <img
+              src="https://bulma.io/images/bulma-logo.png"
+              alt="Bulma: Free"
+              width="112"
+              height="28"
+            />
           </a>
           <div className="navbar-end">
-            <a className="navbar-item">
-              Docs
-            </a>
+            <a className="navbar-item">Docs</a>
           </div>
         </nav>
 
