@@ -19,37 +19,14 @@ import TournamentStandingsEdit from './Pages/TournamentStandingsEdit';
 import TournamentTeamEdit from './Pages/TournamentTeamEdit';
 import TournamentTeamList from './Pages/TournamentTeamList';
 import TournamentTeamNew from './Pages/TournamentTeamNew';
+import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
-        <nav
-          className="navbar is-fixed-top"
-          role="navigation"
-          aria-label="dropdown navigation"
-        >
-          <div className="navbar-item">
-            <img
-              src="https://bulma.io/images/bulma-logo.png"
-              alt="Bulma: Free"
-              width="112"
-              height="28"
-            />
-          </div>
-
-          <div className="navbar-end">
-            <a href="/about.html" className="navbar-item">
-              Yo Champs!
-            </a>
-
-            <a href="/about.html" className="navbar-item">
-              Sobre nós
-            </a>
-          </div>
-        </nav>
-
+        <NavTopToolbar />
         <section className="section">
           <div className="container">
             <Switch>
