@@ -8,7 +8,7 @@ $white: #fdfdff;
   .navbar-item {
     position: relative;
   }
-  
+
   .logo {
     position: absolute;
     height: 72px;
@@ -21,7 +21,6 @@ $white: #fdfdff;
   .title {
     color: $white;
     margin-left: 80px;
-    text-shadow: -1px 1px 0 $dark, 1px 1px 0 $dark, 1px -1px 0 $dark; 
+    text-shadow: -1px 1px 0 $dark, 1px 1px 0 $dark, 1px -1px 0 $dark;
   }
 }
-
