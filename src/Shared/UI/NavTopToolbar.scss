@@ -1,0 +1,27 @@
+$dark: #1e1200;
+$white: #fdfdff;
+
+.navbar {
+  border-bottom: 2px solid $dark;
+  box-shadow: 0 2px 3px rgba($dark, 0.6), 0 0 0 1px rgba($dark, 0.1);
+
+  .navbar-item {
+    position: relative;
+  }
+  
+  .logo {
+    position: absolute;
+    height: 72px;
+    max-height: unset !important;
+    max-width: unset !important;
+    top: 8px;
+    width: 72px;
+  }
+
+  .title {
+    color: $white;
+    margin-left: 80px;
+    text-shadow: -1px 1px 0 $dark, 1px 1px 0 $dark, 1px -1px 0 $dark; 
+  }
+}
+

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
+import screenLoader from '../../assets/screen-loader.gif';
 import './PageLoader.scss';
-import screenLoader from './screen-loader.gif';
 
 interface PageLoaderProps {
   canRender: boolean;
