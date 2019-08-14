@@ -3,6 +3,7 @@ import { Form } from 'react-final-form';
 import { OrganizationState } from '../Organizations/state';
 import NavBar from './Common/NavBar';
 import { default as TournamentForm } from './Form';
+import { default as PhasesForm } from './Phases/Edit';
 import { TournamentEntity } from './state';
 import FormArray from './Stats/FormArray';
 import { TournamentStatState } from './Stats/state';
@@ -63,6 +64,15 @@ export const Edit: React.FC<TournamentEditProps> = ({
           postTournamentStat={postTournamentStat}
           tournamentStat={tournamentStatState.tournamentStats}
         />
+        <div
+          className="columns is-mobile is-vcentered"
+          style={{ marginTop: '.5em' }}
+        >
+          <div className="column is-8">
+            <h2 className="subtitle">Phases</h2>
+          </div>
+        </div>
+        <PhasesForm />
       </div>
     </div>
   );
