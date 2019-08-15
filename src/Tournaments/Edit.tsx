@@ -5,7 +5,6 @@ import NavBar from './Common/NavBar';
 import { default as TournamentForm } from './Form';
 import { default as PhasesForm } from './Phases/Edit';
 import { TournamentEntity } from './state';
-import FormArray from './Stats/FormArray';
 import { TournamentStatState } from './Stats/state';
 
 interface TournamentEditProps {
@@ -49,20 +48,6 @@ export const Edit: React.FC<TournamentEditProps> = ({
           onSubmit={patchTournament}
           initialValues={tournament}
           render={TournamentForm}
-        />
-        <div
-          className="columns is-mobile is-vcentered"
-          style={{ marginTop: '.5em' }}
-        >
-          <div className="column is-8">
-            <h2 className="subtitle">Team Stats</h2>
-          </div>
-        </div>
-        <FormArray
-          deleteTournamentStat={deleteTournamentStat}
-          pacthTournamentStat={patchTournamentStat}
-          postTournamentStat={postTournamentStat}
-          tournamentStat={tournamentStatState.tournamentStats}
         />
         <div
           className="columns is-mobile is-vcentered"
