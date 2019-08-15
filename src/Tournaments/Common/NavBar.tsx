@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Dropdown, {
-  DropdownDivider,
-  DropdownItem
-} from '../../Shared/UI/Dropdown';
+import Dropdown, { DropdownDivider, DropdownItem } from '../../Shared/UI/Dropdown';
 import { TournamentEntity } from '../state';
 
 const NavBar: React.FC<{
@@ -28,21 +25,13 @@ const NavBar: React.FC<{
               Settings
             </Link>
           </DropdownItem>
-          <DropdownDivider />
+
           <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentGameList`}
-            >
-              Games
+            <Link to={`/${organizationSlug}/${tournamentSlug}/TournamentEdit`}>
+              Phases
             </Link>
           </DropdownItem>
-          <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentGroupList`}
-            >
-              Groups
-            </Link>
-          </DropdownItem>
+
           <DropdownItem>
             <Link
               to={`/${organizationSlug}/${tournamentSlug}/TournamentTeamList`}
@@ -50,11 +39,38 @@ const NavBar: React.FC<{
               Teams
             </Link>
           </DropdownItem>
+
+          <DropdownDivider />
+
+          <DropdownItem>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/TournamentGameList`}
+            >
+              Games
+            </Link>
+          </DropdownItem>
+
+          <DropdownItem>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/TournamentGroupList`}
+            >
+              Groups
+            </Link>
+          </DropdownItem>
+
           <DropdownItem>
             <Link
               to={`/${organizationSlug}/${tournamentSlug}/TournamentStandingsEdit`}
             >
               Standings
+            </Link>
+          </DropdownItem>
+
+          <DropdownItem>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/TournamentStandingsEdit`}
+            >
+              Stats
             </Link>
           </DropdownItem>
         </Dropdown>
