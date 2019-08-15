@@ -24,8 +24,8 @@ export const POST_TOURNAMENT_STAT_SUCCESS = 'API_POST_TOURNAMENT_STAT_SUCCESS';
 export const POST_TOURNAMENT_STAT_FAILURE = 'API_POST_TOURNAMENT_STAT_FAILURE';
 
 export const deleteTournamentStat = (tournamentId: string) => (
-  dispatch: any
-) => async (tournamentStat: TournamentStatEntity) => {
+  tournamentStat: TournamentStatEntity
+) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_STAT });
 
   try {
@@ -53,8 +53,8 @@ export const deleteTournamentStatFailure = (
 });
 
 export const patchTournamentStat = (tournamentId: string) => (
-  dispatch: any
-) => async (tournamentStat: TournamentStatEntity) => {
+  tournamentStat: TournamentStatEntity
+) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {
@@ -82,9 +82,8 @@ export const patchTournamentStatFailure = (
 });
 
 export const postTournamentStat = (tournamentId: string) => (
-  dispatch: any
-) => async (tournamentStat: TournamentStatEntity) => {
-  debugger;
+  tournamentStat: TournamentStatEntity
+) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_STAT });
 
   try {
