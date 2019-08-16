@@ -27,7 +27,7 @@ const patch = (
   return fetch(url, {
     headers: DEFAULT_HEADERS,
     method: 'PATCH',
-    body: JSON.stringify({ tournament_group: tournamentPhase })
+    body: JSON.stringify({ tournament_phase: tournamentPhase })
   }).then(resolveResponse);
 };
 
@@ -37,7 +37,7 @@ const post = (tournamentId: string, tournamentPhase: TournamentPhaseEntity) => {
   return fetch(url, {
     headers: DEFAULT_HEADERS,
     method: 'POST',
-    body: JSON.stringify({ tournament_group: tournamentPhase })
+    body: JSON.stringify({ tournament_phase: tournamentPhase })
   }).then(resolveResponse);
 };
 

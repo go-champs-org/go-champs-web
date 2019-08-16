@@ -3,7 +3,6 @@ import { Form } from 'react-final-form';
 import { OrganizationState } from '../Organizations/state';
 import NavBar from './Common/NavBar';
 import { default as TournamentForm } from './Form';
-import { default as PhasesForm } from './Phases/Edit';
 import { TournamentEntity } from './state';
 import { TournamentStatState } from './Stats/state';
 
@@ -57,7 +56,6 @@ export const Edit: React.FC<TournamentEditProps> = ({
             <h2 className="subtitle">Phases</h2>
           </div>
         </div>
-        <PhasesForm />
       </div>
     </div>
   );

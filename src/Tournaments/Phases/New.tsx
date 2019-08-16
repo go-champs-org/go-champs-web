@@ -35,7 +35,7 @@ export const New: React.FC<TournamentPhaseNewProps> = ({
         </div>
         <Form
           onSubmit={postTournamentPhase}
-          initialValues={{ name: '' }}
+          initialValues={{ title: '', type: '' }}
           render={TournamentPhaseForm}
         />
       </div>
