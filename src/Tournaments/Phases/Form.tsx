@@ -4,6 +4,11 @@ import Select from '../../Shared/UI/Form/Select';
 import StringInput from '../../Shared/UI/Form/StringInput';
 import { PhaseTypes } from './state';
 
+const PHASE_TYPE_LABELMAP = new Map([
+  [PhaseTypes.bracket, 'Bracket'],
+  [PhaseTypes.standings, 'Standings']
+]);
+
 interface FromProps {
   handleSubmit: any;
   submitting: boolean;
@@ -11,6 +16,7 @@ interface FromProps {
 }
 
 const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
+  const values = Array.from(PHASE_TYPE_LABELMAP.keys());
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -31,8 +37,10 @@ const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
           <Field
             name="type"
             component={Select}
-            selectOptions={Object.values(PhaseTypes)}
-            getOptionLabel={(phaseType: string) => phaseType}
+            selectOptions={values}
+            getOptionLabel={(option: PhaseTypes) => {
+              return PHASE_TYPE_LABELMAP.get(option);
+            }}
           />
         </div>
       </div>

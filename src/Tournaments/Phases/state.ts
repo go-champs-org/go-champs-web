@@ -1,7 +1,7 @@
-export const PhaseTypes = {
-  standings: 'Standings',
-  bracket: 'Bracket'
-};
+export enum PhaseTypes {
+  standings = 'standings',
+  bracket = 'bracket'
+}
 
 export interface TournamentPhaseEntity {
   id: string;

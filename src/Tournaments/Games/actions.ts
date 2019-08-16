@@ -153,7 +153,6 @@ export const requestTournamentGames = (tournamentId: string) => () => async (
 
     dispatch(requestTournamentGamesSuccess(response));
   } catch (err) {
-    console.log(err);
     dispatch(requestTournamentGamesFailure(err));
   }
 };

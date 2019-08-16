@@ -5,15 +5,17 @@ import { default as ReactSelect } from 'react-select';
 interface SelectProps extends FieldRenderProps<string, HTMLSelectElement> {
   selectOptions: any[];
   getOptionLabel: any;
+  getOptionValue?: any;
 }
 
 class Select extends React.Component<SelectProps> {
   render() {
-    const { input, getOptionLabel, selectOptions } = this.props;
+    const { input, getOptionLabel, getOptionValue, selectOptions } = this.props;
     return (
       <ReactSelect
         {...input}
         getOptionLabel={getOptionLabel}
+        getOptionValue={getOptionValue}
         options={selectOptions}
         searchable
         onChange={(value: any) => this.onChange(value)}
@@ -28,7 +30,10 @@ class Select extends React.Component<SelectProps> {
   }
 
   onChange(value: any) {
-    this.props.input.onChange(value);
+    const customValue = this.props.getOptionValue
+      ? this.props.getOptionValue(value)
+      : value;
+    this.props.input.onChange(customValue);
   }
 
   onFocus(event: any) {
