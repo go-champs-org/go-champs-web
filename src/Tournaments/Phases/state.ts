@@ -1,3 +1,8 @@
+export const PhaseTypes = {
+  standings: 'Standings',
+  bracket: 'Bracket'
+};
+
 export interface TournamentPhaseEntity {
   id: string;
   title: string;
