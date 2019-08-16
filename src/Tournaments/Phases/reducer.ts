@@ -1,7 +1,28 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../../Shared/store/helpers';
+import {
+  createReducer,
+  entityById,
+  mapEntities,
+  mapEntitiesByKey,
+  returnProperty
+} from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
-import { ActionTypes, DELETE_TOURNAMENT_PHASE, DELETE_TOURNAMENT_PHASE_FAILURE, DELETE_TOURNAMENT_PHASE_SUCCESS, PATCH_TOURNAMENT_PHASE, PATCH_TOURNAMENT_PHASE_FAILURE, PATCH_TOURNAMENT_PHASE_SUCCESS, POST_TOURNAMENT_PHASE, POST_TOURNAMENT_PHASE_FAILURE, POST_TOURNAMENT_PHASE_SUCCESS } from './actions';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../actions';
+import {
+  ActionTypes,
+  DELETE_TOURNAMENT_PHASE,
+  DELETE_TOURNAMENT_PHASE_FAILURE,
+  DELETE_TOURNAMENT_PHASE_SUCCESS,
+  PATCH_TOURNAMENT_PHASE,
+  PATCH_TOURNAMENT_PHASE_FAILURE,
+  PATCH_TOURNAMENT_PHASE_SUCCESS,
+  POST_TOURNAMENT_PHASE,
+  POST_TOURNAMENT_PHASE_FAILURE,
+  POST_TOURNAMENT_PHASE_SUCCESS
+} from './actions';
 import { initialState, TournamentPhaseState } from './state';
 
 const mapTournamentPhase = (apiData: any) => ({

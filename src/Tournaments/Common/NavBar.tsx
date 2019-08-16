@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Dropdown, { DropdownDivider, DropdownItem } from '../../Shared/UI/Dropdown';
+import Dropdown, {
+  DropdownDivider,
+  DropdownItem
+} from '../../Shared/UI/Dropdown';
 import { TournamentEntity } from '../state';
 
 const NavBar: React.FC<{
@@ -27,7 +30,9 @@ const NavBar: React.FC<{
           </DropdownItem>
 
           <DropdownItem>
-            <Link to={`/${organizationSlug}/${tournamentSlug}/TournamentPhaseList`}>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/TournamentPhaseList`}
+            >
               Phases
             </Link>
           </DropdownItem>

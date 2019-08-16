@@ -9,38 +9,38 @@ import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
 interface TournamentPhaseNewProps
-	extends RouteComponentProps<TournamentHomeMatchProps> {
-	postTournamentPhase: any;
-	tournamentState: TournamentState;
+  extends RouteComponentProps<TournamentHomeMatchProps> {
+  postTournamentPhase: any;
+  tournamentState: TournamentState;
 }
 
 class TournamentPhaseNew extends React.Component<TournamentPhaseNewProps> {
-	render() {
-		return (
-			<New
-				currentOrganizationSlug={this.props.match.params.organizationSlug}
-				currentTournamentSlug={this.props.match.params.tournamentSlug}
-				postTournamentPhase={this.props.postTournamentPhase}
-				tournamentState={this.props.tournamentState}
-			/>
-		);
-	}
+  render() {
+    return (
+      <New
+        currentOrganizationSlug={this.props.match.params.organizationSlug}
+        currentTournamentSlug={this.props.match.params.tournamentSlug}
+        postTournamentPhase={this.props.postTournamentPhase}
+        tournamentState={this.props.tournamentState}
+      />
+    );
+  }
 }
 
 const mapDispatchToProps = (dispatch: any, state: any) => {
-	const tournamentId =
-		state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
-	return bindActionCreators(
-		{
-			postTournamentPhase: postTournamentPhase(tournamentId)
-		},
-		dispatch
-	);
+  const tournamentId =
+    state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
+  return bindActionCreators(
+    {
+      postTournamentPhase: postTournamentPhase(tournamentId)
+    },
+    dispatch
+  );
 };
 
 export default withTournaments(
-	connect(
-		state => state,
-		mapDispatchToProps
-	)(TournamentPhaseNew)
+  connect(
+    state => state,
+    mapDispatchToProps
+  )(TournamentPhaseNew)
 );

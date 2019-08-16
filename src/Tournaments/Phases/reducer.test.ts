@@ -1,7 +1,35 @@
 import { HttpAction } from '../../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
-import { ActionTypes, DELETE_TOURNAMENT_PHASE, DELETE_TOURNAMENT_PHASE_FAILURE, DELETE_TOURNAMENT_PHASE_SUCCESS, PATCH_TOURNAMENT_PHASE, PATCH_TOURNAMENT_PHASE_FAILURE, PATCH_TOURNAMENT_PHASE_SUCCESS, POST_TOURNAMENT_PHASE, POST_TOURNAMENT_PHASE_FAILURE, POST_TOURNAMENT_PHASE_SUCCESS } from './actions';
-import { deleteTournamentPhase, deleteTournamentPhaseFailure, deleteTournamentPhaseSuccess, patchTournamentPhase, patchTournamentPhaseFailure, patchTournamentPhaseSuccess, postTournamentPhase, postTournamentPhaseFailure, postTournamentPhaseSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from './reducer';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../actions';
+import {
+  ActionTypes,
+  DELETE_TOURNAMENT_PHASE,
+  DELETE_TOURNAMENT_PHASE_FAILURE,
+  DELETE_TOURNAMENT_PHASE_SUCCESS,
+  PATCH_TOURNAMENT_PHASE,
+  PATCH_TOURNAMENT_PHASE_FAILURE,
+  PATCH_TOURNAMENT_PHASE_SUCCESS,
+  POST_TOURNAMENT_PHASE,
+  POST_TOURNAMENT_PHASE_FAILURE,
+  POST_TOURNAMENT_PHASE_SUCCESS
+} from './actions';
+import {
+  deleteTournamentPhase,
+  deleteTournamentPhaseFailure,
+  deleteTournamentPhaseSuccess,
+  patchTournamentPhase,
+  patchTournamentPhaseFailure,
+  patchTournamentPhaseSuccess,
+  postTournamentPhase,
+  postTournamentPhaseFailure,
+  postTournamentPhaseSuccess,
+  requestTournament,
+  requestTournamentFailure,
+  requestTournamentSuccess
+} from './reducer';
 import { initialState, TournamentPhaseState } from './state';
 
 describe('deleteTournamentPhase', () => {
@@ -47,7 +75,7 @@ describe('deleteTournamentPhaseSuccess', () => {
       ['first-id']: {
         id: 'first-id',
         title: 'first-title',
-        type: 'standings',
+        type: 'standings'
       }
     }
   };
@@ -72,7 +100,7 @@ describe('deleteTournamentPhaseSuccess', () => {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
-          type: 'standings',
+          type: 'standings'
         },
         ...deleteState.tournamentPhases
       }
@@ -83,7 +111,7 @@ describe('deleteTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
-      type: 'standings',
+      type: 'standings'
     });
   });
 });
@@ -120,7 +148,7 @@ describe('patchTournamentPhaseSuccess', () => {
       data: {
         id: 'first-id',
         title: 'some-first-title',
-        type: 'standings',
+        type: 'standings'
       }
     }
   };
@@ -131,7 +159,7 @@ describe('patchTournamentPhaseSuccess', () => {
       ['first-id']: {
         id: 'first-id',
         title: 'first-title',
-        type: 'standings',
+        type: 'standings'
       }
     }
   };
@@ -149,7 +177,7 @@ describe('patchTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['first-id']).toEqual({
       id: 'first-id',
       title: 'some-first-title',
-      type: 'standings',
+      type: 'standings'
     });
   });
 
@@ -160,7 +188,7 @@ describe('patchTournamentPhaseSuccess', () => {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
-          type: 'standings',
+          type: 'standings'
         }
       }
     };
@@ -170,7 +198,7 @@ describe('patchTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
-      type: 'standings',
+      type: 'standings'
     });
   });
 });
@@ -207,7 +235,7 @@ describe('postTournamentPhaseSuccess', () => {
       data: {
         id: 'first-id',
         title: 'first-title',
-        type: 'standings',
+        type: 'standings'
       }
     }
   };
@@ -225,7 +253,7 @@ describe('postTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['first-id']).toEqual({
       id: 'first-id',
       title: 'first-title',
-      type: 'standings',
+      type: 'standings'
     });
   });
 
@@ -236,7 +264,7 @@ describe('postTournamentPhaseSuccess', () => {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
-          type: 'standings',
+          type: 'standings'
         }
       }
     };
@@ -246,7 +274,7 @@ describe('postTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
-      type: 'standings',
+      type: 'standings'
     });
   });
 });
