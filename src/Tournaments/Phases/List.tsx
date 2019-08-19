@@ -7,11 +7,7 @@ import withDraggableList, {
 import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
 import './List.scss';
-import {
-  PhaseTypes,
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from './state';
+import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 
 const TournamentPhaseCard: React.FC<{
   onDeleteTournamentPhase: any;
@@ -45,14 +41,12 @@ interface WrapperProps extends DraggableListProps<TournamentPhaseEntity> {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   tournamentState: TournamentState;
-  tournamentPhaseState: TournamentPhaseState;
 }
 
 export const List: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentPhase,
-  tournamentPhaseState,
   tournamentState,
   sortedItems,
   moveItem
@@ -104,7 +98,6 @@ export const Wrapper: React.FC<WrapperProps> = ({
   currentTournamentSlug,
   deleteTournamentPhase,
   tournamentState,
-  tournamentPhaseState,
   moveItem,
   sortedItems
 }) => {
@@ -114,49 +107,20 @@ export const Wrapper: React.FC<WrapperProps> = ({
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentPhase={deleteTournamentPhase}
       tournamentState={tournamentState}
-      tournamentPhaseState={tournamentPhaseState}
       moveItem={moveItem}
       sortedItems={sortedItems}
     />
   );
 };
 
-const mockPhases = [
-  {
-    id: '1',
-    title: 'Returno',
-    type: PhaseTypes.standings
-  },
-  {
-    id: '2',
-    title: 'Turno',
-    type: PhaseTypes.standings
-  },
-  {
-    id: '3',
-    title: 'Repescagem',
-    type: PhaseTypes.standings
-  },
-  {
-    id: '4',
-    title: 'Mata-a-mata',
-    type: PhaseTypes.standings
-  },
-  {
-    id: '5',
-    title: 'Semifinal',
-    type: PhaseTypes.standings
-  },
-  {
-    id: '6',
-    title: 'Final',
-    type: PhaseTypes.standings
-  }
-];
+interface StateProps {
+  tournamentPhaseState: TournamentPhaseState;
+}
 
 export default withDraggableList<TournamentPhaseEntity>({
-  getInitialItems: props => {
-    console.log(props);
-    return mockPhases;
+  getInitialItems: (props: StateProps) => {
+    return Object.keys(props.tournamentPhaseState.tournamentPhases).map(
+      (key: string) => props.tournamentPhaseState.tournamentPhases[key]
+    );
   }
 })(Wrapper);
