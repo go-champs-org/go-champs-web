@@ -40,7 +40,12 @@ const App: React.FC = () => {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact sensitive path="/New" component={OrganizationNew} />
+                <Route
+                  exact
+                  sensitive
+                  path="/New"
+                  component={OrganizationNew}
+                />
                 <Route
                   exact
                   path="/:organizationSlug"
