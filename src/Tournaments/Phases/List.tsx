@@ -1,7 +1,6 @@
-import { XYCoord } from 'dnd-core';
-import React, { useRef } from 'react';
-import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import DraggableItem, { DragTypes } from '../../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
   DraggableListProps
 } from '../../Shared/UI/DnD/withDraggableList';
@@ -14,96 +13,13 @@ import {
   TournamentPhaseState
 } from './state';
 
-const DragType = {
-  PHASE: 'PHASE'
-};
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
-
 const TournamentPhaseCard: React.FC<{
   onDeleteTournamentPhase: any;
   url: string;
   tournamentPhase: TournamentPhaseEntity;
-  index: number;
-  movePhase: any;
-}> = ({ onDeleteTournamentPhase, url, tournamentPhase, index, movePhase }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [, drop] = useDrop({
-    accept: DragType.PHASE,
-    hover(item: DragItem, monitor: DropTargetMonitor) {
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current!.getBoundingClientRect();
-
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      // Time to actually perform the action
-      movePhase(dragIndex, hoverIndex);
-
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
-      item.index = hoverIndex;
-    }
-  });
-
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: DragType.PHASE, index },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging()
-    })
-  });
-
-  drag(drop(ref));
-
+}> = ({ onDeleteTournamentPhase, url, tournamentPhase }) => {
   return (
-    <div
-      className="card item"
-      ref={ref}
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        fontSize: 25,
-        fontWeight: 'bold',
-        cursor: 'move'
-      }}
-    >
+    <div className="card item">
       <div className="card-header">
         <Link
           className="card-header-title"
@@ -165,14 +81,18 @@ export const List: React.FC<WrapperProps> = ({
           </div>
         </div>
         {sortedItems.map((phase: TournamentPhaseEntity, index: number) => (
-          <TournamentPhaseCard
-            key={phase.id}
-            url={baseTournamentUrl}
-            tournamentPhase={phase}
-            onDeleteTournamentPhase={deleteTournamentPhase}
-            movePhase={moveItem}
+          <DraggableItem
             index={index}
-          />
+            key={phase.id}
+            moveItem={moveItem}
+            type={DragTypes.PHASE}
+          >
+            <TournamentPhaseCard
+              url={baseTournamentUrl}
+              tournamentPhase={phase}
+              onDeleteTournamentPhase={deleteTournamentPhase}
+            />
+          </DraggableItem>
         ))}
       </div>
     </div>
