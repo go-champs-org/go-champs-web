@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import DraggableItem, { DragTypes } from '../../Shared/UI/DnD/DraggableItem';
+import withDraggableList, {
+  DraggableListProps
+} from '../../Shared/UI/DnD/withDraggableList';
 import NavBar from '../Common/NavBar';
 import { TournamentState } from '../state';
 import './List.scss';
@@ -9,42 +13,47 @@ const TournamentPhaseCard: React.FC<{
   onDeleteTournamentPhase: any;
   url: string;
   tournamentPhase: TournamentPhaseEntity;
-}> = ({ onDeleteTournamentPhase, url, tournamentPhase }) => (
-  <div className="card item">
-    <div className="card-header">
-      <Link
-        className="card-header-title"
-        to={`${url}/TournamentPhaseEdit/${tournamentPhase.id}`}
-      >
-        <span className="title is-6">{tournamentPhase.title}</span>
-      </Link>
-      <div className="card-header-icon">
-        <button
-          className="button is-text"
-          onClick={() => onDeleteTournamentPhase(tournamentPhase)}
+}> = ({ onDeleteTournamentPhase, url, tournamentPhase }) => {
+  return (
+    <div className="card item">
+      <div className="card-header">
+        <Link
+          className="card-header-title"
+          to={`${url}/TournamentPhaseEdit/${tournamentPhase.id}`}
         >
-          <i className="fas fa-trash" />
-        </button>
+          <span className="title is-6">{tournamentPhase.title}</span>
+        </Link>
+        <div className="card-header-icon">
+          <button
+            className="button is-text"
+            onClick={() => onDeleteTournamentPhase(tournamentPhase)}
+          >
+            <i className="fas fa-trash" />
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-export const List: React.FC<{
+interface WrapperProps extends DraggableListProps<TournamentPhaseEntity> {
+  deleteTournamentPhase: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
-  deleteTournamentPhase: any;
-  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
-}> = ({
+}
+
+export const List: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentPhase,
-  tournamentPhaseState,
-  tournamentState
+  tournamentState,
+  sortedItems,
+  moveItem
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
@@ -65,33 +74,32 @@ export const List: React.FC<{
             </Link>
           </div>
         </div>
-        {Object.keys(tournamentPhaseState.tournamentPhases).map(
-          (key: string) => (
+        {sortedItems.map((phase: TournamentPhaseEntity, index: number) => (
+          <DraggableItem
+            index={index}
+            key={phase.id}
+            moveItem={moveItem}
+            type={DragTypes.PHASE}
+          >
             <TournamentPhaseCard
-              key={key}
               url={baseTournamentUrl}
-              tournamentPhase={tournamentPhaseState.tournamentPhases[key]}
+              tournamentPhase={phase}
               onDeleteTournamentPhase={deleteTournamentPhase}
             />
-          )
-        )}
+          </DraggableItem>
+        ))}
       </div>
     </div>
   );
 };
 
-export const Wrapper: React.FC<{
-  deleteTournamentPhase: any;
-  currentOrganizationSlug: string;
-  currentTournamentSlug: string;
-  tournamentState: TournamentState;
-  tournamentPhaseState: TournamentPhaseState;
-}> = ({
+export const Wrapper: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentPhase,
   tournamentState,
-  tournamentPhaseState
+  moveItem,
+  sortedItems
 }) => {
   return (
     <List
@@ -99,9 +107,20 @@ export const Wrapper: React.FC<{
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentPhase={deleteTournamentPhase}
       tournamentState={tournamentState}
-      tournamentPhaseState={tournamentPhaseState}
+      moveItem={moveItem}
+      sortedItems={sortedItems}
     />
   );
 };
 
-export default Wrapper;
+interface StateProps {
+  tournamentPhaseState: TournamentPhaseState;
+}
+
+export default withDraggableList<TournamentPhaseEntity>({
+  getInitialItems: (props: StateProps) => {
+    return Object.keys(props.tournamentPhaseState.tournamentPhases).map(
+      (key: string) => props.tournamentPhaseState.tournamentPhases[key]
+    );
+  }
+})(Wrapper);
