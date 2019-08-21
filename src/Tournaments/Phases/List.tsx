@@ -11,9 +11,22 @@ import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 
 const TournamentPhaseCard: React.FC<{
   onDeleteTournamentPhase: any;
+  onPatchTournamentPhase: any;
   url: string;
   tournamentPhase: TournamentPhaseEntity;
-}> = ({ onDeleteTournamentPhase, url, tournamentPhase }) => {
+  order: number;
+}> = ({
+  onDeleteTournamentPhase,
+  url,
+  tournamentPhase,
+  order,
+  onPatchTournamentPhase
+}) => {
+  // TODO: Find better way to update order
+  const tournamentPhaseWithOrder = {
+    ...tournamentPhase,
+    order
+  };
   return (
     <div className="card item">
       <div className="card-header">
@@ -24,6 +37,12 @@ const TournamentPhaseCard: React.FC<{
           <span className="title is-6">{tournamentPhase.title}</span>
         </Link>
         <div className="card-header-icon">
+          <button
+            className="button is-text"
+            onClick={() => onPatchTournamentPhase(tournamentPhaseWithOrder)}
+          >
+            Save order (Temp)
+          </button>
           <button
             className="button is-text"
             onClick={() => onDeleteTournamentPhase(tournamentPhase)}
@@ -38,6 +57,7 @@ const TournamentPhaseCard: React.FC<{
 
 interface WrapperProps extends DraggableListProps<TournamentPhaseEntity> {
   deleteTournamentPhase: any;
+  patchTournamentPhase: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   tournamentState: TournamentState;
@@ -47,6 +67,7 @@ export const List: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentPhase,
+  patchTournamentPhase,
   tournamentState,
   sortedItems,
   moveItem
@@ -85,6 +106,8 @@ export const List: React.FC<WrapperProps> = ({
               url={baseTournamentUrl}
               tournamentPhase={phase}
               onDeleteTournamentPhase={deleteTournamentPhase}
+              order={index + 1}
+              onPatchTournamentPhase={patchTournamentPhase}
             />
           </DraggableItem>
         ))}
@@ -97,6 +120,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentPhase,
+  patchTournamentPhase,
   tournamentState,
   moveItem,
   sortedItems
@@ -106,6 +130,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentPhase={deleteTournamentPhase}
+      patchTournamentPhase={patchTournamentPhase}
       tournamentState={tournamentState}
       moveItem={moveItem}
       sortedItems={sortedItems}

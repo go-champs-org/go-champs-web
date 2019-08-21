@@ -27,6 +27,7 @@ import { initialState, TournamentPhaseState } from './state';
 
 const mapTournamentPhase = (apiData: any) => ({
   id: apiData.id,
+  order: apiData.order,
   title: apiData.title,
   type: apiData.type
 });
