@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { OrganizationState } from '../Organizations/state';
-import NavBar from './Common/NavBar';
+import TopLevel from './Common/TopLevel';
 import { default as TournamentForm } from './Form';
 import { TournamentEntity } from './state';
 import { TournamentStatState } from './Stats/state';
@@ -31,7 +31,7 @@ export const Edit: React.FC<TournamentEditProps> = ({
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <NavBar
+        <TopLevel
           organizationSlug={organization.slug}
           tournament={tournament}
           tournamentSlug={tournament.slug}

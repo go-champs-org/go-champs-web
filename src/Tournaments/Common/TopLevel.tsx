@@ -6,7 +6,7 @@ import Dropdown, {
 } from '../../Shared/UI/Dropdown';
 import { TournamentEntity } from '../state';
 
-const NavBar: React.FC<{
+const TopLevel: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
   tournamentSlug: string;
@@ -84,4 +84,4 @@ const NavBar: React.FC<{
   </nav>
 );
 
-export default NavBar;
+export default TopLevel;

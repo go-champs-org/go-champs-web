@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../Common/NavBar';
+import TopLevel from '../Common/TopLevel';
 import { TournamentState } from '../state';
 import './List.scss';
 import { TournamentGroupEntity, TournamentGroupState } from './state';
@@ -48,7 +48,7 @@ export const List: React.FC<{
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <NavBar
+        <TopLevel
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
           tournamentSlug={currentTournamentSlug}
