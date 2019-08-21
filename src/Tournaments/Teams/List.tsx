@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Top from '../Common/Top';
+import { TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import './List.scss';
 import { TournamentTeamEntity, TournamentTeamState } from './state';
@@ -34,12 +35,14 @@ export const List: React.FC<{
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   deleteTournamentTeam: any;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentTeamState: TournamentTeamState;
   tournamentState: TournamentState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentTeam,
+  tournamentPhaseState,
   tournamentTeamState,
   tournamentState
 }) => {
@@ -51,6 +54,7 @@ export const List: React.FC<{
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>
@@ -82,12 +86,14 @@ export const Wrapper: React.FC<{
   deleteTournamentTeam: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentTeamState: TournamentTeamState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentTeam,
+  tournamentPhaseState,
   tournamentState,
   tournamentTeamState
 }) => {
@@ -96,6 +102,7 @@ export const Wrapper: React.FC<{
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentTeam={deleteTournamentTeam}
+      tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
       tournamentTeamState={tournamentTeamState}
     />

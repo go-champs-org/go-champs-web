@@ -9,6 +9,7 @@ import {
 } from '../Tournaments/Games/actions';
 import Edit from '../Tournaments/Games/Edit';
 import { TournamentGameState } from '../Tournaments/Games/state';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
@@ -24,6 +25,7 @@ interface TournamentGameEditProps
   requestTournament: any;
   requestTournamentGame: any;
   tournamentState: TournamentState;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentGameState: TournamentGameState;
   tournamentTeamState: TournamentTeamState;
 }
@@ -40,6 +42,7 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
         patchTournamentGame={this.props.patchTournamentGame}
         tournamentState={this.props.tournamentState}
         tournamentGame={tournamentGame}
+        tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentTeams={this.props.tournamentTeamState.tournamentTeams}
       />
     );
@@ -60,6 +63,7 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
 const mapStateToProps = (state: any) => ({
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
+  tournamentStatState: state.tournamentStats,
   tournamentTeamState: state.tournamentTeams
 });
 

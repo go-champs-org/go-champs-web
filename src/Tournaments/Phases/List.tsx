@@ -60,6 +60,7 @@ interface WrapperProps extends DraggableListProps<TournamentPhaseEntity> {
   patchTournamentPhase: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
 }
 
@@ -68,6 +69,7 @@ export const List: React.FC<WrapperProps> = ({
   currentTournamentSlug,
   deleteTournamentPhase,
   patchTournamentPhase,
+  tournamentPhaseState,
   tournamentState,
   sortedItems,
   moveItem
@@ -81,6 +83,7 @@ export const List: React.FC<WrapperProps> = ({
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>
@@ -122,6 +125,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
   deleteTournamentPhase,
   patchTournamentPhase,
   tournamentState,
+  tournamentPhaseState,
   moveItem,
   sortedItems
 }) => {
@@ -131,6 +135,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentPhase={deleteTournamentPhase}
       patchTournamentPhase={patchTournamentPhase}
+      tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
       moveItem={moveItem}
       sortedItems={sortedItems}

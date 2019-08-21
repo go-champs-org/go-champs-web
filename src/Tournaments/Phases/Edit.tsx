@@ -3,7 +3,7 @@ import { Form } from 'react-final-form';
 import Top from '../Common/Top';
 import { TournamentState } from '../state';
 import { default as TournamentPhaseForm } from './Form';
-import { TournamentPhaseEntity } from './state';
+import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 
 interface TournamentPhaseEditProps {
   currentOrganizationSlug: string;
@@ -11,6 +11,7 @@ interface TournamentPhaseEditProps {
   patchTournamentPhase: any;
   tournamentState: TournamentState;
   tournamentPhase: TournamentPhaseEntity;
+  tournamentPhaseState: TournamentPhaseState;
 }
 
 export const Edit: React.FC<TournamentPhaseEditProps> = ({
@@ -18,7 +19,8 @@ export const Edit: React.FC<TournamentPhaseEditProps> = ({
   currentTournamentSlug,
   patchTournamentPhase,
   tournamentState,
-  tournamentPhase
+  tournamentPhase,
+  tournamentPhaseState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -27,6 +29,7 @@ export const Edit: React.FC<TournamentPhaseEditProps> = ({
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>

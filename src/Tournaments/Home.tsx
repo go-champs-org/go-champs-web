@@ -3,6 +3,7 @@ import Top from './Common/Top';
 import ListByDate from './Games/ListByDate';
 import { TournamentGameState } from './Games/state';
 import { TournamentGroupState } from './Groups/state';
+import { TournamentPhaseState } from './Phases/state';
 import { default as StandingsView } from './Standings/View';
 import { TournamentState } from './state';
 import { TournamentStatState } from './Stats/state';
@@ -16,6 +17,7 @@ interface HomeProps {
   tournamentGroupState: TournamentGroupState;
   tournamentTeamState: TournamentTeamState;
   tournamentStatState: TournamentStatState;
+  tournamentPhaseState: TournamentPhaseState;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -24,6 +26,7 @@ const Home: React.FC<HomeProps> = ({
   tournamentState,
   tournamentGameState,
   tournamentGroupState,
+  tournamentPhaseState,
   tournamentTeamState,
   tournamentStatState
 }) => {
@@ -34,6 +37,7 @@ const Home: React.FC<HomeProps> = ({
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>

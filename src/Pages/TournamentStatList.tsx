@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { requestTournament } from '../Tournaments/actions';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { deleteTournamentStat } from '../Tournaments/Stats/actions';
 import List from '../Tournaments/Stats/List';
@@ -13,6 +14,7 @@ import withTournaments from './support/withTournaments';
 interface TournamentStatListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentStat: any;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentStatState: TournamentStatState;
   tournamentState: TournamentState;
   requestTournament: any;
@@ -23,6 +25,7 @@ class TournamentStatList extends React.Component<TournamentStatListProps> {
     const {
       deleteTournamentStat,
       match,
+      tournamentPhaseState,
       tournamentStatState,
       tournamentState
     } = this.props;
@@ -32,6 +35,7 @@ class TournamentStatList extends React.Component<TournamentStatListProps> {
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
         deleteTournamentStat={deleteTournamentStat}
+        tournamentPhaseState={tournamentPhaseState}
         tournamentStatState={tournamentStatState}
         tournamentState={tournamentState}
       />
@@ -47,6 +51,7 @@ class TournamentStatList extends React.Component<TournamentStatListProps> {
 }
 
 const mapStateToProps = (state: any) => ({
+  tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentStatState: state.tournamentStats
 });

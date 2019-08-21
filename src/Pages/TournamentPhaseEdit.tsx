@@ -32,6 +32,7 @@ class TournamentPhaseEdit extends React.Component<TournamentPhaseEditProps> {
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
         patchTournamentPhase={this.props.patchTournamentPhase}
+        tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentState={this.props.tournamentState}
         tournamentPhase={tournamentPhase}
       />

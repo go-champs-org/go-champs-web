@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
 import Top from '../Common/Top';
+import { TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { TournamentGameEntity, TournamentGameState } from './state';
 
@@ -69,12 +70,14 @@ const List: React.FC<{
   currentTournamentSlug: string;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
+  tournamentPhaseState: TournamentPhaseState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGame,
   tournamentState,
-  tournamentGameState
+  tournamentGameState,
+  tournamentPhaseState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
@@ -84,6 +87,7 @@ const List: React.FC<{
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>
@@ -115,12 +119,14 @@ export const Wrapper: React.FC<{
   deleteTournamentGame: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGame,
+  tournamentPhaseState,
   tournamentState,
   tournamentGameState
 }) => {
@@ -129,6 +135,7 @@ export const Wrapper: React.FC<{
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentGame={deleteTournamentGame}
+      tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
       tournamentGameState={tournamentGameState}
     />

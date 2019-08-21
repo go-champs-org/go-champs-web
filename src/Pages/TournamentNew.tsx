@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
 import { postTournament } from '../Tournaments/actions';
 import New from '../Tournaments/New';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 
@@ -12,6 +13,7 @@ interface TournamentNewProps
   extends RouteComponentProps<OrganizationHomeMatchProps> {
   organizationState: OrganizationState;
   postTournament: any;
+  tournamentPhaseState: TournamentPhaseState;
 }
 
 class TournamentNew extends React.Component<TournamentNewProps> {
@@ -27,7 +29,8 @@ class TournamentNew extends React.Component<TournamentNewProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-  organizationState: state.organizations
+  organizationState: state.organizations,
+  tournamentPhaseState: state.tournamentPhases
 });
 
 const mapDispatchToProps = (dispatch: any, state: TournamentNewProps) => {

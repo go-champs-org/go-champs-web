@@ -11,6 +11,7 @@ import { TournamentGameState } from '../Tournaments/Games/state';
 import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import Home from '../Tournaments/Home';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentStatState } from '../Tournaments/Stats/state';
 import { deleteTournamentTeam } from '../Tournaments/Teams/actions';
@@ -23,6 +24,7 @@ interface TournamentHomeProps
   deleteTournamentGame: any;
   deleteTournamentGroup: any;
   deleteTournamentTeam: any;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
   tournamentGroupState: TournamentGroupState;
@@ -36,6 +38,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
   render() {
     const {
       match,
+      tournamentPhaseState,
       tournamentState,
       tournamentGameState,
       tournamentGroupState,
@@ -46,6 +49,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       <Home
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
+        tournamentPhaseState={tournamentPhaseState}
         tournamentState={tournamentState}
         tournamentGameState={tournamentGameState}
         tournamentGroupState={tournamentGroupState}
@@ -65,6 +69,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
 }
 
 const mapStateToProps = (state: any) => ({
+  tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
   tournamentGroupState: state.tournamentGroups,

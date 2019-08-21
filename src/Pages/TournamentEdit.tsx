@@ -6,6 +6,7 @@ import { OrganizationState } from '../Organizations/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import {
   deleteTournamentStat,
@@ -20,6 +21,7 @@ interface TournamentEditProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentStat: any;
   organizationState: OrganizationState;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentStatState: TournamentStatState;
   patchTournament: any;
@@ -48,6 +50,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
           patchTournamentStat={this.props.patchTournamentStat(tournament.id)}
           postTournamentStat={this.props.postTournamentStat(tournament.id)}
           tournament={tournament}
+          tournamentPhaseState={this.props.tournamentPhaseState}
           tournamentStatState={this.props.tournamentStatState}
         />
       </PageLoader>
@@ -65,6 +68,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
 const mapStateToProps = (state: any) => {
   return {
     organizationState: state.organizations,
+    tournamentPhaseState: state.tournamentPhases,
     tournamentState: state.tournaments,
     tournamentStatState: state.tournamentStats
   };

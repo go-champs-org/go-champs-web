@@ -6,6 +6,7 @@ import { requestTournament } from '../Tournaments/actions';
 import { patchTournamentGroup } from '../Tournaments/Groups/actions';
 import Edit from '../Tournaments/Groups/Edit';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -18,6 +19,7 @@ interface TournamentGroupEditProps
   extends RouteComponentProps<TournamentGroupEditMatch> {
   patchTournamentGroup: any;
   requestTournament: any;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGroupState: TournamentGroupState;
 }
@@ -32,6 +34,7 @@ class TournamentGroupEdit extends React.Component<TournamentGroupEditProps> {
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
         postTournamentGroup={this.props.patchTournamentGroup}
+        tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentState={this.props.tournamentState}
         tournamentGroup={tournamentGroup}
       />
@@ -47,6 +50,7 @@ class TournamentGroupEdit extends React.Component<TournamentGroupEditProps> {
 }
 
 const mapStateToProps = (state: any) => ({
+  tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentGroupState: state.tournamentGroups
 });

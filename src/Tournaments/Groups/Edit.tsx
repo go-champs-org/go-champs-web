@@ -4,6 +4,7 @@ import Top from '../Common/Top';
 import { TournamentState } from '../state';
 import { default as TournamentGroupForm } from './Form';
 import { TournamentGroupEntity } from './state';
+import { TournamentPhaseState } from '../Phases/state';
 
 interface TournamentGroupEditProps {
   currentOrganizationSlug: string;
@@ -11,6 +12,7 @@ interface TournamentGroupEditProps {
   postTournamentGroup: any;
   tournamentState: TournamentState;
   tournamentGroup: TournamentGroupEntity;
+  tournamentPhaseState: TournamentPhaseState;
 }
 
 export const Edit: React.FC<TournamentGroupEditProps> = ({
@@ -18,7 +20,8 @@ export const Edit: React.FC<TournamentGroupEditProps> = ({
   currentTournamentSlug,
   postTournamentGroup,
   tournamentState,
-  tournamentGroup
+  tournamentGroup,
+  tournamentPhaseState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -27,6 +30,7 @@ export const Edit: React.FC<TournamentGroupEditProps> = ({
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>

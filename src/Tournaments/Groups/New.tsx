@@ -3,18 +3,21 @@ import { Form } from 'react-final-form';
 import Top from '../Common/Top';
 import { TournamentState } from '../state';
 import { default as TournamentGroupForm } from './Form';
+import { TournamentPhaseState } from '../Phases/state';
 
 interface TournamentGroupNewProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   postTournamentGroup: any;
   tournamentState: TournamentState;
+  tournamentPhaseState: TournamentPhaseState;
 }
 
 export const New: React.FC<TournamentGroupNewProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   postTournamentGroup,
+  tournamentPhaseState,
   tournamentState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
@@ -24,6 +27,7 @@ export const New: React.FC<TournamentGroupNewProps> = ({
         <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
+          tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
         />
       </header>

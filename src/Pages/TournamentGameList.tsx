@@ -9,6 +9,7 @@ import {
 } from '../Tournaments/Games/actions';
 import List from '../Tournaments/Games/List';
 import { TournamentGameState } from '../Tournaments/Games/state';
+import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -16,6 +17,7 @@ import withTournaments from './support/withTournaments';
 interface TournamentGameListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentGame: any;
+  tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
   requestTournament: any;
@@ -27,6 +29,7 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
     const {
       deleteTournamentGame,
       match,
+      tournamentPhaseState,
       tournamentState,
       tournamentGameState
     } = this.props;
@@ -36,6 +39,7 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
         deleteTournamentGame={deleteTournamentGame}
+        tournamentPhaseState={tournamentPhaseState}
         tournamentState={tournamentState}
         tournamentGameState={tournamentGameState}
       />
@@ -55,6 +59,7 @@ const mapStateToProps = (state: any) => ({
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
   tournamentGroupState: state.tournamentGroups,
+  tournamentPhaseState: state.tournamentPhases,
   tournamentTeamState: state.tournamentTeams
 });
 
