@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
-import TopLevel from '../Common/TopLevel';
+import Top from '../Common/Top';
 import { TournamentState } from '../state';
 import { TournamentGameEntity, TournamentGameState } from './state';
 
@@ -81,7 +81,7 @@ const List: React.FC<{
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <TopLevel
+        <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
           tournamentSlug={currentTournamentSlug}

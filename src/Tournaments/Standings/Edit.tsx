@@ -1,5 +1,5 @@
 import React from 'react';
-import TopLevel from '../Common/TopLevel';
+import Top from '../Common/Top';
 import { TournamentGroupEntity, TournamentGroupState } from '../Groups/state';
 import { TournamentState } from '../state';
 import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
@@ -149,7 +149,7 @@ export const Edit: React.FC<TournamentStandingsEditProps> = ({
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <TopLevel
+        <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
           tournamentSlug={currentTournamentSlug}

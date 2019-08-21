@@ -4,7 +4,7 @@ import DraggableItem, { DragTypes } from '../../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
   DraggableListProps
 } from '../../Shared/UI/DnD/withDraggableList';
-import TopLevel from '../Common/TopLevel';
+import Top from '../Common/Top';
 import { TournamentState } from '../state';
 import './List.scss';
 import { TournamentPhaseEntity, TournamentPhaseState } from './state';
@@ -78,7 +78,7 @@ export const List: React.FC<WrapperProps> = ({
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <TopLevel
+        <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
           tournamentSlug={currentTournamentSlug}

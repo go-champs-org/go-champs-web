@@ -1,5 +1,5 @@
 import React from 'react';
-import TopLevel from './Common/TopLevel';
+import Top from './Common/Top';
 import ListByDate from './Games/ListByDate';
 import { TournamentGameState } from './Games/state';
 import { TournamentGroupState } from './Groups/state';
@@ -31,7 +31,7 @@ const Home: React.FC<HomeProps> = ({
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <TopLevel
+        <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
           tournamentSlug={currentTournamentSlug}

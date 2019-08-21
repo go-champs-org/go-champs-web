@@ -68,6 +68,11 @@ $input-border-color: transparent;
 $input-shadow: none;
 $input-color: $dark;
 
+// Custom breadcrumbs values
+$breadcrumb-item-separator-color: $green;
+$breadcrumb-item-color: $dark;
+$breadcrumb-item-active-color: $green;
+
 // Import only what you need from Bulma
 @import '../node_modules/bulma/sass/utilities/_all.sass';
 @import '../node_modules/bulma/sass/base/_all.sass';
@@ -78,6 +83,7 @@ $input-color: $dark;
 @import '../node_modules/bulma/sass/elements/title.sass';
 @import '../node_modules/bulma/sass/elements/table.sass';
 @import '../node_modules/bulma/sass/components/navbar.sass';
+@import '../node_modules/bulma/sass/components/breadcrumb.sass';
 @import '../node_modules/bulma/sass/components/card.sass';
 @import '../node_modules/bulma/sass/components/dropdown.sass';
 @import '../node_modules/bulma/sass/components/level.sass';

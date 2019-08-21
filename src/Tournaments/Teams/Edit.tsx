@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import TopLevel from '../Common/TopLevel';
+import Top from '../Common/Top';
 import { TournamentGroupEntity } from '../Groups/state';
 import { TournamentState } from '../state';
 import { default as TournamentTeamForm } from './Form';
@@ -27,7 +27,7 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <TopLevel
+        <Top
           organizationSlug={currentOrganizationSlug}
           tournament={tournament}
           tournamentSlug={currentTournamentSlug}
