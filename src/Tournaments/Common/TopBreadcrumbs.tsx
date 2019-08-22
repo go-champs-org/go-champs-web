@@ -1,4 +1,5 @@
 import React from 'react';
+import { byOrder } from '../Phases/compareFunctions';
 import { TournamentPhaseEntity } from '../Phases/state';
 
 const TopBreadcrumbs: React.FC<{
@@ -7,20 +8,16 @@ const TopBreadcrumbs: React.FC<{
   return (
     <nav className="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
       <ul>
-        <li>
-          <a href="#">Bulma</a>
-        </li>
-        <li>
-          <a href="#">Documentation</a>
-        </li>
-        <li>
-          <a href="#">Components</a>
-        </li>
-        <li className="is-active">
-          <a href="#" aria-current="page">
-            Breadcrumb
-          </a>
-        </li>
+        {Object.keys(tournamentPhases)
+          .map((key: string) => tournamentPhases[key])
+          .sort(byOrder)
+          .map((tournamentPhase: TournamentPhaseEntity) => (
+            <li>
+              <a href={`./phases/${tournamentPhase.id}`}>
+                {tournamentPhase.title}
+              </a>
+            </li>
+          ))}
       </ul>
     </nav>
   );

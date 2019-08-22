@@ -7,6 +7,7 @@ export interface TournamentPhaseEntity {
   id: string;
   title: string;
   type: 'standings' | 'bracket';
+  order: number;
 }
 
 export interface TournamentPhaseState {

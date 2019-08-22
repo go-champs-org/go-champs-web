@@ -52,14 +52,6 @@ export const Edit: React.FC<TournamentEditProps> = ({
           initialValues={tournament}
           render={TournamentForm}
         />
-        <div
-          className="columns is-mobile is-vcentered"
-          style={{ marginTop: '.5em' }}
-        >
-          <div className="column is-8">
-            <h2 className="subtitle">Phases</h2>
-          </div>
-        </div>
       </div>
     </div>
   );

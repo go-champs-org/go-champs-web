@@ -30,6 +30,10 @@ class TournamentPhaseNew extends React.Component<TournamentPhaseNewProps> {
   }
 }
 
+const mapStateToProps = (state: any) => ({
+  tournamentPhaseState: state.tournamentPhases
+});
+
 const mapDispatchToProps = (dispatch: any, state: any) => {
   const tournamentId =
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
@@ -43,7 +47,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
 
 export default withTournaments(
   connect(
-    state => state,
+    mapStateToProps,
     mapDispatchToProps
   )(TournamentPhaseNew)
 );

@@ -6,6 +6,7 @@ import withDraggableList, {
 } from '../../Shared/UI/DnD/withDraggableList';
 import Top from '../Common/Top';
 import { TournamentState } from '../state';
+import { byOrder } from './compareFunctions';
 import './List.scss';
 import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 
@@ -149,8 +150,8 @@ interface StateProps {
 
 export default withDraggableList<TournamentPhaseEntity>({
   getInitialItems: (props: StateProps) => {
-    return Object.keys(props.tournamentPhaseState.tournamentPhases).map(
-      (key: string) => props.tournamentPhaseState.tournamentPhases[key]
-    );
+    return Object.keys(props.tournamentPhaseState.tournamentPhases)
+      .map((key: string) => props.tournamentPhaseState.tournamentPhases[key])
+      .sort(byOrder);
   }
 })(Wrapper);
