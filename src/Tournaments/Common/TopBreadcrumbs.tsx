@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { byOrder } from '../Phases/compareFunctions';
 import { TournamentPhaseEntity } from '../Phases/state';
 
 const TopBreadcrumbs: React.FC<{
   tournamentPhases: { [key: string]: TournamentPhaseEntity };
-}> = ({ tournamentPhases }) => {
+  tournamentSlug: string;
+}> = ({ tournamentPhases, tournamentSlug }) => {
   return (
     <nav className="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
       <ul>
@@ -13,9 +15,9 @@ const TopBreadcrumbs: React.FC<{
           .sort(byOrder)
           .map((tournamentPhase: TournamentPhaseEntity) => (
             <li>
-              <a href={`./phases/${tournamentPhase.id}`}>
+              <Link to={`./${tournamentSlug}/phases/${tournamentPhase.id}`}>
                 {tournamentPhase.title}
-              </a>
+              </Link>
             </li>
           ))}
       </ul>

@@ -16,7 +16,10 @@ const Top: React.FC<{
       tournament={tournament}
       tournamentSlug={tournamentSlug}
     />
-    <TopBreadcrumbs tournamentPhases={tournamentPhases} />
+    <TopBreadcrumbs
+      tournamentPhases={tournamentPhases}
+      tournamentSlug={tournamentSlug}
+    />
   </div>
 );
 
