@@ -7,10 +7,10 @@ import {
 } from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+  REQUEST_TOURNAMENT_PHASE,
+  REQUEST_TOURNAMENT_PHASE_FAILURE,
+  REQUEST_TOURNAMENT_PHASE_SUCCESS
+} from '../Phases/actions';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_GROUP,
@@ -121,7 +121,7 @@ export const postTournamentGroupSuccess = (
   )
 });
 
-export const requestTournament = (
+export const requestTournamentPhase = (
   state: TournamentGroupState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -129,7 +129,7 @@ export const requestTournament = (
   isLoadingRequestTournament: true
 });
 
-export const requestTournamentFailure = (
+export const requestTournamentPhaseFailure = (
   state: TournamentGroupState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -137,7 +137,7 @@ export const requestTournamentFailure = (
   isLoadingRequestTournament: false
 });
 
-export const requestTournamentSuccess = (
+export const requestTournamentPhaseSuccess = (
   state: TournamentGroupState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -159,7 +159,7 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT_GROUP]: postTournamentGroup,
   [POST_TOURNAMENT_GROUP_FAILURE]: postTournamentGroupFailure,
   [POST_TOURNAMENT_GROUP_SUCCESS]: postTournamentGroupSuccess,
-  [REQUEST_TOURNAMENT]: requestTournament,
-  [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess
+  [REQUEST_TOURNAMENT_PHASE]: requestTournamentPhase,
+  [REQUEST_TOURNAMENT_PHASE_FAILURE]: requestTournamentPhaseFailure,
+  [REQUEST_TOURNAMENT_PHASE_SUCCESS]: requestTournamentPhaseSuccess
 });

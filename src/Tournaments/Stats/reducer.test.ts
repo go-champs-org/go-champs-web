@@ -26,9 +26,9 @@ import {
   postTournamentStat,
   postTournamentStatFailure,
   postTournamentStatSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournamentSuccess
+  requestTournamentPhase,
+  requestTournamentPhaseFailure,
+  requestTournamentPhaseSuccess
 } from './reducer';
 import { initialState, TournamentStatState } from './state';
 
@@ -267,31 +267,32 @@ describe('postTournamentStatSuccess', () => {
   });
 });
 
-describe('requestTournament', () => {
+describe('requestTournamentPhase', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT
   };
 
   it('sets isLoadingRequestTournament to true', () => {
     expect(
-      requestTournament(initialState, action).isLoadingRequestTournament
+      requestTournamentPhase(initialState, action).isLoadingRequestTournament
     ).toBe(true);
   });
 });
 
-describe('requestTournamentFailure', () => {
+describe('requestTournamentPhaseFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_FAILURE
   };
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      requestTournamentFailure(initialState, action).isLoadingRequestTournament
+      requestTournamentPhaseFailure(initialState, action)
+        .isLoadingRequestTournament
     ).toBe(false);
   });
 });
 
-describe('requestTournamentSuccess', () => {
+describe('requestTournamentPhaseSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_SUCCESS,
     payload: {
@@ -315,12 +316,13 @@ describe('requestTournamentSuccess', () => {
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      requestTournamentSuccess(initialState, action).isLoadingRequestTournament
+      requestTournamentPhaseSuccess(initialState, action)
+        .isLoadingRequestTournament
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentSuccess(initialState, action);
+    const newState = requestTournamentPhaseSuccess(initialState, action);
 
     expect(newState.tournamentStats['first-stat-id']).toEqual({
       id: 'first-stat-id',
