@@ -70,50 +70,32 @@ const App: React.FC = () => {
                 />
                 <Route
                   exact
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId"
-                  component={TournamentHome}
-                />
-                <Route
-                  exact
                   sensitive
                   path="/:organizationSlug/:tournamentSlug/TournamentEdit"
                   component={TournamentEdit}
                 />
                 <Route
                   exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentGameList"
-                  component={TournamentGameList}
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId"
+                  component={TournamentHome}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentGameNew"
-                  component={TournamentGameNew}
+                  path="/:organizationSlug/:tournamentSlug/TournamentTeamEdit/:tournamentTeamId"
+                  component={TournamentTeamEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentGameEdit/:tournamentGameId"
-                  component={TournamentGameEdit}
+                  path="/:organizationSlug/:tournamentSlug/TournamentTeamList"
+                  component={TournamentTeamList}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentGroupEdit/:tournamentGroupId"
-                  component={TournamentGroupEdit}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentGroupList"
-                  component={TournamentGroupList}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentGroupNew"
-                  component={TournamentGroupNew}
+                  path="/:organizationSlug/:tournamentSlug/TournamentTeamNew"
+                  component={TournamentTeamNew}
                 />
                 <Route
                   exact
@@ -136,44 +118,62 @@ const App: React.FC = () => {
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentStandingsEdit"
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGameList"
+                  component={TournamentGameList}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGameNew"
+                  component={TournamentGameNew}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGameEdit/:tournamentGameId"
+                  component={TournamentGameEdit}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGroupEdit/:tournamentGroupId"
+                  component={TournamentGroupEdit}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGroupList"
+                  component={TournamentGroupList}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGroupNew"
+                  component={TournamentGroupNew}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStandingsEdit"
                   component={TournamentStandingsEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentStatEdit/:tournamentStatId"
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStatEdit/:tournamentStatId"
                   component={TournamentStatEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentStatList"
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStatList"
                   component={TournamentStatList}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentStatNew"
+                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStatNew"
                   component={TournamentStatNew}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentTeamEdit/:tournamentTeamId"
-                  component={TournamentTeamEdit}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentTeamList"
-                  component={TournamentTeamList}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentTeamNew"
-                  component={TournamentTeamNew}
                 />
               </Switch>
             </div>

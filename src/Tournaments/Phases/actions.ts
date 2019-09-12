@@ -1,10 +1,6 @@
 import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
 import httpClient from './httpClient';
 import { TournamentPhaseEntity } from './state';
 
@@ -35,7 +31,7 @@ export const deleteTournamentPhase = (tournamentId: string) => (
   dispatch({ type: DELETE_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.delete(tournamentPhase.id);
+    const response = await httpClient.delete(tournamentId, tournamentPhase.id);
 
     dispatch(deleteTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} deleted!`, 'is-success');
@@ -64,7 +60,7 @@ export const patchTournamentPhase = (tournamentId: string) => (
   dispatch({ type: PATCH_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.patch(tournamentPhase);
+    const response = await httpClient.patch(tournamentId, tournamentPhase);
 
     dispatch(patchTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} updated!`, 'is-success');
@@ -93,7 +89,7 @@ export const postTournamentPhase = (tournamentId: string) => (
   dispatch({ type: POST_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.post(tournamentPhase);
+    const response = await httpClient.post(tournamentId, tournamentPhase);
 
     dispatch(postTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} created!`, 'is-success');
