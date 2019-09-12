@@ -97,6 +97,7 @@ export const postTournamentTeam = (tournamentId: string) => (
     dispatch(updateTournamentTeamByGroup());
     displayToast(`${tournamentTeam.name} created!`, 'is-success');
   } catch (err) {
+    console.log(err, 'ei');
     dispatch(postTournamentTeamFailure(err));
   }
 };

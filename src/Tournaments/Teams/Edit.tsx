@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import Top from '../Common/Top';
-import { TournamentGroupEntity } from '../Groups/state';
 import { TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { default as TournamentTeamForm } from './Form';
@@ -14,7 +13,6 @@ interface TournamentTeamEditProps {
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentTeam: TournamentTeamEntity;
-  tournamentGroups: { [key: string]: TournamentGroupEntity };
 }
 
 export const Edit: React.FC<TournamentTeamEditProps> = ({
@@ -23,8 +21,7 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
   postTournamentTeam,
   tournamentPhaseState,
   tournamentState,
-  tournamentTeam,
-  tournamentGroups
+  tournamentTeam
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -46,12 +43,7 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
         <Form
           onSubmit={postTournamentTeam}
           initialValues={tournamentTeam}
-          render={(props: any) => (
-            <TournamentTeamForm
-              {...props}
-              tournamentGroups={tournamentGroups}
-            />
-          )}
+          render={TournamentTeamForm}
         />
       </div>
     </div>

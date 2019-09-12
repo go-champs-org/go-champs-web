@@ -43,8 +43,7 @@ const post = (tournamentId: string, tournamentTeam: TournamentTeamEntity) => {
     body: JSON.stringify({
       tournament_team: {
         name: tournamentTeam.name,
-        stats: tournamentTeam.stats,
-        tournament_group_id: tournamentTeam.group.id
+        stats: tournamentTeam.stats
       }
     })
   }).then(resolveResponse);

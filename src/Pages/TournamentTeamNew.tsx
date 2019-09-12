@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { TournamentGroupState } from '../Tournaments/Groups/state';
 import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { postTournamentTeam } from '../Tournaments/Teams/actions';
@@ -15,7 +14,6 @@ interface TournamentTeamNewProps
   postTournamentTeam: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
-  tournamentGroupState: TournamentGroupState;
 }
 
 class TournamentTeamNew extends React.Component<TournamentTeamNewProps> {
@@ -27,7 +25,6 @@ class TournamentTeamNew extends React.Component<TournamentTeamNewProps> {
         postTournamentTeam={this.props.postTournamentTeam}
         tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentState={this.props.tournamentState}
-        tournamentGroups={this.props.tournamentGroupState.tournamentGroups}
       />
     );
   }
@@ -35,8 +32,7 @@ class TournamentTeamNew extends React.Component<TournamentTeamNewProps> {
 
 const mapStateToProps = (state: any) => ({
   tournamentPhaseState: state.tournamentPhases,
-  tournamentState: state.tournaments,
-  tournamentGroupState: state.tournamentGroups
+  tournamentState: state.tournaments
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {
