@@ -80,12 +80,13 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any, state: any) => {
   const tournamentId =
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
+  const phaseId = state.match.params.phaseId;
   return bindActionCreators(
     {
       deleteTournamentGame: deleteTournamentGame(tournamentId),
       deleteTournamentGroup: deleteTournamentGroup(tournamentId),
       deleteTournamentTeam: deleteTournamentTeam(tournamentId),
-      requestTournamentGames: requestTournamentGames(tournamentId),
+      requestTournamentGames: requestTournamentGames(phaseId),
       requestTournament
     },
     dispatch

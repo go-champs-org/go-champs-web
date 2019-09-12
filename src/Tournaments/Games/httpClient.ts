@@ -1,31 +1,30 @@
 import { DEFAULT_HEADERS, resolveResponse } from '../../Shared/httpClient';
 import { TournamentGameEntity } from './state';
 
-const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
+const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
-const tournamentGamesApi = (tournamentId: string) =>
-  `${TOURNAMENT_API}/${tournamentId}/games`;
+const tournamentGamesApi = (phaseId: string) => `${PHASE_API}/${phaseId}/games`;
 
-const deleteRequest = (tournamentId: string, tournamentGameId: string) => {
-  const url = `${tournamentGamesApi(tournamentId)}/${tournamentGameId}`;
+const deleteRequest = (phaseId: string, tournamentGameId: string) => {
+  const url = `${tournamentGamesApi(phaseId)}/${tournamentGameId}`;
 
   return fetch(url, { method: 'DELETE' }).then(resolveResponse);
 };
 
-const getAll = (tournamentId: string) => {
-  const url = `${tournamentGamesApi(tournamentId)}`;
+const getAll = (phaseId: string) => {
+  const url = `${tournamentGamesApi(phaseId)}`;
 
   return fetch(url).then(resolveResponse);
 };
 
-const getOne = (tournamentId: string, tournamentGameId: string) => {
-  const url = `${tournamentGamesApi(tournamentId)}/${tournamentGameId}`;
+const getOne = (phaseId: string, tournamentGameId: string) => {
+  const url = `${tournamentGamesApi(phaseId)}/${tournamentGameId}`;
 
   return fetch(url).then(resolveResponse);
 };
 
-const patch = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
-  const url = `${tournamentGamesApi(tournamentId)}/${tournamentGame.id}`;
+const patch = (phaseId: string, tournamentGame: TournamentGameEntity) => {
+  const url = `${tournamentGamesApi(phaseId)}/${tournamentGame.id}`;
 
   return fetch(url, {
     headers: DEFAULT_HEADERS,
@@ -43,8 +42,8 @@ const patch = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
   }).then(resolveResponse);
 };
 
-const post = (tournamentId: string, tournamentGame: TournamentGameEntity) => {
-  const url = `${tournamentGamesApi(tournamentId)}`;
+const post = (phaseId: string, tournamentGame: TournamentGameEntity) => {
+  const url = `${tournamentGamesApi(phaseId)}`;
 
   return fetch(url, {
     headers: DEFAULT_HEADERS,

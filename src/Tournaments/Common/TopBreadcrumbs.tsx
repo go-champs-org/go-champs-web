@@ -14,7 +14,7 @@ const TopBreadcrumbs: React.FC<{
           .map((key: string) => tournamentPhases[key])
           .sort(byOrder)
           .map((tournamentPhase: TournamentPhaseEntity) => (
-            <li>
+            <li key={tournamentPhase.id}>
               <Link to={`./${tournamentSlug}/phases/${tournamentPhase.id}`}>
                 {tournamentPhase.title}
               </Link>

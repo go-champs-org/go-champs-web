@@ -35,7 +35,7 @@ export const deleteTournamentPhase = (tournamentId: string) => (
   dispatch({ type: DELETE_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.delete(tournamentId, tournamentPhase.id);
+    const response = await httpClient.delete(tournamentPhase.id);
 
     dispatch(deleteTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} deleted!`, 'is-success');
@@ -64,7 +64,7 @@ export const patchTournamentPhase = (tournamentId: string) => (
   dispatch({ type: PATCH_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.patch(tournamentId, tournamentPhase);
+    const response = await httpClient.patch(tournamentPhase);
 
     dispatch(patchTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} updated!`, 'is-success');
@@ -93,7 +93,7 @@ export const postTournamentPhase = (tournamentId: string) => (
   dispatch({ type: POST_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.post(tournamentId, tournamentPhase);
+    const response = await httpClient.post(tournamentPhase);
 
     dispatch(postTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} created!`, 'is-success');
@@ -113,6 +113,34 @@ export const postTournamentPhaseFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_PHASE_FAILURE,
+  payload
+});
+
+export const requestTournamentPhase = (
+  tournamentPhaseId: string
+) => () => async (dispatch: any) => {
+  dispatch({ type: REQUEST_TOURNAMENT_PHASE });
+
+  try {
+    const response = await httpClient.get(tournamentPhaseId);
+
+    dispatch(requestTournamentPhaseSuccess(response));
+  } catch (err) {
+    dispatch(requestTournamentPhaseFailure(err));
+  }
+};
+
+export const requestTournamentPhaseSuccess = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: REQUEST_TOURNAMENT_PHASE_SUCCESS,
+  payload
+});
+
+export const requestTournamentPhaseFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: REQUEST_TOURNAMENT_PHASE_FAILURE,
   payload
 });
 

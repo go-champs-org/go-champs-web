@@ -6,13 +6,15 @@ const TournamentCard: React.FC<{
   tournament: TournamentEntity;
   url: string;
   onDeleteTournament: any;
-}> = ({ tournament, url, onDeleteTournament }) => (
-  <div>
-    <Link to={`${url}/${tournament.slug}`}>{tournament.name}</Link>
-    <button onClick={() => onDeleteTournament(tournament)}>Delete</button>
-    <Link to={`${url}/${tournament.slug}/TournamentEdit`}>Edit</Link>
-  </div>
-);
+}> = ({ tournament, url, onDeleteTournament }) => {
+  return (
+    <div>
+      <Link to={`${url}/${tournament.slug}`}>{tournament.name}</Link>
+      <button onClick={() => onDeleteTournament(tournament)}>Delete</button>
+      <Link to={`${url}/${tournament.slug}/TournamentEdit`}>Edit</Link>
+    </div>
+  );
+};
 
 const Loading: React.FC = () => <div>Loading...</div>;
 

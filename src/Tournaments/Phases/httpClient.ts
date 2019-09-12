@@ -1,28 +1,28 @@
 import { DEFAULT_HEADERS, resolveResponse } from '../../Shared/httpClient';
 import { TournamentPhaseEntity } from './state';
 
-const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
+const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
-const tournamentPhasesApi = (tournamentId: string) =>
-  `${TOURNAMENT_API}/${tournamentId}/phases`;
-
-const deleteRequest = (tournamentId: string, tournamentPhaseId: string) => {
-  const url = `${tournamentPhasesApi(tournamentId)}/${tournamentPhaseId}`;
+const deleteRequest = (tournamentPhaseId: string) => {
+  const url = `${PHASE_API}/${tournamentPhaseId}`;
 
   return fetch(url, { method: 'DELETE' }).then(resolveResponse);
 };
 
-const getAll = (tournamentId: string) => {
-  const url = `${tournamentPhasesApi(tournamentId)}`;
+const get = (tournamentPhaseId: string) => {
+  const url = `${PHASE_API}/${tournamentPhaseId}`;
 
   return fetch(url).then(resolveResponse);
 };
 
-const patch = (
-  tournamentId: string,
-  tournamentPhase: TournamentPhaseEntity
-) => {
-  const url = `${tournamentPhasesApi(tournamentId)}/${tournamentPhase.id}`;
+const getAll = () => {
+  const url = `${PHASE_API}`;
+
+  return fetch(url).then(resolveResponse);
+};
+
+const patch = (tournamentPhase: TournamentPhaseEntity) => {
+  const url = `${PHASE_API}/${tournamentPhase.id}`;
 
   return fetch(url, {
     headers: DEFAULT_HEADERS,
@@ -31,8 +31,8 @@ const patch = (
   }).then(resolveResponse);
 };
 
-const post = (tournamentId: string, tournamentPhase: TournamentPhaseEntity) => {
-  const url = `${tournamentPhasesApi(tournamentId)}`;
+const post = (tournamentPhase: TournamentPhaseEntity) => {
+  const url = `${PHASE_API}`;
 
   return fetch(url, {
     headers: DEFAULT_HEADERS,
@@ -43,6 +43,7 @@ const post = (tournamentId: string, tournamentPhase: TournamentPhaseEntity) => {
 
 export default {
   delete: deleteRequest,
+  get,
   getAll,
   patch,
   post
