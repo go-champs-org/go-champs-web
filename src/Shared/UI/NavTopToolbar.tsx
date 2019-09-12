@@ -11,11 +11,11 @@ class NavTopToolbar extends React.Component {
         aria-label="dropdown navigation"
       >
         <div className="navbar-brand">
-          <div className="navbar-item">
-            <img src={logo} alt="Yo Champs" className="logo" />
+          <a className="navbar-item" href="/">
+            <img src={logo} alt="Go Champs" className="logo" />
 
-            <h2 className="title">Yo Champs!</h2>
-          </div>
+            <h2 className="title">Go Champs!</h2>
+          </a>
 
           <a
             role="button"
@@ -33,7 +33,7 @@ class NavTopToolbar extends React.Component {
         <div id="menu" className="navbar-menu">
           <div className="navbar-end">
             <a href="/about.html" className="navbar-item">
-              Yo Champs!
+              Go Champs!
             </a>
 
             <a href="/about.html" className="navbar-item">
