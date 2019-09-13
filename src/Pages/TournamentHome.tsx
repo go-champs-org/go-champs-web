@@ -64,7 +64,6 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       this.props.match.params.tournamentSlug
     ].id;
     this.props.requestTournament(tournamentId);
-    this.props.requestTournamentGames(tournamentId);
   }
 }
 

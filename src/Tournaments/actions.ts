@@ -1,6 +1,8 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
+import { requestTournamentGames } from './Games/actions';
 import httpClient, { RequestFilter } from './httpClient';
+import { requestTournamentPhase } from './Phases/actions';
 import { TournamentEntity } from './state';
 import { updateTournamentTeamByGroup } from './Teams/actions';
 
@@ -147,12 +149,19 @@ export const requestTournament = (tournamentId: string) => async (
 
   try {
     const response = await httpClient.getOne(tournamentId);
+    const phaseId = currentPhaseId(response);
 
+    dispatch(requestTournamentPhase(tournamentId, phaseId));
+    dispatch(requestTournamentGames(phaseId));
     dispatch(requestTournamentSuccess(response));
     dispatch(updateTournamentTeamByGroup());
   } catch (err) {
     dispatch(requestTournamentFailure(err));
   }
+};
+
+const currentPhaseId = ({ data }: any) => {
+  return data.phases[0].id;
 };
 
 export const requestTournamentSuccess = (

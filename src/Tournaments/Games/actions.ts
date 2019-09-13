@@ -143,13 +143,13 @@ export const requestTournamentGameFailure = (
   payload
 });
 
-export const requestTournamentGames = (tournamentId: string) => () => async (
+export const requestTournamentGames = (phaseId: string) => async (
   dispatch: any
 ) => {
   dispatch({ type: REQUEST_TOURNAMENT_GAMES });
 
   try {
-    const response = await httpClient.getAll(tournamentId);
+    const response = await httpClient.getAll(phaseId);
 
     dispatch(requestTournamentGamesSuccess(response));
   } catch (err) {

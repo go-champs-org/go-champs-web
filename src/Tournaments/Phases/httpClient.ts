@@ -1,7 +1,6 @@
 import { DEFAULT_HEADERS, resolveResponse } from '../../Shared/httpClient';
 import { TournamentPhaseEntity } from './state';
 
-const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
 const tournamentPhasesApi = (tournamentId: string) =>
@@ -13,8 +12,8 @@ const deleteRequest = (tournamentId: string, tournamentPhaseId: string) => {
   return fetch(url, { method: 'DELETE' }).then(resolveResponse);
 };
 
-const get = (phaseId: string) => {
-  const url = `${PHASE_API}/${phaseId}`;
+const get = (tournamentId: string, phaseId: string) => {
+  const url = `${tournamentPhasesApi(tournamentId)}/${phaseId}`;
 
   return fetch(url).then(resolveResponse);
 };

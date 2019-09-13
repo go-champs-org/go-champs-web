@@ -117,12 +117,13 @@ export const postTournamentPhaseFailure = (
 });
 
 export const requestTournamentPhase = (
+  tournamentId: string,
   tournamentPhaseId: string
-) => () => async (dispatch: any) => {
+) => async (dispatch: any) => {
   dispatch({ type: REQUEST_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.get(tournamentPhaseId);
+    const response = await httpClient.get(tournamentId, tournamentPhaseId);
 
     dispatch(requestTournamentPhaseSuccess(response));
   } catch (err) {
