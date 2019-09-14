@@ -4,8 +4,8 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
-import { patchTournamentGroup } from '../Tournaments/Groups/actions';
-import Edit from '../Tournaments/Groups/Edit';
+import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
+import List from '../Tournaments/Groups/List';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import { currentPhase } from '../Tournaments/Phases/selectors';
 import {
@@ -16,34 +16,36 @@ import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentGroupEditMatch extends TournamentHomeMatchProps {
-  tournamentGroupId: string;
-}
-
-interface TournamentGroupEditProps
-  extends RouteComponentProps<TournamentGroupEditMatch> {
-  patchTournamentGroup: any;
+interface PhaseGroupListProps
+  extends RouteComponentProps<TournamentHomeMatchProps> {
+  deleteTournamentGroup: any;
   phase: TournamentPhaseEntity;
-  requestTournament: any;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
   tournamentGroupState: TournamentGroupState;
+  tournamentState: TournamentState;
+  requestTournament: any;
 }
 
-class TournamentGroupEdit extends React.Component<TournamentGroupEditProps> {
+class PhaseGroupList extends React.Component<PhaseGroupListProps> {
   render() {
-    const tournamentGroup = this.props.tournamentGroupState.tournamentGroups[
-      this.props.match.params.tournamentGroupId
-    ];
+    const {
+      deleteTournamentGroup,
+      match,
+      phase,
+      tournamentGroupState,
+      tournamentPhaseState,
+      tournamentState
+    } = this.props;
+
     return (
-      <Edit
-        currentOrganizationSlug={this.props.match.params.organizationSlug}
-        currentTournamentSlug={this.props.match.params.tournamentSlug}
-        phase={this.props.phase}
-        postTournamentGroup={this.props.patchTournamentGroup}
-        tournamentPhaseState={this.props.tournamentPhaseState}
-        tournamentState={this.props.tournamentState}
-        tournamentGroup={tournamentGroup}
+      <List
+        currentOrganizationSlug={match.params.organizationSlug}
+        currentTournamentSlug={match.params.tournamentSlug}
+        phase={phase}
+        deleteTournamentGroup={deleteTournamentGroup}
+        tournamentGroupState={tournamentGroupState}
+        tournamentPhaseState={tournamentPhaseState}
+        tournamentState={tournamentState}
       />
     );
   }
@@ -68,7 +70,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
   return bindActionCreators(
     {
-      patchTournamentGroup: patchTournamentGroup(tournamentId),
+      deleteTournamentGroup: deleteTournamentGroup(tournamentId),
       requestTournament
     },
     dispatch
@@ -79,5 +81,5 @@ export default withTournaments(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TournamentGroupEdit)
+  )(PhaseGroupList)
 );

@@ -4,12 +4,8 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
-import {
-  patchTournamentGame,
-  requestTournamentGame
-} from '../Tournaments/Games/actions';
-import Edit from '../Tournaments/Games/Edit';
-import { TournamentGameState } from '../Tournaments/Games/state';
+import { postTournamentGame } from '../Tournaments/Games/actions';
+import New from '../Tournaments/Games/New';
 import { currentPhase } from '../Tournaments/Phases/selectors';
 import {
   TournamentPhaseEntity,
@@ -20,36 +16,26 @@ import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentGameEditMatch extends TournamentHomeMatchProps {
-  tournamentGameId: string;
-}
-
-interface TournamentGameEditProps
-  extends RouteComponentProps<TournamentGameEditMatch> {
-  patchTournamentGame: any;
+interface PhaseGameNewProps
+  extends RouteComponentProps<TournamentHomeMatchProps> {
+  postTournamentGame: any;
   phase: TournamentPhaseEntity;
   requestTournament: any;
-  requestTournamentGame: any;
-  tournamentState: TournamentState;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentGameState: TournamentGameState;
+  tournamentState: TournamentState;
   tournamentTeamState: TournamentTeamState;
 }
 
-class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
+class PhaseGameNew extends React.Component<PhaseGameNewProps> {
   render() {
-    const tournamentGame = this.props.tournamentGameState.tournamentGames[
-      this.props.match.params.tournamentGameId
-    ];
     return (
-      <Edit
+      <New
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
-        patchTournamentGame={this.props.patchTournamentGame}
         phase={this.props.phase}
-        tournamentState={this.props.tournamentState}
-        tournamentGame={tournamentGame}
+        postTournamentGame={this.props.postTournamentGame}
         tournamentPhaseState={this.props.tournamentPhaseState}
+        tournamentState={this.props.tournamentState}
         tournamentTeams={this.props.tournamentTeamState.tournamentTeams}
       />
     );
@@ -60,18 +46,13 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
       this.props.match.params.tournamentSlug
     ].id;
     this.props.requestTournament(tournamentId);
-    this.props.requestTournamentGame(
-      tournamentId,
-      this.props.match.params.tournamentGameId
-    );
   }
 }
 
 const mapStateToProps = (state: StoreState) => ({
   phase: currentPhase(state),
+  tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
-  tournamentGameState: state.tournamentGames,
-  tournamentStatState: state.tournamentStats,
   tournamentTeamState: state.tournamentTeams
 });
 
@@ -80,9 +61,8 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
   return bindActionCreators(
     {
-      patchTournamentGame: patchTournamentGame(tournamentId),
-      requestTournament,
-      requestTournamentGame
+      postTournamentGame: postTournamentGame(tournamentId),
+      requestTournament
     },
     dispatch
   );
@@ -92,5 +72,5 @@ export default withTournaments(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TournamentGameEdit)
+  )(PhaseGameNew)
 );

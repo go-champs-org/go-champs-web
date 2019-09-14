@@ -19,7 +19,7 @@ import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentGameListProps
+interface PhaseGameListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentGame: any;
   phase: TournamentPhaseEntity;
@@ -30,7 +30,7 @@ interface TournamentGameListProps
   requestTournamentGames: any;
 }
 
-class TournamentGameList extends React.Component<TournamentGameListProps> {
+class PhaseGameList extends React.Component<PhaseGameListProps> {
   render() {
     const {
       deleteTournamentGame,
@@ -89,5 +89,5 @@ export default withTournaments(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TournamentGameList)
+  )(PhaseGameList)
 );

@@ -15,7 +15,7 @@ const TournamentGroupCard: React.FC<{
     <div className="card-header">
       <Link
         className="card-header-title"
-        to={`${url}/TournamentGroupEdit/${tournamentGroup.id}`}
+        to={`${url}/PhaseGroupEdit/${tournamentGroup.id}`}
       >
         <span className="title is-6">{tournamentGroup.name}</span>
       </Link>
@@ -67,7 +67,7 @@ export const List: React.FC<{
             <h2 className="subtitle">Groups</h2>
           </div>
           <div className="column is-4 has-text-right">
-            <Link className="button" to={`./TournamentGroupNew`}>
+            <Link className="button" to={`./PhaseGroupNew`}>
               New group
             </Link>
           </div>

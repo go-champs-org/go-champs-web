@@ -5,7 +5,7 @@ import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { default as TournamentStatForm } from './Form';
 
-interface TournamentStatNewProps {
+interface PhaseStatNewProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
@@ -14,7 +14,7 @@ interface TournamentStatNewProps {
   tournamentState: TournamentState;
 }
 
-export const New: React.FC<TournamentStatNewProps> = ({
+export const New: React.FC<PhaseStatNewProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   phase,

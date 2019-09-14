@@ -15,7 +15,7 @@ const TournamentStatCard: React.FC<{
     <div className="card-header">
       <Link
         className="card-header-title"
-        to={`${url}/TournamentStatEdit/${tournamentStat.id}`}
+        to={`${url}/PhaseStatEdit/${tournamentStat.id}`}
       >
         <span className="title is-6">{tournamentStat.title}</span>
       </Link>
@@ -67,7 +67,7 @@ export const List: React.FC<{
             <h2 className="subtitle">Stats</h2>
           </div>
           <div className="column is-4 has-text-right">
-            <Link className="button" to={`./TournamentStatNew`}>
+            <Link className="button" to={`./PhaseStatNew`}>
               New stat
             </Link>
           </div>

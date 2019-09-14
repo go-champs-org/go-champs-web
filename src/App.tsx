@@ -8,22 +8,22 @@ import Home from './Pages/Home';
 import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
 import OrganizationNew from './Pages/OrganizationNew';
+import PhaseGameEdit from './Pages/PhaseGameEdit';
+import PhaseGameList from './Pages/PhaseGameList';
+import PhaseGameNew from './Pages/PhaseGameNew';
+import PhaseGroupEdit from './Pages/PhaseGroupEdit';
+import PhaseGroupList from './Pages/PhaseGroupList';
+import PhaseGroupNew from './Pages/PhaseGroupNew';
+import PhaseStandingsEdit from './Pages/PhaseStandingsEdit';
+import PhaseStatEdit from './Pages/PhaseStatEdit';
+import PhaseStatList from './Pages/PhaseStatList';
+import PhaseStatNew from './Pages/PhaseStatNew';
 import TournamentEdit from './Pages/TournamentEdit';
-import TournamentGameEdit from './Pages/TournamentGameEdit';
-import TournamentGameList from './Pages/TournamentGameList';
-import TournamentGameNew from './Pages/TournamentGameNew';
-import TournamentGroupEdit from './Pages/TournamentGroupEdit';
-import TournamentGroupList from './Pages/TournamentGroupList';
-import TournamentGroupNew from './Pages/TournamentGroupNew';
 import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
 import TournamentPhaseEdit from './Pages/TournamentPhaseEdit';
 import TournamentPhaseList from './Pages/TournamentPhaseList';
 import TournamentPhaseNew from './Pages/TournamentPhaseNew';
-import TournamentStandingsEdit from './Pages/TournamentStandingsEdit';
-import TournamentStatEdit from './Pages/TournamentStatEdit';
-import TournamentStatList from './Pages/TournamentStatList';
-import TournamentStatNew from './Pages/TournamentStatNew';
 import TournamentTeamEdit from './Pages/TournamentTeamEdit';
 import TournamentTeamList from './Pages/TournamentTeamList';
 import TournamentTeamNew from './Pages/TournamentTeamNew';
@@ -76,7 +76,7 @@ const App: React.FC = () => {
                 />
                 <Route
                   exact
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId"
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId"
                   component={TournamentHome}
                 />
                 <Route
@@ -118,62 +118,62 @@ const App: React.FC = () => {
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGameList"
-                  component={TournamentGameList}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseGameList"
+                  component={PhaseGameList}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGameNew"
-                  component={TournamentGameNew}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseGameNew"
+                  component={PhaseGameNew}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGameEdit/:tournamentGameId"
-                  component={TournamentGameEdit}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseGameEdit/:tournamentGameId"
+                  component={PhaseGameEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGroupEdit/:tournamentGroupId"
-                  component={TournamentGroupEdit}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseGroupEdit/:tournamentGroupId"
+                  component={PhaseGroupEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGroupList"
-                  component={TournamentGroupList}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseGroupList"
+                  component={PhaseGroupList}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentGroupNew"
-                  component={TournamentGroupNew}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseGroupNew"
+                  component={PhaseGroupNew}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStandingsEdit"
-                  component={TournamentStandingsEdit}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseStandingsEdit"
+                  component={PhaseStandingsEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStatEdit/:tournamentStatId"
-                  component={TournamentStatEdit}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseStatEdit/:tournamentStatId"
+                  component={PhaseStatEdit}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStatList"
-                  component={TournamentStatList}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseStatList"
+                  component={PhaseStatList}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/:organizationSlug/:tournamentSlug/phases/:phaseId/TournamentStatNew"
-                  component={TournamentStatNew}
+                  path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseStatNew"
+                  component={PhaseStatNew}
                 />
               </Switch>
             </div>

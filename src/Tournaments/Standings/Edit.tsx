@@ -126,7 +126,7 @@ const GroupStandings: React.FC<{
   );
 };
 
-interface TournamentStandingsEditProps {
+interface PhaseStandingsEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   patchTournamentTeam: any;
@@ -138,7 +138,7 @@ interface TournamentStandingsEditProps {
   tournamentTeamState: TournamentTeamState;
 }
 
-export const Edit: React.FC<TournamentStandingsEditProps> = ({
+export const Edit: React.FC<PhaseStandingsEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   patchTournamentTeam,

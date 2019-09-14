@@ -15,7 +15,7 @@ const TournamentGameCard: React.FC<{
     <div className="card-header">
       <Link
         className="card-header-title"
-        to={`${url}/TournamentGameEdit/${tournamentGame.id}`}
+        to={`${url}/PhaseGameEdit/${tournamentGame.id}`}
       >
         <div className="columns" style={{ flex: '1' }}>
           <div className="column is-4 has-text-centered">
@@ -100,7 +100,7 @@ const List: React.FC<{
             <h2 className="subtitle">Games</h2>
           </div>
           <div className="column is-4 has-text-right">
-            <Link className="button" to={`./TournamentGameNew`}>
+            <Link className="button" to={`./PhaseGameNew`}>
               New game
             </Link>
           </div>

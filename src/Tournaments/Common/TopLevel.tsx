@@ -15,7 +15,7 @@ const StandingMenu: React.FC<{
   <div>
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGameList`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGameList`}
       >
         Games
       </Link>
@@ -23,7 +23,7 @@ const StandingMenu: React.FC<{
 
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGroupList`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGroupList`}
       >
         Groups
       </Link>
@@ -31,7 +31,7 @@ const StandingMenu: React.FC<{
 
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentStandingsEdit`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseStandingsEdit`}
       >
         Standings
       </Link>
@@ -39,7 +39,7 @@ const StandingMenu: React.FC<{
 
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentStatList`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseStatList`}
       >
         Stats
       </Link>
@@ -55,7 +55,7 @@ const BracketMenu: React.FC<{
   <div>
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGameList`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGameList`}
       >
         Games
       </Link>
@@ -63,7 +63,7 @@ const BracketMenu: React.FC<{
 
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGroupList`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGroupList`}
       >
         Rounds
       </Link>

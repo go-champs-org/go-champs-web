@@ -3,57 +3,42 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { StoreState } from '../store';
-import { requestTournament } from '../Tournaments/actions';
-import { postTournamentGame } from '../Tournaments/Games/actions';
-import New from '../Tournaments/Games/New';
+import { postTournamentGroup } from '../Tournaments/Groups/actions';
+import New from '../Tournaments/Groups/New';
 import { currentPhase } from '../Tournaments/Phases/selectors';
 import {
   TournamentPhaseEntity,
   TournamentPhaseState
 } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
-import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentGameNewProps
+interface PhaseGroupNewProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
-  postTournamentGame: any;
   phase: TournamentPhaseEntity;
-  requestTournament: any;
+  postTournamentGroup: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
-  tournamentTeamState: TournamentTeamState;
 }
 
-class TournamentGameNew extends React.Component<TournamentGameNewProps> {
+class PhaseGroupNew extends React.Component<PhaseGroupNewProps> {
   render() {
     return (
       <New
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
         phase={this.props.phase}
-        postTournamentGame={this.props.postTournamentGame}
+        postTournamentGroup={this.props.postTournamentGroup}
         tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentState={this.props.tournamentState}
-        tournamentTeams={this.props.tournamentTeamState.tournamentTeams}
       />
     );
-  }
-
-  componentDidMount() {
-    const tournamentId = this.props.tournamentState.tournaments[
-      this.props.match.params.tournamentSlug
-    ].id;
-    this.props.requestTournament(tournamentId);
   }
 }
 
 const mapStateToProps = (state: StoreState) => ({
-  phase: currentPhase(state),
-  tournamentPhaseState: state.tournamentPhases,
-  tournamentState: state.tournaments,
-  tournamentTeamState: state.tournamentTeams
+  phase: currentPhase(state)
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {
@@ -61,8 +46,7 @@ const mapDispatchToProps = (dispatch: any, state: any) => {
     state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
   return bindActionCreators(
     {
-      postTournamentGame: postTournamentGame(tournamentId),
-      requestTournament
+      postTournamentGroup: postTournamentGroup(tournamentId)
     },
     dispatch
   );
@@ -72,5 +56,5 @@ export default withTournaments(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(TournamentGameNew)
+  )(PhaseGroupNew)
 );
