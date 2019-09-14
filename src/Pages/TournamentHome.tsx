@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import {
   deleteTournamentGame,
@@ -11,7 +12,11 @@ import { TournamentGameState } from '../Tournaments/Games/state';
 import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import Home from '../Tournaments/Home';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentStatState } from '../Tournaments/Stats/state';
 import { deleteTournamentTeam } from '../Tournaments/Teams/actions';
@@ -24,6 +29,7 @@ interface TournamentHomeProps
   deleteTournamentGame: any;
   deleteTournamentGroup: any;
   deleteTournamentTeam: any;
+  phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
@@ -38,6 +44,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
   render() {
     const {
       match,
+      phase,
       tournamentPhaseState,
       tournamentState,
       tournamentGameState,
@@ -45,10 +52,12 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       tournamentTeamState,
       tournamentStatState
     } = this.props;
+    console.log('eiii', phase);
     return (
       <Home
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
+        phase={phase}
         tournamentPhaseState={tournamentPhaseState}
         tournamentState={tournamentState}
         tournamentGameState={tournamentGameState}
@@ -67,7 +76,8 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,

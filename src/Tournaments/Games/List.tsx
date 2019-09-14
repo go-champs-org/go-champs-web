@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
 import Top from '../Common/Top';
-import { TournamentPhaseState } from '../Phases/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { TournamentGameEntity, TournamentGameState } from './state';
 
@@ -68,6 +68,7 @@ const List: React.FC<{
   deleteTournamentGame: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
+  phase: TournamentPhaseEntity;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
   tournamentPhaseState: TournamentPhaseState;
@@ -75,6 +76,7 @@ const List: React.FC<{
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGame,
+  phase,
   tournamentState,
   tournamentGameState,
   tournamentPhaseState
@@ -86,6 +88,7 @@ const List: React.FC<{
       <header className="column is-12">
         <Top
           organizationSlug={currentOrganizationSlug}
+          phase={phase}
           tournament={tournament}
           tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
@@ -119,6 +122,7 @@ export const Wrapper: React.FC<{
   deleteTournamentGame: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
+  phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
@@ -126,6 +130,7 @@ export const Wrapper: React.FC<{
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTournamentGame,
+  phase,
   tournamentPhaseState,
   tournamentState,
   tournamentGameState
@@ -135,6 +140,7 @@ export const Wrapper: React.FC<{
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentGame={deleteTournamentGame}
+      phase={phase}
       tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
       tournamentGameState={tournamentGameState}

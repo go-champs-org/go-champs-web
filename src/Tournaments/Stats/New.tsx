@@ -1,13 +1,14 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import Top from '../Common/Top';
-import { TournamentPhaseState } from '../Phases/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { default as TournamentStatForm } from './Form';
 
 interface TournamentStatNewProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
+  phase: TournamentPhaseEntity;
   postTournamentStat: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
@@ -16,6 +17,7 @@ interface TournamentStatNewProps {
 export const New: React.FC<TournamentStatNewProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
+  phase,
   postTournamentStat,
   tournamentPhaseState,
   tournamentState
@@ -26,6 +28,7 @@ export const New: React.FC<TournamentStatNewProps> = ({
       <header className="column is-12">
         <Top
           organizationSlug={currentOrganizationSlug}
+          phase={phase}
           tournament={tournament}
           tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}

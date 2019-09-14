@@ -8,6 +8,7 @@ import {
 } from '../Organizations/actions';
 import { Edit } from '../Organizations/Edit';
 import { OrganizationState } from '../Organizations/state';
+import { StoreState } from '../store';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 
@@ -39,7 +40,7 @@ class OrganizationEdit extends React.Component<OrganizationEditProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
   organizationState: state.organizations
 });
 

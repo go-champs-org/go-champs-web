@@ -4,13 +4,79 @@ import Dropdown, {
   DropdownDivider,
   DropdownItem
 } from '../../Shared/UI/Dropdown';
+import { PhaseTypes, TournamentPhaseEntity } from '../Phases/state';
 import { TournamentEntity } from '../state';
+
+const StandingMenu: React.FC<{
+  organizationSlug: string;
+  tournamentSlug: string;
+  phaseId: string;
+}> = ({ organizationSlug, tournamentSlug, phaseId }) => (
+  <div>
+    <DropdownItem>
+      <Link
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGameList`}
+      >
+        Games
+      </Link>
+    </DropdownItem>
+
+    <DropdownItem>
+      <Link
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGroupList`}
+      >
+        Groups
+      </Link>
+    </DropdownItem>
+
+    <DropdownItem>
+      <Link
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentStandingsEdit`}
+      >
+        Standings
+      </Link>
+    </DropdownItem>
+
+    <DropdownItem>
+      <Link
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentStatList`}
+      >
+        Stats
+      </Link>
+    </DropdownItem>
+  </div>
+);
+
+const BracketMenu: React.FC<{
+  organizationSlug: string;
+  tournamentSlug: string;
+  phaseId: string;
+}> = ({ organizationSlug, tournamentSlug, phaseId }) => (
+  <div>
+    <DropdownItem>
+      <Link
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGameList`}
+      >
+        Games
+      </Link>
+    </DropdownItem>
+
+    <DropdownItem>
+      <Link
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/TournamentGroupList`}
+      >
+        Rounds
+      </Link>
+    </DropdownItem>
+  </div>
+);
 
 const TopLevel: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
+  phase: TournamentPhaseEntity;
   tournamentSlug: string;
-}> = ({ organizationSlug, tournament, tournamentSlug }) => (
+}> = ({ phase, organizationSlug, tournament, tournamentSlug }) => (
   <nav className="level">
     <div className="level-left">
       <div className="level-item">
@@ -47,37 +113,19 @@ const TopLevel: React.FC<{
 
           <DropdownDivider />
 
-          <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentGameList`}
-            >
-              Games
-            </Link>
-          </DropdownItem>
-
-          <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentGroupList`}
-            >
-              Groups
-            </Link>
-          </DropdownItem>
-
-          <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentStandingsEdit`}
-            >
-              Standings
-            </Link>
-          </DropdownItem>
-
-          <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentStatList`}
-            >
-              Stats
-            </Link>
-          </DropdownItem>
+          {phase.type === PhaseTypes.bracket ? (
+            <BracketMenu
+              organizationSlug={organizationSlug}
+              tournamentSlug={tournamentSlug}
+              phaseId={phase.id}
+            />
+          ) : (
+            <StandingMenu
+              organizationSlug={organizationSlug}
+              tournamentSlug={tournamentSlug}
+              phaseId={phase.id}
+            />
+          )}
         </Dropdown>
       </span>
     </div>

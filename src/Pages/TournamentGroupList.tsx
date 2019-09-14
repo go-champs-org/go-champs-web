@@ -2,11 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
 import List from '../Tournaments/Groups/List';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -14,6 +19,7 @@ import withTournaments from './support/withTournaments';
 interface TournamentGroupListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentGroup: any;
+  phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentGroupState: TournamentGroupState;
   tournamentState: TournamentState;
@@ -25,6 +31,7 @@ class TournamentGroupList extends React.Component<TournamentGroupListProps> {
     const {
       deleteTournamentGroup,
       match,
+      phase,
       tournamentGroupState,
       tournamentPhaseState,
       tournamentState
@@ -34,6 +41,7 @@ class TournamentGroupList extends React.Component<TournamentGroupListProps> {
       <List
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
+        phase={phase}
         deleteTournamentGroup={deleteTournamentGroup}
         tournamentGroupState={tournamentGroupState}
         tournamentPhaseState={tournamentPhaseState}
@@ -50,7 +58,8 @@ class TournamentGroupList extends React.Component<TournamentGroupListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentGroupState: state.tournamentGroups

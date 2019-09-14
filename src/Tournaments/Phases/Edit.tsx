@@ -9,6 +9,7 @@ interface TournamentPhaseEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   patchTournamentPhase: any;
+  phase: TournamentPhaseEntity;
   tournamentState: TournamentState;
   tournamentPhase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
@@ -18,6 +19,7 @@ export const Edit: React.FC<TournamentPhaseEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   patchTournamentPhase,
+  phase,
   tournamentState,
   tournamentPhase,
   tournamentPhaseState
@@ -28,6 +30,7 @@ export const Edit: React.FC<TournamentPhaseEditProps> = ({
       <header className="column is-12">
         <Top
           organizationSlug={currentOrganizationSlug}
+          phase={phase}
           tournament={tournament}
           tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}

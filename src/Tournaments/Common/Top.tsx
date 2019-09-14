@@ -8,10 +8,18 @@ const Top: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
   tournamentPhases: { [key: string]: TournamentPhaseEntity };
+  phase: TournamentPhaseEntity;
   tournamentSlug: string;
-}> = ({ organizationSlug, tournament, tournamentPhases, tournamentSlug }) => (
+}> = ({
+  organizationSlug,
+  tournament,
+  tournamentPhases,
+  tournamentSlug,
+  phase
+}) => (
   <div>
     <TopLevel
+      phase={phase}
       organizationSlug={organizationSlug}
       tournament={tournament}
       tournamentSlug={tournamentSlug}

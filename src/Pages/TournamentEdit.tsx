@@ -4,9 +4,14 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
 import PageLoader from '../Shared/UI/PageLoader';
+import { StoreState } from '../store';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import {
   deleteTournamentStat,
@@ -19,6 +24,7 @@ import withTournaments from './support/withTournaments';
 
 interface TournamentEditProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
+  phase: TournamentPhaseEntity;
   deleteTournamentStat: any;
   organizationState: OrganizationState;
   tournamentPhaseState: TournamentPhaseState;
@@ -43,15 +49,12 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     return (
       <PageLoader canRender={canRender}>
         <Edit
-          deleteTournamentStat={this.props.deleteTournamentStat(tournament.id)}
+          phase={this.props.phase}
           organizationSlug={this.props.match.params.organizationSlug}
           organizationState={this.props.organizationState}
           patchTournament={this.props.patchTournament}
-          patchTournamentStat={this.props.patchTournamentStat(tournament.id)}
-          postTournamentStat={this.props.postTournamentStat(tournament.id)}
           tournament={tournament}
           tournamentPhaseState={this.props.tournamentPhaseState}
-          tournamentStatState={this.props.tournamentStatState}
         />
       </PageLoader>
     );
@@ -65,18 +68,19 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StoreState) => {
   return {
     organizationState: state.organizations,
+    phase: currentPhase(state),
     tournamentPhaseState: state.tournamentPhases,
     tournamentState: state.tournaments,
     tournamentStatState: state.tournamentStats
   };
 };
 
-const mapDispatchToProps = (dispatch: any, state: TournamentEditProps) => {
+const mapDispatchToProps = (dispatch: any, props: TournamentEditProps) => {
   const currentOrganization =
-    state.organizationState.organizations[state.match.params.organizationSlug];
+    props.organizationState.organizations[props.match.params.organizationSlug];
   const organizationId = currentOrganization ? currentOrganization.id : '';
   return bindActionCreators(
     {

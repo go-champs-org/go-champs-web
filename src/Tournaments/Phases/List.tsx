@@ -59,6 +59,7 @@ const TournamentPhaseCard: React.FC<{
 interface WrapperProps extends DraggableListProps<TournamentPhaseEntity> {
   deleteTournamentPhase: any;
   patchTournamentPhase: any;
+  phase: TournamentPhaseEntity;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   tournamentPhaseState: TournamentPhaseState;
@@ -70,6 +71,7 @@ export const List: React.FC<WrapperProps> = ({
   currentTournamentSlug,
   deleteTournamentPhase,
   patchTournamentPhase,
+  phase,
   tournamentPhaseState,
   tournamentState,
   sortedItems,
@@ -83,6 +85,7 @@ export const List: React.FC<WrapperProps> = ({
       <header className="column is-12">
         <Top
           organizationSlug={currentOrganizationSlug}
+          phase={phase}
           tournament={tournament}
           tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}
@@ -125,6 +128,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
   currentTournamentSlug,
   deleteTournamentPhase,
   patchTournamentPhase,
+  phase,
   tournamentState,
   tournamentPhaseState,
   moveItem,
@@ -136,6 +140,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
       currentTournamentSlug={currentTournamentSlug}
       deleteTournamentPhase={deleteTournamentPhase}
       patchTournamentPhase={patchTournamentPhase}
+      phase={phase}
       tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
       moveItem={moveItem}

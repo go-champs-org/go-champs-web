@@ -10,6 +10,7 @@ import {
 } from '../Organizations/actions';
 import { List } from '../Organizations/List';
 import { OrganizationState } from '../Organizations/state';
+import { StoreState } from '../store';
 
 interface HomeProps extends RouteComponentProps {
   deleteOrganization: any;
@@ -37,7 +38,7 @@ class Home extends React.Component<HomeProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
   organizationState: state.organizations
 });
 

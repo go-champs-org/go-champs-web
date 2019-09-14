@@ -2,9 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { Edit } from '../Tournaments/Standings/Edit';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentStatState } from '../Tournaments/Stats/state';
@@ -16,6 +21,7 @@ import withTournaments from './support/withTournaments';
 interface TournamentStandingsEditProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   patchTournamentTeam: any;
+  phase: TournamentPhaseEntity;
   requestTournament: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentGroupState: TournamentGroupState;
@@ -33,6 +39,7 @@ class TournamentStandingsEdit extends React.Component<
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
         patchTournamentTeam={this.props.patchTournamentTeam}
+        phase={this.props.phase}
         tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentGroupState={this.props.tournamentGroupState}
         tournamentState={this.props.tournamentState}
@@ -50,7 +57,8 @@ class TournamentStandingsEdit extends React.Component<
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentPhaseState: state.tournamentPhases,
   tournamentGroupState: state.tournamentGroups,
   tournamentState: state.tournaments,

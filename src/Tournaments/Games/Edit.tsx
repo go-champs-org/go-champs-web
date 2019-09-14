@@ -1,16 +1,17 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import Top from '../Common/Top';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { TournamentTeamEntity } from '../Teams/state';
 import { default as TournamentGameForm } from './Form';
 import { TournamentGameEntity } from './state';
-import { TournamentPhaseState } from '../Phases/state';
 
 interface TournamentGameEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   patchTournamentGame: any;
+  phase: TournamentPhaseEntity;
   tournamentState: TournamentState;
   tournamentGame: TournamentGameEntity;
   tournamentPhaseState: TournamentPhaseState;
@@ -21,6 +22,7 @@ export const Edit: React.FC<TournamentGameEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   patchTournamentGame,
+  phase,
   tournamentGame,
   tournamentState,
   tournamentPhaseState,
@@ -32,6 +34,7 @@ export const Edit: React.FC<TournamentGameEditProps> = ({
       <header className="column is-12">
         <Top
           organizationSlug={currentOrganizationSlug}
+          phase={phase}
           tournament={tournament}
           tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}

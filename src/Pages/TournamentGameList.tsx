@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import {
   deleteTournamentGame,
@@ -9,7 +10,11 @@ import {
 } from '../Tournaments/Games/actions';
 import List from '../Tournaments/Games/List';
 import { TournamentGameState } from '../Tournaments/Games/state';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -17,6 +22,7 @@ import withTournaments from './support/withTournaments';
 interface TournamentGameListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentGame: any;
+  phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
@@ -29,6 +35,7 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
     const {
       deleteTournamentGame,
       match,
+      phase,
       tournamentPhaseState,
       tournamentState,
       tournamentGameState
@@ -39,6 +46,7 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
         deleteTournamentGame={deleteTournamentGame}
+        phase={phase}
         tournamentPhaseState={tournamentPhaseState}
         tournamentState={tournamentState}
         tournamentGameState={tournamentGameState}
@@ -55,7 +63,8 @@ class TournamentGameList extends React.Component<TournamentGameListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
   tournamentGroupState: state.tournamentGroups,

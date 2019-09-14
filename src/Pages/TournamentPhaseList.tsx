@@ -2,13 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import {
   deleteTournamentPhase,
   patchTournamentPhase
 } from '../Tournaments/Phases/actions';
 import List from '../Tournaments/Phases/List';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -17,6 +22,7 @@ interface TournamentPhaseListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentPhase: any;
   patchTournamentPhase: any;
+  phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   requestTournament: any;
@@ -28,6 +34,7 @@ class TournamentPhaseList extends React.Component<TournamentPhaseListProps> {
       deleteTournamentPhase,
       patchTournamentPhase,
       match,
+      phase,
       tournamentPhaseState,
       tournamentState
     } = this.props;
@@ -38,6 +45,7 @@ class TournamentPhaseList extends React.Component<TournamentPhaseListProps> {
         currentTournamentSlug={match.params.tournamentSlug}
         deleteTournamentPhase={deleteTournamentPhase}
         patchTournamentPhase={patchTournamentPhase}
+        phase={phase}
         tournamentPhaseState={tournamentPhaseState}
         tournamentState={tournamentState}
       />
@@ -52,7 +60,8 @@ class TournamentPhaseList extends React.Component<TournamentPhaseListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentState: state.tournaments,
   tournamentPhaseState: state.tournamentPhases
 });

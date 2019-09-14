@@ -2,11 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import { patchTournamentGroup } from '../Tournaments/Groups/actions';
 import Edit from '../Tournaments/Groups/Edit';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
@@ -18,6 +23,7 @@ interface TournamentGroupEditMatch extends TournamentHomeMatchProps {
 interface TournamentGroupEditProps
   extends RouteComponentProps<TournamentGroupEditMatch> {
   patchTournamentGroup: any;
+  phase: TournamentPhaseEntity;
   requestTournament: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
@@ -33,6 +39,7 @@ class TournamentGroupEdit extends React.Component<TournamentGroupEditProps> {
       <Edit
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
+        phase={this.props.phase}
         postTournamentGroup={this.props.patchTournamentGroup}
         tournamentPhaseState={this.props.tournamentPhaseState}
         tournamentState={this.props.tournamentState}
@@ -49,7 +56,8 @@ class TournamentGroupEdit extends React.Component<TournamentGroupEditProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentGroupState: state.tournamentGroups

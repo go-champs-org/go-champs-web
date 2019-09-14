@@ -2,8 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { deleteTournamentTeam } from '../Tournaments/Teams/actions';
 import List from '../Tournaments/Teams/List';
@@ -14,6 +19,7 @@ import withTournaments from './support/withTournaments';
 interface TournamentTeamListProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   deleteTournamentTeam: any;
+  phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentTeamState: TournamentTeamState;
   tournamentState: TournamentState;
@@ -25,6 +31,7 @@ class TournamentTeamList extends React.Component<TournamentTeamListProps> {
     const {
       deleteTournamentTeam,
       match,
+      phase,
       tournamentPhaseState,
       tournamentTeamState,
       tournamentState
@@ -35,6 +42,7 @@ class TournamentTeamList extends React.Component<TournamentTeamListProps> {
         currentOrganizationSlug={match.params.organizationSlug}
         currentTournamentSlug={match.params.tournamentSlug}
         deleteTournamentTeam={deleteTournamentTeam}
+        phase={phase}
         tournamentPhaseState={tournamentPhaseState}
         tournamentTeamState={tournamentTeamState}
         tournamentState={tournamentState}
@@ -50,7 +58,8 @@ class TournamentTeamList extends React.Component<TournamentTeamListProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentTeamState: state.tournamentTeams

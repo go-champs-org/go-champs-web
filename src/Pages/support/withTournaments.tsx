@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import PageLoader from '../../Shared/UI/PageLoader';
+import { StoreState } from '../../store';
 import { requestFilterTournaments } from '../../Tournaments/actions';
 import { TournamentState } from '../../Tournaments/state';
 import { TournamentHomeMatchProps } from './routerInterfaces';
@@ -48,7 +49,7 @@ const withTournaments = (WrappedComponent: any) => {
       dispatch
     );
 
-  const mapStateToProps = (state: any) => ({
+  const mapStateToProps = (state: StoreState) => ({
     tournamentState: state.tournaments,
     organizationState: state.organizations
   });

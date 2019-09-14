@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import {
   deleteTournament,
   postTournament,
@@ -42,7 +43,7 @@ class OrganizationHome extends React.Component<OrganizationHomeProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
   tournamentState: state.tournaments
 });
 

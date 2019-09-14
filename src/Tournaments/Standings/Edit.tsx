@@ -1,7 +1,7 @@
 import React from 'react';
 import Top from '../Common/Top';
 import { TournamentGroupEntity, TournamentGroupState } from '../Groups/state';
-import { TournamentPhaseState } from '../Phases/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
 import { NO_GROUP_KEY } from '../Teams/reducer';
@@ -130,6 +130,7 @@ interface TournamentStandingsEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   patchTournamentTeam: any;
+  phase: TournamentPhaseEntity;
   tournamentGroupState: TournamentGroupState;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
@@ -141,6 +142,7 @@ export const Edit: React.FC<TournamentStandingsEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   patchTournamentTeam,
+  phase,
   tournamentGroupState,
   tournamentPhaseState,
   tournamentState,
@@ -154,6 +156,7 @@ export const Edit: React.FC<TournamentStandingsEditProps> = ({
       <header className="column is-12">
         <Top
           organizationSlug={currentOrganizationSlug}
+          phase={phase}
           tournament={tournament}
           tournamentPhases={tournamentPhaseState.tournamentPhases}
           tournamentSlug={currentTournamentSlug}

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
 import {
   patchTournamentGame,
@@ -9,7 +10,11 @@ import {
 } from '../Tournaments/Games/actions';
 import Edit from '../Tournaments/Games/Edit';
 import { TournamentGameState } from '../Tournaments/Games/state';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
@@ -22,6 +27,7 @@ interface TournamentGameEditMatch extends TournamentHomeMatchProps {
 interface TournamentGameEditProps
   extends RouteComponentProps<TournamentGameEditMatch> {
   patchTournamentGame: any;
+  phase: TournamentPhaseEntity;
   requestTournament: any;
   requestTournamentGame: any;
   tournamentState: TournamentState;
@@ -40,6 +46,7 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
         currentOrganizationSlug={this.props.match.params.organizationSlug}
         currentTournamentSlug={this.props.match.params.tournamentSlug}
         patchTournamentGame={this.props.patchTournamentGame}
+        phase={this.props.phase}
         tournamentState={this.props.tournamentState}
         tournamentGame={tournamentGame}
         tournamentPhaseState={this.props.tournamentPhaseState}
@@ -60,7 +67,8 @@ class TournamentGameEdit extends React.Component<TournamentGameEditProps> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: StoreState) => ({
+  phase: currentPhase(state),
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
   tournamentStatState: state.tournamentStats,

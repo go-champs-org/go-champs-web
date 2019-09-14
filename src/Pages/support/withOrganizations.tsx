@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { requestOrganizations } from '../../Organizations/actions';
 import { OrganizationState } from '../../Organizations/state';
 import PageLoader from '../../Shared/UI/PageLoader';
+import { StoreState } from '../../store';
 import { OrganizationHomeMatchProps } from './routerInterfaces';
 
 interface WithOrganizationsProps
@@ -46,7 +47,7 @@ const withOrganizations = (WrappedComponent: any) => {
       dispatch
     );
 
-  const mapStateToProps = (state: any) => ({
+  const mapStateToProps = (state: StoreState) => ({
     organizationState: state.organizations
   });
 
