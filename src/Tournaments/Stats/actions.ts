@@ -6,8 +6,8 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
-import httpClient from './httpClient';
 import { TournamentStatEntity } from './state';
+import statHttpClient from './statHttpClient';
 
 export const DELETE_TOURNAMENT_STAT = 'API_DELETE_TOURNAMENT_STAT';
 export const DELETE_TOURNAMENT_STAT_SUCCESS =
@@ -29,7 +29,10 @@ export const deleteTournamentStat = (tournamentId: string) => (
   dispatch({ type: DELETE_TOURNAMENT_STAT });
 
   try {
-    const response = await httpClient.delete(tournamentId, tournamentStat.id);
+    const response = await statHttpClient.delete(
+      tournamentId,
+      tournamentStat.id
+    );
 
     dispatch(deleteTournamentStatSuccess(response));
     displayToast(`${tournamentStat.title} deleted!`, 'is-success');
@@ -58,7 +61,7 @@ export const patchTournamentStat = (tournamentId: string) => (
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {
-    const response = await httpClient.patch(tournamentId, tournamentStat);
+    const response = await statHttpClient.patch(tournamentId, tournamentStat);
 
     dispatch(patchTournamentStatSuccess(response));
     displayToast(`${tournamentStat.title} updated!`, 'is-success');
@@ -87,7 +90,7 @@ export const postTournamentStat = (tournamentId: string) => (
   dispatch({ type: POST_TOURNAMENT_STAT });
 
   try {
-    const response = await httpClient.post(tournamentId, tournamentStat);
+    const response = await statHttpClient.post(tournamentId, tournamentStat);
 
     dispatch(postTournamentStatSuccess(response));
     displayToast(`${tournamentStat.title} created!`, 'is-success');

@@ -30,7 +30,11 @@ import {
   requestTournamentPhaseFailure,
   requestTournamentPhaseSuccess
 } from './reducer';
-import { initialState, TournamentStatState } from './state';
+import {
+  initialState,
+  TournamentStatEntity,
+  TournamentStatState
+} from './state';
 
 describe('deleteTournamentStat', () => {
   const action: HttpAction<ActionTypes> = {
@@ -139,13 +143,11 @@ describe('patchTournamentStatFailure', () => {
 });
 
 describe('patchTournamentStatSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentStatEntity> = {
     type: PATCH_TOURNAMENT_STAT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        title: 'some-first-title'
-      }
+      id: 'first-id',
+      title: 'some-first-title'
     }
   };
 
@@ -221,13 +223,11 @@ describe('postTournamentStatFailure', () => {
 });
 
 describe('postTournamentStatSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentStatEntity> = {
     type: POST_TOURNAMENT_STAT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        title: 'first-title'
-      }
+      id: 'first-id',
+      title: 'first-title'
     }
   };
 

@@ -71,3 +71,20 @@ export interface ApiPhaseResponse {
 export interface ApiPhasesResponse {
   data: ApiPhase[];
 }
+
+export interface ApiStat {
+  id: string;
+  title: string;
+}
+
+export interface ApiStatRequest {
+  tournament_stat: ApiStat;
+}
+
+export interface ApiStatResponse {
+  data: ApiStat;
+}
+
+export interface ApiStatsResponse {
+  data: ApiStat[];
+}
