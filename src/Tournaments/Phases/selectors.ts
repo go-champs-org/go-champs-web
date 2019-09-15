@@ -1,5 +1,5 @@
 import { StoreState } from '../../store';
-import { TournamentPhaseEntity } from './state';
+import { PhaseTypes, TournamentPhaseEntity } from './state';
 
 export const currentPhase = (
   state: StoreState,
@@ -14,7 +14,7 @@ export const currentPhase = (
       id: '',
       order: 1,
       title: '',
-      type: 'bracket'
+      type: PhaseTypes.bracket
     };
   }
   return state.tournamentPhases.tournamentPhases[defaultPhaseId];

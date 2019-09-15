@@ -30,7 +30,11 @@ import {
   requestTournamentFailure,
   requestTournamentSuccess
 } from './reducer';
-import { initialState, TournamentPhaseState } from './state';
+import {
+  initialState,
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from './state';
 
 describe('deleteTournamentPhase', () => {
   const action: HttpAction<ActionTypes> = {
@@ -142,14 +146,12 @@ describe('patchTournamentPhaseFailure', () => {
 });
 
 describe('patchTournamentPhaseSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentPhaseEntity> = {
     type: PATCH_TOURNAMENT_PHASE_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        title: 'some-first-title',
-        type: 'standings'
-      }
+      id: 'first-id',
+      title: 'some-first-title',
+      type: 'standings'
     }
   };
 
@@ -229,14 +231,13 @@ describe('postTournamentPhaseFailure', () => {
 });
 
 describe('postTournamentPhaseSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentPhaseEntity> = {
     type: POST_TOURNAMENT_PHASE_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        title: 'first-title',
-        type: 'standings'
-      }
+      id: 'first-id',
+      title: 'first-title',
+      type: 'standings',
+      order: 1
     }
   };
 
@@ -253,7 +254,8 @@ describe('postTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['first-id']).toEqual({
       id: 'first-id',
       title: 'first-title',
-      type: 'standings'
+      type: 'standings',
+      order: 1
     });
   });
 

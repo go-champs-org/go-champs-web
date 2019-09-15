@@ -5,7 +5,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
-import httpClient from './httpClient';
+import httpClient from './phaseHttpClient';
 import { TournamentPhaseEntity } from './state';
 
 export const DELETE_TOURNAMENT_PHASE = 'API_DELETE_TOURNAMENT_PHASE';
@@ -45,8 +45,8 @@ export const deleteTournamentPhase = (tournamentId: string) => (
 };
 
 export const deleteTournamentPhaseSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: string
+): HttpAction<ActionTypes, string> => ({
   type: DELETE_TOURNAMENT_PHASE_SUCCESS,
   payload
 });
@@ -74,8 +74,8 @@ export const patchTournamentPhase = (tournamentId: string) => (
 };
 
 export const patchTournamentPhaseSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: TournamentPhaseEntity
+): HttpAction<ActionTypes, TournamentPhaseEntity> => ({
   type: PATCH_TOURNAMENT_PHASE_SUCCESS,
   payload
 });
@@ -103,8 +103,8 @@ export const postTournamentPhase = (tournamentId: string) => (
 };
 
 export const postTournamentPhaseSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: TournamentPhaseEntity
+): HttpAction<ActionTypes, TournamentPhaseEntity> => ({
   type: POST_TOURNAMENT_PHASE_SUCCESS,
   payload
 });

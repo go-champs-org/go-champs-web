@@ -23,7 +23,11 @@ import {
   POST_TOURNAMENT_PHASE_FAILURE,
   POST_TOURNAMENT_PHASE_SUCCESS
 } from './actions';
-import { initialState, TournamentPhaseState } from './state';
+import {
+  initialState,
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from './state';
 
 const mapTournamentPhase = (apiData: any) => ({
   id: apiData.id,
@@ -55,10 +59,10 @@ export const deleteTournamentPhaseFailure = (
 
 export const deleteTournamentPhaseSuccess = (
   state: TournamentPhaseState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, string>
 ) => {
   const tournamentPhases = Object.keys(state.tournamentPhases)
-    .filter(entityById(state.tournamentPhases, action.payload))
+    .filter(entityById(state.tournamentPhases, action.payload!))
     .reduce(mapEntitiesByKey(state.tournamentPhases), {});
   return {
     ...state,
@@ -85,11 +89,11 @@ export const patchTournamentPhaseFailure = (
 
 export const patchTournamentPhaseSuccess = (
   state: TournamentPhaseState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentPhaseEntity>
 ) => ({
   ...state,
   isLoadingPatchTournamentPhase: false,
-  tournamentPhases: [action.payload.data].reduce(
+  tournamentPhases: [action.payload].reduce(
     tournamentPhaseMapEntities,
     state.tournamentPhases
   )
@@ -113,11 +117,11 @@ export const postTournamentPhaseFailure = (
 
 export const postTournamentPhaseSuccess = (
   state: TournamentPhaseState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentPhaseEntity>
 ) => ({
   ...state,
   isLoadingPostTournamentPhase: false,
-  tournamentPhases: [action.payload.data].reduce(
+  tournamentPhases: [action.payload].reduce(
     tournamentPhaseMapEntities,
     state.tournamentPhases
   )

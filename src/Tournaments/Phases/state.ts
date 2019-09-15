@@ -6,7 +6,7 @@ export enum PhaseTypes {
 export interface TournamentPhaseEntity {
   id: string;
   title: string;
-  type: 'standings' | 'bracket';
+  type: PhaseTypes;
   order: number;
 }
 
