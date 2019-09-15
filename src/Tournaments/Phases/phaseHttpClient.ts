@@ -1,29 +1,11 @@
+import { ApiPhase, ApiPhaseRequest, ApiPhaseResponse, ApiPhasesResponse } from '../../Shared/httpClient/apiTypes';
 import httpClient from '../../Shared/httpClient/httpClient';
-import { PhaseTypes, TournamentPhaseEntity } from './state';
+import { TournamentPhaseEntity } from './state';
 
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
 const tournamentPhasesApi = (tournamentId: string) =>
   `${TOURNAMENT_API}/${tournamentId}/phases`;
-
-interface ApiPhase {
-  id: string;
-  title: string;
-  type: PhaseTypes;
-  order: number;
-}
-
-interface ApiPhaseRequest {
-  tournament_phase: ApiPhase;
-}
-
-interface ApiPhaseResponse {
-  data: ApiPhase;
-}
-
-interface ApiPhasesResponse {
-  data: ApiPhase[];
-}
 
 const mapApiPhaseToPhaseEntity = (
   apiPhase: ApiPhase
