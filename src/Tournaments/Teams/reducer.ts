@@ -24,10 +24,15 @@ import {
   POST_TOURNAMENT_TEAM_SUCCESS,
   UPDATE_TOURNAMENT_TEAM_BY_GROUP
 } from './actions';
-import { initialState, TournamentTeamState } from './state';
+import {
+  initialState,
+  TournamentTeamEntity,
+  TournamentTeamState
+} from './state';
 
 export const NO_GROUP_KEY = 'no-group';
 
+// TODO (lairjr): Remove this function
 const mapTournamentTeam = (apiData: any) => ({
   id: apiData.id,
   name: apiData.name,
@@ -75,10 +80,10 @@ export const deleteTournamentTeamFailure = (
 
 export const deleteTournamentTeamSuccess = (
   state: TournamentTeamState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, string>
 ) => {
   const tournamentTeams = Object.keys(state.tournamentTeams)
-    .filter(entityById(state.tournamentTeams, action.payload))
+    .filter(entityById(state.tournamentTeams, action.payload!))
     .reduce(mapEntitiesByKey(state.tournamentTeams), {});
   return {
     ...state,
@@ -105,11 +110,11 @@ export const patchTournamentTeamFailure = (
 
 export const patchTournamentTeamSuccess = (
   state: TournamentTeamState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentTeamEntity>
 ) => ({
   ...state,
   isLoadingPatchTournamentTeam: false,
-  tournamentTeams: [action.payload.data].reduce(
+  tournamentTeams: [action.payload].reduce(
     tournamentTeamMapEntities,
     state.tournamentTeams
   )
@@ -133,11 +138,11 @@ export const postTournamentTeamFailure = (
 
 export const postTournamentTeamSuccess = (
   state: TournamentTeamState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentTeamEntity>
 ) => ({
   ...state,
   isLoadingPostTournamentTeam: false,
-  tournamentTeams: [action.payload.data].reduce(
+  tournamentTeams: [action.payload].reduce(
     tournamentTeamMapEntities,
     state.tournamentTeams
   )

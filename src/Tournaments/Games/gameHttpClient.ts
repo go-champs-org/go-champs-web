@@ -5,8 +5,8 @@ import {
   ApiGameWithDepedencies
 } from '../../Shared/httpClient/apiTypes';
 import httpClient from '../../Shared/httpClient/httpClient';
-import { mapApiTeamToTeamEntity } from '../Teams/httpClient';
 import { DEFAULT_TEAM_ENTITY } from '../Teams/state';
+import { mapApiTeamToTeamEntity } from '../Teams/teamHttpClient';
 import { TournamentGameEntity } from './state';
 
 const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';

@@ -144,10 +144,8 @@ describe('patchTournamentTeamSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_TOURNAMENT_TEAM_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'some-first-name'
-      }
+      id: 'first-id',
+      name: 'some-first-name'
     }
   };
 
@@ -228,10 +226,8 @@ describe('postTournamentTeamSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_TEAM_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name'
-      }
+      id: 'first-id',
+      name: 'first-name'
     }
   };
 

@@ -1,11 +1,5 @@
 import { PhaseTypes } from '../../Tournaments/Phases/state';
 
-export interface ApiTeam {
-  id: string;
-  name: string;
-  group?: ApiGroup;
-}
-
 interface ApiGame {
   id: string;
   away_score: number;
@@ -87,4 +81,22 @@ export interface ApiStatResponse {
 
 export interface ApiStatsResponse {
   data: ApiStat[];
+}
+
+export interface ApiTeam {
+  id: string;
+  name: string;
+  group?: ApiGroup;
+}
+
+export interface ApiTeamRequest {
+  tournament_team: ApiTeam;
+}
+
+export interface ApiTeamResponse {
+  data: ApiTeam;
+}
+
+export interface ApiTeamsResponse {
+  data: ApiTeam[];
 }

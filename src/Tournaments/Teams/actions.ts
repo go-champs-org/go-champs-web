@@ -6,8 +6,8 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
-import httpClient from './httpClient';
 import { TournamentTeamEntity } from './state';
+import teamHttpClient from './teamHttpClient';
 
 export const DELETE_TOURNAMENT_TEAM = 'API_DELETE_TOURNAMENT_TEAM';
 export const DELETE_TOURNAMENT_TEAM_SUCCESS =
@@ -31,7 +31,10 @@ export const deleteTournamentTeam = (tournamentId: string) => (
   dispatch({ type: DELETE_TOURNAMENT_TEAM });
 
   try {
-    const response = await httpClient.delete(tournamentId, tournamentTeam.id);
+    const response = await teamHttpClient.delete(
+      tournamentId,
+      tournamentTeam.id
+    );
 
     dispatch(deleteTournamentTeamSuccess(response));
     dispatch(updateTournamentTeamByGroup());
@@ -61,7 +64,7 @@ export const patchTournamentTeam = (tournamentId: string) => (
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {
-    const response = await httpClient.patch(tournamentId, tournamentTeam);
+    const response = await teamHttpClient.patch(tournamentId, tournamentTeam);
 
     dispatch(patchTournamentTeamSuccess(response));
     dispatch(updateTournamentTeamByGroup());
@@ -91,7 +94,7 @@ export const postTournamentTeam = (tournamentId: string) => (
   dispatch({ type: POST_TOURNAMENT_TEAM });
 
   try {
-    const response = await httpClient.post(tournamentId, tournamentTeam);
+    const response = await teamHttpClient.post(tournamentId, tournamentTeam);
 
     dispatch(postTournamentTeamSuccess(response));
     dispatch(updateTournamentTeamByGroup());
