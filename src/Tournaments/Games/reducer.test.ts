@@ -28,7 +28,11 @@ import {
   requestTournamentGamesSuccess,
   requestTournamentGameSuccess
 } from './reducer';
-import { initialState, TournamentGameState } from './state';
+import {
+  initialState,
+  TournamentGameEntity,
+  TournamentGameState
+} from './state';
 
 describe('deleteTournamentGame', () => {
   const action: HttpAction<ActionTypes> = {
@@ -235,24 +239,22 @@ describe('postTournamentGameFailure', () => {
 });
 
 describe('postTournamentGameSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentGameEntity> = {
     type: POST_TOURNAMENT_GAME_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        away_score: 10,
-        away_team: {
-          id: 'first-away-team-id',
-          name: 'first-away-team'
-        },
-        datetime: '2019-05-22T03:21:21.248Z',
-        home_score: 20,
-        home_team: {
-          id: 'first-home-team-id',
-          name: 'first-home-team'
-        },
-        location: 'first location'
-      }
+      id: 'first-id',
+      awayScore: 10,
+      awayTeam: {
+        id: 'first-away-team-id',
+        name: 'first-away-team'
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 20,
+      homeTeam: {
+        id: 'first-home-team-id',
+        name: 'first-home-team'
+      },
+      location: 'first location'
     }
   };
 
@@ -351,24 +353,22 @@ describe('requestTournamentGameFailure', () => {
 });
 
 describe('requestTournamentGameSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentGameEntity> = {
     type: REQUEST_TOURNAMENT_GAME_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        away_score: 10,
-        away_team: {
-          id: 'first-away-team-id',
-          name: 'first-away-team'
-        },
-        datetime: '2019-05-22T03:21:21.248Z',
-        home_score: 20,
-        home_team: {
-          id: 'first-home-team-id',
-          name: 'first-home-team'
-        },
-        location: 'first location'
-      }
+      id: 'first-id',
+      awayScore: 10,
+      awayTeam: {
+        id: 'first-away-team-id',
+        name: 'first-away-team'
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 20,
+      homeTeam: {
+        id: 'first-home-team-id',
+        name: 'first-home-team'
+      },
+      location: 'first location'
     }
   };
 
@@ -429,49 +429,47 @@ describe('requestTournamentGamesFailure', () => {
 describe('requestTournamentGamesSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_GAMES_SUCCESS,
-    payload: {
-      data: [
-        {
-          id: 'first-id',
-          away_score: 10,
-          away_team: {
-            id: 'first-away-team-id',
-            name: 'first-away-team'
-          },
-          datetime: '2019-05-22T03:21:21.248Z',
-          home_score: 20,
-          home_team: {
-            id: 'first-home-team-id',
-            name: 'first-home-team'
-          },
-          location: 'first location'
+    payload: [
+      {
+        id: 'first-id',
+        awayScore: 10,
+        awayTeam: {
+          id: 'first-away-team-id',
+          name: 'first-away-team'
         },
-        {
-          id: 'second-id',
-          away_score: 30,
-          away_team: {
-            id: 'second-away-team-id',
-            name: 'second-away-team'
-          },
-          datetime: '2019-05-22T03:21:21.248Z',
-          home_score: 40,
-          home_team: {
-            id: 'second-home-team-id',
-            name: 'second-home-team'
-          },
-          location: 'second location'
+        datetime: '2019-05-22T03:21:21.248Z',
+        homeScore: 20,
+        homeTeam: {
+          id: 'first-home-team-id',
+          name: 'first-home-team'
         },
-        {
-          id: 'third-id',
-          away_score: null,
-          away_team: null,
-          datetime: '2019-06-22T03:21:21.248Z',
-          home_score: null,
-          home_team: null,
-          location: 'third location'
-        }
-      ]
-    }
+        location: 'first location'
+      },
+      {
+        id: 'second-id',
+        awayScore: 30,
+        awayTeam: {
+          id: 'second-away-team-id',
+          name: 'second-away-team'
+        },
+        datetime: '2019-05-22T03:21:21.248Z',
+        homeScore: 40,
+        homeTeam: {
+          id: 'second-home-team-id',
+          name: 'second-home-team'
+        },
+        location: 'second location'
+      },
+      {
+        id: 'third-id',
+        awayScore: null,
+        awayTeam: null,
+        datetime: '2019-06-22T03:21:21.248Z',
+        homeScore: null,
+        homeTeam: null,
+        location: 'third location'
+      }
+    ]
   };
 
   it('sets isLoadingRequestTournamentGames to false', () => {

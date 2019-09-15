@@ -21,15 +21,20 @@ import {
   REQUEST_TOURNAMENT_GAME_FAILURE,
   REQUEST_TOURNAMENT_GAME_SUCCESS
 } from './actions';
-import { initialState, TournamentGameState } from './state';
+import {
+  initialState,
+  TournamentGameEntity,
+  TournamentGameState
+} from './state';
 
+// TODO (lairjr): Remove this function
 const mapTournamentGame = (apiData: any) => ({
   id: apiData.id,
-  awayScore: apiData.away_score,
-  awayTeam: apiData.away_team,
+  awayScore: apiData.awayScore,
+  awayTeam: apiData.awayTeam,
   datetime: apiData.datetime,
-  homeScore: apiData.home_score,
-  homeTeam: apiData.home_team,
+  homeScore: apiData.homeScore,
+  homeTeam: apiData.homeTeam,
   location: apiData.location
 });
 
@@ -44,11 +49,11 @@ const returnDateId = (apiData: any) =>
 const mapTournamentGameToDateEntity = (apiData: any) => ({
   [apiData.id]: {
     id: apiData.id,
-    awayScore: apiData.away_score,
-    awayTeam: apiData.away_team,
+    awayScore: apiData.awayScore,
+    awayTeam: apiData.awayTeam,
     datetime: apiData.datetime,
-    homeScore: apiData.home_score,
-    homeTeam: apiData.home_team,
+    homeScore: apiData.homeScore,
+    homeTeam: apiData.homeTeam,
     location: apiData.location
   }
 });
@@ -133,11 +138,11 @@ export const postTournamentGameFailure = (
 
 export const postTournamentGameSuccess = (
   state: TournamentGameState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentGameEntity>
 ) => ({
   ...state,
   isLoadingPostTournamentGame: false,
-  tournamentGames: [action.payload.data].reduce(
+  tournamentGames: [action.payload].reduce(
     tournamentGameMapEntities,
     state.tournamentGames
   )
@@ -161,11 +166,11 @@ export const requestTournamentGameFailure = (
 
 export const requestTournamentGameSuccess = (
   state: TournamentGameState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentGameEntity>
 ) => ({
   ...state,
   isLoadingRequestTournamentGame: false,
-  tournamentGames: [action.payload.data].reduce(tournamentGameMapEntities, {})
+  tournamentGames: [action.payload].reduce(tournamentGameMapEntities, {})
 });
 
 export const requestTournamentGames = (
@@ -186,12 +191,12 @@ export const requestTournamentGamesFailure = (
 
 export const requestTournamentGamesSuccess = (
   state: TournamentGameState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentGameEntity[]>
 ) => ({
   ...state,
   isLoadingRequestTournamentGames: false,
-  tournamentGames: action.payload.data.reduce(tournamentGameMapEntities, {}),
-  tournamentGamesByDate: action.payload.data.reduce(
+  tournamentGames: action.payload!.reduce(tournamentGameMapEntities, {}),
+  tournamentGamesByDate: action.payload!.reduce(
     tournamentGameMapToDateEntity,
     {}
   )

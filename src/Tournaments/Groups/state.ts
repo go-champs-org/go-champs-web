@@ -18,3 +18,8 @@ export const initialState: TournamentGroupState = {
   isLoadingRequestTournament: false,
   tournamentGroups: {}
 };
+
+export const DEFAULT_GROUP_ENTITY = {
+  id: '',
+  name: ''
+};

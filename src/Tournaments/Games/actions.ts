@@ -1,6 +1,6 @@
 import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import httpClient from './httpClient';
+import gameHttpClient from './gameHttpClient';
 import { TournamentGameEntity } from './state';
 
 export const DELETE_TOURNAMENT_GAME = 'API_DELETE_TOURNAMENT_GAME';
@@ -27,13 +27,13 @@ export const POST_TOURNAMENT_GAME = 'API_POST_TOURNAMENT_GAME';
 export const POST_TOURNAMENT_GAME_SUCCESS = 'API_POST_TOURNAMENT_GAME_SUCCESS';
 export const POST_TOURNAMENT_GAME_FAILURE = 'API_POST_TOURNAMENT_GAME_FAILURE';
 
-export const deleteTournamentGame = (tournamentId: string) => (
+export const deleteTournamentGame = (phaseId: string) => (
   tournamentGame: TournamentGameEntity
 ) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_GAME });
 
   try {
-    const response = await httpClient.delete(tournamentId, tournamentGame.id);
+    const response = await gameHttpClient.delete(phaseId, tournamentGame.id);
 
     dispatch(deleteTournamentGameSuccess(response));
     displayToast(`Game deleted!`, 'is-success');
@@ -56,13 +56,13 @@ export const deleteTournamentGameFailure = (
   payload
 });
 
-export const patchTournamentGame = (tournamentId: string) => (
+export const patchTournamentGame = (phaseId: string) => (
   tournamentGame: TournamentGameEntity
 ) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT_GAME });
 
   try {
-    const response = await httpClient.patch(tournamentId, tournamentGame);
+    const response = await gameHttpClient.patch(phaseId, tournamentGame);
 
     dispatch(patchTournamentGameSuccess(response));
     displayToast(`Game updated!`, 'is-success');
@@ -85,13 +85,13 @@ export const patchTournamentGameFailure = (
   payload
 });
 
-export const postTournamentGame = (tournamentId: string) => (
+export const postTournamentGame = (phaseId: string) => (
   tournamentGame: TournamentGameEntity
 ) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_GAME });
 
   try {
-    const response = await httpClient.post(tournamentId, tournamentGame);
+    const response = await gameHttpClient.post(phaseId, tournamentGame);
 
     dispatch(postTournamentGameSuccess(response));
     displayToast(`Game created!`, 'is-success');
@@ -115,13 +115,13 @@ export const postTournamentGameFailure = (
 });
 
 export const requestTournamentGame = (
-  tournamentId: string,
+  phaseId: string,
   tournamentGameId: string
 ) => async (dispatch: any) => {
   dispatch({ type: REQUEST_TOURNAMENT_GAME });
 
   try {
-    const response = await httpClient.getOne(tournamentId, tournamentGameId);
+    const response = await gameHttpClient.get(phaseId, tournamentGameId);
 
     dispatch(requestTournamentGameSuccess(response));
   } catch (err) {
@@ -149,7 +149,7 @@ export const requestTournamentGames = (phaseId: string) => async (
   dispatch({ type: REQUEST_TOURNAMENT_GAMES });
 
   try {
-    const response = await httpClient.getAll(phaseId);
+    const response = await gameHttpClient.getAll(phaseId);
 
     dispatch(requestTournamentGamesSuccess(response));
   } catch (err) {
