@@ -5,7 +5,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
-import httpClient from './httpClient';
+import groupHttpClient from './groupHttpClient';
 import { TournamentGroupEntity } from './state';
 
 export const DELETE_TOURNAMENT_GROUP = 'API_DELETE_TOURNAMENT_GROUP';
@@ -30,7 +30,10 @@ export const deleteTournamentGroup = (tournamentId: string) => (
   dispatch({ type: DELETE_TOURNAMENT_GROUP });
 
   try {
-    const response = await httpClient.delete(tournamentId, tournamentGroup.id);
+    const response = await groupHttpClient.delete(
+      tournamentId,
+      tournamentGroup.id
+    );
 
     dispatch(deleteTournamentGroupSuccess(response));
     displayToast(`${tournamentGroup.name} deleted!`, 'is-success');
@@ -40,8 +43,8 @@ export const deleteTournamentGroup = (tournamentId: string) => (
 };
 
 export const deleteTournamentGroupSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: string
+): HttpAction<ActionTypes, string> => ({
   type: DELETE_TOURNAMENT_GROUP_SUCCESS,
   payload
 });
@@ -59,7 +62,7 @@ export const patchTournamentGroup = (tournamentId: string) => (
   dispatch({ type: PATCH_TOURNAMENT_GROUP });
 
   try {
-    const response = await httpClient.patch(tournamentId, tournamentGroup);
+    const response = await groupHttpClient.patch(tournamentId, tournamentGroup);
 
     dispatch(patchTournamentGroupSuccess(response));
     displayToast(`${tournamentGroup.name} updated!`, 'is-success');
@@ -69,8 +72,8 @@ export const patchTournamentGroup = (tournamentId: string) => (
 };
 
 export const patchTournamentGroupSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: TournamentGroupEntity
+): HttpAction<ActionTypes, TournamentGroupEntity> => ({
   type: PATCH_TOURNAMENT_GROUP_SUCCESS,
   payload
 });
@@ -88,7 +91,7 @@ export const postTournamentGroup = (tournamentId: string) => (
   dispatch({ type: POST_TOURNAMENT_GROUP });
 
   try {
-    const response = await httpClient.post(tournamentId, tournamentGroup);
+    const response = await groupHttpClient.post(tournamentId, tournamentGroup);
 
     dispatch(postTournamentGroupSuccess(response));
     displayToast(`${tournamentGroup.name} created!`, 'is-success');
@@ -98,8 +101,8 @@ export const postTournamentGroup = (tournamentId: string) => (
 };
 
 export const postTournamentGroupSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: TournamentGroupEntity
+): HttpAction<ActionTypes, TournamentGroupEntity> => ({
   type: POST_TOURNAMENT_GROUP_SUCCESS,
   payload
 });

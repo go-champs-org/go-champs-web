@@ -1,4 +1,9 @@
-import { ApiPhase, ApiPhaseRequest, ApiPhaseResponse, ApiPhasesResponse } from '../../Shared/httpClient/apiTypes';
+import {
+  ApiPhase,
+  ApiPhaseRequest,
+  ApiPhaseResponse,
+  ApiPhasesResponse
+} from '../../Shared/httpClient/apiTypes';
 import httpClient from '../../Shared/httpClient/httpClient';
 import { TournamentPhaseEntity } from './state';
 

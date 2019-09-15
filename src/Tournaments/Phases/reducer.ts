@@ -29,6 +29,7 @@ import {
   TournamentPhaseState
 } from './state';
 
+// TODO (lairjr): Remove this function
 const mapTournamentPhase = (apiData: any) => ({
   id: apiData.id,
   order: apiData.order,

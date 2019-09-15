@@ -30,7 +30,11 @@ import {
   requestTournamentPhaseFailure,
   requestTournamentPhaseSuccess
 } from './reducer';
-import { initialState, TournamentGroupState } from './state';
+import {
+  initialState,
+  TournamentGroupEntity,
+  TournamentGroupState
+} from './state';
 
 describe('deleteTournamentGroup', () => {
   const action: HttpAction<ActionTypes> = {
@@ -139,13 +143,11 @@ describe('patchTournamentGroupFailure', () => {
 });
 
 describe('patchTournamentGroupSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentGroupEntity> = {
     type: PATCH_TOURNAMENT_GROUP_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'some-first-name'
-      }
+      id: 'first-id',
+      name: 'some-first-name'
     }
   };
 
@@ -221,13 +223,11 @@ describe('postTournamentGroupFailure', () => {
 });
 
 describe('postTournamentGroupSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentGroupEntity> = {
     type: POST_TOURNAMENT_GROUP_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name'
-      }
+      id: 'first-id',
+      name: 'first-name'
     }
   };
 

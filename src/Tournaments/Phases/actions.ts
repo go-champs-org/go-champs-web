@@ -5,7 +5,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
-import httpClient from './phaseHttpClient';
+import phaseHttpClient from './phaseHttpClient';
 import { TournamentPhaseEntity } from './state';
 
 export const DELETE_TOURNAMENT_PHASE = 'API_DELETE_TOURNAMENT_PHASE';
@@ -35,7 +35,10 @@ export const deleteTournamentPhase = (tournamentId: string) => (
   dispatch({ type: DELETE_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.delete(tournamentId, tournamentPhase.id);
+    const response = await phaseHttpClient.delete(
+      tournamentId,
+      tournamentPhase.id
+    );
 
     dispatch(deleteTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} deleted!`, 'is-success');
@@ -64,7 +67,7 @@ export const patchTournamentPhase = (tournamentId: string) => (
   dispatch({ type: PATCH_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.patch(tournamentId, tournamentPhase);
+    const response = await phaseHttpClient.patch(tournamentId, tournamentPhase);
 
     dispatch(patchTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} updated!`, 'is-success');
@@ -93,7 +96,7 @@ export const postTournamentPhase = (tournamentId: string) => (
   dispatch({ type: POST_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.post(tournamentId, tournamentPhase);
+    const response = await phaseHttpClient.post(tournamentId, tournamentPhase);
 
     dispatch(postTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} created!`, 'is-success');
@@ -123,7 +126,7 @@ export const requestTournamentPhase = (
   dispatch({ type: REQUEST_TOURNAMENT_PHASE });
 
   try {
-    const response = await httpClient.get(tournamentId, tournamentPhaseId);
+    const response = await phaseHttpClient.get(tournamentId, tournamentPhaseId);
 
     dispatch(requestTournamentPhaseSuccess(response));
   } catch (err) {
