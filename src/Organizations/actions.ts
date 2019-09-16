@@ -5,7 +5,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
-import httpClient from './httpClient';
+import organizationHttpClient from './organizationHttpClient';
 import { OrganizationEntity } from './state';
 
 export const DELETE_ORGANIZATION = 'API_DELETE_ORGANIZATION';
@@ -32,7 +32,7 @@ export const deleteOrganization = (organization: OrganizationEntity) => async (
   dispatch({ type: DELETE_ORGANIZATION });
 
   try {
-    const response = await httpClient.delete(organization.id);
+    const response = await organizationHttpClient.delete(organization.id);
 
     dispatch(deleteOrganizationSuccess(response));
     displayToast(`${organization.name} deleted!`, 'is-success');
@@ -57,7 +57,7 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
   dispatch({ type: PATCH_ORGANIZATION });
 
   try {
-    const response = await httpClient.patch(organization);
+    const response = await organizationHttpClient.patch(organization);
 
     dispatch(patchOrganizationSuccess(response));
     displayToast(`${organization.name} updated!`, 'is-success');
@@ -82,7 +82,7 @@ export const postOrganization = (organization: OrganizationEntity) => async (
   dispatch({ type: POST_ORGANIZATION });
 
   try {
-    const response = await httpClient.post(organization);
+    const response = await organizationHttpClient.post(organization);
 
     dispatch(postOrganizationSuccess(response));
     displayToast(`${organization.name} created!`, 'is-success');
@@ -107,7 +107,7 @@ export const requestOrganization = (organizationId: string) => async (
   dispatch({ type: REQUEST_ORGANIZATION });
 
   try {
-    const response = await httpClient.getOne(organizationId);
+    const response = await organizationHttpClient.get(organizationId);
 
     dispatch(requestOrganizationSuccess(response));
   } catch (err) {
@@ -129,7 +129,7 @@ export const requestOrganizations = () => async (dispatch: any) => {
   dispatch({ type: REQUEST_ORGANIZATIONS });
 
   try {
-    const response = await httpClient.getAll();
+    const response = await organizationHttpClient.getAll();
     dispatch(requestOrganizationsSuccess(response));
   } catch (err) {
     dispatch(requestOrganizationsFailure(err));

@@ -40,7 +40,7 @@ import {
   requestTournamentFailure,
   requestTournamentSuccess
 } from './reducer';
-import { initialState, OrganizationState } from './state';
+import { initialState, OrganizationEntity, OrganizationState } from './state';
 
 describe('deleteOrganization', () => {
   const action: HttpAction<ActionTypes> = {
@@ -74,7 +74,7 @@ describe('deleteOrganizationFailure', () => {
 });
 
 describe('deleteOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, string> = {
     type: DELETE_ORGANIZATION_SUCCESS,
     payload: 'first-id'
   };
@@ -150,14 +150,12 @@ describe('patchOrganizationFailure', () => {
 });
 
 describe('patchOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, OrganizationEntity> = {
     type: PATCH_ORGANIZATION_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'some-first-name',
-        slug: 'first-slug'
-      }
+      id: 'first-id',
+      name: 'some-first-name',
+      slug: 'first-slug'
     }
   };
 
@@ -235,14 +233,12 @@ describe('postOrganizationFailure', () => {
 });
 
 describe('postOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, OrganizationEntity> = {
     type: POST_ORGANIZATION_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
     }
   };
 
@@ -310,14 +306,12 @@ describe('requestOrganizationFailure', () => {
 });
 
 describe('requestOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, OrganizationEntity> = {
     type: REQUEST_ORGANIZATIONS_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
     }
   };
 
@@ -386,22 +380,20 @@ describe('requestOrganizationsFailure', () => {
 });
 
 describe('requestOrganizationsSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, OrganizationEntity[]> = {
     type: REQUEST_ORGANIZATIONS_SUCCESS,
-    payload: {
-      data: [
-        {
-          id: 'first-id',
-          name: 'first-name',
-          slug: 'first-slug'
-        },
-        {
-          id: 'second-id',
-          name: 'second-name',
-          slug: 'second-slug'
-        }
-      ]
-    }
+    payload: [
+      {
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug'
+      },
+      {
+        id: 'second-id',
+        name: 'second-name',
+        slug: 'second-slug'
+      }
+    ]
   };
 
   it('sets isLoadingRequestOrganizations to false', () => {

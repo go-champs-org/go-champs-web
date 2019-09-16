@@ -1,4 +1,7 @@
-import { ApiOrganization } from '../Shared/httpClient/apiTypes';
+import {
+  ApiOrganization,
+  ApiOrganizationRequest
+} from '../Shared/httpClient/apiTypes';
 import { OrganizationEntity } from './state';
 
 export const mapApiOrganizationToOrganizationEntity = (
@@ -7,4 +10,14 @@ export const mapApiOrganizationToOrganizationEntity = (
   id: apiOrganization.id,
   name: apiOrganization.name,
   slug: apiOrganization.slug
+});
+
+export const mapOrganizationEntityToApiOrganizationRequest = (
+  organization: OrganizationEntity
+): ApiOrganizationRequest => ({
+  tournament_organization: {
+    id: organization.id,
+    name: organization.name,
+    slug: organization.slug
+  }
 });

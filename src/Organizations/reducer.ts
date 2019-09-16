@@ -30,7 +30,7 @@ import {
   REQUEST_ORGANIZATION_FAILURE,
   REQUEST_ORGANIZATION_SUCCESS
 } from './actions';
-import { initialState, OrganizationState } from './state';
+import { initialState, OrganizationEntity, OrganizationState } from './state';
 
 const mapOrganization = (apiData: any) => ({
   id: apiData.id,
@@ -61,10 +61,10 @@ export const deleteOrganizationFailure = (
 
 export const deleteOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, string>
 ) => {
   const organizations = Object.keys(state.organizations)
-    .filter(entityById(state.organizations, action.payload))
+    .filter(entityById(state.organizations, action.payload!))
     .reduce(mapEntitiesByKey(state.organizations), {});
   return {
     ...state,
@@ -91,11 +91,11 @@ export const patchOrganizationFailure = (
 
 export const patchOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
   ...state,
   isLoadingPatchOrganization: false,
-  organizations: [action.payload.data].reduce(
+  organizations: [action.payload].reduce(
     organizationMapEntities,
     state.organizations
   )
@@ -119,11 +119,11 @@ export const postOrganizationFailure = (
 
 export const postOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
   ...state,
   isLoadingPostOrganization: false,
-  organizations: [action.payload.data].reduce(
+  organizations: [action.payload].reduce(
     organizationMapEntities,
     state.organizations
   )
@@ -147,11 +147,11 @@ export const requestOrganizationFailure = (
 
 export const requestOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
   ...state,
   isLoadingRequestOrganization: false,
-  organizations: [action.payload.data].reduce(
+  organizations: [action.payload].reduce(
     organizationMapEntities,
     state.organizations
   )
@@ -175,11 +175,11 @@ export const requestOrganizationsFailure = (
 
 export const requestOrganizationsSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, OrganizationEntity[]>
 ) => ({
   ...state,
   isLoadingRequestOrganizations: false,
-  organizations: action.payload.data.reduce(organizationMapEntities, {})
+  organizations: action.payload!.reduce(organizationMapEntities, {})
 });
 
 export const requestTournament = (
