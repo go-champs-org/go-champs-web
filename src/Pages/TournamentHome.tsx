@@ -4,31 +4,20 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { StoreState } from '../store';
 import { requestTournament } from '../Tournaments/actions';
-import {
-  deleteTournamentGame,
-  requestTournamentGames
-} from '../Tournaments/Games/actions';
+import { requestTournamentGames } from '../Tournaments/Games/actions';
 import { TournamentGameState } from '../Tournaments/Games/state';
-import { deleteTournamentGroup } from '../Tournaments/Groups/actions';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import Home from '../Tournaments/Home';
 import { currentPhase } from '../Tournaments/Phases/selectors';
-import {
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from '../Tournaments/Phases/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentStatState } from '../Tournaments/Stats/state';
-import { deleteTournamentTeam } from '../Tournaments/Teams/actions';
 import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
 interface TournamentHomeProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
-  deleteTournamentGame: any;
-  deleteTournamentGroup: any;
-  deleteTournamentTeam: any;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
@@ -86,14 +75,9 @@ const mapStateToProps = (state: StoreState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {
-  const tournamentId =
-    state.tournamentState.tournaments[state.match.params.tournamentSlug].id;
   const phaseId = state.match.params.phaseId;
   return bindActionCreators(
     {
-      deleteTournamentGame: deleteTournamentGame(tournamentId),
-      deleteTournamentGroup: deleteTournamentGroup(tournamentId),
-      deleteTournamentTeam: deleteTournamentTeam(tournamentId),
       requestTournamentGames: requestTournamentGames(phaseId),
       requestTournament
     },
