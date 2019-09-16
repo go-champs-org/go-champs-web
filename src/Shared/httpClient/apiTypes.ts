@@ -66,6 +66,24 @@ export interface ApiPhasesResponse {
   data: ApiPhase[];
 }
 
+export interface ApiOrganization {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface ApiOrganizationRequest {
+  tournament_organization: ApiOrganization;
+}
+
+export interface ApiOrganizationResponse {
+  data: ApiOrganization;
+}
+
+export interface ApiOrganizationsResponse {
+  data: ApiOrganization[];
+}
+
 export interface ApiStat {
   id: string;
   title: string;
@@ -99,4 +117,32 @@ export interface ApiTeamResponse {
 
 export interface ApiTeamsResponse {
   data: ApiTeam[];
+}
+
+interface ApiTournament {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface ApiTournamentWithDependecies extends ApiTournament {
+  organization: ApiOrganization;
+  phases: ApiPhase[];
+  teams: ApiTeam[];
+}
+
+export interface ApiTournamentWithDependeciesIds extends ApiTournament {
+  organization_id: string;
+}
+
+export interface ApiTournamentRequest {
+  tournament: ApiTournamentWithDependeciesIds;
+}
+
+export interface ApiTournamentResponse {
+  data: ApiTournamentWithDependecies;
+}
+
+export interface ApiTournamentsResponse {
+  data: ApiTournamentWithDependecies[];
 }

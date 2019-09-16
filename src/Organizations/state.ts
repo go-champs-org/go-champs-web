@@ -21,3 +21,9 @@ export const initialState: OrganizationState = {
   isLoadingRequestOrganizations: false,
   organizations: {}
 };
+
+export const DEFAULT_ORGANIZATION = {
+  id: '',
+  name: '',
+  slug: ''
+};

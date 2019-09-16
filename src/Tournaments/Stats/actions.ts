@@ -1,11 +1,6 @@
 import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import {
-  PATCH_TOURNAMENT,
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+import { PATCH_TOURNAMENT } from '../actions';
 import { TournamentStatEntity } from './state';
 import statHttpClient from './statHttpClient';
 
@@ -122,8 +117,5 @@ export type ActionTypes =
   | typeof PATCH_TOURNAMENT_STAT_FAILURE
   | typeof POST_TOURNAMENT_STAT
   | typeof POST_TOURNAMENT_STAT_SUCCESS
-  | typeof POST_TOURNAMENT_STAT_FAILURE
-  | typeof REQUEST_TOURNAMENT
-  | typeof REQUEST_TOURNAMENT_FAILURE
-  | typeof REQUEST_TOURNAMENT_SUCCESS;
+  | typeof POST_TOURNAMENT_STAT_FAILURE;
 export type Actions = HttpAction<ActionTypes>;

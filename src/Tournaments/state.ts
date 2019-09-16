@@ -1,7 +1,17 @@
+import {
+  DEFAULT_ORGANIZATION,
+  OrganizationEntity
+} from '../Organizations/state';
+import { TournamentPhaseEntity } from './Phases/state';
+import { TournamentTeamEntity } from './Teams/state';
+
 export interface TournamentEntity {
   id: string;
   name: string;
   slug: string;
+  organization: OrganizationEntity;
+  phases: TournamentPhaseEntity[];
+  teams: TournamentTeamEntity[];
   teamStatsStructure: { [key: string]: string };
 }
 
@@ -21,4 +31,14 @@ export const initialState: TournamentState = {
   isLoadingRequestTournament: false,
   isLoadingRequestTournaments: false,
   tournaments: {}
+};
+
+export const DEFAULT_TOURNAMENT: TournamentEntity = {
+  id: '',
+  name: '',
+  slug: '',
+  organization: DEFAULT_ORGANIZATION,
+  phases: [],
+  teamStatsStructure: {},
+  teams: []
 };

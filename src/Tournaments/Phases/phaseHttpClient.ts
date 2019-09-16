@@ -12,7 +12,7 @@ const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 const tournamentPhasesApi = (tournamentId: string) =>
   `${TOURNAMENT_API}/${tournamentId}/phases`;
 
-const mapApiPhaseToPhaseEntity = (
+export const mapApiPhaseToPhaseEntity = (
   apiPhase: ApiPhase
 ): TournamentPhaseEntity => ({
   id: apiPhase.id,

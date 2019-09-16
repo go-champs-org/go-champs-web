@@ -11,6 +11,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
+import { TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
   DELETE_ORGANIZATION,
@@ -199,11 +200,11 @@ export const requestTournamentFailure = (
 
 export const requestTournamentSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingRequestOrganization: false,
-  organizations: [action.payload.data.organization].reduce(
+  organizations: [action.payload!.organization].reduce(
     organizationMapEntities,
     {}
   )

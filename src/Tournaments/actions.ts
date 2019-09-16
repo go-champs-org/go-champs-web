@@ -1,10 +1,11 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
+import { currentPhaseId } from './dataMappers';
 import { requestTournamentGames } from './Games/actions';
-import httpClient, { RequestFilter } from './httpClient';
 import { requestTournamentPhase } from './Phases/actions';
 import { TournamentEntity } from './state';
 import { updateTournamentTeamByGroup } from './Teams/actions';
+import tournamentHttpClient, { RequestFilter } from './tournamentHttpClient';
 
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
 export const DELETE_TOURNAMENT_SUCCESS = 'API_DELETE_TOURNAMENT_SUCCESS';
@@ -33,7 +34,7 @@ export const deleteTournament = (tournament: TournamentEntity) => async (
   dispatch({ type: DELETE_TOURNAMENT });
 
   try {
-    const response = await httpClient.delete(tournament.id);
+    const response = await tournamentHttpClient.delete(tournament.id);
 
     dispatch(deleteTournamentSuccess(response));
     displayToast(`${tournament.name} deleted!`, 'is-success');
@@ -62,7 +63,10 @@ export const patchTournament = (organizationId: string) => (
   dispatch({ type: PATCH_TOURNAMENT });
 
   try {
-    const response = await httpClient.patch(organizationId, tournament);
+    const response = await tournamentHttpClient.patch(
+      organizationId,
+      tournament
+    );
 
     dispatch(patchTournamentSuccess(response));
     displayToast(`${tournament.name} updated!`, 'is-success');
@@ -91,7 +95,10 @@ export const postTournament = (organizationId: string) => (
   dispatch({ type: POST_TOURNAMENT });
 
   try {
-    const response = await httpClient.post(organizationId, tournament);
+    const response = await tournamentHttpClient.post(
+      organizationId,
+      tournament
+    );
 
     dispatch(postTournamentSuccess(response));
     displayToast(`${tournament.name} created!`, 'is-success');
@@ -120,7 +127,7 @@ export const requestFilterTournaments = (where: RequestFilter) => async (
   dispatch({ type: REQUEST_FILTER_TOURNAMENTS });
 
   try {
-    const response = await httpClient.getByFilter(where);
+    const response = await tournamentHttpClient.getByFilter(where);
 
     dispatch(requestFilterTournamentsSuccess(response));
   } catch (err) {
@@ -148,7 +155,7 @@ export const requestTournament = (tournamentId: string) => async (
   dispatch({ type: REQUEST_TOURNAMENT });
 
   try {
-    const response = await httpClient.getOne(tournamentId);
+    const response = await tournamentHttpClient.get(tournamentId);
     const phaseId = currentPhaseId(response);
 
     dispatch(requestTournamentPhase(tournamentId, phaseId));
@@ -160,13 +167,9 @@ export const requestTournament = (tournamentId: string) => async (
   }
 };
 
-const currentPhaseId = ({ data }: any) => {
-  return data.phases[0].id;
-};
-
 export const requestTournamentSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+): HttpAction<ActionTypes, TournamentEntity> => ({
   type: REQUEST_TOURNAMENT_SUCCESS,
   payload
 });
@@ -182,7 +185,7 @@ export const requestTournaments = () => async (dispatch: any) => {
   dispatch({ type: REQUEST_TOURNAMENTS });
 
   try {
-    const response = await httpClient.getAll();
+    const response = await tournamentHttpClient.getAll();
 
     dispatch(requestTournamentsSuccess(response));
   } catch (err) {
@@ -192,7 +195,7 @@ export const requestTournaments = () => async (dispatch: any) => {
 
 export const requestTournamentsSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+): HttpAction<ActionTypes, TournamentEntity[]> => ({
   type: REQUEST_TOURNAMENTS_SUCCESS,
   payload
 });

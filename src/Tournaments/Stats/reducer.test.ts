@@ -1,10 +1,5 @@
 import { HttpAction } from '../../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
-import {
   ActionTypes,
   DELETE_TOURNAMENT_STAT,
   DELETE_TOURNAMENT_STAT_FAILURE,
@@ -25,10 +20,7 @@ import {
   patchTournamentStatSuccess,
   postTournamentStat,
   postTournamentStatFailure,
-  postTournamentStatSuccess,
-  requestTournamentPhase,
-  requestTournamentPhaseFailure,
-  requestTournamentPhaseSuccess
+  postTournamentStatSuccess
 } from './reducer';
 import {
   initialState,
@@ -263,74 +255,6 @@ describe('postTournamentStatSuccess', () => {
     expect(newState.tournamentStats['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title'
-    });
-  });
-});
-
-describe('requestTournamentPhase', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT
-  };
-
-  it('sets isLoadingRequestTournament to true', () => {
-    expect(
-      requestTournamentPhase(initialState, action).isLoadingRequestTournament
-    ).toBe(true);
-  });
-});
-
-describe('requestTournamentPhaseFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_FAILURE
-  };
-
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(
-      requestTournamentPhaseFailure(initialState, action)
-        .isLoadingRequestTournament
-    ).toBe(false);
-  });
-});
-
-describe('requestTournamentPhaseSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_SUCCESS,
-    payload: {
-      data: {
-        id: 'first-id',
-        title: 'first-title',
-        slug: 'first-slug',
-        stats: [
-          {
-            id: 'first-stat-id',
-            title: 'first stat name'
-          },
-          {
-            id: 'second-stat-id',
-            title: 'second stat name'
-          }
-        ]
-      }
-    }
-  };
-
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(
-      requestTournamentPhaseSuccess(initialState, action)
-        .isLoadingRequestTournament
-    ).toBe(false);
-  });
-
-  it('sets entities', () => {
-    const newState = requestTournamentPhaseSuccess(initialState, action);
-
-    expect(newState.tournamentStats['first-stat-id']).toEqual({
-      id: 'first-stat-id',
-      title: 'first stat name'
-    });
-    expect(newState.tournamentStats['second-stat-id']).toEqual({
-      id: 'second-stat-id',
-      title: 'second stat name'
     });
   });
 });

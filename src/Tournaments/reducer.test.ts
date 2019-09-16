@@ -37,7 +37,12 @@ import {
   requestTournamentsSuccess,
   requestTournamentSuccess
 } from './reducer';
-import { initialState, TournamentState } from './state';
+import {
+  DEFAULT_TOURNAMENT,
+  initialState,
+  TournamentEntity,
+  TournamentState
+} from './state';
 
 describe('deleteTournament', () => {
   const action: HttpAction<ActionTypes> = {
@@ -70,7 +75,7 @@ describe('deleteTournamentFailure', () => {
 });
 
 describe('deleteTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, string> = {
     type: DELETE_TOURNAMENT_SUCCESS,
     payload: 'first-id'
   };
@@ -149,11 +154,10 @@ describe('patchTournamentSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'some-first-name',
-        slug: 'first-slug'
-      }
+      ...DEFAULT_TOURNAMENT,
+      id: 'first-id',
+      name: 'some-first-name',
+      slug: 'first-slug'
     }
   };
 
@@ -231,14 +235,13 @@ describe('postTournamentFailure', () => {
 });
 
 describe('postTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity> = {
     type: POST_TOURNAMENT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
+      ...DEFAULT_TOURNAMENT,
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
     }
   };
 
@@ -306,22 +309,22 @@ describe('requestFilterTournamentsFailure', () => {
 });
 
 describe('requestFilterTournamentsSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity[]> = {
     type: REQUEST_FILTER_TOURNAMENTS_SUCCESS,
-    payload: {
-      data: [
-        {
-          id: 'first-id',
-          name: 'first-name',
-          slug: 'first-slug'
-        },
-        {
-          id: 'second-id',
-          name: 'second-name',
-          slug: 'second-slug'
-        }
-      ]
-    }
+    payload: [
+      {
+        ...DEFAULT_TOURNAMENT,
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug'
+      },
+      {
+        ...DEFAULT_TOURNAMENT,
+        id: 'second-id',
+        name: 'second-name',
+        slug: 'second-slug'
+      }
+    ]
   };
 
   it('sets isLoadingRequestTournaments to false', () => {
@@ -372,14 +375,13 @@ describe('requestTournamentFailure', () => {
 });
 
 describe('requestTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity> = {
     type: REQUEST_TOURNAMENT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
+      ...DEFAULT_TOURNAMENT,
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
     }
   };
 
@@ -447,22 +449,22 @@ describe('requestTournamentsFailure', () => {
 });
 
 describe('requestTournamentsSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity[]> = {
     type: REQUEST_TOURNAMENTS_SUCCESS,
-    payload: {
-      data: [
-        {
-          id: 'first-id',
-          name: 'first-name',
-          slug: 'first-slug'
-        },
-        {
-          id: 'second-id',
-          name: 'second-name',
-          slug: 'second-slug'
-        }
-      ]
-    }
+    payload: [
+      {
+        ...DEFAULT_TOURNAMENT,
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug'
+      },
+      {
+        ...DEFAULT_TOURNAMENT,
+        id: 'second-id',
+        name: 'second-name',
+        slug: 'second-slug'
+      }
+    ]
   };
 
   it('sets isLoadingRequestTournaments to false', () => {

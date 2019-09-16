@@ -1,0 +1,10 @@
+import { ApiOrganization } from '../Shared/httpClient/apiTypes';
+import { OrganizationEntity } from './state';
+
+export const mapApiOrganizationToOrganizationEntity = (
+  apiOrganization: ApiOrganization
+): OrganizationEntity => ({
+  id: apiOrganization.id,
+  name: apiOrganization.name,
+  slug: apiOrganization.slug
+});

@@ -11,6 +11,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
+import { TournamentEntity } from '../state';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_TEAM,
@@ -166,14 +167,11 @@ export const requestTournamentFailure = (
 
 export const requestTournamentSuccess = (
   state: TournamentTeamState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  tournamentTeams: action.payload.data.teams.reduce(
-    tournamentTeamMapEntities,
-    {}
-  )
+  tournamentTeams: action.payload!.teams.reduce(tournamentTeamMapEntities, {})
 });
 
 export const updateTournamentTeamByGroup = (

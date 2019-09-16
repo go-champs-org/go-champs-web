@@ -7,11 +7,6 @@ import {
 } from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT_PHASE,
-  REQUEST_TOURNAMENT_PHASE_FAILURE,
-  REQUEST_TOURNAMENT_PHASE_SUCCESS
-} from '../Phases/actions';
-import {
   ActionTypes,
   DELETE_TOURNAMENT_STAT,
   DELETE_TOURNAMENT_STAT_FAILURE,
@@ -126,34 +121,6 @@ export const postTournamentStatSuccess = (
   )
 });
 
-export const requestTournamentPhase = (
-  state: TournamentStatState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: true
-});
-
-export const requestTournamentPhaseFailure = (
-  state: TournamentStatState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: false
-});
-
-export const requestTournamentPhaseSuccess = (
-  state: TournamentStatState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: false,
-  tournamentStats: action.payload.data.stats.reduce(
-    tournamentStatMapEntities,
-    {}
-  )
-});
-
 export default createReducer(initialState, {
   [DELETE_TOURNAMENT_STAT]: deleteTournamentStat,
   [DELETE_TOURNAMENT_STAT_FAILURE]: deleteTournamentStatFailure,
@@ -163,8 +130,5 @@ export default createReducer(initialState, {
   [PATCH_TOURNAMENT_STAT_SUCCESS]: patchTournamentStatSuccess,
   [POST_TOURNAMENT_STAT]: postTournamentStat,
   [POST_TOURNAMENT_STAT_FAILURE]: postTournamentStatFailure,
-  [POST_TOURNAMENT_STAT_SUCCESS]: postTournamentStatSuccess,
-  [REQUEST_TOURNAMENT_PHASE]: requestTournamentPhase,
-  [REQUEST_TOURNAMENT_PHASE_FAILURE]: requestTournamentPhaseFailure,
-  [REQUEST_TOURNAMENT_PHASE_SUCCESS]: requestTournamentPhaseSuccess
+  [POST_TOURNAMENT_STAT_SUCCESS]: postTournamentStatSuccess
 });

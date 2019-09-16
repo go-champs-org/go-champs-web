@@ -4,6 +4,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
+import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
   DELETE_ORGANIZATION,
@@ -452,16 +453,15 @@ describe('requestTournamentFailure', () => {
 });
 
 describe('requestTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity> = {
     type: REQUEST_TOURNAMENT_SUCCESS,
     payload: {
-      data: {
-        id: 'some-tournament-id',
-        organization: {
-          id: 'first-id',
-          name: 'first-name',
-          slug: 'first-slug'
-        }
+      ...DEFAULT_TOURNAMENT,
+      id: 'some-tournament-id',
+      organization: {
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug'
       }
     }
   };

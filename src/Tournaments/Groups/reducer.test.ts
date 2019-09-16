@@ -1,9 +1,5 @@
 import { HttpAction } from '../../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE } from '../actions';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_GROUP,
@@ -27,8 +23,7 @@ import {
   postTournamentGroupFailure,
   postTournamentGroupSuccess,
   requestTournamentPhase,
-  requestTournamentPhaseFailure,
-  requestTournamentPhaseSuccess
+  requestTournamentPhaseFailure
 } from './reducer';
 import {
   initialState,
@@ -289,48 +284,5 @@ describe('requestTournamentPhaseFailure', () => {
       requestTournamentPhaseFailure(initialState, action)
         .isLoadingRequestTournament
     ).toBe(false);
-  });
-});
-
-describe('requestTournamentPhaseSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_SUCCESS,
-    payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug',
-        groups: [
-          {
-            id: 'first-team-id',
-            name: 'first team name'
-          },
-          {
-            id: 'second-team-id',
-            name: 'second team name'
-          }
-        ]
-      }
-    }
-  };
-
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(
-      requestTournamentPhaseSuccess(initialState, action)
-        .isLoadingRequestTournament
-    ).toBe(false);
-  });
-
-  it('sets entities', () => {
-    const newState = requestTournamentPhaseSuccess(initialState, action);
-
-    expect(newState.tournamentGroups['first-team-id']).toEqual({
-      id: 'first-team-id',
-      name: 'first team name'
-    });
-    expect(newState.tournamentGroups['second-team-id']).toEqual({
-      id: 'second-team-id',
-      name: 'second team name'
-    });
   });
 });

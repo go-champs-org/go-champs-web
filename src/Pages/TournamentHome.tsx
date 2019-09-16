@@ -52,7 +52,6 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       tournamentTeamState,
       tournamentStatState
     } = this.props;
-    console.log('eiii', phase);
     return (
       <Home
         currentOrganizationSlug={match.params.organizationSlug}

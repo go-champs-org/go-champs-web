@@ -4,6 +4,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
+import { DEFAULT_TOURNAMENT, TournamentEntity } from '../state';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_PHASE,
@@ -32,6 +33,7 @@ import {
 } from './reducer';
 import {
   initialState,
+  PhaseTypes,
   TournamentPhaseEntity,
   TournamentPhaseState
 } from './state';
@@ -306,26 +308,27 @@ describe('requestTournamentFailure', () => {
 });
 
 describe('requestTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity> = {
     type: REQUEST_TOURNAMENT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        title: 'first-title',
-        slug: 'first-slug',
-        phases: [
-          {
-            id: 'first-phase-id',
-            title: 'first phase title',
-            type: 'standings'
-          },
-          {
-            id: 'second-phase-id',
-            title: 'second phase title',
-            type: 'standings'
-          }
-        ]
-      }
+      ...DEFAULT_TOURNAMENT,
+      id: 'first-id',
+      name: 'first-title',
+      slug: 'first-slug',
+      phases: [
+        {
+          id: 'first-phase-id',
+          title: 'first phase title',
+          type: PhaseTypes.standings,
+          order: 1
+        },
+        {
+          id: 'second-phase-id',
+          title: 'second phase title',
+          type: PhaseTypes.standings,
+          order: 2
+        }
+      ]
     }
   };
 
@@ -341,12 +344,14 @@ describe('requestTournamentSuccess', () => {
     expect(newState.tournamentPhases['first-phase-id']).toEqual({
       id: 'first-phase-id',
       title: 'first phase title',
-      type: 'standings'
+      type: 'standings',
+      order: 1
     });
     expect(newState.tournamentPhases['second-phase-id']).toEqual({
       id: 'second-phase-id',
       title: 'second phase title',
-      type: 'standings'
+      type: 'standings',
+      order: 2
     });
   });
 });

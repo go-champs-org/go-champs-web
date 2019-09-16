@@ -27,7 +27,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from './actions';
-import { initialState, TournamentState } from './state';
+import { initialState, TournamentEntity, TournamentState } from './state';
 
 const mapTournament = (apiData: any) => ({
   id: apiData.id,
@@ -59,10 +59,10 @@ export const deleteTournamentFailure = (
 
 export const deleteTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, string>
 ) => {
   const tournaments = Object.keys(state.tournaments)
-    .filter(entityById(state.tournaments, action.payload))
+    .filter(entityById(state.tournaments, action.payload!))
     .reduce(mapEntitiesByKey(state.tournaments), {});
   return {
     ...state,
@@ -89,14 +89,11 @@ export const patchTournamentFailure = (
 
 export const patchTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingPatchTournament: false,
-  tournaments: [action.payload.data].reduce(
-    tournamentMapEntities,
-    state.tournaments
-  )
+  tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
 });
 
 export const postTournament = (
@@ -117,14 +114,11 @@ export const postTournamentFailure = (
 
 export const postTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingPostTournament: false,
-  tournaments: [action.payload.data].reduce(
-    tournamentMapEntities,
-    state.tournaments
-  )
+  tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
 });
 
 export const requestFilterTournaments = (
@@ -145,11 +139,11 @@ export const requestFilterTournamentsFailure = (
 
 export const requestFilterTournamentsSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity[]>
 ) => ({
   ...state,
   isLoadingRequestTournaments: false,
-  tournaments: action.payload.data.reduce(tournamentMapEntities, {})
+  tournaments: action.payload!.reduce(tournamentMapEntities, {})
 });
 
 export const requestTournament = (
@@ -170,14 +164,11 @@ export const requestTournamentFailure = (
 
 export const requestTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  tournaments: [action.payload.data].reduce(
-    tournamentMapEntities,
-    state.tournaments
-  )
+  tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
 });
 
 export const requestTournaments = (
@@ -198,11 +189,11 @@ export const requestTournamentsFailure = (
 
 export const requestTournamentsSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentEntity[]>
 ) => ({
   ...state,
   isLoadingRequestTournaments: false,
-  tournaments: action.payload.data.reduce(tournamentMapEntities, {})
+  tournaments: action.payload!.reduce(tournamentMapEntities, {})
 });
 
 export default createReducer(initialState, {

@@ -4,6 +4,7 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from '../actions';
+import { DEFAULT_TOURNAMENT, TournamentEntity } from '../state';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_TEAM,
@@ -294,38 +295,37 @@ describe('requestTournamentFailure', () => {
 });
 
 describe('requestTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
+  const action: HttpAction<ActionTypes, TournamentEntity> = {
     type: REQUEST_TOURNAMENT_SUCCESS,
     payload: {
-      data: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug',
-        teams: [
-          {
-            id: 'first-team-id',
-            name: 'first team name',
-            stats: {
-              someStat: 'first-stat'
-            },
-            group: {
-              id: 'first-group-id',
-              name: 'first group name'
-            }
+      ...DEFAULT_TOURNAMENT,
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug',
+      teams: [
+        {
+          id: 'first-team-id',
+          name: 'first team name',
+          stats: {
+            someStat: 'first-stat'
           },
-          {
-            id: 'second-team-id',
-            name: 'second team name',
-            stats: {
-              someStat: 'second-stat'
-            },
-            group: {
-              id: 'second-group-id',
-              name: 'second group name'
-            }
+          group: {
+            id: 'first-group-id',
+            name: 'first group name'
           }
-        ]
-      }
+        },
+        {
+          id: 'second-team-id',
+          name: 'second team name',
+          stats: {
+            someStat: 'second-stat'
+          },
+          group: {
+            id: 'second-group-id',
+            name: 'second group name'
+          }
+        }
+      ]
     }
   };
 
