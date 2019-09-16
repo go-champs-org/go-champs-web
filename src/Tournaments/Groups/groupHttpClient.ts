@@ -1,30 +1,17 @@
 import {
-  ApiGroup,
   ApiGroupRequest,
   ApiGroupResponse
 } from '../../Shared/httpClient/apiTypes';
 import httpClient from '../../Shared/httpClient/httpClient';
+import {
+  mapApiGroupToGroupEntity,
+  mapGroupEntityToApiGroupRequest
+} from './dataMappers';
 import { TournamentGroupEntity } from './state';
 
 const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
 const phaseGroupsApi = (phaseId: string) => `${PHASE_API}/${phaseId}/groups`;
-
-export const mapApiGroupToGroupEntity = (
-  apiGroup: ApiGroup
-): TournamentGroupEntity => ({
-  id: apiGroup.id,
-  name: apiGroup.name
-});
-
-const mapGroupEntityToApiGroupRequest = (
-  phase: TournamentGroupEntity
-): ApiGroupRequest => ({
-  tournament_group: {
-    id: phase.id,
-    name: phase.name
-  }
-});
 
 const deleteRequest = (
   phaseId: string,

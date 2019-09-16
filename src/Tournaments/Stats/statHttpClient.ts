@@ -1,30 +1,17 @@
 import {
-  ApiStat,
   ApiStatRequest,
   ApiStatResponse
 } from '../../Shared/httpClient/apiTypes';
 import httpClient from '../../Shared/httpClient/httpClient';
+import {
+  mapApiStatToStatEntity,
+  mapStatEntityToApiStatRequest
+} from './dataMappers';
 import { TournamentStatEntity } from './state';
 
 const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
 const phaseStatsApi = (phaseId: string) => `${PHASE_API}/${phaseId}/stats`;
-
-export const mapApiStatToStatEntity = (
-  apiStat: ApiStat
-): TournamentStatEntity => ({
-  id: apiStat.id,
-  title: apiStat.title
-});
-
-const mapStatEntityToApiStatRequest = (
-  phase: TournamentStatEntity
-): ApiStatRequest => ({
-  tournament_stat: {
-    id: phase.id,
-    title: phase.title
-  }
-});
 
 const deleteRequest = (
   phaseId: string,

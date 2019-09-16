@@ -1,37 +1,18 @@
 import {
-  ApiTeam,
   ApiTeamRequest,
   ApiTeamResponse
 } from '../../Shared/httpClient/apiTypes';
 import httpClient from '../../Shared/httpClient/httpClient';
-import { mapApiGroupToGroupEntity } from '../Groups/groupHttpClient';
-import { DEFAULT_GROUP_ENTITY } from '../Groups/state';
+import {
+  mapApiTeamToTeamEntity,
+  mapTeamEntityToApiTeamRequest
+} from './dataMappers';
 import { TournamentTeamEntity } from './state';
 
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
 const tournamentTeamsApi = (tournamentId: string) =>
   `${TOURNAMENT_API}/${tournamentId}/teams`;
-
-export const mapApiTeamToTeamEntity = (
-  apiTeam: ApiTeam
-): TournamentTeamEntity => ({
-  id: apiTeam.id,
-  name: apiTeam.name,
-  group: apiTeam.group
-    ? mapApiGroupToGroupEntity(apiTeam.group)
-    : DEFAULT_GROUP_ENTITY,
-  stats: {}
-});
-
-const mapTeamEntityToApiTeamRequest = (
-  team: TournamentTeamEntity
-): ApiTeamRequest => ({
-  tournament_team: {
-    id: team.id,
-    name: team.name
-  }
-});
 
 const deleteRequest = (
   tournamentId: string,
