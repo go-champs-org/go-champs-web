@@ -2,8 +2,8 @@ import {
   ApiGameRequest,
   ApiGameWithDepedencies
 } from '../../Shared/httpClient/apiTypes';
+import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { DEFAULT_TEAM_ENTITY } from '../Teams/state';
-import { mapApiTeamToTeamEntity } from '../Teams/teamHttpClient';
 import { TournamentGameEntity } from './state';
 
 export const mapApiGameToGameEntity = (

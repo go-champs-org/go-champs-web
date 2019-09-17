@@ -1,5 +1,9 @@
 import { StoreState } from '../../store';
-import { PhaseTypes, TournamentPhaseEntity } from './state';
+import {
+  PhaseTypes,
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from './state';
 
 export const currentPhase = (
   state: StoreState,
@@ -19,3 +23,6 @@ export const currentPhase = (
   }
   return state.tournamentPhases.tournamentPhases[defaultPhaseId];
 };
+
+export const phaseLoading = (state: TournamentPhaseState) =>
+  state.isLoadingRequestTournament;

@@ -4,9 +4,9 @@ import {
   ApiTournamentRequest,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
-import { mapApiPhaseToPhaseEntity } from './Phases/phaseHttpClient';
+import { mapApiPhaseToPhaseEntity } from './Phases/dataMappers';
 import { TournamentEntity } from './state';
-import { mapApiTeamToTeamEntity } from './Teams/teamHttpClient';
+import { mapApiTeamToTeamEntity } from './Teams/dataMappers';
 
 export const mapApiTournamentToTournamentEntity = (
   apiTournament: ApiTournamentWithDependecies

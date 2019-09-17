@@ -2,23 +2,38 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import {
+  loadDefaultPhasePayload,
+  LoadDefaultPhasePayload
+} from '../Shared/store/routerActions';
+import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
-import { requestTournament } from '../Tournaments/actions';
-import { requestTournamentGames } from '../Tournaments/Games/actions';
+import { gamesLoading } from '../Tournaments/Games/selectors';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import Home from '../Tournaments/Home';
-import { currentPhase } from '../Tournaments/Phases/selectors';
-import { TournamentPhaseEntity, TournamentPhaseState } from '../Tournaments/Phases/state';
+import { currentPhase, phaseLoading } from '../Tournaments/Phases/selectors';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../Tournaments/Phases/state';
+import {
+  tournamentLoading,
+  tournamentsLoading
+} from '../Tournaments/selectors';
 import { TournamentState } from '../Tournaments/state';
 import { TournamentStatState } from '../Tournaments/Stats/state';
 import { TournamentTeamState } from '../Tournaments/Teams/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
-import withTournaments from './support/withTournaments';
 
 interface TournamentHomeProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
+  loadDefaultPhasePayload: (payload: LoadDefaultPhasePayload) => {};
   phase: TournamentPhaseEntity;
+  tournamentsLoading: boolean;
+  tournamentLoading: boolean;
+  phaseLoading: boolean;
+  gamesLoading: boolean;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
   tournamentGameState: TournamentGameState;
@@ -34,6 +49,10 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
     const {
       match,
       phase,
+      tournamentsLoading,
+      tournamentLoading,
+      phaseLoading,
+      gamesLoading,
       tournamentPhaseState,
       tournamentState,
       tournamentGameState,
@@ -41,30 +60,44 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       tournamentTeamState,
       tournamentStatState
     } = this.props;
+    const canRender =
+      tournamentState.tournaments[match.params.tournamentSlug] &&
+      (!tournamentsLoading &&
+        !tournamentLoading &&
+        !phaseLoading &&
+        !gamesLoading);
     return (
-      <Home
-        currentOrganizationSlug={match.params.organizationSlug}
-        currentTournamentSlug={match.params.tournamentSlug}
-        phase={phase}
-        tournamentPhaseState={tournamentPhaseState}
-        tournamentState={tournamentState}
-        tournamentGameState={tournamentGameState}
-        tournamentGroupState={tournamentGroupState}
-        tournamentTeamState={tournamentTeamState}
-        tournamentStatState={tournamentStatState}
-      />
+      <PageLoader canRender={canRender}>
+        <Home
+          currentOrganizationSlug={match.params.organizationSlug}
+          currentTournamentSlug={match.params.tournamentSlug}
+          phase={phase}
+          tournamentPhaseState={tournamentPhaseState}
+          tournamentState={tournamentState}
+          tournamentGameState={tournamentGameState}
+          tournamentGroupState={tournamentGroupState}
+          tournamentTeamState={tournamentTeamState}
+          tournamentStatState={tournamentStatState}
+        />
+      </PageLoader>
     );
   }
 
   componentDidMount() {
-    const tournamentId = this.props.tournamentState.tournaments[
-      this.props.match.params.tournamentSlug
-    ].id;
-    this.props.requestTournament(tournamentId);
+    const {
+      organizationSlug,
+      tournamentSlug,
+      phaseId
+    } = this.props.match.params;
+    this.props.loadDefaultPhasePayload({ organizationSlug, tournamentSlug });
   }
 }
 
 const mapStateToProps = (state: StoreState) => ({
+  tournamentsLoading: tournamentsLoading(state.tournaments),
+  tournamentLoading: tournamentLoading(state.tournaments),
+  phaseLoading: phaseLoading(state.tournamentPhases),
+  gamesLoading: gamesLoading(state.tournamentGames),
   phase: currentPhase(state),
   tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
@@ -75,19 +108,15 @@ const mapStateToProps = (state: StoreState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any, state: any) => {
-  const phaseId = state.match.params.phaseId;
   return bindActionCreators(
     {
-      requestTournamentGames: requestTournamentGames(phaseId),
-      requestTournament
+      loadDefaultPhasePayload
     },
     dispatch
   );
 };
 
-export default withTournaments(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TournamentHome)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TournamentHome);

@@ -6,6 +6,7 @@ import {
   returnProperty
 } from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
+import { LOAD_DEFAULT_PHASE } from '../../Shared/store/routerActions';
 import {
   REQUEST_TOURNAMENT,
   REQUEST_TOURNAMENT_FAILURE,
@@ -157,10 +158,16 @@ export const requestTournamentSuccess = (
   )
 });
 
+export const loadDefaultPhasePayload = (state: TournamentPhaseState) => ({
+  ...state,
+  isLoadingRequestTournament: true
+});
+
 export default createReducer(initialState, {
   [DELETE_TOURNAMENT_PHASE]: deleteTournamentPhase,
   [DELETE_TOURNAMENT_PHASE_FAILURE]: deleteTournamentPhaseFailure,
   [DELETE_TOURNAMENT_PHASE_SUCCESS]: deleteTournamentPhaseSuccess,
+  [LOAD_DEFAULT_PHASE]: loadDefaultPhasePayload,
   [PATCH_TOURNAMENT_PHASE]: patchTournamentPhase,
   [PATCH_TOURNAMENT_PHASE_FAILURE]: patchTournamentPhaseFailure,
   [PATCH_TOURNAMENT_PHASE_SUCCESS]: patchTournamentPhaseSuccess,

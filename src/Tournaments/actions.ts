@@ -137,7 +137,7 @@ export const requestFilterTournaments = (where: RequestFilter) => async (
 
 export const requestFilterTournamentsSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+): HttpAction<ActionTypes, TournamentEntity[]> => ({
   type: REQUEST_FILTER_TOURNAMENTS_SUCCESS,
   payload
 });
