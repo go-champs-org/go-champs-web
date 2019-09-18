@@ -32,15 +32,8 @@ import {
 } from './actions';
 import { initialState, OrganizationEntity, OrganizationState } from './state';
 
-const mapOrganization = (apiData: any) => ({
-  id: apiData.id,
-  name: apiData.name,
-  slug: apiData.slug
-});
-
-const organizationMapEntities = mapEntities(
-  returnProperty('slug'),
-  mapOrganization
+const organizationMapEntities = mapEntities<OrganizationEntity>(
+  returnProperty('slug')
 );
 
 export const deleteOrganization = (

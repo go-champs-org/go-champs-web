@@ -7,7 +7,7 @@ import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
-import { currentPhase } from '../Tournaments/Phases/selectors';
+import { isInProgressPhase } from '../Tournaments/Phases/selectors';
 import {
   TournamentPhaseEntity,
   TournamentPhaseState
@@ -24,7 +24,7 @@ import withTournaments from './support/withTournaments';
 
 interface TournamentEditProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
-  phase: TournamentPhaseEntity;
+  phase: TournamentPhaseEntity | undefined;
   deleteTournamentStat: any;
   organizationState: OrganizationState;
   tournamentPhaseState: TournamentPhaseState;
@@ -38,6 +38,13 @@ interface TournamentEditProps
 
 class TournamentEdit extends React.Component<TournamentEditProps> {
   render() {
+    if (!this.props.phase) {
+      return (
+        <PageLoader canRender={false}>
+          <div></div>
+        </PageLoader>
+      );
+    }
     const tournament = this.props.tournamentState.tournaments[
       this.props.match.params.tournamentSlug
     ];
@@ -49,7 +56,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     return (
       <PageLoader canRender={canRender}>
         <Edit
-          phase={this.props.phase}
+          phase={this.props.phase!}
           organizationSlug={this.props.match.params.organizationSlug}
           organizationState={this.props.organizationState}
           patchTournament={this.props.patchTournament}
@@ -71,7 +78,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
 const mapStateToProps = (state: StoreState) => {
   return {
     organizationState: state.organizations,
-    phase: currentPhase(state),
+    phase: isInProgressPhase(state.tournamentPhases),
     tournamentPhaseState: state.tournamentPhases,
     tournamentState: state.tournaments,
     tournamentStatState: state.tournamentStats

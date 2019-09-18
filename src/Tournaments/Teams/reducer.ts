@@ -33,34 +33,15 @@ import {
 
 export const NO_GROUP_KEY = 'no-group';
 
-// TODO (lairjr): Remove this function
-const mapTournamentTeam = (apiData: any) => ({
-  id: apiData.id,
-  name: apiData.name,
-  stats: apiData.stats || {},
-  group: apiData.group || {}
-});
-
-const tournamentTeamMapEntities = mapEntities(
-  returnProperty('id'),
-  mapTournamentTeam
+const tournamentTeamMapEntities = mapEntities<TournamentTeamEntity>(
+  returnProperty('id')
 );
 
 const returnGroupIdProperty = (apiData: any) =>
   apiData.group.id || NO_GROUP_KEY;
 
-const mapTournamentTeamToTeamByGroup = (apiData: any) => ({
-  [apiData.id]: {
-    id: apiData.id,
-    name: apiData.name,
-    stats: apiData.stats || {},
-    group: apiData.group || {}
-  }
-});
-
-const tournamentTeamToTeamByGroup = mapEntities(
-  returnGroupIdProperty,
-  mapTournamentTeamToTeamByGroup
+const tournamentTeamToTeamByGroup = mapEntities<TournamentTeamEntity>(
+  returnGroupIdProperty
 );
 
 export const deleteTournamentTeam = (

@@ -8,25 +8,9 @@ import Home from './Pages/Home';
 import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
 import OrganizationNew from './Pages/OrganizationNew';
-import PhaseGameEdit from './Pages/PhaseGameEdit';
-import PhaseGameList from './Pages/PhaseGameList';
-import PhaseGameNew from './Pages/PhaseGameNew';
-import PhaseGroupEdit from './Pages/PhaseGroupEdit';
-import PhaseGroupList from './Pages/PhaseGroupList';
-import PhaseGroupNew from './Pages/PhaseGroupNew';
-import PhaseStandingsEdit from './Pages/PhaseStandingsEdit';
-import PhaseStatEdit from './Pages/PhaseStatEdit';
-import PhaseStatList from './Pages/PhaseStatList';
-import PhaseStatNew from './Pages/PhaseStatNew';
 import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
-import TournamentPhaseEdit from './Pages/TournamentPhaseEdit';
-import TournamentPhaseList from './Pages/TournamentPhaseList';
-import TournamentPhaseNew from './Pages/TournamentPhaseNew';
-import TournamentTeamEdit from './Pages/TournamentTeamEdit';
-import TournamentTeamList from './Pages/TournamentTeamList';
-import TournamentTeamNew from './Pages/TournamentTeamNew';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
 
@@ -79,7 +63,7 @@ const App: React.FC = () => {
                   path="/:organizationSlug/:tournamentSlug/phase/:phaseId"
                   component={TournamentHome}
                 />
-                <Route
+                {/* <Route
                   exact
                   sensitive
                   path="/:organizationSlug/:tournamentSlug/TournamentTeamEdit/:tournamentTeamId"
@@ -174,7 +158,7 @@ const App: React.FC = () => {
                   sensitive
                   path="/:organizationSlug/:tournamentSlug/phase/:phaseId/PhaseStatNew"
                   component={PhaseStatNew}
-                />
+                /> */}
               </Switch>
             </div>
           </section>

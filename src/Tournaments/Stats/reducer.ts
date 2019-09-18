@@ -30,15 +30,8 @@ import {
   TournamentStatState
 } from './state';
 
-// TODO (lairjr): Remove this function
-const mapTournamentStat = (apiData: any) => ({
-  id: apiData.id,
-  title: apiData.title
-});
-
-const tournamentStatMapEntities = mapEntities(
-  returnProperty('id'),
-  mapTournamentStat
+const tournamentStatMapEntities = mapEntities<TournamentStatEntity>(
+  returnProperty('id')
 );
 
 export const deleteTournamentStat = (

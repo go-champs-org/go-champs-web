@@ -11,6 +11,7 @@ export interface TournamentPhaseEntity {
   title: string;
   type: PhaseTypes;
   order: number;
+  isInProgress: boolean;
   groups: TournamentGroupEntity[];
   stats: TournamentStatEntity[];
 }

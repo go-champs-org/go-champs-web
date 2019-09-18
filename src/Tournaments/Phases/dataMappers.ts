@@ -10,6 +10,7 @@ export const mapApiPhaseToPhaseEntity = (
   order: apiPhase.order,
   title: apiPhase.title,
   type: apiPhase.type,
+  isInProgress: true,
   groups: apiPhase.groups ? apiPhase.groups.map(mapApiGroupToGroupEntity) : [],
   stats: apiPhase.stats ? apiPhase.stats.map(mapApiStatToStatEntity) : []
 });

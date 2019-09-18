@@ -30,16 +30,8 @@ import {
 } from './actions';
 import { initialState, TournamentEntity, TournamentState } from './state';
 
-const mapTournament = (apiData: any) => ({
-  id: apiData.id,
-  name: apiData.name,
-  slug: apiData.slug,
-  teamStatsStructure: apiData.team_stats_structure
-});
-
-const tournamentMapEntities = mapEntities(
-  returnProperty('slug'),
-  mapTournament
+const tournamentMapEntities = mapEntities<TournamentEntity>(
+  returnProperty('slug')
 );
 
 export const deleteTournament = (

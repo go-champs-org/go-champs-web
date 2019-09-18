@@ -28,67 +28,9 @@ import {
   TournamentGameState
 } from './state';
 
-// TODO (lairjr): Remove this function
-const mapTournamentGame = (apiData: any) => ({
-  id: apiData.id,
-  awayScore: apiData.awayScore,
-  awayTeam: apiData.awayTeam,
-  datetime: apiData.datetime,
-  homeScore: apiData.homeScore,
-  homeTeam: apiData.homeTeam,
-  location: apiData.location
-});
-
-const tournamentGameMapEntities = mapEntities(
-  returnProperty('id'),
-  mapTournamentGame
+const tournamentGameMapEntities = mapEntities<TournamentGameEntity>(
+  returnProperty('id')
 );
-
-const returnDateId = (apiData: any) =>
-  apiData.datetime && apiData.datetime.substring(0, 10);
-
-const mapTournamentGameToDateEntity = (apiData: any) => ({
-  [apiData.id]: {
-    id: apiData.id,
-    awayScore: apiData.awayScore,
-    awayTeam: apiData.awayTeam,
-    datetime: apiData.datetime,
-    homeScore: apiData.homeScore,
-    homeTeam: apiData.homeTeam,
-    location: apiData.location
-  }
-});
-
-const tournamentGameMapToDateEntity = mapEntities(
-  returnDateId,
-  mapTournamentGameToDateEntity
-);
-
-const removeTournamentGameByDate = (
-  state: TournamentGameState,
-  tournamentGameId: string
-) => {
-  const dateKey = returnDateId(state.tournamentGames[tournamentGameId]);
-
-  if (
-    state.tournamentGamesByDate[dateKey] &&
-    Object.keys(state.tournamentGamesByDate[dateKey]).length > 1
-  ) {
-    const newTournamentGamesDate = Object.keys(
-      state.tournamentGamesByDate[dateKey]
-    )
-      .filter((key: string) => key !== tournamentGameId)
-      .reduce(mapEntitiesByKey(state.tournamentGamesByDate[dateKey]), {});
-    return {
-      ...state.tournamentGamesByDate,
-      [dateKey]: newTournamentGamesDate
-    };
-  }
-
-  return Object.keys(state.tournamentGamesByDate)
-    .filter((key: string) => key !== dateKey)
-    .reduce(mapEntitiesByKey(state.tournamentGamesByDate), {});
-};
 
 export const deleteTournamentGame = (
   state: TournamentGameState,
@@ -116,8 +58,7 @@ export const deleteTournamentGameSuccess = (
   return {
     ...state,
     isLoadingDeleteTournamentGame: false,
-    tournamentGames,
-    tournamentGamesByDate: removeTournamentGameByDate(state, action.payload)
+    tournamentGames
   };
 };
 
@@ -196,11 +137,7 @@ export const requestTournamentGamesSuccess = (
 ) => ({
   ...state,
   isLoadingRequestTournamentGames: false,
-  tournamentGames: action.payload!.reduce(tournamentGameMapEntities, {}),
-  tournamentGamesByDate: action.payload!.reduce(
-    tournamentGameMapToDateEntity,
-    {}
-  )
+  tournamentGames: action.payload!.reduce(tournamentGameMapEntities, {})
 });
 
 export const loadDefaultPhasePayload = (state: TournamentGameState) => ({

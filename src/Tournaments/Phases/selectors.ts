@@ -1,30 +1,22 @@
-import { StoreState } from '../../store';
-import {
-  PhaseTypes,
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from './state';
+import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 
-export const currentPhase = (
-  state: StoreState,
-  phaseId?: string
-): TournamentPhaseEntity => {
-  const defaultPhaseId = Object.keys(
-    state.tournamentPhases.tournamentPhases
-  )[0];
-  // TODO (lairjr): Remove this shit
-  if (!defaultPhaseId) {
-    return {
-      id: '',
-      order: 1,
-      title: '',
-      type: PhaseTypes.bracket,
-      groups: [],
-      stats: []
-    };
-  }
-  return state.tournamentPhases.tournamentPhases[defaultPhaseId];
+export const phases = (state: TournamentPhaseState) =>
+  Object.keys(state.tournamentPhases).map(
+    (key: string) => state.tournamentPhases[key]
+  );
+
+export const isInProgressPhase = (
+  state: TournamentPhaseState
+): TournamentPhaseEntity | undefined => {
+  return phases(state).find(
+    (phase: TournamentPhaseEntity) => phase.isInProgress
+  );
 };
+
+export const phaseById = (
+  state: TournamentPhaseState,
+  id: string
+): TournamentPhaseEntity | undefined => state.tournamentPhases[id];
 
 export const phaseLoading = (state: TournamentPhaseState) =>
   state.isLoadingRequestTournament;

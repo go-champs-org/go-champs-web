@@ -34,17 +34,8 @@ import {
   TournamentPhaseState
 } from './state';
 
-// TODO (lairjr): Remove this function
-const mapTournamentPhase = (apiData: any) => ({
-  id: apiData.id,
-  order: apiData.order,
-  title: apiData.title,
-  type: apiData.type
-});
-
-const tournamentPhaseMapEntities = mapEntities(
-  returnProperty('id'),
-  mapTournamentPhase
+const tournamentPhaseMapEntities = mapEntities<TournamentPhaseEntity>(
+  returnProperty('id')
 );
 
 export const deleteTournamentPhase = (

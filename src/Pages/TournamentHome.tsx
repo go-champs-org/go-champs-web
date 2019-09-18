@@ -14,7 +14,10 @@ import { gamesLoading } from '../Tournaments/Games/selectors';
 import { TournamentGameState } from '../Tournaments/Games/state';
 import { TournamentGroupState } from '../Tournaments/Groups/state';
 import Home from '../Tournaments/Home';
-import { currentPhase, phaseLoading } from '../Tournaments/Phases/selectors';
+import {
+  isInProgressPhase,
+  phaseLoading
+} from '../Tournaments/Phases/selectors';
 import {
   TournamentPhaseEntity,
   TournamentPhaseState
@@ -32,7 +35,7 @@ interface TournamentHomeProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   loadDefaultPhasePayload: (payload: LoadDefaultPhasePayload) => {};
   loadPhasePayload: (payload: LoadPhasePayload) => {};
-  phase: TournamentPhaseEntity;
+  phase: TournamentPhaseEntity | undefined;
   tournamentsLoading: boolean;
   tournamentLoading: boolean;
   phaseLoading: boolean;
@@ -61,6 +64,14 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       tournamentTeamState,
       tournamentStatState
     } = this.props;
+    console.log(phase, 'e');
+    if (!phase) {
+      return (
+        <PageLoader canRender={false}>
+          <div></div>
+        </PageLoader>
+      );
+    }
     const canRender =
       tournamentState.tournaments[match.params.tournamentSlug] &&
       (!tournamentsLoading &&
@@ -107,7 +118,7 @@ const mapStateToProps = (state: StoreState) => ({
   tournamentLoading: tournamentLoading(state.tournaments),
   phaseLoading: phaseLoading(state.tournamentPhases),
   gamesLoading: gamesLoading(state.tournamentGames),
-  phase: currentPhase(state),
+  phase: isInProgressPhase(state.tournamentPhases),
   tournamentPhaseState: state.tournamentPhases,
   tournamentState: state.tournaments,
   tournamentGameState: state.tournamentGames,
