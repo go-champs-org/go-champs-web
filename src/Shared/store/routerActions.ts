@@ -63,7 +63,34 @@ export const loadDefaultPhasePayload = (
   }
 };
 
-export const loadPhasePayload = (payload: LoadPhasePayload) => {};
+export const loadPhasePayload = (payload: LoadPhasePayload) => async (
+  dispatch: Dispatch
+) => {
+  dispatch({ type: LOAD_DEFAULT_PHASE });
+
+  try {
+    const tournaments = await tournamentHttpClient.getByFilter({
+      organization_slug: payload.organizationSlug,
+      slug: payload.tournamentSlug
+    });
+
+    dispatch(requestFilterTournamentsSuccess(tournaments));
+
+    const tournamentId = tournaments[0].id;
+
+    const [tournament, phase, games] = await Promise.all([
+      tournamentHttpClient.get(tournamentId),
+      phaseHttpClient.get(tournamentId, payload.phaseId),
+      gameHttpClient.getAll(payload.phaseId)
+    ]);
+
+    dispatch(requestTournamentSuccess(tournament));
+    dispatch(requestTournamentPhaseSuccess(phase));
+    dispatch(requestTournamentGamesSuccess(games));
+  } catch (err) {
+    dispatch(loadDefaultPhasePayloadFailure(err));
+  }
+};
 
 export type ActionTypes = typeof LOAD_DEFAULT_PHASE | typeof LOAD_PHASE;
 export type Actions = HttpAction<ActionTypes>;

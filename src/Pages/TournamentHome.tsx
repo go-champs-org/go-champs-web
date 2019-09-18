@@ -4,7 +4,9 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import {
   loadDefaultPhasePayload,
-  LoadDefaultPhasePayload
+  LoadDefaultPhasePayload,
+  loadPhasePayload,
+  LoadPhasePayload
 } from '../Shared/store/routerActions';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
@@ -29,6 +31,7 @@ import { TournamentHomeMatchProps } from './support/routerInterfaces';
 interface TournamentHomeProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
   loadDefaultPhasePayload: (payload: LoadDefaultPhasePayload) => {};
+  loadPhasePayload: (payload: LoadPhasePayload) => {};
   phase: TournamentPhaseEntity;
   tournamentsLoading: boolean;
   tournamentLoading: boolean;
@@ -40,8 +43,6 @@ interface TournamentHomeProps
   tournamentGroupState: TournamentGroupState;
   tournamentTeamState: TournamentTeamState;
   tournamentStatState: TournamentStatState;
-  requestTournament: any;
-  requestTournamentGames: any;
 }
 
 class TournamentHome extends React.Component<TournamentHomeProps> {
@@ -89,7 +90,15 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       tournamentSlug,
       phaseId
     } = this.props.match.params;
-    this.props.loadDefaultPhasePayload({ organizationSlug, tournamentSlug });
+    if (phaseId) {
+      this.props.loadPhasePayload({
+        organizationSlug,
+        tournamentSlug,
+        phaseId
+      });
+    } else {
+      this.props.loadDefaultPhasePayload({ organizationSlug, tournamentSlug });
+    }
   }
 }
 
@@ -110,7 +119,8 @@ const mapStateToProps = (state: StoreState) => ({
 const mapDispatchToProps = (dispatch: any, state: any) => {
   return bindActionCreators(
     {
-      loadDefaultPhasePayload
+      loadDefaultPhasePayload,
+      loadPhasePayload
     },
     dispatch
   );
