@@ -1,4 +1,6 @@
 import { ApiPhase, ApiPhaseRequest } from '../../Shared/httpClient/apiTypes';
+import { mapApiGroupToGroupEntity } from '../Groups/dataMappers';
+import { mapApiStatToStatEntity } from '../Stats/dataMappers';
 import { TournamentPhaseEntity } from './state';
 
 export const mapApiPhaseToPhaseEntity = (
@@ -7,7 +9,9 @@ export const mapApiPhaseToPhaseEntity = (
   id: apiPhase.id,
   order: apiPhase.order,
   title: apiPhase.title,
-  type: apiPhase.type
+  type: apiPhase.type,
+  groups: apiPhase.groups ? apiPhase.groups.map(mapApiGroupToGroupEntity) : [],
+  stats: apiPhase.stats ? apiPhase.stats.map(mapApiStatToStatEntity) : []
 });
 
 export const mapPhaseEntityToApiPhaseRequest = (

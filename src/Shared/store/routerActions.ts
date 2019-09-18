@@ -6,6 +6,7 @@ import {
 import { currentPhaseId } from '../../Tournaments/dataMappers';
 import { requestTournamentGamesSuccess } from '../../Tournaments/Games/actions';
 import gameHttpClient from '../../Tournaments/Games/gameHttpClient';
+import { requestTournamentPhaseSuccess } from '../../Tournaments/Phases/actions';
 import phaseHttpClient from '../../Tournaments/Phases/phaseHttpClient';
 import tournamentHttpClient from '../../Tournaments/tournamentHttpClient';
 import { HttpAction } from './interfaces';
@@ -55,7 +56,7 @@ export const loadDefaultPhasePayload = (
       gameHttpClient.getAll(defaultPhaseId)
     ]);
 
-    // dispatch(requestTournamentPhaseSuccess(phase));
+    dispatch(requestTournamentPhaseSuccess(phase));
     dispatch(requestTournamentGamesSuccess(games));
   } catch (err) {
     dispatch(loadDefaultPhasePayloadFailure(err));

@@ -52,6 +52,8 @@ export interface ApiPhase {
   title: string;
   type: PhaseTypes;
   order: number;
+  groups?: ApiGroup[];
+  stats?: ApiStat[];
 }
 
 export interface ApiPhaseRequest {

@@ -23,7 +23,10 @@ import {
   PATCH_TOURNAMENT_PHASE_SUCCESS,
   POST_TOURNAMENT_PHASE,
   POST_TOURNAMENT_PHASE_FAILURE,
-  POST_TOURNAMENT_PHASE_SUCCESS
+  POST_TOURNAMENT_PHASE_SUCCESS,
+  REQUEST_TOURNAMENT_PHASE,
+  REQUEST_TOURNAMENT_PHASE_FAILURE,
+  REQUEST_TOURNAMENT_PHASE_SUCCESS
 } from './actions';
 import {
   initialState,
@@ -158,6 +161,31 @@ export const requestTournamentSuccess = (
   )
 });
 
+export const requestTournamentPhase = (
+  state: TournamentPhaseState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestTournament: true
+});
+
+export const requestTournamentPhaseFailure = (
+  state: TournamentPhaseState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestTournament: false
+});
+
+export const requestTournamentPhaseSuccess = (
+  state: TournamentPhaseState,
+  action: HttpAction<ActionTypes, TournamentPhaseEntity>
+) => ({
+  ...state,
+  isLoadingRequestTournament: false,
+  tournamentPhases: [action.payload].reduce(tournamentPhaseMapEntities, {})
+});
+
 export const loadDefaultPhasePayload = (state: TournamentPhaseState) => ({
   ...state,
   isLoadingRequestTournament: true
@@ -176,5 +204,8 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT_PHASE_SUCCESS]: postTournamentPhaseSuccess,
   [REQUEST_TOURNAMENT]: requestTournament,
   [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess
+  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
+  [REQUEST_TOURNAMENT_PHASE]: requestTournamentPhase,
+  [REQUEST_TOURNAMENT_PHASE_FAILURE]: requestTournamentPhaseFailure,
+  [REQUEST_TOURNAMENT_PHASE_SUCCESS]: requestTournamentPhaseSuccess
 });

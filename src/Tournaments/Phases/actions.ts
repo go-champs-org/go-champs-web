@@ -136,7 +136,7 @@ export const requestTournamentPhase = (
 
 export const requestTournamentPhaseSuccess = (
   payload: any
-): HttpAction<ActionTypes> => ({
+): HttpAction<ActionTypes, TournamentPhaseEntity> => ({
   type: REQUEST_TOURNAMENT_PHASE_SUCCESS,
   payload
 });

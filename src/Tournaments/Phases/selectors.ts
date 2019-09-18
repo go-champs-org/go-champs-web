@@ -18,7 +18,9 @@ export const currentPhase = (
       id: '',
       order: 1,
       title: '',
-      type: PhaseTypes.bracket
+      type: PhaseTypes.bracket,
+      groups: [],
+      stats: []
     };
   }
   return state.tournamentPhases.tournamentPhases[defaultPhaseId];

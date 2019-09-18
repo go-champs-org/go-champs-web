@@ -1,3 +1,6 @@
+import { TournamentGroupEntity } from '../Groups/state';
+import { TournamentStatEntity } from '../Stats/state';
+
 export enum PhaseTypes {
   standings = 'standings',
   bracket = 'bracket'
@@ -8,6 +11,8 @@ export interface TournamentPhaseEntity {
   title: string;
   type: PhaseTypes;
   order: number;
+  groups: TournamentGroupEntity[];
+  stats: TournamentStatEntity[];
 }
 
 export interface TournamentPhaseState {

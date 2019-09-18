@@ -11,6 +11,7 @@ import {
   REQUEST_TOURNAMENT_PHASE_FAILURE,
   REQUEST_TOURNAMENT_PHASE_SUCCESS
 } from '../Phases/actions';
+import { TournamentPhaseEntity } from '../Phases/state';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_GROUP,
@@ -144,11 +145,11 @@ export const requestTournamentPhaseFailure = (
 
 export const requestTournamentPhaseSuccess = (
   state: TournamentGroupState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, TournamentPhaseEntity>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  tournamentGroups: action.payload.data.groups.reduce(
+  tournamentGroups: action.payload!.groups.reduce(
     tournamentGroupMapEntities,
     {}
   )
