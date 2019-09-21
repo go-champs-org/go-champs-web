@@ -11,6 +11,7 @@ import OrganizationNew from './Pages/OrganizationNew';
 import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
+import TournamentPhaseHome from './Pages/TournamentPhaseHome';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
 
@@ -61,7 +62,7 @@ const App: React.FC = () => {
                 <Route
                   exact
                   path="/:organizationSlug/:tournamentSlug/phase/:phaseId"
-                  component={TournamentHome}
+                  component={TournamentPhaseHome}
                 />
                 {/* <Route
                   exact

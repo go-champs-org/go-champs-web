@@ -19,11 +19,11 @@ import {
   postTournamentStat
 } from '../Tournaments/Stats/actions';
 import { TournamentStatState } from '../Tournaments/Stats/state';
-import { TournamentHomeMatchProps } from './support/routerInterfaces';
+import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
 interface TournamentEditProps
-  extends RouteComponentProps<TournamentHomeMatchProps> {
+  extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
   phase: TournamentPhaseEntity | undefined;
   deleteTournamentStat: any;
   organizationState: OrganizationState;
