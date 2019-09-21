@@ -9,4 +9,4 @@ export const tournamentLoading = (state: TournamentState, slug: string) =>
 export const tournamentBySlug = (
   state: TournamentState,
   slug: string
-): TournamentEntity | undefined => state.tournaments[slug];
+): TournamentEntity => state.tournaments[slug];

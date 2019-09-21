@@ -12,7 +12,7 @@ interface PhaseDefaultRedirectProps extends RouteComponentProps {
 class PhaseDefaultRedirect extends React.Component<PhaseDefaultRedirectProps> {
   render() {
     if (!this.props.phase) {
-      return <div>Not found tournament</div>;
+      return <Redirect to={`${this.props.match.url}/empty`} />;
     }
     return (
       <Redirect to={`${this.props.match.url}/phase/${this.props.phase.id}`} />

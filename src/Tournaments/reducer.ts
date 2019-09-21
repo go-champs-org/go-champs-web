@@ -119,6 +119,7 @@ export const requestFilterTournaments = (
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
+  isLoadingRequestTournament: true,
   isLoadingRequestTournaments: true
 });
 
