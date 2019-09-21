@@ -29,7 +29,7 @@ import {
 import { TournamentEntity, TournamentState } from '../Tournaments/state';
 import { TournamentStatState } from '../Tournaments/Stats/state';
 import { TournamentTeamState } from '../Tournaments/Teams/state';
-import PhaseDefaultHome from './PhaseDefaultHome';
+import PhaseDefaultRedirect from './PhaseDefaultRedirect';
 import PhaseSelectedHome from './PhaseSelectedHome';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 
@@ -61,7 +61,7 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
             path={`${match.url}/phase/:phaseId`}
             component={PhaseSelectedHome}
           />
-          <Route path={match.url} component={PhaseDefaultHome} />
+          <Route path={match.url} component={PhaseDefaultRedirect} />
         </Switch>
       </PageLoader>
     );
