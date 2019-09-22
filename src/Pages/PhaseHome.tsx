@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
 import { default as GameListByDate } from '../Tournaments/Games/ListByDate';
 import {
@@ -44,15 +45,13 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
       <div className="is-divider-vertical"></div>
 
       <aside className="column is-4">
-        {gamesLoading ? (
-          <div>Loading...</div>
-        ) : (
+        <ComponentLoader canRender={!gamesLoading}>
           <GameListByDate
             dates={gameDates}
             gamesByDate={gamesByDate}
             initialDatePosition={gamesInitialDatePosition}
           />
-        )}
+        </ComponentLoader>
       </aside>
     </div>
   );
