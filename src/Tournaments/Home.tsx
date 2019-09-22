@@ -1,5 +1,4 @@
 import React from 'react';
-import ListByDate from './Games/ListByDate';
 import { TournamentGameState } from './Games/state';
 import { TournamentGroupState } from './Groups/state';
 import { TournamentPhaseEntity, TournamentPhaseState } from './Phases/state';
@@ -42,9 +41,7 @@ const Home: React.FC<HomeProps> = ({
         />
       </div>
       <div className="is-divider-vertical"></div>
-      <aside className="column is-4">
-        <ListByDate tournamentGameState={tournamentGameState} />
-      </aside>
+      <aside className="column is-4">Games by date</aside>
     </div>
   );
 };

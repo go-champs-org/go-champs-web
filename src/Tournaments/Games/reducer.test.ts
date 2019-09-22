@@ -89,25 +89,6 @@ describe('deleteTournamentGameSuccess', () => {
         },
         location: 'first location'
       }
-    },
-    tournamentGamesByDate: {
-      ['2019-05-22']: {
-        ['first-id']: {
-          id: 'first-id',
-          awayScore: 10,
-          awayTeam: {
-            id: 'first-away-team-id',
-            name: 'first-away-team'
-          },
-          datetime: '2019-05-22T03:21:21.248Z',
-          homeScore: 20,
-          homeTeam: {
-            id: 'first-home-team-id',
-            name: 'first-home-team'
-          },
-          location: 'first location'
-        }
-      }
     }
   };
 
@@ -139,76 +120,6 @@ describe('deleteTournamentGameSuccess', () => {
 
     expect(newState.tournamentGames['some-id']).toEqual({
       id: 'some-id'
-    });
-  });
-
-  it('remove entity by date', () => {
-    const newState = deleteTournamentGameSuccess(deleteState, action);
-
-    expect(newState.tournamentGamesByDate['2019-05-22']).toBeUndefined();
-  });
-
-  it('remove entity by date keeping object in the same date', () => {
-    const deleteStateWithMultipleEntitiesInSameDate = {
-      ...deleteState,
-      tournamentGamesByDate: {
-        ['2019-05-22']: {
-          ['first-id']: {
-            id: 'first-id',
-            awayScore: 10,
-            awayTeam: {
-              id: 'first-away-team-id',
-              name: 'first-away-team'
-            },
-            datetime: '2019-05-22T03:21:21.248Z',
-            homeScore: 20,
-            homeTeam: {
-              id: 'first-home-team-id',
-              name: 'first-home-team'
-            },
-            location: 'first location'
-          },
-          ['second-id']: {
-            id: 'second-id',
-            awayScore: 30,
-            awayTeam: {
-              id: 'second-away-team-id',
-              name: 'second-away-team'
-            },
-            datetime: '2019-05-22T05:21:21.248Z',
-            homeScore: 40,
-            homeTeam: {
-              id: 'second-home-team-id',
-              name: 'second-home-team'
-            },
-            location: 'second location'
-          }
-        }
-      }
-    };
-
-    const newState = deleteTournamentGameSuccess(
-      deleteStateWithMultipleEntitiesInSameDate,
-      action
-    );
-
-    expect(
-      newState.tournamentGamesByDate['2019-05-22']['first-id']
-    ).toBeUndefined();
-    expect(newState.tournamentGamesByDate['2019-05-22']['second-id']).toEqual({
-      id: 'second-id',
-      awayScore: 30,
-      awayTeam: {
-        id: 'second-away-team-id',
-        name: 'second-away-team'
-      },
-      datetime: '2019-05-22T05:21:21.248Z',
-      homeScore: 40,
-      homeTeam: {
-        id: 'second-home-team-id',
-        name: 'second-home-team'
-      },
-      location: 'second location'
     });
   });
 });
@@ -511,43 +422,6 @@ describe('requestTournamentGamesSuccess', () => {
         name: 'second-home-team'
       },
       location: 'second location'
-    });
-  });
-
-  it('sets entities by date', () => {
-    const newState = requestTournamentGamesSuccess(initialState, action);
-
-    expect(newState.tournamentGamesByDate['2019-05-22']).toEqual({
-      ['first-id']: {
-        id: 'first-id',
-        awayScore: 10,
-        awayTeam: {
-          id: 'first-away-team-id',
-          name: 'first-away-team'
-        },
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 20,
-        homeTeam: {
-          id: 'first-home-team-id',
-          name: 'first-home-team'
-        },
-        location: 'first location'
-      },
-      ['second-id']: {
-        id: 'second-id',
-        awayScore: 30,
-        awayTeam: {
-          id: 'second-away-team-id',
-          name: 'second-away-team'
-        },
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 40,
-        homeTeam: {
-          id: 'second-home-team-id',
-          name: 'second-home-team'
-        },
-        location: 'second location'
-      }
     });
   });
 });
