@@ -1,12 +1,12 @@
 import React from 'react';
 import { TournamentGroupEntity, TournamentGroupState } from '../Groups/state';
-import { TournamentStatEntity, TournamentStatState } from '../Stats/state';
+import { TournamentStatEntity } from '../Stats/state';
 import { NO_GROUP_KEY } from '../Teams/reducer';
 import { TournamentTeamEntity, TournamentTeamState } from '../Teams/state';
 import './View.scss';
 
 const TournamentTeamStandingsRow: React.FC<{
-  tournamentStats: { [key: string]: TournamentStatEntity };
+  tournamentStats: TournamentStatEntity[];
   tournamentTeam: TournamentTeamEntity;
 }> = ({ tournamentStats, tournamentTeam }) => {
   return (
@@ -14,9 +14,9 @@ const TournamentTeamStandingsRow: React.FC<{
       <td style={{ paddingLeft: '0', width: '225px' }}>
         {tournamentTeam.name}
       </td>
-      {Object.keys(tournamentStats).map((key: string) => (
-        <td key={key} className="has-text-centered">
-          {tournamentTeam.stats[key]}
+      {tournamentStats.map((stat: TournamentStatEntity) => (
+        <td key={stat.id} className="has-text-centered">
+          {tournamentTeam.stats[stat.id]}
         </td>
       ))}
     </tr>
@@ -28,7 +28,7 @@ const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
 }) => <th className="has-text-centered">{tournamentStat.title}</th>;
 
 const Standings: React.FC<{
-  tournamentStats: { [key: string]: TournamentStatEntity };
+  tournamentStats: TournamentStatEntity[];
   tournamentTeams: { [key: string]: TournamentTeamEntity };
 }> = ({ tournamentStats, tournamentTeams }) => {
   return (
@@ -36,8 +36,8 @@ const Standings: React.FC<{
       <thead>
         <tr>
           <th style={{ paddingLeft: '0', width: '225px' }}>Name</th>
-          {Object.keys(tournamentStats).map((key: string) => (
-            <StandingHeader key={key} tournamentStat={tournamentStats[key]} />
+          {tournamentStats.map((stat: TournamentStatEntity) => (
+            <StandingHeader key={stat.id} tournamentStat={stat} />
           ))}
         </tr>
       </thead>
@@ -56,7 +56,7 @@ const Standings: React.FC<{
 
 const GroupStandings: React.FC<{
   tournamentGroup: TournamentGroupEntity;
-  tournamentStats: { [key: string]: TournamentStatEntity };
+  tournamentStats: TournamentStatEntity[];
   tournamentTeams: { [key: string]: TournamentTeamEntity };
 }> = ({ tournamentGroup, tournamentStats, tournamentTeams }) => {
   return (
@@ -76,20 +76,20 @@ const GroupStandings: React.FC<{
 
 interface TournamentStandingsViewProps {
   tournamentGroupState: TournamentGroupState;
-  tournamentStatState: TournamentStatState;
+  tournamentStats: TournamentStatEntity[];
   tournamentTeamState: TournamentTeamState;
 }
 
 export const View: React.FC<TournamentStandingsViewProps> = ({
   tournamentGroupState,
-  tournamentStatState,
+  tournamentStats,
   tournamentTeamState
 }) => {
   return (
     <div>
       {tournamentTeamState.tournamentTeamsByGroup[NO_GROUP_KEY] && (
         <Standings
-          tournamentStats={tournamentStatState.tournamentStats}
+          tournamentStats={tournamentStats}
           tournamentTeams={
             tournamentTeamState.tournamentTeamsByGroup[NO_GROUP_KEY]
           }
@@ -101,7 +101,7 @@ export const View: React.FC<TournamentStandingsViewProps> = ({
           <GroupStandings
             key={key}
             tournamentGroup={tournamentGroupState.tournamentGroups[key]}
-            tournamentStats={tournamentStatState.tournamentStats}
+            tournamentStats={tournamentStats}
             tournamentTeams={tournamentTeamState.tournamentTeamsByGroup[key]}
           />
         ))}
