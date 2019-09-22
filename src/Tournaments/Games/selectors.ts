@@ -58,7 +58,7 @@ export const gamesByDate = (
       .filter((game: TournamentGameEntity) => game.datetime.includes(date))
       .sort(byGameDate);
     return {
-      date: gamesInDate
+      [date]: gamesInDate
     };
   }, {});
 };

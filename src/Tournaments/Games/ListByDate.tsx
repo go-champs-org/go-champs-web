@@ -99,6 +99,7 @@ class ListByDate extends React.Component<ListByDateProps> {
 
   render() {
     const { dates, gamesByDate } = this.props;
+
     const { previousDate, selectedDate, nextDate } = getNavDates(
       dates,
       this.state.selectedPosition
@@ -137,7 +138,7 @@ class ListByDate extends React.Component<ListByDateProps> {
             </button>
           </div>
         </nav>
-        <List games={gamesByDate[selectedDate]} />
+        <List games={gamesByDate[selectedDate] || []} />
       </div>
     );
   }
