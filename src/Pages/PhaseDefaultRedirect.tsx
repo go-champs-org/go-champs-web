@@ -9,16 +9,15 @@ interface PhaseDefaultRedirectProps extends RouteComponentProps {
   phase: TournamentPhaseEntity | undefined;
 }
 
-class PhaseDefaultRedirect extends React.Component<PhaseDefaultRedirectProps> {
-  render() {
-    if (!this.props.phase) {
-      return <Redirect to={`${this.props.match.url}/empty`} />;
-    }
-    return (
-      <Redirect to={`${this.props.match.url}/phase/${this.props.phase.id}`} />
-    );
+const PhaseDefaultRedirect: React.FC<PhaseDefaultRedirectProps> = ({
+  match,
+  phase
+}) => {
+  if (!phase) {
+    return <Redirect to={`${match.url}/empty`} />;
   }
-}
+  return <Redirect to={`${match.url}/phase/${phase.id}`} />;
+};
 
 const mapStateToProps = (state: StoreState) => ({
   phase: isInProgressPhase(state.tournamentPhases)

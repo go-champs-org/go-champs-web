@@ -1,32 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
 import { StoreState } from '../store';
-import { requestTournamentPhase } from '../Tournaments/Phases/actions';
+import { phaseById, phaseLoading } from '../Tournaments/Phases/selectors';
+import { TournamentPhaseEntity } from '../Tournaments/Phases/state';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { TournamentEntity } from '../Tournaments/state';
 import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
+import withPhase from './support/withPhase';
 
 interface PhaseSelectedHomeProps
   extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
-  requestTournamentPhase: (tournamentId: string, phaseId: string) => {};
+  phase: TournamentPhaseEntity | undefined;
+  phaseLoading: boolean;
   tournament: TournamentEntity;
 }
 
 class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
   render() {
-    return <div>PhaseSelectedHome</div>;
-  }
-
-  componentDidMount() {
-    const {
-      tournament,
-      match: {
-        params: { phaseId }
-      }
-    } = this.props;
-    this.props.requestTournamentPhase(tournament.id, phaseId);
+    return <div>Phase selected {JSON.stringify(this.props.phase)}</div>;
   }
 }
 
@@ -37,20 +29,10 @@ const mapStateToProps = (state: StoreState, props: PhaseSelectedHomeProps) => {
     }
   } = props;
   return {
-    tournament: tournamentBySlug(state.tournaments, tournamentSlug)
+    tournament: tournamentBySlug(state.tournaments, tournamentSlug),
+    phase: phaseById(state.tournamentPhases, props.match.params.phaseId),
+    phaseLoading: phaseLoading(state.tournamentPhases)
   };
 };
 
-const mapDispatchToProps = (dispatch: any, state: any) => {
-  return bindActionCreators(
-    {
-      requestTournamentPhase
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PhaseSelectedHome);
+export default withPhase(connect(mapStateToProps)(PhaseSelectedHome));
