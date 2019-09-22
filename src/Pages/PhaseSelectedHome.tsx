@@ -28,8 +28,7 @@ class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
   render() {
     const {
       match: {
-        params: { organizationSlug, tournamentSlug },
-        url
+        params: { organizationSlug, tournamentSlug }
       },
       phase,
       phases,
@@ -52,7 +51,10 @@ class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
           </header>
           <div className="column is-12">
             <Switch>
-              <Route path={url} component={PhaseHome} />
+              <Route
+                path={`/:organizationSlug/:tournamentSlug/phase/:phaseId`}
+                component={PhaseHome}
+              />
             </Switch>
           </div>
         </div>
@@ -64,12 +66,12 @@ class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
 const mapStateToProps = (state: StoreState, props: PhaseSelectedHomeProps) => {
   const {
     match: {
-      params: { tournamentSlug }
+      params: { phaseId, tournamentSlug }
     }
   } = props;
   return {
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
-    phase: phaseById(state.tournamentPhases, props.match.params.phaseId),
+    phase: phaseById(state.tournamentPhases, phaseId),
     phases: sortedPhases(state.tournamentPhases),
     phaseLoading: phaseLoading(state.tournamentPhases)
   };
