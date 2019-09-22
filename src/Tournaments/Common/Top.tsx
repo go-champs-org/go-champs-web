@@ -7,16 +7,10 @@ import TopLevel from './TopLevel';
 const Top: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
-  tournamentPhases: { [key: string]: TournamentPhaseEntity };
   phase: TournamentPhaseEntity;
+  phases: TournamentPhaseEntity[];
   tournamentSlug: string;
-}> = ({
-  organizationSlug,
-  tournament,
-  tournamentPhases,
-  tournamentSlug,
-  phase
-}) => (
+}> = ({ organizationSlug, tournament, phases, tournamentSlug, phase }) => (
   <div>
     <TopLevel
       phase={phase}
@@ -24,10 +18,7 @@ const Top: React.FC<{
       tournament={tournament}
       tournamentSlug={tournamentSlug}
     />
-    <TopBreadcrumbs
-      tournamentPhases={tournamentPhases}
-      tournamentSlug={tournamentSlug}
-    />
+    <TopBreadcrumbs phases={phases} tournamentSlug={tournamentSlug} />
   </div>
 );
 

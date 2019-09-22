@@ -1,9 +1,14 @@
+import { byOrder } from './compareFunctions';
 import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 
-export const phases = (state: TournamentPhaseState) =>
+export const phases = (state: TournamentPhaseState): TournamentPhaseEntity[] =>
   Object.keys(state.tournamentPhases).map(
     (key: string) => state.tournamentPhases[key]
   );
+
+export const sortedPhases = (
+  state: TournamentPhaseState
+): TournamentPhaseEntity[] => phases(state).sort(byOrder);
 
 export const isInProgressPhase = (
   state: TournamentPhaseState

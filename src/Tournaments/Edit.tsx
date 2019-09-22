@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { OrganizationState } from '../Organizations/state';
-import Top from './Common/Top';
 import { default as TournamentForm } from './Form';
 import { TournamentPhaseEntity, TournamentPhaseState } from './Phases/state';
 import { TournamentEntity } from './state';
@@ -26,15 +25,7 @@ export const Edit: React.FC<TournamentEditProps> = ({
   const organization = organizationState.organizations[organizationSlug];
   return (
     <div className="columns is-multiline">
-      <header className="column is-12">
-        <Top
-          organizationSlug={organization.slug}
-          phase={phase}
-          tournament={tournament}
-          tournamentPhases={tournamentPhaseState.tournamentPhases}
-          tournamentSlug={tournament.slug}
-        />
-      </header>
+      <header className="column is-12">Tournament edit</header>
       <div className="column is-8">
         <div className="columns is-mobile is-vcentered">
           <div className="column is-8">

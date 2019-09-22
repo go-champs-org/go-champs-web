@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
-import Top from '../Common/Top';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { TournamentGameEntity, TournamentGameState } from './state';
@@ -85,15 +84,6 @@ const List: React.FC<{
   const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
   return (
     <div className="columns is-multiline">
-      <header className="column is-12">
-        <Top
-          organizationSlug={currentOrganizationSlug}
-          phase={phase}
-          tournament={tournament}
-          tournamentPhases={tournamentPhaseState.tournamentPhases}
-          tournamentSlug={currentTournamentSlug}
-        />
-      </header>
       <div className="column is-8">
         <div className="columns is-mobile is-vcentered">
           <div className="column is-8">

@@ -1,5 +1,4 @@
 import React from 'react';
-import Top from '../Common/Top';
 import { TournamentGroupEntity, TournamentGroupState } from '../Groups/state';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
@@ -153,15 +152,6 @@ export const Edit: React.FC<PhaseStandingsEditProps> = ({
 
   return (
     <div className="columns is-multiline">
-      <header className="column is-12">
-        <Top
-          organizationSlug={currentOrganizationSlug}
-          phase={phase}
-          tournament={tournament}
-          tournamentPhases={tournamentPhaseState.tournamentPhases}
-          tournamentSlug={currentTournamentSlug}
-        />
-      </header>
       <div className="column is-8">
         <div className="columns is-mobile is-vcentered">
           <div className="column is-12">

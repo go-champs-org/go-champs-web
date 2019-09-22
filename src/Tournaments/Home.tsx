@@ -1,5 +1,4 @@
 import React from 'react';
-import Top from './Common/Top';
 import ListByDate from './Games/ListByDate';
 import { TournamentGameState } from './Games/state';
 import { TournamentGroupState } from './Groups/state';
@@ -35,15 +34,6 @@ const Home: React.FC<HomeProps> = ({
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
     <div className="columns is-multiline">
-      <header className="column is-12">
-        <Top
-          organizationSlug={currentOrganizationSlug}
-          phase={phase}
-          tournament={tournament}
-          tournamentPhases={tournamentPhaseState.tournamentPhases}
-          tournamentSlug={currentTournamentSlug}
-        />
-      </header>
       <div className="column">
         <StandingsView
           tournamentGroupState={tournamentGroupState}

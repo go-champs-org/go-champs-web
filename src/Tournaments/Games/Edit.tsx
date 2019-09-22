@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import Top from '../Common/Top';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { TournamentState } from '../state';
 import { TournamentTeamEntity } from '../Teams/state';
@@ -31,15 +30,7 @@ export const Edit: React.FC<PhaseGameEditProps> = ({
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
     <div className="columns is-multiline">
-      <header className="column is-12">
-        <Top
-          organizationSlug={currentOrganizationSlug}
-          phase={phase}
-          tournament={tournament}
-          tournamentPhases={tournamentPhaseState.tournamentPhases}
-          tournamentSlug={currentTournamentSlug}
-        />
-      </header>
+      <header className="column is-12">Game edit</header>
       <div className="column is-8">
         <div className="columns is-mobile is-vcentered">
           <div className="column is-8">

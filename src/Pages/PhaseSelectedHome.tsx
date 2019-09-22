@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
-import TopLevel from '../Tournaments/Common/TopLevel';
-import { phaseById, phaseLoading } from '../Tournaments/Phases/selectors';
+import Top from '../Tournaments/Common/Top';
+import {
+  phaseById,
+  phaseLoading,
+  sortedPhases
+} from '../Tournaments/Phases/selectors';
 import { TournamentPhaseEntity } from '../Tournaments/Phases/state';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { TournamentEntity } from '../Tournaments/state';
@@ -14,6 +18,7 @@ import withPhase from './support/withPhase';
 interface PhaseSelectedHomeProps
   extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
   phase: TournamentPhaseEntity | undefined;
+  phases: TournamentPhaseEntity[];
   phaseLoading: boolean;
   tournament: TournamentEntity;
 }
@@ -25,19 +30,25 @@ class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
         params: { organizationSlug, tournamentSlug }
       },
       phase,
+      phases,
       phaseLoading,
       tournament
     } = this.props;
     return (
       <PageLoader canRender={!phaseLoading}>
-        <TopLevel
-          {...{
-            organizationSlug,
-            phase: phase!,
-            tournament,
-            tournamentSlug
-          }}
-        />
+        <div className="columns is-multiline">
+          <header className="column is-12">
+            <Top
+              {...{
+                organizationSlug,
+                phase: phase!,
+                phases,
+                tournament,
+                tournamentSlug
+              }}
+            />
+          </header>
+        </div>
       </PageLoader>
     );
   }
@@ -52,6 +63,7 @@ const mapStateToProps = (state: StoreState, props: PhaseSelectedHomeProps) => {
   return {
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     phase: phaseById(state.tournamentPhases, props.match.params.phaseId),
+    phases: sortedPhases(state.tournamentPhases),
     phaseLoading: phaseLoading(state.tournamentPhases)
   };
 };
