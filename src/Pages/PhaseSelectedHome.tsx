@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
+import TopLevel from '../Tournaments/Common/TopLevel';
 import { phaseById, phaseLoading } from '../Tournaments/Phases/selectors';
 import { TournamentPhaseEntity } from '../Tournaments/Phases/state';
 import { tournamentBySlug } from '../Tournaments/selectors';
@@ -18,7 +20,26 @@ interface PhaseSelectedHomeProps
 
 class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
   render() {
-    return <div>Phase selected {JSON.stringify(this.props.phase)}</div>;
+    const {
+      match: {
+        params: { organizationSlug, tournamentSlug }
+      },
+      phase,
+      phaseLoading,
+      tournament
+    } = this.props;
+    return (
+      <PageLoader canRender={!phaseLoading}>
+        <TopLevel
+          {...{
+            organizationSlug,
+            phase: phase!,
+            tournament,
+            tournamentSlug
+          }}
+        />
+      </PageLoader>
+    );
   }
 }
 
