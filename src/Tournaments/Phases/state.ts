@@ -1,4 +1,3 @@
-import { TournamentGroupEntity } from '../Groups/state';
 import { TournamentStatEntity } from '../Stats/state';
 
 export enum PhaseTypes {
@@ -12,7 +11,6 @@ export interface TournamentPhaseEntity {
   type: PhaseTypes;
   order: number;
   isInProgress: boolean;
-  groups: TournamentGroupEntity[];
   stats: TournamentStatEntity[];
 }
 

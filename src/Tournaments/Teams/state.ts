@@ -1,10 +1,7 @@
-import { DEFAULT_GROUP_ENTITY, TournamentGroupEntity } from '../Groups/state';
-
 export interface TournamentTeamEntity {
   id: string;
   name: string;
   stats: { [key: string]: any };
-  group: TournamentGroupEntity;
 }
 
 export interface TournamentTeamState {
@@ -30,6 +27,5 @@ export const initialState: TournamentTeamState = {
 export const DEFAULT_TEAM_ENTITY = {
   id: '',
   name: '',
-  stats: {},
-  group: DEFAULT_GROUP_ENTITY
+  stats: {}
 };

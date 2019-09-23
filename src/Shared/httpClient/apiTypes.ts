@@ -30,29 +30,11 @@ export interface ApiGamesResponse {
   data: ApiGameWithDepedencies[];
 }
 
-export interface ApiGroup {
-  id: string;
-  name: string;
-}
-
-export interface ApiGroupRequest {
-  tournament_group: ApiGroup;
-}
-
-export interface ApiGroupResponse {
-  data: ApiGroup;
-}
-
-export interface ApiGroupsResponse {
-  data: ApiGroup[];
-}
-
 export interface ApiPhase {
   id: string;
   title: string;
   type: PhaseTypes;
   order: number;
-  groups?: ApiGroup[];
   stats?: ApiStat[];
 }
 
@@ -106,7 +88,6 @@ export interface ApiStatsResponse {
 export interface ApiTeam {
   id: string;
   name: string;
-  group?: ApiGroup;
 }
 
 export interface ApiTeamRequest {

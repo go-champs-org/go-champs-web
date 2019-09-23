@@ -15,8 +15,7 @@ import {
   PATCH_TOURNAMENT_TEAM_SUCCESS,
   POST_TOURNAMENT_TEAM,
   POST_TOURNAMENT_TEAM_FAILURE,
-  POST_TOURNAMENT_TEAM_SUCCESS,
-  UPDATE_TOURNAMENT_TEAM_BY_GROUP
+  POST_TOURNAMENT_TEAM_SUCCESS
 } from './actions';
 import {
   deleteTournamentTeam,
@@ -30,8 +29,7 @@ import {
   postTournamentTeamSuccess,
   requestTournament,
   requestTournamentFailure,
-  requestTournamentSuccess,
-  updateTournamentTeamByGroup
+  requestTournamentSuccess
 } from './reducer';
 import { initialState, TournamentTeamState } from './state';
 
@@ -173,8 +171,7 @@ describe('patchTournamentTeamSuccess', () => {
     expect(newState.tournamentTeams['first-id']).toEqual({
       id: 'first-id',
       name: 'some-first-name',
-      stats: {},
-      group: {}
+      stats: {}
     });
   });
 
@@ -245,8 +242,7 @@ describe('postTournamentTeamSuccess', () => {
     expect(newState.tournamentTeams['first-id']).toEqual({
       id: 'first-id',
       name: 'first-name',
-      stats: {},
-      group: {}
+      stats: {}
     });
   });
 
@@ -308,10 +304,6 @@ describe('requestTournamentSuccess', () => {
           name: 'first team name',
           stats: {
             someStat: 'first-stat'
-          },
-          group: {
-            id: 'first-group-id',
-            name: 'first group name'
           }
         },
         {
@@ -319,10 +311,6 @@ describe('requestTournamentSuccess', () => {
           name: 'second team name',
           stats: {
             someStat: 'second-stat'
-          },
-          group: {
-            id: 'second-group-id',
-            name: 'second group name'
           }
         }
       ]
@@ -343,10 +331,6 @@ describe('requestTournamentSuccess', () => {
       name: 'first team name',
       stats: {
         someStat: 'first-stat'
-      },
-      group: {
-        id: 'first-group-id',
-        name: 'first group name'
       }
     });
     expect(newState.tournamentTeams['second-team-id']).toEqual({
@@ -354,76 +338,6 @@ describe('requestTournamentSuccess', () => {
       name: 'second team name',
       stats: {
         someStat: 'second-stat'
-      },
-      group: {
-        id: 'second-group-id',
-        name: 'second group name'
-      }
-    });
-  });
-});
-
-describe('updateTournamentTeamByGroup', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: UPDATE_TOURNAMENT_TEAM_BY_GROUP,
-    payload: {}
-  };
-
-  const someState = {
-    ...initialState,
-    tournamentTeams: {
-      'first-team-id': {
-        id: 'first-team-id',
-        name: 'first team name',
-        stats: {
-          someStat: 'first-stat'
-        },
-        group: {
-          id: 'first-group-id',
-          name: 'first group name'
-        }
-      },
-      'second-team-id': {
-        id: 'second-team-id',
-        name: 'second team name',
-        stats: {
-          someStat: 'second-stat'
-        },
-        group: {
-          id: 'second-group-id',
-          name: 'second group name'
-        }
-      }
-    }
-  };
-
-  it('sets tournamentTeamsByGroup entities', () => {
-    const newState = updateTournamentTeamByGroup(someState, action);
-
-    expect(newState.tournamentTeamsByGroup['first-group-id']).toEqual({
-      'first-team-id': {
-        id: 'first-team-id',
-        name: 'first team name',
-        stats: {
-          someStat: 'first-stat'
-        },
-        group: {
-          id: 'first-group-id',
-          name: 'first group name'
-        }
-      }
-    });
-    expect(newState.tournamentTeamsByGroup['second-group-id']).toEqual({
-      'second-team-id': {
-        id: 'second-team-id',
-        name: 'second team name',
-        stats: {
-          someStat: 'second-stat'
-        },
-        group: {
-          id: 'second-group-id',
-          name: 'second group name'
-        }
       }
     });
   });

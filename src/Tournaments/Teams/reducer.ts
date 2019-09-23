@@ -22,8 +22,7 @@ import {
   PATCH_TOURNAMENT_TEAM_SUCCESS,
   POST_TOURNAMENT_TEAM,
   POST_TOURNAMENT_TEAM_FAILURE,
-  POST_TOURNAMENT_TEAM_SUCCESS,
-  UPDATE_TOURNAMENT_TEAM_BY_GROUP
+  POST_TOURNAMENT_TEAM_SUCCESS
 } from './actions';
 import {
   initialState,
@@ -31,17 +30,8 @@ import {
   TournamentTeamState
 } from './state';
 
-export const NO_GROUP_KEY = 'no-group';
-
 const tournamentTeamMapEntities = mapEntities<TournamentTeamEntity>(
   returnProperty('id')
-);
-
-const returnGroupIdProperty = (apiData: any) =>
-  apiData.group.id || NO_GROUP_KEY;
-
-const tournamentTeamToTeamByGroup = mapEntities<TournamentTeamEntity>(
-  returnGroupIdProperty
 );
 
 export const deleteTournamentTeam = (
@@ -155,16 +145,6 @@ export const requestTournamentSuccess = (
   tournamentTeams: action.payload!.teams.reduce(tournamentTeamMapEntities, {})
 });
 
-export const updateTournamentTeamByGroup = (
-  state: TournamentTeamState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  tournamentTeamsByGroup: Object.keys(state.tournamentTeams)
-    .map((key: string) => state.tournamentTeams[key])
-    .reduce(tournamentTeamToTeamByGroup, {})
-});
-
 export default createReducer(initialState, {
   [DELETE_TOURNAMENT_TEAM]: deleteTournamentTeam,
   [DELETE_TOURNAMENT_TEAM_FAILURE]: deleteTournamentTeamFailure,
@@ -177,6 +157,5 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT_TEAM_SUCCESS]: postTournamentTeamSuccess,
   [REQUEST_TOURNAMENT]: requestTournament,
   [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
-  [UPDATE_TOURNAMENT_TEAM_BY_GROUP]: updateTournamentTeamByGroup
+  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess
 });
