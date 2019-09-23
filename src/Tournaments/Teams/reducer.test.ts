@@ -1,36 +1,8 @@
 import { HttpAction } from '../../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../state';
-import {
-  ActionTypes,
-  DELETE_TOURNAMENT_TEAM,
-  DELETE_TOURNAMENT_TEAM_FAILURE,
-  DELETE_TOURNAMENT_TEAM_SUCCESS,
-  PATCH_TOURNAMENT_TEAM,
-  PATCH_TOURNAMENT_TEAM_FAILURE,
-  PATCH_TOURNAMENT_TEAM_SUCCESS,
-  POST_TOURNAMENT_TEAM,
-  POST_TOURNAMENT_TEAM_FAILURE,
-  POST_TOURNAMENT_TEAM_SUCCESS
-} from './actions';
-import {
-  deleteTournamentTeam,
-  deleteTournamentTeamFailure,
-  deleteTournamentTeamSuccess,
-  patchTournamentTeam,
-  patchTournamentTeamFailure,
-  patchTournamentTeamSuccess,
-  postTournamentTeam,
-  postTournamentTeamFailure,
-  postTournamentTeamSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournamentSuccess
-} from './reducer';
+import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, PATCH_TOURNAMENT_TEAM, PATCH_TOURNAMENT_TEAM_FAILURE, PATCH_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from './actions';
+import { deleteTournamentTeam, deleteTournamentTeamFailure, deleteTournamentTeamSuccess, patchTournamentTeam, patchTournamentTeamFailure, patchTournamentTeamSuccess, postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from './reducer';
 import { initialState, TournamentTeamState } from './state';
 
 describe('deleteTournamentTeam', () => {
@@ -170,8 +142,7 @@ describe('patchTournamentTeamSuccess', () => {
 
     expect(newState.tournamentTeams['first-id']).toEqual({
       id: 'first-id',
-      name: 'some-first-name',
-      stats: {}
+      name: 'some-first-name'
     });
   });
 
@@ -241,8 +212,7 @@ describe('postTournamentTeamSuccess', () => {
 
     expect(newState.tournamentTeams['first-id']).toEqual({
       id: 'first-id',
-      name: 'first-name',
-      stats: {}
+      name: 'first-name'
     });
   });
 
@@ -301,17 +271,11 @@ describe('requestTournamentSuccess', () => {
       teams: [
         {
           id: 'first-team-id',
-          name: 'first team name',
-          stats: {
-            someStat: 'first-stat'
-          }
+          name: 'first team name'
         },
         {
           id: 'second-team-id',
-          name: 'second team name',
-          stats: {
-            someStat: 'second-stat'
-          }
+          name: 'second team name'
         }
       ]
     }
@@ -328,17 +292,11 @@ describe('requestTournamentSuccess', () => {
 
     expect(newState.tournamentTeams['first-team-id']).toEqual({
       id: 'first-team-id',
-      name: 'first team name',
-      stats: {
-        someStat: 'first-stat'
-      }
+      name: 'first team name'
     });
     expect(newState.tournamentTeams['second-team-id']).toEqual({
       id: 'second-team-id',
-      name: 'second team name',
-      stats: {
-        someStat: 'second-stat'
-      }
+      name: 'second team name'
     });
   });
 });

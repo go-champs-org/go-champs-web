@@ -1,48 +1,7 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  ActionTypes,
-  DELETE_TOURNAMENT,
-  DELETE_TOURNAMENT_FAILURE,
-  DELETE_TOURNAMENT_SUCCESS,
-  POST_TOURNAMENT,
-  POST_TOURNAMENT_FAILURE,
-  POST_TOURNAMENT_SUCCESS,
-  REQUEST_FILTER_TOURNAMENTS,
-  REQUEST_FILTER_TOURNAMENTS_FAILURE,
-  REQUEST_FILTER_TOURNAMENTS_SUCCESS,
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENTS,
-  REQUEST_TOURNAMENTS_FAILURE,
-  REQUEST_TOURNAMENTS_SUCCESS,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
-} from './actions';
-import {
-  deleteTournament,
-  deleteTournamentFailure,
-  deleteTournamentSuccess,
-  patchTournament,
-  patchTournamentFailure,
-  patchTournamentSuccess,
-  postTournament,
-  postTournamentFailure,
-  postTournamentSuccess,
-  requestFilterTournaments,
-  requestFilterTournamentsFailure,
-  requestFilterTournamentsSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournaments,
-  requestTournamentsFailure,
-  requestTournamentsSuccess,
-  requestTournamentSuccess
-} from './reducer';
-import {
-  DEFAULT_TOURNAMENT,
-  initialState,
-  TournamentEntity,
-  TournamentState
-} from './state';
+import { ActionTypes, DELETE_TOURNAMENT, DELETE_TOURNAMENT_FAILURE, DELETE_TOURNAMENT_SUCCESS, POST_TOURNAMENT, POST_TOURNAMENT_FAILURE, POST_TOURNAMENT_SUCCESS, REQUEST_FILTER_TOURNAMENTS, REQUEST_FILTER_TOURNAMENTS_FAILURE, REQUEST_FILTER_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT, REQUEST_TOURNAMENTS, REQUEST_TOURNAMENTS_FAILURE, REQUEST_TOURNAMENTS_SUCCESS, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from './actions';
+import { deleteTournament, deleteTournamentFailure, deleteTournamentSuccess, patchTournament, patchTournamentFailure, patchTournamentSuccess, postTournament, postTournamentFailure, postTournamentSuccess, requestFilterTournaments, requestFilterTournamentsFailure, requestFilterTournamentsSuccess, requestTournament, requestTournamentFailure, requestTournaments, requestTournamentsFailure, requestTournamentsSuccess, requestTournamentSuccess } from './reducer';
+import { DEFAULT_TOURNAMENT, initialState, TournamentEntity, TournamentState } from './state';
 
 describe('deleteTournament', () => {
   const action: HttpAction<ActionTypes> = {
@@ -181,11 +140,9 @@ describe('patchTournamentSuccess', () => {
   it('set entity', () => {
     const newState = patchTournamentSuccess(updateState, action);
 
-    expect(newState.tournaments['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'some-first-name',
-      slug: 'first-slug'
-    });
+    expect(newState.tournaments['first-slug'].id).toEqual('first-id');
+    expect(newState.tournaments['first-slug'].name).toEqual('some-first-name');
+    expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
   });
 
   it('keeps others entities in other', () => {
@@ -254,11 +211,9 @@ describe('postTournamentSuccess', () => {
   it('set entity', () => {
     const newState = postTournamentSuccess(initialState, action);
 
-    expect(newState.tournaments['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    });
+    expect(newState.tournaments['first-slug'].id).toEqual('first-id');
+    expect(newState.tournaments['first-slug'].name).toEqual('first-name');
+    expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
   });
 
   it('keeps others entities in other', () => {
@@ -337,16 +292,12 @@ describe('requestFilterTournamentsSuccess', () => {
   it('sets entities', () => {
     const newState = requestFilterTournamentsSuccess(initialState, action);
 
-    expect(newState.tournaments['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    });
-    expect(newState.tournaments['second-slug']).toEqual({
-      id: 'second-id',
-      name: 'second-name',
-      slug: 'second-slug'
-    });
+    expect(newState.tournaments['first-slug'].id).toEqual('first-id');
+    expect(newState.tournaments['first-slug'].name).toEqual('first-name');
+    expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
+    expect(newState.tournaments['second-slug'].id).toEqual('second-id');
+    expect(newState.tournaments['second-slug'].name).toEqual('second-name');
+    expect(newState.tournaments['second-slug'].slug).toEqual('second-slug');
   });
 });
 
@@ -394,11 +345,9 @@ describe('requestTournamentSuccess', () => {
   it('set entity', () => {
     const newState = requestTournamentSuccess(initialState, action);
 
-    expect(newState.tournaments['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    });
+    expect(newState.tournaments['first-slug'].id).toEqual('first-id');
+    expect(newState.tournaments['first-slug'].name).toEqual('first-name');
+    expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
   });
 
   it('keeps others entities in other', () => {
@@ -477,15 +426,11 @@ describe('requestTournamentsSuccess', () => {
   it('sets entities', () => {
     const newState = requestTournamentsSuccess(initialState, action);
 
-    expect(newState.tournaments['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    });
-    expect(newState.tournaments['second-slug']).toEqual({
-      id: 'second-id',
-      name: 'second-name',
-      slug: 'second-slug'
-    });
+    expect(newState.tournaments['first-slug'].id).toEqual('first-id');
+    expect(newState.tournaments['first-slug'].name).toEqual('first-name');
+    expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
+    expect(newState.tournaments['second-slug'].id).toEqual('second-id');
+    expect(newState.tournaments['second-slug'].name).toEqual('second-name');
+    expect(newState.tournaments['second-slug'].slug).toEqual('second-slug');
   });
 });
