@@ -135,8 +135,8 @@ export const requestTournamentPhaseSuccess = (
   action: HttpAction<ActionTypes, TournamentPhaseEntity>
 ) => ({
   ...state,
-  isLoadingRequestTournament: false
-  // standings: action.payload!.standings.reduce(phaseStandingsMapEntities, {})
+  isLoadingRequestTournament: false,
+  standings: action.payload!.standings.reduce(phaseStandingsMapEntities, {})
 });
 
 export default createReducer<PhaseStandingsState>(initialState, {

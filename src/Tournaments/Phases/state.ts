@@ -1,3 +1,4 @@
+import { PhaseStandingsEntity } from '../../Phases/Standings/state';
 import { TournamentStatEntity } from '../Stats/state';
 
 export enum PhaseTypes {
@@ -12,6 +13,7 @@ export interface TournamentPhaseEntity {
   order: number;
   isInProgress: boolean;
   stats: TournamentStatEntity[];
+  standings: PhaseStandingsEntity[];
 }
 
 export interface TournamentPhaseState {

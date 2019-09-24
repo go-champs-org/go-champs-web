@@ -65,7 +65,7 @@ export interface ApiPhase {
   title: string;
   type: PhaseTypes;
   order: number;
-  standings: ApiPhaseStandings[];
+  standings?: ApiPhaseStandings[];
   stats?: ApiStat[];
 }
 

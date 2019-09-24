@@ -16,11 +16,6 @@ export const PATCH_PHASE_STANDINGS_FAILURE =
 export const POST_PHASE_STANDINGS = 'API_POST_PHASE_STANDINGS';
 export const POST_PHASE_STANDINGS_SUCCESS = 'API_POST_PHASE_STANDINGS_SUCCESS';
 export const POST_PHASE_STANDINGS_FAILURE = 'API_POST_PHASE_STANDINGS_FAILURE';
-export const REQUEST_PHASE_STANDINGS = 'API_REQUEST_PHASE_STANDINGS';
-export const REQUEST_PHASE_STANDINGS_SUCCESS =
-  'API_REQUEST_PHASE_STANDINGS_SUCCESS';
-export const REQUEST_PHASE_STANDINGS_FAILURE =
-  'API_REQUEST_PHASE_STANDINGS_FAILURE';
 
 export const deletePhaseStandings = (phaseId: string) => (
   phaseStandings: PhaseStandingsEntity
@@ -118,38 +113,6 @@ export const postPhaseStandingsFailure = (
   payload
 });
 
-export const requestPhaseStandings = (
-  phaseId: string,
-  phaseStandingsId: string
-) => async (dispatch: any) => {
-  dispatch({ type: REQUEST_PHASE_STANDINGS });
-
-  try {
-    const response = await phaseStandingsHttpClient.get(
-      phaseId,
-      phaseStandingsId
-    );
-
-    dispatch(requestPhaseStandingsSuccess(response));
-  } catch (err) {
-    dispatch(requestPhaseStandingsFailure(err));
-  }
-};
-
-export const requestPhaseStandingsSuccess = (
-  payload: any
-): HttpAction<ActionTypes, PhaseStandingsEntity> => ({
-  type: REQUEST_PHASE_STANDINGS_SUCCESS,
-  payload
-});
-
-export const requestPhaseStandingsFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
-  type: REQUEST_PHASE_STANDINGS_FAILURE,
-  payload
-});
-
 export type ActionTypes =
   | typeof DELETE_PHASE_STANDINGS
   | typeof DELETE_PHASE_STANDINGS_SUCCESS
@@ -159,8 +122,5 @@ export type ActionTypes =
   | typeof PATCH_PHASE_STANDINGS_FAILURE
   | typeof POST_PHASE_STANDINGS
   | typeof POST_PHASE_STANDINGS_SUCCESS
-  | typeof POST_PHASE_STANDINGS_FAILURE
-  | typeof REQUEST_PHASE_STANDINGS
-  | typeof REQUEST_PHASE_STANDINGS_FAILURE
-  | typeof REQUEST_PHASE_STANDINGS_SUCCESS;
+  | typeof POST_PHASE_STANDINGS_FAILURE;
 export type Actions = HttpAction<ActionTypes>;

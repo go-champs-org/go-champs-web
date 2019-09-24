@@ -1,3 +1,4 @@
+import { mapApiPhaseStandingsToStandingsEntity } from '../../Phases/Standings/dataMappers';
 import { ApiPhase, ApiPhaseRequest } from '../../Shared/httpClient/apiTypes';
 import { mapApiStatToStatEntity } from '../Stats/dataMappers';
 import { TournamentPhaseEntity } from './state';
@@ -10,7 +11,10 @@ export const mapApiPhaseToPhaseEntity = (
   title: apiPhase.title,
   type: apiPhase.type,
   isInProgress: true,
-  stats: apiPhase.stats ? apiPhase.stats.map(mapApiStatToStatEntity) : []
+  stats: apiPhase.stats ? apiPhase.stats.map(mapApiStatToStatEntity) : [],
+  standings: apiPhase.standings
+    ? apiPhase.standings.map(mapApiPhaseStandingsToStandingsEntity)
+    : []
 });
 
 export const mapPhaseEntityToApiPhaseRequest = (

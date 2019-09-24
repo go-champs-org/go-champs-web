@@ -14,7 +14,7 @@ export interface PhaseStandingsState {
   isLoadingDeletePhaseStandings: boolean;
   isLoadingPatchPhaseStandings: boolean;
   isLoadingPostPhaseStandings: boolean;
-  isLoadingPhase: boolean;
+  isLoadingRequestTournament: boolean;
   standings: { [key: string]: PhaseStandingsEntity };
 }
 
@@ -22,6 +22,6 @@ export const initialState: PhaseStandingsState = {
   isLoadingDeletePhaseStandings: false,
   isLoadingPatchPhaseStandings: false,
   isLoadingPostPhaseStandings: false,
-  isLoadingPhase: false,
+  isLoadingRequestTournament: false,
   standings: {}
 };
