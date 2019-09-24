@@ -1,8 +1,36 @@
 import { HttpAction } from '../../Shared/store/interfaces';
-import { REQUEST_TOURNAMENT, REQUEST_TOURNAMENT_FAILURE, REQUEST_TOURNAMENT_SUCCESS } from '../actions';
+import {
+  REQUEST_TOURNAMENT,
+  REQUEST_TOURNAMENT_FAILURE,
+  REQUEST_TOURNAMENT_SUCCESS
+} from '../actions';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../state';
-import { ActionTypes, DELETE_TOURNAMENT_TEAM, DELETE_TOURNAMENT_TEAM_FAILURE, DELETE_TOURNAMENT_TEAM_SUCCESS, PATCH_TOURNAMENT_TEAM, PATCH_TOURNAMENT_TEAM_FAILURE, PATCH_TOURNAMENT_TEAM_SUCCESS, POST_TOURNAMENT_TEAM, POST_TOURNAMENT_TEAM_FAILURE, POST_TOURNAMENT_TEAM_SUCCESS } from './actions';
-import { deleteTournamentTeam, deleteTournamentTeamFailure, deleteTournamentTeamSuccess, patchTournamentTeam, patchTournamentTeamFailure, patchTournamentTeamSuccess, postTournamentTeam, postTournamentTeamFailure, postTournamentTeamSuccess, requestTournament, requestTournamentFailure, requestTournamentSuccess } from './reducer';
+import {
+  ActionTypes,
+  DELETE_TOURNAMENT_TEAM,
+  DELETE_TOURNAMENT_TEAM_FAILURE,
+  DELETE_TOURNAMENT_TEAM_SUCCESS,
+  PATCH_TOURNAMENT_TEAM,
+  PATCH_TOURNAMENT_TEAM_FAILURE,
+  PATCH_TOURNAMENT_TEAM_SUCCESS,
+  POST_TOURNAMENT_TEAM,
+  POST_TOURNAMENT_TEAM_FAILURE,
+  POST_TOURNAMENT_TEAM_SUCCESS
+} from './actions';
+import {
+  deleteTournamentTeam,
+  deleteTournamentTeamFailure,
+  deleteTournamentTeamSuccess,
+  patchTournamentTeam,
+  patchTournamentTeamFailure,
+  patchTournamentTeamSuccess,
+  postTournamentTeam,
+  postTournamentTeamFailure,
+  postTournamentTeamSuccess,
+  requestTournament,
+  requestTournamentFailure,
+  requestTournamentSuccess
+} from './reducer';
 import { initialState, TournamentTeamState } from './state';
 
 describe('deleteTournamentTeam', () => {

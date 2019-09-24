@@ -30,11 +30,42 @@ export interface ApiGamesResponse {
   data: ApiGameWithDepedencies[];
 }
 
+export interface ApiPhaseStandingsTeamStat {
+  id: string;
+  team_id: string;
+  stats: { [stat_id: string]: string };
+}
+
+export interface ApiPhaseStandings {
+  id: string;
+  title?: string;
+  team_stats: ApiPhaseStandingsTeamStat[];
+}
+
+export interface ApiPhaseStandingsRequest {
+  phase_standings: ApiPhaseStandings;
+}
+
+export interface ApiPhaseStandingsResponse {
+  data: ApiPhaseStandings;
+}
+
+export interface ApiPhaseStandingssResponse {
+  data: ApiPhaseStandings[];
+}
+
+export interface ApiOrganization {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export interface ApiPhase {
   id: string;
   title: string;
   type: PhaseTypes;
   order: number;
+  standings: ApiPhaseStandings[];
   stats?: ApiStat[];
 }
 

@@ -35,10 +35,10 @@ export const entityById = (
   return currentEntitiesMap[key].id !== id;
 };
 
-export const createReducer = (
-  initialState: any,
+export const createReducer = <T = any>(
+  initialState: T,
   handlers: { [key: string]: any }
-) => (state: any = initialState, action: any) => {
+) => (state: T = initialState, action: any): T => {
   if (handlers.hasOwnProperty(action.type)) {
     return handlers[action.type](state, action);
   }
