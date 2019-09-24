@@ -38,13 +38,18 @@ const Standings: React.FC<StandingsProps> = ({
   standings,
   teams
 }) => {
+  const TitleSection = standings.title ? (
+    <div className="columns">
+      <div className="column is-12">
+        <h5 className="subtitle">{standings.title}</h5>
+      </div>
+    </div>
+  ) : (
+    <div></div>
+  );
   return (
     <div className="group">
-      <div className="columns">
-        <div className="column is-12">
-          <h5 className="subtitle">{standings.title}</h5>
-        </div>
-      </div>
+      {TitleSection}
       <table className="table is-fullwidth is-striped is-hoverable">
         <thead>
           <tr>
