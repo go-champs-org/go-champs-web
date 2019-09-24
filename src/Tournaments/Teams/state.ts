@@ -10,9 +10,6 @@ export interface TournamentTeamState {
   isLoadingPostTournamentTeam: boolean;
   isLoadingRequestTournament: boolean;
   tournamentTeams: { [key: string]: TournamentTeamEntity };
-  tournamentTeamsByGroup: {
-    [key: string]: { [key: string]: TournamentTeamEntity };
-  };
 }
 
 export const initialState: TournamentTeamState = {
@@ -20,8 +17,7 @@ export const initialState: TournamentTeamState = {
   isLoadingPatchTournamentTeam: false,
   isLoadingPostTournamentTeam: false,
   isLoadingRequestTournament: false,
-  tournamentTeams: {},
-  tournamentTeamsByGroup: {}
+  tournamentTeams: {}
 };
 
 export const DEFAULT_TEAM_ENTITY = {
