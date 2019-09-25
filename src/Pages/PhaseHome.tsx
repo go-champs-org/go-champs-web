@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { allPhaseRounds } from '../Phases/Rounds/selectors';
+import { PhaseRoundEntity } from '../Phases/Rounds/state';
+import { default as BracketView } from '../Phases/Rounds/View';
 import { allPhaseStandings } from '../Phases/Standings/selectors';
 import { PhaseStandingsEntity } from '../Phases/Standings/state';
 import { default as StandingsView } from '../Phases/Standings/View';
@@ -27,6 +30,7 @@ interface PhaseHomeProps
   gamesByDate: { [date: string]: TournamentGameEntity[] };
   gamesInitialDatePosition: number;
   gamesLoading: boolean;
+  rounds: PhaseRoundEntity[];
   phase: TournamentPhaseEntity | undefined;
   phaseStats: TournamentStatEntity[];
   standings: PhaseStandingsEntity[];
@@ -40,6 +44,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   gamesLoading,
   phase,
   phaseStats,
+  rounds,
   standings,
   teams
 }) => {
@@ -53,7 +58,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
         }}
       />
     ) : (
-      <div>Bracket view</div>
+      <BracketView {...{ rounds }} />
     );
 
   return (
@@ -90,6 +95,7 @@ const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
     gamesLoading: gamesLoading(state.tournamentGames),
     phase: phaseById(state.tournamentPhases, phaseId),
     phaseStats: allPhaseStats(state.tournamentStats),
+    rounds: allPhaseRounds(state.phaseRounds),
     standings: allPhaseStandings(state.phaseStandings),
     teams: state.tournamentTeams.tournamentTeams
   };
