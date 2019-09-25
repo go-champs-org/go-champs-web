@@ -1,3 +1,4 @@
+import { PhaseRoundEntity } from '../../Phases/Rounds/state';
 import { PhaseStandingsEntity } from '../../Phases/Standings/state';
 import { TournamentStatEntity } from '../Stats/state';
 
@@ -12,6 +13,7 @@ export interface TournamentPhaseEntity {
   type: PhaseTypes;
   order: number;
   isInProgress: boolean;
+  rounds: PhaseRoundEntity[];
   stats: TournamentStatEntity[];
   standings: PhaseStandingsEntity[];
 }

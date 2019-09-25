@@ -30,6 +30,36 @@ export interface ApiGamesResponse {
   data: ApiGameWithDepedencies[];
 }
 
+export interface ApiPhaseMatchRound {
+  id: string;
+  first_team_id?: string;
+  first_team_parent_id?: string;
+  first_team_placeholder?: string;
+  first_team_score?: string;
+  second_team_id?: string;
+  second_team_parent_id?: string;
+  second_team_placeholder?: string;
+  second_team_score?: string;
+}
+
+export interface ApiPhaseRound {
+  id: string;
+  title?: string;
+  matches: ApiPhaseMatchRound[];
+}
+
+export interface ApiPhaseRoundRequest {
+  phase_round: ApiPhaseRound;
+}
+
+export interface ApiPhaseRoundResponse {
+  data: ApiPhaseRound;
+}
+
+export interface ApiPhaseRoundsResponse {
+  data: ApiPhaseRound[];
+}
+
 export interface ApiPhaseStandingsTeamStat {
   id: string;
   team_id: string;
