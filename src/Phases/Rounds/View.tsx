@@ -8,10 +8,24 @@ interface MatchProps {
 
 const Match: React.FC<MatchProps> = ({ match }) => {
   return (
-    <div>
-      Home Team: {match.firstTeamPlaceholder}
-      <br />
-      Away Team: {match.secondTeamPlaceholder}
+    <div className="card">
+      <div className="card-content">
+        <div className="content">
+          <div className="columns is-multiline">
+            <div className="column is-9">{match.firstTeamPlaceholder}</div>
+
+            <div className="column is-3 has-text-right">
+              {match.firstTeamScore || 0}
+            </div>
+
+            <div className="column is-9">{match.secondTeamPlaceholder}</div>
+
+            <div className="column is-3 has-text-right">
+              {match.secondTeamScore || 0}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -22,8 +36,8 @@ interface RoundProps {
 
 const Round: React.FC<RoundProps> = ({ round }) => {
   return (
-    <div>
-      <h1>Round: {round.title}</h1>
+    <div className="round">
+      <h1 className="subtitle is-5 has-text-centered">{round.title}</h1>
       {round.matches.map((match: RoundMatchEntity) => (
         <Match match={match} />
       ))}
