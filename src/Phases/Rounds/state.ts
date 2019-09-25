@@ -12,6 +12,7 @@ export interface RoundMatchEntity {
 
 export interface PhaseRoundEntity {
   id: string;
+  order: number;
   title: string;
   matches: RoundMatchEntity[];
 }

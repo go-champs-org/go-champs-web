@@ -37,8 +37,9 @@ export const mapApiPhaseRoundToRoundEntity = (
   apiRound: ApiPhaseRound
 ): PhaseRoundEntity => ({
   id: apiRound.id,
-  title: apiRound.title || '',
-  matches: apiRound.matches.map(mapApiPhaseMatchRoundToRoundMatch)
+  matches: apiRound.matches.map(mapApiPhaseMatchRoundToRoundMatch),
+  order: apiRound.order || 1,
+  title: apiRound.title || ''
 });
 
 export const mapRoundEntityToApiPhaseRoundRequest = (
@@ -46,7 +47,8 @@ export const mapRoundEntityToApiPhaseRoundRequest = (
 ): ApiPhaseRoundRequest => ({
   phase_round: {
     id: phaseRound.id,
-    title: phaseRound.title,
-    matches: phaseRound.matches.map(mapRoundMatchToApiPhaseMatchRound)
+    matches: phaseRound.matches.map(mapRoundMatchToApiPhaseMatchRound),
+    order: phaseRound.order || undefined,
+    title: phaseRound.title
   }
 });

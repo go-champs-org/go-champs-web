@@ -44,6 +44,7 @@ export interface ApiPhaseMatchRound {
 
 export interface ApiPhaseRound {
   id: string;
+  order?: number;
   title?: string;
   matches: ApiPhaseMatchRound[];
 }
@@ -95,6 +96,7 @@ export interface ApiPhase {
   title: string;
   type: PhaseTypes;
   order: number;
+  rounds?: ApiPhaseRound[];
   standings?: ApiPhaseStandings[];
   stats?: ApiStat[];
 }
