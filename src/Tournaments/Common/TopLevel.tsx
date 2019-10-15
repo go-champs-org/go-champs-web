@@ -31,7 +31,7 @@ const StandingMenu: React.FC<{
 
     <DropdownItem>
       <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseStandingsEdit`}
+        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/EliminationEdit`}
       >
         Standings
       </Link>

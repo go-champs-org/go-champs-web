@@ -30,7 +30,7 @@ export interface ApiGamesResponse {
   data: ApiGameWithDepedencies[];
 }
 
-export interface ApiPhaseMatchRound {
+export interface ApiDrawMatch {
   id: string;
   first_team_id?: string;
   first_team_parent_id?: string;
@@ -42,47 +42,47 @@ export interface ApiPhaseMatchRound {
   second_team_score?: string;
 }
 
-export interface ApiPhaseRound {
+export interface ApiDraw {
   id: string;
   order?: number;
   title?: string;
-  matches: ApiPhaseMatchRound[];
+  matches: ApiDrawMatch[];
 }
 
-export interface ApiPhaseRoundRequest {
-  phase_round: ApiPhaseRound;
+export interface ApiDrawRequest {
+  draw: ApiDraw;
 }
 
-export interface ApiPhaseRoundResponse {
-  data: ApiPhaseRound;
+export interface ApiDrawResponse {
+  data: ApiDraw;
 }
 
-export interface ApiPhaseRoundsResponse {
-  data: ApiPhaseRound[];
+export interface ApiDrawsResponse {
+  data: ApiDraw[];
 }
 
-export interface ApiPhaseStandingsTeamStat {
+export interface ApiEliminationTeamStat {
   id: string;
   team_id: string;
   stats: { [stat_id: string]: string };
 }
 
-export interface ApiPhaseStandings {
+export interface ApiElimination {
   id: string;
   title?: string;
-  team_stats: ApiPhaseStandingsTeamStat[];
+  team_stats: ApiEliminationTeamStat[];
 }
 
-export interface ApiPhaseStandingsRequest {
-  phase_standings: ApiPhaseStandings;
+export interface ApiEliminationRequest {
+  elimination: ApiElimination;
 }
 
-export interface ApiPhaseStandingsResponse {
-  data: ApiPhaseStandings;
+export interface ApiEliminationResponse {
+  data: ApiElimination;
 }
 
-export interface ApiPhaseStandingssResponse {
-  data: ApiPhaseStandings[];
+export interface ApiEliminationsResponse {
+  data: ApiElimination[];
 }
 
 export interface ApiOrganization {
@@ -96,8 +96,8 @@ export interface ApiPhase {
   title: string;
   type: PhaseTypes;
   order: number;
-  rounds?: ApiPhaseRound[];
-  standings?: ApiPhaseStandings[];
+  draws?: ApiDraw[];
+  eliminations?: ApiElimination[];
   stats?: ApiStat[];
 }
 

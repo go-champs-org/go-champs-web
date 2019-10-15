@@ -1,9 +1,9 @@
-import { PhaseRoundEntity } from '../../Phases/Rounds/state';
-import { PhaseStandingsEntity } from '../../Phases/Standings/state';
+import { DrawEntity } from '../../Draws/state';
+import { EliminationEntity } from '../../Eliminations/state';
 import { TournamentStatEntity } from '../Stats/state';
 
 export enum PhaseTypes {
-  standings = 'standings',
+  eliminations = 'eliminations',
   bracket = 'bracket'
 }
 
@@ -13,9 +13,9 @@ export interface TournamentPhaseEntity {
   type: PhaseTypes;
   order: number;
   isInProgress: boolean;
-  rounds: PhaseRoundEntity[];
+  draws: DrawEntity[];
   stats: TournamentStatEntity[];
-  standings: PhaseStandingsEntity[];
+  eliminations: EliminationEntity[];
 }
 
 export interface TournamentPhaseState {

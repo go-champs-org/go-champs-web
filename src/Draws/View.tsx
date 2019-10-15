@@ -1,9 +1,9 @@
 import React from 'react';
-import { PhaseRoundEntity, RoundMatchEntity } from './state';
+import { DrawEntity, DrawMatchEntity } from './state';
 import './View.scss';
 
 interface MatchProps {
-  match: RoundMatchEntity;
+  match: DrawMatchEntity;
 }
 
 const Match: React.FC<MatchProps> = ({ match }) => {
@@ -31,14 +31,14 @@ const Match: React.FC<MatchProps> = ({ match }) => {
 };
 
 interface RoundProps {
-  round: PhaseRoundEntity;
+  draw: DrawEntity;
 }
 
-const Round: React.FC<RoundProps> = ({ round }) => {
+const Round: React.FC<RoundProps> = ({ draw }) => {
   return (
     <div className="round">
-      <h1 className="subtitle is-5 has-text-centered">{round.title}</h1>
-      {round.matches.map((match: RoundMatchEntity) => (
+      <h1 className="subtitle is-5 has-text-centered">{draw.title}</h1>
+      {draw.matches.map((match: DrawMatchEntity) => (
         <Match match={match} />
       ))}
     </div>
@@ -46,14 +46,14 @@ const Round: React.FC<RoundProps> = ({ round }) => {
 };
 
 interface BracketProps {
-  rounds: PhaseRoundEntity[];
+  draws: DrawEntity[];
 }
 
-const Bracket: React.FC<BracketProps> = ({ rounds }) => {
+const Bracket: React.FC<BracketProps> = ({ draws }) => {
   return (
     <div className="bracket-container">
-      {rounds.map((round: PhaseRoundEntity) => (
-        <Round round={round} />
+      {draws.map((draw: DrawEntity) => (
+        <Round draw={draw} />
       ))}
     </div>
   );

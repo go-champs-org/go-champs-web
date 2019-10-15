@@ -1,7 +1,7 @@
-import { displayToast } from '../../Shared/bulma/toast';
-import { HttpAction } from '../../Shared/store/interfaces';
-import phaseStandingsHttpClient from './standingsHttpClient';
-import { PhaseStandingsEntity } from './state';
+import { displayToast } from '../Shared/bulma/toast';
+import { HttpAction } from '../Shared/store/interfaces';
+import phaseStandingsHttpClient from './eliminationHttpClient';
+import { EliminationEntity } from './state';
 
 export const DELETE_PHASE_STANDINGS = 'API_DELETE_PHASE_STANDINGS';
 export const DELETE_PHASE_STANDINGS_SUCCESS =
@@ -17,8 +17,8 @@ export const POST_PHASE_STANDINGS = 'API_POST_PHASE_STANDINGS';
 export const POST_PHASE_STANDINGS_SUCCESS = 'API_POST_PHASE_STANDINGS_SUCCESS';
 export const POST_PHASE_STANDINGS_FAILURE = 'API_POST_PHASE_STANDINGS_FAILURE';
 
-export const deletePhaseStandings = (phaseId: string) => (
-  phaseStandings: PhaseStandingsEntity
+export const deleteElimination = (phaseId: string) => (
+  phaseStandings: EliminationEntity
 ) => async (dispatch: any) => {
   dispatch({ type: DELETE_PHASE_STANDINGS });
 
@@ -28,29 +28,29 @@ export const deletePhaseStandings = (phaseId: string) => (
       phaseStandings.id
     );
 
-    dispatch(deletePhaseStandingsSuccess(response));
+    dispatch(deleteEliminationSuccess(response));
     displayToast(`${phaseStandings.title} deleted!`, 'is-success');
   } catch (err) {
-    dispatch(deletePhaseStandingsFailure(err));
+    dispatch(deleteEliminationFailure(err));
   }
 };
 
-export const deletePhaseStandingsSuccess = (
+export const deleteEliminationSuccess = (
   payload: string
 ): HttpAction<ActionTypes, string> => ({
   type: DELETE_PHASE_STANDINGS_SUCCESS,
   payload
 });
 
-export const deletePhaseStandingsFailure = (
+export const deleteEliminationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: DELETE_PHASE_STANDINGS_FAILURE,
   payload
 });
 
-export const patchPhaseStandings = (phaseId: string) => (
-  phaseStandings: PhaseStandingsEntity
+export const patchElimination = (phaseId: string) => (
+  phaseStandings: EliminationEntity
 ) => async (dispatch: any) => {
   dispatch({ type: PATCH_PHASE_STANDINGS });
 
@@ -60,29 +60,29 @@ export const patchPhaseStandings = (phaseId: string) => (
       phaseStandings
     );
 
-    dispatch(patchPhaseStandingsSuccess(response));
+    dispatch(patchEliminationSuccess(response));
     displayToast(`${phaseStandings.title} updated!`, 'is-success');
   } catch (err) {
-    dispatch(patchPhaseStandingsFailure(err));
+    dispatch(patchEliminationFailure(err));
   }
 };
 
-export const patchPhaseStandingsSuccess = (
-  payload: PhaseStandingsEntity
-): HttpAction<ActionTypes, PhaseStandingsEntity> => ({
+export const patchEliminationSuccess = (
+  payload: EliminationEntity
+): HttpAction<ActionTypes, EliminationEntity> => ({
   type: PATCH_PHASE_STANDINGS_SUCCESS,
   payload
 });
 
-export const patchPhaseStandingsFailure = (
+export const patchEliminationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: PATCH_PHASE_STANDINGS_FAILURE,
   payload
 });
 
-export const postPhaseStandings = (phaseId: string) => (
-  phaseStandings: PhaseStandingsEntity
+export const postElimination = (phaseId: string) => (
+  phaseStandings: EliminationEntity
 ) => async (dispatch: any) => {
   dispatch({ type: POST_PHASE_STANDINGS });
 
@@ -92,21 +92,21 @@ export const postPhaseStandings = (phaseId: string) => (
       phaseStandings
     );
 
-    dispatch(postPhaseStandingsSuccess(response));
+    dispatch(postEliminationSuccess(response));
     displayToast(`${phaseStandings.title} created!`, 'is-success');
   } catch (err) {
-    dispatch(postPhaseStandingsFailure(err));
+    dispatch(postEliminationFailure(err));
   }
 };
 
-export const postPhaseStandingsSuccess = (
-  payload: PhaseStandingsEntity
-): HttpAction<ActionTypes, PhaseStandingsEntity> => ({
+export const postEliminationSuccess = (
+  payload: EliminationEntity
+): HttpAction<ActionTypes, EliminationEntity> => ({
   type: POST_PHASE_STANDINGS_SUCCESS,
   payload
 });
 
-export const postPhaseStandingsFailure = (
+export const postEliminationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: POST_PHASE_STANDINGS_FAILURE,

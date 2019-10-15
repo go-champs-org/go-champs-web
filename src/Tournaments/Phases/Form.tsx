@@ -6,7 +6,7 @@ import { PhaseTypes } from './state';
 
 const PHASE_TYPE_LABELMAP = new Map([
   [PhaseTypes.bracket, 'Bracket'],
-  [PhaseTypes.standings, 'Standings']
+  [PhaseTypes.eliminations, 'Standings']
 ]);
 
 interface FromProps {

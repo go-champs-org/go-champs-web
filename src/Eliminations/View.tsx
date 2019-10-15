@@ -1,7 +1,7 @@
 import React from 'react';
-import { TournamentStatEntity } from '../../Tournaments/Stats/state';
-import { TournamentTeamEntity } from '../../Tournaments/Teams/state';
-import { PhaseStandingsEntity, PhaseStandingsTeamStatEntity } from './state';
+import { TournamentStatEntity } from '../Tournaments/Stats/state';
+import { TournamentTeamEntity } from '../Tournaments/Teams/state';
+import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 
 const TournamentTeamStandingsRow: React.FC<{
@@ -29,19 +29,19 @@ const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
 
 interface StandingsProps {
   phaseStats: TournamentStatEntity[];
-  standings: PhaseStandingsEntity;
+  eliminations: EliminationEntity;
   teams: { [id: string]: TournamentTeamEntity };
 }
 
 const Standings: React.FC<StandingsProps> = ({
   phaseStats,
-  standings,
+  eliminations,
   teams
 }) => {
-  const TitleSection = standings.title ? (
+  const TitleSection = eliminations.title ? (
     <div className="columns">
       <div className="column is-12">
-        <h5 className="subtitle">{standings.title}</h5>
+        <h5 className="subtitle">{eliminations.title}</h5>
       </div>
     </div>
   ) : (
@@ -60,8 +60,8 @@ const Standings: React.FC<StandingsProps> = ({
           </tr>
         </thead>
         <tbody>
-          {standings.teamStats.map(
-            (teamStats: PhaseStandingsTeamStatEntity) => (
+          {eliminations.teamStats.map(
+            (teamStats: EliminationTeamStatEntity) => (
               <TournamentTeamStandingsRow
                 key={teamStats.id}
                 phaseStats={phaseStats}
@@ -78,21 +78,21 @@ const Standings: React.FC<StandingsProps> = ({
 
 interface TournamentStandingsViewProps {
   phaseStats: TournamentStatEntity[];
-  standings: PhaseStandingsEntity[];
+  eliminations: EliminationEntity[];
   teams: { [id: string]: TournamentTeamEntity };
 }
 
 export const View: React.FC<TournamentStandingsViewProps> = ({
   phaseStats,
-  standings,
+  eliminations,
   teams
 }) => {
   return (
     <div>
-      {standings.map((standing: PhaseStandingsEntity) => (
+      {eliminations.map((standing: EliminationEntity) => (
         <Standings
           key={standing.id}
-          standings={standing}
+          eliminations={standing}
           phaseStats={phaseStats}
           teams={teams}
         />

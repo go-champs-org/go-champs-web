@@ -11,7 +11,7 @@ import { TournamentPhaseHomeMatchProps } from './routerInterfaces';
 
 interface WithPhaseProps
   extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
-  requestTournamentPhase: (tournamentId: string, phaseId: string) => {};
+  requestTournamentPhase: (phaseId: string) => {};
   requestTournamentGames: (phaseId: string) => {};
   tournament: TournamentEntity;
 }
@@ -24,12 +24,11 @@ const withPhase = (WrappedComponent: any) => {
 
     componentDidMount() {
       const {
-        tournament,
         match: {
           params: { phaseId }
         }
       } = this.props;
-      this.props.requestTournamentPhase(tournament.id, phaseId);
+      this.props.requestTournamentPhase(phaseId);
       this.props.requestTournamentGames(phaseId);
     }
   }

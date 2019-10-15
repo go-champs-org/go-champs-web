@@ -158,7 +158,7 @@ export const requestTournament = (tournamentId: string) => async (
     const response = await tournamentHttpClient.get(tournamentId);
     const phaseId = currentPhaseId(response);
 
-    dispatch(requestTournamentPhase(tournamentId, phaseId));
+    dispatch(requestTournamentPhase(phaseId));
     dispatch(requestTournamentGames(phaseId));
     dispatch(requestTournamentSuccess(response));
     dispatch(updateTournamentTeamByGroup());

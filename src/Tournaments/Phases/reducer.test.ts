@@ -81,7 +81,7 @@ describe('deleteTournamentPhaseSuccess', () => {
       ['first-id']: {
         id: 'first-id',
         title: 'first-title',
-        type: 'standings'
+        type: 'eliminations'
       }
     }
   };
@@ -106,7 +106,7 @@ describe('deleteTournamentPhaseSuccess', () => {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
-          type: 'standings'
+          type: 'eliminations'
         },
         ...deleteState.tournamentPhases
       }
@@ -117,7 +117,7 @@ describe('deleteTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
-      type: 'standings'
+      type: 'eliminations'
     });
   });
 });
@@ -153,7 +153,7 @@ describe('patchTournamentPhaseSuccess', () => {
     payload: {
       id: 'first-id',
       title: 'some-first-title',
-      type: 'standings'
+      type: 'eliminations'
     }
   };
 
@@ -163,7 +163,7 @@ describe('patchTournamentPhaseSuccess', () => {
       ['first-id']: {
         id: 'first-id',
         title: 'first-title',
-        type: 'standings'
+        type: 'eliminations'
       }
     }
   };
@@ -181,7 +181,7 @@ describe('patchTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['first-id']).toEqual({
       id: 'first-id',
       title: 'some-first-title',
-      type: 'standings'
+      type: 'eliminations'
     });
   });
 
@@ -192,7 +192,7 @@ describe('patchTournamentPhaseSuccess', () => {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
-          type: 'standings'
+          type: 'eliminations'
         }
       }
     };
@@ -202,7 +202,7 @@ describe('patchTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
-      type: 'standings'
+      type: 'eliminations'
     });
   });
 });
@@ -238,7 +238,7 @@ describe('postTournamentPhaseSuccess', () => {
     payload: {
       id: 'first-id',
       title: 'first-title',
-      type: 'standings',
+      type: 'eliminations',
       order: 1
     }
   };
@@ -256,7 +256,7 @@ describe('postTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['first-id']).toEqual({
       id: 'first-id',
       title: 'first-title',
-      type: 'standings',
+      type: 'eliminations',
       order: 1
     });
   });
@@ -268,7 +268,7 @@ describe('postTournamentPhaseSuccess', () => {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
-          type: 'standings'
+          type: 'eliminations'
         }
       }
     };
@@ -278,7 +278,7 @@ describe('postTournamentPhaseSuccess', () => {
     expect(newState.tournamentPhases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
-      type: 'standings'
+      type: 'eliminations'
     });
   });
 });
@@ -319,13 +319,13 @@ describe('requestTournamentSuccess', () => {
         {
           id: 'first-phase-id',
           title: 'first phase title',
-          type: PhaseTypes.standings,
+          type: PhaseTypes.eliminations,
           order: 1
         },
         {
           id: 'second-phase-id',
           title: 'second phase title',
-          type: PhaseTypes.standings,
+          type: PhaseTypes.eliminations,
           order: 2
         }
       ]
@@ -344,13 +344,13 @@ describe('requestTournamentSuccess', () => {
     expect(newState.tournamentPhases['first-phase-id']).toEqual({
       id: 'first-phase-id',
       title: 'first phase title',
-      type: 'standings',
+      type: 'eliminations',
       order: 1
     });
     expect(newState.tournamentPhases['second-phase-id']).toEqual({
       id: 'second-phase-id',
       title: 'second phase title',
-      type: 'standings',
+      type: 'eliminations',
       order: 2
     });
   });

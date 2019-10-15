@@ -1,4 +1,4 @@
-import { HttpAction } from '../../Shared/store/interfaces';
+import { HttpAction } from '../Shared/store/interfaces';
 import {
   ActionTypes,
   DELETE_PHASE_STANDINGS,
@@ -12,13 +12,9 @@ import {
   POST_PHASE_STANDINGS_SUCCESS
 } from './actions';
 import phaseStandingsReducer from './reducer';
-import {
-  initialState,
-  PhaseStandingsEntity,
-  PhaseStandingsState
-} from './state';
+import { EliminationEntity, EliminationState, initialState } from './state';
 
-describe('deletePhaseStandings', () => {
+describe('deleteElimination', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_PHASE_STANDINGS,
     payload: {
@@ -26,13 +22,13 @@ describe('deletePhaseStandings', () => {
     }
   };
 
-  it('sets isLoadingDeletePhaseStandings to true', () => {
+  it('sets isLoadingDeleteElimination to true', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingDeletePhaseStandings).toBe(true);
+    expect(newState.isLoadingDeleteElimination).toBe(true);
   });
 });
 
-describe('deletePhaseStandingsFailure', () => {
+describe('deleteEliminationFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_PHASE_STANDINGS_FAILURE,
     payload: {
@@ -40,13 +36,13 @@ describe('deletePhaseStandingsFailure', () => {
     }
   };
 
-  it('sets isLoadingDeletePhaseStandings to false', () => {
+  it('sets isLoadingDeleteElimination to false', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingDeletePhaseStandings).toBe(false);
+    expect(newState.isLoadingDeleteElimination).toBe(false);
   });
 });
 
-describe('deletePhaseStandingsSuccess', () => {
+describe('deleteEliminationSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_PHASE_STANDINGS_SUCCESS,
     payload: 'first-id'
@@ -54,7 +50,7 @@ describe('deletePhaseStandingsSuccess', () => {
 
   const deleteState = {
     ...initialState,
-    standings: {
+    eliminations: {
       'first-id': {
         id: 'first-id',
         title: 'first-title',
@@ -63,33 +59,33 @@ describe('deletePhaseStandingsSuccess', () => {
     }
   };
 
-  it('sets isLoadingDeletePhaseStandings to false', () => {
+  it('sets isLoadingDeleteElimination to false', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingDeletePhaseStandings).toBe(false);
+    expect(newState.isLoadingDeleteElimination).toBe(false);
   });
 
   it('remove entity', () => {
     const newState = phaseStandingsReducer(deleteState, action);
 
-    expect(newState.standings['first-id']).toBeUndefined();
+    expect(newState.eliminations['first-id']).toBeUndefined();
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseStandingsState = {
+    const someState: EliminationState = {
       ...initialState,
-      standings: {
+      eliminations: {
         'some-id': {
           id: 'some-id',
           title: 'some-title',
           teamStats: []
         },
-        ...deleteState.standings
+        ...deleteState.eliminations
       }
     };
 
     const newState = phaseStandingsReducer(someState, action);
 
-    expect(newState.standings['some-id']).toEqual({
+    expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
       teamStats: []
@@ -97,30 +93,30 @@ describe('deletePhaseStandingsSuccess', () => {
   });
 });
 
-describe('patchPhaseStandings', () => {
+describe('patchElimination', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_PHASE_STANDINGS
   };
 
-  it('sets isLoadingPatchPhaseStandings to true', () => {
+  it('sets isLoadingPatchElimination to true', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingPatchPhaseStandings).toBe(true);
+    expect(newState.isLoadingPatchElimination).toBe(true);
   });
 });
 
-describe('patchPhaseStandingsFailure', () => {
+describe('patchEliminationFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_PHASE_STANDINGS_FAILURE
   };
 
-  it('sets isLoadingPatchPhaseStandings to false', () => {
+  it('sets isLoadingPatchElimination to false', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingPatchPhaseStandings).toBe(false);
+    expect(newState.isLoadingPatchElimination).toBe(false);
   });
 });
 
-describe('patchPhaseStandingsSuccess', () => {
-  const action: HttpAction<ActionTypes, PhaseStandingsEntity> = {
+describe('patchEliminationSuccess', () => {
+  const action: HttpAction<ActionTypes, EliminationEntity> = {
     type: PATCH_PHASE_STANDINGS_SUCCESS,
     payload: {
       id: 'first-id',
@@ -129,9 +125,9 @@ describe('patchPhaseStandingsSuccess', () => {
     }
   };
 
-  const updateState: PhaseStandingsState = {
+  const updateState: EliminationState = {
     ...initialState,
-    standings: {
+    eliminations: {
       'first-id': {
         id: 'first-id',
         title: 'first-title',
@@ -140,15 +136,15 @@ describe('patchPhaseStandingsSuccess', () => {
     }
   };
 
-  it('sets isLoadingPatchPhaseStandings to false', () => {
+  it('sets isLoadingPatchElimination to false', () => {
     const newState = phaseStandingsReducer(updateState, action);
-    expect(newState.isLoadingPatchPhaseStandings).toBe(false);
+    expect(newState.isLoadingPatchElimination).toBe(false);
   });
 
   it('set entity', () => {
     const newState = phaseStandingsReducer(updateState, action);
 
-    expect(newState.standings['first-id']).toEqual({
+    expect(newState.eliminations['first-id']).toEqual({
       id: 'first-id',
       title: 'some-first-title',
       teamStats: []
@@ -156,9 +152,9 @@ describe('patchPhaseStandingsSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseStandingsState = {
+    const someState: EliminationState = {
       ...updateState,
-      standings: {
+      eliminations: {
         'some-id': {
           id: 'some-id',
           title: 'some-title',
@@ -169,7 +165,7 @@ describe('patchPhaseStandingsSuccess', () => {
 
     const newState = phaseStandingsReducer(someState, action);
 
-    expect(newState.standings['some-id']).toEqual({
+    expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
       teamStats: []
@@ -177,30 +173,30 @@ describe('patchPhaseStandingsSuccess', () => {
   });
 });
 
-describe('postPhaseStandings', () => {
+describe('postElimination', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_PHASE_STANDINGS
   };
 
-  it('sets isLoadingPostPhaseStandings to true', () => {
+  it('sets isLoadingPostElimination to true', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingPostPhaseStandings).toBe(true);
+    expect(newState.isLoadingPostElimination).toBe(true);
   });
 });
 
-describe('postPhaseStandingsFailure', () => {
+describe('postEliminationFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_PHASE_STANDINGS_FAILURE
   };
 
-  it('sets isLoadingPostPhaseStandings to false', () => {
+  it('sets isLoadingPostElimination to false', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingPostPhaseStandings).toBe(false);
+    expect(newState.isLoadingPostElimination).toBe(false);
   });
 });
 
-describe('postPhaseStandingsSuccess', () => {
-  const action: HttpAction<ActionTypes, PhaseStandingsEntity> = {
+describe('postEliminationSuccess', () => {
+  const action: HttpAction<ActionTypes, EliminationEntity> = {
     type: POST_PHASE_STANDINGS_SUCCESS,
     payload: {
       id: 'first-id',
@@ -209,15 +205,15 @@ describe('postPhaseStandingsSuccess', () => {
     }
   };
 
-  it('sets isLoadingPostPhaseStandings to false', () => {
+  it('sets isLoadingPostElimination to false', () => {
     const newState = phaseStandingsReducer(initialState, action);
-    expect(newState.isLoadingPostPhaseStandings).toBe(false);
+    expect(newState.isLoadingPostElimination).toBe(false);
   });
 
   it('set entity', () => {
     const newState = phaseStandingsReducer(initialState, action);
 
-    expect(newState.standings['first-id']).toEqual({
+    expect(newState.eliminations['first-id']).toEqual({
       id: 'first-id',
       title: 'first-title',
       teamStats: []
@@ -225,9 +221,9 @@ describe('postPhaseStandingsSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseStandingsState = {
+    const someState: EliminationState = {
       ...initialState,
-      standings: {
+      eliminations: {
         'some-id': {
           id: 'some-id',
           title: 'some-title',
@@ -238,7 +234,7 @@ describe('postPhaseStandingsSuccess', () => {
 
     const newState = phaseStandingsReducer(someState, action);
 
-    expect(newState.standings['some-id']).toEqual({
+    expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
       teamStats: []
