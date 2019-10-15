@@ -29,16 +29,13 @@ export const REQUEST_TOURNAMENT_PHASE_SUCCESS =
 export const REQUEST_TOURNAMENT_PHASE_FAILURE =
   'API_REQUEST_TOURNAMENT_PHASE_FAILURE';
 
-export const deleteTournamentPhase = (tournamentId: string) => (
+export const deleteTournamentPhase = (
   tournamentPhase: TournamentPhaseEntity
 ) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_PHASE });
 
   try {
-    const response = await phaseHttpClient.delete(
-      tournamentId,
-      tournamentPhase.id
-    );
+    const response = await phaseHttpClient.delete(tournamentPhase.id);
 
     dispatch(deleteTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} deleted!`, 'is-success');
@@ -61,13 +58,13 @@ export const deleteTournamentPhaseFailure = (
   payload
 });
 
-export const patchTournamentPhase = (tournamentId: string) => (
+export const patchTournamentPhase = (
   tournamentPhase: TournamentPhaseEntity
 ) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT_PHASE });
 
   try {
-    const response = await phaseHttpClient.patch(tournamentId, tournamentPhase);
+    const response = await phaseHttpClient.patch(tournamentPhase);
 
     dispatch(patchTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} updated!`, 'is-success');
@@ -90,13 +87,13 @@ export const patchTournamentPhaseFailure = (
   payload
 });
 
-export const postTournamentPhase = (tournamentId: string) => (
+export const postTournamentPhase = (
   tournamentPhase: TournamentPhaseEntity
 ) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_PHASE });
 
   try {
-    const response = await phaseHttpClient.post(tournamentId, tournamentPhase);
+    const response = await phaseHttpClient.post(tournamentPhase);
 
     dispatch(postTournamentPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} created!`, 'is-success');
@@ -119,14 +116,13 @@ export const postTournamentPhaseFailure = (
   payload
 });
 
-export const requestTournamentPhase = (
-  tournamentId: string,
-  tournamentPhaseId: string
-) => async (dispatch: any) => {
+export const requestTournamentPhase = (tournamentId: string) => async (
+  dispatch: any
+) => {
   dispatch({ type: REQUEST_TOURNAMENT_PHASE });
 
   try {
-    const response = await phaseHttpClient.get(tournamentId, tournamentPhaseId);
+    const response = await phaseHttpClient.get(tournamentId);
 
     dispatch(requestTournamentPhaseSuccess(response));
   } catch (err) {
