@@ -16,9 +16,9 @@ import {
   POST_TOURNAMENT_GAME_FAILURE,
   POST_TOURNAMENT_GAME_SUCCESS,
   REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES,
-  REQUEST_TOURNAMENT_GAMES_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_SUCCESS,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   REQUEST_TOURNAMENT_GAME_FAILURE,
   REQUEST_TOURNAMENT_GAME_SUCCESS
 } from './actions';
@@ -115,7 +115,7 @@ export const requestTournamentGameSuccess = (
   tournamentGames: [action.payload].reduce(tournamentGameMapEntities, {})
 });
 
-export const requestTournamentGames = (
+export const requestTournamentGamesByFilter = (
   state: TournamentGameState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -123,7 +123,7 @@ export const requestTournamentGames = (
   isLoadingRequestTournamentGames: true
 });
 
-export const requestTournamentGamesFailure = (
+export const requestTournamentGamesByFilterFailure = (
   state: TournamentGameState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -131,7 +131,7 @@ export const requestTournamentGamesFailure = (
   isLoadingRequestTournamentGames: false
 });
 
-export const requestTournamentGamesSuccess = (
+export const requestTournamentGamesByFilterSuccess = (
   state: TournamentGameState,
   action: HttpAction<ActionTypes, TournamentGameEntity[]>
 ) => ({
@@ -156,7 +156,7 @@ export default createReducer(initialState, {
   [REQUEST_TOURNAMENT_GAME]: requestTournamentGame,
   [REQUEST_TOURNAMENT_GAME_FAILURE]: requestTournamentGameFailure,
   [REQUEST_TOURNAMENT_GAME_SUCCESS]: requestTournamentGameSuccess,
-  [REQUEST_TOURNAMENT_GAMES]: requestTournamentGames,
-  [REQUEST_TOURNAMENT_GAMES_FAILURE]: requestTournamentGamesFailure,
-  [REQUEST_TOURNAMENT_GAMES_SUCCESS]: requestTournamentGamesSuccess
+  [REQUEST_TOURNAMENT_GAMES_BY_FILTER]: requestTournamentGamesByFilter,
+  [REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE]: requestTournamentGamesByFilterFailure,
+  [REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS]: requestTournamentGamesByFilterSuccess
 });

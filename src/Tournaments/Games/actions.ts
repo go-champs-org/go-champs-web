@@ -1,6 +1,6 @@
 import { displayToast } from '../../Shared/bulma/toast';
 import { HttpAction } from '../../Shared/store/interfaces';
-import gameHttpClient from './gameHttpClient';
+import gameHttpClient, { RequestFilter } from './gameHttpClient';
 import { TournamentGameEntity } from './state';
 
 export const DELETE_TOURNAMENT_GAME = 'API_DELETE_TOURNAMENT_GAME';
@@ -13,11 +13,12 @@ export const REQUEST_TOURNAMENT_GAME_SUCCESS =
   'API_REQUEST_TOURNAMENT_GAME_SUCCESS';
 export const REQUEST_TOURNAMENT_GAME_FAILURE =
   'API_REQUEST_TOURNAMENT_GAME_FAILURE';
-export const REQUEST_TOURNAMENT_GAMES = 'API_REQUEST_TOURNAMENT_GAMES';
-export const REQUEST_TOURNAMENT_GAMES_SUCCESS =
-  'API_REQUEST_TOURNAMENT_GAMES_SUCCESS';
-export const REQUEST_TOURNAMENT_GAMES_FAILURE =
-  'API_REQUEST_TOURNAMENT_GAMES_FAILURE';
+export const REQUEST_TOURNAMENT_GAMES_BY_FILTER =
+  'API_REQUEST_TOURNAMENT_GAMES_BY_FILTER';
+export const REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS =
+  'API_REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS';
+export const REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE =
+  'API_REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE';
 export const PATCH_TOURNAMENT_GAME = 'API_PATCH_TOURNAMENT_GAME';
 export const PATCH_TOURNAMENT_GAME_SUCCESS =
   'API_PATCH_TOURNAMENT_GAME_SUCCESS';
@@ -143,31 +144,31 @@ export const requestTournamentGameFailure = (
   payload
 });
 
-export const requestTournamentGames = (phaseId: string) => async (
+export const requestTournamentGamesByFilter = (where: RequestFilter) => async (
   dispatch: any
 ) => {
-  dispatch({ type: REQUEST_TOURNAMENT_GAMES });
+  dispatch({ type: REQUEST_TOURNAMENT_GAMES_BY_FILTER });
 
   try {
-    const response = await gameHttpClient.getAll(phaseId);
+    const response = await gameHttpClient.getByFilter(where);
 
-    dispatch(requestTournamentGamesSuccess(response));
+    dispatch(requestTournamentGamesByFilterSuccess(response));
   } catch (err) {
-    dispatch(requestTournamentGamesFailure(err));
+    dispatch(requestTournamentGamesByFilterFailure(err));
   }
 };
 
-export const requestTournamentGamesSuccess = (
+export const requestTournamentGamesByFilterSuccess = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_GAMES_SUCCESS,
+  type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   payload
 });
 
-export const requestTournamentGamesFailure = (
+export const requestTournamentGamesByFilterFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_GAMES_FAILURE,
+  type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
   payload
 });
 
@@ -184,7 +185,7 @@ export type ActionTypes =
   | typeof REQUEST_TOURNAMENT_GAME
   | typeof REQUEST_TOURNAMENT_GAME_FAILURE
   | typeof REQUEST_TOURNAMENT_GAME_SUCCESS
-  | typeof REQUEST_TOURNAMENT_GAMES
-  | typeof REQUEST_TOURNAMENT_GAMES_FAILURE
-  | typeof REQUEST_TOURNAMENT_GAMES_SUCCESS;
+  | typeof REQUEST_TOURNAMENT_GAMES_BY_FILTER
+  | typeof REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE
+  | typeof REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;

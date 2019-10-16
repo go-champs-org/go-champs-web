@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { StoreState } from '../../store';
-import { requestTournamentGames } from '../../Tournaments/Games/actions';
+import { requestTournamentGamesByFilter } from '../../Tournaments/Games/actions';
+import { RequestFilter } from '../../Tournaments/Games/gameHttpClient';
 import { requestTournamentPhase } from '../../Tournaments/Phases/actions';
 import { tournamentBySlug } from '../../Tournaments/selectors';
 import { TournamentEntity } from '../../Tournaments/state';
@@ -12,7 +13,7 @@ import { TournamentPhaseHomeMatchProps } from './routerInterfaces';
 interface WithPhaseProps
   extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
   requestTournamentPhase: (phaseId: string) => {};
-  requestTournamentGames: (phaseId: string) => {};
+  requestTournamentGamesByFilter: (where: RequestFilter) => {};
   tournament: TournamentEntity;
 }
 
@@ -29,7 +30,7 @@ const withPhase = (WrappedComponent: any) => {
         }
       } = this.props;
       this.props.requestTournamentPhase(phaseId);
-      this.props.requestTournamentGames(phaseId);
+      this.props.requestTournamentGamesByFilter({ phase_id: phaseId });
     }
   }
 
@@ -47,7 +48,7 @@ const withPhase = (WrappedComponent: any) => {
   const mapDispatchToProps = (dispatch: Dispatch) => {
     return bindActionCreators(
       {
-        requestTournamentGames,
+        requestTournamentGamesByFilter,
         requestTournamentPhase
       },
       dispatch

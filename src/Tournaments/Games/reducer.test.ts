@@ -8,9 +8,9 @@ import {
   POST_TOURNAMENT_GAME_FAILURE,
   POST_TOURNAMENT_GAME_SUCCESS,
   REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES,
-  REQUEST_TOURNAMENT_GAMES_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_SUCCESS,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   REQUEST_TOURNAMENT_GAME_FAILURE,
   REQUEST_TOURNAMENT_GAME_SUCCESS
 } from './actions';
@@ -23,9 +23,9 @@ import {
   postTournamentGameSuccess,
   requestTournamentGame,
   requestTournamentGameFailure,
-  requestTournamentGames,
-  requestTournamentGamesFailure,
-  requestTournamentGamesSuccess,
+  requestTournamentGamesByFilter,
+  requestTournamentGamesByFilterFailure,
+  requestTournamentGamesByFilterSuccess,
   requestTournamentGameSuccess
 } from './reducer';
 import {
@@ -311,35 +311,35 @@ describe('requestTournamentGameSuccess', () => {
   });
 });
 
-describe('requestTournamentGames', () => {
+describe('requestTournamentGamesByFilter', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAMES
+    type: REQUEST_TOURNAMENT_GAMES_BY_FILTER
   };
 
   it('sets isLoadingRequestTournamentGames to true', () => {
     expect(
-      requestTournamentGames(initialState, action)
+      requestTournamentGamesByFilter(initialState, action)
         .isLoadingRequestTournamentGames
     ).toBe(true);
   });
 });
 
-describe('requestTournamentGamesFailure', () => {
+describe('requestTournamentGamesByFilterFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAMES_FAILURE
+    type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE
   };
 
   it('sets isLoadingRequestTournamentGames to false', () => {
     expect(
-      requestTournamentGamesFailure(initialState, action)
+      requestTournamentGamesByFilterFailure(initialState, action)
         .isLoadingRequestTournamentGames
     ).toBe(false);
   });
 });
 
-describe('requestTournamentGamesSuccess', () => {
+describe('requestTournamentGamesByFilterSuccess', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAMES_SUCCESS,
+    type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
     payload: [
       {
         id: 'first-id',
@@ -385,13 +385,16 @@ describe('requestTournamentGamesSuccess', () => {
 
   it('sets isLoadingRequestTournamentGames to false', () => {
     expect(
-      requestTournamentGamesSuccess(initialState, action)
+      requestTournamentGamesByFilterSuccess(initialState, action)
         .isLoadingRequestTournamentGames
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentGamesSuccess(initialState, action);
+    const newState = requestTournamentGamesByFilterSuccess(
+      initialState,
+      action
+    );
 
     expect(newState.tournamentGames['first-id']).toEqual({
       id: 'first-id',
