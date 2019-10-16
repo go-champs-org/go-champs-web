@@ -7,16 +7,11 @@ import { default as BracketView } from '../Draws/View';
 import { allElimination } from '../Eliminations/selectors';
 import { EliminationEntity } from '../Eliminations/state';
 import { default as StandingsView } from '../Eliminations/View';
+import { default as GameListByDate } from '../Games/ListByDate';
+import { gameDates, gamesByDate, gamesCloserGameDatePosition, gamesLoading } from '../Games/selectors';
+import { TournamentGameEntity } from '../Games/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
-import { default as GameListByDate } from '../Tournaments/Games/ListByDate';
-import {
-  gameDates,
-  gamesByDate,
-  gamesCloserGameDatePosition,
-  gamesLoading
-} from '../Tournaments/Games/selectors';
-import { TournamentGameEntity } from '../Tournaments/Games/state';
 import { phaseById } from '../Tournaments/Phases/selectors';
 import { PhaseTypes, TournamentPhaseEntity } from '../Tournaments/Phases/state';
 import { allPhaseStats } from '../Tournaments/Stats/selectors';
@@ -58,8 +53,8 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
         }}
       />
     ) : (
-      <BracketView {...{ draws }} />
-    );
+        <BracketView {...{ draws }} />
+      );
 
   return (
     <div className="columns is-multiline">

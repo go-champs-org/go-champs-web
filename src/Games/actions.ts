@@ -1,5 +1,5 @@
-import { displayToast } from '../../Shared/bulma/toast';
-import { HttpAction } from '../../Shared/store/interfaces';
+import { displayToast } from '../Shared/bulma/toast';
+import { HttpAction } from '../Shared/store/interfaces';
 import gameHttpClient, { RequestFilter } from './gameHttpClient';
 import { TournamentGameEntity } from './state';
 

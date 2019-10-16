@@ -1,38 +1,7 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  ActionTypes,
-  DELETE_TOURNAMENT_GAME,
-  DELETE_TOURNAMENT_GAME_FAILURE,
-  DELETE_TOURNAMENT_GAME_SUCCESS,
-  POST_TOURNAMENT_GAME,
-  POST_TOURNAMENT_GAME_FAILURE,
-  POST_TOURNAMENT_GAME_SUCCESS,
-  REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES_BY_FILTER,
-  REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
-  REQUEST_TOURNAMENT_GAME_FAILURE,
-  REQUEST_TOURNAMENT_GAME_SUCCESS
-} from './actions';
-import {
-  deleteTournamentGame,
-  deleteTournamentGameFailure,
-  deleteTournamentGameSuccess,
-  postTournamentGame,
-  postTournamentGameFailure,
-  postTournamentGameSuccess,
-  requestTournamentGame,
-  requestTournamentGameFailure,
-  requestTournamentGamesByFilter,
-  requestTournamentGamesByFilterFailure,
-  requestTournamentGamesByFilterSuccess,
-  requestTournamentGameSuccess
-} from './reducer';
-import {
-  initialState,
-  TournamentGameEntity,
-  TournamentGameState
-} from './state';
+import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES_BY_FILTER, REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE, REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from './actions';
+import { deleteTournamentGame, deleteTournamentGameFailure, deleteTournamentGameSuccess, postTournamentGame, postTournamentGameFailure, postTournamentGameSuccess, requestTournamentGame, requestTournamentGameFailure, requestTournamentGamesByFilter, requestTournamentGamesByFilterFailure, requestTournamentGamesByFilterSuccess, requestTournamentGameSuccess } from './reducer';
+import { initialState, TournamentGameEntity, TournamentGameState } from './state';
 
 describe('deleteTournamentGame', () => {
   const action: HttpAction<ActionTypes> = {
@@ -391,10 +360,7 @@ describe('requestTournamentGamesByFilterSuccess', () => {
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentGamesByFilterSuccess(
-      initialState,
-      action
-    );
+    const newState = requestTournamentGamesByFilterSuccess(initialState, action);
 
     expect(newState.tournamentGames['first-id']).toEqual({
       id: 'first-id',

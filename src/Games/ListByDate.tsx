@@ -1,5 +1,5 @@
 import React from 'react';
-import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
+import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import { TournamentGameEntity } from './state';
 
 const MiniGameCard: React.FC<{ tournamentGame: TournamentGameEntity }> = ({

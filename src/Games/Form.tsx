@@ -1,9 +1,9 @@
 import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
-import Datetime from '../../Shared/UI/Form/Datetime';
-import Select from '../../Shared/UI/Form/Select';
-import StringInput from '../../Shared/UI/Form/StringInput';
-import { TournamentTeamEntity } from '../Teams/state';
+import Datetime from '../Shared/UI/Form/Datetime';
+import Select from '../Shared/UI/Form/Select';
+import StringInput from '../Shared/UI/Form/StringInput';
+import { TournamentTeamEntity } from '../Tournaments/Teams/state';
 
 interface FromProps extends FormRenderProps {
   tournamentTeams: { [key: string]: TournamentTeamEntity };

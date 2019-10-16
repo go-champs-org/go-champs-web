@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { dateFromDate, timeFromDate } from '../../Shared/datetime/format';
-import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
-import { TournamentState } from '../state';
+import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Tournaments/Phases/state';
+import { TournamentState } from '../Tournaments/state';
 import { TournamentGameEntity, TournamentGameState } from './state';
 
 const TournamentGameCard: React.FC<{
@@ -80,33 +80,33 @@ const List: React.FC<{
   tournamentGameState,
   tournamentPhaseState
 }) => {
-  const tournament = tournamentState.tournaments[currentTournamentSlug];
-  const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
-  return (
-    <div className="columns is-multiline">
-      <div className="column is-8">
-        <div className="columns is-mobile is-vcentered">
-          <div className="column is-8">
-            <h2 className="subtitle">Games</h2>
-          </div>
-          <div className="column is-4 has-text-right">
-            <Link className="button" to={`./PhaseGameNew`}>
-              New game
+    const tournament = tournamentState.tournaments[currentTournamentSlug];
+    const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+    return (
+      <div className="columns is-multiline">
+        <div className="column is-8">
+          <div className="columns is-mobile is-vcentered">
+            <div className="column is-8">
+              <h2 className="subtitle">Games</h2>
+            </div>
+            <div className="column is-4 has-text-right">
+              <Link className="button" to={`./PhaseGameNew`}>
+                New game
             </Link>
+            </div>
           </div>
+          {Object.keys(tournamentGameState.tournamentGames).map((key: string) => (
+            <TournamentGameCard
+              key={key}
+              url={baseTournamentUrl}
+              tournamentGame={tournamentGameState.tournamentGames[key]}
+              onDeleteTournamentGame={deleteTournamentGame}
+            />
+          ))}
         </div>
-        {Object.keys(tournamentGameState.tournamentGames).map((key: string) => (
-          <TournamentGameCard
-            key={key}
-            url={baseTournamentUrl}
-            tournamentGame={tournamentGameState.tournamentGames[key]}
-            onDeleteTournamentGame={deleteTournamentGame}
-          />
-        ))}
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export const Wrapper: React.FC<{
   deleteTournamentGame: any;
@@ -125,17 +125,17 @@ export const Wrapper: React.FC<{
   tournamentState,
   tournamentGameState
 }) => {
-  return (
-    <List
-      currentOrganizationSlug={currentOrganizationSlug}
-      currentTournamentSlug={currentTournamentSlug}
-      deleteTournamentGame={deleteTournamentGame}
-      phase={phase}
-      tournamentPhaseState={tournamentPhaseState}
-      tournamentState={tournamentState}
-      tournamentGameState={tournamentGameState}
-    />
-  );
-};
+    return (
+      <List
+        currentOrganizationSlug={currentOrganizationSlug}
+        currentTournamentSlug={currentTournamentSlug}
+        deleteTournamentGame={deleteTournamentGame}
+        phase={phase}
+        tournamentPhaseState={tournamentPhaseState}
+        tournamentState={tournamentState}
+        tournamentGameState={tournamentGameState}
+      />
+    );
+  };
 
 export default Wrapper;
