@@ -3,7 +3,7 @@ import {
   OrganizationEntity
 } from '../Organizations/state';
 import { TournamentPhaseEntity } from '../Phases/state';
-import { TournamentTeamEntity } from './Teams/state';
+import { TournamentTeamEntity } from '../Teams/state';
 
 export interface TournamentEntity {
   id: string;

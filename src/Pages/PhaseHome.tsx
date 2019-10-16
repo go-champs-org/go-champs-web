@@ -19,9 +19,9 @@ import { phaseById } from '../Phases/selectors';
 import { PhaseTypes, TournamentPhaseEntity } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
+import { TournamentTeamEntity } from '../Teams/state';
 import { allPhaseStats } from '../Tournaments/Stats/selectors';
 import { TournamentStatEntity } from '../Tournaments/Stats/state';
-import { TournamentTeamEntity } from '../Tournaments/Teams/state';
 import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
 
 interface PhaseHomeProps

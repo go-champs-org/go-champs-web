@@ -1,11 +1,11 @@
-import { displayToast } from '../../Shared/bulma/toast';
-import { HttpAction } from '../../Shared/store/interfaces';
+import { displayToast } from '../Shared/bulma/toast';
+import { HttpAction } from '../Shared/store/interfaces';
 import {
   PATCH_TOURNAMENT,
   REQUEST_TOURNAMENT,
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+} from '../Tournaments/actions';
 import { TournamentTeamEntity } from './state';
 import teamHttpClient from './teamHttpClient';
 

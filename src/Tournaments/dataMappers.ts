@@ -5,8 +5,8 @@ import {
   ApiTournamentRequest,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
+import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TournamentEntity } from './state';
-import { mapApiTeamToTeamEntity } from './Teams/dataMappers';
 
 export const mapApiTournamentToTournamentEntity = (
   apiTournament: ApiTournamentWithDependecies

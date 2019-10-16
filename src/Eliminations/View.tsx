@@ -1,6 +1,6 @@
 import React from 'react';
+import { TournamentTeamEntity } from '../Teams/state';
 import { TournamentStatEntity } from '../Tournaments/Stats/state';
-import { TournamentTeamEntity } from '../Tournaments/Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 

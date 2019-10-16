@@ -1,10 +1,10 @@
-import { HttpAction } from '../../Shared/store/interfaces';
+import { HttpAction } from '../Shared/store/interfaces';
 import {
   REQUEST_TOURNAMENT,
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
-import { DEFAULT_TOURNAMENT, TournamentEntity } from '../state';
+} from '../Tournaments/actions';
+import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_TEAM,

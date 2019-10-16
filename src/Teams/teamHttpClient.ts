@@ -1,8 +1,5 @@
-import {
-  ApiTeamRequest,
-  ApiTeamResponse
-} from '../../Shared/httpClient/apiTypes';
-import httpClient from '../../Shared/httpClient/httpClient';
+import { ApiTeamRequest, ApiTeamResponse } from '../Shared/httpClient/apiTypes';
+import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapApiTeamToTeamEntity,
   mapTeamEntityToApiTeamRequest

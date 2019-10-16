@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
-import StringInput from '../../Shared/UI/Form/StringInput';
+import StringInput from '../Shared/UI/Form/StringInput';
 
 const Form: React.FC<FormRenderProps<any>> = ({
   handleSubmit,

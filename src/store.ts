@@ -11,12 +11,12 @@ import { default as organizationReducer } from './Organizations/reducer';
 import { OrganizationState } from './Organizations/state';
 import { default as tournamentPhaseReducer } from './Phases/reducer';
 import { TournamentPhaseState } from './Phases/state';
+import { default as tournamentTeamReducer } from './Teams/reducer';
+import { TournamentTeamState } from './Teams/state';
 import { default as tournamentReducer } from './Tournaments/reducer';
 import { TournamentState } from './Tournaments/state';
 import { default as tournamentStatReducer } from './Tournaments/Stats/reducer';
 import { TournamentStatState } from './Tournaments/Stats/state';
-import { default as tournamentTeamReducer } from './Tournaments/Teams/reducer';
-import { TournamentTeamState } from './Tournaments/Teams/state';
 
 export interface StoreState {
   organizations: OrganizationState;

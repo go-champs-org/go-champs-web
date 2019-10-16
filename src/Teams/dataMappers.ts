@@ -1,4 +1,4 @@
-import { ApiTeam, ApiTeamRequest } from '../../Shared/httpClient/apiTypes';
+import { ApiTeam, ApiTeamRequest } from '../Shared/httpClient/apiTypes';
 import { TournamentTeamEntity } from './state';
 
 export const mapApiTeamToTeamEntity = (

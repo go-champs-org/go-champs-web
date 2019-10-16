@@ -1,31 +1,25 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import {
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from '../../Phases/state';
-import { TournamentState } from '../state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
+import { TournamentState } from '../Tournaments/state';
 import { default as TournamentTeamForm } from './Form';
-import { TournamentTeamEntity } from './state';
 
-interface TournamentTeamEditProps {
+interface TournamentTeamNewProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
   postTournamentTeam: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: TournamentState;
-  tournamentTeam: TournamentTeamEntity;
 }
 
-export const Edit: React.FC<TournamentTeamEditProps> = ({
+export const New: React.FC<TournamentTeamNewProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   phase,
   postTournamentTeam,
   tournamentPhaseState,
-  tournamentState,
-  tournamentTeam
+  tournamentState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -33,12 +27,12 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
       <div className="column is-8">
         <div className="columns is-mobile is-vcentered">
           <div className="column is-8">
-            <h2 className="subtitle">Edit Team</h2>
+            <h2 className="subtitle">New Team</h2>
           </div>
         </div>
         <Form
           onSubmit={postTournamentTeam}
-          initialValues={tournamentTeam}
+          initialValues={{ name: '' }}
           render={TournamentTeamForm}
         />
       </div>
@@ -46,4 +40,4 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
   );
 };
 
-export default Edit;
+export default New;

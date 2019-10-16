@@ -1,4 +1,4 @@
-import { TournamentTeamEntity } from '../Tournaments/Teams/state';
+import { TournamentTeamEntity } from '../Teams/state';
 
 export interface TournamentGameEntity {
   id: string;

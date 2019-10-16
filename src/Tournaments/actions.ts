@@ -2,9 +2,9 @@ import { requestTournamentGamesByFilter } from '../Games/actions';
 import { requestTournamentPhase } from '../Phases/actions';
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
+import { updateTournamentTeamByGroup } from '../Teams/actions';
 import { currentPhaseId } from './dataMappers';
 import { TournamentEntity } from './state';
-import { updateTournamentTeamByGroup } from './Teams/actions';
 import tournamentHttpClient, { RequestFilter } from './tournamentHttpClient';
 
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
