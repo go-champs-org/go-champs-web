@@ -1,10 +1,10 @@
-import { displayToast } from '../../Shared/bulma/toast';
-import { HttpAction } from '../../Shared/store/interfaces';
+import { displayToast } from '../Shared/bulma/toast';
+import { HttpAction } from '../Shared/store/interfaces';
 import {
   REQUEST_TOURNAMENT,
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
+} from '../Tournaments/actions';
 import phaseHttpClient from './phaseHttpClient';
 import { TournamentPhaseEntity } from './state';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import { TournamentState } from '../state';
+import { TournamentState } from '../Tournaments/state';
 import { default as TournamentPhaseForm } from './Form';
 import { TournamentPhaseEntity, TournamentPhaseState } from './state';
 

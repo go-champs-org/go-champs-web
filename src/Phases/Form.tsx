@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'react-final-form';
-import Select from '../../Shared/UI/Form/Select';
-import StringInput from '../../Shared/UI/Form/StringInput';
+import Select from '../Shared/UI/Form/Select';
+import StringInput from '../Shared/UI/Form/StringInput';
 import { PhaseTypes } from './state';
 
 const PHASE_TYPE_LABELMAP = new Map([

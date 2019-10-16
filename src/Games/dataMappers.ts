@@ -1,4 +1,7 @@
-import { ApiGameRequest, ApiGameWithDepedencies } from '../Shared/httpClient/apiTypes';
+import {
+  ApiGameRequest,
+  ApiGameWithDepedencies
+} from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Tournaments/Teams/dataMappers';
 import { DEFAULT_TEAM_ENTITY } from '../Tournaments/Teams/state';
 import { TournamentGameEntity } from './state';

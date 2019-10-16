@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import DraggableItem, { DragTypes } from '../../Shared/UI/DnD/DraggableItem';
+import DraggableItem, { DragTypes } from '../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
   DraggableListProps
-} from '../../Shared/UI/DnD/withDraggableList';
-import { TournamentState } from '../state';
+} from '../Shared/UI/DnD/withDraggableList';
+import { TournamentState } from '../Tournaments/state';
 import { byOrder } from './compareFunctions';
 import './List.scss';
 import { TournamentPhaseEntity, TournamentPhaseState } from './state';

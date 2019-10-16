@@ -4,15 +4,15 @@ import {
   mapEntities,
   mapEntitiesByKey,
   returnProperty
-} from '../../Shared/store/helpers';
-import { HttpAction } from '../../Shared/store/interfaces';
-import { LOAD_DEFAULT_PHASE } from '../../Shared/store/routerActions';
+} from '../Shared/store/helpers';
+import { HttpAction } from '../Shared/store/interfaces';
+import { LOAD_DEFAULT_PHASE } from '../Shared/store/routerActions';
 import {
   REQUEST_TOURNAMENT,
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
-} from '../actions';
-import { TournamentEntity } from '../state';
+} from '../Tournaments/actions';
+import { TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_PHASE,

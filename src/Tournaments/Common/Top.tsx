@@ -1,5 +1,5 @@
 import React from 'react';
-import { TournamentPhaseEntity } from '../Phases/state';
+import { TournamentPhaseEntity } from '../../Phases/state';
 import { TournamentEntity } from '../state';
 import TopBreadcrumbs from './TopBreadcrumbs';
 import TopLevel from './TopLevel';

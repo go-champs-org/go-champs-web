@@ -1,6 +1,6 @@
-import { DrawEntity } from '../../Draws/state';
-import { EliminationEntity } from '../../Eliminations/state';
-import { TournamentStatEntity } from '../Stats/state';
+import { DrawEntity } from '../Draws/state';
+import { EliminationEntity } from '../Eliminations/state';
+import { TournamentStatEntity } from '../Tournaments/Stats/state';
 
 export enum PhaseTypes {
   eliminations = 'eliminations',

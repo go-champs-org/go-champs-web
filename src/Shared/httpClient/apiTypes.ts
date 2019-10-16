@@ -1,4 +1,4 @@
-import { PhaseTypes } from '../../Tournaments/Phases/state';
+import { PhaseTypes } from '../../Phases/state';
 
 interface ApiGame {
   id: string;

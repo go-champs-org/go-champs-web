@@ -1,4 +1,10 @@
 import {
+  REQUEST_TOURNAMENT_PHASE,
+  REQUEST_TOURNAMENT_PHASE_FAILURE,
+  REQUEST_TOURNAMENT_PHASE_SUCCESS
+} from '../Phases/actions';
+import { TournamentPhaseEntity } from '../Phases/state';
+import {
   createReducer,
   entityById,
   mapEntities,
@@ -6,12 +12,6 @@ import {
   returnProperty
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  REQUEST_TOURNAMENT_PHASE,
-  REQUEST_TOURNAMENT_PHASE_FAILURE,
-  REQUEST_TOURNAMENT_PHASE_SUCCESS
-} from '../Tournaments/Phases/actions';
-import { TournamentPhaseEntity } from '../Tournaments/Phases/state';
 import {
   ActionTypes,
   DELETE_PHASE_ROUND,

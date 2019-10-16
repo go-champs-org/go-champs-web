@@ -1,15 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router';
+import { phaseById, phaseLoading, sortedPhases } from '../Phases/selectors';
+import { TournamentPhaseEntity } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import Top from '../Tournaments/Common/Top';
-import {
-  phaseById,
-  phaseLoading,
-  sortedPhases
-} from '../Tournaments/Phases/selectors';
-import { TournamentPhaseEntity } from '../Tournaments/Phases/state';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { TournamentEntity } from '../Tournaments/state';
 import PhaseHome from './PhaseHome';

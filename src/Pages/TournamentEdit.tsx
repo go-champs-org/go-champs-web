@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
+import { isInProgressPhase } from '../Phases/selectors';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
-import { isInProgressPhase } from '../Tournaments/Phases/selectors';
-import {
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from '../Tournaments/Phases/state';
 import { TournamentState } from '../Tournaments/state';
 import {
   deleteTournamentStat,

@@ -1,8 +1,32 @@
-import { createReducer, entityById, mapEntities, mapEntitiesByKey, returnProperty } from '../Shared/store/helpers';
+import {
+  createReducer,
+  entityById,
+  mapEntities,
+  mapEntitiesByKey,
+  returnProperty
+} from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import { LOAD_DEFAULT_PHASE } from '../Shared/store/routerActions';
-import { ActionTypes, DELETE_TOURNAMENT_GAME, DELETE_TOURNAMENT_GAME_FAILURE, DELETE_TOURNAMENT_GAME_SUCCESS, POST_TOURNAMENT_GAME, POST_TOURNAMENT_GAME_FAILURE, POST_TOURNAMENT_GAME_SUCCESS, REQUEST_TOURNAMENT_GAME, REQUEST_TOURNAMENT_GAMES_BY_FILTER, REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE, REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS, REQUEST_TOURNAMENT_GAME_FAILURE, REQUEST_TOURNAMENT_GAME_SUCCESS } from './actions';
-import { initialState, TournamentGameEntity, TournamentGameState } from './state';
+import {
+  ActionTypes,
+  DELETE_TOURNAMENT_GAME,
+  DELETE_TOURNAMENT_GAME_FAILURE,
+  DELETE_TOURNAMENT_GAME_SUCCESS,
+  POST_TOURNAMENT_GAME,
+  POST_TOURNAMENT_GAME_FAILURE,
+  POST_TOURNAMENT_GAME_SUCCESS,
+  REQUEST_TOURNAMENT_GAME,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
+  REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
+  REQUEST_TOURNAMENT_GAME_FAILURE,
+  REQUEST_TOURNAMENT_GAME_SUCCESS
+} from './actions';
+import {
+  initialState,
+  TournamentGameEntity,
+  TournamentGameState
+} from './state';
 
 const tournamentGameMapEntities = mapEntities<TournamentGameEntity>(
   returnProperty('id')

@@ -1,8 +1,8 @@
 import { requestTournamentGamesByFilter } from '../Games/actions';
+import { requestTournamentPhase } from '../Phases/actions';
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
 import { currentPhaseId } from './dataMappers';
-import { requestTournamentPhase } from './Phases/actions';
 import { TournamentEntity } from './state';
 import { updateTournamentTeamByGroup } from './Teams/actions';
 import tournamentHttpClient, { RequestFilter } from './tournamentHttpClient';

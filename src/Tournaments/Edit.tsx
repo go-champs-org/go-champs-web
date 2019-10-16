@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { OrganizationState } from '../Organizations/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { default as TournamentForm } from './Form';
-import { TournamentPhaseEntity, TournamentPhaseState } from './Phases/state';
 import { TournamentEntity } from './state';
 
 interface TournamentEditProps {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TournamentPhaseEntity } from '../Phases/state';
+import { TournamentPhaseEntity } from '../../Phases/state';
 
 const TopBreadcrumbs: React.FC<{
   phases: TournamentPhaseEntity[];

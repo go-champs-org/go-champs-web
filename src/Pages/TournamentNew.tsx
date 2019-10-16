@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
+import { TournamentPhaseState } from '../Phases/state';
 import { StoreState } from '../store';
 import { postTournament } from '../Tournaments/actions';
 import New from '../Tournaments/New';
-import { TournamentPhaseState } from '../Tournaments/Phases/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 

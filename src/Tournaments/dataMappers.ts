@@ -1,10 +1,10 @@
 import { mapApiOrganizationToOrganizationEntity } from '../Organizations/dataMappers';
 import { DEFAULT_ORGANIZATION } from '../Organizations/state';
+import { mapApiPhaseToPhaseEntity } from '../Phases/dataMappers';
 import {
   ApiTournamentRequest,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
-import { mapApiPhaseToPhaseEntity } from './Phases/dataMappers';
 import { TournamentEntity } from './state';
 import { mapApiTeamToTeamEntity } from './Teams/dataMappers';
 

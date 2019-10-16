@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
+import {
+  TournamentPhaseEntity,
+  TournamentPhaseState
+} from '../../Phases/state';
 import { TournamentState } from '../state';
 import './List.scss';
 import { TournamentStatEntity, TournamentStatState } from './state';

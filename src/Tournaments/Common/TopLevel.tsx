@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { PhaseTypes, TournamentPhaseEntity } from '../../Phases/state';
 import Dropdown, {
   DropdownDivider,
   DropdownItem
 } from '../../Shared/UI/Dropdown';
-import { PhaseTypes, TournamentPhaseEntity } from '../Phases/state';
 import { TournamentEntity } from '../state';
 
 const StandingMenu: React.FC<{

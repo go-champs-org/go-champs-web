@@ -2,7 +2,7 @@ import {
   DEFAULT_ORGANIZATION,
   OrganizationEntity
 } from '../Organizations/state';
-import { TournamentPhaseEntity } from './Phases/state';
+import { TournamentPhaseEntity } from '../Phases/state';
 import { TournamentTeamEntity } from './Teams/state';
 
 export interface TournamentEntity {

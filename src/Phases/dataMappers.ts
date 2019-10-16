@@ -1,7 +1,7 @@
-import { mapApiDrawToRoundEntity } from '../../Draws/dataMappers';
-import { mapApiEliminationToStandingsEntity } from '../../Eliminations/dataMappers';
-import { ApiPhase, ApiPhaseRequest } from '../../Shared/httpClient/apiTypes';
-import { mapApiStatToStatEntity } from '../Stats/dataMappers';
+import { mapApiDrawToRoundEntity } from '../Draws/dataMappers';
+import { mapApiEliminationToStandingsEntity } from '../Eliminations/dataMappers';
+import { ApiPhase, ApiPhaseRequest } from '../Shared/httpClient/apiTypes';
+import { mapApiStatToStatEntity } from '../Tournaments/Stats/dataMappers';
 import { TournamentPhaseEntity } from './state';
 
 export const mapApiPhaseToPhaseEntity = (

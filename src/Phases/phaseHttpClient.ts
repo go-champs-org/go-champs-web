@@ -1,8 +1,8 @@
 import {
   ApiPhaseRequest,
   ApiPhaseResponse
-} from '../../Shared/httpClient/apiTypes';
-import httpClient from '../../Shared/httpClient/httpClient';
+} from '../Shared/httpClient/apiTypes';
+import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapApiPhaseToPhaseEntity,
   mapPhaseEntityToApiPhaseRequest

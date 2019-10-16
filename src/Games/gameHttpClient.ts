@@ -1,6 +1,13 @@
-import { ApiGameRequest, ApiGameResponse, ApiGamesResponse } from '../Shared/httpClient/apiTypes';
+import {
+  ApiGameRequest,
+  ApiGameResponse,
+  ApiGamesResponse
+} from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
-import { mapApiGameToGameEntity, mapGameEntityToApiGameRequest } from './dataMappers';
+import {
+  mapApiGameToGameEntity,
+  mapGameEntityToApiGameRequest
+} from './dataMappers';
 import { TournamentGameEntity } from './state';
 
 const GAMES_API = 'https://yochamps-api.herokuapp.com/api/games';

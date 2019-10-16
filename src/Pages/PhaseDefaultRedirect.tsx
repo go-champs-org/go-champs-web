@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
+import { isInProgressPhase } from '../Phases/selectors';
+import { TournamentPhaseEntity } from '../Phases/state';
 import { StoreState } from '../store';
-import { isInProgressPhase } from '../Tournaments/Phases/selectors';
-import { TournamentPhaseEntity } from '../Tournaments/Phases/state';
 
 interface PhaseDefaultRedirectProps extends RouteComponentProps {
   phase: TournamentPhaseEntity | undefined;
