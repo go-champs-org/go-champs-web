@@ -1,6 +1,6 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import drawHttpClient from './drawClient';
+import drawHttpClient from './drawHttpClient';
 import { DrawEntity } from './state';
 
 export const DELETE_PHASE_ROUND = 'API_DELETE_PHASE_ROUND';

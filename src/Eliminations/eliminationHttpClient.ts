@@ -4,8 +4,8 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
-  mapApiEliminationToStandingsEntity,
-  mapStandingsEntityToApiEliminationRequest
+  mapApiEliminationToEliminationEntity,
+  mapEliminationEntityToApiEliminationRequest
 } from './dataMappers';
 import { EliminationEntity } from './state';
 
@@ -16,39 +16,39 @@ const phaseStatsApi = (phaseId: string) =>
 
 const deleteRequest = (
   phaseId: string,
-  phaseStandingsId: string
+  phaseEliminationId: string
 ): Promise<string> => {
-  const url = `${phaseStatsApi(phaseId)}/${phaseStandingsId}`;
+  const url = `${phaseStatsApi(phaseId)}/${phaseEliminationId}`;
 
   return httpClient.delete(url);
 };
 
 const patch = async (
   phaseId: string,
-  phaseStandings: EliminationEntity
+  phaseElimination: EliminationEntity
 ): Promise<EliminationEntity> => {
-  const url = `${phaseStatsApi(phaseId)}/${phaseStandings.id}`;
-  const body = mapStandingsEntityToApiEliminationRequest(phaseStandings);
+  const url = `${phaseStatsApi(phaseId)}/${phaseElimination.id}`;
+  const body = mapEliminationEntityToApiEliminationRequest(phaseElimination);
 
   const { data } = await httpClient.patch<
     ApiEliminationRequest,
     ApiEliminationResponse
   >(url, body);
-  return mapApiEliminationToStandingsEntity(data);
+  return mapApiEliminationToEliminationEntity(data);
 };
 
 const post = async (
   phaseId: string,
-  phaseStandings: EliminationEntity
+  phaseElimination: EliminationEntity
 ): Promise<EliminationEntity> => {
   const url = `${phaseStatsApi(phaseId)}`;
-  const body = mapStandingsEntityToApiEliminationRequest(phaseStandings);
+  const body = mapEliminationEntityToApiEliminationRequest(phaseElimination);
 
   const { data } = await httpClient.post<
     ApiEliminationRequest,
     ApiEliminationResponse
   >(url, body);
-  return mapApiEliminationToStandingsEntity(data);
+  return mapApiEliminationToEliminationEntity(data);
 };
 
 export default {

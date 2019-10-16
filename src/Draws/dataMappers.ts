@@ -31,14 +31,14 @@ const mapDrawMatchToApiDraw = (drawMatch: DrawMatchEntity): ApiDrawMatch => ({
   second_team_score: drawMatch.secondTeamScore
 });
 
-export const mapApiDrawToRoundEntity = (apiDraw: ApiDraw): DrawEntity => ({
+export const mapApiDrawToDrawEntity = (apiDraw: ApiDraw): DrawEntity => ({
   id: apiDraw.id,
   matches: apiDraw.matches.map(mapApiDrawToDrawMatch),
   order: apiDraw.order || 1,
   title: apiDraw.title || ''
 });
 
-export const mapRoundEntityToApiDrawRequest = (
+export const mapDrawEntityToApiDrawRequest = (
   draw: DrawEntity
 ): ApiDrawRequest => ({
   draw: {

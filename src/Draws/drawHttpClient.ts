@@ -1,8 +1,8 @@
 import { ApiDrawRequest, ApiDrawResponse } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
-  mapApiDrawToRoundEntity,
-  mapRoundEntityToApiDrawRequest
+  mapApiDrawToDrawEntity,
+  mapDrawEntityToApiDrawRequest
 } from './dataMappers';
 import { DrawEntity } from './state';
 
@@ -21,24 +21,24 @@ const patch = async (
   draw: DrawEntity
 ): Promise<DrawEntity> => {
   const url = `${phaseStatsApi(phaseId)}/${draw.id}`;
-  const body = mapRoundEntityToApiDrawRequest(draw);
+  const body = mapDrawEntityToApiDrawRequest(draw);
 
   const { data } = await httpClient.patch<ApiDrawRequest, ApiDrawResponse>(
     url,
     body
   );
-  return mapApiDrawToRoundEntity(data);
+  return mapApiDrawToDrawEntity(data);
 };
 
 const post = async (phaseId: string, draw: DrawEntity): Promise<DrawEntity> => {
   const url = `${phaseStatsApi(phaseId)}`;
-  const body = mapRoundEntityToApiDrawRequest(draw);
+  const body = mapDrawEntityToApiDrawRequest(draw);
 
   const { data } = await httpClient.post<ApiDrawRequest, ApiDrawResponse>(
     url,
     body
   );
-  return mapApiDrawToRoundEntity(data);
+  return mapApiDrawToDrawEntity(data);
 };
 
 export default {

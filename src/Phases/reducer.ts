@@ -1,4 +1,6 @@
+import { ApiPhase } from '../Shared/httpClient/apiTypes';
 import {
+  apiDataToEntities,
   createReducer,
   entityById,
   mapEntities,
@@ -18,16 +20,17 @@ import {
   DELETE_TOURNAMENT_PHASE,
   DELETE_TOURNAMENT_PHASE_FAILURE,
   DELETE_TOURNAMENT_PHASE_SUCCESS,
+  GET_PHASE,
+  GET_PHASE_FAILURE,
+  GET_PHASE_SUCCESS,
   PATCH_TOURNAMENT_PHASE,
   PATCH_TOURNAMENT_PHASE_FAILURE,
   PATCH_TOURNAMENT_PHASE_SUCCESS,
   POST_TOURNAMENT_PHASE,
   POST_TOURNAMENT_PHASE_FAILURE,
-  POST_TOURNAMENT_PHASE_SUCCESS,
-  REQUEST_TOURNAMENT_PHASE,
-  REQUEST_TOURNAMENT_PHASE_FAILURE,
-  REQUEST_TOURNAMENT_PHASE_SUCCESS
+  POST_TOURNAMENT_PHASE_SUCCESS
 } from './actions';
+import { mapApiPhaseToPhaseEntity } from './dataMappers';
 import {
   initialState,
   TournamentPhaseEntity,
@@ -35,6 +38,11 @@ import {
 } from './state';
 
 const tournamentPhaseMapEntities = mapEntities<TournamentPhaseEntity>(
+  returnProperty('id')
+);
+
+const apiPhaseToEntities = apiDataToEntities<ApiPhase, TournamentPhaseEntity>(
+  mapApiPhaseToPhaseEntity,
   returnProperty('id')
 );
 
@@ -152,7 +160,7 @@ export const requestTournamentSuccess = (
   )
 });
 
-export const requestTournamentPhase = (
+export const getPhase = (
   state: TournamentPhaseState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -160,7 +168,7 @@ export const requestTournamentPhase = (
   isLoadingRequestTournament: true
 });
 
-export const requestTournamentPhaseFailure = (
+export const getPhaseFailure = (
   state: TournamentPhaseState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -168,13 +176,13 @@ export const requestTournamentPhaseFailure = (
   isLoadingRequestTournament: false
 });
 
-export const requestTournamentPhaseSuccess = (
+export const getPhaseSuccess = (
   state: TournamentPhaseState,
-  action: HttpAction<ActionTypes, TournamentPhaseEntity>
+  action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  tournamentPhases: [action.payload].reduce(tournamentPhaseMapEntities, {})
+  tournamentPhases: [action.payload!].reduce(apiPhaseToEntities, {})
 });
 
 export const loadDefaultPhasePayload = (state: TournamentPhaseState) => ({
@@ -196,7 +204,7 @@ export default createReducer(initialState, {
   [REQUEST_TOURNAMENT]: requestTournament,
   [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
   [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
-  [REQUEST_TOURNAMENT_PHASE]: requestTournamentPhase,
-  [REQUEST_TOURNAMENT_PHASE_FAILURE]: requestTournamentPhaseFailure,
-  [REQUEST_TOURNAMENT_PHASE_SUCCESS]: requestTournamentPhaseSuccess
+  [GET_PHASE]: getPhase,
+  [GET_PHASE_FAILURE]: getPhaseFailure,
+  [GET_PHASE_SUCCESS]: getPhaseSuccess
 });

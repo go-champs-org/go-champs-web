@@ -1,5 +1,3 @@
-import { DrawEntity } from '../Draws/state';
-import { EliminationEntity } from '../Eliminations/state';
 import { TournamentStatEntity } from '../Tournaments/Stats/state';
 
 export enum PhaseTypes {
@@ -13,9 +11,7 @@ export interface TournamentPhaseEntity {
   type: PhaseTypes;
   order: number;
   isInProgress: boolean;
-  draws: DrawEntity[];
   stats: TournamentStatEntity[];
-  eliminations: EliminationEntity[];
 }
 
 export interface TournamentPhaseState {

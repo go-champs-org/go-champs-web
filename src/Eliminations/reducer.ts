@@ -1,10 +1,11 @@
 import {
-  REQUEST_TOURNAMENT_PHASE,
-  REQUEST_TOURNAMENT_PHASE_FAILURE,
-  REQUEST_TOURNAMENT_PHASE_SUCCESS
+  GET_PHASE,
+  GET_PHASE_FAILURE,
+  GET_PHASE_SUCCESS
 } from '../Phases/actions';
-import { TournamentPhaseEntity } from '../Phases/state';
+import { ApiElimination, ApiPhase } from '../Shared/httpClient/apiTypes';
 import {
+  apiDataToEntities,
   createReducer,
   entityById,
   mapEntities,
@@ -24,11 +25,17 @@ import {
   POST_PHASE_STANDINGS_FAILURE,
   POST_PHASE_STANDINGS_SUCCESS
 } from './actions';
+import { mapApiEliminationToEliminationEntity } from './dataMappers';
 import { EliminationEntity, EliminationState, initialState } from './state';
 
 const phaseStandingsMapEntities = mapEntities<EliminationEntity>(
   returnProperty('id')
 );
+
+const apiEliminationToEntities = apiDataToEntities<
+  ApiElimination,
+  EliminationEntity
+>(mapApiEliminationToEliminationEntity, returnProperty('id'));
 
 export const deleteElimination = (
   state: EliminationState,
@@ -116,7 +123,7 @@ export const postEliminationSuccess = (
   )
 });
 
-export const requestTournamentPhase = (
+export const getPhase = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -124,7 +131,7 @@ export const requestTournamentPhase = (
   isLoadingRequestTournament: true
 });
 
-export const requestTournamentPhaseFailure = (
+export const getPhaseFailure = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -132,16 +139,15 @@ export const requestTournamentPhaseFailure = (
   isLoadingRequestTournament: false
 });
 
-export const requestTournamentPhaseSuccess = (
+export const getPhaseSuccess = (
   state: EliminationState,
-  action: HttpAction<ActionTypes, TournamentPhaseEntity>
+  action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  eliminations: action.payload!.eliminations.reduce(
-    phaseStandingsMapEntities,
-    {}
-  )
+  eliminations: action.payload!.eliminations
+    ? action.payload!.eliminations.reduce(apiEliminationToEntities, {})
+    : {}
 });
 
 export default createReducer<EliminationState>(initialState, {
@@ -154,7 +160,7 @@ export default createReducer<EliminationState>(initialState, {
   [POST_PHASE_STANDINGS]: postElimination,
   [POST_PHASE_STANDINGS_FAILURE]: postEliminationFailure,
   [POST_PHASE_STANDINGS_SUCCESS]: postEliminationSuccess,
-  [REQUEST_TOURNAMENT_PHASE]: requestTournamentPhase,
-  [REQUEST_TOURNAMENT_PHASE_FAILURE]: requestTournamentPhaseFailure,
-  [REQUEST_TOURNAMENT_PHASE_SUCCESS]: requestTournamentPhaseSuccess
+  [GET_PHASE]: getPhase,
+  [GET_PHASE_FAILURE]: getPhaseFailure,
+  [GET_PHASE_SUCCESS]: getPhaseSuccess
 });

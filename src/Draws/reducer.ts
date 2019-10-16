@@ -1,10 +1,11 @@
 import {
-  REQUEST_TOURNAMENT_PHASE,
-  REQUEST_TOURNAMENT_PHASE_FAILURE,
-  REQUEST_TOURNAMENT_PHASE_SUCCESS
+  GET_PHASE,
+  GET_PHASE_FAILURE,
+  GET_PHASE_SUCCESS
 } from '../Phases/actions';
-import { TournamentPhaseEntity } from '../Phases/state';
+import { ApiDraw, ApiPhase } from '../Shared/httpClient/apiTypes';
 import {
+  apiDataToEntities,
   createReducer,
   entityById,
   mapEntities,
@@ -24,9 +25,15 @@ import {
   POST_PHASE_ROUND_FAILURE,
   POST_PHASE_ROUND_SUCCESS
 } from './actions';
+import { mapApiDrawToDrawEntity } from './dataMappers';
 import { DrawEntity, DrawState, initialState } from './state';
 
 const drawMapEntities = mapEntities<DrawEntity>(returnProperty('id'));
+
+const apiDrawToEntities = apiDataToEntities<ApiDraw, DrawEntity>(
+  mapApiDrawToDrawEntity,
+  returnProperty('id')
+);
 
 export const deleteDraw = (
   state: DrawState,
@@ -108,7 +115,7 @@ export const postDrawSuccess = (
   draws: [action.payload].reduce(drawMapEntities, state.draws)
 });
 
-export const requestTournamentPhase = (
+export const getPhase = (
   state: DrawState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -116,7 +123,7 @@ export const requestTournamentPhase = (
   isLoadingRequestTournament: true
 });
 
-export const requestTournamentPhaseFailure = (
+export const getPhaseFailure = (
   state: DrawState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -124,13 +131,15 @@ export const requestTournamentPhaseFailure = (
   isLoadingRequestTournament: false
 });
 
-export const requestTournamentPhaseSuccess = (
+export const getPhaseSuccess = (
   state: DrawState,
-  action: HttpAction<ActionTypes, TournamentPhaseEntity>
+  action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  draws: action.payload!.draws.reduce(drawMapEntities, {})
+  draws: action.payload!.draws
+    ? action.payload!.draws.reduce(apiDrawToEntities, {})
+    : {}
 });
 
 export default createReducer<DrawState>(initialState, {
@@ -143,7 +152,7 @@ export default createReducer<DrawState>(initialState, {
   [POST_PHASE_ROUND]: postDraw,
   [POST_PHASE_ROUND_FAILURE]: postDrawFailure,
   [POST_PHASE_ROUND_SUCCESS]: postDrawSuccess,
-  [REQUEST_TOURNAMENT_PHASE]: requestTournamentPhase,
-  [REQUEST_TOURNAMENT_PHASE_FAILURE]: requestTournamentPhaseFailure,
-  [REQUEST_TOURNAMENT_PHASE_SUCCESS]: requestTournamentPhaseSuccess
+  [GET_PHASE]: getPhase,
+  [GET_PHASE_FAILURE]: getPhaseFailure,
+  [GET_PHASE_SUCCESS]: getPhaseSuccess
 });

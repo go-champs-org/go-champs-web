@@ -21,21 +21,21 @@ const mapTeamStatToApiEliminationTeamStat = (
   team_id: teamStats.teamId
 });
 
-export const mapApiEliminationToStandingsEntity = (
-  apiStandings: ApiElimination
+export const mapApiEliminationToEliminationEntity = (
+  apiElimination: ApiElimination
 ): EliminationEntity => ({
-  id: apiStandings.id,
-  title: apiStandings.title || '',
-  teamStats: apiStandings.team_stats.map(mapApiEliminationTeamStatToTeamStat)
+  id: apiElimination.id,
+  title: apiElimination.title || '',
+  teamStats: apiElimination.team_stats.map(mapApiEliminationTeamStatToTeamStat)
 });
 
-export const mapStandingsEntityToApiEliminationRequest = (
-  phaseStandings: EliminationEntity
+export const mapEliminationEntityToApiEliminationRequest = (
+  phaseElimination: EliminationEntity
 ): ApiEliminationRequest => ({
   elimination: {
-    id: phaseStandings.id,
-    title: phaseStandings.title,
-    team_stats: phaseStandings.teamStats.map(
+    id: phaseElimination.id,
+    title: phaseElimination.title,
+    team_stats: phaseElimination.teamStats.map(
       mapTeamStatToApiEliminationTeamStat
     )
   }

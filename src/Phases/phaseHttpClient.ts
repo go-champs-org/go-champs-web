@@ -1,4 +1,5 @@
 import {
+  ApiPhase,
   ApiPhaseRequest,
   ApiPhaseResponse
 } from '../Shared/httpClient/apiTypes';
@@ -17,11 +18,11 @@ const deleteRequest = (tournamentPhaseId: string): Promise<string> => {
   return httpClient.delete(url);
 };
 
-const get = async (phaseId: string): Promise<TournamentPhaseEntity> => {
+const get = async (phaseId: string): Promise<ApiPhase> => {
   const url = `${PHASES_API}/${phaseId}`;
 
   const { data } = await httpClient.get<ApiPhaseResponse>(url);
-  return mapApiPhaseToPhaseEntity(data);
+  return data;
 };
 
 const patch = async (

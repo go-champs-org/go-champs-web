@@ -1,4 +1,5 @@
 import { displayToast } from '../Shared/bulma/toast';
+import { ApiPhase } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
   REQUEST_TOURNAMENT,
@@ -23,11 +24,9 @@ export const POST_TOURNAMENT_PHASE_SUCCESS =
   'API_POST_TOURNAMENT_PHASE_SUCCESS';
 export const POST_TOURNAMENT_PHASE_FAILURE =
   'API_POST_TOURNAMENT_PHASE_FAILURE';
-export const REQUEST_TOURNAMENT_PHASE = 'API_REQUEST_TOURNAMENT_PHASE';
-export const REQUEST_TOURNAMENT_PHASE_SUCCESS =
-  'API_REQUEST_TOURNAMENT_PHASE_SUCCESS';
-export const REQUEST_TOURNAMENT_PHASE_FAILURE =
-  'API_REQUEST_TOURNAMENT_PHASE_FAILURE';
+export const GET_PHASE = 'API_GET_PHASE';
+export const GET_PHASE_SUCCESS = 'API_GET_PHASE_SUCCESS';
+export const GET_PHASE_FAILURE = 'API_GET_PHASE_FAILURE';
 
 export const deleteTournamentPhase = (
   tournamentPhase: TournamentPhaseEntity
@@ -116,31 +115,27 @@ export const postTournamentPhaseFailure = (
   payload
 });
 
-export const requestTournamentPhase = (phaseId: string) => async (
-  dispatch: any
-) => {
-  dispatch({ type: REQUEST_TOURNAMENT_PHASE });
+export const getPhase = (phaseId: string) => async (dispatch: any) => {
+  dispatch({ type: GET_PHASE });
 
   try {
     const response = await phaseHttpClient.get(phaseId);
 
-    dispatch(requestTournamentPhaseSuccess(response));
+    dispatch(getPhaseSuccess(response));
   } catch (err) {
-    dispatch(requestTournamentPhaseFailure(err));
+    dispatch(getPhaseFailure(err));
   }
 };
 
-export const requestTournamentPhaseSuccess = (
-  payload: any
-): HttpAction<ActionTypes, TournamentPhaseEntity> => ({
-  type: REQUEST_TOURNAMENT_PHASE_SUCCESS,
+export const getPhaseSuccess = (
+  payload: ApiPhase
+): HttpAction<ActionTypes, ApiPhase> => ({
+  type: GET_PHASE_SUCCESS,
   payload
 });
 
-export const requestTournamentPhaseFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_PHASE_FAILURE,
+export const getPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
+  type: GET_PHASE_FAILURE,
   payload
 });
 
@@ -157,7 +152,7 @@ export type ActionTypes =
   | typeof REQUEST_TOURNAMENT
   | typeof REQUEST_TOURNAMENT_FAILURE
   | typeof REQUEST_TOURNAMENT_SUCCESS
-  | typeof REQUEST_TOURNAMENT_PHASE
-  | typeof REQUEST_TOURNAMENT_PHASE_FAILURE
-  | typeof REQUEST_TOURNAMENT_PHASE_SUCCESS;
+  | typeof GET_PHASE
+  | typeof GET_PHASE_FAILURE
+  | typeof GET_PHASE_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;

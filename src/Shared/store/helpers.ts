@@ -2,6 +2,18 @@ export const returnProperty = (key: string) => (entity: {
   [key: string]: any;
 }) => entity[key];
 
+export const apiDataToEntities = <T, E>(
+  mapFunc: (apiData: T) => E,
+  mapKey: (entity: E) => string
+) => (currentEntities: { [key: string]: E }, apiData: T) => {
+  const entity = mapFunc(apiData);
+  const key = mapKey(entity);
+  return {
+    ...currentEntities,
+    [key]: entity
+  };
+};
+
 export const mapEntities = <T>(keyFunction: (obj: T) => string) => (
   entitiesMap: { [key: string]: T },
   entity: T | undefined
