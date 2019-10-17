@@ -18,22 +18,22 @@ import {
   POST_TOURNAMENT_TEAM_SUCCESS
 } from './actions';
 import {
-  deleteTournamentTeam,
-  deleteTournamentTeamFailure,
-  deleteTournamentTeamSuccess,
-  patchTournamentTeam,
-  patchTournamentTeamFailure,
-  patchTournamentTeamSuccess,
-  postTournamentTeam,
-  postTournamentTeamFailure,
-  postTournamentTeamSuccess,
+  deleteTeam,
+  deleteTeamFailure,
+  deleteTeamSuccess,
+  patchTeam,
+  patchTeamFailure,
+  patchTeamSuccess,
+  postTeam,
+  postTeamFailure,
+  postTeamSuccess,
   requestTournament,
   requestTournamentFailure,
   requestTournamentSuccess
 } from './reducer';
-import { initialState, TournamentTeamState } from './state';
+import { initialState, TeamState } from './state';
 
-describe('deleteTournamentTeam', () => {
+describe('deleteTeam', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_TEAM,
     payload: {
@@ -41,14 +41,12 @@ describe('deleteTournamentTeam', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentTeam to true', () => {
-    expect(
-      deleteTournamentTeam(initialState, action).isLoadingDeleteTournamentTeam
-    ).toBe(true);
+  it('sets isLoadingDeleteTeam to true', () => {
+    expect(deleteTeam(initialState, action).isLoadingDeleteTeam).toBe(true);
   });
 });
 
-describe('deleteTournamentTeamFailure', () => {
+describe('deleteTeamFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_TEAM_FAILURE,
     payload: {
@@ -56,15 +54,14 @@ describe('deleteTournamentTeamFailure', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentTeam to false', () => {
-    expect(
-      deleteTournamentTeamFailure(initialState, action)
-        .isLoadingDeleteTournamentTeam
-    ).toBe(false);
+  it('sets isLoadingDeleteTeam to false', () => {
+    expect(deleteTeamFailure(initialState, action).isLoadingDeleteTeam).toBe(
+      false
+    );
   });
 });
 
-describe('deleteTournamentTeamSuccess', () => {
+describe('deleteTeamSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_TEAM_SUCCESS,
     payload: 'first-id'
@@ -72,7 +69,7 @@ describe('deleteTournamentTeamSuccess', () => {
 
   const deleteState = {
     ...initialState,
-    tournamentTeams: {
+    teams: {
       ['first-id']: {
         id: 'first-id',
         name: 'first-name'
@@ -80,66 +77,62 @@ describe('deleteTournamentTeamSuccess', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentTeam to false', () => {
-    expect(
-      deleteTournamentTeamSuccess(deleteState, action)
-        .isLoadingDeleteTournamentTeam
-    ).toBe(false);
+  it('sets isLoadingDeleteTeam to false', () => {
+    expect(deleteTeamSuccess(deleteState, action).isLoadingDeleteTeam).toBe(
+      false
+    );
   });
 
   it('remove entity', () => {
-    const newState = deleteTournamentTeamSuccess(deleteState, action);
+    const newState = deleteTeamSuccess(deleteState, action);
 
-    expect(newState.tournamentTeams['first-id']).toBeUndefined();
+    expect(newState.teams['first-id']).toBeUndefined();
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentTeamState = {
+    const someState: TeamState = {
       ...initialState,
-      tournamentTeams: {
+      teams: {
         ['some-id']: {
           id: 'some-id',
           name: 'some-name'
         },
-        ...deleteState.tournamentTeams
+        ...deleteState.teams
       }
     };
 
-    const newState = deleteTournamentTeamSuccess(someState, action);
+    const newState = deleteTeamSuccess(someState, action);
 
-    expect(newState.tournamentTeams['some-id']).toEqual({
+    expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
       name: 'some-name'
     });
   });
 });
 
-describe('patchTournamentTeam', () => {
+describe('patchTeam', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_TOURNAMENT_TEAM
   };
 
-  it('sets isLoadingPatchTournamentTeam to true', () => {
-    expect(
-      patchTournamentTeam(initialState, action).isLoadingPatchTournamentTeam
-    ).toBe(true);
+  it('sets isLoadingPatchTeam to true', () => {
+    expect(patchTeam(initialState, action).isLoadingPatchTeam).toBe(true);
   });
 });
 
-describe('patchTournamentTeamFailure', () => {
+describe('patchTeamFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_TOURNAMENT_TEAM_FAILURE
   };
 
-  it('sets isLoadingPatchTournamentTeam to false', () => {
-    expect(
-      patchTournamentTeamFailure(initialState, action)
-        .isLoadingPatchTournamentTeam
-    ).toBe(false);
+  it('sets isLoadingPatchTeam to false', () => {
+    expect(patchTeamFailure(initialState, action).isLoadingPatchTeam).toBe(
+      false
+    );
   });
 });
 
-describe('patchTournamentTeamSuccess', () => {
+describe('patchTeamSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_TOURNAMENT_TEAM_SUCCESS,
     payload: {
@@ -148,9 +141,9 @@ describe('patchTournamentTeamSuccess', () => {
     }
   };
 
-  const updateState: TournamentTeamState = {
+  const updateState: TeamState = {
     ...initialState,
-    tournamentTeams: {
+    teams: {
       ['first-id']: {
         id: 'first-id',
         name: 'first-name'
@@ -158,26 +151,25 @@ describe('patchTournamentTeamSuccess', () => {
     }
   };
 
-  it('sets isLoadingPatchTournamentTeam to false', () => {
-    expect(
-      patchTournamentTeamSuccess(updateState, action)
-        .isLoadingPatchTournamentTeam
-    ).toBe(false);
+  it('sets isLoadingPatchTeam to false', () => {
+    expect(patchTeamSuccess(updateState, action).isLoadingPatchTeam).toBe(
+      false
+    );
   });
 
   it('set entity', () => {
-    const newState = patchTournamentTeamSuccess(updateState, action);
+    const newState = patchTeamSuccess(updateState, action);
 
-    expect(newState.tournamentTeams['first-id']).toEqual({
+    expect(newState.teams['first-id']).toEqual({
       id: 'first-id',
       name: 'some-first-name'
     });
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentTeamState = {
+    const someState: TeamState = {
       ...updateState,
-      tournamentTeams: {
+      teams: {
         ['some-id']: {
           id: 'some-id',
           name: 'some-name'
@@ -185,41 +177,36 @@ describe('patchTournamentTeamSuccess', () => {
       }
     };
 
-    const newState = patchTournamentTeamSuccess(someState, action);
+    const newState = patchTeamSuccess(someState, action);
 
-    expect(newState.tournamentTeams['some-id']).toEqual({
+    expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
       name: 'some-name'
     });
   });
 });
 
-describe('postTournamentTeam', () => {
+describe('postTeam', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_TEAM
   };
 
-  it('sets isLoadingPostTournamentTeam to true', () => {
-    expect(
-      postTournamentTeam(initialState, action).isLoadingPostTournamentTeam
-    ).toBe(true);
+  it('sets isLoadingPostTeam to true', () => {
+    expect(postTeam(initialState, action).isLoadingPostTeam).toBe(true);
   });
 });
 
-describe('postTournamentTeamFailure', () => {
+describe('postTeamFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_TEAM_FAILURE
   };
 
-  it('sets isLoadingPostTournamentTeam to false', () => {
-    expect(
-      postTournamentTeamFailure(initialState, action)
-        .isLoadingPostTournamentTeam
-    ).toBe(false);
+  it('sets isLoadingPostTeam to false', () => {
+    expect(postTeamFailure(initialState, action).isLoadingPostTeam).toBe(false);
   });
 });
 
-describe('postTournamentTeamSuccess', () => {
+describe('postTeamSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_TEAM_SUCCESS,
     payload: {
@@ -228,26 +215,23 @@ describe('postTournamentTeamSuccess', () => {
     }
   };
 
-  it('sets isLoadingPostTournamentTeam to false', () => {
-    expect(
-      postTournamentTeamSuccess(initialState, action)
-        .isLoadingPostTournamentTeam
-    ).toBe(false);
+  it('sets isLoadingPostTeam to false', () => {
+    expect(postTeamSuccess(initialState, action).isLoadingPostTeam).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = postTournamentTeamSuccess(initialState, action);
+    const newState = postTeamSuccess(initialState, action);
 
-    expect(newState.tournamentTeams['first-id']).toEqual({
+    expect(newState.teams['first-id']).toEqual({
       id: 'first-id',
       name: 'first-name'
     });
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentTeamState = {
+    const someState: TeamState = {
       ...initialState,
-      tournamentTeams: {
+      teams: {
         ['some-id']: {
           id: 'some-id',
           name: 'some-name'
@@ -255,9 +239,9 @@ describe('postTournamentTeamSuccess', () => {
       }
     };
 
-    const newState = postTournamentTeamSuccess(someState, action);
+    const newState = postTeamSuccess(someState, action);
 
-    expect(newState.tournamentTeams['some-id']).toEqual({
+    expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
       name: 'some-name'
     });
@@ -318,11 +302,11 @@ describe('requestTournamentSuccess', () => {
   it('sets entities', () => {
     const newState = requestTournamentSuccess(initialState, action);
 
-    expect(newState.tournamentTeams['first-team-id']).toEqual({
+    expect(newState.teams['first-team-id']).toEqual({
       id: 'first-team-id',
       name: 'first team name'
     });
-    expect(newState.tournamentTeams['second-team-id']).toEqual({
+    expect(newState.teams['second-team-id']).toEqual({
       id: 'second-team-id',
       name: 'second team name'
     });

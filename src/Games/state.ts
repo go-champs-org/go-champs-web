@@ -1,12 +1,12 @@
-import { TournamentTeamEntity } from '../Teams/state';
+import { TeamEntity } from '../Teams/state';
 
 export interface TournamentGameEntity {
   id: string;
   awayScore: number;
-  awayTeam: TournamentTeamEntity;
+  awayTeam: TeamEntity;
   datetime: string;
   homeScore: number;
-  homeTeam: TournamentTeamEntity;
+  homeTeam: TeamEntity;
   location: string;
 }
 

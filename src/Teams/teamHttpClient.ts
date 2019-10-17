@@ -4,27 +4,27 @@ import {
   mapApiTeamToTeamEntity,
   mapTeamEntityToApiTeamRequest
 } from './dataMappers';
-import { TournamentTeamEntity } from './state';
+import { TeamEntity } from './state';
 
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
 
-const tournamentTeamsApi = (tournamentId: string) =>
+const teamsApi = (tournamentId: string) =>
   `${TOURNAMENT_API}/${tournamentId}/teams`;
 
 const deleteRequest = (
   tournamentId: string,
   tournamentTeamId: string
 ): Promise<string> => {
-  const url = `${tournamentTeamsApi(tournamentId)}/${tournamentTeamId}`;
+  const url = `${teamsApi(tournamentId)}/${tournamentTeamId}`;
 
   return httpClient.delete(url);
 };
 
 const patch = async (
   tournamentId: string,
-  tournamentTeam: TournamentTeamEntity
-): Promise<TournamentTeamEntity> => {
-  const url = `${tournamentTeamsApi(tournamentId)}/${tournamentTeam.id}`;
+  tournamentTeam: TeamEntity
+): Promise<TeamEntity> => {
+  const url = `${teamsApi(tournamentId)}/${tournamentTeam.id}`;
   const body = mapTeamEntityToApiTeamRequest(tournamentTeam);
 
   const { data } = await httpClient.patch<ApiTeamRequest, ApiTeamResponse>(
@@ -36,9 +36,9 @@ const patch = async (
 
 const post = async (
   tournamentId: string,
-  tournamentTeam: TournamentTeamEntity
-): Promise<TournamentTeamEntity> => {
-  const url = `${tournamentTeamsApi(tournamentId)}`;
+  tournamentTeam: TeamEntity
+): Promise<TeamEntity> => {
+  const url = `${teamsApi(tournamentId)}`;
   const body = mapTeamEntityToApiTeamRequest(tournamentTeam);
 
   const { data } = await httpClient.post<ApiTeamRequest, ApiTeamResponse>(

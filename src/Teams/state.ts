@@ -1,23 +1,23 @@
-export interface TournamentTeamEntity {
+export interface TeamEntity {
   id: string;
   name: string;
   stats: { [key: string]: any };
 }
 
-export interface TournamentTeamState {
-  isLoadingDeleteTournamentTeam: boolean;
-  isLoadingPatchTournamentTeam: boolean;
-  isLoadingPostTournamentTeam: boolean;
+export interface TeamState {
+  isLoadingDeleteTeam: boolean;
+  isLoadingPatchTeam: boolean;
+  isLoadingPostTeam: boolean;
   isLoadingRequestTournament: boolean;
-  tournamentTeams: { [key: string]: TournamentTeamEntity };
+  teams: { [key: string]: TeamEntity };
 }
 
-export const initialState: TournamentTeamState = {
-  isLoadingDeleteTournamentTeam: false,
-  isLoadingPatchTournamentTeam: false,
-  isLoadingPostTournamentTeam: false,
+export const initialState: TeamState = {
+  isLoadingDeleteTeam: false,
+  isLoadingPatchTeam: false,
+  isLoadingPostTeam: false,
   isLoadingRequestTournament: false,
-  tournamentTeams: {}
+  teams: {}
 };
 
 export const DEFAULT_TEAM_ENTITY = {

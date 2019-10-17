@@ -3,25 +3,25 @@ import { Link } from 'react-router-dom';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { PhaseEliminationState } from '../Tournaments/state';
 import './List.scss';
-import { TournamentTeamEntity, TournamentTeamState } from './state';
+import { TeamEntity, TeamState } from './state';
 
-const TournamentTeamCard: React.FC<{
-  onDeleteTournamentTeam: any;
+const TeamCard: React.FC<{
+  onDeleteTeam: any;
   url: string;
-  tournamentTeam: TournamentTeamEntity;
-}> = ({ onDeleteTournamentTeam, url, tournamentTeam }) => (
+  tournamentTeam: TeamEntity;
+}> = ({ onDeleteTeam, url, tournamentTeam }) => (
   <div className="card item">
     <div className="card-header">
       <Link
         className="card-header-title"
-        to={`${url}/TournamentTeamEdit/${tournamentTeam.id}`}
+        to={`${url}/TeamEdit/${tournamentTeam.id}`}
       >
         <span className="title is-6">{tournamentTeam.name}</span>
       </Link>
       <div className="card-header-icon">
         <button
           className="button is-text"
-          onClick={() => onDeleteTournamentTeam(tournamentTeam)}
+          onClick={() => onDeleteTeam(tournamentTeam)}
         >
           <i className="fas fa-trash" />
         </button>
@@ -33,15 +33,15 @@ const TournamentTeamCard: React.FC<{
 export const List: React.FC<{
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
-  deleteTournamentTeam: any;
+  deleteTeam: any;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentTeamState: TournamentTeamState;
+  tournamentTeamState: TeamState;
   tournamentState: PhaseEliminationState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
-  deleteTournamentTeam,
+  deleteTeam,
   phase,
   tournamentPhaseState,
   tournamentTeamState,
@@ -57,17 +57,17 @@ export const List: React.FC<{
             <h2 className="subtitle">Teams</h2>
           </div>
           <div className="column is-4 has-text-right">
-            <Link className="button" to={`./TournamentTeamNew`}>
+            <Link className="button" to={`./TeamNew`}>
               New team
             </Link>
           </div>
         </div>
-        {Object.keys(tournamentTeamState.tournamentTeams).map((key: string) => (
-          <TournamentTeamCard
+        {Object.keys(tournamentTeamState.teams).map((key: string) => (
+          <TeamCard
             key={key}
             url={baseTournamentUrl}
-            tournamentTeam={tournamentTeamState.tournamentTeams[key]}
-            onDeleteTournamentTeam={deleteTournamentTeam}
+            tournamentTeam={tournamentTeamState.teams[key]}
+            onDeleteTeam={deleteTeam}
           />
         ))}
       </div>
@@ -76,17 +76,17 @@ export const List: React.FC<{
 };
 
 export const Wrapper: React.FC<{
-  deleteTournamentTeam: any;
+  deleteTeam: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: PhaseEliminationState;
-  tournamentTeamState: TournamentTeamState;
+  tournamentTeamState: TeamState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
-  deleteTournamentTeam,
+  deleteTeam,
   phase,
   tournamentPhaseState,
   tournamentState,
@@ -96,7 +96,7 @@ export const Wrapper: React.FC<{
     <List
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
-      deleteTournamentTeam={deleteTournamentTeam}
+      deleteTeam={deleteTeam}
       phase={phase}
       tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}

@@ -1,13 +1,13 @@
 import React from 'react';
 import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
-import { TournamentTeamEntity } from '../Teams/state';
+import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 
 const TeamEliminationRow: React.FC<{
   teamStats: { [statId: string]: string };
   eliminationStats: PhaseEliminationStatEntity[];
-  tournamentTeam: TournamentTeamEntity;
+  tournamentTeam: TeamEntity;
 }> = ({ eliminationStats, teamStats, tournamentTeam }) => {
   return (
     <tr>
@@ -32,7 +32,7 @@ const EliminationHeader: React.FC<{
 interface EliminationProps {
   eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity;
-  teams: { [id: string]: TournamentTeamEntity };
+  teams: { [id: string]: TeamEntity };
 }
 
 const Elimination: React.FC<EliminationProps> = ({
@@ -81,7 +81,7 @@ const Elimination: React.FC<EliminationProps> = ({
 interface TournamentEliminationViewProps {
   eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity[];
-  teams: { [id: string]: TournamentTeamEntity };
+  teams: { [id: string]: TeamEntity };
 }
 
 export const View: React.FC<TournamentEliminationViewProps> = ({

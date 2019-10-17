@@ -3,7 +3,7 @@ import {
   OrganizationEntity
 } from '../Organizations/state';
 import { TournamentPhaseEntity } from '../Phases/state';
-import { TournamentTeamEntity } from '../Teams/state';
+import { TeamEntity } from '../Teams/state';
 
 export interface TournamentEntity {
   id: string;
@@ -11,7 +11,7 @@ export interface TournamentEntity {
   slug: string;
   organization: OrganizationEntity;
   phases: TournamentPhaseEntity[];
-  teams: TournamentTeamEntity[];
+  teams: TeamEntity[];
   teamStatsStructure: { [key: string]: string };
 }
 

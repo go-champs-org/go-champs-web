@@ -104,9 +104,7 @@ const TopLevel: React.FC<{
           </DropdownItem>
 
           <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentTeamList`}
-            >
+            <Link to={`/${organizationSlug}/${tournamentSlug}/TeamList`}>
               Teams
             </Link>
           </DropdownItem>

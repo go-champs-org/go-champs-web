@@ -3,21 +3,19 @@ import { Field, FormRenderProps } from 'react-final-form';
 import Datetime from '../Shared/UI/Form/Datetime';
 import Select from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
-import { TournamentTeamEntity } from '../Teams/state';
+import { TeamEntity } from '../Teams/state';
 
 interface FromProps extends FormRenderProps {
-  tournamentTeams: { [key: string]: TournamentTeamEntity };
+  teams: { [key: string]: TeamEntity };
 }
 
 const Form: React.FC<FromProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  tournamentTeams
+  teams
 }) => {
-  const selectTeams = Object.keys(tournamentTeams).map(
-    (key: string) => tournamentTeams[key]
-  );
+  const selectTeams = Object.keys(teams).map((key: string) => teams[key]);
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -27,7 +25,7 @@ const Form: React.FC<FromProps> = ({
             name="awayTeam"
             component={Select}
             selectOptions={selectTeams}
-            getOptionLabel={(team: TournamentTeamEntity) => team.name}
+            getOptionLabel={(team: TeamEntity) => team.name}
           />
         </div>
       </div>
@@ -46,7 +44,7 @@ const Form: React.FC<FromProps> = ({
             name="homeTeam"
             component={Select}
             selectOptions={selectTeams}
-            getOptionLabel={(team: TournamentTeamEntity) => team.name}
+            getOptionLabel={(team: TeamEntity) => team.name}
           />
         </div>
       </div>

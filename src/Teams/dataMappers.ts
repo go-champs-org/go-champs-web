@@ -1,16 +1,14 @@
 import { ApiTeam, ApiTeamRequest } from '../Shared/httpClient/apiTypes';
-import { TournamentTeamEntity } from './state';
+import { TeamEntity } from './state';
 
-export const mapApiTeamToTeamEntity = (
-  apiTeam: ApiTeam
-): TournamentTeamEntity => ({
+export const mapApiTeamToTeamEntity = (apiTeam: ApiTeam): TeamEntity => ({
   id: apiTeam.id,
   name: apiTeam.name,
   stats: {}
 });
 
 export const mapTeamEntityToApiTeamRequest = (
-  team: TournamentTeamEntity
+  team: TeamEntity
 ): ApiTeamRequest => ({
   tournament_team: {
     id: team.id,

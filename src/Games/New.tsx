@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
-import { TournamentTeamEntity } from '../Teams/state';
+import { TeamEntity } from '../Teams/state';
 import { PhaseEliminationState } from '../Tournaments/state';
 import { default as TournamentGameForm } from './Form';
 
@@ -12,7 +12,7 @@ interface PhaseGameNewProps {
   postTournamentGame: any;
   tournamentState: PhaseEliminationState;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentTeams: { [key: string]: TournamentTeamEntity };
+  teams: { [key: string]: TeamEntity };
 }
 
 export const New: React.FC<PhaseGameNewProps> = ({
@@ -22,7 +22,7 @@ export const New: React.FC<PhaseGameNewProps> = ({
   postTournamentGame,
   tournamentPhaseState,
   tournamentState,
-  tournamentTeams
+  teams
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
@@ -37,7 +37,7 @@ export const New: React.FC<PhaseGameNewProps> = ({
           onSubmit={postTournamentGame}
           initialValues={{ datetime: '', location: '' }}
           render={(props: any) => (
-            <TournamentGameForm {...props} tournamentTeams={tournamentTeams} />
+            <TournamentGameForm {...props} teams={teams} />
           )}
         />
       </div>

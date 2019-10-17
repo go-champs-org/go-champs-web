@@ -21,7 +21,7 @@ import { phaseById } from '../Phases/selectors';
 import { PhaseTypes, TournamentPhaseEntity } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
-import { TournamentTeamEntity } from '../Teams/state';
+import { TeamEntity } from '../Teams/state';
 import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
 
 interface PhaseHomeProps
@@ -34,7 +34,7 @@ interface PhaseHomeProps
   phase: TournamentPhaseEntity | undefined;
   eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity[];
-  teams: { [id: string]: TournamentTeamEntity };
+  teams: { [id: string]: TeamEntity };
 }
 
 const PhaseHome: React.FC<PhaseHomeProps> = ({
@@ -97,7 +97,7 @@ const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
     eliminationStats: allEliminationStats(state.eliminationStats),
     draws: allDraws(state.draws),
     eliminations: allElimination(state.eliminations),
-    teams: state.tournamentTeams.tournamentTeams
+    teams: state.teams.teams
   };
 };
 

@@ -2,24 +2,24 @@ import React from 'react';
 import { Form } from 'react-final-form';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import { PhaseEliminationState } from '../Tournaments/state';
-import { default as TournamentTeamForm } from './Form';
-import { TournamentTeamEntity } from './state';
+import { default as TeamForm } from './Form';
+import { TeamEntity } from './state';
 
-interface TournamentTeamEditProps {
+interface TeamEditProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
-  postTournamentTeam: any;
+  postTeam: any;
   tournamentPhaseState: TournamentPhaseState;
   tournamentState: PhaseEliminationState;
-  tournamentTeam: TournamentTeamEntity;
+  tournamentTeam: TeamEntity;
 }
 
-export const Edit: React.FC<TournamentTeamEditProps> = ({
+export const Edit: React.FC<TeamEditProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   phase,
-  postTournamentTeam,
+  postTeam,
   tournamentPhaseState,
   tournamentState,
   tournamentTeam
@@ -34,9 +34,9 @@ export const Edit: React.FC<TournamentTeamEditProps> = ({
           </div>
         </div>
         <Form
-          onSubmit={postTournamentTeam}
+          onSubmit={postTeam}
           initialValues={tournamentTeam}
-          render={TournamentTeamForm}
+          render={TeamForm}
         />
       </div>
     </div>

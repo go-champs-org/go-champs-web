@@ -24,104 +24,92 @@ import {
   POST_TOURNAMENT_TEAM_FAILURE,
   POST_TOURNAMENT_TEAM_SUCCESS
 } from './actions';
-import {
-  initialState,
-  TournamentTeamEntity,
-  TournamentTeamState
-} from './state';
+import { initialState, TeamEntity, TeamState } from './state';
 
-const tournamentTeamMapEntities = mapEntities<TournamentTeamEntity>(
-  returnProperty('id')
-);
+const tournamentTeamMapEntities = mapEntities<TeamEntity>(returnProperty('id'));
 
-export const deleteTournamentTeam = (
-  state: TournamentTeamState,
+export const deleteTeam = (
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingDeleteTournamentTeam: true
+  isLoadingDeleteTeam: true
 });
 
-export const deleteTournamentTeamFailure = (
-  state: TournamentTeamState,
+export const deleteTeamFailure = (
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingDeleteTournamentTeam: false
+  isLoadingDeleteTeam: false
 });
 
-export const deleteTournamentTeamSuccess = (
-  state: TournamentTeamState,
+export const deleteTeamSuccess = (
+  state: TeamState,
   action: HttpAction<ActionTypes, string>
 ) => {
-  const tournamentTeams = Object.keys(state.tournamentTeams)
-    .filter(entityById(state.tournamentTeams, action.payload!))
-    .reduce(mapEntitiesByKey(state.tournamentTeams), {});
+  const teams = Object.keys(state.teams)
+    .filter(entityById(state.teams, action.payload!))
+    .reduce(mapEntitiesByKey(state.teams), {});
   return {
     ...state,
-    tournamentTeams,
-    isLoadingDeleteTournamentTeam: false
+    teams,
+    isLoadingDeleteTeam: false
   };
 };
 
-export const patchTournamentTeam = (
-  state: TournamentTeamState,
+export const patchTeam = (
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingPatchTournamentTeam: true
+  isLoadingPatchTeam: true
 });
 
-export const patchTournamentTeamFailure = (
-  state: TournamentTeamState,
+export const patchTeamFailure = (
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingPatchTournamentTeam: false
+  isLoadingPatchTeam: false
 });
 
-export const patchTournamentTeamSuccess = (
-  state: TournamentTeamState,
-  action: HttpAction<ActionTypes, TournamentTeamEntity>
+export const patchTeamSuccess = (
+  state: TeamState,
+  action: HttpAction<ActionTypes, TeamEntity>
 ) => ({
   ...state,
-  isLoadingPatchTournamentTeam: false,
-  tournamentTeams: [action.payload].reduce(
-    tournamentTeamMapEntities,
-    state.tournamentTeams
-  )
+  isLoadingPatchTeam: false,
+  teams: [action.payload].reduce(tournamentTeamMapEntities, state.teams)
 });
 
-export const postTournamentTeam = (
-  state: TournamentTeamState,
+export const postTeam = (
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingPostTournamentTeam: true
+  isLoadingPostTeam: true
 });
 
-export const postTournamentTeamFailure = (
-  state: TournamentTeamState,
+export const postTeamFailure = (
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingPostTournamentTeam: false
+  isLoadingPostTeam: false
 });
 
-export const postTournamentTeamSuccess = (
-  state: TournamentTeamState,
-  action: HttpAction<ActionTypes, TournamentTeamEntity>
+export const postTeamSuccess = (
+  state: TeamState,
+  action: HttpAction<ActionTypes, TeamEntity>
 ) => ({
   ...state,
-  isLoadingPostTournamentTeam: false,
-  tournamentTeams: [action.payload].reduce(
-    tournamentTeamMapEntities,
-    state.tournamentTeams
-  )
+  isLoadingPostTeam: false,
+  teams: [action.payload].reduce(tournamentTeamMapEntities, state.teams)
 });
 
 export const requestTournament = (
-  state: TournamentTeamState,
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -129,7 +117,7 @@ export const requestTournament = (
 });
 
 export const requestTournamentFailure = (
-  state: TournamentTeamState,
+  state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -137,24 +125,24 @@ export const requestTournamentFailure = (
 });
 
 export const requestTournamentSuccess = (
-  state: TournamentTeamState,
+  state: TeamState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  tournamentTeams: action.payload!.teams.reduce(tournamentTeamMapEntities, {})
+  teams: action.payload!.teams.reduce(tournamentTeamMapEntities, {})
 });
 
 export default createReducer(initialState, {
-  [DELETE_TOURNAMENT_TEAM]: deleteTournamentTeam,
-  [DELETE_TOURNAMENT_TEAM_FAILURE]: deleteTournamentTeamFailure,
-  [DELETE_TOURNAMENT_TEAM_SUCCESS]: deleteTournamentTeamSuccess,
-  [PATCH_TOURNAMENT_TEAM]: patchTournamentTeam,
-  [PATCH_TOURNAMENT_TEAM_FAILURE]: patchTournamentTeamFailure,
-  [PATCH_TOURNAMENT_TEAM_SUCCESS]: patchTournamentTeamSuccess,
-  [POST_TOURNAMENT_TEAM]: postTournamentTeam,
-  [POST_TOURNAMENT_TEAM_FAILURE]: postTournamentTeamFailure,
-  [POST_TOURNAMENT_TEAM_SUCCESS]: postTournamentTeamSuccess,
+  [DELETE_TOURNAMENT_TEAM]: deleteTeam,
+  [DELETE_TOURNAMENT_TEAM_FAILURE]: deleteTeamFailure,
+  [DELETE_TOURNAMENT_TEAM_SUCCESS]: deleteTeamSuccess,
+  [PATCH_TOURNAMENT_TEAM]: patchTeam,
+  [PATCH_TOURNAMENT_TEAM_FAILURE]: patchTeamFailure,
+  [PATCH_TOURNAMENT_TEAM_SUCCESS]: patchTeamSuccess,
+  [POST_TOURNAMENT_TEAM]: postTeam,
+  [POST_TOURNAMENT_TEAM_FAILURE]: postTeamFailure,
+  [POST_TOURNAMENT_TEAM_SUCCESS]: postTeamSuccess,
   [REQUEST_TOURNAMENT]: requestTournament,
   [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
   [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess
