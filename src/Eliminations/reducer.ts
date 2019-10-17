@@ -28,7 +28,7 @@ import {
 import { mapApiEliminationToEliminationEntity } from './dataMappers';
 import { EliminationEntity, EliminationState, initialState } from './state';
 
-const phaseStandingsMapEntities = mapEntities<EliminationEntity>(
+const eliminationMapEntities = mapEntities<EliminationEntity>(
   returnProperty('id')
 );
 
@@ -90,7 +90,7 @@ export const patchEliminationSuccess = (
   ...state,
   isLoadingPatchElimination: false,
   eliminations: [action.payload].reduce(
-    phaseStandingsMapEntities,
+    eliminationMapEntities,
     state.eliminations
   )
 });
@@ -118,7 +118,7 @@ export const postEliminationSuccess = (
   ...state,
   isLoadingPostElimination: false,
   eliminations: [action.payload].reduce(
-    phaseStandingsMapEntities,
+    eliminationMapEntities,
     state.eliminations
   )
 });

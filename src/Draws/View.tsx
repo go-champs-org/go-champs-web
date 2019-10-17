@@ -51,7 +51,7 @@ interface BracketProps {
 
 const Bracket: React.FC<BracketProps> = ({ draws }) => {
   return (
-    <div className="bracket-container">
+    <div className="draw-container">
       {draws.map((draw: DrawEntity) => (
         <Round draw={draw} />
       ))}

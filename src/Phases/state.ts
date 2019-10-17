@@ -1,8 +1,8 @@
 import { TournamentStatEntity } from '../Tournaments/Stats/state';
 
 export enum PhaseTypes {
-  eliminations = 'eliminations',
-  bracket = 'bracket'
+  elimination = 'elimination',
+  draw = 'draw'
 }
 
 export interface TournamentPhaseEntity {

@@ -319,13 +319,13 @@ describe('requestTournamentSuccess', () => {
         {
           id: 'first-phase-id',
           title: 'first phase title',
-          type: PhaseTypes.eliminations,
+          type: PhaseTypes.elimination,
           order: 1
         },
         {
           id: 'second-phase-id',
           title: 'second phase title',
-          type: PhaseTypes.eliminations,
+          type: PhaseTypes.elimination,
           order: 2
         }
       ]

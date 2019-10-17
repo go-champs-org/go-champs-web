@@ -1,6 +1,6 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import phaseStandingsHttpClient from './eliminationHttpClient';
+import eliminationHttpClient from './eliminationHttpClient';
 import { EliminationEntity } from './state';
 
 export const DELETE_PHASE_STANDINGS = 'API_DELETE_PHASE_STANDINGS';
@@ -18,18 +18,18 @@ export const POST_PHASE_STANDINGS_SUCCESS = 'API_POST_PHASE_STANDINGS_SUCCESS';
 export const POST_PHASE_STANDINGS_FAILURE = 'API_POST_PHASE_STANDINGS_FAILURE';
 
 export const deleteElimination = (phaseId: string) => (
-  phaseStandings: EliminationEntity
+  elimination: EliminationEntity
 ) => async (dispatch: any) => {
   dispatch({ type: DELETE_PHASE_STANDINGS });
 
   try {
-    const response = await phaseStandingsHttpClient.delete(
+    const response = await eliminationHttpClient.delete(
       phaseId,
-      phaseStandings.id
+      elimination.id
     );
 
     dispatch(deleteEliminationSuccess(response));
-    displayToast(`${phaseStandings.title} deleted!`, 'is-success');
+    displayToast(`${elimination.title} deleted!`, 'is-success');
   } catch (err) {
     dispatch(deleteEliminationFailure(err));
   }
@@ -50,18 +50,15 @@ export const deleteEliminationFailure = (
 });
 
 export const patchElimination = (phaseId: string) => (
-  phaseStandings: EliminationEntity
+  elimination: EliminationEntity
 ) => async (dispatch: any) => {
   dispatch({ type: PATCH_PHASE_STANDINGS });
 
   try {
-    const response = await phaseStandingsHttpClient.patch(
-      phaseId,
-      phaseStandings
-    );
+    const response = await eliminationHttpClient.patch(phaseId, elimination);
 
     dispatch(patchEliminationSuccess(response));
-    displayToast(`${phaseStandings.title} updated!`, 'is-success');
+    displayToast(`${elimination.title} updated!`, 'is-success');
   } catch (err) {
     dispatch(patchEliminationFailure(err));
   }
@@ -82,18 +79,15 @@ export const patchEliminationFailure = (
 });
 
 export const postElimination = (phaseId: string) => (
-  phaseStandings: EliminationEntity
+  elimination: EliminationEntity
 ) => async (dispatch: any) => {
   dispatch({ type: POST_PHASE_STANDINGS });
 
   try {
-    const response = await phaseStandingsHttpClient.post(
-      phaseId,
-      phaseStandings
-    );
+    const response = await eliminationHttpClient.post(phaseId, elimination);
 
     dispatch(postEliminationSuccess(response));
-    displayToast(`${phaseStandings.title} created!`, 'is-success');
+    displayToast(`${elimination.title} created!`, 'is-success');
   } catch (err) {
     dispatch(postEliminationFailure(err));
   }

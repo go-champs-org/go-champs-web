@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { default as drawsReducer } from './Draws/reducer';
 import { DrawState } from './Draws/state';
-import { default as phaseStandingsReducer } from './Eliminations/reducer';
+import { default as eliminationsReducer } from './Eliminations/reducer';
 import { EliminationState } from './Eliminations/state';
 import { default as tournamentGameReducer } from './Games/reducer';
 import { TournamentGameState } from './Games/state';
@@ -21,7 +21,7 @@ import { TournamentStatState } from './Tournaments/Stats/state';
 export interface StoreState {
   organizations: OrganizationState;
   draws: DrawState;
-  phaseStandings: EliminationState;
+  eliminations: EliminationState;
   tournaments: TournamentState;
   tournamentGames: TournamentGameState;
   tournamentPhases: TournamentPhaseState;
@@ -33,7 +33,7 @@ export default createStore(
   combineReducers({
     organizations: organizationReducer,
     draws: drawsReducer,
-    phaseStandings: phaseStandingsReducer,
+    eliminations: eliminationsReducer,
     tournaments: tournamentReducer,
     tournamentGames: tournamentGameReducer,
     tournamentPhases: tournamentPhaseReducer,

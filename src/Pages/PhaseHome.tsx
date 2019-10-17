@@ -49,7 +49,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   teams
 }) => {
   const MainContent =
-    phase!.type === PhaseTypes.eliminations ? (
+    phase!.type === PhaseTypes.elimination ? (
       <StandingsView
         {...{
           phaseStats,
@@ -96,7 +96,7 @@ const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
     phase: phaseById(state.tournamentPhases, phaseId),
     phaseStats: allPhaseStats(state.tournamentStats),
     draws: allDraws(state.draws),
-    eliminations: allElimination(state.phaseStandings),
+    eliminations: allElimination(state.eliminations),
     teams: state.tournamentTeams.tournamentTeams
   };
 };

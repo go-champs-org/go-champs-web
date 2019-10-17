@@ -11,7 +11,7 @@ import {
   POST_PHASE_STANDINGS_FAILURE,
   POST_PHASE_STANDINGS_SUCCESS
 } from './actions';
-import phaseStandingsReducer from './reducer';
+import eliminationReducer from './reducer';
 import { EliminationEntity, EliminationState, initialState } from './state';
 
 describe('deleteElimination', () => {
@@ -23,7 +23,7 @@ describe('deleteElimination', () => {
   };
 
   it('sets isLoadingDeleteElimination to true', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingDeleteElimination).toBe(true);
   });
 });
@@ -37,7 +37,7 @@ describe('deleteEliminationFailure', () => {
   };
 
   it('sets isLoadingDeleteElimination to false', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingDeleteElimination).toBe(false);
   });
 });
@@ -60,12 +60,12 @@ describe('deleteEliminationSuccess', () => {
   };
 
   it('sets isLoadingDeleteElimination to false', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingDeleteElimination).toBe(false);
   });
 
   it('remove entity', () => {
-    const newState = phaseStandingsReducer(deleteState, action);
+    const newState = eliminationReducer(deleteState, action);
 
     expect(newState.eliminations['first-id']).toBeUndefined();
   });
@@ -83,7 +83,7 @@ describe('deleteEliminationSuccess', () => {
       }
     };
 
-    const newState = phaseStandingsReducer(someState, action);
+    const newState = eliminationReducer(someState, action);
 
     expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
@@ -99,7 +99,7 @@ describe('patchElimination', () => {
   };
 
   it('sets isLoadingPatchElimination to true', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingPatchElimination).toBe(true);
   });
 });
@@ -110,7 +110,7 @@ describe('patchEliminationFailure', () => {
   };
 
   it('sets isLoadingPatchElimination to false', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingPatchElimination).toBe(false);
   });
 });
@@ -137,12 +137,12 @@ describe('patchEliminationSuccess', () => {
   };
 
   it('sets isLoadingPatchElimination to false', () => {
-    const newState = phaseStandingsReducer(updateState, action);
+    const newState = eliminationReducer(updateState, action);
     expect(newState.isLoadingPatchElimination).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = phaseStandingsReducer(updateState, action);
+    const newState = eliminationReducer(updateState, action);
 
     expect(newState.eliminations['first-id']).toEqual({
       id: 'first-id',
@@ -163,7 +163,7 @@ describe('patchEliminationSuccess', () => {
       }
     };
 
-    const newState = phaseStandingsReducer(someState, action);
+    const newState = eliminationReducer(someState, action);
 
     expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
@@ -179,7 +179,7 @@ describe('postElimination', () => {
   };
 
   it('sets isLoadingPostElimination to true', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingPostElimination).toBe(true);
   });
 });
@@ -190,7 +190,7 @@ describe('postEliminationFailure', () => {
   };
 
   it('sets isLoadingPostElimination to false', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingPostElimination).toBe(false);
   });
 });
@@ -206,12 +206,12 @@ describe('postEliminationSuccess', () => {
   };
 
   it('sets isLoadingPostElimination to false', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
     expect(newState.isLoadingPostElimination).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = phaseStandingsReducer(initialState, action);
+    const newState = eliminationReducer(initialState, action);
 
     expect(newState.eliminations['first-id']).toEqual({
       id: 'first-id',
@@ -232,7 +232,7 @@ describe('postEliminationSuccess', () => {
       }
     };
 
-    const newState = phaseStandingsReducer(someState, action);
+    const newState = eliminationReducer(someState, action);
 
     expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',

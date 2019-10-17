@@ -5,8 +5,8 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import { PhaseTypes } from './state';
 
 const PHASE_TYPE_LABELMAP = new Map([
-  [PhaseTypes.bracket, 'Bracket'],
-  [PhaseTypes.eliminations, 'Standings']
+  [PhaseTypes.draw, 'Draw'],
+  [PhaseTypes.elimination, 'Standings']
 ]);
 
 interface FromProps {

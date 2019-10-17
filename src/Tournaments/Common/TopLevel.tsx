@@ -113,7 +113,7 @@ const TopLevel: React.FC<{
 
           <DropdownDivider />
 
-          {phase.type === PhaseTypes.bracket ? (
+          {phase.type === PhaseTypes.draw ? (
             <BracketMenu
               organizationSlug={organizationSlug}
               tournamentSlug={tournamentSlug}
