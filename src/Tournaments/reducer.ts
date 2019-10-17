@@ -28,14 +28,14 @@ import {
   REQUEST_TOURNAMENT_FAILURE,
   REQUEST_TOURNAMENT_SUCCESS
 } from './actions';
-import { initialState, TournamentEntity, TournamentState } from './state';
+import { initialState, PhaseEliminationState, TournamentEntity } from './state';
 
 const tournamentMapEntities = mapEntities<TournamentEntity>(
   returnProperty('slug')
 );
 
 export const deleteTournament = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -43,7 +43,7 @@ export const deleteTournament = (
 });
 
 export const deleteTournamentFailure = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -51,7 +51,7 @@ export const deleteTournamentFailure = (
 });
 
 export const deleteTournamentSuccess = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes, string>
 ) => {
   const tournaments = Object.keys(state.tournaments)
@@ -65,7 +65,7 @@ export const deleteTournamentSuccess = (
 };
 
 export const patchTournament = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -73,7 +73,7 @@ export const patchTournament = (
 });
 
 export const patchTournamentFailure = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -81,7 +81,7 @@ export const patchTournamentFailure = (
 });
 
 export const patchTournamentSuccess = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
@@ -90,7 +90,7 @@ export const patchTournamentSuccess = (
 });
 
 export const postTournament = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -98,7 +98,7 @@ export const postTournament = (
 });
 
 export const postTournamentFailure = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -106,7 +106,7 @@ export const postTournamentFailure = (
 });
 
 export const postTournamentSuccess = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
@@ -115,7 +115,7 @@ export const postTournamentSuccess = (
 });
 
 export const requestFilterTournaments = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -124,7 +124,7 @@ export const requestFilterTournaments = (
 });
 
 export const requestFilterTournamentsFailure = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -132,7 +132,7 @@ export const requestFilterTournamentsFailure = (
 });
 
 export const requestFilterTournamentsSuccess = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes, TournamentEntity[]>
 ) => ({
   ...state,
@@ -141,7 +141,7 @@ export const requestFilterTournamentsSuccess = (
 });
 
 export const requestTournament = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -149,7 +149,7 @@ export const requestTournament = (
 });
 
 export const requestTournamentFailure = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -157,7 +157,7 @@ export const requestTournamentFailure = (
 });
 
 export const requestTournamentSuccess = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
@@ -166,7 +166,7 @@ export const requestTournamentSuccess = (
 });
 
 export const requestTournaments = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -174,7 +174,7 @@ export const requestTournaments = (
 });
 
 export const requestTournamentsFailure = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -182,7 +182,7 @@ export const requestTournamentsFailure = (
 });
 
 export const requestTournamentsSuccess = (
-  state: TournamentState,
+  state: PhaseEliminationState,
   action: HttpAction<ActionTypes, TournamentEntity[]>
 ) => ({
   ...state,
@@ -190,7 +190,7 @@ export const requestTournamentsSuccess = (
   tournaments: action.payload!.reduce(tournamentMapEntities, {})
 });
 
-export const loadDefaultPhasePayload = (state: TournamentState) => ({
+export const loadDefaultPhasePayload = (state: PhaseEliminationState) => ({
   ...state,
   isLoadingRequestTournaments: true,
   isLoadingRequestTournament: true

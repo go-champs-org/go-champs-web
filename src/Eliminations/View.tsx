@@ -1,20 +1,20 @@
 import React from 'react';
+import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
 import { TournamentTeamEntity } from '../Teams/state';
-import { TournamentStatEntity } from '../Tournaments/Stats/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 
-const TournamentTeamStandingsRow: React.FC<{
+const TeamEliminationRow: React.FC<{
   teamStats: { [statId: string]: string };
-  phaseStats: TournamentStatEntity[];
+  eliminationStats: PhaseEliminationStatEntity[];
   tournamentTeam: TournamentTeamEntity;
-}> = ({ phaseStats, teamStats, tournamentTeam }) => {
+}> = ({ eliminationStats, teamStats, tournamentTeam }) => {
   return (
     <tr>
       <td style={{ paddingLeft: '0', width: '225px' }}>
         {tournamentTeam.name}
       </td>
-      {phaseStats.map((stat: TournamentStatEntity) => (
+      {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
         <td key={stat.id} className="has-text-centered">
           {teamStats[stat.id]}
         </td>
@@ -23,18 +23,20 @@ const TournamentTeamStandingsRow: React.FC<{
   );
 };
 
-const StandingHeader: React.FC<{ tournamentStat: TournamentStatEntity }> = ({
-  tournamentStat
-}) => <th className="has-text-centered">{tournamentStat.title}</th>;
+const EliminationHeader: React.FC<{
+  tournamentStat: PhaseEliminationStatEntity;
+}> = ({ tournamentStat }) => (
+  <th className="has-text-centered">{tournamentStat.title}</th>
+);
 
-interface StandingsProps {
-  phaseStats: TournamentStatEntity[];
+interface EliminationProps {
+  eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity;
   teams: { [id: string]: TournamentTeamEntity };
 }
 
-const Standings: React.FC<StandingsProps> = ({
-  phaseStats,
+const Elimination: React.FC<EliminationProps> = ({
+  eliminationStats,
   eliminations,
   teams
 }) => {
@@ -54,17 +56,17 @@ const Standings: React.FC<StandingsProps> = ({
         <thead>
           <tr>
             <th style={{ paddingLeft: '0', width: '225px' }}>Name</th>
-            {phaseStats.map((stat: TournamentStatEntity) => (
-              <StandingHeader key={stat.id} tournamentStat={stat} />
+            {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
+              <EliminationHeader key={stat.id} tournamentStat={stat} />
             ))}
           </tr>
         </thead>
         <tbody>
           {eliminations.teamStats.map(
             (teamStats: EliminationTeamStatEntity) => (
-              <TournamentTeamStandingsRow
+              <TeamEliminationRow
                 key={teamStats.id}
-                phaseStats={phaseStats}
+                eliminationStats={eliminationStats}
                 tournamentTeam={teams[teamStats.teamId]}
                 teamStats={teamStats.stats}
               />
@@ -76,24 +78,24 @@ const Standings: React.FC<StandingsProps> = ({
   );
 };
 
-interface TournamentStandingsViewProps {
-  phaseStats: TournamentStatEntity[];
+interface TournamentEliminationViewProps {
+  eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity[];
   teams: { [id: string]: TournamentTeamEntity };
 }
 
-export const View: React.FC<TournamentStandingsViewProps> = ({
-  phaseStats,
+export const View: React.FC<TournamentEliminationViewProps> = ({
+  eliminationStats,
   eliminations,
   teams
 }) => {
   return (
     <div>
       {eliminations.map((standing: EliminationEntity) => (
-        <Standings
+        <Elimination
           key={standing.id}
           eliminations={standing}
-          phaseStats={phaseStats}
+          eliminationStats={eliminationStats}
           teams={teams}
         />
       ))}

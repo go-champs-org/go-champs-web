@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
-import { TournamentState } from '../Tournaments/state';
+import { PhaseEliminationState } from '../Tournaments/state';
 import './List.scss';
 import { TournamentTeamEntity, TournamentTeamState } from './state';
 
@@ -37,7 +37,7 @@ export const List: React.FC<{
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
   tournamentTeamState: TournamentTeamState;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
@@ -81,7 +81,7 @@ export const Wrapper: React.FC<{
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
   tournamentTeamState: TournamentTeamState;
 }> = ({
   currentOrganizationSlug,

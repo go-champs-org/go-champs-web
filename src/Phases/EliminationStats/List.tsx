@@ -1,18 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from '../../Phases/state';
-import { TournamentState } from '../state';
+import { PhaseEliminationState } from '../../Tournaments/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../state';
 import './List.scss';
-import { TournamentStatEntity, TournamentStatState } from './state';
+import { PhaseEliminationStatEntity, PhaseEliminationStatState } from './state';
 
-const TournamentStatCard: React.FC<{
-  onDeleteTournamentStat: any;
+const PhaseEliminationStatCard: React.FC<{
+  onDeletePhaseEliminationStat: any;
   url: string;
-  tournamentStat: TournamentStatEntity;
-}> = ({ onDeleteTournamentStat, url, tournamentStat }) => (
+  tournamentStat: PhaseEliminationStatEntity;
+}> = ({ onDeletePhaseEliminationStat, url, tournamentStat }) => (
   <div className="card item">
     <div className="card-header">
       <Link
@@ -24,7 +21,7 @@ const TournamentStatCard: React.FC<{
       <div className="card-header-icon">
         <button
           className="button is-text"
-          onClick={() => onDeleteTournamentStat(tournamentStat)}
+          onClick={() => onDeletePhaseEliminationStat(tournamentStat)}
         >
           <i className="fas fa-trash" />
         </button>
@@ -36,15 +33,15 @@ const TournamentStatCard: React.FC<{
 export const List: React.FC<{
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
-  deleteTournamentStat: any;
+  deletePhaseEliminationStat: any;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentStatState: TournamentStatState;
-  tournamentState: TournamentState;
+  tournamentStatState: PhaseEliminationStatState;
+  tournamentState: PhaseEliminationState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
-  deleteTournamentStat,
+  deletePhaseEliminationStat,
   phase,
   tournamentPhaseState,
   tournamentStatState,
@@ -65,31 +62,33 @@ export const List: React.FC<{
             </Link>
           </div>
         </div>
-        {Object.keys(tournamentStatState.tournamentStats).map((key: string) => (
-          <TournamentStatCard
-            key={key}
-            url={baseTournamentUrl}
-            tournamentStat={tournamentStatState.tournamentStats[key]}
-            onDeleteTournamentStat={deleteTournamentStat}
-          />
-        ))}
+        {Object.keys(tournamentStatState.eliminationStats).map(
+          (key: string) => (
+            <PhaseEliminationStatCard
+              key={key}
+              url={baseTournamentUrl}
+              tournamentStat={tournamentStatState.eliminationStats[key]}
+              onDeletePhaseEliminationStat={deletePhaseEliminationStat}
+            />
+          )
+        )}
       </div>
     </div>
   );
 };
 
 export const Wrapper: React.FC<{
-  deleteTournamentStat: any;
+  deletePhaseEliminationStat: any;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
-  tournamentStatState: TournamentStatState;
+  tournamentState: PhaseEliminationState;
+  tournamentStatState: PhaseEliminationStatState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
-  deleteTournamentStat,
+  deletePhaseEliminationStat,
   phase,
   tournamentPhaseState,
   tournamentState,
@@ -99,7 +98,7 @@ export const Wrapper: React.FC<{
     <List
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
-      deleteTournamentStat={deleteTournamentStat}
+      deletePhaseEliminationStat={deletePhaseEliminationStat}
       phase={phase}
       tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}

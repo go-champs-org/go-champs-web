@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { allDraws } from '../Draws/selectors';
 import { DrawEntity } from '../Draws/state';
-import { default as BracketView } from '../Draws/View';
+import { default as DrawView } from '../Draws/View';
 import { allElimination } from '../Eliminations/selectors';
 import { EliminationEntity } from '../Eliminations/state';
-import { default as StandingsView } from '../Eliminations/View';
+import { default as EliminationView } from '../Eliminations/View';
 import { default as GameListByDate } from '../Games/ListByDate';
 import {
   gameDates,
@@ -15,13 +15,13 @@ import {
   gamesLoading
 } from '../Games/selectors';
 import { TournamentGameEntity } from '../Games/state';
+import { allEliminationStats } from '../Phases/EliminationStats/selectors';
+import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
 import { phaseById } from '../Phases/selectors';
 import { PhaseTypes, TournamentPhaseEntity } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
 import { TournamentTeamEntity } from '../Teams/state';
-import { allPhaseStats } from '../Tournaments/Stats/selectors';
-import { TournamentStatEntity } from '../Tournaments/Stats/state';
 import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
 
 interface PhaseHomeProps
@@ -32,7 +32,7 @@ interface PhaseHomeProps
   gamesLoading: boolean;
   draws: DrawEntity[];
   phase: TournamentPhaseEntity | undefined;
-  phaseStats: TournamentStatEntity[];
+  eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity[];
   teams: { [id: string]: TournamentTeamEntity };
 }
@@ -43,22 +43,22 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   gamesInitialDatePosition,
   gamesLoading,
   phase,
-  phaseStats,
+  eliminationStats,
   draws,
   eliminations,
   teams
 }) => {
   const MainContent =
     phase!.type === PhaseTypes.elimination ? (
-      <StandingsView
+      <EliminationView
         {...{
-          phaseStats,
+          eliminationStats,
           eliminations,
           teams
         }}
       />
     ) : (
-      <BracketView {...{ draws }} />
+      <DrawView {...{ draws }} />
     );
 
   return (
@@ -94,7 +94,7 @@ const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
     ),
     gamesLoading: gamesLoading(state.tournamentGames),
     phase: phaseById(state.tournamentPhases, phaseId),
-    phaseStats: allPhaseStats(state.tournamentStats),
+    eliminationStats: allEliminationStats(state.eliminationStats),
     draws: allDraws(state.draws),
     eliminations: allElimination(state.eliminations),
     teams: state.tournamentTeams.tournamentTeams

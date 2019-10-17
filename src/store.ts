@@ -9,24 +9,24 @@ import { default as tournamentGameReducer } from './Games/reducer';
 import { TournamentGameState } from './Games/state';
 import { default as organizationReducer } from './Organizations/reducer';
 import { OrganizationState } from './Organizations/state';
+import { default as eliminationStatReducer } from './Phases/EliminationStats/reducer';
+import { PhaseEliminationStatState } from './Phases/EliminationStats/state';
 import { default as tournamentPhaseReducer } from './Phases/reducer';
 import { TournamentPhaseState } from './Phases/state';
 import { default as tournamentTeamReducer } from './Teams/reducer';
 import { TournamentTeamState } from './Teams/state';
 import { default as tournamentReducer } from './Tournaments/reducer';
-import { TournamentState } from './Tournaments/state';
-import { default as tournamentStatReducer } from './Tournaments/Stats/reducer';
-import { TournamentStatState } from './Tournaments/Stats/state';
+import { PhaseEliminationState } from './Tournaments/state';
 
 export interface StoreState {
   organizations: OrganizationState;
   draws: DrawState;
   eliminations: EliminationState;
-  tournaments: TournamentState;
+  tournaments: PhaseEliminationState;
   tournamentGames: TournamentGameState;
   tournamentPhases: TournamentPhaseState;
   tournamentTeams: TournamentTeamState;
-  tournamentStats: TournamentStatState;
+  eliminationStats: PhaseEliminationStatState;
 }
 
 export default createStore(
@@ -34,11 +34,11 @@ export default createStore(
     organizations: organizationReducer,
     draws: drawsReducer,
     eliminations: eliminationsReducer,
+    eliminationStats: eliminationStatReducer,
     tournaments: tournamentReducer,
     tournamentGames: tournamentGameReducer,
     tournamentPhases: tournamentPhaseReducer,
-    tournamentTeams: tournamentTeamReducer,
-    tournamentStats: tournamentStatReducer
+    tournamentTeams: tournamentTeamReducer
   }),
   composeWithDevTools(applyMiddleware(thunk))
 );

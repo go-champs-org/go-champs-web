@@ -8,10 +8,10 @@ import { DrawEntity } from './state';
 
 const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
-const phaseStatsApi = (phaseId: string) => `${PHASE_API}/${phaseId}/draws`;
+const drawApi = (phaseId: string) => `${PHASE_API}/${phaseId}/draws`;
 
 const deleteRequest = (phaseId: string, drawId: string): Promise<string> => {
-  const url = `${phaseStatsApi(phaseId)}/${drawId}`;
+  const url = `${drawApi(phaseId)}/${drawId}`;
 
   return httpClient.delete(url);
 };
@@ -20,7 +20,7 @@ const patch = async (
   phaseId: string,
   draw: DrawEntity
 ): Promise<DrawEntity> => {
-  const url = `${phaseStatsApi(phaseId)}/${draw.id}`;
+  const url = `${drawApi(phaseId)}/${draw.id}`;
   const body = mapDrawEntityToApiDrawRequest(draw);
 
   const { data } = await httpClient.patch<ApiDrawRequest, ApiDrawResponse>(
@@ -31,7 +31,7 @@ const patch = async (
 };
 
 const post = async (phaseId: string, draw: DrawEntity): Promise<DrawEntity> => {
-  const url = `${phaseStatsApi(phaseId)}`;
+  const url = `${drawApi(phaseId)}`;
   const body = mapDrawEntityToApiDrawRequest(draw);
 
   const { data } = await httpClient.post<ApiDrawRequest, ApiDrawResponse>(

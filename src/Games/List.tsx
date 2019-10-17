@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
-import { TournamentState } from '../Tournaments/state';
+import { PhaseEliminationState } from '../Tournaments/state';
 import { TournamentGameEntity, TournamentGameState } from './state';
 
 const TournamentGameCard: React.FC<{
@@ -68,7 +68,7 @@ const List: React.FC<{
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
   tournamentGameState: TournamentGameState;
   tournamentPhaseState: TournamentPhaseState;
 }> = ({
@@ -114,7 +114,7 @@ export const Wrapper: React.FC<{
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
   tournamentGameState: TournamentGameState;
 }> = ({
   currentOrganizationSlug,

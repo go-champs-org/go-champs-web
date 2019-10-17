@@ -3,33 +3,28 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
+import { PhaseEliminationStatState } from '../Phases/EliminationStats/state';
 import { isInProgressPhase } from '../Phases/selectors';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
-import { TournamentState } from '../Tournaments/state';
-import {
-  deleteTournamentStat,
-  patchTournamentStat,
-  postTournamentStat
-} from '../Tournaments/Stats/actions';
-import { TournamentStatState } from '../Tournaments/Stats/state';
+import { PhaseEliminationState } from '../Tournaments/state';
 import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
 interface TournamentEditProps
   extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
   phase: TournamentPhaseEntity | undefined;
-  deleteTournamentStat: any;
+  deletePhaseEliminationStat: any;
   organizationState: OrganizationState;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
-  tournamentStatState: TournamentStatState;
+  tournamentState: PhaseEliminationState;
+  tournamentStatState: PhaseEliminationStatState;
   patchTournament: any;
-  patchTournamentStat: any;
-  postTournamentStat: any;
+  patchPhaseEliminationStat: any;
+  postPhaseEliminationStat: any;
   requestTournament: any;
 }
 
@@ -78,7 +73,7 @@ const mapStateToProps = (state: StoreState) => {
     phase: isInProgressPhase(state.tournamentPhases),
     tournamentPhaseState: state.tournamentPhases,
     tournamentState: state.tournaments,
-    tournamentStatState: state.tournamentStats
+    tournamentStatState: state.eliminationStats
   };
 };
 
@@ -88,10 +83,7 @@ const mapDispatchToProps = (dispatch: any, props: TournamentEditProps) => {
   const organizationId = currentOrganization ? currentOrganization.id : '';
   return bindActionCreators(
     {
-      deleteTournamentStat: deleteTournamentStat,
       patchTournament: patchTournament(organizationId),
-      patchTournamentStat: patchTournamentStat,
-      postTournamentStat: postTournamentStat,
       requestTournament
     },
     dispatch

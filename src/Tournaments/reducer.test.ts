@@ -40,8 +40,8 @@ import {
 import {
   DEFAULT_TOURNAMENT,
   initialState,
-  TournamentEntity,
-  TournamentState
+  PhaseEliminationState,
+  TournamentEntity
 } from './state';
 
 describe('deleteTournament', () => {
@@ -104,7 +104,7 @@ describe('deleteTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentState = {
+    const someState: PhaseEliminationState = {
       ...initialState,
       tournaments: {
         ['some-slug']: {
@@ -161,7 +161,7 @@ describe('patchTournamentSuccess', () => {
     }
   };
 
-  const updateState: TournamentState = {
+  const updateState: PhaseEliminationState = {
     ...initialState,
     tournaments: {
       ['first-slug']: {
@@ -187,7 +187,7 @@ describe('patchTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentState = {
+    const someState: PhaseEliminationState = {
       ...updateState,
       tournaments: {
         ['some-slug']: {
@@ -258,7 +258,7 @@ describe('postTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentState = {
+    const someState: PhaseEliminationState = {
       ...initialState,
       tournaments: {
         ['some-slug']: {
@@ -392,7 +392,7 @@ describe('requestTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentState = {
+    const someState: PhaseEliminationState = {
       ...initialState,
       tournaments: {
         ['some-slug']: {

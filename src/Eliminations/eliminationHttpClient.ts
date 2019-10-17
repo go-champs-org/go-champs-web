@@ -11,14 +11,14 @@ import { EliminationEntity } from './state';
 
 const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
-const phaseStatsApi = (phaseId: string) =>
+const eliminationApi = (phaseId: string) =>
   `${PHASE_API}/${phaseId}/eliminations`;
 
 const deleteRequest = (
   phaseId: string,
   phaseEliminationId: string
 ): Promise<string> => {
-  const url = `${phaseStatsApi(phaseId)}/${phaseEliminationId}`;
+  const url = `${eliminationApi(phaseId)}/${phaseEliminationId}`;
 
   return httpClient.delete(url);
 };
@@ -27,7 +27,7 @@ const patch = async (
   phaseId: string,
   phaseElimination: EliminationEntity
 ): Promise<EliminationEntity> => {
-  const url = `${phaseStatsApi(phaseId)}/${phaseElimination.id}`;
+  const url = `${eliminationApi(phaseId)}/${phaseElimination.id}`;
   const body = mapEliminationEntityToApiEliminationRequest(phaseElimination);
 
   const { data } = await httpClient.patch<
@@ -41,7 +41,7 @@ const post = async (
   phaseId: string,
   phaseElimination: EliminationEntity
 ): Promise<EliminationEntity> => {
-  const url = `${phaseStatsApi(phaseId)}`;
+  const url = `${eliminationApi(phaseId)}`;
   const body = mapEliminationEntityToApiEliminationRequest(phaseElimination);
 
   const { data } = await httpClient.post<

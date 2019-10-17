@@ -1,30 +1,23 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import {
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from '../../Phases/state';
-import { TournamentState } from '../state';
-import { default as TournamentStatForm } from './Form';
+import { PhaseEliminationState } from '../../Tournaments/state';
+import { TournamentPhaseEntity, TournamentPhaseState } from '../state';
+import { default as PhaseEliminationStatForm } from './Form';
 
 interface PhaseStatNewProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: TournamentPhaseEntity;
-  postTournamentStat: any;
+  postPhaseEliminationStat: any;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
 }
 
 export const New: React.FC<PhaseStatNewProps> = ({
-  currentOrganizationSlug,
   currentTournamentSlug,
-  phase,
-  postTournamentStat,
-  tournamentPhaseState,
+  postPhaseEliminationStat,
   tournamentState
 }) => {
-  const tournament = tournamentState.tournaments[currentTournamentSlug];
   return (
     <div className="columns is-multiline">
       <div className="column is-8">
@@ -34,9 +27,9 @@ export const New: React.FC<PhaseStatNewProps> = ({
           </div>
         </div>
         <Form
-          onSubmit={postTournamentStat}
+          onSubmit={postPhaseEliminationStat}
           initialValues={{ name: '' }}
-          render={TournamentStatForm}
+          render={PhaseEliminationStatForm}
         />
       </div>
     </div>

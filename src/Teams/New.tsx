@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
-import { TournamentState } from '../Tournaments/state';
+import { PhaseEliminationState } from '../Tournaments/state';
 import { default as TournamentTeamForm } from './Form';
 
 interface TournamentTeamNewProps {
@@ -10,7 +10,7 @@ interface TournamentTeamNewProps {
   phase: TournamentPhaseEntity;
   postTournamentTeam: any;
   tournamentPhaseState: TournamentPhaseState;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
 }
 
 export const New: React.FC<TournamentTeamNewProps> = ({

@@ -10,7 +10,7 @@ import {
   requestFilterTournaments
 } from '../Tournaments/actions';
 import { List } from '../Tournaments/List';
-import { TournamentState } from '../Tournaments/state';
+import { PhaseEliminationState } from '../Tournaments/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 
@@ -18,7 +18,7 @@ interface OrganizationHomeProps
   extends RouteComponentProps<OrganizationHomeMatchProps> {
   deleteTournament: any;
   postTournament: any;
-  tournamentState: TournamentState;
+  tournamentState: PhaseEliminationState;
   requestFilterTournaments: any;
 }
 
