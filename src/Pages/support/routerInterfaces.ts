@@ -7,7 +7,7 @@ export interface TournamentHomeMatchProps {
   organizationSlug: string;
 }
 
-export interface TournamentPhaseHomeMatchProps {
+export interface PhaseHomeMatchProps {
   tournamentSlug: string;
   organizationSlug: string;
   phaseId: string;

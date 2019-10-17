@@ -18,20 +18,19 @@ import { TournamentGameEntity } from '../Games/state';
 import { allEliminationStats } from '../Phases/EliminationStats/selectors';
 import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
 import { phaseById } from '../Phases/selectors';
-import { PhaseTypes, TournamentPhaseEntity } from '../Phases/state';
+import { PhaseEntity, PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
 import { TeamEntity } from '../Teams/state';
-import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
+import { PhaseHomeMatchProps } from './support/routerInterfaces';
 
-interface PhaseHomeProps
-  extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
+interface PhaseHomeProps extends RouteComponentProps<PhaseHomeMatchProps> {
   gameDates: string[];
   gamesByDate: { [date: string]: TournamentGameEntity[] };
   gamesInitialDatePosition: number;
   gamesLoading: boolean;
   draws: DrawEntity[];
-  phase: TournamentPhaseEntity | undefined;
+  phase: PhaseEntity | undefined;
   eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity[];
   teams: { [id: string]: TeamEntity };
@@ -93,7 +92,7 @@ const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
       state.tournamentGames
     ),
     gamesLoading: gamesLoading(state.tournamentGames),
-    phase: phaseById(state.tournamentPhases, phaseId),
+    phase: phaseById(state.phases, phaseId),
     eliminationStats: allEliminationStats(state.eliminationStats),
     draws: allDraws(state.draws),
     eliminations: allElimination(state.eliminations),

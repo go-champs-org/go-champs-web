@@ -7,21 +7,15 @@ import withDraggableList, {
 import { PhaseEliminationState } from '../Tournaments/state';
 import { byOrder } from './compareFunctions';
 import './List.scss';
-import { TournamentPhaseEntity, TournamentPhaseState } from './state';
+import { PhaseEntity, PhaseState } from './state';
 
-const TournamentPhaseCard: React.FC<{
-  onDeleteTournamentPhase: any;
-  onPatchTournamentPhase: any;
+const PhaseCard: React.FC<{
+  onDeletePhase: any;
+  onPatchPhase: any;
   url: string;
-  tournamentPhase: TournamentPhaseEntity;
+  tournamentPhase: PhaseEntity;
   order: number;
-}> = ({
-  onDeleteTournamentPhase,
-  url,
-  tournamentPhase,
-  order,
-  onPatchTournamentPhase
-}) => {
+}> = ({ onDeletePhase, url, tournamentPhase, order, onPatchPhase }) => {
   // TODO: Find better way to update order
   const tournamentPhaseWithOrder = {
     ...tournamentPhase,
@@ -32,20 +26,20 @@ const TournamentPhaseCard: React.FC<{
       <div className="card-header">
         <Link
           className="card-header-title"
-          to={`${url}/TournamentPhaseEdit/${tournamentPhase.id}`}
+          to={`${url}/PhaseEdit/${tournamentPhase.id}`}
         >
           <span className="title is-6">{tournamentPhase.title}</span>
         </Link>
         <div className="card-header-icon">
           <button
             className="button is-text"
-            onClick={() => onPatchTournamentPhase(tournamentPhaseWithOrder)}
+            onClick={() => onPatchPhase(tournamentPhaseWithOrder)}
           >
             Save order (Temp)
           </button>
           <button
             className="button is-text"
-            onClick={() => onDeleteTournamentPhase(tournamentPhase)}
+            onClick={() => onDeletePhase(tournamentPhase)}
           >
             <i className="fas fa-trash" />
           </button>
@@ -55,21 +49,21 @@ const TournamentPhaseCard: React.FC<{
   );
 };
 
-interface WrapperProps extends DraggableListProps<TournamentPhaseEntity> {
-  deleteTournamentPhase: any;
-  patchTournamentPhase: any;
-  phase: TournamentPhaseEntity;
+interface WrapperProps extends DraggableListProps<PhaseEntity> {
+  deletePhase: any;
+  patchPhase: any;
+  phase: PhaseEntity;
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
-  tournamentPhaseState: TournamentPhaseState;
+  tournamentPhaseState: PhaseState;
   tournamentState: PhaseEliminationState;
 }
 
 export const List: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
-  deleteTournamentPhase,
-  patchTournamentPhase,
+  deletePhase,
+  patchPhase,
   phase,
   tournamentPhaseState,
   tournamentState,
@@ -87,24 +81,24 @@ export const List: React.FC<WrapperProps> = ({
             <h2 className="subtitle">Phases</h2>
           </div>
           <div className="column is-4 has-text-right">
-            <Link className="button" to={`./TournamentPhaseNew`}>
+            <Link className="button" to={`./PhaseNew`}>
               New phase
             </Link>
           </div>
         </div>
-        {sortedItems.map((phase: TournamentPhaseEntity, index: number) => (
+        {sortedItems.map((phase: PhaseEntity, index: number) => (
           <DraggableItem
             index={index}
             key={phase.id}
             moveItem={moveItem}
             type={DragTypes.PHASE}
           >
-            <TournamentPhaseCard
+            <PhaseCard
               url={baseTournamentUrl}
               tournamentPhase={phase}
-              onDeleteTournamentPhase={deleteTournamentPhase}
+              onDeletePhase={deletePhase}
               order={index + 1}
-              onPatchTournamentPhase={patchTournamentPhase}
+              onPatchPhase={patchPhase}
             />
           </DraggableItem>
         ))}
@@ -116,8 +110,8 @@ export const List: React.FC<WrapperProps> = ({
 export const Wrapper: React.FC<WrapperProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
-  deleteTournamentPhase,
-  patchTournamentPhase,
+  deletePhase,
+  patchPhase,
   phase,
   tournamentState,
   tournamentPhaseState,
@@ -128,8 +122,8 @@ export const Wrapper: React.FC<WrapperProps> = ({
     <List
       currentOrganizationSlug={currentOrganizationSlug}
       currentTournamentSlug={currentTournamentSlug}
-      deleteTournamentPhase={deleteTournamentPhase}
-      patchTournamentPhase={patchTournamentPhase}
+      deletePhase={deletePhase}
+      patchPhase={patchPhase}
       phase={phase}
       tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
@@ -140,13 +134,13 @@ export const Wrapper: React.FC<WrapperProps> = ({
 };
 
 interface StateProps {
-  tournamentPhaseState: TournamentPhaseState;
+  tournamentPhaseState: PhaseState;
 }
 
-export default withDraggableList<TournamentPhaseEntity>({
+export default withDraggableList<PhaseEntity>({
   getInitialItems: (props: StateProps) => {
-    return Object.keys(props.tournamentPhaseState.tournamentPhases)
-      .map((key: string) => props.tournamentPhaseState.tournamentPhases[key])
+    return Object.keys(props.tournamentPhaseState.phases)
+      .map((key: string) => props.tournamentPhaseState.phases[key])
       .sort(byOrder);
   }
 })(Wrapper);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TournamentPhaseEntity } from '../../Phases/state';
+import { PhaseEntity } from '../../Phases/state';
 import { TournamentEntity } from '../state';
 import TopBreadcrumbs from './TopBreadcrumbs';
 import TopLevel from './TopLevel';
@@ -7,8 +7,8 @@ import TopLevel from './TopLevel';
 const Top: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
-  phase: TournamentPhaseEntity;
-  phases: TournamentPhaseEntity[];
+  phase: PhaseEntity;
+  phases: PhaseEntity[];
   tournamentSlug: string;
 }> = ({ organizationSlug, tournament, phases, tournamentSlug, phase }) => (
   <div>

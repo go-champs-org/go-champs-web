@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { isInProgressPhase } from '../Phases/selectors';
-import { TournamentPhaseEntity } from '../Phases/state';
+import { PhaseEntity } from '../Phases/state';
 import { StoreState } from '../store';
 
 interface PhaseDefaultRedirectProps extends RouteComponentProps {
-  phase: TournamentPhaseEntity | undefined;
+  phase: PhaseEntity | undefined;
 }
 
 const PhaseDefaultRedirect: React.FC<PhaseDefaultRedirectProps> = ({
@@ -20,7 +20,7 @@ const PhaseDefaultRedirect: React.FC<PhaseDefaultRedirectProps> = ({
 };
 
 const mapStateToProps = (state: StoreState) => ({
-  phase: isInProgressPhase(state.tournamentPhases)
+  phase: isInProgressPhase(state.phases)
 });
 
 export default connect(mapStateToProps)(PhaseDefaultRedirect);

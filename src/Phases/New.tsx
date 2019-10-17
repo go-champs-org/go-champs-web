@@ -1,23 +1,23 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { PhaseEliminationState } from '../Tournaments/state';
-import { default as TournamentPhaseForm } from './Form';
-import { TournamentPhaseEntity, TournamentPhaseState } from './state';
+import { default as PhaseForm } from './Form';
+import { PhaseEntity, PhaseState } from './state';
 
-interface TournamentPhaseNewProps {
+interface PhaseNewProps {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
-  phase: TournamentPhaseEntity;
-  postTournamentPhase: any;
+  phase: PhaseEntity;
+  postPhase: any;
   tournamentState: PhaseEliminationState;
-  tournamentPhaseState: TournamentPhaseState;
+  tournamentPhaseState: PhaseState;
 }
 
-export const New: React.FC<TournamentPhaseNewProps> = ({
+export const New: React.FC<PhaseNewProps> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   phase,
-  postTournamentPhase,
+  postPhase,
   tournamentPhaseState,
   tournamentState
 }) => {
@@ -31,9 +31,9 @@ export const New: React.FC<TournamentPhaseNewProps> = ({
           </div>
         </div>
         <Form
-          onSubmit={postTournamentPhase}
+          onSubmit={postPhase}
           initialValues={{ title: '', type: '' }}
-          render={TournamentPhaseForm}
+          render={PhaseForm}
         />
       </div>
     </div>

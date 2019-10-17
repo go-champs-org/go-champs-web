@@ -6,10 +6,10 @@ import PageLoader from '../../Shared/UI/PageLoader';
 import { StoreState } from '../../store';
 import { requestFilterTournaments } from '../../Tournaments/actions';
 import { PhaseEliminationState } from '../../Tournaments/state';
-import { TournamentPhaseHomeMatchProps } from './routerInterfaces';
+import { PhaseHomeMatchProps } from './routerInterfaces';
 
 interface WithTournamentsProps
-  extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
+  extends RouteComponentProps<PhaseHomeMatchProps> {
   tournamentState: PhaseEliminationState;
   requestFilterTournaments: any;
 }

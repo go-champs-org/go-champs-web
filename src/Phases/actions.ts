@@ -7,7 +7,7 @@ import {
   REQUEST_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
 import phaseHttpClient from './phaseHttpClient';
-import { TournamentPhaseEntity } from './state';
+import { PhaseEntity } from './state';
 
 export const DELETE_TOURNAMENT_PHASE = 'API_DELETE_TOURNAMENT_PHASE';
 export const DELETE_TOURNAMENT_PHASE_SUCCESS =
@@ -28,89 +28,83 @@ export const GET_PHASE = 'API_GET_PHASE';
 export const GET_PHASE_SUCCESS = 'API_GET_PHASE_SUCCESS';
 export const GET_PHASE_FAILURE = 'API_GET_PHASE_FAILURE';
 
-export const deleteTournamentPhase = (
-  tournamentPhase: TournamentPhaseEntity
-) => async (dispatch: any) => {
+export const deletePhase = (tournamentPhase: PhaseEntity) => async (
+  dispatch: any
+) => {
   dispatch({ type: DELETE_TOURNAMENT_PHASE });
 
   try {
     const response = await phaseHttpClient.delete(tournamentPhase.id);
 
-    dispatch(deleteTournamentPhaseSuccess(response));
+    dispatch(deletePhaseSuccess(response));
     displayToast(`${tournamentPhase.title} deleted!`, 'is-success');
   } catch (err) {
-    dispatch(deleteTournamentPhaseFailure(err));
+    dispatch(deletePhaseFailure(err));
   }
 };
 
-export const deleteTournamentPhaseSuccess = (
+export const deletePhaseSuccess = (
   payload: string
 ): HttpAction<ActionTypes, string> => ({
   type: DELETE_TOURNAMENT_PHASE_SUCCESS,
   payload
 });
 
-export const deleteTournamentPhaseFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const deletePhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_PHASE_FAILURE,
   payload
 });
 
-export const patchTournamentPhase = (
-  tournamentPhase: TournamentPhaseEntity
-) => async (dispatch: any) => {
+export const patchPhase = (tournamentPhase: PhaseEntity) => async (
+  dispatch: any
+) => {
   dispatch({ type: PATCH_TOURNAMENT_PHASE });
 
   try {
     const response = await phaseHttpClient.patch(tournamentPhase);
 
-    dispatch(patchTournamentPhaseSuccess(response));
+    dispatch(patchPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} updated!`, 'is-success');
   } catch (err) {
-    dispatch(patchTournamentPhaseFailure(err));
+    dispatch(patchPhaseFailure(err));
   }
 };
 
-export const patchTournamentPhaseSuccess = (
-  payload: TournamentPhaseEntity
-): HttpAction<ActionTypes, TournamentPhaseEntity> => ({
+export const patchPhaseSuccess = (
+  payload: PhaseEntity
+): HttpAction<ActionTypes, PhaseEntity> => ({
   type: PATCH_TOURNAMENT_PHASE_SUCCESS,
   payload
 });
 
-export const patchTournamentPhaseFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const patchPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_PHASE_FAILURE,
   payload
 });
 
-export const postTournamentPhase = (
-  tournamentPhase: TournamentPhaseEntity
-) => async (dispatch: any) => {
+export const postPhase = (tournamentPhase: PhaseEntity) => async (
+  dispatch: any
+) => {
   dispatch({ type: POST_TOURNAMENT_PHASE });
 
   try {
     const response = await phaseHttpClient.post(tournamentPhase);
 
-    dispatch(postTournamentPhaseSuccess(response));
+    dispatch(postPhaseSuccess(response));
     displayToast(`${tournamentPhase.title} created!`, 'is-success');
   } catch (err) {
-    dispatch(postTournamentPhaseFailure(err));
+    dispatch(postPhaseFailure(err));
   }
 };
 
-export const postTournamentPhaseSuccess = (
-  payload: TournamentPhaseEntity
-): HttpAction<ActionTypes, TournamentPhaseEntity> => ({
+export const postPhaseSuccess = (
+  payload: PhaseEntity
+): HttpAction<ActionTypes, PhaseEntity> => ({
   type: POST_TOURNAMENT_PHASE_SUCCESS,
   payload
 });
 
-export const postTournamentPhaseFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const postPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_PHASE_FAILURE,
   payload
 });

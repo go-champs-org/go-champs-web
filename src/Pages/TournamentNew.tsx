@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
-import { TournamentPhaseState } from '../Phases/state';
+import { PhaseState } from '../Phases/state';
 import { StoreState } from '../store';
 import { postTournament } from '../Tournaments/actions';
 import New from '../Tournaments/New';
@@ -14,7 +14,7 @@ interface TournamentNewProps
   extends RouteComponentProps<OrganizationHomeMatchProps> {
   organizationState: OrganizationState;
   postTournament: any;
-  tournamentPhaseState: TournamentPhaseState;
+  tournamentPhaseState: PhaseState;
 }
 
 class TournamentNew extends React.Component<TournamentNewProps> {
@@ -31,7 +31,7 @@ class TournamentNew extends React.Component<TournamentNewProps> {
 
 const mapStateToProps = (state: StoreState) => ({
   organizationState: state.organizations,
-  tournamentPhaseState: state.tournamentPhases
+  tournamentPhaseState: state.phases
 });
 
 const mapDispatchToProps = (dispatch: any, state: TournamentNewProps) => {

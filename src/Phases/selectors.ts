@@ -1,27 +1,22 @@
 import { byOrder } from './compareFunctions';
-import { TournamentPhaseEntity, TournamentPhaseState } from './state';
+import { PhaseEntity, PhaseState } from './state';
 
-export const phases = (state: TournamentPhaseState): TournamentPhaseEntity[] =>
-  Object.keys(state.tournamentPhases).map(
-    (key: string) => state.tournamentPhases[key]
-  );
+export const phases = (state: PhaseState): PhaseEntity[] =>
+  Object.keys(state.phases).map((key: string) => state.phases[key]);
 
-export const sortedPhases = (
-  state: TournamentPhaseState
-): TournamentPhaseEntity[] => phases(state).sort(byOrder);
+export const sortedPhases = (state: PhaseState): PhaseEntity[] =>
+  phases(state).sort(byOrder);
 
 export const isInProgressPhase = (
-  state: TournamentPhaseState
-): TournamentPhaseEntity | undefined => {
-  return phases(state).find(
-    (phase: TournamentPhaseEntity) => phase.isInProgress
-  );
+  state: PhaseState
+): PhaseEntity | undefined => {
+  return phases(state).find((phase: PhaseEntity) => phase.isInProgress);
 };
 
 export const phaseById = (
-  state: TournamentPhaseState,
+  state: PhaseState,
   id: string
-): TournamentPhaseEntity | undefined => state.tournamentPhases[id];
+): PhaseEntity | undefined => state.phases[id];
 
-export const phaseLoading = (state: TournamentPhaseState) =>
+export const phaseLoading = (state: PhaseState) =>
   state.isLoadingRequestTournament;

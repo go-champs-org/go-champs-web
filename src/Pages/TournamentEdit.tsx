@@ -5,21 +5,20 @@ import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
 import { PhaseEliminationStatState } from '../Phases/EliminationStats/state';
 import { isInProgressPhase } from '../Phases/selectors';
-import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
+import { PhaseEntity, PhaseState } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import { patchTournament, requestTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
 import { PhaseEliminationState } from '../Tournaments/state';
-import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
+import { PhaseHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentEditProps
-  extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
-  phase: TournamentPhaseEntity | undefined;
+interface TournamentEditProps extends RouteComponentProps<PhaseHomeMatchProps> {
+  phase: PhaseEntity | undefined;
   deletePhaseEliminationStat: any;
   organizationState: OrganizationState;
-  tournamentPhaseState: TournamentPhaseState;
+  tournamentPhaseState: PhaseState;
   tournamentState: PhaseEliminationState;
   tournamentStatState: PhaseEliminationStatState;
   patchTournament: any;
@@ -70,8 +69,8 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
 const mapStateToProps = (state: StoreState) => {
   return {
     organizationState: state.organizations,
-    phase: isInProgressPhase(state.tournamentPhases),
-    tournamentPhaseState: state.tournamentPhases,
+    phase: isInProgressPhase(state.phases),
+    tournamentPhaseState: state.phases,
     tournamentState: state.tournaments,
     tournamentStatState: state.eliminationStats
   };

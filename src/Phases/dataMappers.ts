@@ -1,9 +1,7 @@
 import { ApiPhase, ApiPhaseRequest } from '../Shared/httpClient/apiTypes';
-import { TournamentPhaseEntity } from './state';
+import { PhaseEntity } from './state';
 
-export const mapApiPhaseToPhaseEntity = (
-  apiPhase: ApiPhase
-): TournamentPhaseEntity => ({
+export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
   id: apiPhase.id,
   order: apiPhase.order,
   title: apiPhase.title,
@@ -12,7 +10,7 @@ export const mapApiPhaseToPhaseEntity = (
 });
 
 export const mapPhaseEntityToApiPhaseRequest = (
-  phase: TournamentPhaseEntity
+  phase: PhaseEntity
 ): ApiPhaseRequest => ({
   tournament_phase: {
     id: phase.id,

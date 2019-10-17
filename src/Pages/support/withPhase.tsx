@@ -8,10 +8,9 @@ import { getPhase } from '../../Phases/actions';
 import { StoreState } from '../../store';
 import { tournamentBySlug } from '../../Tournaments/selectors';
 import { TournamentEntity } from '../../Tournaments/state';
-import { TournamentPhaseHomeMatchProps } from './routerInterfaces';
+import { PhaseHomeMatchProps } from './routerInterfaces';
 
-interface WithPhaseProps
-  extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
+interface WithPhaseProps extends RouteComponentProps<PhaseHomeMatchProps> {
   getPhase: (phaseId: string) => {};
   requestTournamentGamesByFilter: (where: RequestFilter) => {};
   tournament: TournamentEntity;

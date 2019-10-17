@@ -1,6 +1,6 @@
-import { TournamentPhaseEntity } from './state';
+import { PhaseEntity } from './state';
 
 export const byOrder = (
-  tournamentPhaseA: TournamentPhaseEntity,
-  tournamentPhaseB: TournamentPhaseEntity
+  tournamentPhaseA: PhaseEntity,
+  tournamentPhaseB: PhaseEntity
 ) => tournamentPhaseA.order - tournamentPhaseB.order;

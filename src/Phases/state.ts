@@ -3,7 +3,7 @@ export enum PhaseTypes {
   draw = 'draw'
 }
 
-export interface TournamentPhaseEntity {
+export interface PhaseEntity {
   id: string;
   title: string;
   type: PhaseTypes;
@@ -11,18 +11,18 @@ export interface TournamentPhaseEntity {
   isInProgress: boolean;
 }
 
-export interface TournamentPhaseState {
-  isLoadingDeleteTournamentPhase: boolean;
-  isLoadingPatchTournamentPhase: boolean;
-  isLoadingPostTournamentPhase: boolean;
+export interface PhaseState {
+  isLoadingDeletePhase: boolean;
+  isLoadingPatchPhase: boolean;
+  isLoadingPostPhase: boolean;
   isLoadingRequestTournament: boolean;
-  tournamentPhases: { [key: string]: TournamentPhaseEntity };
+  phases: { [key: string]: PhaseEntity };
 }
 
-export const initialState: TournamentPhaseState = {
-  isLoadingDeleteTournamentPhase: false,
-  isLoadingPatchTournamentPhase: false,
-  isLoadingPostTournamentPhase: false,
+export const initialState: PhaseState = {
+  isLoadingDeletePhase: false,
+  isLoadingPatchPhase: false,
+  isLoadingPostPhase: false,
   isLoadingRequestTournament: false,
-  tournamentPhases: {}
+  phases: {}
 };

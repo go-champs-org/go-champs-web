@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { OrganizationState } from '../Organizations/state';
-import { TournamentPhaseEntity, TournamentPhaseState } from '../Phases/state';
+import { PhaseEntity, PhaseState } from '../Phases/state';
 import { default as TournamentForm } from './Form';
 import { TournamentEntity } from './state';
 
@@ -10,8 +10,8 @@ interface TournamentEditProps {
   organizationState: OrganizationState;
   patchTournament: any;
   tournament: TournamentEntity;
-  tournamentPhaseState: TournamentPhaseState;
-  phase: TournamentPhaseEntity;
+  tournamentPhaseState: PhaseState;
+  phase: PhaseEntity;
 }
 
 export const Edit: React.FC<TournamentEditProps> = ({

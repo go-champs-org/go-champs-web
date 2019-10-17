@@ -12,7 +12,7 @@ import { OrganizationState } from './Organizations/state';
 import { default as eliminationStatReducer } from './Phases/EliminationStats/reducer';
 import { PhaseEliminationStatState } from './Phases/EliminationStats/state';
 import { default as tournamentPhaseReducer } from './Phases/reducer';
-import { TournamentPhaseState } from './Phases/state';
+import { PhaseState } from './Phases/state';
 import { default as tournamentTeamReducer } from './Teams/reducer';
 import { TeamState } from './Teams/state';
 import { default as tournamentReducer } from './Tournaments/reducer';
@@ -24,7 +24,7 @@ export interface StoreState {
   eliminations: EliminationState;
   tournaments: PhaseEliminationState;
   tournamentGames: TournamentGameState;
-  tournamentPhases: TournamentPhaseState;
+  phases: PhaseState;
   teams: TeamState;
   eliminationStats: PhaseEliminationStatState;
 }
@@ -37,7 +37,7 @@ export default createStore(
     eliminationStats: eliminationStatReducer,
     tournaments: tournamentReducer,
     tournamentGames: tournamentGameReducer,
-    tournamentPhases: tournamentPhaseReducer,
+    phases: tournamentPhaseReducer,
     teams: tournamentTeamReducer
   }),
   composeWithDevTools(applyMiddleware(thunk))

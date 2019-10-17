@@ -18,27 +18,22 @@ import {
   POST_TOURNAMENT_PHASE_SUCCESS
 } from './actions';
 import {
-  deleteTournamentPhase,
-  deleteTournamentPhaseFailure,
-  deleteTournamentPhaseSuccess,
-  patchTournamentPhase,
-  patchTournamentPhaseFailure,
-  patchTournamentPhaseSuccess,
-  postTournamentPhase,
-  postTournamentPhaseFailure,
-  postTournamentPhaseSuccess,
+  deletePhase,
+  deletePhaseFailure,
+  deletePhaseSuccess,
+  patchPhase,
+  patchPhaseFailure,
+  patchPhaseSuccess,
+  postPhase,
+  postPhaseFailure,
+  postPhaseSuccess,
   requestTournament,
   requestTournamentFailure,
   requestTournamentSuccess
 } from './reducer';
-import {
-  initialState,
-  PhaseTypes,
-  TournamentPhaseEntity,
-  TournamentPhaseState
-} from './state';
+import { initialState, PhaseTypes, PhaseEntity, PhaseState } from './state';
 
-describe('deleteTournamentPhase', () => {
+describe('deletePhase', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_PHASE,
     payload: {
@@ -46,14 +41,12 @@ describe('deleteTournamentPhase', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentPhase to true', () => {
-    expect(
-      deleteTournamentPhase(initialState, action).isLoadingDeleteTournamentPhase
-    ).toBe(true);
+  it('sets isLoadingDeletePhase to true', () => {
+    expect(deletePhase(initialState, action).isLoadingDeletePhase).toBe(true);
   });
 });
 
-describe('deleteTournamentPhaseFailure', () => {
+describe('deletePhaseFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_PHASE_FAILURE,
     payload: {
@@ -61,15 +54,14 @@ describe('deleteTournamentPhaseFailure', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentPhase to false', () => {
-    expect(
-      deleteTournamentPhaseFailure(initialState, action)
-        .isLoadingDeleteTournamentPhase
-    ).toBe(false);
+  it('sets isLoadingDeletePhase to false', () => {
+    expect(deletePhaseFailure(initialState, action).isLoadingDeletePhase).toBe(
+      false
+    );
   });
 });
 
-describe('deleteTournamentPhaseSuccess', () => {
+describe('deletePhaseSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_PHASE_SUCCESS,
     payload: 'first-id'
@@ -77,7 +69,7 @@ describe('deleteTournamentPhaseSuccess', () => {
 
   const deleteState = {
     ...initialState,
-    tournamentPhases: {
+    phases: {
       ['first-id']: {
         id: 'first-id',
         title: 'first-title',
@@ -86,35 +78,34 @@ describe('deleteTournamentPhaseSuccess', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentPhase to false', () => {
-    expect(
-      deleteTournamentPhaseSuccess(deleteState, action)
-        .isLoadingDeleteTournamentPhase
-    ).toBe(false);
+  it('sets isLoadingDeletePhase to false', () => {
+    expect(deletePhaseSuccess(deleteState, action).isLoadingDeletePhase).toBe(
+      false
+    );
   });
 
   it('remove entity', () => {
-    const newState = deleteTournamentPhaseSuccess(deleteState, action);
+    const newState = deletePhaseSuccess(deleteState, action);
 
-    expect(newState.tournamentPhases['first-id']).toBeUndefined();
+    expect(newState.phases['first-id']).toBeUndefined();
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentPhaseState = {
+    const someState: PhaseState = {
       ...initialState,
-      tournamentPhases: {
+      phases: {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
           type: 'eliminations'
         },
-        ...deleteState.tournamentPhases
+        ...deleteState.phases
       }
     };
 
-    const newState = deleteTournamentPhaseSuccess(someState, action);
+    const newState = deletePhaseSuccess(someState, action);
 
-    expect(newState.tournamentPhases['some-id']).toEqual({
+    expect(newState.phases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
       type: 'eliminations'
@@ -122,33 +113,30 @@ describe('deleteTournamentPhaseSuccess', () => {
   });
 });
 
-describe('patchTournamentPhase', () => {
+describe('patchPhase', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_TOURNAMENT_PHASE
   };
 
-  it('sets isLoadingPatchTournamentPhase to true', () => {
-    expect(
-      patchTournamentPhase(initialState, action).isLoadingPatchTournamentPhase
-    ).toBe(true);
+  it('sets isLoadingPatchPhase to true', () => {
+    expect(patchPhase(initialState, action).isLoadingPatchPhase).toBe(true);
   });
 });
 
-describe('patchTournamentPhaseFailure', () => {
+describe('patchPhaseFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: PATCH_TOURNAMENT_PHASE_FAILURE
   };
 
-  it('sets isLoadingPatchTournamentPhase to false', () => {
-    expect(
-      patchTournamentPhaseFailure(initialState, action)
-        .isLoadingPatchTournamentPhase
-    ).toBe(false);
+  it('sets isLoadingPatchPhase to false', () => {
+    expect(patchPhaseFailure(initialState, action).isLoadingPatchPhase).toBe(
+      false
+    );
   });
 });
 
-describe('patchTournamentPhaseSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentPhaseEntity> = {
+describe('patchPhaseSuccess', () => {
+  const action: HttpAction<ActionTypes, PhaseEntity> = {
     type: PATCH_TOURNAMENT_PHASE_SUCCESS,
     payload: {
       id: 'first-id',
@@ -157,9 +145,9 @@ describe('patchTournamentPhaseSuccess', () => {
     }
   };
 
-  const updateState: TournamentPhaseState = {
+  const updateState: PhaseState = {
     ...initialState,
-    tournamentPhases: {
+    phases: {
       ['first-id']: {
         id: 'first-id',
         title: 'first-title',
@@ -168,17 +156,16 @@ describe('patchTournamentPhaseSuccess', () => {
     }
   };
 
-  it('sets isLoadingPatchTournamentPhase to false', () => {
-    expect(
-      patchTournamentPhaseSuccess(updateState, action)
-        .isLoadingPatchTournamentPhase
-    ).toBe(false);
+  it('sets isLoadingPatchPhase to false', () => {
+    expect(patchPhaseSuccess(updateState, action).isLoadingPatchPhase).toBe(
+      false
+    );
   });
 
   it('set entity', () => {
-    const newState = patchTournamentPhaseSuccess(updateState, action);
+    const newState = patchPhaseSuccess(updateState, action);
 
-    expect(newState.tournamentPhases['first-id']).toEqual({
+    expect(newState.phases['first-id']).toEqual({
       id: 'first-id',
       title: 'some-first-title',
       type: 'eliminations'
@@ -186,9 +173,9 @@ describe('patchTournamentPhaseSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentPhaseState = {
+    const someState: PhaseState = {
       ...updateState,
-      tournamentPhases: {
+      phases: {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
@@ -197,9 +184,9 @@ describe('patchTournamentPhaseSuccess', () => {
       }
     };
 
-    const newState = patchTournamentPhaseSuccess(someState, action);
+    const newState = patchPhaseSuccess(someState, action);
 
-    expect(newState.tournamentPhases['some-id']).toEqual({
+    expect(newState.phases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
       type: 'eliminations'
@@ -207,33 +194,30 @@ describe('patchTournamentPhaseSuccess', () => {
   });
 });
 
-describe('postTournamentPhase', () => {
+describe('postPhase', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_PHASE
   };
 
-  it('sets isLoadingPostTournamentPhase to true', () => {
-    expect(
-      postTournamentPhase(initialState, action).isLoadingPostTournamentPhase
-    ).toBe(true);
+  it('sets isLoadingPostPhase to true', () => {
+    expect(postPhase(initialState, action).isLoadingPostPhase).toBe(true);
   });
 });
 
-describe('postTournamentPhaseFailure', () => {
+describe('postPhaseFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_PHASE_FAILURE
   };
 
-  it('sets isLoadingPostTournamentPhase to false', () => {
-    expect(
-      postTournamentPhaseFailure(initialState, action)
-        .isLoadingPostTournamentPhase
-    ).toBe(false);
+  it('sets isLoadingPostPhase to false', () => {
+    expect(postPhaseFailure(initialState, action).isLoadingPostPhase).toBe(
+      false
+    );
   });
 });
 
-describe('postTournamentPhaseSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentPhaseEntity> = {
+describe('postPhaseSuccess', () => {
+  const action: HttpAction<ActionTypes, PhaseEntity> = {
     type: POST_TOURNAMENT_PHASE_SUCCESS,
     payload: {
       id: 'first-id',
@@ -243,17 +227,16 @@ describe('postTournamentPhaseSuccess', () => {
     }
   };
 
-  it('sets isLoadingPostTournamentPhase to false', () => {
-    expect(
-      postTournamentPhaseSuccess(initialState, action)
-        .isLoadingPostTournamentPhase
-    ).toBe(false);
+  it('sets isLoadingPostPhase to false', () => {
+    expect(postPhaseSuccess(initialState, action).isLoadingPostPhase).toBe(
+      false
+    );
   });
 
   it('set entity', () => {
-    const newState = postTournamentPhaseSuccess(initialState, action);
+    const newState = postPhaseSuccess(initialState, action);
 
-    expect(newState.tournamentPhases['first-id']).toEqual({
+    expect(newState.phases['first-id']).toEqual({
       id: 'first-id',
       title: 'first-title',
       type: 'elimination',
@@ -262,9 +245,9 @@ describe('postTournamentPhaseSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentPhaseState = {
+    const someState: PhaseState = {
       ...initialState,
-      tournamentPhases: {
+      phases: {
         ['some-id']: {
           id: 'some-id',
           title: 'some-title',
@@ -273,9 +256,9 @@ describe('postTournamentPhaseSuccess', () => {
       }
     };
 
-    const newState = postTournamentPhaseSuccess(someState, action);
+    const newState = postPhaseSuccess(someState, action);
 
-    expect(newState.tournamentPhases['some-id']).toEqual({
+    expect(newState.phases['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
       type: 'elimination'
@@ -341,13 +324,13 @@ describe('requestTournamentSuccess', () => {
   it('sets entities', () => {
     const newState = requestTournamentSuccess(initialState, action);
 
-    expect(newState.tournamentPhases['first-phase-id']).toEqual({
+    expect(newState.phases['first-phase-id']).toEqual({
       id: 'first-phase-id',
       title: 'first phase title',
       type: 'elimination',
       order: 1
     });
-    expect(newState.tournamentPhases['second-phase-id']).toEqual({
+    expect(newState.phases['second-phase-id']).toEqual({
       id: 'second-phase-id',
       title: 'second phase title',
       type: 'elimination',

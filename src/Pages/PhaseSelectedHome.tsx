@@ -2,20 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { phaseById, phaseLoading, sortedPhases } from '../Phases/selectors';
-import { TournamentPhaseEntity } from '../Phases/state';
+import { PhaseEntity } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import Top from '../Tournaments/Common/Top';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { TournamentEntity } from '../Tournaments/state';
 import PhaseHome from './PhaseHome';
-import { TournamentPhaseHomeMatchProps } from './support/routerInterfaces';
+import { PhaseHomeMatchProps } from './support/routerInterfaces';
 import withPhase from './support/withPhase';
 
 interface PhaseSelectedHomeProps
-  extends RouteComponentProps<TournamentPhaseHomeMatchProps> {
-  phase: TournamentPhaseEntity | undefined;
-  phases: TournamentPhaseEntity[];
+  extends RouteComponentProps<PhaseHomeMatchProps> {
+  phase: PhaseEntity | undefined;
+  phases: PhaseEntity[];
   phaseLoading: boolean;
   tournament: TournamentEntity;
 }
@@ -67,9 +67,9 @@ const mapStateToProps = (state: StoreState, props: PhaseSelectedHomeProps) => {
   } = props;
   return {
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
-    phase: phaseById(state.tournamentPhases, phaseId),
-    phases: sortedPhases(state.tournamentPhases),
-    phaseLoading: phaseLoading(state.tournamentPhases)
+    phase: phaseById(state.phases, phaseId),
+    phases: sortedPhases(state.phases),
+    phaseLoading: phaseLoading(state.phases)
   };
 };
 

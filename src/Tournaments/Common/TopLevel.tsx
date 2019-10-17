@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PhaseTypes, TournamentPhaseEntity } from '../../Phases/state';
+import { PhaseEntity, PhaseTypes } from '../../Phases/state';
 import Dropdown, {
   DropdownDivider,
   DropdownItem
@@ -74,7 +74,7 @@ const BracketMenu: React.FC<{
 const TopLevel: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
-  phase: TournamentPhaseEntity;
+  phase: PhaseEntity;
   tournamentSlug: string;
 }> = ({ phase, organizationSlug, tournament, tournamentSlug }) => (
   <nav className="level">
@@ -96,9 +96,7 @@ const TopLevel: React.FC<{
           </DropdownItem>
 
           <DropdownItem>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/TournamentPhaseList`}
-            >
+            <Link to={`/${organizationSlug}/${tournamentSlug}/PhaseList`}>
               Phases
             </Link>
           </DropdownItem>
