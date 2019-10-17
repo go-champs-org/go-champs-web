@@ -1,8 +1,8 @@
 import React from 'react';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
-import { TournamentGameEntity } from './state';
+import { GameEntity } from './state';
 
-const MiniGameCard: React.FC<{ tournamentGame: TournamentGameEntity }> = ({
+const MiniGameCard: React.FC<{ tournamentGame: GameEntity }> = ({
   tournamentGame
 }) => {
   return (
@@ -59,10 +59,10 @@ const MiniGameCard: React.FC<{ tournamentGame: TournamentGameEntity }> = ({
   );
 };
 
-const List: React.FC<{ games: TournamentGameEntity[] }> = ({ games }) => {
+const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
   return (
     <div>
-      {games.map((game: TournamentGameEntity) => (
+      {games.map((game: GameEntity) => (
         <MiniGameCard key={game.id} tournamentGame={game} />
       ))}
     </div>
@@ -77,7 +77,7 @@ const getNavDates = (dates: string[], selectedDatePosition: number) => ({
 
 interface ListByDateProps {
   dates: string[];
-  gamesByDate: { [date: string]: TournamentGameEntity[] };
+  gamesByDate: { [date: string]: GameEntity[] };
   initialDatePosition: number;
 }
 

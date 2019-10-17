@@ -8,7 +8,7 @@ import {
   mapApiGameToGameEntity,
   mapGameEntityToApiGameRequest
 } from './dataMappers';
-import { TournamentGameEntity } from './state';
+import { GameEntity } from './state';
 
 const GAMES_API = 'https://yochamps-api.herokuapp.com/api/games';
 
@@ -34,23 +34,21 @@ const deleteRequest = (
 const get = async (
   phaseId: string,
   tournamentGameId: string
-): Promise<TournamentGameEntity> => {
+): Promise<GameEntity> => {
   const url = `${GAMES_API}/${tournamentGameId}`;
 
   const { data } = await httpClient.get<ApiGameResponse>(url);
   return mapApiGameToGameEntity(data);
 };
 
-const getAll = async (phaseId: string): Promise<TournamentGameEntity[]> => {
+const getAll = async (phaseId: string): Promise<GameEntity[]> => {
   const url = GAMES_API;
 
   const { data } = await httpClient.get<ApiGamesResponse>(url);
   return data.map(mapApiGameToGameEntity);
 };
 
-const getByFilter = async (
-  where: RequestFilter
-): Promise<TournamentGameEntity[]> => {
+const getByFilter = async (where: RequestFilter): Promise<GameEntity[]> => {
   const url = `${GAMES_API}?${mapRequestFilterToQueryString(where)}`;
 
   const { data } = await httpClient.get<ApiGamesResponse>(url);
@@ -59,8 +57,8 @@ const getByFilter = async (
 
 const patch = async (
   phaseId: string,
-  tournamentGame: TournamentGameEntity
-): Promise<TournamentGameEntity> => {
+  tournamentGame: GameEntity
+): Promise<GameEntity> => {
   const url = `${GAMES_API}/${tournamentGame.id}`;
   const body = mapGameEntityToApiGameRequest(tournamentGame);
 
@@ -73,8 +71,8 @@ const patch = async (
 
 const post = async (
   phaseId: string,
-  tournamentGame: TournamentGameEntity
-): Promise<TournamentGameEntity> => {
+  tournamentGame: GameEntity
+): Promise<GameEntity> => {
   const url = `${GAMES_API}`;
   const body = mapGameEntityToApiGameRequest(tournamentGame);
 

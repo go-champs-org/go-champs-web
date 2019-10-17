@@ -1,6 +1,6 @@
 import { TeamEntity } from '../Teams/state';
 
-export interface TournamentGameEntity {
+export interface GameEntity {
   id: string;
   awayScore: number;
   awayTeam: TeamEntity;
@@ -10,18 +10,18 @@ export interface TournamentGameEntity {
   location: string;
 }
 
-export interface TournamentGameState {
-  isLoadingDeleteTournamentGame: boolean;
-  isLoadingPostTournamentGame: boolean;
-  isLoadingRequestTournamentGame: boolean;
-  isLoadingRequestTournamentGames: boolean;
-  tournamentGames: { [key: string]: TournamentGameEntity };
+export interface GameState {
+  isLoadingDeleteGame: boolean;
+  isLoadingPostGame: boolean;
+  isLoadingRequestGame: boolean;
+  isLoadingRequestGames: boolean;
+  games: { [key: string]: GameEntity };
 }
 
-export const initialState: TournamentGameState = {
-  isLoadingDeleteTournamentGame: false,
-  isLoadingPostTournamentGame: false,
-  isLoadingRequestTournamentGame: false,
-  isLoadingRequestTournamentGames: false,
-  tournamentGames: {}
+export const initialState: GameState = {
+  isLoadingDeleteGame: false,
+  isLoadingPostGame: false,
+  isLoadingRequestGame: false,
+  isLoadingRequestGames: false,
+  games: {}
 };

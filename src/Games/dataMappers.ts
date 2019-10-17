@@ -4,11 +4,11 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { DEFAULT_TEAM_ENTITY } from '../Teams/state';
-import { TournamentGameEntity } from './state';
+import { GameEntity } from './state';
 
 export const mapApiGameToGameEntity = (
   apiGame: ApiGameWithDepedencies
-): TournamentGameEntity => ({
+): GameEntity => ({
   id: apiGame.id,
   awayScore: apiGame.away_score,
   awayTeam: apiGame.away_team
@@ -23,7 +23,7 @@ export const mapApiGameToGameEntity = (
 });
 
 export const mapGameEntityToApiGameRequest = (
-  game: TournamentGameEntity
+  game: GameEntity
 ): ApiGameRequest => ({
   tournament_game: {
     id: game.id,

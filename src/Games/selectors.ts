@@ -1,17 +1,14 @@
-import { TournamentGameEntity, TournamentGameState } from './state';
+import { GameEntity, GameState } from './state';
 
-export const gamesLoading = (state: TournamentGameState) =>
-  state.isLoadingRequestTournamentGames;
+export const gamesLoading = (state: GameState) => state.isLoadingRequestGames;
 
-export const games = (state: TournamentGameState): TournamentGameEntity[] =>
-  Object.keys(state.tournamentGames).map(
-    (key: string) => state.tournamentGames[key]
-  );
+export const games = (state: GameState): GameEntity[] =>
+  Object.keys(state.games).map((key: string) => state.games[key]);
 
-export const gameDates = (state: TournamentGameState): string[] => {
+export const gameDates = (state: GameState): string[] => {
   return games(state)
     .reduce(
-      (acc, game: TournamentGameEntity) => {
+      (acc, game: GameEntity) => {
         const date = game.datetime.substring(0, 10);
 
         if (!acc.includes(date)) {
@@ -25,9 +22,7 @@ export const gameDates = (state: TournamentGameState): string[] => {
 };
 
 //** Finds closer game date index. */
-export const gamesCloserGameDatePosition = (
-  state: TournamentGameState
-): number => {
+export const gamesCloserGameDatePosition = (state: GameState): number => {
   const currentDate = new Date().toISOString().substring(0, 10);
 
   const dates = gameDates(state);
@@ -48,14 +43,14 @@ export const gamesCloserGameDatePosition = (
 };
 
 export const gamesByDate = (
-  state: TournamentGameState
-): { [date: string]: TournamentGameEntity[] } => {
+  state: GameState
+): { [date: string]: GameEntity[] } => {
   const dates = gameDates(state);
   const allGames = games(state);
 
   return dates.reduce((acc, date: string) => {
     const gamesInDate = allGames
-      .filter((game: TournamentGameEntity) => game.datetime.includes(date))
+      .filter((game: GameEntity) => game.datetime.includes(date))
       .sort(byGameDate);
     return {
       [date]: gamesInDate
@@ -63,7 +58,5 @@ export const gamesByDate = (
   }, {});
 };
 
-export const byGameDate = (
-  gameA: TournamentGameEntity,
-  gameB: TournamentGameEntity
-): number => gameA.datetime.localeCompare(gameB.datetime);
+export const byGameDate = (gameA: GameEntity, gameB: GameEntity): number =>
+  gameA.datetime.localeCompare(gameB.datetime);

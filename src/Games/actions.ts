@@ -1,7 +1,7 @@
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
 import gameHttpClient, { RequestFilter } from './gameHttpClient';
-import { TournamentGameEntity } from './state';
+import { GameEntity } from './state';
 
 export const DELETE_TOURNAMENT_GAME = 'API_DELETE_TOURNAMENT_GAME';
 export const DELETE_TOURNAMENT_GAME_SUCCESS =
@@ -28,94 +28,82 @@ export const POST_TOURNAMENT_GAME = 'API_POST_TOURNAMENT_GAME';
 export const POST_TOURNAMENT_GAME_SUCCESS = 'API_POST_TOURNAMENT_GAME_SUCCESS';
 export const POST_TOURNAMENT_GAME_FAILURE = 'API_POST_TOURNAMENT_GAME_FAILURE';
 
-export const deleteTournamentGame = (phaseId: string) => (
-  tournamentGame: TournamentGameEntity
+export const deleteGame = (phaseId: string) => (
+  tournamentGame: GameEntity
 ) => async (dispatch: any) => {
   dispatch({ type: DELETE_TOURNAMENT_GAME });
 
   try {
     const response = await gameHttpClient.delete(phaseId, tournamentGame.id);
 
-    dispatch(deleteTournamentGameSuccess(response));
+    dispatch(deleteGameSuccess(response));
     displayToast(`Game deleted!`, 'is-success');
   } catch (err) {
-    dispatch(deleteTournamentGameFailure(err));
+    dispatch(deleteGameFailure(err));
   }
 };
 
-export const deleteTournamentGameSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const deleteGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
-export const deleteTournamentGameFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const deleteGameFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_GAME_FAILURE,
   payload
 });
 
-export const patchTournamentGame = (phaseId: string) => (
-  tournamentGame: TournamentGameEntity
+export const patchGame = (phaseId: string) => (
+  tournamentGame: GameEntity
 ) => async (dispatch: any) => {
   dispatch({ type: PATCH_TOURNAMENT_GAME });
 
   try {
     const response = await gameHttpClient.patch(phaseId, tournamentGame);
 
-    dispatch(patchTournamentGameSuccess(response));
+    dispatch(patchGameSuccess(response));
     displayToast(`Game updated!`, 'is-success');
   } catch (err) {
-    dispatch(patchTournamentGameFailure(err));
+    dispatch(patchGameFailure(err));
   }
 };
 
-export const patchTournamentGameSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const patchGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
-export const patchTournamentGameFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const patchGameFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_GAME_FAILURE,
   payload
 });
 
-export const postTournamentGame = (phaseId: string) => (
-  tournamentGame: TournamentGameEntity
+export const postGame = (phaseId: string) => (
+  tournamentGame: GameEntity
 ) => async (dispatch: any) => {
   dispatch({ type: POST_TOURNAMENT_GAME });
 
   try {
     const response = await gameHttpClient.post(phaseId, tournamentGame);
 
-    dispatch(postTournamentGameSuccess(response));
+    dispatch(postGameSuccess(response));
     displayToast(`Game created!`, 'is-success');
   } catch (err) {
-    dispatch(postTournamentGameFailure(err));
+    dispatch(postGameFailure(err));
   }
 };
 
-export const postTournamentGameSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const postGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
-export const postTournamentGameFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const postGameFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_GAME_FAILURE,
   payload
 });
 
-export const requestTournamentGame = (
+export const requestGame = (
   phaseId: string,
   tournamentGameId: string
 ) => async (dispatch: any) => {
@@ -124,27 +112,23 @@ export const requestTournamentGame = (
   try {
     const response = await gameHttpClient.get(phaseId, tournamentGameId);
 
-    dispatch(requestTournamentGameSuccess(response));
+    dispatch(requestGameSuccess(response));
   } catch (err) {
-    dispatch(requestTournamentGameFailure(err));
+    dispatch(requestGameFailure(err));
   }
 };
 
-export const requestTournamentGameSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const requestGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
   type: REQUEST_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
-export const requestTournamentGameFailure = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+export const requestGameFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: REQUEST_TOURNAMENT_GAME_FAILURE,
   payload
 });
 
-export const requestTournamentGamesByFilter = (where: RequestFilter) => async (
+export const requestGamesByFilter = (where: RequestFilter) => async (
   dispatch: any
 ) => {
   dispatch({ type: REQUEST_TOURNAMENT_GAMES_BY_FILTER });
@@ -152,20 +136,20 @@ export const requestTournamentGamesByFilter = (where: RequestFilter) => async (
   try {
     const response = await gameHttpClient.getByFilter(where);
 
-    dispatch(requestTournamentGamesByFilterSuccess(response));
+    dispatch(requestGamesByFilterSuccess(response));
   } catch (err) {
-    dispatch(requestTournamentGamesByFilterFailure(err));
+    dispatch(requestGamesByFilterFailure(err));
   }
 };
 
-export const requestTournamentGamesByFilterSuccess = (
+export const requestGamesByFilterSuccess = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   payload
 });
 
-export const requestTournamentGamesByFilterFailure = (
+export const requestGamesByFilterFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,

@@ -14,7 +14,7 @@ import {
   gamesCloserGameDatePosition,
   gamesLoading
 } from '../Games/selectors';
-import { TournamentGameEntity } from '../Games/state';
+import { GameEntity } from '../Games/state';
 import { allEliminationStats } from '../Phases/EliminationStats/selectors';
 import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
 import { phaseById } from '../Phases/selectors';
@@ -26,7 +26,7 @@ import { PhaseHomeMatchProps } from './support/routerInterfaces';
 
 interface PhaseHomeProps extends RouteComponentProps<PhaseHomeMatchProps> {
   gameDates: string[];
-  gamesByDate: { [date: string]: TournamentGameEntity[] };
+  gamesByDate: { [date: string]: GameEntity[] };
   gamesInitialDatePosition: number;
   gamesLoading: boolean;
   draws: DrawEntity[];
@@ -86,12 +86,10 @@ const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
     }
   } = props;
   return {
-    gameDates: gameDates(state.tournamentGames),
-    gamesByDate: gamesByDate(state.tournamentGames),
-    gamesInitialDatePosition: gamesCloserGameDatePosition(
-      state.tournamentGames
-    ),
-    gamesLoading: gamesLoading(state.tournamentGames),
+    gameDates: gameDates(state.games),
+    gamesByDate: gamesByDate(state.games),
+    gamesInitialDatePosition: gamesCloserGameDatePosition(state.games),
+    gamesLoading: gamesLoading(state.games),
     phase: phaseById(state.phases, phaseId),
     eliminationStats: allEliminationStats(state.eliminationStats),
     draws: allDraws(state.draws),

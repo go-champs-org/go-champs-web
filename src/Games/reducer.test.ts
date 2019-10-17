@@ -15,26 +15,22 @@ import {
   REQUEST_TOURNAMENT_GAME_SUCCESS
 } from './actions';
 import {
-  deleteTournamentGame,
-  deleteTournamentGameFailure,
-  deleteTournamentGameSuccess,
-  postTournamentGame,
-  postTournamentGameFailure,
-  postTournamentGameSuccess,
-  requestTournamentGame,
-  requestTournamentGameFailure,
-  requestTournamentGamesByFilter,
-  requestTournamentGamesByFilterFailure,
-  requestTournamentGamesByFilterSuccess,
-  requestTournamentGameSuccess
+  deleteGame,
+  deleteGameFailure,
+  deleteGameSuccess,
+  postGame,
+  postGameFailure,
+  postGameSuccess,
+  requestGame,
+  requestGameFailure,
+  requestGamesByFilter,
+  requestGamesByFilterFailure,
+  requestGamesByFilterSuccess,
+  requestGameSuccess
 } from './reducer';
-import {
-  initialState,
-  TournamentGameEntity,
-  TournamentGameState
-} from './state';
+import { GameEntity, GameState, initialState } from './state';
 
-describe('deleteTournamentGame', () => {
+describe('deleteGame', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_GAME,
     payload: {
@@ -42,14 +38,12 @@ describe('deleteTournamentGame', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentGame to true', () => {
-    expect(
-      deleteTournamentGame(initialState, action).isLoadingDeleteTournamentGame
-    ).toBe(true);
+  it('sets isLoadingDeleteGame to true', () => {
+    expect(deleteGame(initialState, action).isLoadingDeleteGame).toBe(true);
   });
 });
 
-describe('deleteTournamentGameFailure', () => {
+describe('deleteGameFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_GAME_FAILURE,
     payload: {
@@ -57,15 +51,14 @@ describe('deleteTournamentGameFailure', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentGame to false', () => {
-    expect(
-      deleteTournamentGameFailure(initialState, action)
-        .isLoadingDeleteTournamentGame
-    ).toBe(false);
+  it('sets isLoadingDeleteGame to false', () => {
+    expect(deleteGameFailure(initialState, action).isLoadingDeleteGame).toBe(
+      false
+    );
   });
 });
 
-describe('deleteTournamentGameSuccess', () => {
+describe('deleteGameSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: DELETE_TOURNAMENT_GAME_SUCCESS,
     payload: 'first-id'
@@ -73,7 +66,7 @@ describe('deleteTournamentGameSuccess', () => {
 
   const deleteState = {
     ...initialState,
-    tournamentGames: {
+    games: {
       ['first-id']: {
         id: 'first-id',
         awayScore: 10,
@@ -92,65 +85,59 @@ describe('deleteTournamentGameSuccess', () => {
     }
   };
 
-  it('sets isLoadingDeleteTournamentGame to false', () => {
-    expect(
-      deleteTournamentGameSuccess(deleteState, action)
-        .isLoadingDeleteTournamentGame
-    ).toBe(false);
+  it('sets isLoadingDeleteGame to false', () => {
+    expect(deleteGameSuccess(deleteState, action).isLoadingDeleteGame).toBe(
+      false
+    );
   });
 
   it('remove entity', () => {
-    const newState = deleteTournamentGameSuccess(deleteState, action);
+    const newState = deleteGameSuccess(deleteState, action);
 
-    expect(newState.tournamentGames['first-id']).toBeUndefined();
+    expect(newState.games['first-id']).toBeUndefined();
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentGameState = {
+    const someState: GameState = {
       ...initialState,
-      tournamentGames: {
+      games: {
         ['some-id']: {
           id: 'some-id'
         },
-        ...deleteState.tournamentGames
+        ...deleteState.games
       }
     };
 
-    const newState = deleteTournamentGameSuccess(someState, action);
+    const newState = deleteGameSuccess(someState, action);
 
-    expect(newState.tournamentGames['some-id']).toEqual({
+    expect(newState.games['some-id']).toEqual({
       id: 'some-id'
     });
   });
 });
 
-describe('postTournamentGame', () => {
+describe('postGame', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_GAME
   };
 
-  it('sets isLoadingPostTournamentGame to true', () => {
-    expect(
-      postTournamentGame(initialState, action).isLoadingPostTournamentGame
-    ).toBe(true);
+  it('sets isLoadingPostGame to true', () => {
+    expect(postGame(initialState, action).isLoadingPostGame).toBe(true);
   });
 });
 
-describe('postTournamentGameFailure', () => {
+describe('postGameFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: POST_TOURNAMENT_GAME_FAILURE
   };
 
-  it('sets isLoadingPostTournamentGame to false', () => {
-    expect(
-      postTournamentGameFailure(initialState, action)
-        .isLoadingPostTournamentGame
-    ).toBe(false);
+  it('sets isLoadingPostGame to false', () => {
+    expect(postGameFailure(initialState, action).isLoadingPostGame).toBe(false);
   });
 });
 
-describe('postTournamentGameSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentGameEntity> = {
+describe('postGameSuccess', () => {
+  const action: HttpAction<ActionTypes, GameEntity> = {
     type: POST_TOURNAMENT_GAME_SUCCESS,
     payload: {
       id: 'first-id',
@@ -169,17 +156,14 @@ describe('postTournamentGameSuccess', () => {
     }
   };
 
-  it('sets isLoadingPostTournamentGame to false', () => {
-    expect(
-      postTournamentGameSuccess(initialState, action)
-        .isLoadingPostTournamentGame
-    ).toBe(false);
+  it('sets isLoadingPostGame to false', () => {
+    expect(postGameSuccess(initialState, action).isLoadingPostGame).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = postTournamentGameSuccess(initialState, action);
+    const newState = postGameSuccess(initialState, action);
 
-    expect(newState.tournamentGames['first-id']).toEqual({
+    expect(newState.games['first-id']).toEqual({
       id: 'first-id',
       awayScore: 10,
       awayTeam: {
@@ -197,9 +181,9 @@ describe('postTournamentGameSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: TournamentGameState = {
+    const someState: GameState = {
       ...initialState,
-      tournamentGames: {
+      games: {
         ['some-id']: {
           id: 'some-id',
           awayScore: 30,
@@ -218,9 +202,9 @@ describe('postTournamentGameSuccess', () => {
       }
     };
 
-    const newState = postTournamentGameSuccess(someState, action);
+    const newState = postGameSuccess(someState, action);
 
-    expect(newState.tournamentGames['some-id']).toEqual({
+    expect(newState.games['some-id']).toEqual({
       id: 'some-id',
       awayScore: 30,
       awayTeam: {
@@ -238,33 +222,30 @@ describe('postTournamentGameSuccess', () => {
   });
 });
 
-describe('requestTournamentGame', () => {
+describe('requestGame', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_GAME
   };
 
-  it('sets isLoadingRequestTournamentGame to true', () => {
-    expect(
-      requestTournamentGame(initialState, action).isLoadingRequestTournamentGame
-    ).toBe(true);
+  it('sets isLoadingRequestGame to true', () => {
+    expect(requestGame(initialState, action).isLoadingRequestGame).toBe(true);
   });
 });
 
-describe('requestTournamentGameFailure', () => {
+describe('requestGameFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_GAME_FAILURE
   };
 
-  it('sets isLoadingRequestTournamentGame to false', () => {
-    expect(
-      requestTournamentGameFailure(initialState, action)
-        .isLoadingRequestTournamentGame
-    ).toBe(false);
+  it('sets isLoadingRequestGame to false', () => {
+    expect(requestGameFailure(initialState, action).isLoadingRequestGame).toBe(
+      false
+    );
   });
 });
 
-describe('requestTournamentGameSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentGameEntity> = {
+describe('requestGameSuccess', () => {
+  const action: HttpAction<ActionTypes, GameEntity> = {
     type: REQUEST_TOURNAMENT_GAME_SUCCESS,
     payload: {
       id: 'first-id',
@@ -283,17 +264,16 @@ describe('requestTournamentGameSuccess', () => {
     }
   };
 
-  it('sets isLoadingRequestTournamentGame to false', () => {
-    expect(
-      requestTournamentGameSuccess(initialState, action)
-        .isLoadingRequestTournamentGame
-    ).toBe(false);
+  it('sets isLoadingRequestGame to false', () => {
+    expect(requestGameSuccess(initialState, action).isLoadingRequestGame).toBe(
+      false
+    );
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentGameSuccess(initialState, action);
+    const newState = requestGameSuccess(initialState, action);
 
-    expect(newState.tournamentGames['first-id']).toEqual({
+    expect(newState.games['first-id']).toEqual({
       id: 'first-id',
       awayScore: 10,
       awayTeam: {
@@ -311,33 +291,31 @@ describe('requestTournamentGameSuccess', () => {
   });
 });
 
-describe('requestTournamentGamesByFilter', () => {
+describe('requestGamesByFilter', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_GAMES_BY_FILTER
   };
 
-  it('sets isLoadingRequestTournamentGames to true', () => {
+  it('sets isLoadingRequestGames to true', () => {
     expect(
-      requestTournamentGamesByFilter(initialState, action)
-        .isLoadingRequestTournamentGames
+      requestGamesByFilter(initialState, action).isLoadingRequestGames
     ).toBe(true);
   });
 });
 
-describe('requestTournamentGamesByFilterFailure', () => {
+describe('requestGamesByFilterFailure', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE
   };
 
-  it('sets isLoadingRequestTournamentGames to false', () => {
+  it('sets isLoadingRequestGames to false', () => {
     expect(
-      requestTournamentGamesByFilterFailure(initialState, action)
-        .isLoadingRequestTournamentGames
+      requestGamesByFilterFailure(initialState, action).isLoadingRequestGames
     ).toBe(false);
   });
 });
 
-describe('requestTournamentGamesByFilterSuccess', () => {
+describe('requestGamesByFilterSuccess', () => {
   const action: HttpAction<ActionTypes> = {
     type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
     payload: [
@@ -383,20 +361,16 @@ describe('requestTournamentGamesByFilterSuccess', () => {
     ]
   };
 
-  it('sets isLoadingRequestTournamentGames to false', () => {
+  it('sets isLoadingRequestGames to false', () => {
     expect(
-      requestTournamentGamesByFilterSuccess(initialState, action)
-        .isLoadingRequestTournamentGames
+      requestGamesByFilterSuccess(initialState, action).isLoadingRequestGames
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentGamesByFilterSuccess(
-      initialState,
-      action
-    );
+    const newState = requestGamesByFilterSuccess(initialState, action);
 
-    expect(newState.tournamentGames['first-id']).toEqual({
+    expect(newState.games['first-id']).toEqual({
       id: 'first-id',
       awayScore: 10,
       awayTeam: {
@@ -411,7 +385,7 @@ describe('requestTournamentGamesByFilterSuccess', () => {
       },
       location: 'first location'
     });
-    expect(newState.tournamentGames['second-id']).toEqual({
+    expect(newState.games['second-id']).toEqual({
       id: 'second-id',
       awayScore: 30,
       awayTeam: {

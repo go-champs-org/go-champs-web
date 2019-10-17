@@ -1,4 +1,4 @@
-import { requestTournamentGamesByFilter } from '../Games/actions';
+import { requestGamesByFilter } from '../Games/actions';
 import { getPhase } from '../Phases/actions';
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
@@ -159,7 +159,7 @@ export const requestTournament = (tournamentId: string) => async (
     const phaseId = currentPhaseId(response);
 
     dispatch(getPhase(phaseId));
-    dispatch(requestTournamentGamesByFilter({ phase_id: phaseId }));
+    dispatch(requestGamesByFilter({ phase_id: phaseId }));
     dispatch(requestTournamentSuccess(response));
     dispatch(updateTeamByGroup());
   } catch (err) {

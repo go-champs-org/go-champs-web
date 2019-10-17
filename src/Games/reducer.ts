@@ -22,141 +22,132 @@ import {
   REQUEST_TOURNAMENT_GAME_FAILURE,
   REQUEST_TOURNAMENT_GAME_SUCCESS
 } from './actions';
-import {
-  initialState,
-  TournamentGameEntity,
-  TournamentGameState
-} from './state';
+import { GameEntity, GameState, initialState } from './state';
 
-const tournamentGameMapEntities = mapEntities<TournamentGameEntity>(
-  returnProperty('id')
-);
+const tournamentGameMapEntities = mapEntities<GameEntity>(returnProperty('id'));
 
-export const deleteTournamentGame = (
-  state: TournamentGameState,
+export const deleteGame = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingDeleteTournamentGame: true
+  isLoadingDeleteGame: true
 });
 
-export const deleteTournamentGameFailure = (
-  state: TournamentGameState,
+export const deleteGameFailure = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingDeleteTournamentGame: false
+  isLoadingDeleteGame: false
 });
 
-export const deleteTournamentGameSuccess = (
-  state: TournamentGameState,
+export const deleteGameSuccess = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => {
-  const tournamentGames = Object.keys(state.tournamentGames)
-    .filter(entityById(state.tournamentGames, action.payload))
-    .reduce(mapEntitiesByKey(state.tournamentGames), {});
+  const games = Object.keys(state.games)
+    .filter(entityById(state.games, action.payload))
+    .reduce(mapEntitiesByKey(state.games), {});
   return {
     ...state,
-    isLoadingDeleteTournamentGame: false,
-    tournamentGames
+    isLoadingDeleteGame: false,
+    games
   };
 };
 
-export const postTournamentGame = (
-  state: TournamentGameState,
+export const postGame = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingPostTournamentGame: true
+  isLoadingPostGame: true
 });
 
-export const postTournamentGameFailure = (
-  state: TournamentGameState,
+export const postGameFailure = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingPostTournamentGame: false
+  isLoadingPostGame: false
 });
 
-export const postTournamentGameSuccess = (
-  state: TournamentGameState,
-  action: HttpAction<ActionTypes, TournamentGameEntity>
+export const postGameSuccess = (
+  state: GameState,
+  action: HttpAction<ActionTypes, GameEntity>
 ) => ({
   ...state,
-  isLoadingPostTournamentGame: false,
-  tournamentGames: [action.payload].reduce(
-    tournamentGameMapEntities,
-    state.tournamentGames
-  )
+  isLoadingPostGame: false,
+  games: [action.payload].reduce(tournamentGameMapEntities, state.games)
 });
 
-export const requestTournamentGame = (
-  state: TournamentGameState,
+export const requestGame = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestTournamentGame: true
+  isLoadingRequestGame: true
 });
 
-export const requestTournamentGameFailure = (
-  state: TournamentGameState,
+export const requestGameFailure = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestTournamentGame: false
+  isLoadingRequestGame: false
 });
 
-export const requestTournamentGameSuccess = (
-  state: TournamentGameState,
-  action: HttpAction<ActionTypes, TournamentGameEntity>
+export const requestGameSuccess = (
+  state: GameState,
+  action: HttpAction<ActionTypes, GameEntity>
 ) => ({
   ...state,
-  isLoadingRequestTournamentGame: false,
-  tournamentGames: [action.payload].reduce(tournamentGameMapEntities, {})
+  isLoadingRequestGame: false,
+  games: [action.payload].reduce(tournamentGameMapEntities, {})
 });
 
-export const requestTournamentGamesByFilter = (
-  state: TournamentGameState,
+export const requestGamesByFilter = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestTournamentGames: true
+  isLoadingRequestGames: true
 });
 
-export const requestTournamentGamesByFilterFailure = (
-  state: TournamentGameState,
+export const requestGamesByFilterFailure = (
+  state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestTournamentGames: false
+  isLoadingRequestGames: false
 });
 
-export const requestTournamentGamesByFilterSuccess = (
-  state: TournamentGameState,
-  action: HttpAction<ActionTypes, TournamentGameEntity[]>
+export const requestGamesByFilterSuccess = (
+  state: GameState,
+  action: HttpAction<ActionTypes, GameEntity[]>
 ) => ({
   ...state,
-  isLoadingRequestTournamentGames: false,
-  tournamentGames: action.payload!.reduce(tournamentGameMapEntities, {})
+  isLoadingRequestGames: false,
+  games: action.payload!.reduce(tournamentGameMapEntities, {})
 });
 
-export const loadDefaultPhasePayload = (state: TournamentGameState) => ({
+export const loadDefaultPhasePayload = (state: GameState) => ({
   ...state,
-  isLoadingRequestTournamentGames: true
+  isLoadingRequestGames: true
 });
 
 export default createReducer(initialState, {
-  [DELETE_TOURNAMENT_GAME]: deleteTournamentGame,
-  [DELETE_TOURNAMENT_GAME_FAILURE]: deleteTournamentGameFailure,
-  [DELETE_TOURNAMENT_GAME_SUCCESS]: deleteTournamentGameSuccess,
+  [DELETE_TOURNAMENT_GAME]: deleteGame,
+  [DELETE_TOURNAMENT_GAME_FAILURE]: deleteGameFailure,
+  [DELETE_TOURNAMENT_GAME_SUCCESS]: deleteGameSuccess,
   [LOAD_DEFAULT_PHASE]: loadDefaultPhasePayload,
-  [POST_TOURNAMENT_GAME]: postTournamentGame,
-  [POST_TOURNAMENT_GAME_FAILURE]: postTournamentGameFailure,
-  [POST_TOURNAMENT_GAME_SUCCESS]: postTournamentGameSuccess,
-  [REQUEST_TOURNAMENT_GAME]: requestTournamentGame,
-  [REQUEST_TOURNAMENT_GAME_FAILURE]: requestTournamentGameFailure,
-  [REQUEST_TOURNAMENT_GAME_SUCCESS]: requestTournamentGameSuccess,
-  [REQUEST_TOURNAMENT_GAMES_BY_FILTER]: requestTournamentGamesByFilter,
-  [REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE]: requestTournamentGamesByFilterFailure,
-  [REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS]: requestTournamentGamesByFilterSuccess
+  [POST_TOURNAMENT_GAME]: postGame,
+  [POST_TOURNAMENT_GAME_FAILURE]: postGameFailure,
+  [POST_TOURNAMENT_GAME_SUCCESS]: postGameSuccess,
+  [REQUEST_TOURNAMENT_GAME]: requestGame,
+  [REQUEST_TOURNAMENT_GAME_FAILURE]: requestGameFailure,
+  [REQUEST_TOURNAMENT_GAME_SUCCESS]: requestGameSuccess,
+  [REQUEST_TOURNAMENT_GAMES_BY_FILTER]: requestGamesByFilter,
+  [REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE]: requestGamesByFilterFailure,
+  [REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS]: requestGamesByFilterSuccess
 });
