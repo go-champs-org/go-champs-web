@@ -9,7 +9,8 @@ import {
   patchEliminationStart,
   patchEliminationSuccess,
   postEliminationFailure,
-  postEliminationStart
+  postEliminationStart,
+  postEliminationSuccess
 } from './actions';
 import eliminationReducer from './reducer';
 import { EliminationState, initialState } from './state';
@@ -172,7 +173,7 @@ describe('postEliminationFailure', () => {
 });
 
 describe('postEliminationSuccess', () => {
-  const action = postEliminationFailure({
+  const action = postEliminationSuccess({
     id: 'first-id',
     title: 'first-title',
     teamStats: []

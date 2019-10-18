@@ -15,15 +15,15 @@ import {
 import { HttpAction } from '../Shared/store/interfaces';
 import {
   ActionTypes,
-  DELETE_PHASE_ROUND,
-  DELETE_PHASE_ROUND_FAILURE,
-  DELETE_PHASE_ROUND_SUCCESS,
-  PATCH_PHASE_ROUND,
-  PATCH_PHASE_ROUND_FAILURE,
-  PATCH_PHASE_ROUND_SUCCESS,
-  POST_PHASE_ROUND,
-  POST_PHASE_ROUND_FAILURE,
-  POST_PHASE_ROUND_SUCCESS
+  DELETE_DRAW,
+  DELETE_DRAW_FAILURE,
+  DELETE_DRAW_SUCCESS,
+  PATCH_DRAW,
+  PATCH_DRAW_FAILURE,
+  PATCH_DRAW_SUCCESS,
+  POST_DRAW,
+  POST_DRAW_FAILURE,
+  POST_DRAW_SUCCESS
 } from './actions';
 import { mapApiDrawToDrawEntity } from './dataMappers';
 import { DrawEntity, DrawState, initialState } from './state';
@@ -35,15 +35,12 @@ const apiDrawToEntities = apiDataToEntities<ApiDraw, DrawEntity>(
   returnProperty('id')
 );
 
-export const deleteDraw = (
-  state: DrawState,
-  action: HttpAction<ActionTypes>
-) => ({
+const deleteDraw = (state: DrawState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingDeleteDraw: true
 });
 
-export const deleteDrawFailure = (
+const deleteDrawFailure = (
   state: DrawState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -51,7 +48,7 @@ export const deleteDrawFailure = (
   isLoadingDeleteDraw: false
 });
 
-export const deleteDrawSuccess = (
+const deleteDrawSuccess = (
   state: DrawState,
   action: HttpAction<ActionTypes, string>
 ) => {
@@ -65,15 +62,12 @@ export const deleteDrawSuccess = (
   };
 };
 
-export const patchDraw = (
-  state: DrawState,
-  action: HttpAction<ActionTypes>
-) => ({
+const patchDraw = (state: DrawState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPatchDraw: true
 });
 
-export const patchDrawFailure = (
+const patchDrawFailure = (
   state: DrawState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -81,7 +75,7 @@ export const patchDrawFailure = (
   isLoadingPatchDraw: false
 });
 
-export const patchDrawSuccess = (
+const patchDrawSuccess = (
   state: DrawState,
   action: HttpAction<ActionTypes, DrawEntity>
 ) => ({
@@ -90,15 +84,12 @@ export const patchDrawSuccess = (
   draws: [action.payload].reduce(drawMapEntities, state.draws)
 });
 
-export const postDraw = (
-  state: DrawState,
-  action: HttpAction<ActionTypes>
-) => ({
+const postDraw = (state: DrawState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPostDraw: true
 });
 
-export const postDrawFailure = (
+const postDrawFailure = (
   state: DrawState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -106,7 +97,7 @@ export const postDrawFailure = (
   isLoadingPostDraw: false
 });
 
-export const postDrawSuccess = (
+const postDrawSuccess = (
   state: DrawState,
   action: HttpAction<ActionTypes, DrawEntity>
 ) => ({
@@ -115,15 +106,12 @@ export const postDrawSuccess = (
   draws: [action.payload].reduce(drawMapEntities, state.draws)
 });
 
-export const getPhase = (
-  state: DrawState,
-  action: HttpAction<ActionTypes>
-) => ({
+const getPhase = (state: DrawState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingRequestTournament: true
 });
 
-export const getPhaseFailure = (
+const getPhaseFailure = (
   state: DrawState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -131,7 +119,7 @@ export const getPhaseFailure = (
   isLoadingRequestTournament: false
 });
 
-export const getPhaseSuccess = (
+const getPhaseSuccess = (
   state: DrawState,
   action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
@@ -143,15 +131,15 @@ export const getPhaseSuccess = (
 });
 
 export default createReducer<DrawState>(initialState, {
-  [DELETE_PHASE_ROUND]: deleteDraw,
-  [DELETE_PHASE_ROUND_FAILURE]: deleteDrawFailure,
-  [DELETE_PHASE_ROUND_SUCCESS]: deleteDrawSuccess,
-  [PATCH_PHASE_ROUND]: patchDraw,
-  [PATCH_PHASE_ROUND_FAILURE]: patchDrawFailure,
-  [PATCH_PHASE_ROUND_SUCCESS]: patchDrawSuccess,
-  [POST_PHASE_ROUND]: postDraw,
-  [POST_PHASE_ROUND_FAILURE]: postDrawFailure,
-  [POST_PHASE_ROUND_SUCCESS]: postDrawSuccess,
+  [DELETE_DRAW]: deleteDraw,
+  [DELETE_DRAW_FAILURE]: deleteDrawFailure,
+  [DELETE_DRAW_SUCCESS]: deleteDrawSuccess,
+  [PATCH_DRAW]: patchDraw,
+  [PATCH_DRAW_FAILURE]: patchDrawFailure,
+  [PATCH_DRAW_SUCCESS]: patchDrawSuccess,
+  [POST_DRAW]: postDraw,
+  [POST_DRAW_FAILURE]: postDrawFailure,
+  [POST_DRAW_SUCCESS]: postDrawSuccess,
   [GET_PHASE]: getPhase,
   [GET_PHASE_FAILURE]: getPhaseFailure,
   [GET_PHASE_SUCCESS]: getPhaseSuccess
