@@ -1,8 +1,8 @@
 import { HttpAction } from '../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  GET_TOURNAMENT,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import {
@@ -27,9 +27,9 @@ import {
   postTeam,
   postTeamFailure,
   postTeamSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournamentSuccess
+  getTournament,
+  getTournamentFailure,
+  getTournamentSuccess
 } from './reducer';
 import { initialState, TeamState } from './state';
 
@@ -248,33 +248,33 @@ describe('postTeamSuccess', () => {
   });
 });
 
-describe('requestTournament', () => {
+describe('getTournament', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT
+    type: GET_TOURNAMENT
   };
 
   it('sets isLoadingRequestTournament to true', () => {
-    expect(
-      requestTournament(initialState, action).isLoadingRequestTournament
-    ).toBe(true);
+    expect(getTournament(initialState, action).isLoadingRequestTournament).toBe(
+      true
+    );
   });
 });
 
-describe('requestTournamentFailure', () => {
+describe('getTournamentFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_FAILURE
+    type: GET_TOURNAMENT_FAILURE
   };
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      requestTournamentFailure(initialState, action).isLoadingRequestTournament
+      getTournamentFailure(initialState, action).isLoadingRequestTournament
     ).toBe(false);
   });
 });
 
-describe('requestTournamentSuccess', () => {
+describe('getTournamentSuccess', () => {
   const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: REQUEST_TOURNAMENT_SUCCESS,
+    type: GET_TOURNAMENT_SUCCESS,
     payload: {
       ...DEFAULT_TOURNAMENT,
       id: 'first-id',
@@ -295,12 +295,12 @@ describe('requestTournamentSuccess', () => {
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      requestTournamentSuccess(initialState, action).isLoadingRequestTournament
+      getTournamentSuccess(initialState, action).isLoadingRequestTournament
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentSuccess(initialState, action);
+    const newState = getTournamentSuccess(initialState, action);
 
     expect(newState.teams['first-team-id']).toEqual({
       id: 'first-team-id',

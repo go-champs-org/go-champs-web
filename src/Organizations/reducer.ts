@@ -7,9 +7,9 @@ import {
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  GET_TOURNAMENT,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
 import { TournamentEntity } from '../Tournaments/state';
 import {
@@ -175,7 +175,7 @@ export const requestOrganizationsSuccess = (
   organizations: action.payload!.reduce(organizationMapEntities, {})
 });
 
-export const requestTournament = (
+export const getTournament = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -183,7 +183,7 @@ export const requestTournament = (
   isLoadingRequestOrganization: true
 });
 
-export const requestTournamentFailure = (
+export const getTournamentFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -191,7 +191,7 @@ export const requestTournamentFailure = (
   isLoadingRequestOrganization: false
 });
 
-export const requestTournamentSuccess = (
+export const getTournamentSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
@@ -219,7 +219,7 @@ export default createReducer(initialState, {
   [REQUEST_ORGANIZATIONS]: requestOrganizations,
   [REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
   [REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,
-  [REQUEST_TOURNAMENT]: requestTournament,
-  [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess
+  [GET_TOURNAMENT]: getTournament,
+  [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
+  [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess
 });

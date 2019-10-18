@@ -2,9 +2,9 @@ import { displayToast } from '../Shared/bulma/toast';
 import { ApiPhase } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  GET_TOURNAMENT,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
 import phaseHttpClient from './phaseHttpClient';
 import { PhaseEntity } from './state';
@@ -143,9 +143,9 @@ export type ActionTypes =
   | typeof POST_TOURNAMENT_PHASE
   | typeof POST_TOURNAMENT_PHASE_SUCCESS
   | typeof POST_TOURNAMENT_PHASE_FAILURE
-  | typeof REQUEST_TOURNAMENT
-  | typeof REQUEST_TOURNAMENT_FAILURE
-  | typeof REQUEST_TOURNAMENT_SUCCESS
+  | typeof GET_TOURNAMENT
+  | typeof GET_TOURNAMENT_FAILURE
+  | typeof GET_TOURNAMENT_SUCCESS
   | typeof GET_PHASE
   | typeof GET_PHASE_FAILURE
   | typeof GET_PHASE_SUCCESS;

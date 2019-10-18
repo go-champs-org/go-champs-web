@@ -8,17 +8,15 @@ export const DELETE_TOURNAMENT_GAME_SUCCESS =
   'API_DELETE_TOURNAMENT_GAME_SUCCESS';
 export const DELETE_TOURNAMENT_GAME_FAILURE =
   'API_DELETE_TOURNAMENT_GAME_FAILURE';
-export const REQUEST_TOURNAMENT_GAME = 'API_REQUEST_TOURNAMENT_GAME';
-export const REQUEST_TOURNAMENT_GAME_SUCCESS =
-  'API_REQUEST_TOURNAMENT_GAME_SUCCESS';
-export const REQUEST_TOURNAMENT_GAME_FAILURE =
-  'API_REQUEST_TOURNAMENT_GAME_FAILURE';
-export const REQUEST_TOURNAMENT_GAMES_BY_FILTER =
-  'API_REQUEST_TOURNAMENT_GAMES_BY_FILTER';
-export const REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS =
-  'API_REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS';
-export const REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE =
-  'API_REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE';
+export const GET_TOURNAMENT_GAME = 'API_GET_TOURNAMENT_GAME';
+export const GET_TOURNAMENT_GAME_SUCCESS = 'API_GET_TOURNAMENT_GAME_SUCCESS';
+export const GET_TOURNAMENT_GAME_FAILURE = 'API_GET_TOURNAMENT_GAME_FAILURE';
+export const GET_TOURNAMENT_GAMES_BY_FILTER =
+  'API_GET_TOURNAMENT_GAMES_BY_FILTER';
+export const GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS =
+  'API_GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS';
+export const GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE =
+  'API_GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE';
 export const PATCH_TOURNAMENT_GAME = 'API_PATCH_TOURNAMENT_GAME';
 export const PATCH_TOURNAMENT_GAME_SUCCESS =
   'API_PATCH_TOURNAMENT_GAME_SUCCESS';
@@ -107,7 +105,7 @@ export const requestGame = (
   phaseId: string,
   tournamentGameId: string
 ) => async (dispatch: any) => {
-  dispatch({ type: REQUEST_TOURNAMENT_GAME });
+  dispatch({ type: GET_TOURNAMENT_GAME });
 
   try {
     const response = await gameHttpClient.get(phaseId, tournamentGameId);
@@ -119,19 +117,19 @@ export const requestGame = (
 };
 
 export const requestGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_GAME_SUCCESS,
+  type: GET_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
 export const requestGameFailure = (payload: any): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_GAME_FAILURE,
+  type: GET_TOURNAMENT_GAME_FAILURE,
   payload
 });
 
 export const requestGamesByFilter = (where: RequestFilter) => async (
   dispatch: any
 ) => {
-  dispatch({ type: REQUEST_TOURNAMENT_GAMES_BY_FILTER });
+  dispatch({ type: GET_TOURNAMENT_GAMES_BY_FILTER });
 
   try {
     const response = await gameHttpClient.getByFilter(where);
@@ -145,14 +143,14 @@ export const requestGamesByFilter = (where: RequestFilter) => async (
 export const requestGamesByFilterSuccess = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
+  type: GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   payload
 });
 
 export const requestGamesByFilterFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
+  type: GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
   payload
 });
 
@@ -166,10 +164,10 @@ export type ActionTypes =
   | typeof POST_TOURNAMENT_GAME
   | typeof POST_TOURNAMENT_GAME_FAILURE
   | typeof POST_TOURNAMENT_GAME_SUCCESS
-  | typeof REQUEST_TOURNAMENT_GAME
-  | typeof REQUEST_TOURNAMENT_GAME_FAILURE
-  | typeof REQUEST_TOURNAMENT_GAME_SUCCESS
-  | typeof REQUEST_TOURNAMENT_GAMES_BY_FILTER
-  | typeof REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE
-  | typeof REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS;
+  | typeof GET_TOURNAMENT_GAME
+  | typeof GET_TOURNAMENT_GAME_FAILURE
+  | typeof GET_TOURNAMENT_GAME_SUCCESS
+  | typeof GET_TOURNAMENT_GAMES_BY_FILTER
+  | typeof GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE
+  | typeof GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;

@@ -1,8 +1,8 @@
 import { HttpAction } from '../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  GET_TOURNAMENT,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import {
@@ -36,9 +36,9 @@ import {
   requestOrganizationsFailure,
   requestOrganizationsSuccess,
   requestOrganizationSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournamentSuccess
+  getTournament,
+  getTournamentFailure,
+  getTournamentSuccess
 } from './reducer';
 import { initialState, OrganizationEntity, OrganizationState } from './state';
 
@@ -419,34 +419,33 @@ describe('requestOrganizationsSuccess', () => {
   });
 });
 
-describe('requestTournament', () => {
+describe('getTournament', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT
+    type: GET_TOURNAMENT
   };
 
   it('sets isLoadingRequestOrganization to true', () => {
     expect(
-      requestTournament(initialState, action).isLoadingRequestOrganization
+      getTournament(initialState, action).isLoadingRequestOrganization
     ).toBe(true);
   });
 });
 
-describe('requestTournamentFailure', () => {
+describe('getTournamentFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_FAILURE
+    type: GET_TOURNAMENT_FAILURE
   };
 
   it('sets isLoadingRequestOrganization to false', () => {
     expect(
-      requestTournamentFailure(initialState, action)
-        .isLoadingRequestOrganization
+      getTournamentFailure(initialState, action).isLoadingRequestOrganization
     ).toBe(false);
   });
 });
 
-describe('requestTournamentSuccess', () => {
+describe('getTournamentSuccess', () => {
   const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: REQUEST_TOURNAMENT_SUCCESS,
+    type: GET_TOURNAMENT_SUCCESS,
     payload: {
       ...DEFAULT_TOURNAMENT,
       id: 'some-tournament-id',
@@ -460,13 +459,12 @@ describe('requestTournamentSuccess', () => {
 
   it('sets isLoadingRequestOrganization to false', () => {
     expect(
-      requestTournamentSuccess(initialState, action)
-        .isLoadingRequestOrganization
+      getTournamentSuccess(initialState, action).isLoadingRequestOrganization
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestTournamentSuccess(initialState, action);
+    const newState = getTournamentSuccess(initialState, action);
 
     expect(newState.organizations['first-slug']).toEqual({
       id: 'first-id',

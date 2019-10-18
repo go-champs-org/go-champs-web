@@ -4,18 +4,15 @@ import {
   DELETE_TOURNAMENT,
   DELETE_TOURNAMENT_FAILURE,
   DELETE_TOURNAMENT_SUCCESS,
+  GET_TOURNAMENT,
+  GET_TOURNAMENTS_BY_FILTER,
+  GET_TOURNAMENTS_BY_FILTER_FAILURE,
+  GET_TOURNAMENTS_BY_FILTER_SUCCESS,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS,
   POST_TOURNAMENT,
   POST_TOURNAMENT_FAILURE,
-  POST_TOURNAMENT_SUCCESS,
-  REQUEST_FILTER_TOURNAMENTS,
-  REQUEST_FILTER_TOURNAMENTS_FAILURE,
-  REQUEST_FILTER_TOURNAMENTS_SUCCESS,
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENTS,
-  REQUEST_TOURNAMENTS_FAILURE,
-  REQUEST_TOURNAMENTS_SUCCESS,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  POST_TOURNAMENT_SUCCESS
 } from './actions';
 import {
   deleteTournament,
@@ -30,12 +27,9 @@ import {
   requestFilterTournaments,
   requestFilterTournamentsFailure,
   requestFilterTournamentsSuccess,
-  requestTournament,
-  requestTournamentFailure,
-  requestTournaments,
-  requestTournamentsFailure,
-  requestTournamentsSuccess,
-  requestTournamentSuccess
+  getTournament,
+  getTournamentFailure,
+  getTournamentSuccess
 } from './reducer';
 import {
   DEFAULT_TOURNAMENT,
@@ -281,7 +275,7 @@ describe('postTournamentSuccess', () => {
 
 describe('requestFilterTournaments', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_FILTER_TOURNAMENTS
+    type: GET_TOURNAMENTS_BY_FILTER
   };
 
   it('sets isLoadingRequestTournaments to true', () => {
@@ -293,7 +287,7 @@ describe('requestFilterTournaments', () => {
 
 describe('requestFilterTournamentsFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_FILTER_TOURNAMENTS_FAILURE
+    type: GET_TOURNAMENTS_BY_FILTER_FAILURE
   };
 
   it('sets isLoadingRequestTournaments to false', () => {
@@ -306,7 +300,7 @@ describe('requestFilterTournamentsFailure', () => {
 
 describe('requestFilterTournamentsSuccess', () => {
   const action: HttpAction<ActionTypes, TournamentEntity[]> = {
-    type: REQUEST_FILTER_TOURNAMENTS_SUCCESS,
+    type: GET_TOURNAMENTS_BY_FILTER_SUCCESS,
     payload: [
       {
         ...DEFAULT_TOURNAMENT,
@@ -342,33 +336,33 @@ describe('requestFilterTournamentsSuccess', () => {
   });
 });
 
-describe('requestTournament', () => {
+describe('getTournament', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT
+    type: GET_TOURNAMENT
   };
 
   it('sets isLoadingRequestTournament to true', () => {
-    expect(
-      requestTournament(initialState, action).isLoadingRequestTournament
-    ).toBe(true);
+    expect(getTournament(initialState, action).isLoadingRequestTournament).toBe(
+      true
+    );
   });
 });
 
-describe('requestTournamentFailure', () => {
+describe('getTournamentFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_FAILURE
+    type: GET_TOURNAMENT_FAILURE
   };
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      requestTournamentFailure(initialState, action).isLoadingRequestTournament
+      getTournamentFailure(initialState, action).isLoadingRequestTournament
     ).toBe(false);
   });
 });
 
-describe('requestTournamentSuccess', () => {
+describe('getTournamentSuccess', () => {
   const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: REQUEST_TOURNAMENT_SUCCESS,
+    type: GET_TOURNAMENT_SUCCESS,
     payload: {
       ...DEFAULT_TOURNAMENT,
       id: 'first-id',
@@ -379,12 +373,12 @@ describe('requestTournamentSuccess', () => {
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      requestTournamentSuccess(initialState, action).isLoadingRequestTournament
+      getTournamentSuccess(initialState, action).isLoadingRequestTournament
     ).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = requestTournamentSuccess(initialState, action);
+    const newState = getTournamentSuccess(initialState, action);
 
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('first-name');
@@ -403,75 +397,12 @@ describe('requestTournamentSuccess', () => {
       }
     };
 
-    const newState = requestTournamentSuccess(someState, action);
+    const newState = getTournamentSuccess(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'
     });
-  });
-});
-
-describe('requestTournaments', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENTS
-  };
-
-  it('sets isLoadingRequestTournaments to true', () => {
-    expect(
-      requestTournaments(initialState, action).isLoadingRequestTournaments
-    ).toBe(true);
-  });
-});
-
-describe('requestTournamentsFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENTS_FAILURE
-  };
-
-  it('sets isLoadingRequestTournaments to false', () => {
-    expect(
-      requestTournamentsFailure(initialState, action)
-        .isLoadingRequestTournaments
-    ).toBe(false);
-  });
-});
-
-describe('requestTournamentsSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity[]> = {
-    type: REQUEST_TOURNAMENTS_SUCCESS,
-    payload: [
-      {
-        ...DEFAULT_TOURNAMENT,
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      },
-      {
-        ...DEFAULT_TOURNAMENT,
-        id: 'second-id',
-        name: 'second-name',
-        slug: 'second-slug'
-      }
-    ]
-  };
-
-  it('sets isLoadingRequestTournaments to false', () => {
-    expect(
-      requestTournamentsSuccess(initialState, action)
-        .isLoadingRequestTournaments
-    ).toBe(false);
-  });
-
-  it('sets entities', () => {
-    const newState = requestTournamentsSuccess(initialState, action);
-
-    expect(newState.tournaments['first-slug'].id).toEqual('first-id');
-    expect(newState.tournaments['first-slug'].name).toEqual('first-name');
-    expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
-    expect(newState.tournaments['second-slug'].id).toEqual('second-id');
-    expect(newState.tournaments['second-slug'].name).toEqual('second-name');
-    expect(newState.tournaments['second-slug'].slug).toEqual('second-slug');
   });
 });

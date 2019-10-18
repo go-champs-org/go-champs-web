@@ -8,7 +8,7 @@ import { isInProgressPhase } from '../Phases/selectors';
 import { PhaseEntity, PhaseState } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
-import { patchTournament, requestTournament } from '../Tournaments/actions';
+import { getTournament, patchTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
 import { PhaseEliminationState } from '../Tournaments/state';
 import { PhaseHomeMatchProps } from './support/routerInterfaces';
@@ -24,7 +24,7 @@ interface TournamentEditProps extends RouteComponentProps<PhaseHomeMatchProps> {
   patchTournament: any;
   patchPhaseEliminationStat: any;
   postPhaseEliminationStat: any;
-  requestTournament: any;
+  getTournament: any;
 }
 
 class TournamentEdit extends React.Component<TournamentEditProps> {
@@ -62,7 +62,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     const tournamentId = this.props.tournamentState.tournaments[
       this.props.match.params.tournamentSlug
     ].id;
-    this.props.requestTournament(tournamentId);
+    this.props.getTournament(tournamentId);
   }
 }
 
@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch: any, props: TournamentEditProps) => {
   return bindActionCreators(
     {
       patchTournament: patchTournament(organizationId),
-      requestTournament
+      getTournament
     },
     dispatch
   );

@@ -4,15 +4,15 @@ import {
   DELETE_TOURNAMENT_GAME,
   DELETE_TOURNAMENT_GAME_FAILURE,
   DELETE_TOURNAMENT_GAME_SUCCESS,
+  GET_TOURNAMENT_GAME,
+  GET_TOURNAMENT_GAMES_BY_FILTER,
+  GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
+  GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
+  GET_TOURNAMENT_GAME_FAILURE,
+  GET_TOURNAMENT_GAME_SUCCESS,
   POST_TOURNAMENT_GAME,
   POST_TOURNAMENT_GAME_FAILURE,
-  POST_TOURNAMENT_GAME_SUCCESS,
-  REQUEST_TOURNAMENT_GAME,
-  REQUEST_TOURNAMENT_GAMES_BY_FILTER,
-  REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
-  REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
-  REQUEST_TOURNAMENT_GAME_FAILURE,
-  REQUEST_TOURNAMENT_GAME_SUCCESS
+  POST_TOURNAMENT_GAME_SUCCESS
 } from './actions';
 import {
   deleteGame,
@@ -224,7 +224,7 @@ describe('postGameSuccess', () => {
 
 describe('requestGame', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAME
+    type: GET_TOURNAMENT_GAME
   };
 
   it('sets isLoadingRequestGame to true', () => {
@@ -234,7 +234,7 @@ describe('requestGame', () => {
 
 describe('requestGameFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAME_FAILURE
+    type: GET_TOURNAMENT_GAME_FAILURE
   };
 
   it('sets isLoadingRequestGame to false', () => {
@@ -246,7 +246,7 @@ describe('requestGameFailure', () => {
 
 describe('requestGameSuccess', () => {
   const action: HttpAction<ActionTypes, GameEntity> = {
-    type: REQUEST_TOURNAMENT_GAME_SUCCESS,
+    type: GET_TOURNAMENT_GAME_SUCCESS,
     payload: {
       id: 'first-id',
       awayScore: 10,
@@ -293,7 +293,7 @@ describe('requestGameSuccess', () => {
 
 describe('requestGamesByFilter', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAMES_BY_FILTER
+    type: GET_TOURNAMENT_GAMES_BY_FILTER
   };
 
   it('sets isLoadingRequestGames to true', () => {
@@ -305,7 +305,7 @@ describe('requestGamesByFilter', () => {
 
 describe('requestGamesByFilterFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_FAILURE
+    type: GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE
   };
 
   it('sets isLoadingRequestGames to false', () => {
@@ -317,7 +317,7 @@ describe('requestGamesByFilterFailure', () => {
 
 describe('requestGamesByFilterSuccess', () => {
   const action: HttpAction<ActionTypes> = {
-    type: REQUEST_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
+    type: GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
     payload: [
       {
         id: 'first-id',

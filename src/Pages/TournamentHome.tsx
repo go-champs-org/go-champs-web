@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { LoadDefaultPhasePayload } from '../Shared/store/routerActions';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
@@ -13,7 +12,6 @@ import withTournament from './support/withTournament';
 
 interface TournamentHomeProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
-  loadDefaultPhasePayload: (payload: LoadDefaultPhasePayload) => {};
   tournamentLoading: boolean;
 }
 

@@ -7,9 +7,9 @@ import {
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  GET_TOURNAMENT,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
 import { TournamentEntity } from '../Tournaments/state';
 import {
@@ -108,7 +108,7 @@ export const postTeamSuccess = (
   teams: [action.payload].reduce(tournamentTeamMapEntities, state.teams)
 });
 
-export const requestTournament = (
+export const getTournament = (
   state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -116,7 +116,7 @@ export const requestTournament = (
   isLoadingRequestTournament: true
 });
 
-export const requestTournamentFailure = (
+export const getTournamentFailure = (
   state: TeamState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -124,7 +124,7 @@ export const requestTournamentFailure = (
   isLoadingRequestTournament: false
 });
 
-export const requestTournamentSuccess = (
+export const getTournamentSuccess = (
   state: TeamState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
@@ -143,7 +143,7 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT_TEAM]: postTeam,
   [POST_TOURNAMENT_TEAM_FAILURE]: postTeamFailure,
   [POST_TOURNAMENT_TEAM_SUCCESS]: postTeamSuccess,
-  [REQUEST_TOURNAMENT]: requestTournament,
-  [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess
+  [GET_TOURNAMENT]: getTournament,
+  [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
+  [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess
 });

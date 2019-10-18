@@ -12,21 +12,18 @@ import {
   DELETE_TOURNAMENT,
   DELETE_TOURNAMENT_FAILURE,
   DELETE_TOURNAMENT_SUCCESS,
+  GET_TOURNAMENT,
+  GET_TOURNAMENTS_BY_FILTER,
+  GET_TOURNAMENTS_BY_FILTER_FAILURE,
+  GET_TOURNAMENTS_BY_FILTER_SUCCESS,
+  GET_TOURNAMENT_FAILURE,
+  GET_TOURNAMENT_SUCCESS,
   PATCH_TOURNAMENT,
   PATCH_TOURNAMENT_FAILURE,
   PATCH_TOURNAMENT_SUCCESS,
   POST_TOURNAMENT,
   POST_TOURNAMENT_FAILURE,
-  POST_TOURNAMENT_SUCCESS,
-  REQUEST_FILTER_TOURNAMENTS,
-  REQUEST_FILTER_TOURNAMENTS_FAILURE,
-  REQUEST_FILTER_TOURNAMENTS_SUCCESS,
-  REQUEST_TOURNAMENT,
-  REQUEST_TOURNAMENTS,
-  REQUEST_TOURNAMENTS_FAILURE,
-  REQUEST_TOURNAMENTS_SUCCESS,
-  REQUEST_TOURNAMENT_FAILURE,
-  REQUEST_TOURNAMENT_SUCCESS
+  POST_TOURNAMENT_SUCCESS
 } from './actions';
 import { initialState, PhaseEliminationState, TournamentEntity } from './state';
 
@@ -140,7 +137,7 @@ export const requestFilterTournamentsSuccess = (
   tournaments: action.payload!.reduce(tournamentMapEntities, {})
 });
 
-export const requestTournament = (
+export const getTournament = (
   state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -148,7 +145,7 @@ export const requestTournament = (
   isLoadingRequestTournament: true
 });
 
-export const requestTournamentFailure = (
+export const getTournamentFailure = (
   state: PhaseEliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -156,38 +153,13 @@ export const requestTournamentFailure = (
   isLoadingRequestTournament: false
 });
 
-export const requestTournamentSuccess = (
+export const getTournamentSuccess = (
   state: PhaseEliminationState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
   tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
-});
-
-export const requestTournaments = (
-  state: PhaseEliminationState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournaments: true
-});
-
-export const requestTournamentsFailure = (
-  state: PhaseEliminationState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournaments: false
-});
-
-export const requestTournamentsSuccess = (
-  state: PhaseEliminationState,
-  action: HttpAction<ActionTypes, TournamentEntity[]>
-) => ({
-  ...state,
-  isLoadingRequestTournaments: false,
-  tournaments: action.payload!.reduce(tournamentMapEntities, {})
 });
 
 export const loadDefaultPhasePayload = (state: PhaseEliminationState) => ({
@@ -207,13 +179,10 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT]: postTournament,
   [POST_TOURNAMENT_FAILURE]: postTournamentFailure,
   [POST_TOURNAMENT_SUCCESS]: postTournamentSuccess,
-  [REQUEST_FILTER_TOURNAMENTS]: requestFilterTournaments,
-  [REQUEST_FILTER_TOURNAMENTS_FAILURE]: requestFilterTournamentsFailure,
-  [REQUEST_FILTER_TOURNAMENTS_SUCCESS]: requestFilterTournamentsSuccess,
-  [REQUEST_TOURNAMENT]: requestTournament,
-  [REQUEST_TOURNAMENT_FAILURE]: requestTournamentFailure,
-  [REQUEST_TOURNAMENT_SUCCESS]: requestTournamentSuccess,
-  [REQUEST_TOURNAMENTS]: requestTournaments,
-  [REQUEST_TOURNAMENTS_FAILURE]: requestTournamentsFailure,
-  [REQUEST_TOURNAMENTS_SUCCESS]: requestTournamentsSuccess
+  [GET_TOURNAMENTS_BY_FILTER]: requestFilterTournaments,
+  [GET_TOURNAMENTS_BY_FILTER_FAILURE]: requestFilterTournamentsFailure,
+  [GET_TOURNAMENTS_BY_FILTER_SUCCESS]: requestFilterTournamentsSuccess,
+  [GET_TOURNAMENT]: getTournament,
+  [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
+  [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess
 });
