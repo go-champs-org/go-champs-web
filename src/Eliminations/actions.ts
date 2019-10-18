@@ -1,6 +1,4 @@
-import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import eliminationHttpClient from './eliminationHttpClient';
 import { EliminationEntity } from './state';
 
 export const DELETE_ELIMINATION = 'API_DELETE_ELIMINATION';
@@ -13,23 +11,9 @@ export const POST_ELIMINATION = 'API_POST_ELIMINATION';
 export const POST_ELIMINATION_SUCCESS = 'API_POST_ELIMINATION_SUCCESS';
 export const POST_ELIMINATION_FAILURE = 'API_POST_ELIMINATION_FAILURE';
 
-export const deleteElimination = (phaseId: string) => (
-  elimination: EliminationEntity
-) => async (dispatch: any) => {
-  dispatch({ type: DELETE_ELIMINATION });
-
-  try {
-    const response = await eliminationHttpClient.delete(
-      phaseId,
-      elimination.id
-    );
-
-    dispatch(deleteEliminationSuccess(response));
-    displayToast(`${elimination.title} deleted!`, 'is-success');
-  } catch (err) {
-    dispatch(deleteEliminationFailure(err));
-  }
-};
+export const deleteEliminationStart = (): HttpAction<ActionTypes> => ({
+  type: DELETE_ELIMINATION
+});
 
 export const deleteEliminationSuccess = (
   payload: string
@@ -45,20 +29,9 @@ export const deleteEliminationFailure = (
   payload
 });
 
-export const patchElimination = (phaseId: string) => (
-  elimination: EliminationEntity
-) => async (dispatch: any) => {
-  dispatch({ type: PATCH_ELIMINATION });
-
-  try {
-    const response = await eliminationHttpClient.patch(phaseId, elimination);
-
-    dispatch(patchEliminationSuccess(response));
-    displayToast(`${elimination.title} updated!`, 'is-success');
-  } catch (err) {
-    dispatch(patchEliminationFailure(err));
-  }
-};
+export const patchEliminationStart = (): HttpAction<ActionTypes> => ({
+  type: PATCH_ELIMINATION
+});
 
 export const patchEliminationSuccess = (
   payload: EliminationEntity
@@ -74,20 +47,9 @@ export const patchEliminationFailure = (
   payload
 });
 
-export const postElimination = (phaseId: string) => (
-  elimination: EliminationEntity
-) => async (dispatch: any) => {
-  dispatch({ type: POST_ELIMINATION });
-
-  try {
-    const response = await eliminationHttpClient.post(phaseId, elimination);
-
-    dispatch(postEliminationSuccess(response));
-    displayToast(`${elimination.title} created!`, 'is-success');
-  } catch (err) {
-    dispatch(postEliminationFailure(err));
-  }
-};
+export const postEliminationStart = (): HttpAction<ActionTypes> => ({
+  type: POST_ELIMINATION
+});
 
 export const postEliminationSuccess = (
   payload: EliminationEntity

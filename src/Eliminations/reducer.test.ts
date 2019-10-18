@@ -1,29 +1,21 @@
 import { getPhaseSuccess } from '../Phases/actions';
 import { PhaseTypes } from '../Phases/state';
 import { ApiPhase } from '../Shared/httpClient/apiTypes';
-import { HttpAction } from '../Shared/store/interfaces';
 import {
-  ActionTypes,
-  DELETE_ELIMINATION,
-  DELETE_ELIMINATION_FAILURE,
-  DELETE_ELIMINATION_SUCCESS,
-  PATCH_ELIMINATION,
-  PATCH_ELIMINATION_FAILURE,
-  PATCH_ELIMINATION_SUCCESS,
-  POST_ELIMINATION,
-  POST_ELIMINATION_FAILURE,
-  POST_ELIMINATION_SUCCESS
+  deleteEliminationFailure,
+  deleteEliminationStart,
+  deleteEliminationSuccess,
+  patchEliminationFailure,
+  patchEliminationStart,
+  patchEliminationSuccess,
+  postEliminationFailure,
+  postEliminationStart
 } from './actions';
 import eliminationReducer from './reducer';
-import { EliminationEntity, EliminationState, initialState } from './state';
+import { EliminationState, initialState } from './state';
 
 describe('deleteElimination', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_ELIMINATION,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteEliminationStart();
 
   it('sets isLoadingDeleteElimination to true', () => {
     const newState = eliminationReducer(initialState, action);
@@ -32,12 +24,7 @@ describe('deleteElimination', () => {
 });
 
 describe('deleteEliminationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_ELIMINATION_FAILURE,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteEliminationFailure('error');
 
   it('sets isLoadingDeleteElimination to false', () => {
     const newState = eliminationReducer(initialState, action);
@@ -46,10 +33,7 @@ describe('deleteEliminationFailure', () => {
 });
 
 describe('deleteEliminationSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_ELIMINATION_SUCCESS,
-    payload: 'first-id'
-  };
+  const action = deleteEliminationSuccess('first-id');
 
   const deleteState = {
     ...initialState,
@@ -97,9 +81,7 @@ describe('deleteEliminationSuccess', () => {
 });
 
 describe('patchElimination', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: PATCH_ELIMINATION
-  };
+  const action = patchEliminationStart();
 
   it('sets isLoadingPatchElimination to true', () => {
     const newState = eliminationReducer(initialState, action);
@@ -108,9 +90,7 @@ describe('patchElimination', () => {
 });
 
 describe('patchEliminationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: PATCH_ELIMINATION_FAILURE
-  };
+  const action = patchEliminationFailure('error');
 
   it('sets isLoadingPatchElimination to false', () => {
     const newState = eliminationReducer(initialState, action);
@@ -119,14 +99,11 @@ describe('patchEliminationFailure', () => {
 });
 
 describe('patchEliminationSuccess', () => {
-  const action: HttpAction<ActionTypes, EliminationEntity> = {
-    type: PATCH_ELIMINATION_SUCCESS,
-    payload: {
-      id: 'first-id',
-      title: 'some-first-title',
-      teamStats: []
-    }
-  };
+  const action = patchEliminationSuccess({
+    id: 'first-id',
+    title: 'some-first-title',
+    teamStats: []
+  });
 
   const updateState: EliminationState = {
     ...initialState,
@@ -177,9 +154,7 @@ describe('patchEliminationSuccess', () => {
 });
 
 describe('postElimination', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_ELIMINATION
-  };
+  const action = postEliminationStart();
 
   it('sets isLoadingPostElimination to true', () => {
     const newState = eliminationReducer(initialState, action);
@@ -188,9 +163,7 @@ describe('postElimination', () => {
 });
 
 describe('postEliminationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_ELIMINATION_FAILURE
-  };
+  const action = postEliminationFailure('error');
 
   it('sets isLoadingPostElimination to false', () => {
     const newState = eliminationReducer(initialState, action);
@@ -199,14 +172,11 @@ describe('postEliminationFailure', () => {
 });
 
 describe('postEliminationSuccess', () => {
-  const action: HttpAction<ActionTypes, EliminationEntity> = {
-    type: POST_ELIMINATION_SUCCESS,
-    payload: {
-      id: 'first-id',
-      title: 'first-title',
-      teamStats: []
-    }
-  };
+  const action = postEliminationFailure({
+    id: 'first-id',
+    title: 'first-title',
+    teamStats: []
+  });
 
   it('sets isLoadingPostElimination to false', () => {
     const newState = eliminationReducer(initialState, action);

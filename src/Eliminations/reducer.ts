@@ -33,7 +33,7 @@ const apiEliminationToEntities = apiDataToEntities<
   EliminationEntity
 >(mapApiEliminationToEliminationEntity, returnProperty('id'));
 
-export const deleteElimination = (
+const deleteElimination = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -41,7 +41,7 @@ export const deleteElimination = (
   isLoadingDeleteElimination: true
 });
 
-export const deleteEliminationFailure = (
+const deleteEliminationFailure = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -49,7 +49,7 @@ export const deleteEliminationFailure = (
   isLoadingDeleteElimination: false
 });
 
-export const deleteEliminationSuccess = (
+const deleteEliminationSuccess = (
   state: EliminationState,
   action: HttpAction<ActionTypes, string>
 ) => {
@@ -63,7 +63,7 @@ export const deleteEliminationSuccess = (
   };
 };
 
-export const patchElimination = (
+const patchElimination = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -71,7 +71,7 @@ export const patchElimination = (
   isLoadingPatchElimination: true
 });
 
-export const patchEliminationFailure = (
+const patchEliminationFailure = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -79,7 +79,7 @@ export const patchEliminationFailure = (
   isLoadingPatchElimination: false
 });
 
-export const patchEliminationSuccess = (
+const patchEliminationSuccess = (
   state: EliminationState,
   action: HttpAction<ActionTypes, EliminationEntity>
 ) => ({
@@ -91,7 +91,7 @@ export const patchEliminationSuccess = (
   )
 });
 
-export const postElimination = (
+const postElimination = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -99,7 +99,7 @@ export const postElimination = (
   isLoadingPostElimination: true
 });
 
-export const postEliminationFailure = (
+const postEliminationFailure = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -107,7 +107,7 @@ export const postEliminationFailure = (
   isLoadingPostElimination: false
 });
 
-export const postEliminationSuccess = (
+const postEliminationSuccess = (
   state: EliminationState,
   action: HttpAction<ActionTypes, EliminationEntity>
 ) => ({
@@ -119,7 +119,7 @@ export const postEliminationSuccess = (
   )
 });
 
-export const getPhaseSuccess = (
+const getPhaseSuccess = (
   state: EliminationState,
   action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
