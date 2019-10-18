@@ -3,24 +3,20 @@ import { HttpAction } from '../Shared/store/interfaces';
 import eliminationHttpClient from './eliminationHttpClient';
 import { EliminationEntity } from './state';
 
-export const DELETE_PHASE_STANDINGS = 'API_DELETE_PHASE_STANDINGS';
-export const DELETE_PHASE_STANDINGS_SUCCESS =
-  'API_DELETE_PHASE_STANDINGS_SUCCESS';
-export const DELETE_PHASE_STANDINGS_FAILURE =
-  'API_DELETE_PHASE_STANDINGS_FAILURE';
-export const PATCH_PHASE_STANDINGS = 'API_PATCH_PHASE_STANDINGS';
-export const PATCH_PHASE_STANDINGS_SUCCESS =
-  'API_PATCH_PHASE_STANDINGS_SUCCESS';
-export const PATCH_PHASE_STANDINGS_FAILURE =
-  'API_PATCH_PHASE_STANDINGS_FAILURE';
-export const POST_PHASE_STANDINGS = 'API_POST_PHASE_STANDINGS';
-export const POST_PHASE_STANDINGS_SUCCESS = 'API_POST_PHASE_STANDINGS_SUCCESS';
-export const POST_PHASE_STANDINGS_FAILURE = 'API_POST_PHASE_STANDINGS_FAILURE';
+export const DELETE_ELIMINATION = 'API_DELETE_ELIMINATION';
+export const DELETE_ELIMINATION_SUCCESS = 'API_DELETE_ELIMINATION_SUCCESS';
+export const DELETE_ELIMINATION_FAILURE = 'API_DELETE_ELIMINATION_FAILURE';
+export const PATCH_ELIMINATION = 'API_PATCH_ELIMINATION';
+export const PATCH_ELIMINATION_SUCCESS = 'API_PATCH_ELIMINATION_SUCCESS';
+export const PATCH_ELIMINATION_FAILURE = 'API_PATCH_ELIMINATION_FAILURE';
+export const POST_ELIMINATION = 'API_POST_ELIMINATION';
+export const POST_ELIMINATION_SUCCESS = 'API_POST_ELIMINATION_SUCCESS';
+export const POST_ELIMINATION_FAILURE = 'API_POST_ELIMINATION_FAILURE';
 
 export const deleteElimination = (phaseId: string) => (
   elimination: EliminationEntity
 ) => async (dispatch: any) => {
-  dispatch({ type: DELETE_PHASE_STANDINGS });
+  dispatch({ type: DELETE_ELIMINATION });
 
   try {
     const response = await eliminationHttpClient.delete(
@@ -38,21 +34,21 @@ export const deleteElimination = (phaseId: string) => (
 export const deleteEliminationSuccess = (
   payload: string
 ): HttpAction<ActionTypes, string> => ({
-  type: DELETE_PHASE_STANDINGS_SUCCESS,
+  type: DELETE_ELIMINATION_SUCCESS,
   payload
 });
 
 export const deleteEliminationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: DELETE_PHASE_STANDINGS_FAILURE,
+  type: DELETE_ELIMINATION_FAILURE,
   payload
 });
 
 export const patchElimination = (phaseId: string) => (
   elimination: EliminationEntity
 ) => async (dispatch: any) => {
-  dispatch({ type: PATCH_PHASE_STANDINGS });
+  dispatch({ type: PATCH_ELIMINATION });
 
   try {
     const response = await eliminationHttpClient.patch(phaseId, elimination);
@@ -67,21 +63,21 @@ export const patchElimination = (phaseId: string) => (
 export const patchEliminationSuccess = (
   payload: EliminationEntity
 ): HttpAction<ActionTypes, EliminationEntity> => ({
-  type: PATCH_PHASE_STANDINGS_SUCCESS,
+  type: PATCH_ELIMINATION_SUCCESS,
   payload
 });
 
 export const patchEliminationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: PATCH_PHASE_STANDINGS_FAILURE,
+  type: PATCH_ELIMINATION_FAILURE,
   payload
 });
 
 export const postElimination = (phaseId: string) => (
   elimination: EliminationEntity
 ) => async (dispatch: any) => {
-  dispatch({ type: POST_PHASE_STANDINGS });
+  dispatch({ type: POST_ELIMINATION });
 
   try {
     const response = await eliminationHttpClient.post(phaseId, elimination);
@@ -96,25 +92,25 @@ export const postElimination = (phaseId: string) => (
 export const postEliminationSuccess = (
   payload: EliminationEntity
 ): HttpAction<ActionTypes, EliminationEntity> => ({
-  type: POST_PHASE_STANDINGS_SUCCESS,
+  type: POST_ELIMINATION_SUCCESS,
   payload
 });
 
 export const postEliminationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
-  type: POST_PHASE_STANDINGS_FAILURE,
+  type: POST_ELIMINATION_FAILURE,
   payload
 });
 
 export type ActionTypes =
-  | typeof DELETE_PHASE_STANDINGS
-  | typeof DELETE_PHASE_STANDINGS_SUCCESS
-  | typeof DELETE_PHASE_STANDINGS_FAILURE
-  | typeof PATCH_PHASE_STANDINGS
-  | typeof PATCH_PHASE_STANDINGS_SUCCESS
-  | typeof PATCH_PHASE_STANDINGS_FAILURE
-  | typeof POST_PHASE_STANDINGS
-  | typeof POST_PHASE_STANDINGS_SUCCESS
-  | typeof POST_PHASE_STANDINGS_FAILURE;
+  | typeof DELETE_ELIMINATION
+  | typeof DELETE_ELIMINATION_SUCCESS
+  | typeof DELETE_ELIMINATION_FAILURE
+  | typeof PATCH_ELIMINATION
+  | typeof PATCH_ELIMINATION_SUCCESS
+  | typeof PATCH_ELIMINATION_FAILURE
+  | typeof POST_ELIMINATION
+  | typeof POST_ELIMINATION_SUCCESS
+  | typeof POST_ELIMINATION_FAILURE;
 export type Actions = HttpAction<ActionTypes>;

@@ -1,22 +1,25 @@
+import { getPhaseSuccess } from '../Phases/actions';
+import { PhaseTypes } from '../Phases/state';
+import { ApiPhase } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
   ActionTypes,
-  DELETE_PHASE_STANDINGS,
-  DELETE_PHASE_STANDINGS_FAILURE,
-  DELETE_PHASE_STANDINGS_SUCCESS,
-  PATCH_PHASE_STANDINGS,
-  PATCH_PHASE_STANDINGS_FAILURE,
-  PATCH_PHASE_STANDINGS_SUCCESS,
-  POST_PHASE_STANDINGS,
-  POST_PHASE_STANDINGS_FAILURE,
-  POST_PHASE_STANDINGS_SUCCESS
+  DELETE_ELIMINATION,
+  DELETE_ELIMINATION_FAILURE,
+  DELETE_ELIMINATION_SUCCESS,
+  PATCH_ELIMINATION,
+  PATCH_ELIMINATION_FAILURE,
+  PATCH_ELIMINATION_SUCCESS,
+  POST_ELIMINATION,
+  POST_ELIMINATION_FAILURE,
+  POST_ELIMINATION_SUCCESS
 } from './actions';
 import eliminationReducer from './reducer';
 import { EliminationEntity, EliminationState, initialState } from './state';
 
 describe('deleteElimination', () => {
   const action: HttpAction<ActionTypes> = {
-    type: DELETE_PHASE_STANDINGS,
+    type: DELETE_ELIMINATION,
     payload: {
       id: 'first-id'
     }
@@ -30,7 +33,7 @@ describe('deleteElimination', () => {
 
 describe('deleteEliminationFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: DELETE_PHASE_STANDINGS_FAILURE,
+    type: DELETE_ELIMINATION_FAILURE,
     payload: {
       id: 'first-id'
     }
@@ -44,7 +47,7 @@ describe('deleteEliminationFailure', () => {
 
 describe('deleteEliminationSuccess', () => {
   const action: HttpAction<ActionTypes> = {
-    type: DELETE_PHASE_STANDINGS_SUCCESS,
+    type: DELETE_ELIMINATION_SUCCESS,
     payload: 'first-id'
   };
 
@@ -95,7 +98,7 @@ describe('deleteEliminationSuccess', () => {
 
 describe('patchElimination', () => {
   const action: HttpAction<ActionTypes> = {
-    type: PATCH_PHASE_STANDINGS
+    type: PATCH_ELIMINATION
   };
 
   it('sets isLoadingPatchElimination to true', () => {
@@ -106,7 +109,7 @@ describe('patchElimination', () => {
 
 describe('patchEliminationFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: PATCH_PHASE_STANDINGS_FAILURE
+    type: PATCH_ELIMINATION_FAILURE
   };
 
   it('sets isLoadingPatchElimination to false', () => {
@@ -117,7 +120,7 @@ describe('patchEliminationFailure', () => {
 
 describe('patchEliminationSuccess', () => {
   const action: HttpAction<ActionTypes, EliminationEntity> = {
-    type: PATCH_PHASE_STANDINGS_SUCCESS,
+    type: PATCH_ELIMINATION_SUCCESS,
     payload: {
       id: 'first-id',
       title: 'some-first-title',
@@ -175,7 +178,7 @@ describe('patchEliminationSuccess', () => {
 
 describe('postElimination', () => {
   const action: HttpAction<ActionTypes> = {
-    type: POST_PHASE_STANDINGS
+    type: POST_ELIMINATION
   };
 
   it('sets isLoadingPostElimination to true', () => {
@@ -186,7 +189,7 @@ describe('postElimination', () => {
 
 describe('postEliminationFailure', () => {
   const action: HttpAction<ActionTypes> = {
-    type: POST_PHASE_STANDINGS_FAILURE
+    type: POST_ELIMINATION_FAILURE
   };
 
   it('sets isLoadingPostElimination to false', () => {
@@ -197,7 +200,7 @@ describe('postEliminationFailure', () => {
 
 describe('postEliminationSuccess', () => {
   const action: HttpAction<ActionTypes, EliminationEntity> = {
-    type: POST_PHASE_STANDINGS_SUCCESS,
+    type: POST_ELIMINATION_SUCCESS,
     payload: {
       id: 'first-id',
       title: 'first-title',
@@ -238,6 +241,65 @@ describe('postEliminationSuccess', () => {
       id: 'some-id',
       title: 'some-title',
       teamStats: []
+    });
+  });
+});
+
+describe('getPhaseSuccess', () => {
+  const apiPhase: ApiPhase = {
+    id: 'phase-id',
+    title: 'phase-title',
+    order: 0,
+    type: PhaseTypes.elimination,
+    eliminations: [
+      {
+        id: 'first-id',
+        title: 'first-title',
+        team_stats: [
+          {
+            id: 'first-team-stat-id',
+            stats: {
+              'first-stat-id': 'first-team-stat-value'
+            },
+            team_id: 'first-team-id'
+          },
+          {
+            id: 'second-team-stat-id',
+            stats: {
+              'first-stat-id': 'second-team-stat-value'
+            },
+            team_id: 'second-team-id'
+          }
+        ]
+      }
+    ]
+  };
+  const action = getPhaseSuccess(apiPhase);
+
+  it('maps api elimination to elimination', () => {
+    const eliminationState = eliminationReducer(initialState, action);
+
+    expect(eliminationState.eliminations).toEqual({
+      'first-id': {
+        id: 'first-id',
+        title: 'first-title',
+        teamStats: [
+          {
+            id: 'first-team-stat-id',
+            stats: {
+              'first-stat-id': 'first-team-stat-value'
+            },
+            teamId: 'first-team-id'
+          },
+          {
+            id: 'second-team-stat-id',
+            stats: {
+              'first-stat-id': 'second-team-stat-value'
+            },
+            teamId: 'second-team-id'
+          }
+        ]
+      }
     });
   });
 });

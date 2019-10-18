@@ -1,8 +1,4 @@
-import {
-  GET_PHASE,
-  GET_PHASE_FAILURE,
-  GET_PHASE_SUCCESS
-} from '../Phases/actions';
+import { GET_PHASE_SUCCESS } from '../Phases/actions';
 import { ApiElimination, ApiPhase } from '../Shared/httpClient/apiTypes';
 import {
   apiDataToEntities,
@@ -15,15 +11,15 @@ import {
 import { HttpAction } from '../Shared/store/interfaces';
 import {
   ActionTypes,
-  DELETE_PHASE_STANDINGS,
-  DELETE_PHASE_STANDINGS_FAILURE,
-  DELETE_PHASE_STANDINGS_SUCCESS,
-  PATCH_PHASE_STANDINGS,
-  PATCH_PHASE_STANDINGS_FAILURE,
-  PATCH_PHASE_STANDINGS_SUCCESS,
-  POST_PHASE_STANDINGS,
-  POST_PHASE_STANDINGS_FAILURE,
-  POST_PHASE_STANDINGS_SUCCESS
+  DELETE_ELIMINATION,
+  DELETE_ELIMINATION_FAILURE,
+  DELETE_ELIMINATION_SUCCESS,
+  PATCH_ELIMINATION,
+  PATCH_ELIMINATION_FAILURE,
+  PATCH_ELIMINATION_SUCCESS,
+  POST_ELIMINATION,
+  POST_ELIMINATION_FAILURE,
+  POST_ELIMINATION_SUCCESS
 } from './actions';
 import { mapApiEliminationToEliminationEntity } from './dataMappers';
 import { EliminationEntity, EliminationState, initialState } from './state';
@@ -123,22 +119,6 @@ export const postEliminationSuccess = (
   )
 });
 
-export const getPhase = (
-  state: EliminationState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: true
-});
-
-export const getPhaseFailure = (
-  state: EliminationState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: false
-});
-
 export const getPhaseSuccess = (
   state: EliminationState,
   action: HttpAction<ActionTypes, ApiPhase>
@@ -151,16 +131,14 @@ export const getPhaseSuccess = (
 });
 
 export default createReducer<EliminationState>(initialState, {
-  [DELETE_PHASE_STANDINGS]: deleteElimination,
-  [DELETE_PHASE_STANDINGS_FAILURE]: deleteEliminationFailure,
-  [DELETE_PHASE_STANDINGS_SUCCESS]: deleteEliminationSuccess,
-  [PATCH_PHASE_STANDINGS]: patchElimination,
-  [PATCH_PHASE_STANDINGS_FAILURE]: patchEliminationFailure,
-  [PATCH_PHASE_STANDINGS_SUCCESS]: patchEliminationSuccess,
-  [POST_PHASE_STANDINGS]: postElimination,
-  [POST_PHASE_STANDINGS_FAILURE]: postEliminationFailure,
-  [POST_PHASE_STANDINGS_SUCCESS]: postEliminationSuccess,
-  [GET_PHASE]: getPhase,
-  [GET_PHASE_FAILURE]: getPhaseFailure,
+  [DELETE_ELIMINATION]: deleteElimination,
+  [DELETE_ELIMINATION_FAILURE]: deleteEliminationFailure,
+  [DELETE_ELIMINATION_SUCCESS]: deleteEliminationSuccess,
+  [PATCH_ELIMINATION]: patchElimination,
+  [PATCH_ELIMINATION_FAILURE]: patchEliminationFailure,
+  [PATCH_ELIMINATION_SUCCESS]: patchEliminationSuccess,
+  [POST_ELIMINATION]: postElimination,
+  [POST_ELIMINATION_FAILURE]: postEliminationFailure,
+  [POST_ELIMINATION_SUCCESS]: postEliminationSuccess,
   [GET_PHASE_SUCCESS]: getPhaseSuccess
 });
