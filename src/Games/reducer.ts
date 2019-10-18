@@ -26,15 +26,12 @@ import { GameEntity, GameState, initialState } from './state';
 
 const tournamentGameMapEntities = mapEntities<GameEntity>(returnProperty('id'));
 
-export const deleteGame = (
-  state: GameState,
-  action: HttpAction<ActionTypes>
-) => ({
+const deleteGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingDeleteGame: true
 });
 
-export const deleteGameFailure = (
+const deleteGameFailure = (
   state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -42,7 +39,7 @@ export const deleteGameFailure = (
   isLoadingDeleteGame: false
 });
 
-export const deleteGameSuccess = (
+const deleteGameSuccess = (
   state: GameState,
   action: HttpAction<ActionTypes>
 ) => {
@@ -56,15 +53,12 @@ export const deleteGameSuccess = (
   };
 };
 
-export const postGame = (
-  state: GameState,
-  action: HttpAction<ActionTypes>
-) => ({
+const postGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPostGame: true
 });
 
-export const postGameFailure = (
+const postGameFailure = (
   state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -72,7 +66,7 @@ export const postGameFailure = (
   isLoadingPostGame: false
 });
 
-export const postGameSuccess = (
+const postGameSuccess = (
   state: GameState,
   action: HttpAction<ActionTypes, GameEntity>
 ) => ({
@@ -81,23 +75,17 @@ export const postGameSuccess = (
   games: [action.payload].reduce(tournamentGameMapEntities, state.games)
 });
 
-export const requestGame = (
-  state: GameState,
-  action: HttpAction<ActionTypes>
-) => ({
+const getGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingRequestGame: true
 });
 
-export const requestGameFailure = (
-  state: GameState,
-  action: HttpAction<ActionTypes>
-) => ({
+const getGameFailure = (state: GameState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingRequestGame: false
 });
 
-export const requestGameSuccess = (
+const getGameSuccess = (
   state: GameState,
   action: HttpAction<ActionTypes, GameEntity>
 ) => ({
@@ -106,7 +94,7 @@ export const requestGameSuccess = (
   games: [action.payload].reduce(tournamentGameMapEntities, {})
 });
 
-export const requestGamesByFilter = (
+const getGamesByFilter = (
   state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -114,7 +102,7 @@ export const requestGamesByFilter = (
   isLoadingRequestGames: true
 });
 
-export const requestGamesByFilterFailure = (
+const getGamesByFilterFailure = (
   state: GameState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -122,7 +110,7 @@ export const requestGamesByFilterFailure = (
   isLoadingRequestGames: false
 });
 
-export const requestGamesByFilterSuccess = (
+const getGamesByFilterSuccess = (
   state: GameState,
   action: HttpAction<ActionTypes, GameEntity[]>
 ) => ({
@@ -131,7 +119,7 @@ export const requestGamesByFilterSuccess = (
   games: action.payload!.reduce(tournamentGameMapEntities, {})
 });
 
-export const loadDefaultPhasePayload = (state: GameState) => ({
+const loadDefaultPhasePayload = (state: GameState) => ({
   ...state,
   isLoadingRequestGames: true
 });
@@ -144,10 +132,10 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT_GAME]: postGame,
   [POST_TOURNAMENT_GAME_FAILURE]: postGameFailure,
   [POST_TOURNAMENT_GAME_SUCCESS]: postGameSuccess,
-  [GET_TOURNAMENT_GAME]: requestGame,
-  [GET_TOURNAMENT_GAME_FAILURE]: requestGameFailure,
-  [GET_TOURNAMENT_GAME_SUCCESS]: requestGameSuccess,
-  [GET_TOURNAMENT_GAMES_BY_FILTER]: requestGamesByFilter,
-  [GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE]: requestGamesByFilterFailure,
-  [GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS]: requestGamesByFilterSuccess
+  [GET_TOURNAMENT_GAME]: getGame,
+  [GET_TOURNAMENT_GAME_FAILURE]: getGameFailure,
+  [GET_TOURNAMENT_GAME_SUCCESS]: getGameSuccess,
+  [GET_TOURNAMENT_GAMES_BY_FILTER]: getGamesByFilter,
+  [GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE]: getGamesByFilterFailure,
+  [GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS]: getGamesByFilterSuccess
 });

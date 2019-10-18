@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { requestGamesByFilter } from '../../Games/actions';
+import { getGamesByFilter } from '../../Games/effects';
 import { RequestFilter } from '../../Games/gameHttpClient';
 import { getPhase } from '../../Phases/actions';
 import { StoreState } from '../../store';
@@ -12,7 +12,7 @@ import { PhaseHomeMatchProps } from './routerInterfaces';
 
 interface WithPhaseProps extends RouteComponentProps<PhaseHomeMatchProps> {
   getPhase: (phaseId: string) => {};
-  requestGamesByFilter: (where: RequestFilter) => {};
+  getGamesByFilter: (where: RequestFilter) => {};
   tournament: TournamentEntity;
 }
 
@@ -29,7 +29,7 @@ const withPhase = (WrappedComponent: any) => {
         }
       } = this.props;
       this.props.getPhase(phaseId);
-      this.props.requestGamesByFilter({ phase_id: phaseId });
+      this.props.getGamesByFilter({ phase_id: phaseId });
     }
   }
 
@@ -47,7 +47,7 @@ const withPhase = (WrappedComponent: any) => {
   const mapDispatchToProps = (dispatch: Dispatch) => {
     return bindActionCreators(
       {
-        requestGamesByFilter,
+        getGamesByFilter,
         getPhase
       },
       dispatch

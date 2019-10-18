@@ -1,73 +1,43 @@
-import { HttpAction } from '../Shared/store/interfaces';
 import {
-  ActionTypes,
-  DELETE_TOURNAMENT_GAME,
-  DELETE_TOURNAMENT_GAME_FAILURE,
-  DELETE_TOURNAMENT_GAME_SUCCESS,
-  GET_TOURNAMENT_GAME,
-  GET_TOURNAMENT_GAMES_BY_FILTER,
-  GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
-  GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
-  GET_TOURNAMENT_GAME_FAILURE,
-  GET_TOURNAMENT_GAME_SUCCESS,
-  POST_TOURNAMENT_GAME,
-  POST_TOURNAMENT_GAME_FAILURE,
-  POST_TOURNAMENT_GAME_SUCCESS
-} from './actions';
-import {
-  deleteGame,
   deleteGameFailure,
+  deleteGameStart,
   deleteGameSuccess,
-  postGame,
+  getGameFailure,
+  getGamesByFilterFailure,
+  getGamesByFilterStart,
+  getGamesByFilterSuccess,
+  getGameStart,
+  getGameSuccess,
   postGameFailure,
-  postGameSuccess,
-  requestGame,
-  requestGameFailure,
-  requestGamesByFilter,
-  requestGamesByFilterFailure,
-  requestGamesByFilterSuccess,
-  requestGameSuccess
-} from './reducer';
-import { GameEntity, GameState, initialState } from './state';
+  postGameStart,
+  postGameSuccess
+} from './actions';
+import gameReducer from './reducer';
+import { DEFAULT_GAME, GameState, initialState } from './state';
 
 describe('deleteGame', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_TOURNAMENT_GAME,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteGameStart();
 
   it('sets isLoadingDeleteGame to true', () => {
-    expect(deleteGame(initialState, action).isLoadingDeleteGame).toBe(true);
+    expect(gameReducer(initialState, action).isLoadingDeleteGame).toBe(true);
   });
 });
 
 describe('deleteGameFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_TOURNAMENT_GAME_FAILURE,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteGameFailure('error');
 
   it('sets isLoadingDeleteGame to false', () => {
-    expect(deleteGameFailure(initialState, action).isLoadingDeleteGame).toBe(
-      false
-    );
+    expect(gameReducer(initialState, action).isLoadingDeleteGame).toBe(false);
   });
 });
 
 describe('deleteGameSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_TOURNAMENT_GAME_SUCCESS,
-    payload: 'first-id'
-  };
+  const action = deleteGameSuccess('first-id');
 
   const deleteState = {
     ...initialState,
     games: {
-      ['first-id']: {
+      'first-id': {
         id: 'first-id',
         awayScore: 10,
         awayTeam: {
@@ -86,13 +56,11 @@ describe('deleteGameSuccess', () => {
   };
 
   it('sets isLoadingDeleteGame to false', () => {
-    expect(deleteGameSuccess(deleteState, action).isLoadingDeleteGame).toBe(
-      false
-    );
+    expect(gameReducer(deleteState, action).isLoadingDeleteGame).toBe(false);
   });
 
   it('remove entity', () => {
-    const newState = deleteGameSuccess(deleteState, action);
+    const newState = gameReducer(deleteState, action);
 
     expect(newState.games['first-id']).toBeUndefined();
   });
@@ -101,80 +69,79 @@ describe('deleteGameSuccess', () => {
     const someState: GameState = {
       ...initialState,
       games: {
-        ['some-id']: {
+        'some-id': {
+          ...DEFAULT_GAME,
           id: 'some-id'
         },
-        ...deleteState.games
+        'first-id': deleteState.games['first-id']
       }
     };
 
-    const newState = deleteGameSuccess(someState, action);
+    const newState = gameReducer(someState, action);
 
     expect(newState.games['some-id']).toEqual({
+      ...DEFAULT_GAME,
       id: 'some-id'
     });
   });
 });
 
 describe('postGame', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT_GAME
-  };
+  const action = postGameStart();
 
   it('sets isLoadingPostGame to true', () => {
-    expect(postGame(initialState, action).isLoadingPostGame).toBe(true);
+    expect(gameReducer(initialState, action).isLoadingPostGame).toBe(true);
   });
 });
 
 describe('postGameFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT_GAME_FAILURE
-  };
+  const action = postGameFailure('error');
 
   it('sets isLoadingPostGame to false', () => {
-    expect(postGameFailure(initialState, action).isLoadingPostGame).toBe(false);
+    expect(gameReducer(initialState, action).isLoadingPostGame).toBe(false);
   });
 });
 
 describe('postGameSuccess', () => {
-  const action: HttpAction<ActionTypes, GameEntity> = {
-    type: POST_TOURNAMENT_GAME_SUCCESS,
-    payload: {
-      id: 'first-id',
-      awayScore: 10,
-      awayTeam: {
-        id: 'first-away-team-id',
-        name: 'first-away-team'
-      },
-      datetime: '2019-05-22T03:21:21.248Z',
-      homeScore: 20,
-      homeTeam: {
-        id: 'first-home-team-id',
-        name: 'first-home-team'
-      },
-      location: 'first location'
-    }
-  };
+  const action = postGameSuccess({
+    id: 'first-id',
+    awayScore: 10,
+    awayTeam: {
+      id: 'first-away-team-id',
+      name: 'first-away-team',
+      stats: {}
+    },
+    datetime: '2019-05-22T03:21:21.248Z',
+    homeScore: 20,
+    homeTeam: {
+      id: 'first-home-team-id',
+      name: 'first-home-team',
+      stats: {}
+    },
+    location: 'first location'
+  });
 
   it('sets isLoadingPostGame to false', () => {
-    expect(postGameSuccess(initialState, action).isLoadingPostGame).toBe(false);
+    expect(gameReducer(initialState, action).isLoadingPostGame).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = postGameSuccess(initialState, action);
+    const newState = gameReducer(initialState, action);
 
     expect(newState.games['first-id']).toEqual({
       id: 'first-id',
       awayScore: 10,
       awayTeam: {
         id: 'first-away-team-id',
-        name: 'first-away-team'
+        name: 'first-away-team',
+        stats: {}
       },
       datetime: '2019-05-22T03:21:21.248Z',
       homeScore: 20,
       homeTeam: {
         id: 'first-home-team-id',
-        name: 'first-home-team'
+        name: 'first-home-team',
+        stats: {}
       },
       location: 'first location'
     });
@@ -184,94 +151,87 @@ describe('postGameSuccess', () => {
     const someState: GameState = {
       ...initialState,
       games: {
-        ['some-id']: {
+        'some-id': {
           id: 'some-id',
           awayScore: 30,
           awayTeam: {
             id: 'some-away-team-id',
-            name: 'some-away-team'
+            name: 'some-away-team',
+            stats: {}
           },
           datetime: '2019-05-22T03:21:21.248Z',
           homeScore: 40,
           homeTeam: {
             id: 'some-home-team-id',
-            name: 'some-home-team'
+            name: 'some-home-team',
+            stats: {}
           },
           location: 'some location'
         }
       }
     };
 
-    const newState = postGameSuccess(someState, action);
+    const newState = gameReducer(someState, action);
 
     expect(newState.games['some-id']).toEqual({
       id: 'some-id',
       awayScore: 30,
       awayTeam: {
         id: 'some-away-team-id',
-        name: 'some-away-team'
+        name: 'some-away-team',
+        stats: {}
       },
       datetime: '2019-05-22T03:21:21.248Z',
       homeScore: 40,
       homeTeam: {
         id: 'some-home-team-id',
-        name: 'some-home-team'
+        name: 'some-home-team',
+        stats: {}
       },
       location: 'some location'
     });
   });
 });
 
-describe('requestGame', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_GAME
-  };
+describe('getGame', () => {
+  const action = getGameStart();
 
   it('sets isLoadingRequestGame to true', () => {
-    expect(requestGame(initialState, action).isLoadingRequestGame).toBe(true);
+    expect(gameReducer(initialState, action).isLoadingRequestGame).toBe(true);
   });
 });
 
-describe('requestGameFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_GAME_FAILURE
-  };
+describe('getGameFailure', () => {
+  const action = getGameFailure('error');
 
   it('sets isLoadingRequestGame to false', () => {
-    expect(requestGameFailure(initialState, action).isLoadingRequestGame).toBe(
-      false
-    );
+    expect(gameReducer(initialState, action).isLoadingRequestGame).toBe(false);
   });
 });
 
-describe('requestGameSuccess', () => {
-  const action: HttpAction<ActionTypes, GameEntity> = {
-    type: GET_TOURNAMENT_GAME_SUCCESS,
-    payload: {
-      id: 'first-id',
-      awayScore: 10,
-      awayTeam: {
-        id: 'first-away-team-id',
-        name: 'first-away-team'
-      },
-      datetime: '2019-05-22T03:21:21.248Z',
-      homeScore: 20,
-      homeTeam: {
-        id: 'first-home-team-id',
-        name: 'first-home-team'
-      },
-      location: 'first location'
-    }
-  };
+describe('getGameSuccess', () => {
+  const action = getGameSuccess({
+    id: 'first-id',
+    awayScore: 10,
+    awayTeam: {
+      id: 'first-away-team-id',
+      name: 'first-away-team'
+    },
+    datetime: '2019-05-22T03:21:21.248Z',
+    homeScore: 20,
+    homeTeam: {
+      id: 'first-home-team-id',
+      name: 'first-home-team'
+    },
+    location: 'first location'
+  });
 
   it('sets isLoadingRequestGame to false', () => {
-    expect(requestGameSuccess(initialState, action).isLoadingRequestGame).toBe(
-      false
-    );
+    expect(gameReducer(initialState, action).isLoadingRequestGame).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestGameSuccess(initialState, action);
+    const newState = gameReducer(initialState, action);
 
     expect(newState.games['first-id']).toEqual({
       id: 'first-id',
@@ -291,84 +251,71 @@ describe('requestGameSuccess', () => {
   });
 });
 
-describe('requestGamesByFilter', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_GAMES_BY_FILTER
-  };
+describe('getGamesByFilter', () => {
+  const action = getGamesByFilterStart();
 
   it('sets isLoadingRequestGames to true', () => {
-    expect(
-      requestGamesByFilter(initialState, action).isLoadingRequestGames
-    ).toBe(true);
+    expect(gameReducer(initialState, action).isLoadingRequestGames).toBe(true);
   });
 });
 
-describe('requestGamesByFilterFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE
-  };
+describe('getGamesByFilterFailure', () => {
+  const action = getGamesByFilterFailure('error');
 
   it('sets isLoadingRequestGames to false', () => {
-    expect(
-      requestGamesByFilterFailure(initialState, action).isLoadingRequestGames
-    ).toBe(false);
+    expect(gameReducer(initialState, action).isLoadingRequestGames).toBe(false);
   });
 });
 
-describe('requestGamesByFilterSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
-    payload: [
-      {
-        id: 'first-id',
-        awayScore: 10,
-        awayTeam: {
-          id: 'first-away-team-id',
-          name: 'first-away-team'
-        },
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 20,
-        homeTeam: {
-          id: 'first-home-team-id',
-          name: 'first-home-team'
-        },
-        location: 'first location'
+describe('getGamesByFilterSuccess', () => {
+  const action = getGamesByFilterSuccess([
+    {
+      id: 'first-id',
+      awayScore: 10,
+      awayTeam: {
+        id: 'first-away-team-id',
+        name: 'first-away-team'
       },
-      {
-        id: 'second-id',
-        awayScore: 30,
-        awayTeam: {
-          id: 'second-away-team-id',
-          name: 'second-away-team'
-        },
-        datetime: '2019-05-22T03:21:21.248Z',
-        homeScore: 40,
-        homeTeam: {
-          id: 'second-home-team-id',
-          name: 'second-home-team'
-        },
-        location: 'second location'
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 20,
+      homeTeam: {
+        id: 'first-home-team-id',
+        name: 'first-home-team'
       },
-      {
-        id: 'third-id',
-        awayScore: null,
-        awayTeam: null,
-        datetime: '2019-06-22T03:21:21.248Z',
-        homeScore: null,
-        homeTeam: null,
-        location: 'third location'
-      }
-    ]
-  };
+      location: 'first location'
+    },
+    {
+      id: 'second-id',
+      awayScore: 30,
+      awayTeam: {
+        id: 'second-away-team-id',
+        name: 'second-away-team'
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 40,
+      homeTeam: {
+        id: 'second-home-team-id',
+        name: 'second-home-team'
+      },
+      location: 'second location'
+    },
+    {
+      id: 'third-id',
+      awayScore: null,
+      awayTeam: null,
+      datetime: '2019-06-22T03:21:21.248Z',
+      homeScore: null,
+      homeTeam: null,
+      location: 'third location'
+    }
+  ]);
 
   it('sets isLoadingRequestGames to false', () => {
-    expect(
-      requestGamesByFilterSuccess(initialState, action).isLoadingRequestGames
-    ).toBe(false);
+    expect(gameReducer(initialState, action).isLoadingRequestGames).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestGamesByFilterSuccess(initialState, action);
+    const newState = gameReducer(initialState, action);
 
     expect(newState.games['first-id']).toEqual({
       id: 'first-id',
