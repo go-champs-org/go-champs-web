@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { getOrganizations } from '../../Organizations/actions';
+import { getOrganizations } from '../../Organizations/effects';
 import { OrganizationState } from '../../Organizations/state';
 import PageLoader from '../../Shared/UI/PageLoader';
 import { StoreState } from '../../store';

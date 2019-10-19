@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { postOrganization } from '../Organizations/actions';
+import { postOrganization } from '../Organizations/effects';
 import New from '../Organizations/New';
 
 interface OrganizationNewProps extends RouteComponentProps {

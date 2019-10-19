@@ -1,5 +1,5 @@
 import { getGamesByFilter } from '../Games/effects';
-import { getPhase } from '../Phases/actions';
+import { getPhase } from '../Phases/effects';
 import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
 import { updateTeamByGroup } from '../Teams/actions';

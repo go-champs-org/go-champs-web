@@ -17,18 +17,18 @@ import {
 import { TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
-  DELETE_TOURNAMENT_PHASE,
-  DELETE_TOURNAMENT_PHASE_FAILURE,
-  DELETE_TOURNAMENT_PHASE_SUCCESS,
+  DELETE_PHASE,
+  DELETE_PHASE_FAILURE,
+  DELETE_PHASE_SUCCESS,
   GET_PHASE,
   GET_PHASE_FAILURE,
   GET_PHASE_SUCCESS,
-  PATCH_TOURNAMENT_PHASE,
-  PATCH_TOURNAMENT_PHASE_FAILURE,
-  PATCH_TOURNAMENT_PHASE_SUCCESS,
-  POST_TOURNAMENT_PHASE,
-  POST_TOURNAMENT_PHASE_FAILURE,
-  POST_TOURNAMENT_PHASE_SUCCESS
+  PATCH_PHASE,
+  PATCH_PHASE_FAILURE,
+  PATCH_PHASE_SUCCESS,
+  POST_PHASE,
+  POST_PHASE_FAILURE,
+  POST_PHASE_SUCCESS
 } from './actions';
 import { mapApiPhaseToPhaseEntity } from './dataMappers';
 import { initialState, PhaseEntity, PhaseState } from './state';
@@ -178,16 +178,16 @@ export const loadDefaultPhasePayload = (state: PhaseState) => ({
 });
 
 export default createReducer(initialState, {
-  [DELETE_TOURNAMENT_PHASE]: deletePhase,
-  [DELETE_TOURNAMENT_PHASE_FAILURE]: deletePhaseFailure,
-  [DELETE_TOURNAMENT_PHASE_SUCCESS]: deletePhaseSuccess,
+  [DELETE_PHASE]: deletePhase,
+  [DELETE_PHASE_FAILURE]: deletePhaseFailure,
+  [DELETE_PHASE_SUCCESS]: deletePhaseSuccess,
   [LOAD_DEFAULT_PHASE]: loadDefaultPhasePayload,
-  [PATCH_TOURNAMENT_PHASE]: patchPhase,
-  [PATCH_TOURNAMENT_PHASE_FAILURE]: patchPhaseFailure,
-  [PATCH_TOURNAMENT_PHASE_SUCCESS]: patchPhaseSuccess,
-  [POST_TOURNAMENT_PHASE]: postPhase,
-  [POST_TOURNAMENT_PHASE_FAILURE]: postPhaseFailure,
-  [POST_TOURNAMENT_PHASE_SUCCESS]: postPhaseSuccess,
+  [PATCH_PHASE]: patchPhase,
+  [PATCH_PHASE_FAILURE]: patchPhaseFailure,
+  [PATCH_PHASE_SUCCESS]: patchPhaseSuccess,
+  [POST_PHASE]: postPhase,
+  [POST_PHASE_FAILURE]: postPhaseFailure,
+  [POST_PHASE_SUCCESS]: postPhaseSuccess,
   [GET_TOURNAMENT]: getTournament,
   [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
   [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess,

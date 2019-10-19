@@ -7,7 +7,7 @@ import {
   deleteOrganization,
   getOrganizations,
   postOrganization
-} from '../Organizations/actions';
+} from '../Organizations/effects';
 import { List } from '../Organizations/List';
 import { OrganizationState } from '../Organizations/state';
 import { StoreState } from '../store';
