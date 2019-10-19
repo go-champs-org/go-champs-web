@@ -1,12 +1,12 @@
-import { PhaseEliminationState, TournamentEntity } from './state';
+import { TournamentEntity, TournamentState } from './state';
 
-export const tournamentsLoading = (state: PhaseEliminationState) =>
+export const tournamentsLoading = (state: TournamentState) =>
   state.isLoadingRequestTournaments;
 
-export const tournamentLoading = (state: PhaseEliminationState, slug: string) =>
+export const tournamentLoading = (state: TournamentState, slug: string) =>
   !state.tournaments[slug] || state.isLoadingRequestTournament;
 
 export const tournamentBySlug = (
-  state: PhaseEliminationState,
+  state: TournamentState,
   slug: string
 ): TournamentEntity => state.tournaments[slug];

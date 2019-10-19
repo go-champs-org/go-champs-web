@@ -7,13 +7,11 @@ import './View.scss';
 const TeamEliminationRow: React.FC<{
   teamStats: { [statId: string]: string };
   eliminationStats: PhaseEliminationStatEntity[];
-  tournamentTeam: TeamEntity;
-}> = ({ eliminationStats, teamStats, tournamentTeam }) => {
+  team: TeamEntity;
+}> = ({ eliminationStats, teamStats, team }) => {
   return (
     <tr>
-      <td style={{ paddingLeft: '0', width: '225px' }}>
-        {tournamentTeam.name}
-      </td>
+      <td style={{ paddingLeft: '0', width: '225px' }}>{team.name}</td>
       {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
         <td key={stat.id} className="has-text-centered">
           {teamStats[stat.id]}
@@ -67,7 +65,7 @@ const Elimination: React.FC<EliminationProps> = ({
               <TeamEliminationRow
                 key={teamStats.id}
                 eliminationStats={eliminationStats}
-                tournamentTeam={teams[teamStats.teamId]}
+                team={teams[teamStats.teamId]}
                 teamStats={teamStats.stats}
               />
             )

@@ -1,83 +1,51 @@
-import { HttpAction } from '../Shared/store/interfaces';
 import {
-  ActionTypes,
-  DELETE_TOURNAMENT,
-  DELETE_TOURNAMENT_FAILURE,
-  DELETE_TOURNAMENT_SUCCESS,
-  GET_TOURNAMENT,
-  GET_TOURNAMENTS_BY_FILTER,
-  GET_TOURNAMENTS_BY_FILTER_FAILURE,
-  GET_TOURNAMENTS_BY_FILTER_SUCCESS,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS,
-  POST_TOURNAMENT,
-  POST_TOURNAMENT_FAILURE,
-  POST_TOURNAMENT_SUCCESS
-} from './actions';
-import {
-  deleteTournament,
   deleteTournamentFailure,
+  deleteTournamentStart,
   deleteTournamentSuccess,
-  patchTournament,
-  patchTournamentFailure,
-  patchTournamentSuccess,
-  postTournament,
-  postTournamentFailure,
-  postTournamentSuccess,
-  requestFilterTournaments,
-  requestFilterTournamentsFailure,
-  requestFilterTournamentsSuccess,
-  getTournament,
   getTournamentFailure,
-  getTournamentSuccess
-} from './reducer';
-import {
-  DEFAULT_TOURNAMENT,
-  initialState,
-  PhaseEliminationState,
-  TournamentEntity
-} from './state';
+  getTournamentsByFilterFailure,
+  getTournamentsByFilterStart,
+  getTournamentsByFilterSuccess,
+  getTournamentStart,
+  getTournamentSuccess,
+  patchTournamentFailure,
+  patchTournamentStart,
+  patchTournamentSuccess,
+  postTournamentFailure,
+  postTournamentStart,
+  postTournamentSuccess
+} from './actions';
+import tournamentReducer from './reducer';
+import { DEFAULT_TOURNAMENT, initialState, TournamentState } from './state';
 
 describe('deleteTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_TOURNAMENT,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteTournamentStart();
 
   it('sets isLoadingDeleteTournament to true', () => {
     expect(
-      deleteTournament(initialState, action).isLoadingDeleteTournament
+      tournamentReducer(initialState, action).isLoadingDeleteTournament
     ).toBe(true);
   });
 });
 
 describe('deleteTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_TOURNAMENT_FAILURE,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteTournamentFailure('error');
 
   it('sets isLoadingDeleteTournament to false', () => {
     expect(
-      deleteTournamentFailure(initialState, action).isLoadingDeleteTournament
+      tournamentReducer(initialState, action).isLoadingDeleteTournament
     ).toBe(false);
   });
 });
 
 describe('deleteTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes, string> = {
-    type: DELETE_TOURNAMENT_SUCCESS,
-    payload: 'first-id'
-  };
+  const action = deleteTournamentSuccess('first-id');
 
   const deleteState = {
     ...initialState,
     tournaments: {
-      ['first-slug']: {
+      'first-slug': {
+        ...DEFAULT_TOURNAMENT,
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug'
@@ -87,21 +55,22 @@ describe('deleteTournamentSuccess', () => {
 
   it('sets isLoadingDeleteTournament to false', () => {
     expect(
-      deleteTournamentSuccess(deleteState, action).isLoadingDeleteTournament
+      tournamentReducer(deleteState, action).isLoadingDeleteTournament
     ).toBe(false);
   });
 
   it('remove entity', () => {
-    const newState = deleteTournamentSuccess(deleteState, action);
+    const newState = tournamentReducer(deleteState, action);
 
     expect(newState.tournaments['first-slug']).toBeUndefined();
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseEliminationState = {
+    const someState: TournamentState = {
       ...initialState,
       tournaments: {
-        ['some-slug']: {
+        'some-slug': {
+          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -110,9 +79,10 @@ describe('deleteTournamentSuccess', () => {
       }
     };
 
-    const newState = deleteTournamentSuccess(someState, action);
+    const newState = tournamentReducer(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
+      ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'
@@ -121,44 +91,38 @@ describe('deleteTournamentSuccess', () => {
 });
 
 describe('patchTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT
-  };
+  const action = patchTournamentStart();
 
   it('sets isLoadingPatchTournament to true', () => {
-    expect(patchTournament(initialState, action).isLoadingPatchTournament).toBe(
-      true
-    );
+    expect(
+      tournamentReducer(initialState, action).isLoadingPatchTournament
+    ).toBe(true);
   });
 });
 
 describe('patchTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT_FAILURE
-  };
+  const action = patchTournamentFailure('error');
 
   it('sets isLoadingPatchTournament to false', () => {
     expect(
-      patchTournamentFailure(initialState, action).isLoadingPatchTournament
+      tournamentReducer(initialState, action).isLoadingPatchTournament
     ).toBe(false);
   });
 });
 
 describe('patchTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT_SUCCESS,
-    payload: {
-      ...DEFAULT_TOURNAMENT,
-      id: 'first-id',
-      name: 'some-first-name',
-      slug: 'first-slug'
-    }
-  };
+  const action = patchTournamentSuccess({
+    ...DEFAULT_TOURNAMENT,
+    id: 'first-id',
+    name: 'some-first-name',
+    slug: 'first-slug'
+  });
 
-  const updateState: PhaseEliminationState = {
+  const updateState: TournamentState = {
     ...initialState,
     tournaments: {
-      ['first-slug']: {
+      'first-slug': {
+        ...DEFAULT_TOURNAMENT,
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug'
@@ -168,12 +132,12 @@ describe('patchTournamentSuccess', () => {
 
   it('sets isLoadingPatchTournament to false', () => {
     expect(
-      patchTournamentSuccess(updateState, action).isLoadingPatchTournament
+      tournamentReducer(updateState, action).isLoadingPatchTournament
     ).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = patchTournamentSuccess(updateState, action);
+    const newState = tournamentReducer(updateState, action);
 
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('some-first-name');
@@ -181,10 +145,11 @@ describe('patchTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseEliminationState = {
+    const someState: TournamentState = {
       ...updateState,
       tournaments: {
-        ['some-slug']: {
+        'some-slug': {
+          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -192,9 +157,10 @@ describe('patchTournamentSuccess', () => {
       }
     };
 
-    const newState = patchTournamentSuccess(someState, action);
+    const newState = tournamentReducer(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
+      ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'
@@ -203,48 +169,41 @@ describe('patchTournamentSuccess', () => {
 });
 
 describe('postTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT
-  };
+  const action = postTournamentStart();
 
   it('sets isLoadingPostTournament to true', () => {
-    expect(postTournament(initialState, action).isLoadingPostTournament).toBe(
-      true
-    );
+    expect(
+      tournamentReducer(initialState, action).isLoadingPostTournament
+    ).toBe(true);
   });
 });
 
 describe('postTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_TOURNAMENT_FAILURE
-  };
+  const action = postTournamentFailure('error');
 
   it('sets isLoadingPostTournament to false', () => {
     expect(
-      postTournamentFailure(initialState, action).isLoadingPostTournament
+      tournamentReducer(initialState, action).isLoadingPostTournament
     ).toBe(false);
   });
 });
 
 describe('postTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: POST_TOURNAMENT_SUCCESS,
-    payload: {
-      ...DEFAULT_TOURNAMENT,
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    }
-  };
+  const action = postTournamentSuccess({
+    ...DEFAULT_TOURNAMENT,
+    id: 'first-id',
+    name: 'first-name',
+    slug: 'first-slug'
+  });
 
   it('sets isLoadingPostTournament to false', () => {
     expect(
-      postTournamentSuccess(initialState, action).isLoadingPostTournament
+      tournamentReducer(initialState, action).isLoadingPostTournament
     ).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = postTournamentSuccess(initialState, action);
+    const newState = tournamentReducer(initialState, action);
 
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('first-name');
@@ -252,10 +211,11 @@ describe('postTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseEliminationState = {
+    const someState: TournamentState = {
       ...initialState,
       tournaments: {
-        ['some-slug']: {
+        'some-slug': {
+          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -263,9 +223,10 @@ describe('postTournamentSuccess', () => {
       }
     };
 
-    const newState = postTournamentSuccess(someState, action);
+    const newState = tournamentReducer(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
+      ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'
@@ -273,59 +234,50 @@ describe('postTournamentSuccess', () => {
   });
 });
 
-describe('requestFilterTournaments', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENTS_BY_FILTER
-  };
+describe('getTournamentsByFilter', () => {
+  const action = getTournamentsByFilterStart();
 
   it('sets isLoadingRequestTournaments to true', () => {
     expect(
-      requestFilterTournaments(initialState, action).isLoadingRequestTournaments
+      tournamentReducer(initialState, action).isLoadingRequestTournaments
     ).toBe(true);
   });
 });
 
-describe('requestFilterTournamentsFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENTS_BY_FILTER_FAILURE
-  };
+describe('getTournamentsByFilterFailure', () => {
+  const action = getTournamentsByFilterFailure('error');
 
   it('sets isLoadingRequestTournaments to false', () => {
     expect(
-      requestFilterTournamentsFailure(initialState, action)
-        .isLoadingRequestTournaments
+      tournamentReducer(initialState, action).isLoadingRequestTournaments
     ).toBe(false);
   });
 });
 
-describe('requestFilterTournamentsSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity[]> = {
-    type: GET_TOURNAMENTS_BY_FILTER_SUCCESS,
-    payload: [
-      {
-        ...DEFAULT_TOURNAMENT,
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      },
-      {
-        ...DEFAULT_TOURNAMENT,
-        id: 'second-id',
-        name: 'second-name',
-        slug: 'second-slug'
-      }
-    ]
-  };
+describe('getTournamentsByFilterSuccess', () => {
+  const action = getTournamentsByFilterSuccess([
+    {
+      ...DEFAULT_TOURNAMENT,
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
+    },
+    {
+      ...DEFAULT_TOURNAMENT,
+      id: 'second-id',
+      name: 'second-name',
+      slug: 'second-slug'
+    }
+  ]);
 
   it('sets isLoadingRequestTournaments to false', () => {
     expect(
-      requestFilterTournamentsSuccess(initialState, action)
-        .isLoadingRequestTournaments
+      tournamentReducer(initialState, action).isLoadingRequestTournaments
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestFilterTournamentsSuccess(initialState, action);
+    const newState = tournamentReducer(initialState, action);
 
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('first-name');
@@ -337,48 +289,41 @@ describe('requestFilterTournamentsSuccess', () => {
 });
 
 describe('getTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT
-  };
+  const action = getTournamentStart();
 
   it('sets isLoadingRequestTournament to true', () => {
-    expect(getTournament(initialState, action).isLoadingRequestTournament).toBe(
-      true
-    );
+    expect(
+      tournamentReducer(initialState, action).isLoadingRequestTournament
+    ).toBe(true);
   });
 });
 
 describe('getTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_FAILURE
-  };
+  const action = getTournamentFailure('error');
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      getTournamentFailure(initialState, action).isLoadingRequestTournament
+      tournamentReducer(initialState, action).isLoadingRequestTournament
     ).toBe(false);
   });
 });
 
 describe('getTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: GET_TOURNAMENT_SUCCESS,
-    payload: {
-      ...DEFAULT_TOURNAMENT,
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    }
-  };
+  const action = getTournamentSuccess({
+    ...DEFAULT_TOURNAMENT,
+    id: 'first-id',
+    name: 'first-name',
+    slug: 'first-slug'
+  });
 
   it('sets isLoadingRequestTournament to false', () => {
     expect(
-      getTournamentSuccess(initialState, action).isLoadingRequestTournament
+      tournamentReducer(initialState, action).isLoadingRequestTournament
     ).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = getTournamentSuccess(initialState, action);
+    const newState = tournamentReducer(initialState, action);
 
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('first-name');
@@ -386,10 +331,11 @@ describe('getTournamentSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: PhaseEliminationState = {
+    const someState: TournamentState = {
       ...initialState,
       tournaments: {
-        ['some-slug']: {
+        'some-slug': {
+          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -397,9 +343,10 @@ describe('getTournamentSuccess', () => {
       }
     };
 
-    const newState = getTournamentSuccess(someState, action);
+    const newState = tournamentReducer(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
+      ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'

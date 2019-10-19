@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import {
-  getTournamentSuccess,
-  requestFilterTournamentsSuccess
+  getTournamentsByFilterSuccess,
+  getTournamentSuccess
 } from '../../Tournaments/actions';
 import tournamentHttpClient from '../../Tournaments/tournamentHttpClient';
 import { HttpAction } from './interfaces';
@@ -37,7 +37,7 @@ export const loadDefaultPhasePayload = (
       slug: payload.tournamentSlug
     });
 
-    dispatch(requestFilterTournamentsSuccess(tournaments));
+    dispatch(getTournamentsByFilterSuccess(tournaments));
 
     const tournamentId = tournaments[0].id;
     const tournament = await tournamentHttpClient.get(tournamentId);
@@ -59,7 +59,7 @@ export const loadPhasePayload = (payload: LoadPhasePayload) => async (
       slug: payload.tournamentSlug
     });
 
-    dispatch(requestFilterTournamentsSuccess(tournaments));
+    dispatch(getTournamentsByFilterSuccess(tournaments));
 
     const tournamentId = tournaments[0].id;
 

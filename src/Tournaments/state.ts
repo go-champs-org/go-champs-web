@@ -15,7 +15,7 @@ export interface TournamentEntity {
   teamStatsStructure: { [key: string]: string };
 }
 
-export interface PhaseEliminationState {
+export interface TournamentState {
   isLoadingDeleteTournament: boolean;
   isLoadingPatchTournament: boolean;
   isLoadingPostTournament: boolean;
@@ -24,7 +24,7 @@ export interface PhaseEliminationState {
   tournaments: { [key: string]: TournamentEntity };
 }
 
-export const initialState: PhaseEliminationState = {
+export const initialState: TournamentState = {
   isLoadingDeleteTournament: false,
   isLoadingPatchTournament: false,
   isLoadingPostTournament: false,

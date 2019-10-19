@@ -6,11 +6,11 @@ import { bindActionCreators } from 'redux';
 import { StoreState } from '../store';
 import {
   deleteTournament,
-  postTournament,
-  requestFilterTournaments
-} from '../Tournaments/actions';
+  getTournamentsByFilter,
+  postTournament
+} from '../Tournaments/effects';
 import { List } from '../Tournaments/List';
-import { PhaseEliminationState } from '../Tournaments/state';
+import { TournamentState } from '../Tournaments/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 
@@ -18,8 +18,8 @@ interface OrganizationHomeProps
   extends RouteComponentProps<OrganizationHomeMatchProps> {
   deleteTournament: any;
   postTournament: any;
-  tournamentState: PhaseEliminationState;
-  requestFilterTournaments: any;
+  tournamentState: TournamentState;
+  getTournamentsByFilter: any;
 }
 
 class OrganizationHome extends React.Component<OrganizationHomeProps> {
@@ -37,7 +37,7 @@ class OrganizationHome extends React.Component<OrganizationHomeProps> {
   }
 
   componentDidMount() {
-    this.props.requestFilterTournaments({
+    this.props.getTournamentsByFilter({
       organization_slug: this.props.match.params.organizationSlug
     });
   }
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch: any) =>
     {
       deleteTournament,
       postTournament,
-      requestFilterTournaments
+      getTournamentsByFilter
     },
     dispatch
   );

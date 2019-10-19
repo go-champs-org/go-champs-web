@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import { PhaseEliminationState } from '../../Tournaments/state';
+import { TournamentState } from '../../Tournaments/state';
 import { PhaseEntity, PhaseState } from '../state';
 import { default as PhaseEliminationStatForm } from './Form';
 import { PhaseEliminationStatEntity } from './state';
@@ -11,7 +11,7 @@ interface PhaseStatEditProps {
   phase: PhaseEntity;
   postPhaseEliminationStat: any;
   tournamentPhaseState: PhaseState;
-  tournamentState: PhaseEliminationState;
+  tournamentState: TournamentState;
   tournamentStat: PhaseEliminationStatEntity;
 }
 

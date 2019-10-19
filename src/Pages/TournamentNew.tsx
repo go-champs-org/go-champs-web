@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
 import { PhaseState } from '../Phases/state';
 import { StoreState } from '../store';
-import { postTournament } from '../Tournaments/actions';
+import { postTournament } from '../Tournaments/effects';
 import New from '../Tournaments/New';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';

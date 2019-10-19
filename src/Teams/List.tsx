@@ -1,28 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseState } from '../Phases/state';
-import { PhaseEliminationState } from '../Tournaments/state';
+import { TournamentState } from '../Tournaments/state';
 import './List.scss';
 import { TeamEntity, TeamState } from './state';
 
 const TeamCard: React.FC<{
   onDeleteTeam: any;
   url: string;
-  tournamentTeam: TeamEntity;
-}> = ({ onDeleteTeam, url, tournamentTeam }) => (
+  team: TeamEntity;
+}> = ({ onDeleteTeam, url, team }) => (
   <div className="card item">
     <div className="card-header">
-      <Link
-        className="card-header-title"
-        to={`${url}/TeamEdit/${tournamentTeam.id}`}
-      >
-        <span className="title is-6">{tournamentTeam.name}</span>
+      <Link className="card-header-title" to={`${url}/TeamEdit/${team.id}`}>
+        <span className="title is-6">{team.name}</span>
       </Link>
       <div className="card-header-icon">
-        <button
-          className="button is-text"
-          onClick={() => onDeleteTeam(tournamentTeam)}
-        >
+        <button className="button is-text" onClick={() => onDeleteTeam(team)}>
           <i className="fas fa-trash" />
         </button>
       </div>
@@ -36,15 +30,15 @@ export const List: React.FC<{
   deleteTeam: any;
   phase: PhaseEntity;
   tournamentPhaseState: PhaseState;
-  tournamentTeamState: TeamState;
-  tournamentState: PhaseEliminationState;
+  teamState: TeamState;
+  tournamentState: TournamentState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
   deleteTeam,
   phase,
   tournamentPhaseState,
-  tournamentTeamState,
+  teamState,
   tournamentState
 }) => {
   const tournament = tournamentState.tournaments[currentTournamentSlug];
@@ -62,11 +56,11 @@ export const List: React.FC<{
             </Link>
           </div>
         </div>
-        {Object.keys(tournamentTeamState.teams).map((key: string) => (
+        {Object.keys(teamState.teams).map((key: string) => (
           <TeamCard
             key={key}
             url={baseTournamentUrl}
-            tournamentTeam={tournamentTeamState.teams[key]}
+            team={teamState.teams[key]}
             onDeleteTeam={deleteTeam}
           />
         ))}
@@ -81,8 +75,8 @@ export const Wrapper: React.FC<{
   currentTournamentSlug: string;
   phase: PhaseEntity;
   tournamentPhaseState: PhaseState;
-  tournamentState: PhaseEliminationState;
-  tournamentTeamState: TeamState;
+  tournamentState: TournamentState;
+  teamState: TeamState;
 }> = ({
   currentOrganizationSlug,
   currentTournamentSlug,
@@ -90,7 +84,7 @@ export const Wrapper: React.FC<{
   phase,
   tournamentPhaseState,
   tournamentState,
-  tournamentTeamState
+  teamState
 }) => {
   return (
     <List
@@ -100,7 +94,7 @@ export const Wrapper: React.FC<{
       phase={phase}
       tournamentPhaseState={tournamentPhaseState}
       tournamentState={tournamentState}
-      tournamentTeamState={tournamentTeamState}
+      teamState={teamState}
     />
   );
 };

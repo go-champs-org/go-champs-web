@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseState } from '../Phases/state';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
-import { PhaseEliminationState } from '../Tournaments/state';
+import { TournamentState } from '../Tournaments/state';
 import { GameEntity, GameState } from './state';
 
 const GameCard: React.FC<{
@@ -68,7 +68,7 @@ const List: React.FC<{
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   phase: PhaseEntity;
-  tournamentState: PhaseEliminationState;
+  tournamentState: TournamentState;
   tournamentGameState: GameState;
   tournamentPhaseState: PhaseState;
 }> = ({
@@ -114,7 +114,7 @@ export const Wrapper: React.FC<{
   currentTournamentSlug: string;
   phase: PhaseEntity;
   tournamentPhaseState: PhaseState;
-  tournamentState: PhaseEliminationState;
+  tournamentState: TournamentState;
   tournamentGameState: GameState;
 }> = ({
   currentOrganizationSlug,

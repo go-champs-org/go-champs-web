@@ -13,19 +13,19 @@ const teamsApi = (tournamentId: string) =>
 
 const deleteRequest = (
   tournamentId: string,
-  tournamentTeamId: string
+  teamId: string
 ): Promise<string> => {
-  const url = `${teamsApi(tournamentId)}/${tournamentTeamId}`;
+  const url = `${teamsApi(tournamentId)}/${teamId}`;
 
   return httpClient.delete(url);
 };
 
 const patch = async (
   tournamentId: string,
-  tournamentTeam: TeamEntity
+  team: TeamEntity
 ): Promise<TeamEntity> => {
-  const url = `${teamsApi(tournamentId)}/${tournamentTeam.id}`;
-  const body = mapTeamEntityToApiTeamRequest(tournamentTeam);
+  const url = `${teamsApi(tournamentId)}/${team.id}`;
+  const body = mapTeamEntityToApiTeamRequest(team);
 
   const { data } = await httpClient.patch<ApiTeamRequest, ApiTeamResponse>(
     url,
@@ -36,10 +36,10 @@ const patch = async (
 
 const post = async (
   tournamentId: string,
-  tournamentTeam: TeamEntity
+  team: TeamEntity
 ): Promise<TeamEntity> => {
   const url = `${teamsApi(tournamentId)}`;
-  const body = mapTeamEntityToApiTeamRequest(tournamentTeam);
+  const body = mapTeamEntityToApiTeamRequest(team);
 
   const { data } = await httpClient.post<ApiTeamRequest, ApiTeamResponse>(
     url,

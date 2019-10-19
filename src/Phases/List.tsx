@@ -4,7 +4,7 @@ import DraggableItem, { DragTypes } from '../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
   DraggableListProps
 } from '../Shared/UI/DnD/withDraggableList';
-import { PhaseEliminationState } from '../Tournaments/state';
+import { TournamentState } from '../Tournaments/state';
 import { byOrder } from './compareFunctions';
 import './List.scss';
 import { PhaseEntity, PhaseState } from './state';
@@ -56,7 +56,7 @@ interface WrapperProps extends DraggableListProps<PhaseEntity> {
   currentOrganizationSlug: string;
   currentTournamentSlug: string;
   tournamentPhaseState: PhaseState;
-  tournamentState: PhaseEliminationState;
+  tournamentState: TournamentState;
 }
 
 export const List: React.FC<WrapperProps> = ({

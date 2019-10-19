@@ -1,11 +1,5 @@
-import { getGamesByFilter } from '../Games/effects';
-import { getPhase } from '../Phases/effects';
-import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
-import { updateTeamByGroup } from '../Teams/actions';
-import { currentPhaseId } from './dataMappers';
 import { TournamentEntity } from './state';
-import tournamentHttpClient, { RequestFilter } from './tournamentHttpClient';
 
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
 export const DELETE_TOURNAMENT_SUCCESS = 'API_DELETE_TOURNAMENT_SUCCESS';
@@ -25,20 +19,9 @@ export const GET_TOURNAMENT = 'API_GET_TOURNAMENT';
 export const GET_TOURNAMENT_SUCCESS = 'API_GET_TOURNAMENT_SUCCESS';
 export const GET_TOURNAMENT_FAILURE = 'API_GET_TOURNAMENT_FAILURE';
 
-export const deleteTournament = (tournament: TournamentEntity) => async (
-  dispatch: any
-) => {
-  dispatch({ type: DELETE_TOURNAMENT });
-
-  try {
-    const response = await tournamentHttpClient.delete(tournament.id);
-
-    dispatch(deleteTournamentSuccess(response));
-    displayToast(`${tournament.name} deleted!`, 'is-success');
-  } catch (err) {
-    dispatch(deleteTournamentFailure(err));
-  }
-};
+export const deleteTournamentStart = (): HttpAction<ActionTypes> => ({
+  type: DELETE_TOURNAMENT
+});
 
 export const deleteTournamentSuccess = (
   payload: any
@@ -54,23 +37,9 @@ export const deleteTournamentFailure = (
   payload
 });
 
-export const patchTournament = (organizationId: string) => (
-  tournament: TournamentEntity
-) => async (dispatch: any) => {
-  dispatch({ type: PATCH_TOURNAMENT });
-
-  try {
-    const response = await tournamentHttpClient.patch(
-      organizationId,
-      tournament
-    );
-
-    dispatch(patchTournamentSuccess(response));
-    displayToast(`${tournament.name} updated!`, 'is-success');
-  } catch (err) {
-    dispatch(patchTournamentFailure(err));
-  }
-};
+export const patchTournamentStart = (): HttpAction<ActionTypes> => ({
+  type: PATCH_TOURNAMENT
+});
 
 export const patchTournamentSuccess = (
   payload: any
@@ -86,23 +55,9 @@ export const patchTournamentFailure = (
   payload
 });
 
-export const postTournament = (organizationId: string) => (
-  tournament: TournamentEntity
-) => async (dispatch: any) => {
-  dispatch({ type: POST_TOURNAMENT });
-
-  try {
-    const response = await tournamentHttpClient.post(
-      organizationId,
-      tournament
-    );
-
-    dispatch(postTournamentSuccess(response));
-    displayToast(`${tournament.name} created!`, 'is-success');
-  } catch (err) {
-    dispatch(postTournamentFailure(err));
-  }
-};
+export const postTournamentStart = (): HttpAction<ActionTypes> => ({
+  type: POST_TOURNAMENT
+});
 
 export const postTournamentSuccess = (
   payload: any
@@ -118,51 +73,27 @@ export const postTournamentFailure = (
   payload
 });
 
-export const requestFilterTournaments = (where: RequestFilter) => async (
-  dispatch: any
-) => {
-  dispatch({ type: GET_TOURNAMENTS_BY_FILTER });
+export const getTournamentsByFilterStart = (): HttpAction<ActionTypes> => ({
+  type: GET_TOURNAMENTS_BY_FILTER
+});
 
-  try {
-    const response = await tournamentHttpClient.getByFilter(where);
-
-    dispatch(requestFilterTournamentsSuccess(response));
-  } catch (err) {
-    dispatch(requestFilterTournamentsFailure(err));
-  }
-};
-
-export const requestFilterTournamentsSuccess = (
+export const getTournamentsByFilterSuccess = (
   payload: any
 ): HttpAction<ActionTypes, TournamentEntity[]> => ({
   type: GET_TOURNAMENTS_BY_FILTER_SUCCESS,
   payload
 });
 
-export const requestFilterTournamentsFailure = (
+export const getTournamentsByFilterFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENTS_BY_FILTER_FAILURE,
   payload
 });
 
-export const getTournament = (tournamentId: string) => async (
-  dispatch: any
-) => {
-  dispatch({ type: GET_TOURNAMENT });
-
-  try {
-    const response = await tournamentHttpClient.get(tournamentId);
-    const phaseId = currentPhaseId(response);
-
-    dispatch(getPhase(phaseId));
-    dispatch(getGamesByFilter({ phase_id: phaseId }));
-    dispatch(getTournamentSuccess(response));
-    dispatch(updateTeamByGroup());
-  } catch (err) {
-    dispatch(getTournamentFailure(err));
-  }
-};
+export const getTournamentStart = (): HttpAction<ActionTypes> => ({
+  type: GET_TOURNAMENT
+});
 
 export const getTournamentSuccess = (
   payload: any

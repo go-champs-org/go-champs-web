@@ -4,14 +4,14 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import PageLoader from '../../Shared/UI/PageLoader';
 import { StoreState } from '../../store';
-import { requestFilterTournaments } from '../../Tournaments/actions';
-import { PhaseEliminationState } from '../../Tournaments/state';
+import { getTournamentsByFilter } from '../../Tournaments/effects';
+import { TournamentState } from '../../Tournaments/state';
 import { PhaseHomeMatchProps } from './routerInterfaces';
 
 interface WithTournamentsProps
   extends RouteComponentProps<PhaseHomeMatchProps> {
-  tournamentState: PhaseEliminationState;
-  requestFilterTournaments: any;
+  tournamentState: TournamentState;
+  getTournamentsByFilter: any;
 }
 
 const withTournaments = (WrappedComponent: any) => {
@@ -34,7 +34,7 @@ const withTournaments = (WrappedComponent: any) => {
           this.props.match.params.tournamentSlug
         ]
       ) {
-        this.props.requestFilterTournaments({
+        this.props.getTournamentsByFilter({
           organization_slug: this.props.match.params.organizationSlug
         });
       }
@@ -44,7 +44,7 @@ const withTournaments = (WrappedComponent: any) => {
   const mapDispatchToProps = (dispatch: any) =>
     bindActionCreators(
       {
-        requestFilterTournaments
+        getTournamentsByFilter
       },
       dispatch
     );

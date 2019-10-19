@@ -8,9 +8,9 @@ import { isInProgressPhase } from '../Phases/selectors';
 import { PhaseEntity, PhaseState } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
-import { getTournament, patchTournament } from '../Tournaments/actions';
 import Edit from '../Tournaments/Edit';
-import { PhaseEliminationState } from '../Tournaments/state';
+import { getTournament, patchTournament } from '../Tournaments/effects';
+import { TournamentState } from '../Tournaments/state';
 import { PhaseHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
@@ -19,7 +19,7 @@ interface TournamentEditProps extends RouteComponentProps<PhaseHomeMatchProps> {
   deletePhaseEliminationStat: any;
   organizationState: OrganizationState;
   tournamentPhaseState: PhaseState;
-  tournamentState: PhaseEliminationState;
+  tournamentState: TournamentState;
   tournamentStatState: PhaseEliminationStatState;
   patchTournament: any;
   patchPhaseEliminationStat: any;

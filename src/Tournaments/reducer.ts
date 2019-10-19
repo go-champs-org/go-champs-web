@@ -25,30 +25,30 @@ import {
   POST_TOURNAMENT_FAILURE,
   POST_TOURNAMENT_SUCCESS
 } from './actions';
-import { initialState, PhaseEliminationState, TournamentEntity } from './state';
+import { initialState, TournamentEntity, TournamentState } from './state';
 
 const tournamentMapEntities = mapEntities<TournamentEntity>(
   returnProperty('slug')
 );
 
-export const deleteTournament = (
-  state: PhaseEliminationState,
+const deleteTournament = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingDeleteTournament: true
 });
 
-export const deleteTournamentFailure = (
-  state: PhaseEliminationState,
+const deleteTournamentFailure = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingDeleteTournament: false
 });
 
-export const deleteTournamentSuccess = (
-  state: PhaseEliminationState,
+const deleteTournamentSuccess = (
+  state: TournamentState,
   action: HttpAction<ActionTypes, string>
 ) => {
   const tournaments = Object.keys(state.tournaments)
@@ -61,24 +61,24 @@ export const deleteTournamentSuccess = (
   };
 };
 
-export const patchTournament = (
-  state: PhaseEliminationState,
+const patchTournament = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingPatchTournament: true
 });
 
-export const patchTournamentFailure = (
-  state: PhaseEliminationState,
+const patchTournamentFailure = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingPatchTournament: false
 });
 
-export const patchTournamentSuccess = (
-  state: PhaseEliminationState,
+const patchTournamentSuccess = (
+  state: TournamentState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
@@ -86,24 +86,24 @@ export const patchTournamentSuccess = (
   tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
 });
 
-export const postTournament = (
-  state: PhaseEliminationState,
+const postTournament = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingPostTournament: true
 });
 
-export const postTournamentFailure = (
-  state: PhaseEliminationState,
+const postTournamentFailure = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingPostTournament: false
 });
 
-export const postTournamentSuccess = (
-  state: PhaseEliminationState,
+const postTournamentSuccess = (
+  state: TournamentState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
@@ -111,8 +111,8 @@ export const postTournamentSuccess = (
   tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
 });
 
-export const requestFilterTournaments = (
-  state: PhaseEliminationState,
+const getTournamentsByFilter = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
@@ -120,16 +120,16 @@ export const requestFilterTournaments = (
   isLoadingRequestTournaments: true
 });
 
-export const requestFilterTournamentsFailure = (
-  state: PhaseEliminationState,
+const getTournamentsByFilterFailure = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingRequestTournaments: false
 });
 
-export const requestFilterTournamentsSuccess = (
-  state: PhaseEliminationState,
+const getTournamentsByFilterSuccess = (
+  state: TournamentState,
   action: HttpAction<ActionTypes, TournamentEntity[]>
 ) => ({
   ...state,
@@ -137,24 +137,24 @@ export const requestFilterTournamentsSuccess = (
   tournaments: action.payload!.reduce(tournamentMapEntities, {})
 });
 
-export const getTournament = (
-  state: PhaseEliminationState,
+const getTournament = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingRequestTournament: true
 });
 
-export const getTournamentFailure = (
-  state: PhaseEliminationState,
+const getTournamentFailure = (
+  state: TournamentState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
   isLoadingRequestTournament: false
 });
 
-export const getTournamentSuccess = (
-  state: PhaseEliminationState,
+const getTournamentSuccess = (
+  state: TournamentState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
@@ -162,7 +162,7 @@ export const getTournamentSuccess = (
   tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
 });
 
-export const loadDefaultPhasePayload = (state: PhaseEliminationState) => ({
+const loadDefaultPhasePayload = (state: TournamentState) => ({
   ...state,
   isLoadingRequestTournaments: true,
   isLoadingRequestTournament: true
@@ -179,9 +179,9 @@ export default createReducer(initialState, {
   [POST_TOURNAMENT]: postTournament,
   [POST_TOURNAMENT_FAILURE]: postTournamentFailure,
   [POST_TOURNAMENT_SUCCESS]: postTournamentSuccess,
-  [GET_TOURNAMENTS_BY_FILTER]: requestFilterTournaments,
-  [GET_TOURNAMENTS_BY_FILTER_FAILURE]: requestFilterTournamentsFailure,
-  [GET_TOURNAMENTS_BY_FILTER_SUCCESS]: requestFilterTournamentsSuccess,
+  [GET_TOURNAMENTS_BY_FILTER]: getTournamentsByFilter,
+  [GET_TOURNAMENTS_BY_FILTER_FAILURE]: getTournamentsByFilterFailure,
+  [GET_TOURNAMENTS_BY_FILTER_SUCCESS]: getTournamentsByFilterSuccess,
   [GET_TOURNAMENT]: getTournament,
   [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
   [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess

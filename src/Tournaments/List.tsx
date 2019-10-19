@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PhaseEliminationState, TournamentEntity } from './state';
+import { TournamentEntity, TournamentState } from './state';
 
 const TournamentCard: React.FC<{
   tournament: TournamentEntity;
@@ -19,7 +19,7 @@ const TournamentCard: React.FC<{
 const Loading: React.FC = () => <div>Loading...</div>;
 
 export const List: React.FC<{
-  tournamentState: PhaseEliminationState;
+  tournamentState: TournamentState;
   url: string;
   deleteTournament: any;
 }> = ({ tournamentState, url, deleteTournament }) => (
