@@ -4,10 +4,7 @@ import {
   ApiPhaseResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
-import {
-  mapApiPhaseToPhaseEntity,
-  mapPhaseEntityToApiPhaseRequest
-} from './dataMappers';
+import { mapPhaseEntityToApiPhaseRequest } from './dataMappers';
 import { PhaseEntity } from './state';
 
 const PHASES_API = 'https://yochamps-api.herokuapp.com/api/phases';
@@ -25,7 +22,7 @@ const get = async (phaseId: string): Promise<ApiPhase> => {
   return data;
 };
 
-const patch = async (tournamentPhase: PhaseEntity): Promise<PhaseEntity> => {
+const patch = async (tournamentPhase: PhaseEntity): Promise<ApiPhase> => {
   const url = `${PHASES_API}/${tournamentPhase.id}`;
   const body = mapPhaseEntityToApiPhaseRequest(tournamentPhase);
 
@@ -33,10 +30,10 @@ const patch = async (tournamentPhase: PhaseEntity): Promise<PhaseEntity> => {
     url,
     body
   );
-  return mapApiPhaseToPhaseEntity(data);
+  return data;
 };
 
-const post = async (tournamentPhase: PhaseEntity): Promise<PhaseEntity> => {
+const post = async (tournamentPhase: PhaseEntity): Promise<ApiPhase> => {
   const url = `${PHASES_API}`;
   const body = mapPhaseEntityToApiPhaseRequest(tournamentPhase);
 
@@ -44,7 +41,7 @@ const post = async (tournamentPhase: PhaseEntity): Promise<PhaseEntity> => {
     url,
     body
   );
-  return mapApiPhaseToPhaseEntity(data);
+  return data;
 };
 
 export default {

@@ -84,7 +84,7 @@ const patchPhaseSuccess = (
 ) => ({
   ...state,
   isLoadingPatchPhase: false,
-  phases: [action.payload].reduce(tournamentPhaseMapEntities, state.phases)
+  phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
 });
 
 const postPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
@@ -106,7 +106,7 @@ const postPhaseSuccess = (
 ) => ({
   ...state,
   isLoadingPostPhase: false,
-  phases: [action.payload].reduce(tournamentPhaseMapEntities, state.phases)
+  phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
 });
 
 const getTournamentSuccess = (

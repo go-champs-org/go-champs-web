@@ -5,7 +5,6 @@ import {
   GET_TOURNAMENT_FAILURE,
   GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
-import { PhaseEntity } from './state';
 
 export const DELETE_PHASE = 'API_DELETE_PHASE';
 export const DELETE_PHASE_SUCCESS = 'API_DELETE_PHASE_SUCCESS';
@@ -41,8 +40,8 @@ export const patchPhaseStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const patchPhaseSuccess = (
-  payload: PhaseEntity
-): HttpAction<ActionTypes, PhaseEntity> => ({
+  payload: ApiPhase
+): HttpAction<ActionTypes, ApiPhase> => ({
   type: PATCH_PHASE_SUCCESS,
   payload
 });
@@ -57,8 +56,8 @@ export const postPhaseStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const postPhaseSuccess = (
-  payload: PhaseEntity
-): HttpAction<ActionTypes, PhaseEntity> => ({
+  payload: ApiPhase
+): HttpAction<ActionTypes, ApiPhase> => ({
   type: POST_PHASE_SUCCESS,
   payload
 });

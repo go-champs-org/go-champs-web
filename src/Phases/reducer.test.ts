@@ -105,7 +105,6 @@ describe('patchPhaseSuccess', () => {
     id: 'first-id',
     title: 'some-first-title',
     type: PhaseTypes.elimination,
-    isInProgress: true,
     order: 1
   });
 
@@ -185,8 +184,7 @@ describe('postPhaseSuccess', () => {
     id: 'first-id',
     title: 'first-title',
     type: PhaseTypes.elimination,
-    order: 1,
-    isInProgress: true
+    order: 1
   });
 
   it('sets isLoadingPostPhase to false', () => {
