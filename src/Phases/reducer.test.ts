@@ -1,15 +1,12 @@
-import { HttpAction } from '../Shared/store/interfaces';
+import { getTournamentSuccess } from '../Tournaments/actions';
+import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
-import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
-import {
-  ActionTypes,
   deletePhaseFailure,
   deletePhaseStart,
   deletePhaseSuccess,
+  getPhaseFailure,
+  getPhaseStart,
+  getPhaseSuccess,
   patchPhaseFailure,
   patchPhaseStart,
   patchPhaseSuccess,
@@ -234,61 +231,32 @@ describe('postPhaseSuccess', () => {
   });
 });
 
-describe('getTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT
-  };
-
-  it('sets isLoadingRequestTournament to true', () => {
-    expect(phaseReducer(initialState, action).isLoadingRequestTournament).toBe(
-      true
-    );
-  });
-});
-
-describe('getTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_FAILURE
-  };
-
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(phaseReducer(initialState, action).isLoadingRequestTournament).toBe(
-      false
-    );
-  });
-});
-
 describe('getTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: GET_TOURNAMENT_SUCCESS,
-    payload: {
-      ...DEFAULT_TOURNAMENT,
-      id: 'first-id',
-      name: 'first-title',
-      slug: 'first-slug',
-      phases: [
-        {
-          id: 'first-phase-id',
-          title: 'first phase title',
-          type: PhaseTypes.elimination,
-          isInProgress: true,
-          order: 1
-        },
-        {
-          id: 'second-phase-id',
-          title: 'second phase title',
-          type: PhaseTypes.elimination,
-          isInProgress: true,
-          order: 2
-        }
-      ]
-    }
-  };
+  const action = getTournamentSuccess({
+    ...DEFAULT_TOURNAMENT,
+    id: 'first-id',
+    name: 'first-title',
+    slug: 'first-slug',
+    phases: [
+      {
+        id: 'first-phase-id',
+        title: 'first phase title',
+        type: PhaseTypes.elimination,
+        isInProgress: true,
+        order: 1
+      },
+      {
+        id: 'second-phase-id',
+        title: 'second phase title',
+        type: PhaseTypes.elimination,
+        isInProgress: true,
+        order: 2
+      }
+    ]
+  });
 
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(phaseReducer(initialState, action).isLoadingRequestTournament).toBe(
-      false
-    );
+  it('sets isLoadingPhase to false', () => {
+    expect(phaseReducer(initialState, action).isLoadingPhase).toBe(false);
   });
 
   it('sets entities', () => {
@@ -307,6 +275,53 @@ describe('getTournamentSuccess', () => {
       type: PhaseTypes.elimination,
       isInProgress: true,
       order: 2
+    });
+  });
+});
+
+describe('getPhase', () => {
+  const action = getPhaseStart();
+
+  it('set isPhaseLoading to true', () => {
+    const newState = phaseReducer(undefined, action);
+
+    expect(newState.isLoadingPhase).toBe(true);
+  });
+});
+
+describe('getPhaseFailure', () => {
+  const action = getPhaseFailure('error');
+
+  it('set isPhaseLoading to false', () => {
+    const newState = phaseReducer(undefined, action);
+
+    expect(newState.isLoadingPhase).toBe(false);
+  });
+});
+
+describe('getPhaseSuccess', () => {
+  const action = getPhaseSuccess({
+    id: 'first-id',
+    order: 1,
+    title: 'first title',
+    type: PhaseTypes.elimination
+  });
+
+  it('set isPhaseLoading to false', () => {
+    const newState = phaseReducer(initialState, action);
+
+    expect(newState.isLoadingPhase).toBe(false);
+  });
+
+  it('sets entity', () => {
+    const newState = phaseReducer(initialState, action);
+
+    expect(newState.phases['first-id']).toEqual({
+      id: 'first-id',
+      title: 'first title',
+      type: PhaseTypes.elimination,
+      isInProgress: true,
+      order: 1
     });
   });
 });

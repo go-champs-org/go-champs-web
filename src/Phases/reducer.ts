@@ -9,11 +9,7 @@ import {
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import { LOAD_DEFAULT_PHASE } from '../Shared/store/routerActions';
-import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
+import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import { TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
@@ -42,15 +38,12 @@ const apiPhaseToEntities = apiDataToEntities<ApiPhase, PhaseEntity>(
   returnProperty('id')
 );
 
-export const deletePhase = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes>
-) => ({
+const deletePhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingDeletePhase: true
 });
 
-export const deletePhaseFailure = (
+const deletePhaseFailure = (
   state: PhaseState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -58,7 +51,7 @@ export const deletePhaseFailure = (
   isLoadingDeletePhase: false
 });
 
-export const deletePhaseSuccess = (
+const deletePhaseSuccess = (
   state: PhaseState,
   action: HttpAction<ActionTypes, string>
 ) => {
@@ -72,15 +65,12 @@ export const deletePhaseSuccess = (
   };
 };
 
-export const patchPhase = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes>
-) => ({
+const patchPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPatchPhase: true
 });
 
-export const patchPhaseFailure = (
+const patchPhaseFailure = (
   state: PhaseState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -88,7 +78,7 @@ export const patchPhaseFailure = (
   isLoadingPatchPhase: false
 });
 
-export const patchPhaseSuccess = (
+const patchPhaseSuccess = (
   state: PhaseState,
   action: HttpAction<ActionTypes, PhaseEntity>
 ) => ({
@@ -97,15 +87,12 @@ export const patchPhaseSuccess = (
   phases: [action.payload].reduce(tournamentPhaseMapEntities, state.phases)
 });
 
-export const postPhase = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes>
-) => ({
+const postPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPostPhase: true
 });
 
-export const postPhaseFailure = (
+const postPhaseFailure = (
   state: PhaseState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -113,7 +100,7 @@ export const postPhaseFailure = (
   isLoadingPostPhase: false
 });
 
-export const postPhaseSuccess = (
+const postPhaseSuccess = (
   state: PhaseState,
   action: HttpAction<ActionTypes, PhaseEntity>
 ) => ({
@@ -122,59 +109,39 @@ export const postPhaseSuccess = (
   phases: [action.payload].reduce(tournamentPhaseMapEntities, state.phases)
 });
 
-export const getTournament = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: true
-});
-
-export const getTournamentFailure = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: false
-});
-
-export const getTournamentSuccess = (
+const getTournamentSuccess = (
   state: PhaseState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
   ...state,
-  isLoadingRequestTournament: false,
   phases: action.payload!.phases.reduce(tournamentPhaseMapEntities, {})
 });
 
-export const getPhase = (
+const getPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
+  ...state,
+  isLoadingPhase: true
+});
+
+const getPhaseFailure = (
   state: PhaseState,
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestTournament: true
+  isLoadingPhase: false
 });
 
-export const getPhaseFailure = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: false
-});
-
-export const getPhaseSuccess = (
+const getPhaseSuccess = (
   state: PhaseState,
   action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
   ...state,
-  isLoadingRequestTournament: false,
+  isLoadingPhase: false,
   phases: [action.payload!].reduce(apiPhaseToEntities, {})
 });
 
-export const loadDefaultPhasePayload = (state: PhaseState) => ({
+const loadDefaultPhasePayload = (state: PhaseState) => ({
   ...state,
-  isLoadingRequestTournament: true
+  isLoadingPhase: true
 });
 
 export default createReducer(initialState, {
@@ -188,8 +155,6 @@ export default createReducer(initialState, {
   [POST_PHASE]: postPhase,
   [POST_PHASE_FAILURE]: postPhaseFailure,
   [POST_PHASE_SUCCESS]: postPhaseSuccess,
-  [GET_TOURNAMENT]: getTournament,
-  [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
   [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess,
   [GET_PHASE]: getPhase,
   [GET_PHASE_FAILURE]: getPhaseFailure,
