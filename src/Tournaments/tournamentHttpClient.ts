@@ -5,22 +5,16 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
+  mapRequestFilterToQueryString,
+  RequestFilter
+} from '../Shared/httpClient/requestFilter';
+import {
   mapApiTournamentToTournamentEntity,
   mapTournamentEntityToApiTournamentRequest
 } from './dataMappers';
 import { TournamentEntity } from './state';
 
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
-
-export interface RequestFilter {
-  [key: string]: string;
-}
-
-const mapRequestFilterToQueryString = (filter: RequestFilter) => {
-  return Object.keys(filter)
-    .map((key: string) => `where[${key}]=${filter[key]}`)
-    .join('&');
-};
 
 const deleteRequest = (tournamentId: string): Promise<string> => {
   const url = `${TOURNAMENT_API}/${tournamentId}`;

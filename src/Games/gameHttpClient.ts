@@ -5,22 +5,16 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
+  mapRequestFilterToQueryString,
+  RequestFilter
+} from '../Shared/httpClient/requestFilter';
+import {
   mapApiGameToGameEntity,
   mapGameEntityToApiGameRequest
 } from './dataMappers';
 import { GameEntity } from './state';
 
 const GAMES_API = 'https://yochamps-api.herokuapp.com/api/games';
-
-export interface RequestFilter {
-  [key: string]: string;
-}
-
-const mapRequestFilterToQueryString = (filter: RequestFilter) => {
-  return Object.keys(filter)
-    .map((key: string) => `where[${key}]=${filter[key]}`)
-    .join('&');
-};
 
 const deleteRequest = (
   phaseId: string,
