@@ -1,12 +1,9 @@
-import { displayToast } from '../Shared/bulma/toast';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
   GET_TOURNAMENT,
   GET_TOURNAMENT_FAILURE,
   GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
-import organizationHttpClient from './organizationHttpClient';
-import { OrganizationEntity } from './state';
 
 export const DELETE_ORGANIZATION = 'API_DELETE_ORGANIZATION';
 export const DELETE_ORGANIZATION_SUCCESS = 'API_DELETE_ORGANIZATION_SUCCESS';
@@ -17,29 +14,16 @@ export const PATCH_ORGANIZATION_FAILURE = 'API_PATCH_ORGANIZATION_FAILURE';
 export const POST_ORGANIZATION = 'API_POST_ORGANIZATION';
 export const POST_ORGANIZATION_SUCCESS = 'API_POST_ORGANIZATION_SUCCESS';
 export const POST_ORGANIZATION_FAILURE = 'API_POST_ORGANIZATION_FAILURE';
-export const REQUEST_ORGANIZATION = 'API_REQUEST_ORGANIZATION';
-export const REQUEST_ORGANIZATION_SUCCESS = 'API_REQUEST_ORGANIZATION_SUCCESS';
-export const REQUEST_ORGANIZATION_FAILURE = 'API_REQUEST_ORGANIZATION_FAILURE';
-export const REQUEST_ORGANIZATIONS = 'API_REQUEST_ORGANIZATIONS';
-export const REQUEST_ORGANIZATIONS_SUCCESS =
-  'API_REQUEST_ORGANIZATIONS_SUCCESS';
-export const REQUEST_ORGANIZATIONS_FAILURE =
-  'API_REQUEST_ORGANIZATIONS_FAILURE';
+export const GET_ORGANIZATION = 'API_GET_ORGANIZATION';
+export const GET_ORGANIZATION_SUCCESS = 'API_GET_ORGANIZATION_SUCCESS';
+export const GET_ORGANIZATION_FAILURE = 'API_GET_ORGANIZATION_FAILURE';
+export const GET_ORGANIZATIONS = 'API_GET_ORGANIZATIONS';
+export const GET_ORGANIZATIONS_SUCCESS = 'API_GET_ORGANIZATIONS_SUCCESS';
+export const GET_ORGANIZATIONS_FAILURE = 'API_GET_ORGANIZATIONS_FAILURE';
 
-export const deleteOrganization = (organization: OrganizationEntity) => async (
-  dispatch: any
-) => {
-  dispatch({ type: DELETE_ORGANIZATION });
-
-  try {
-    const response = await organizationHttpClient.delete(organization.id);
-
-    dispatch(deleteOrganizationSuccess(response));
-    displayToast(`${organization.name} deleted!`, 'is-success');
-  } catch (err) {
-    dispatch(deleteOrganizationFailure(err));
-  }
-};
+export const deleteOrganizationStart = () => ({
+  type: DELETE_ORGANIZATION
+});
 
 export const deleteOrganizationSuccess = (payload: any) => ({
   type: DELETE_ORGANIZATION_SUCCESS,
@@ -51,20 +35,9 @@ export const deleteOrganizationFailure = (payload: any) => ({
   payload
 });
 
-export const patchOrganization = (organization: OrganizationEntity) => async (
-  dispatch: any
-) => {
-  dispatch({ type: PATCH_ORGANIZATION });
-
-  try {
-    const response = await organizationHttpClient.patch(organization);
-
-    dispatch(patchOrganizationSuccess(response));
-    displayToast(`${organization.name} updated!`, 'is-success');
-  } catch (err) {
-    dispatch(patchOrganizationFailure(err));
-  }
-};
+export const patchOrganizationStart = () => ({
+  type: PATCH_ORGANIZATION
+});
 
 export const patchOrganizationSuccess = (payload: any) => ({
   type: PATCH_ORGANIZATION_SUCCESS,
@@ -76,20 +49,9 @@ export const patchOrganizationFailure = (payload: any) => ({
   payload
 });
 
-export const postOrganization = (organization: OrganizationEntity) => async (
-  dispatch: any
-) => {
-  dispatch({ type: POST_ORGANIZATION });
-
-  try {
-    const response = await organizationHttpClient.post(organization);
-
-    dispatch(postOrganizationSuccess(response));
-    displayToast(`${organization.name} created!`, 'is-success');
-  } catch (err) {
-    dispatch(postOrganizationFailure(err));
-  }
-};
+export const postOrganizationStart = () => ({
+  type: POST_ORGANIZATION
+});
 
 export const postOrganizationSuccess = (payload: any) => ({
   type: POST_ORGANIZATION_SUCCESS,
@@ -101,48 +63,31 @@ export const postOrganizationFailure = (payload: any) => ({
   payload
 });
 
-export const requestOrganization = (organizationId: string) => async (
-  dispatch: any
-) => {
-  dispatch({ type: REQUEST_ORGANIZATION });
+export const getOrganizationStart = () => ({
+  type: GET_ORGANIZATION
+});
 
-  try {
-    const response = await organizationHttpClient.get(organizationId);
-
-    dispatch(requestOrganizationSuccess(response));
-  } catch (err) {
-    dispatch(requestOrganizationFailure(err));
-  }
-};
-
-export const requestOrganizationSuccess = (payload: any) => ({
-  type: REQUEST_ORGANIZATION_SUCCESS,
+export const getOrganizationSuccess = (payload: any) => ({
+  type: GET_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const requestOrganizationFailure = (payload: any) => ({
-  type: REQUEST_ORGANIZATION_FAILURE,
+export const getOrganizationFailure = (payload: any) => ({
+  type: GET_ORGANIZATION_FAILURE,
   payload
 });
 
-export const requestOrganizations = () => async (dispatch: any) => {
-  dispatch({ type: REQUEST_ORGANIZATIONS });
+export const getOrganizationsStart = () => ({
+  type: GET_ORGANIZATIONS
+});
 
-  try {
-    const response = await organizationHttpClient.getAll();
-    dispatch(requestOrganizationsSuccess(response));
-  } catch (err) {
-    dispatch(requestOrganizationsFailure(err));
-  }
-};
-
-export const requestOrganizationsSuccess = (payload: any) => ({
-  type: REQUEST_ORGANIZATIONS_SUCCESS,
+export const getOrganizationsSuccess = (payload: any) => ({
+  type: GET_ORGANIZATIONS_SUCCESS,
   payload
 });
 
-export const requestOrganizationsFailure = (payload: any) => ({
-  type: REQUEST_ORGANIZATIONS_FAILURE,
+export const getOrganizationsFailure = (payload: any) => ({
+  type: GET_ORGANIZATIONS_FAILURE,
   payload
 });
 
@@ -156,9 +101,9 @@ export type ActionTypes =
   | typeof POST_ORGANIZATION
   | typeof POST_ORGANIZATION_FAILURE
   | typeof POST_ORGANIZATION_SUCCESS
-  | typeof REQUEST_ORGANIZATIONS
-  | typeof REQUEST_ORGANIZATIONS_FAILURE
-  | typeof REQUEST_ORGANIZATIONS_SUCCESS
+  | typeof GET_ORGANIZATIONS
+  | typeof GET_ORGANIZATIONS_FAILURE
+  | typeof GET_ORGANIZATIONS_SUCCESS
   | typeof GET_TOURNAMENT
   | typeof GET_TOURNAMENT_FAILURE
   | typeof GET_TOURNAMENT_SUCCESS;

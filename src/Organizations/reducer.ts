@@ -17,18 +17,18 @@ import {
   DELETE_ORGANIZATION,
   DELETE_ORGANIZATION_FAILURE,
   DELETE_ORGANIZATION_SUCCESS,
+  GET_ORGANIZATION,
+  GET_ORGANIZATIONS,
+  GET_ORGANIZATIONS_FAILURE,
+  GET_ORGANIZATIONS_SUCCESS,
+  GET_ORGANIZATION_FAILURE,
+  GET_ORGANIZATION_SUCCESS,
   PATCH_ORGANIZATION,
   PATCH_ORGANIZATION_FAILURE,
   PATCH_ORGANIZATION_SUCCESS,
   POST_ORGANIZATION,
   POST_ORGANIZATION_FAILURE,
-  POST_ORGANIZATION_SUCCESS,
-  REQUEST_ORGANIZATION,
-  REQUEST_ORGANIZATIONS,
-  REQUEST_ORGANIZATIONS_FAILURE,
-  REQUEST_ORGANIZATIONS_SUCCESS,
-  REQUEST_ORGANIZATION_FAILURE,
-  REQUEST_ORGANIZATION_SUCCESS
+  POST_ORGANIZATION_SUCCESS
 } from './actions';
 import { initialState, OrganizationEntity, OrganizationState } from './state';
 
@@ -36,7 +36,7 @@ const organizationMapEntities = mapEntities<OrganizationEntity>(
   returnProperty('slug')
 );
 
-export const deleteOrganization = (
+const deleteOrganization = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -44,7 +44,7 @@ export const deleteOrganization = (
   isLoadingDeleteOrganization: true
 });
 
-export const deleteOrganizationFailure = (
+const deleteOrganizationFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -52,7 +52,7 @@ export const deleteOrganizationFailure = (
   isLoadingDeleteOrganization: false
 });
 
-export const deleteOrganizationSuccess = (
+const deleteOrganizationSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, string>
 ) => {
@@ -66,7 +66,7 @@ export const deleteOrganizationSuccess = (
   };
 };
 
-export const patchOrganization = (
+const patchOrganization = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -74,7 +74,7 @@ export const patchOrganization = (
   isLoadingPatchOrganization: true
 });
 
-export const patchOrganizationFailure = (
+const patchOrganizationFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -82,7 +82,7 @@ export const patchOrganizationFailure = (
   isLoadingPatchOrganization: false
 });
 
-export const patchOrganizationSuccess = (
+const patchOrganizationSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
@@ -94,7 +94,7 @@ export const patchOrganizationSuccess = (
   )
 });
 
-export const postOrganization = (
+const postOrganization = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -102,7 +102,7 @@ export const postOrganization = (
   isLoadingPostOrganization: true
 });
 
-export const postOrganizationFailure = (
+const postOrganizationFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -110,7 +110,7 @@ export const postOrganizationFailure = (
   isLoadingPostOrganization: false
 });
 
-export const postOrganizationSuccess = (
+const postOrganizationSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
@@ -122,7 +122,7 @@ export const postOrganizationSuccess = (
   )
 });
 
-export const requestOrganization = (
+const getOrganization = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -130,7 +130,7 @@ export const requestOrganization = (
   isLoadingRequestOrganization: true
 });
 
-export const requestOrganizationFailure = (
+const getOrganizationFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -138,7 +138,7 @@ export const requestOrganizationFailure = (
   isLoadingRequestOrganization: false
 });
 
-export const requestOrganizationSuccess = (
+const getOrganizationSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
@@ -150,7 +150,7 @@ export const requestOrganizationSuccess = (
   )
 });
 
-export const requestOrganizations = (
+const getOrganizations = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -158,7 +158,7 @@ export const requestOrganizations = (
   isLoadingRequestOrganizations: true
 });
 
-export const requestOrganizationsFailure = (
+const getOrganizationsFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -166,7 +166,7 @@ export const requestOrganizationsFailure = (
   isLoadingRequestOrganizations: false
 });
 
-export const requestOrganizationsSuccess = (
+const getOrganizationsSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, OrganizationEntity[]>
 ) => ({
@@ -175,7 +175,7 @@ export const requestOrganizationsSuccess = (
   organizations: action.payload!.reduce(organizationMapEntities, {})
 });
 
-export const getTournament = (
+const getTournament = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -183,7 +183,7 @@ export const getTournament = (
   isLoadingRequestOrganization: true
 });
 
-export const getTournamentFailure = (
+const getTournamentFailure = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
 ) => ({
@@ -191,7 +191,7 @@ export const getTournamentFailure = (
   isLoadingRequestOrganization: false
 });
 
-export const getTournamentSuccess = (
+const getTournamentSuccess = (
   state: OrganizationState,
   action: HttpAction<ActionTypes, TournamentEntity>
 ) => ({
@@ -213,12 +213,12 @@ export default createReducer(initialState, {
   [POST_ORGANIZATION]: postOrganization,
   [POST_ORGANIZATION_FAILURE]: postOrganizationFailure,
   [POST_ORGANIZATION_SUCCESS]: postOrganizationSuccess,
-  [REQUEST_ORGANIZATION]: requestOrganization,
-  [REQUEST_ORGANIZATION_FAILURE]: requestOrganizationFailure,
-  [REQUEST_ORGANIZATION_SUCCESS]: requestOrganizationSuccess,
-  [REQUEST_ORGANIZATIONS]: requestOrganizations,
-  [REQUEST_ORGANIZATIONS_FAILURE]: requestOrganizationsFailure,
-  [REQUEST_ORGANIZATIONS_SUCCESS]: requestOrganizationsSuccess,
+  [GET_ORGANIZATION]: getOrganization,
+  [GET_ORGANIZATION_FAILURE]: getOrganizationFailure,
+  [GET_ORGANIZATION_SUCCESS]: getOrganizationSuccess,
+  [GET_ORGANIZATIONS]: getOrganizations,
+  [GET_ORGANIZATIONS_FAILURE]: getOrganizationsFailure,
+  [GET_ORGANIZATIONS_SUCCESS]: getOrganizationsSuccess,
   [GET_TOURNAMENT]: getTournament,
   [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
   [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess

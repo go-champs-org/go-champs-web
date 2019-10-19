@@ -1,83 +1,53 @@
 import { HttpAction } from '../Shared/store/interfaces';
 import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
+  getTournamentFailure,
+  getTournamentSuccess,
+  GET_TOURNAMENT
 } from '../Tournaments/actions';
-import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
+import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import {
   ActionTypes,
-  DELETE_ORGANIZATION,
-  DELETE_ORGANIZATION_FAILURE,
-  DELETE_ORGANIZATION_SUCCESS,
-  PATCH_ORGANIZATION,
-  PATCH_ORGANIZATION_FAILURE,
-  PATCH_ORGANIZATION_SUCCESS,
-  POST_ORGANIZATION,
-  POST_ORGANIZATION_FAILURE,
-  POST_ORGANIZATION_SUCCESS,
-  REQUEST_ORGANIZATIONS,
-  REQUEST_ORGANIZATIONS_FAILURE,
-  REQUEST_ORGANIZATIONS_SUCCESS
-} from './actions';
-import {
-  deleteOrganization,
   deleteOrganizationFailure,
+  deleteOrganizationStart,
   deleteOrganizationSuccess,
-  patchOrganization,
+  getOrganizationFailure,
+  getOrganizationsFailure,
+  getOrganizationsStart,
+  getOrganizationsSuccess,
+  getOrganizationStart,
+  getOrganizationSuccess,
   patchOrganizationFailure,
+  patchOrganizationStart,
   patchOrganizationSuccess,
-  postOrganization,
   postOrganizationFailure,
-  postOrganizationSuccess,
-  requestOrganization,
-  requestOrganizationFailure,
-  requestOrganizations,
-  requestOrganizationsFailure,
-  requestOrganizationsSuccess,
-  requestOrganizationSuccess,
-  getTournament,
-  getTournamentFailure,
-  getTournamentSuccess
-} from './reducer';
-import { initialState, OrganizationEntity, OrganizationState } from './state';
+  postOrganizationStart,
+  postOrganizationSuccess
+} from './actions';
+import organizationReducer from './reducer';
+import { initialState, OrganizationState } from './state';
 
 describe('deleteOrganization', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_ORGANIZATION,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteOrganizationStart();
 
   it('sets isLoadingDeleteOrganization to true', () => {
     expect(
-      deleteOrganization(initialState, action).isLoadingDeleteOrganization
+      organizationReducer(initialState, action).isLoadingDeleteOrganization
     ).toBe(true);
   });
 });
 
 describe('deleteOrganizationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: DELETE_ORGANIZATION_FAILURE,
-    payload: {
-      id: 'first-id'
-    }
-  };
+  const action = deleteOrganizationFailure('error');
 
   it('sets isLoadingDeleteOrganization to false', () => {
     expect(
-      deleteOrganizationFailure(initialState, action)
-        .isLoadingDeleteOrganization
+      organizationReducer(initialState, action).isLoadingDeleteOrganization
     ).toBe(false);
   });
 });
 
 describe('deleteOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes, string> = {
-    type: DELETE_ORGANIZATION_SUCCESS,
-    payload: 'first-id'
-  };
+  const action = deleteOrganizationSuccess('first-id');
 
   const deleteState = {
     ...initialState,
@@ -92,12 +62,12 @@ describe('deleteOrganizationSuccess', () => {
 
   it('sets isLoadingDeleteOrganization to false', () => {
     expect(
-      deleteOrganizationSuccess(deleteState, action).isLoadingDeleteOrganization
+      organizationReducer(deleteState, action).isLoadingDeleteOrganization
     ).toBe(false);
   });
 
   it('remove entity', () => {
-    const newState = deleteOrganizationSuccess(deleteState, action);
+    const newState = organizationReducer(deleteState, action);
 
     expect(newState.organizations['first-slug']).toBeUndefined();
   });
@@ -115,7 +85,7 @@ describe('deleteOrganizationSuccess', () => {
       }
     };
 
-    const newState = deleteOrganizationSuccess(someState, action);
+    const newState = organizationReducer(someState, action);
 
     expect(newState.organizations['some-slug']).toEqual({
       id: 'some-id',
@@ -126,38 +96,31 @@ describe('deleteOrganizationSuccess', () => {
 });
 
 describe('patchOrganization', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: PATCH_ORGANIZATION
-  };
+  const action = patchOrganizationStart();
 
   it('sets isLoadingPatchOrganization to true', () => {
     expect(
-      patchOrganization(initialState, action).isLoadingPatchOrganization
+      organizationReducer(initialState, action).isLoadingPatchOrganization
     ).toBe(true);
   });
 });
 
 describe('patchOrganizationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: PATCH_ORGANIZATION_FAILURE
-  };
+  const action = patchOrganizationFailure('error');
 
   it('sets isLoadingPatchOrganization to false', () => {
     expect(
-      patchOrganizationFailure(initialState, action).isLoadingPatchOrganization
+      organizationReducer(initialState, action).isLoadingPatchOrganization
     ).toBe(false);
   });
 });
 
 describe('patchOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes, OrganizationEntity> = {
-    type: PATCH_ORGANIZATION_SUCCESS,
-    payload: {
-      id: 'first-id',
-      name: 'some-first-name',
-      slug: 'first-slug'
-    }
-  };
+  const action = patchOrganizationSuccess({
+    id: 'first-id',
+    name: 'some-first-name',
+    slug: 'first-slug'
+  });
 
   const updateState: OrganizationState = {
     ...initialState,
@@ -172,12 +135,12 @@ describe('patchOrganizationSuccess', () => {
 
   it('sets isLoadingPatchOrganization to false', () => {
     expect(
-      patchOrganizationSuccess(updateState, action).isLoadingPatchOrganization
+      organizationReducer(updateState, action).isLoadingPatchOrganization
     ).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = patchOrganizationSuccess(updateState, action);
+    const newState = organizationReducer(updateState, action);
 
     expect(newState.organizations['first-slug']).toEqual({
       id: 'first-id',
@@ -198,7 +161,7 @@ describe('patchOrganizationSuccess', () => {
       }
     };
 
-    const newState = patchOrganizationSuccess(someState, action);
+    const newState = organizationReducer(someState, action);
 
     expect(newState.organizations['some-slug']).toEqual({
       id: 'some-id',
@@ -209,47 +172,40 @@ describe('patchOrganizationSuccess', () => {
 });
 
 describe('postOrganization', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_ORGANIZATION
-  };
+  const action = postOrganizationStart();
 
   it('sets isLoadingPostOrganization to true', () => {
     expect(
-      postOrganization(initialState, action).isLoadingPostOrganization
+      organizationReducer(initialState, action).isLoadingPostOrganization
     ).toBe(true);
   });
 });
 
 describe('postOrganizationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: POST_ORGANIZATION_FAILURE
-  };
+  const action = postOrganizationFailure('error');
 
   it('sets isLoadingPostOrganization to false', () => {
     expect(
-      postOrganizationFailure(initialState, action).isLoadingPostOrganization
+      organizationReducer(initialState, action).isLoadingPostOrganization
     ).toBe(false);
   });
 });
 
 describe('postOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes, OrganizationEntity> = {
-    type: POST_ORGANIZATION_SUCCESS,
-    payload: {
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    }
-  };
+  const action = postOrganizationSuccess({
+    id: 'first-id',
+    name: 'first-name',
+    slug: 'first-slug'
+  });
 
   it('sets isLoadingPostOrganization to false', () => {
     expect(
-      postOrganizationSuccess(initialState, action).isLoadingPostOrganization
+      organizationReducer(initialState, action).isLoadingPostOrganization
     ).toBe(false);
   });
 
   it('set entity', () => {
-    const newState = postOrganizationSuccess(initialState, action);
+    const newState = organizationReducer(initialState, action);
 
     expect(newState.organizations['first-slug']).toEqual({
       id: 'first-id',
@@ -270,7 +226,7 @@ describe('postOrganizationSuccess', () => {
       }
     };
 
-    const newState = postOrganizationSuccess(someState, action);
+    const newState = organizationReducer(someState, action);
 
     expect(newState.organizations['some-slug']).toEqual({
       id: 'some-id',
@@ -280,50 +236,41 @@ describe('postOrganizationSuccess', () => {
   });
 });
 
-describe('requestOrganization', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_ORGANIZATIONS
-  };
+describe('getOrganization', () => {
+  const action = getOrganizationStart();
 
   it('sets isLoadingRequestOrganization to true', () => {
     expect(
-      requestOrganization(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganization
     ).toBe(true);
   });
 });
 
-describe('requestOrganizationFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_ORGANIZATIONS_FAILURE
-  };
+describe('getOrganizationFailure', () => {
+  const action = getOrganizationFailure('error');
 
   it('sets isLoadingRequestOrganization to false', () => {
     expect(
-      requestOrganizationFailure(initialState, action)
-        .isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganization
     ).toBe(false);
   });
 });
 
-describe('requestOrganizationSuccess', () => {
-  const action: HttpAction<ActionTypes, OrganizationEntity> = {
-    type: REQUEST_ORGANIZATIONS_SUCCESS,
-    payload: {
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    }
-  };
+describe('getOrganizationSuccess', () => {
+  const action = getOrganizationSuccess({
+    id: 'first-id',
+    name: 'first-name',
+    slug: 'first-slug'
+  });
 
   it('sets isLoadingRequestOrganization to false', () => {
     expect(
-      requestOrganizationSuccess(initialState, action)
-        .isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganization
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestOrganizationSuccess(initialState, action);
+    const newState = organizationReducer(initialState, action);
 
     expect(newState.organizations['first-slug']).toEqual({
       id: 'first-id',
@@ -344,7 +291,7 @@ describe('requestOrganizationSuccess', () => {
       }
     };
 
-    const newState = requestOrganizationSuccess(someState, action);
+    const newState = organizationReducer(someState, action);
 
     expect(newState.organizations['some-slug']).toEqual({
       id: 'some-id',
@@ -354,57 +301,48 @@ describe('requestOrganizationSuccess', () => {
   });
 });
 
-describe('requestOrganizations', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_ORGANIZATIONS
-  };
+describe('getOrganizations', () => {
+  const action = getOrganizationsStart();
 
   it('sets isLoadingRequestOrganizations to true', () => {
     expect(
-      requestOrganizations(initialState, action).isLoadingRequestOrganizations
+      organizationReducer(initialState, action).isLoadingRequestOrganizations
     ).toBe(true);
   });
 });
 
-describe('requestOrganizationsFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: REQUEST_ORGANIZATIONS_FAILURE
-  };
+describe('getOrganizationsFailure', () => {
+  const action = getOrganizationsFailure('error');
 
   it('sets isLoadingRequestOrganizations to false', () => {
     expect(
-      requestOrganizationsFailure(initialState, action)
-        .isLoadingRequestOrganizations
+      organizationReducer(initialState, action).isLoadingRequestOrganizations
     ).toBe(false);
   });
 });
 
-describe('requestOrganizationsSuccess', () => {
-  const action: HttpAction<ActionTypes, OrganizationEntity[]> = {
-    type: REQUEST_ORGANIZATIONS_SUCCESS,
-    payload: [
-      {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      },
-      {
-        id: 'second-id',
-        name: 'second-name',
-        slug: 'second-slug'
-      }
-    ]
-  };
+describe('getOrganizationsSuccess', () => {
+  const action = getOrganizationsSuccess([
+    {
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
+    },
+    {
+      id: 'second-id',
+      name: 'second-name',
+      slug: 'second-slug'
+    }
+  ]);
 
   it('sets isLoadingRequestOrganizations to false', () => {
     expect(
-      requestOrganizationsSuccess(initialState, action)
-        .isLoadingRequestOrganizations
+      organizationReducer(initialState, action).isLoadingRequestOrganizations
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = requestOrganizationsSuccess(initialState, action);
+    const newState = organizationReducer(initialState, action);
 
     expect(newState.organizations['first-slug']).toEqual({
       id: 'first-id',
@@ -426,45 +364,40 @@ describe('getTournament', () => {
 
   it('sets isLoadingRequestOrganization to true', () => {
     expect(
-      getTournament(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganization
     ).toBe(true);
   });
 });
 
 describe('getTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_FAILURE
-  };
+  const action = getTournamentFailure('error');
 
   it('sets isLoadingRequestOrganization to false', () => {
     expect(
-      getTournamentFailure(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganization
     ).toBe(false);
   });
 });
 
 describe('getTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity> = {
-    type: GET_TOURNAMENT_SUCCESS,
-    payload: {
-      ...DEFAULT_TOURNAMENT,
-      id: 'some-tournament-id',
-      organization: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
+  const action = getTournamentSuccess({
+    ...DEFAULT_TOURNAMENT,
+    id: 'some-tournament-id',
+    organization: {
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug'
     }
-  };
+  });
 
   it('sets isLoadingRequestOrganization to false', () => {
     expect(
-      getTournamentSuccess(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganization
     ).toBe(false);
   });
 
   it('sets entities', () => {
-    const newState = getTournamentSuccess(initialState, action);
+    const newState = organizationReducer(initialState, action);
 
     expect(newState.organizations['first-slug']).toEqual({
       id: 'first-id',

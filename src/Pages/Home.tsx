@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {
   deleteOrganization,
-  postOrganization,
-  requestOrganizations
+  getOrganizations,
+  postOrganization
 } from '../Organizations/actions';
 import { List } from '../Organizations/List';
 import { OrganizationState } from '../Organizations/state';
@@ -16,7 +16,7 @@ interface HomeProps extends RouteComponentProps {
   deleteOrganization: any;
   organizationState: OrganizationState;
   postOrganization: any;
-  requestOrganizations: any;
+  getOrganizations: any;
 }
 
 class Home extends React.Component<HomeProps> {
@@ -34,7 +34,7 @@ class Home extends React.Component<HomeProps> {
   }
 
   componentDidMount() {
-    this.props.requestOrganizations();
+    this.props.getOrganizations();
   }
 }
 
@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch: any) =>
     {
       deleteOrganization,
       postOrganization,
-      requestOrganizations
+      getOrganizations
     },
     dispatch
   );

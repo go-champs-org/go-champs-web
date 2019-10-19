@@ -2,10 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import {
-  patchOrganization,
-  requestOrganization
-} from '../Organizations/actions';
+import { getOrganization, patchOrganization } from '../Organizations/actions';
 import { Edit } from '../Organizations/Edit';
 import { OrganizationState } from '../Organizations/state';
 import { StoreState } from '../store';
@@ -16,7 +13,7 @@ interface OrganizationEditProps
   extends RouteComponentProps<OrganizationHomeMatchProps> {
   patchOrganization: any;
   organizationState: OrganizationState;
-  requestOrganization: any;
+  getOrganization: any;
 }
 
 class OrganizationEdit extends React.Component<OrganizationEditProps> {
@@ -36,7 +33,7 @@ class OrganizationEdit extends React.Component<OrganizationEditProps> {
     const organizationId = this.props.organizationState.organizations[
       this.props.match.params.organizationSlug
     ].id;
-    this.props.requestOrganization(organizationId);
+    this.props.getOrganization(organizationId);
   }
 }
 
@@ -48,7 +45,7 @@ const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       patchOrganization,
-      requestOrganization
+      getOrganization
     },
     dispatch
   );

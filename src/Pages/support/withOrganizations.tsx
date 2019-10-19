@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { requestOrganizations } from '../../Organizations/actions';
+import { getOrganizations } from '../../Organizations/actions';
 import { OrganizationState } from '../../Organizations/state';
 import PageLoader from '../../Shared/UI/PageLoader';
 import { StoreState } from '../../store';
@@ -11,7 +11,7 @@ import { OrganizationHomeMatchProps } from './routerInterfaces';
 interface WithOrganizationsProps
   extends RouteComponentProps<OrganizationHomeMatchProps> {
   organizationState: OrganizationState;
-  requestOrganizations: any;
+  getOrganizations: any;
 }
 
 const withOrganizations = (WrappedComponent: any) => {
@@ -34,7 +34,7 @@ const withOrganizations = (WrappedComponent: any) => {
           this.props.match.params.organizationSlug
         ]
       ) {
-        this.props.requestOrganizations();
+        this.props.getOrganizations();
       }
     }
   }
@@ -42,7 +42,7 @@ const withOrganizations = (WrappedComponent: any) => {
   const mapDispatchToProps = (dispatch: any) =>
     bindActionCreators(
       {
-        requestOrganizations
+        getOrganizations
       },
       dispatch
     );
