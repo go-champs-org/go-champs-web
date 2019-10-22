@@ -112,17 +112,22 @@ describe('patchTournamentFailure', () => {
 
 describe('patchTournamentSuccess', () => {
   const action = patchTournamentSuccess({
-    ...DEFAULT_TOURNAMENT,
     id: 'first-id',
     name: 'some-first-name',
-    slug: 'first-slug'
+    slug: 'first-slug',
+    organization: {
+      id: 'some-org-id',
+      name: 'some org name',
+      slug: 'some-org-slug'
+    },
+    phases: [],
+    teams: []
   });
 
   const updateState: TournamentState = {
     ...initialState,
     tournaments: {
       'first-slug': {
-        ...DEFAULT_TOURNAMENT,
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug'
@@ -149,7 +154,6 @@ describe('patchTournamentSuccess', () => {
       ...updateState,
       tournaments: {
         'some-slug': {
-          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -193,7 +197,14 @@ describe('postTournamentSuccess', () => {
     ...DEFAULT_TOURNAMENT,
     id: 'first-id',
     name: 'first-name',
-    slug: 'first-slug'
+    slug: 'first-slug',
+    organization: {
+      id: 'some-org-id',
+      name: 'some org name',
+      slug: 'some-org-slug'
+    },
+    phases: [],
+    teams: []
   });
 
   it('sets isLoadingPostTournament to false', () => {
@@ -215,7 +226,6 @@ describe('postTournamentSuccess', () => {
       ...initialState,
       tournaments: {
         'some-slug': {
-          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -226,7 +236,6 @@ describe('postTournamentSuccess', () => {
     const newState = tournamentReducer(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
-      ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'
@@ -257,13 +266,11 @@ describe('getTournamentsByFilterFailure', () => {
 describe('getTournamentsByFilterSuccess', () => {
   const action = getTournamentsByFilterSuccess([
     {
-      ...DEFAULT_TOURNAMENT,
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug'
     },
     {
-      ...DEFAULT_TOURNAMENT,
       id: 'second-id',
       name: 'second-name',
       slug: 'second-slug'
@@ -310,10 +317,16 @@ describe('getTournamentFailure', () => {
 
 describe('getTournamentSuccess', () => {
   const action = getTournamentSuccess({
-    ...DEFAULT_TOURNAMENT,
     id: 'first-id',
     name: 'first-name',
-    slug: 'first-slug'
+    slug: 'first-slug',
+    organization: {
+      id: 'some-org-id',
+      name: 'some org name',
+      slug: 'some-org-slug'
+    },
+    phases: [],
+    teams: []
   });
 
   it('sets isLoadingRequestTournament to false', () => {
@@ -335,7 +348,6 @@ describe('getTournamentSuccess', () => {
       ...initialState,
       tournaments: {
         'some-slug': {
-          ...DEFAULT_TOURNAMENT,
           id: 'some-id',
           name: 'some-name',
           slug: 'some-slug'
@@ -346,7 +358,6 @@ describe('getTournamentSuccess', () => {
     const newState = tournamentReducer(someState, action);
 
     expect(newState.tournaments['some-slug']).toEqual({
-      ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
       slug: 'some-slug'

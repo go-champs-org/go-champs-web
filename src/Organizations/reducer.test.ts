@@ -1,12 +1,6 @@
-import { HttpAction } from '../Shared/store/interfaces';
-import {
-  getTournamentFailure,
-  getTournamentSuccess,
-  GET_TOURNAMENT
-} from '../Tournaments/actions';
+import { getTournamentSuccess } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import {
-  ActionTypes,
   deleteOrganizationFailure,
   deleteOrganizationStart,
   deleteOrganizationSuccess,
@@ -357,28 +351,6 @@ describe('getOrganizationsSuccess', () => {
   });
 });
 
-describe('getTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT
-  };
-
-  it('sets isLoadingRequestOrganization to true', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganization
-    ).toBe(true);
-  });
-});
-
-describe('getTournamentFailure', () => {
-  const action = getTournamentFailure('error');
-
-  it('sets isLoadingRequestOrganization to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganization
-    ).toBe(false);
-  });
-});
-
 describe('getTournamentSuccess', () => {
   const action = getTournamentSuccess({
     ...DEFAULT_TOURNAMENT,
@@ -387,13 +359,9 @@ describe('getTournamentSuccess', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug'
-    }
-  });
-
-  it('sets isLoadingRequestOrganization to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganization
-    ).toBe(false);
+    },
+    phases: [],
+    teams: []
   });
 
   it('sets entities', () => {

@@ -1,17 +1,16 @@
 import {
+  ApiTournament,
   ApiTournamentRequest,
   ApiTournamentResponse,
-  ApiTournamentsResponse
+  ApiTournamentsResponse,
+  ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapRequestFilterToQueryString,
   RequestFilter
 } from '../Shared/httpClient/requestFilter';
-import {
-  mapApiTournamentToTournamentEntity,
-  mapTournamentEntityToApiTournamentRequest
-} from './dataMappers';
+import { mapTournamentEntityToApiTournamentRequest } from './dataMappers';
 import { TournamentEntity } from './state';
 
 const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
@@ -22,33 +21,33 @@ const deleteRequest = (tournamentId: string): Promise<string> => {
   return httpClient.delete(url);
 };
 
-const get = async (tournamentId: string): Promise<TournamentEntity> => {
+const get = async (
+  tournamentId: string
+): Promise<ApiTournamentWithDependecies> => {
   const url = `${TOURNAMENT_API}/${tournamentId}`;
 
   const { data } = await httpClient.get<ApiTournamentResponse>(url);
-  return mapApiTournamentToTournamentEntity(data);
+  return data;
 };
 
-const getAll = async (): Promise<TournamentEntity[]> => {
+const getAll = async (): Promise<ApiTournament[]> => {
   const url = TOURNAMENT_API;
 
   const { data } = await httpClient.get<ApiTournamentsResponse>(url);
-  return data.map(mapApiTournamentToTournamentEntity);
+  return data;
 };
 
-const getByFilter = async (
-  where: RequestFilter
-): Promise<TournamentEntity[]> => {
+const getByFilter = async (where: RequestFilter): Promise<ApiTournament[]> => {
   const url = `${TOURNAMENT_API}?${mapRequestFilterToQueryString(where)}`;
 
   const { data } = await httpClient.get<ApiTournamentsResponse>(url);
-  return data.map(mapApiTournamentToTournamentEntity);
+  return data;
 };
 
 const patch = async (
   organizationId: string,
   tournament: TournamentEntity
-): Promise<TournamentEntity> => {
+): Promise<ApiTournamentWithDependecies> => {
   const url = `${TOURNAMENT_API}/${tournament.id}`;
   const body = mapTournamentEntityToApiTournamentRequest(
     tournament,
@@ -59,13 +58,13 @@ const patch = async (
     ApiTournamentRequest,
     ApiTournamentResponse
   >(url, body);
-  return mapApiTournamentToTournamentEntity(data);
+  return data;
 };
 
 const post = async (
   organizationId: string,
   tournament: TournamentEntity
-): Promise<TournamentEntity> => {
+): Promise<ApiTournamentWithDependecies> => {
   const url = `${TOURNAMENT_API}/${tournament.id}`;
   const body = mapTournamentEntityToApiTournamentRequest(
     tournament,
@@ -76,7 +75,7 @@ const post = async (
     ApiTournamentRequest,
     ApiTournamentResponse
   >(url, body);
-  return mapApiTournamentToTournamentEntity(data);
+  return data;
 };
 
 export default {

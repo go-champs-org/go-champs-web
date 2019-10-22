@@ -1,10 +1,7 @@
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
-import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
+import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import {
   ActionTypes,
   deleteTeamFailure,
@@ -212,32 +209,8 @@ describe('postTeamSuccess', () => {
   });
 });
 
-describe('getTournament', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT
-  };
-
-  it('sets isLoadingRequestTournament to true', () => {
-    expect(teamReducer(initialState, action).isLoadingRequestTournament).toBe(
-      true
-    );
-  });
-});
-
-describe('getTournamentFailure', () => {
-  const action: HttpAction<ActionTypes> = {
-    type: GET_TOURNAMENT_FAILURE
-  };
-
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(teamReducer(initialState, action).isLoadingRequestTournament).toBe(
-      false
-    );
-  });
-});
-
 describe('getTournamentSuccess', () => {
-  const action: HttpAction<ActionTypes, TournamentEntity> = {
+  const action: HttpAction<ActionTypes, ApiTournamentWithDependecies> = {
     type: GET_TOURNAMENT_SUCCESS,
     payload: {
       ...DEFAULT_TOURNAMENT,
@@ -253,15 +226,15 @@ describe('getTournamentSuccess', () => {
           id: 'second-team-id',
           name: 'second team name'
         }
-      ]
+      ],
+      organization: {
+        id: 'some-org-id',
+        name: 'some org name',
+        slug: 'some-org-slug'
+      },
+      phases: []
     }
   };
-
-  it('sets isLoadingRequestTournament to false', () => {
-    expect(teamReducer(initialState, action).isLoadingRequestTournament).toBe(
-      false
-    );
-  });
 
   it('sets entities', () => {
     const newState = teamReducer(initialState, action);

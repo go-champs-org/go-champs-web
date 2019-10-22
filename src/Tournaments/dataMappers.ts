@@ -1,29 +1,16 @@
-import { mapApiOrganizationToOrganizationEntity } from '../Organizations/dataMappers';
-import { DEFAULT_ORGANIZATION } from '../Organizations/state';
-import { mapApiPhaseToPhaseEntity } from '../Phases/dataMappers';
 import {
+  ApiTournament,
   ApiTournamentRequest,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
-import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TournamentEntity } from './state';
 
 export const mapApiTournamentToTournamentEntity = (
-  apiTournament: ApiTournamentWithDependecies
+  apiTournament: ApiTournament
 ): TournamentEntity => ({
   id: apiTournament.id,
   name: apiTournament.name,
-  slug: apiTournament.slug,
-  teamStatsStructure: {},
-  organization: apiTournament.organization
-    ? mapApiOrganizationToOrganizationEntity(apiTournament.organization)
-    : DEFAULT_ORGANIZATION,
-  phases: apiTournament.phases
-    ? apiTournament.phases.map(mapApiPhaseToPhaseEntity)
-    : [],
-  teams: apiTournament.teams
-    ? apiTournament.teams.map(mapApiTeamToTeamEntity)
-    : []
+  slug: apiTournament.slug
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
@@ -38,5 +25,5 @@ export const mapTournamentEntityToApiTournamentRequest = (
   }
 });
 
-export const currentPhaseId = (tournament: TournamentEntity) =>
+export const currentPhaseId = (tournament: ApiTournamentWithDependecies) =>
   tournament.phases[0].id;

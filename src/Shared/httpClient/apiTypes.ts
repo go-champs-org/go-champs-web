@@ -153,7 +153,7 @@ export interface ApiTeamsResponse {
   data: ApiTeam[];
 }
 
-interface ApiTournament {
+export interface ApiTournament {
   id: string;
   name: string;
   slug: string;
@@ -178,5 +178,5 @@ export interface ApiTournamentResponse {
 }
 
 export interface ApiTournamentsResponse {
-  data: ApiTournamentWithDependecies[];
+  data: ApiTournament[];
 }

@@ -1,16 +1,17 @@
-import { ApiPhase } from '../Shared/httpClient/apiTypes';
+import {
+  ApiPhase,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 import {
   apiDataToEntities,
   createReducer,
   entityById,
-  mapEntities,
   mapEntitiesByKey,
   returnProperty
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import { LOAD_DEFAULT_PHASE } from '../Shared/store/routerActions';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
-import { TournamentEntity } from '../Tournaments/state';
 import {
   ActionTypes,
   DELETE_PHASE,
@@ -28,10 +29,6 @@ import {
 } from './actions';
 import { mapApiPhaseToPhaseEntity } from './dataMappers';
 import { initialState, PhaseEntity, PhaseState } from './state';
-
-const tournamentPhaseMapEntities = mapEntities<PhaseEntity>(
-  returnProperty('id')
-);
 
 const apiPhaseToEntities = apiDataToEntities<ApiPhase, PhaseEntity>(
   mapApiPhaseToPhaseEntity,
@@ -109,14 +106,6 @@ const postPhaseSuccess = (
   phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
 });
 
-const getTournamentSuccess = (
-  state: PhaseState,
-  action: HttpAction<ActionTypes, TournamentEntity>
-) => ({
-  ...state,
-  phases: action.payload!.phases.reduce(tournamentPhaseMapEntities, {})
-});
-
 const getPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPhase: true
@@ -139,6 +128,14 @@ const getPhaseSuccess = (
   phases: [action.payload!].reduce(apiPhaseToEntities, {})
 });
 
+const getTournamentSuccess = (
+  state: PhaseState,
+  action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
+) => ({
+  ...state,
+  phases: action.payload!.phases.reduce(apiPhaseToEntities, {})
+});
+
 const loadDefaultPhasePayload = (state: PhaseState) => ({
   ...state,
   isLoadingPhase: true
@@ -155,8 +152,8 @@ export default createReducer(initialState, {
   [POST_PHASE]: postPhase,
   [POST_PHASE_FAILURE]: postPhaseFailure,
   [POST_PHASE_SUCCESS]: postPhaseSuccess,
-  [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess,
   [GET_PHASE]: getPhase,
   [GET_PHASE_FAILURE]: getPhaseFailure,
-  [GET_PHASE_SUCCESS]: getPhaseSuccess
+  [GET_PHASE_SUCCESS]: getPhaseSuccess,
+  [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess
 });

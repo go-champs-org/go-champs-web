@@ -240,21 +240,21 @@ describe('getTournamentSuccess', () => {
         id: 'first-phase-id',
         title: 'first phase title',
         type: PhaseTypes.elimination,
-        isInProgress: true,
         order: 1
       },
       {
         id: 'second-phase-id',
         title: 'second phase title',
         type: PhaseTypes.elimination,
-        isInProgress: true,
         order: 2
       }
-    ]
-  });
-
-  it('sets isLoadingPhase to false', () => {
-    expect(phaseReducer(initialState, action).isLoadingPhase).toBe(false);
+    ],
+    teams: [],
+    organization: {
+      id: 'some-org-id',
+      name: 'some org name',
+      slug: 'some-org-slug'
+    }
   });
 
   it('sets entities', () => {

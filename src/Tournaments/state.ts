@@ -1,18 +1,7 @@
-import {
-  DEFAULT_ORGANIZATION,
-  OrganizationEntity
-} from '../Organizations/state';
-import { PhaseEntity } from '../Phases/state';
-import { TeamEntity } from '../Teams/state';
-
 export interface TournamentEntity {
   id: string;
   name: string;
   slug: string;
-  organization: OrganizationEntity;
-  phases: PhaseEntity[];
-  teams: TeamEntity[];
-  teamStatsStructure: { [key: string]: string };
 }
 
 export interface TournamentState {
@@ -36,9 +25,5 @@ export const initialState: TournamentState = {
 export const DEFAULT_TOURNAMENT: TournamentEntity = {
   id: '',
   name: '',
-  slug: '',
-  organization: DEFAULT_ORGANIZATION,
-  phases: [],
-  teamStatsStructure: {},
-  teams: []
+  slug: ''
 };

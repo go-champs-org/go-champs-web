@@ -1,7 +1,6 @@
 export interface TeamEntity {
   id: string;
   name: string;
-  stats: { [key: string]: any };
 }
 
 export interface TeamState {

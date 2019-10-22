@@ -1,4 +1,9 @@
 import {
+  ApiTeam,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
+import {
+  apiDataToEntities,
   createReducer,
   entityById,
   mapEntities,
@@ -6,12 +11,7 @@ import {
   returnProperty
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
-import { TournamentEntity } from '../Tournaments/state';
+import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import {
   ActionTypes,
   DELETE_TEAM,
@@ -24,9 +24,15 @@ import {
   POST_TEAM_FAILURE,
   POST_TEAM_SUCCESS
 } from './actions';
+import { mapApiTeamToTeamEntity } from './dataMappers';
 import { initialState, TeamEntity, TeamState } from './state';
 
 const teamMapEntities = mapEntities<TeamEntity>(returnProperty('id'));
+
+const apiTeamToEntities = apiDataToEntities<ApiTeam, TeamEntity>(
+  mapApiTeamToTeamEntity,
+  returnProperty('id')
+);
 
 const deleteTeam = (state: TeamState, action: HttpAction<ActionTypes>) => ({
   ...state,
@@ -99,26 +105,13 @@ const postTeamSuccess = (
   teams: [action.payload].reduce(teamMapEntities, state.teams)
 });
 
-const getTournament = (state: TeamState, action: HttpAction<ActionTypes>) => ({
-  ...state,
-  isLoadingRequestTournament: true
-});
-
-const getTournamentFailure = (
-  state: TeamState,
-  action: HttpAction<ActionTypes>
-) => ({
-  ...state,
-  isLoadingRequestTournament: false
-});
-
 const getTournamentSuccess = (
   state: TeamState,
-  action: HttpAction<ActionTypes, TournamentEntity>
+  action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  teams: action.payload!.teams.reduce(teamMapEntities, {})
+  teams: action.payload!.teams.reduce(apiTeamToEntities, {})
 });
 
 export default createReducer(initialState, {
@@ -131,7 +124,5 @@ export default createReducer(initialState, {
   [POST_TEAM]: postTeam,
   [POST_TEAM_FAILURE]: postTeamFailure,
   [POST_TEAM_SUCCESS]: postTeamSuccess,
-  [GET_TOURNAMENT]: getTournament,
-  [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
   [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess
 });

@@ -1,6 +1,7 @@
 import { getGamesByFilter } from '../Games/effects';
 import { getPhase } from '../Phases/effects';
 import { displayToast } from '../Shared/bulma/toast';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 import {
   deleteTournamentFailure,
   deleteTournamentStart,
@@ -20,7 +21,7 @@ import {
 } from './actions';
 import { currentPhaseId } from './dataMappers';
 import { TournamentEntity } from './state';
-import tournamentHttpClient, { RequestFilter } from './tournamentHttpClient';
+import tournamentHttpClient from './tournamentHttpClient';
 
 export const deleteTournament = (tournament: TournamentEntity) => async (
   dispatch: any

@@ -18,5 +18,4 @@ export const phaseById = (
   id: string
 ): PhaseEntity | undefined => state.phases[id];
 
-export const phaseLoading = (state: PhaseState) =>
-  state.isLoadingRequestTournament;
+export const phaseLoading = (state: PhaseState) => state.isLoadingPhase;

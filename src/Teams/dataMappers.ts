@@ -3,8 +3,7 @@ import { TeamEntity } from './state';
 
 export const mapApiTeamToTeamEntity = (apiTeam: ApiTeam): TeamEntity => ({
   id: apiTeam.id,
-  name: apiTeam.name,
-  stats: {}
+  name: apiTeam.name
 });
 
 export const mapTeamEntityToApiTeamRequest = (

@@ -1,4 +1,5 @@
 import { displayToast } from '../Shared/bulma/toast';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 import {
   deleteGameFailure,
   deleteGameStart,
@@ -16,7 +17,7 @@ import {
   postGameStart,
   postGameSuccess
 } from './actions';
-import gameHttpClient, { RequestFilter } from './gameHttpClient';
+import gameHttpClient from './gameHttpClient';
 import { GameEntity } from './state';
 
 export const deleteGame = (phaseId: string) => (

@@ -1,5 +1,8 @@
+import {
+  ApiTournament,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
-import { TournamentEntity } from './state';
 
 export const DELETE_TOURNAMENT = 'API_DELETE_TOURNAMENT';
 export const DELETE_TOURNAMENT_SUCCESS = 'API_DELETE_TOURNAMENT_SUCCESS';
@@ -42,8 +45,8 @@ export const patchTournamentStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const patchTournamentSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: ApiTournamentWithDependecies
+): HttpAction<ActionTypes, ApiTournamentWithDependecies> => ({
   type: PATCH_TOURNAMENT_SUCCESS,
   payload
 });
@@ -60,8 +63,8 @@ export const postTournamentStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const postTournamentSuccess = (
-  payload: any
-): HttpAction<ActionTypes> => ({
+  payload: ApiTournamentWithDependecies
+): HttpAction<ActionTypes, ApiTournamentWithDependecies> => ({
   type: POST_TOURNAMENT_SUCCESS,
   payload
 });
@@ -78,8 +81,8 @@ export const getTournamentsByFilterStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const getTournamentsByFilterSuccess = (
-  payload: any
-): HttpAction<ActionTypes, TournamentEntity[]> => ({
+  payload: ApiTournament[]
+): HttpAction<ActionTypes, ApiTournament[]> => ({
   type: GET_TOURNAMENTS_BY_FILTER_SUCCESS,
   payload
 });
@@ -96,8 +99,8 @@ export const getTournamentStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const getTournamentSuccess = (
-  payload: any
-): HttpAction<ActionTypes, TournamentEntity> => ({
+  payload: ApiTournamentWithDependecies
+): HttpAction<ActionTypes, ApiTournamentWithDependecies> => ({
   type: GET_TOURNAMENT_SUCCESS,
   payload
 });

@@ -1,7 +1,11 @@
 import {
+  ApiTournament,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
+import {
+  apiDataToEntities,
   createReducer,
   entityById,
-  mapEntities,
   mapEntitiesByKey,
   returnProperty
 } from '../Shared/store/helpers';
@@ -25,11 +29,13 @@ import {
   POST_TOURNAMENT_FAILURE,
   POST_TOURNAMENT_SUCCESS
 } from './actions';
+import { mapApiTournamentToTournamentEntity } from './dataMappers';
 import { initialState, TournamentEntity, TournamentState } from './state';
 
-const tournamentMapEntities = mapEntities<TournamentEntity>(
-  returnProperty('slug')
-);
+const apiTournamentToEntities = apiDataToEntities<
+  ApiTournament,
+  TournamentEntity
+>(mapApiTournamentToTournamentEntity, returnProperty('slug'));
 
 const deleteTournament = (
   state: TournamentState,
@@ -79,11 +85,14 @@ const patchTournamentFailure = (
 
 const patchTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes, TournamentEntity>
+  action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
   isLoadingPatchTournament: false,
-  tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
+  tournaments: [action.payload!].reduce(
+    apiTournamentToEntities,
+    state.tournaments
+  )
 });
 
 const postTournament = (
@@ -104,11 +113,14 @@ const postTournamentFailure = (
 
 const postTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes, TournamentEntity>
+  action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
   isLoadingPostTournament: false,
-  tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
+  tournaments: [action.payload!].reduce(
+    apiTournamentToEntities,
+    state.tournaments
+  )
 });
 
 const getTournamentsByFilter = (
@@ -130,11 +142,11 @@ const getTournamentsByFilterFailure = (
 
 const getTournamentsByFilterSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes, TournamentEntity[]>
+  action: HttpAction<ActionTypes, ApiTournament[]>
 ) => ({
   ...state,
   isLoadingRequestTournaments: false,
-  tournaments: action.payload!.reduce(tournamentMapEntities, {})
+  tournaments: action.payload!.reduce(apiTournamentToEntities, {})
 });
 
 const getTournament = (
@@ -155,11 +167,14 @@ const getTournamentFailure = (
 
 const getTournamentSuccess = (
   state: TournamentState,
-  action: HttpAction<ActionTypes, TournamentEntity>
+  action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  tournaments: [action.payload].reduce(tournamentMapEntities, state.tournaments)
+  tournaments: [action.payload!].reduce(
+    apiTournamentToEntities,
+    state.tournaments
+  )
 });
 
 const loadDefaultPhasePayload = (state: TournamentState) => ({
