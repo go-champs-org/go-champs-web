@@ -41,8 +41,7 @@ describe('deleteTeamSuccess', () => {
     teams: {
       'first-id': {
         id: 'first-id',
-        name: 'first-name',
-        stats: {}
+        name: 'first-name'
       }
     }
   };
@@ -63,8 +62,7 @@ describe('deleteTeamSuccess', () => {
       teams: {
         'some-id': {
           id: 'some-id',
-          name: 'some-name',
-          stats: {}
+          name: 'some-name'
         },
         ...deleteState.teams
       }
@@ -74,8 +72,7 @@ describe('deleteTeamSuccess', () => {
 
     expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
-      name: 'some-name',
-      stats: {}
+      name: 'some-name'
     });
   });
 });
@@ -99,8 +96,7 @@ describe('patchTeamFailure', () => {
 describe('patchTeamSuccess', () => {
   const action = patchTeamSuccess({
     id: 'first-id',
-    name: 'some-first-name',
-    stats: {}
+    name: 'some-first-name'
   });
 
   const updateState: TeamState = {
@@ -108,8 +104,7 @@ describe('patchTeamSuccess', () => {
     teams: {
       'first-id': {
         id: 'first-id',
-        name: 'first-name',
-        stats: {}
+        name: 'first-name'
       }
     }
   };
@@ -123,8 +118,7 @@ describe('patchTeamSuccess', () => {
 
     expect(newState.teams['first-id']).toEqual({
       id: 'first-id',
-      name: 'some-first-name',
-      stats: {}
+      name: 'some-first-name'
     });
   });
 
@@ -134,8 +128,7 @@ describe('patchTeamSuccess', () => {
       teams: {
         'some-id': {
           id: 'some-id',
-          name: 'some-name',
-          stats: {}
+          name: 'some-name'
         }
       }
     };
@@ -144,8 +137,7 @@ describe('patchTeamSuccess', () => {
 
     expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
-      name: 'some-name',
-      stats: {}
+      name: 'some-name'
     });
   });
 });
@@ -169,8 +161,7 @@ describe('postTeamFailure', () => {
 describe('postTeamSuccess', () => {
   const action = postTeamSuccess({
     id: 'first-id',
-    name: 'first-name',
-    stats: {}
+    name: 'first-name'
   });
 
   it('sets isLoadingPostTeam to false', () => {
@@ -182,8 +173,7 @@ describe('postTeamSuccess', () => {
 
     expect(newState.teams['first-id']).toEqual({
       id: 'first-id',
-      name: 'first-name',
-      stats: {}
+      name: 'first-name'
     });
   });
 
@@ -193,8 +183,7 @@ describe('postTeamSuccess', () => {
       teams: {
         'some-id': {
           id: 'some-id',
-          name: 'some-name',
-          stats: {}
+          name: 'some-name'
         }
       }
     };
@@ -203,8 +192,7 @@ describe('postTeamSuccess', () => {
 
     expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
-      name: 'some-name',
-      stats: {}
+      name: 'some-name'
     });
   });
 });

@@ -1,9 +1,6 @@
+import { ApiTeam } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
+import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 
 export const DELETE_TEAM = 'API_DELETE_TEAM';
 export const DELETE_TEAM_SUCCESS = 'API_DELETE_TEAM_SUCCESS';
@@ -19,7 +16,9 @@ export const deleteTeamStart = (): HttpAction<ActionTypes> => ({
   type: DELETE_TEAM
 });
 
-export const deleteTeamSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const deleteTeamSuccess = (
+  payload: string
+): HttpAction<ActionTypes, string> => ({
   type: DELETE_TEAM_SUCCESS,
   payload
 });
@@ -33,7 +32,9 @@ export const patchTeamStart = (): HttpAction<ActionTypes> => ({
   type: PATCH_TEAM
 });
 
-export const patchTeamSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const patchTeamSuccess = (
+  payload: ApiTeam
+): HttpAction<ActionTypes, ApiTeam> => ({
   type: PATCH_TEAM_SUCCESS,
   payload
 });
@@ -47,7 +48,9 @@ export const postTeamStart = (): HttpAction<ActionTypes> => ({
   type: POST_TEAM
 });
 
-export const postTeamSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const postTeamSuccess = (
+  payload: ApiTeam
+): HttpAction<ActionTypes, ApiTeam> => ({
   type: POST_TEAM_SUCCESS,
   payload
 });
@@ -67,7 +70,5 @@ export type ActionTypes =
   | typeof POST_TEAM
   | typeof POST_TEAM_SUCCESS
   | typeof POST_TEAM_FAILURE
-  | typeof GET_TOURNAMENT
-  | typeof GET_TOURNAMENT_FAILURE
   | typeof GET_TOURNAMENT_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;
