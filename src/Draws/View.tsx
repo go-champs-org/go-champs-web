@@ -1,6 +1,5 @@
 import React from 'react';
 import { DrawEntity, DrawMatchEntity } from './state';
-import './View.scss';
 
 interface MatchProps {
   match: DrawMatchEntity;
@@ -11,7 +10,7 @@ const Match: React.FC<MatchProps> = ({ match }) => {
     <div className="card">
       <div className="card-content">
         <div className="content">
-          <div className="columns is-multiline">
+          <div className="columns is-multiline is-mobile">
             <div className="column is-9">{match.firstTeamPlaceholder}</div>
 
             <div className="column is-3 has-text-right">
@@ -36,8 +35,9 @@ interface RoundProps {
 
 const Round: React.FC<RoundProps> = ({ draw }) => {
   return (
-    <div className="round">
-      <h1 className="subtitle is-5 has-text-centered">{draw.title}</h1>
+    <div className="column is-12">
+      <h1 className="subtitle">{draw.title}</h1>
+
       {draw.matches.map((match: DrawMatchEntity) => (
         <Match match={match} />
       ))}
@@ -51,7 +51,7 @@ interface BracketProps {
 
 const Bracket: React.FC<BracketProps> = ({ draws }) => {
   return (
-    <div className="draw-container">
+    <div className="columns is-multiline">
       {draws.map((draw: DrawEntity) => (
         <Round draw={draw} />
       ))}
