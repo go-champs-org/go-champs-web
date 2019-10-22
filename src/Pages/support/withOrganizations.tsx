@@ -20,7 +20,7 @@ const withOrganizations = (WrappedComponent: any) => {
       const canRender =
         this.props.organizationState.organizations[
           this.props.match.params.organizationSlug
-        ] && !this.props.organizationState.isLoadingRequestOrganizations;
+        ] && !this.props.organizationState.isLoadingOrganization;
       return (
         <PageLoader canRender={canRender}>
           <WrappedComponent {...this.props} />

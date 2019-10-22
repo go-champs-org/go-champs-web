@@ -20,7 +20,7 @@ export const List: React.FC<{
   url: string;
   deleteOrganization: any;
 }> = ({ organizationState, url, deleteOrganization }) => (
-  <PageLoader canRender={!organizationState.isLoadingRequestOrganizations}>
+  <PageLoader canRender={!organizationState.isLoadingOrganization}>
     {Object.keys(organizationState.organizations).map((key: string) => (
       <OrganizationCard
         key={key}

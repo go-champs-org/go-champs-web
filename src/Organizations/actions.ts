@@ -1,9 +1,6 @@
+import { ApiOrganization } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
-import {
-  GET_TOURNAMENT,
-  GET_TOURNAMENT_FAILURE,
-  GET_TOURNAMENT_SUCCESS
-} from '../Tournaments/actions';
+import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 
 export const DELETE_ORGANIZATION = 'API_DELETE_ORGANIZATION';
 export const DELETE_ORGANIZATION_SUCCESS = 'API_DELETE_ORGANIZATION_SUCCESS';
@@ -21,72 +18,92 @@ export const GET_ORGANIZATIONS = 'API_GET_ORGANIZATIONS';
 export const GET_ORGANIZATIONS_SUCCESS = 'API_GET_ORGANIZATIONS_SUCCESS';
 export const GET_ORGANIZATIONS_FAILURE = 'API_GET_ORGANIZATIONS_FAILURE';
 
-export const deleteOrganizationStart = () => ({
+export const deleteOrganizationStart = (): HttpAction<ActionTypes> => ({
   type: DELETE_ORGANIZATION
 });
 
-export const deleteOrganizationSuccess = (payload: any) => ({
+export const deleteOrganizationSuccess = (
+  payload: string
+): HttpAction<ActionTypes, string> => ({
   type: DELETE_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const deleteOrganizationFailure = (payload: any) => ({
+export const deleteOrganizationFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
   type: DELETE_ORGANIZATION_FAILURE,
   payload
 });
 
-export const patchOrganizationStart = () => ({
+export const patchOrganizationStart = (): HttpAction<ActionTypes> => ({
   type: PATCH_ORGANIZATION
 });
 
-export const patchOrganizationSuccess = (payload: any) => ({
+export const patchOrganizationSuccess = (
+  payload: ApiOrganization
+): HttpAction<ActionTypes, ApiOrganization> => ({
   type: PATCH_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const patchOrganizationFailure = (payload: any) => ({
+export const patchOrganizationFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
   type: PATCH_ORGANIZATION_FAILURE,
   payload
 });
 
-export const postOrganizationStart = () => ({
+export const postOrganizationStart = (): HttpAction<ActionTypes> => ({
   type: POST_ORGANIZATION
 });
 
-export const postOrganizationSuccess = (payload: any) => ({
+export const postOrganizationSuccess = (
+  payload: ApiOrganization
+): HttpAction<ActionTypes, ApiOrganization> => ({
   type: POST_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const postOrganizationFailure = (payload: any) => ({
+export const postOrganizationFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
   type: POST_ORGANIZATION_FAILURE,
   payload
 });
 
-export const getOrganizationStart = () => ({
+export const getOrganizationStart = (): HttpAction<ActionTypes> => ({
   type: GET_ORGANIZATION
 });
 
-export const getOrganizationSuccess = (payload: any) => ({
+export const getOrganizationSuccess = (
+  payload: ApiOrganization
+): HttpAction<ActionTypes, ApiOrganization> => ({
   type: GET_ORGANIZATION_SUCCESS,
   payload
 });
 
-export const getOrganizationFailure = (payload: any) => ({
+export const getOrganizationFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
   type: GET_ORGANIZATION_FAILURE,
   payload
 });
 
-export const getOrganizationsStart = () => ({
+export const getOrganizationsStart = (): HttpAction<ActionTypes> => ({
   type: GET_ORGANIZATIONS
 });
 
-export const getOrganizationsSuccess = (payload: any) => ({
+export const getOrganizationsSuccess = (
+  payload: ApiOrganization[]
+): HttpAction<ActionTypes, ApiOrganization[]> => ({
   type: GET_ORGANIZATIONS_SUCCESS,
   payload
 });
 
-export const getOrganizationsFailure = (payload: any) => ({
+export const getOrganizationsFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
   type: GET_ORGANIZATIONS_FAILURE,
   payload
 });
@@ -101,10 +118,11 @@ export type ActionTypes =
   | typeof POST_ORGANIZATION
   | typeof POST_ORGANIZATION_FAILURE
   | typeof POST_ORGANIZATION_SUCCESS
+  | typeof GET_ORGANIZATION
+  | typeof GET_ORGANIZATION_FAILURE
+  | typeof GET_ORGANIZATION_SUCCESS
   | typeof GET_ORGANIZATIONS
   | typeof GET_ORGANIZATIONS_FAILURE
   | typeof GET_ORGANIZATIONS_SUCCESS
-  | typeof GET_TOURNAMENT
-  | typeof GET_TOURNAMENT_FAILURE
   | typeof GET_TOURNAMENT_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;

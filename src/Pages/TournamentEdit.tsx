@@ -40,7 +40,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
       this.props.match.params.tournamentSlug
     ];
     const canRender =
-      !this.props.organizationState.isLoadingRequestOrganization &&
+      !this.props.organizationState.isLoadingOrganizations &&
       !!this.props.organizationState.organizations[
         this.props.match.params.organizationSlug
       ];
