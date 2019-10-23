@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { OrganizationState } from '../Organizations/state';
 import { PhaseEliminationStatState } from '../Phases/EliminationStats/state';
-import { isInProgressPhase } from '../Phases/selectors';
+import { selectedPhase } from '../Phases/selectors';
 import { PhaseEntity, PhaseState } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
@@ -69,7 +69,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
 const mapStateToProps = (state: StoreState) => {
   return {
     organizationState: state.organizations,
-    phase: isInProgressPhase(state.phases),
+    phase: selectedPhase(state.phases),
     tournamentPhaseState: state.phases,
     tournamentState: state.tournaments,
     tournamentStatState: state.eliminationStats

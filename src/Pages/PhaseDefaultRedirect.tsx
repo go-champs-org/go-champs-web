@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, RouteComponentProps } from 'react-router';
-import { isInProgressPhase } from '../Phases/selectors';
+import { selectedPhase } from '../Phases/selectors';
 import { PhaseEntity } from '../Phases/state';
 import { StoreState } from '../store';
 import PhaseSelectedHome from './PhaseSelectedHome';
@@ -26,7 +26,7 @@ const PhaseDefaultRedirect: React.FC<PhaseDefaultRedirectProps> = ({
 };
 
 const mapStateToProps = (state: StoreState) => ({
-  phase: isInProgressPhase(state.phases)
+  phase: selectedPhase(state.phases)
 });
 
 export default connect(mapStateToProps)(PhaseDefaultRedirect);

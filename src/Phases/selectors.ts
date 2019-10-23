@@ -7,12 +7,6 @@ export const phases = (state: PhaseState): PhaseEntity[] =>
 export const sortedPhases = (state: PhaseState): PhaseEntity[] =>
   phases(state).sort(byOrder);
 
-export const isInProgressPhase = (
-  state: PhaseState
-): PhaseEntity | undefined => {
-  return phases(state).find((phase: PhaseEntity) => phase.isInProgress);
-};
-
 export const phaseLoading = (state: PhaseState): boolean =>
   state.isLoadingPhase;
 
