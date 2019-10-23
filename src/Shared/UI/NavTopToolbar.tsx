@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo-with-background.png';
 import './NavTopToolbar.scss';
 
@@ -33,26 +34,11 @@ class NavTopToolbar extends React.Component {
         <div id="menu" className="navbar-menu">
           <div className="navbar-end">
             <div className="navbar-item">
-              <div className="field">
-                <div className="control has-icons-left">
-                  <input
-                    className="input"
-                    type="email"
-                    placeholder="Procurar..."
-                  />
-                  <span
-                    className="icon is-left"
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      paddingLeft: '10px'
-                    }}
-                  >
-                    <i className="fas fa-search"></i>
-                  </span>
-                </div>
-              </div>
+              <Link to="/Search">
+                <span className="icon is-medium">
+                  <i className="fas fa-search"></i>
+                </span>
+              </Link>
             </div>
 
             <div className="navbar-item">
