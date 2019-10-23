@@ -32,11 +32,38 @@ class NavTopToolbar extends React.Component {
 
         <div id="menu" className="navbar-menu">
           <div className="navbar-end">
-            <a href="/about.html" className="navbar-item">
+            <div className="navbar-item">
+              <div className="field">
+                <div className="control has-icons-left">
+                  <input
+                    className="input"
+                    type="email"
+                    placeholder="Procurar..."
+                  />
+                  <span
+                    className="icon is-left"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingLeft: '10px'
+                    }}
+                  >
+                    <i className="fas fa-search"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="navbar-item">
+              <span className="navbar-divider"></span>
+            </div>
+
+            <a href="/" className="navbar-item">
               Go Champs!
             </a>
 
-            <a href="/about.html" className="navbar-item">
+            <a href="/" className="navbar-item">
               Sobre nós
             </a>
           </div>
