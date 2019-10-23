@@ -2,15 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import {
-  loadDefaultPhasePayload,
-  LoadDefaultPhasePayload
-} from '../../Shared/store/routerActions';
+import { getTournamentBySlug } from '../../Tournaments/effects';
 import { TournamentHomeMatchProps } from './routerInterfaces';
 
 interface WithTournamentProps
   extends RouteComponentProps<TournamentHomeMatchProps> {
-  loadDefaultPhasePayload: (payload: LoadDefaultPhasePayload) => {};
+  getTournamentBySlug: (organizationSlug: string, tournamentSlug: string) => {};
 }
 
 const withTournament = (WrappedComponent: any) => {
@@ -21,14 +18,14 @@ const withTournament = (WrappedComponent: any) => {
 
     componentDidMount() {
       const { organizationSlug, tournamentSlug } = this.props.match.params;
-      this.props.loadDefaultPhasePayload({ organizationSlug, tournamentSlug });
+      this.props.getTournamentBySlug(organizationSlug, tournamentSlug);
     }
   }
 
   const mapDispatchToProps = (dispatch: Dispatch) => {
     return bindActionCreators(
       {
-        loadDefaultPhasePayload
+        getTournamentBySlug
       },
       dispatch
     );

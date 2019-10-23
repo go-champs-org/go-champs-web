@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router';
-import { phaseById, phaseLoading, sortedPhases } from '../Phases/selectors';
+import { phaseLoading, selectedPhase, sortedPhases } from '../Phases/selectors';
 import { PhaseEntity } from '../Phases/state';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
@@ -48,7 +48,7 @@ class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
           <div className="column is-12">
             <Switch>
               <Route
-                path={`/:organizationSlug/:tournamentSlug/phase/:phaseId`}
+                path={`/:organizationSlug/:tournamentSlug`}
                 component={PhaseHome}
               />
             </Switch>
@@ -62,14 +62,14 @@ class PhaseSelectedHome extends React.Component<PhaseSelectedHomeProps> {
 const mapStateToProps = (state: StoreState, props: PhaseSelectedHomeProps) => {
   const {
     match: {
-      params: { phaseId, tournamentSlug }
+      params: { tournamentSlug }
     }
   } = props;
   return {
-    tournament: tournamentBySlug(state.tournaments, tournamentSlug),
-    phase: phaseById(state.phases, phaseId),
+    phase: selectedPhase(state.phases),
     phases: sortedPhases(state.phases),
-    phaseLoading: phaseLoading(state.phases)
+    phaseLoading: phaseLoading(state.phases),
+    tournament: tournamentBySlug(state.tournaments, tournamentSlug)
   };
 };
 

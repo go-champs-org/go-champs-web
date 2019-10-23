@@ -26,4 +26,4 @@ export const mapTournamentEntityToApiTournamentRequest = (
 });
 
 export const currentPhaseId = (tournament: ApiTournamentWithDependecies) =>
-  tournament.phases[0].id;
+  tournament.phases.length > 0 ? tournament.phases[0].id : '';

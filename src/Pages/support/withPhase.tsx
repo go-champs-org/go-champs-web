@@ -4,16 +4,15 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getGamesByFilter } from '../../Games/effects';
 import { getPhase } from '../../Phases/effects';
+import { selectedPhaseId } from '../../Phases/selectors';
 import { RequestFilter } from '../../Shared/httpClient/requestFilter';
 import { StoreState } from '../../store';
-import { tournamentBySlug } from '../../Tournaments/selectors';
-import { TournamentEntity } from '../../Tournaments/state';
 import { PhaseHomeMatchProps } from './routerInterfaces';
 
 interface WithPhaseProps extends RouteComponentProps<PhaseHomeMatchProps> {
   getPhase: (phaseId: string) => {};
   getGamesByFilter: (where: RequestFilter) => {};
-  tournament: TournamentEntity;
+  selectedPhaseId: string;
 }
 
 const withPhase = (WrappedComponent: any) => {
@@ -23,26 +22,14 @@ const withPhase = (WrappedComponent: any) => {
     }
 
     componentDidMount() {
-      const {
-        match: {
-          params: { phaseId }
-        }
-      } = this.props;
-      this.props.getPhase(phaseId);
-      this.props.getGamesByFilter({ phase_id: phaseId });
+      this.props.getPhase(this.props.selectedPhaseId);
+      this.props.getGamesByFilter({ phase_id: this.props.selectedPhaseId });
     }
   }
 
-  const mapStateToProps = (state: StoreState, props: WithPhaseProps) => {
-    const {
-      match: {
-        params: { tournamentSlug }
-      }
-    } = props;
-    return {
-      tournament: tournamentBySlug(state.tournaments, tournamentSlug)
-    };
-  };
+  const mapStateToProps = (state: StoreState) => ({
+    selectedPhaseId: selectedPhaseId(state.phases)
+  });
 
   const mapDispatchToProps = (dispatch: Dispatch) => {
     return bindActionCreators(

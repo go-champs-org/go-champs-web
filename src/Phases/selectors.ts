@@ -13,9 +13,11 @@ export const isInProgressPhase = (
   return phases(state).find((phase: PhaseEntity) => phase.isInProgress);
 };
 
-export const phaseById = (
-  state: PhaseState,
-  id: string
-): PhaseEntity | undefined => state.phases[id];
+export const phaseLoading = (state: PhaseState): boolean =>
+  state.isLoadingPhase;
 
-export const phaseLoading = (state: PhaseState) => state.isLoadingPhase;
+export const selectedPhase = (state: PhaseState): PhaseEntity | undefined =>
+  state.phases[state.selectedPhaseId];
+
+export const selectedPhaseId = (state: PhaseState): string =>
+  state.selectedPhaseId;

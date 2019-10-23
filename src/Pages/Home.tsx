@@ -33,7 +33,10 @@ class Home extends React.Component<HomeProps> {
               </div>
 
               <div className="column is-6">
-                <img src="https://cronhub.io/img/ch-dashboard-shadow.png" />
+                <img
+                  src="https://cronhub.io/img/ch-dashboard-shadow.png"
+                  alt="Demo Tournament"
+                />
               </div>
             </div>
           </div>

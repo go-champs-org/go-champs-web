@@ -17,7 +17,7 @@ import {
 import { GameEntity } from '../Games/state';
 import { allEliminationStats } from '../Phases/EliminationStats/selectors';
 import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
-import { phaseById } from '../Phases/selectors';
+import { phaseLoading, selectedPhase } from '../Phases/selectors';
 import { PhaseEntity, PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
@@ -31,6 +31,7 @@ interface PhaseHomeProps extends RouteComponentProps<PhaseHomeMatchProps> {
   gamesLoading: boolean;
   draws: DrawEntity[];
   phase: PhaseEntity | undefined;
+  phaseLoading: boolean;
   eliminationStats: PhaseEliminationStatEntity[];
   eliminations: EliminationEntity[];
   teams: { [id: string]: TeamEntity };
@@ -42,6 +43,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   gamesInitialDatePosition,
   gamesLoading,
   phase,
+  phaseLoading,
   eliminationStats,
   draws,
   eliminations,
@@ -80,17 +82,13 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
 };
 
 const mapStateToProps = (state: StoreState, props: PhaseHomeProps) => {
-  const {
-    match: {
-      params: { phaseId }
-    }
-  } = props;
   return {
     gameDates: gameDates(state.games),
     gamesByDate: gamesByDate(state.games),
     gamesInitialDatePosition: gamesCloserGameDatePosition(state.games),
     gamesLoading: gamesLoading(state.games),
-    phase: phaseById(state.phases, phaseId),
+    phase: selectedPhase(state.phases),
+    phaseLoading: phaseLoading(state.phases),
     eliminationStats: allEliminationStats(state.eliminationStats),
     draws: allDraws(state.draws),
     eliminations: allElimination(state.eliminations),

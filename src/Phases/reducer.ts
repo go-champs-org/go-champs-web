@@ -10,8 +10,8 @@ import {
   returnProperty
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import { LOAD_DEFAULT_PHASE } from '../Shared/store/routerActions';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { currentPhaseId } from '../Tournaments/dataMappers';
 import {
   ActionTypes,
   DELETE_PHASE,
@@ -133,19 +133,14 @@ const getTournamentSuccess = (
   action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
-  phases: action.payload!.phases.reduce(apiPhaseToEntities, {})
-});
-
-const loadDefaultPhasePayload = (state: PhaseState) => ({
-  ...state,
-  isLoadingPhase: true
+  phases: action.payload!.phases.reduce(apiPhaseToEntities, {}),
+  selectedPhaseId: currentPhaseId(action.payload!)
 });
 
 export default createReducer(initialState, {
   [DELETE_PHASE]: deletePhase,
   [DELETE_PHASE_FAILURE]: deletePhaseFailure,
   [DELETE_PHASE_SUCCESS]: deletePhaseSuccess,
-  [LOAD_DEFAULT_PHASE]: loadDefaultPhasePayload,
   [PATCH_PHASE]: patchPhase,
   [PATCH_PHASE_FAILURE]: patchPhaseFailure,
   [PATCH_PHASE_SUCCESS]: patchPhaseSuccess,

@@ -123,7 +123,7 @@ class ListByDate extends React.Component<ListByDateProps> {
           </div>
 
           <div className="column has-text-centered">
-            {dateFromDate(selectedDate)}
+            {selectedDate && dateFromDate(selectedDate)}
           </div>
 
           <div className="column is-2 has-text-right">

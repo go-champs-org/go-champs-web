@@ -1,5 +1,3 @@
-import { getGamesByFilter } from '../Games/effects';
-import { getPhase } from '../Phases/effects';
 import { displayToast } from '../Shared/bulma/toast';
 import { RequestFilter } from '../Shared/httpClient/requestFilter';
 import {
@@ -19,7 +17,6 @@ import {
   postTournamentStart,
   postTournamentSuccess
 } from './actions';
-import { currentPhaseId } from './dataMappers';
 import { TournamentEntity } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
 
@@ -95,10 +92,29 @@ export const getTournament = (tournamentId: string) => async (
 
   try {
     const response = await tournamentHttpClient.get(tournamentId);
-    const phaseId = currentPhaseId(response);
 
-    dispatch(getPhase(phaseId));
-    dispatch(getGamesByFilter({ phase_id: phaseId }));
+    dispatch(getTournamentSuccess(response));
+  } catch (err) {
+    dispatch(getTournamentFailure(err));
+  }
+};
+
+export const getTournamentBySlug = (
+  organizationSlug: string,
+  tournamentSlug: string
+) => async (dispatch: any) => {
+  dispatch(getTournamentStart());
+
+  try {
+    const tournaments = await tournamentHttpClient.getByFilter({
+      organization_slug: organizationSlug,
+      slug: tournamentSlug
+    });
+
+    const tournamentId = tournaments[0].id;
+
+    const response = await tournamentHttpClient.get(tournamentId);
+
     dispatch(getTournamentSuccess(response));
   } catch (err) {
     dispatch(getTournamentFailure(err));

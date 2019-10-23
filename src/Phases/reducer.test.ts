@@ -229,54 +229,6 @@ describe('postPhaseSuccess', () => {
   });
 });
 
-describe('getTournamentSuccess', () => {
-  const action = getTournamentSuccess({
-    ...DEFAULT_TOURNAMENT,
-    id: 'first-id',
-    name: 'first-title',
-    slug: 'first-slug',
-    phases: [
-      {
-        id: 'first-phase-id',
-        title: 'first phase title',
-        type: PhaseTypes.elimination,
-        order: 1
-      },
-      {
-        id: 'second-phase-id',
-        title: 'second phase title',
-        type: PhaseTypes.elimination,
-        order: 2
-      }
-    ],
-    teams: [],
-    organization: {
-      id: 'some-org-id',
-      name: 'some org name',
-      slug: 'some-org-slug'
-    }
-  });
-
-  it('sets entities', () => {
-    const newState = phaseReducer(initialState, action);
-
-    expect(newState.phases['first-phase-id']).toEqual({
-      id: 'first-phase-id',
-      title: 'first phase title',
-      type: PhaseTypes.elimination,
-      isInProgress: true,
-      order: 1
-    });
-    expect(newState.phases['second-phase-id']).toEqual({
-      id: 'second-phase-id',
-      title: 'second phase title',
-      type: PhaseTypes.elimination,
-      isInProgress: true,
-      order: 2
-    });
-  });
-});
-
 describe('getPhase', () => {
   const action = getPhaseStart();
 
@@ -320,6 +272,72 @@ describe('getPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       isInProgress: true,
       order: 1
+    });
+  });
+});
+
+describe('getTournamentSuccess', () => {
+  const apiTournament = {
+    ...DEFAULT_TOURNAMENT,
+    id: 'first-id',
+    name: 'first-title',
+    slug: 'first-slug',
+    phases: [
+      {
+        id: 'first-phase-id',
+        title: 'first phase title',
+        type: PhaseTypes.elimination,
+        order: 1
+      },
+      {
+        id: 'second-phase-id',
+        title: 'second phase title',
+        type: PhaseTypes.elimination,
+        order: 2
+      }
+    ],
+    teams: [],
+    organization: {
+      id: 'some-org-id',
+      name: 'some org name',
+      slug: 'some-org-slug'
+    }
+  };
+
+  const action = getTournamentSuccess(apiTournament);
+
+  it('sets selectedPhaseId', () => {
+    const newState = phaseReducer(initialState, action);
+
+    expect(newState.selectedPhaseId).toEqual('first-phase-id');
+  });
+
+  it('does not set selectedPhaseId if tournament has no phase', () => {
+    const action = getTournamentSuccess({
+      ...apiTournament,
+      phases: []
+    });
+    const newState = phaseReducer(initialState, action);
+
+    expect(newState.selectedPhaseId).toEqual('');
+  });
+
+  it('sets entities', () => {
+    const newState = phaseReducer(initialState, action);
+
+    expect(newState.phases['first-phase-id']).toEqual({
+      id: 'first-phase-id',
+      title: 'first phase title',
+      type: PhaseTypes.elimination,
+      isInProgress: true,
+      order: 1
+    });
+    expect(newState.phases['second-phase-id']).toEqual({
+      id: 'second-phase-id',
+      title: 'second phase title',
+      type: PhaseTypes.elimination,
+      isInProgress: true,
+      order: 2
     });
   });
 });

@@ -6,7 +6,6 @@ import {
   returnProperty
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
-import { LOAD_DEFAULT_PHASE } from '../Shared/store/routerActions';
 import {
   ActionTypes,
   DELETE_TOURNAMENT_GAME,
@@ -119,16 +118,10 @@ const getGamesByFilterSuccess = (
   games: action.payload!.reduce(tournamentGameMapEntities, {})
 });
 
-const loadDefaultPhasePayload = (state: GameState) => ({
-  ...state,
-  isLoadingRequestGames: true
-});
-
 export default createReducer(initialState, {
   [DELETE_TOURNAMENT_GAME]: deleteGame,
   [DELETE_TOURNAMENT_GAME_FAILURE]: deleteGameFailure,
   [DELETE_TOURNAMENT_GAME_SUCCESS]: deleteGameSuccess,
-  [LOAD_DEFAULT_PHASE]: loadDefaultPhasePayload,
   [POST_TOURNAMENT_GAME]: postGame,
   [POST_TOURNAMENT_GAME_FAILURE]: postGameFailure,
   [POST_TOURNAMENT_GAME_SUCCESS]: postGameSuccess,
