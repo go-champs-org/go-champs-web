@@ -1,11 +1,12 @@
 import React from 'react';
+import { List } from '../Tournaments/List';
 
 class Search extends React.Component {
   render() {
     return (
       <div>
         <section className="hero">
-          <div className="hero-body">
+          <div className="hero-head">
             <div className="container">
               <h1 className="title">Busca de torneiro</h1>
 
@@ -19,6 +20,10 @@ class Search extends React.Component {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="hero-body">
+            <List deleteTournament={true} tournaments={[]} url="" />
           </div>
         </section>
       </div>

@@ -9,7 +9,6 @@ import {
   getTournamentsByFilter,
   postTournament
 } from '../Tournaments/effects';
-import { List } from '../Tournaments/List';
 import { TournamentState } from '../Tournaments/state';
 import { OrganizationHomeMatchProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
@@ -27,11 +26,6 @@ class OrganizationHome extends React.Component<OrganizationHomeProps> {
     return (
       <div>
         <Link to={`${this.props.match.url}/TournamentNew`}>New</Link>
-        <List
-          tournamentState={this.props.tournamentState}
-          url={this.props.match.url}
-          deleteTournament={this.props.deleteTournament}
-        />
       </div>
     );
   }

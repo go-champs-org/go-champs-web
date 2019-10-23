@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TournamentEntity, TournamentState } from './state';
+import { TournamentEntity } from './state';
 
 const TournamentCard: React.FC<{
   tournament: TournamentEntity;
@@ -16,25 +16,19 @@ const TournamentCard: React.FC<{
   );
 };
 
-const Loading: React.FC = () => <div>Loading...</div>;
-
 export const List: React.FC<{
-  tournamentState: TournamentState;
+  tournaments: TournamentEntity[];
   url: string;
   deleteTournament: any;
-}> = ({ tournamentState, url, deleteTournament }) => (
+}> = ({ tournaments, url, deleteTournament }) => (
   <div>
-    {tournamentState.isLoadingRequestTournaments ? (
-      <Loading />
-    ) : (
-      Object.keys(tournamentState.tournaments).map((key: string) => (
-        <TournamentCard
-          key={key}
-          tournament={tournamentState.tournaments[key]}
-          url={url}
-          onDeleteTournament={deleteTournament}
-        />
-      ))
-    )}
+    {tournaments.map((tournament: TournamentEntity) => (
+      <TournamentCard
+        key={tournament.id}
+        tournament={tournament}
+        url={url}
+        onDeleteTournament={deleteTournament}
+      />
+    ))}
   </div>
 );
