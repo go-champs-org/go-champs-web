@@ -65,6 +65,52 @@ class Home extends React.Component<HomeProps> {
             </p>
           </div>
         </div>
+
+        <div className="hero-foot">
+          <div className="has-text-centered">
+            <h1 className="title">Mande seu feedback</h1>
+
+            <div className="columns is-centered">
+              <div className="column is-half">
+                <div className="field">
+                  <label className="label">Nome</label>
+                  <div className="control">
+                    <input
+                      className="input is-primary"
+                      type="text"
+                      placeholder="Usain Bolt"
+                    />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label className="label">Email</label>
+                  <div className="control">
+                    <input
+                      className="input is-primary"
+                      type="text"
+                      placeholder="seu@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label className="label">Mensagem</label>
+                  <div className="control">
+                    <textarea
+                      className="textarea is-primary"
+                      placeholder=""
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="control">
+                  <button className="button is-primary">Enviar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
