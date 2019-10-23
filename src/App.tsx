@@ -8,6 +8,7 @@ import Home from './Pages/Home';
 import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
 import OrganizationNew from './Pages/OrganizationNew';
+import Search from './Pages/Search';
 import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
 import TournamentNew from './Pages/TournamentNew';
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                   path="/New"
                   component={OrganizationNew}
                 />
+                <Route exact sensitive path="/Search" component={Search} />
                 <Route
                   exact
                   path="/:organizationSlug"
