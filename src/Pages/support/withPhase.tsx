@@ -7,9 +7,9 @@ import { getPhase } from '../../Phases/effects';
 import { selectedPhaseId } from '../../Phases/selectors';
 import { RequestFilter } from '../../Shared/httpClient/requestFilter';
 import { StoreState } from '../../store';
-import { PhaseHomeMatchProps } from './routerInterfaces';
+import { TournamentHomeMatchProps } from './routerInterfaces';
 
-interface WithPhaseProps extends RouteComponentProps<PhaseHomeMatchProps> {
+interface WithPhaseProps extends RouteComponentProps<TournamentHomeMatchProps> {
   getPhase: (phaseId: string) => {};
   getGamesByFilter: (where: RequestFilter) => {};
   selectedPhaseId: string;

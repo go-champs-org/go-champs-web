@@ -22,9 +22,9 @@ import { PhaseEntity, PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { StoreState } from '../store';
 import { TeamEntity } from '../Teams/state';
-import { PhaseHomeMatchProps } from './support/routerInterfaces';
+import { TournamentHomeMatchProps } from './support/routerInterfaces';
 
-interface PhaseHomeProps extends RouteComponentProps<PhaseHomeMatchProps> {
+interface PhaseHomeProps extends RouteComponentProps<TournamentHomeMatchProps> {
   gameDates: string[];
   gamesByDate: { [date: string]: GameEntity[] };
   gamesInitialDatePosition: number;

@@ -11,10 +11,11 @@ import { StoreState } from '../store';
 import Edit from '../Tournaments/Edit';
 import { getTournament, patchTournament } from '../Tournaments/effects';
 import { TournamentState } from '../Tournaments/state';
-import { PhaseHomeMatchProps } from './support/routerInterfaces';
+import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
-interface TournamentEditProps extends RouteComponentProps<PhaseHomeMatchProps> {
+interface TournamentEditProps
+  extends RouteComponentProps<TournamentHomeMatchProps> {
   phase: PhaseEntity | undefined;
   deletePhaseEliminationStat: any;
   organizationState: OrganizationState;

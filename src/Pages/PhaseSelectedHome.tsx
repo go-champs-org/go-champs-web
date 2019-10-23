@@ -9,11 +9,11 @@ import Top from '../Tournaments/Common/Top';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { TournamentEntity } from '../Tournaments/state';
 import PhaseHome from './PhaseHome';
-import { PhaseHomeMatchProps } from './support/routerInterfaces';
+import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withPhase from './support/withPhase';
 
 interface PhaseSelectedHomeProps
-  extends RouteComponentProps<PhaseHomeMatchProps> {
+  extends RouteComponentProps<TournamentHomeMatchProps> {
   phase: PhaseEntity | undefined;
   phases: PhaseEntity[];
   phaseLoading: boolean;
