@@ -4,7 +4,8 @@ import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
-import PhaseSelectedHome from './PhaseSelectedHome';
+import PhaseDefaultRedirect from './PhaseDefaultRedirect';
+import PhaseNotFound from './PhaseNotFound';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournament from './support/withTournament';
 
@@ -21,8 +22,12 @@ class TournamentHome extends React.Component<TournamentHomeProps> {
       <PageLoader canRender={!tournamentLoading}>
         <Switch>
           <Route
+            path={`/:organizationSlug/:tournamentSlug/empty`}
+            component={PhaseNotFound}
+          />
+          <Route
             path={`/:organizationSlug/:tournamentSlug`}
-            component={PhaseSelectedHome}
+            component={PhaseDefaultRedirect}
           />
         </Switch>
       </PageLoader>

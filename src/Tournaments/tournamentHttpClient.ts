@@ -65,7 +65,7 @@ const post = async (
   organizationId: string,
   tournament: TournamentEntity
 ): Promise<ApiTournamentWithDependecies> => {
-  const url = `${TOURNAMENT_API}/${tournament.id}`;
+  const url = TOURNAMENT_API;
   const body = mapTournamentEntityToApiTournamentRequest(
     tournament,
     organizationId
