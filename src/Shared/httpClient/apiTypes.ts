@@ -180,3 +180,7 @@ export interface ApiTournamentResponse {
 export interface ApiTournamentsResponse {
   data: ApiTournament[];
 }
+
+export interface ApiSearchTournamentsResponse {
+  data: ApiTournamentWithDependecies[];
+}
