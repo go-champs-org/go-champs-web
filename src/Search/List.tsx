@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import Result from './Result';
+import './Result.scss';
 import searchHttpClient from './searchHttpClient';
 
 const useDebounce = (value: string, delay: number) => {
@@ -24,8 +25,7 @@ const useDebounce = (value: string, delay: number) => {
     return () => {
       clearTimeout(handler);
     };
-  }, // ... need to be able to change that dynamically. // You could also add the "delay" var to inputs array if you ... // Only re-call effect if value changes
-  [value, delay]);
+  }, [value, delay]); // ... need to be able to change that dynamically. // You could also add the "delay" var to inputs array if you ... // Only re-call effect if value changes
 
   return debouncedValue;
 };
@@ -50,8 +50,8 @@ const List: React.FC = () => {
   }, [debouncedSearchTerm]);
 
   return (
-    <div>
-      <section className="hero">
+    <section className="container">
+      <div className="hero">
         <div className="hero-head">
           <div className="container">
             <h1 className="title">Busca de torneiro</h1>
@@ -70,12 +70,14 @@ const List: React.FC = () => {
         </div>
 
         <div className="hero-body">
-          {results.map((tournament: ApiTournamentWithDependecies) => (
-            <Result tournament={tournament} />
-          ))}
+          <div className="columns is-multiline">
+            {results.map((tournament: ApiTournamentWithDependecies) => (
+              <Result tournament={tournament} />
+            ))}
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
