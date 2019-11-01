@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseTypes } from '../../Phases/state';
+import AdminWrapper from '../../Shared/UI/AdminWrapper';
 import Dropdown, {
   DropdownDivider,
   DropdownItem
@@ -88,41 +89,45 @@ const TopLevel: React.FC<{
 
     <div className="level-right">
       <span className="level-item">
-        <Dropdown label="Manage" className="is-right">
-          <DropdownItem>
-            <Link to={`/${organizationSlug}/${tournamentSlug}/TournamentEdit`}>
-              Settings
-            </Link>
-          </DropdownItem>
+        <AdminWrapper>
+          <Dropdown label="Manage" className="is-right">
+            <DropdownItem>
+              <Link
+                to={`/${organizationSlug}/${tournamentSlug}/TournamentEdit`}
+              >
+                Settings
+              </Link>
+            </DropdownItem>
 
-          <DropdownItem>
-            <Link to={`/${organizationSlug}/${tournamentSlug}/PhaseList`}>
-              Phases
-            </Link>
-          </DropdownItem>
+            <DropdownItem>
+              <Link to={`/${organizationSlug}/${tournamentSlug}/PhaseList`}>
+                Phases
+              </Link>
+            </DropdownItem>
 
-          <DropdownItem>
-            <Link to={`/${organizationSlug}/${tournamentSlug}/TeamList`}>
-              Teams
-            </Link>
-          </DropdownItem>
+            <DropdownItem>
+              <Link to={`/${organizationSlug}/${tournamentSlug}/TeamList`}>
+                Teams
+              </Link>
+            </DropdownItem>
 
-          <DropdownDivider />
+            <DropdownDivider />
 
-          {phase.type === PhaseTypes.draw ? (
-            <BracketMenu
-              organizationSlug={organizationSlug}
-              tournamentSlug={tournamentSlug}
-              phaseId={phase.id}
-            />
-          ) : (
-            <StandingMenu
-              organizationSlug={organizationSlug}
-              tournamentSlug={tournamentSlug}
-              phaseId={phase.id}
-            />
-          )}
-        </Dropdown>
+            {phase.type === PhaseTypes.draw ? (
+              <BracketMenu
+                organizationSlug={organizationSlug}
+                tournamentSlug={tournamentSlug}
+                phaseId={phase.id}
+              />
+            ) : (
+              <StandingMenu
+                organizationSlug={organizationSlug}
+                tournamentSlug={tournamentSlug}
+                phaseId={phase.id}
+              />
+            )}
+          </Dropdown>
+        </AdminWrapper>
       </span>
     </div>
   </nav>
