@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
-import Result from './Result';
+import Result, { ResultShimmer } from './Result';
 import './Result.scss';
 import searchHttpClient from './searchHttpClient';
+
+const ListShimmer: React.FC = () => (
+  <div className="columns is-multiline">
+    <ResultShimmer />
+    <ResultShimmer />
+    <ResultShimmer />
+  </div>
+);
 
 const useDebounce = (value: string, delay: number) => {
   // State and setters for debounced value
@@ -70,11 +78,15 @@ const List: React.FC = () => {
         </div>
 
         <div className="hero-body">
-          <div className="columns is-multiline">
-            {results.map((tournament: ApiTournamentWithDependecies) => (
-              <Result tournament={tournament} />
-            ))}
-          </div>
+          {isSearching ? (
+            <ListShimmer />
+          ) : (
+            <div className="columns is-multiline">
+              {results.map((tournament: ApiTournamentWithDependecies) => (
+                <Result tournament={tournament} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
