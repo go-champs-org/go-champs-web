@@ -1,23 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
-import {
-  deleteOrganization,
-  getOrganizations,
-  postOrganization
-} from '../Organizations/effects';
-import { OrganizationState } from '../Organizations/state';
-import { StoreState } from '../store';
 
-interface HomeProps extends RouteComponentProps {
-  deleteOrganization: any;
-  organizationState: OrganizationState;
-  postOrganization: any;
-  getOrganizations: any;
-}
-
-class Home extends React.Component<HomeProps> {
+class Home extends React.Component {
   render() {
     return (
       <div className="hero is-medium">
@@ -117,27 +100,6 @@ class Home extends React.Component<HomeProps> {
       </div>
     );
   }
-
-  componentDidMount() {
-    this.props.getOrganizations();
-  }
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  organizationState: state.organizations
-});
-
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      deleteOrganization,
-      postOrganization,
-      getOrganizations
-    },
-    dispatch
-  );
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default Home;
