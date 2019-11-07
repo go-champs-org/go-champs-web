@@ -1,19 +1,21 @@
-import React, { ReactNode } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 
 interface ComponentLoaderProps {
   canRender: boolean;
   children: ReactNode;
+  loader: ReactNode;
 }
 
 const ComponentLoader: React.FC<ComponentLoaderProps> = ({
   canRender,
-  children
+  children,
+  loader
 }) => {
   if (canRender) {
-    return <div>{children}</div>;
+    return <Fragment>{children}</Fragment>;
   }
 
-  return <div>Loading...</div>;
+  return <Fragment>{loader}</Fragment>;
 };
 
 export default ComponentLoader;

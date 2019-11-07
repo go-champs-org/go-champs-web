@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Result, { ResultShimmer } from './Result';
 import './Result.scss';
 import searchHttpClient from './searchHttpClient';
@@ -78,15 +79,13 @@ const List: React.FC = () => {
         </div>
 
         <div className="hero-body">
-          {isSearching ? (
-            <ListShimmer />
-          ) : (
+          <ComponentLoader canRender={!isSearching} loader={ListShimmer}>
             <div className="columns is-multiline">
               {results.map((tournament: ApiTournamentWithDependecies) => (
                 <Result tournament={tournament} />
               ))}
             </div>
-          )}
+          </ComponentLoader>
         </div>
       </div>
     </section>

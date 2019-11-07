@@ -69,7 +69,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
       <div className="is-divider-vertical"></div>
 
       <aside className="column is-4">
-        <ComponentLoader canRender={!gamesLoading}>
+        <ComponentLoader canRender={!gamesLoading} loader={'Loading'}>
           <GameListByDate
             dates={gameDates}
             gamesByDate={gamesByDate}
