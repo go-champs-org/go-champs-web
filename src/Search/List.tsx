@@ -5,7 +5,7 @@ import Result, { ResultShimmer } from './Result';
 import './Result.scss';
 import searchHttpClient from './searchHttpClient';
 
-const ListShimmer: React.FC = () => (
+const ListShimmer = (
   <div className="columns is-multiline">
     <ResultShimmer />
     <ResultShimmer />
@@ -82,7 +82,7 @@ const List: React.FC = () => {
           <ComponentLoader canRender={!isSearching} loader={ListShimmer}>
             <div className="columns is-multiline">
               {results.map((tournament: ApiTournamentWithDependecies) => (
-                <Result tournament={tournament} />
+                <Result tournament={tournament} key={tournament.id} />
               ))}
             </div>
           </ComponentLoader>
