@@ -1,28 +1,17 @@
 import React from 'react';
 import { Form } from 'react-final-form';
-import { OrganizationState } from '../Organizations/state';
-import { PhaseEntity, PhaseState } from '../Phases/state';
 import { default as TournamentForm } from './Form';
 import { TournamentEntity } from './state';
 
 interface TournamentEditProps {
-  organizationSlug: string;
-  organizationState: OrganizationState;
   patchTournament: any;
   tournament: TournamentEntity;
-  tournamentPhaseState: PhaseState;
-  phase: PhaseEntity;
 }
 
 export const Edit: React.FC<TournamentEditProps> = ({
-  organizationSlug,
-  organizationState,
   patchTournament,
-  phase,
   tournament,
-  tournamentPhaseState
 }) => {
-  const organization = organizationState.organizations[organizationSlug];
   return (
     <div className="columns is-multiline">
       <header className="column is-12">Tournament edit</header>

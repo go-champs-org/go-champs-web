@@ -43,17 +43,13 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     const canRender =
       !this.props.organizationState.isLoadingOrganizations &&
       !!this.props.organizationState.organizations[
-        this.props.match.params.organizationSlug
+      this.props.match.params.organizationSlug
       ];
     return (
       <PageLoader canRender={canRender}>
         <Edit
-          phase={this.props.phase!}
-          organizationSlug={this.props.match.params.organizationSlug}
-          organizationState={this.props.organizationState}
           patchTournament={this.props.patchTournament}
           tournament={tournament}
-          tournamentPhaseState={this.props.tournamentPhaseState}
         />
       </PageLoader>
     );

@@ -66,7 +66,7 @@ const App: React.FC = () => {
           <footer className="footer">
             <div className="content has-text-centered">
               <p>
-                <strong>Go Champs!</strong> by Lair Júnior. The source code is
+                <strong>Go Champs!</strong><em>0.0.1</em> by Lair Júnior. The source code is
                 licensed&nbsp;
                 <a
                   href="http://opensource.org/licenses/mit-license.php"

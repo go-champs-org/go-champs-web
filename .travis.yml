@@ -1,0 +1,20 @@
+language: node_js
+
+env:
+  - YARN_GPG=no
+
+node_js:
+  - "stable"
+
+script:
+  - yarn
+  - yarn test
+
+before_deploy:
+  - yarn build
+
+deploy:
+  dir: "build/"
+  prod: true
+  provider: netlify
+  edge: true

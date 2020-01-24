@@ -24,6 +24,7 @@ class NavTopToolbar extends React.Component {
             aria-label="menu"
             aria-expanded="false"
             data-target="menu"
+            href="/"
           >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -45,11 +46,11 @@ class NavTopToolbar extends React.Component {
               <span className="navbar-divider"></span>
             </div>
 
-            <a href="/" className="navbar-item">
+            <a href="/About" className="navbar-item">
               Go Champs!
             </a>
 
-            <a href="/" className="navbar-item">
+            <a href="/About" className="navbar-item">
               Sobre nós
             </a>
           </div>
