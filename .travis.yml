@@ -8,13 +8,19 @@ node_js:
 
 script:
   - yarn
-  - yarn test
 
-before_deploy:
-  - yarn build
+jobs:
+  include:
+    - stage: test
+      name: "Unit Tests"
+      script:
+        - yarn test
 
-deploy:
-  dir: "build/"
-  prod: true
-  provider: netlify
-  edge: true
+    - stage: deploy
+      name: "Deploy"
+      before_deploy:
+        - yarn build
+      deploy:
+        dir: "build/"
+        provider: netlify
+        edge: true
