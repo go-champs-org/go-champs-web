@@ -6,6 +6,8 @@ env:
 node_js:
   - "stable"
 
+cache: yarn
+
 script:
   - yarn
 
@@ -16,11 +18,23 @@ jobs:
       script:
         - yarn test
 
-    - stage: deploy
-      name: "Deploy"
+    - stage: deploy_admin
+      name: "Deploy admin"
+      before_deploy:
+        - yarn build:adm
+      deploy:
+        dir: "build/"
+        site: fd6c308a-dd0a-45eb-b958-8f34abd756f7 # admin
+        prod: true
+        provider: netlify
+        edge: true
+
+    - stage: deploy_prod
+      name: "Deploy prod"
       before_deploy:
         - yarn build
       deploy:
         dir: "build/"
+        site: c9da8497-fd9b-4ee7-a82b-3b97d43ddda4 # prod
         provider: netlify
         edge: true
