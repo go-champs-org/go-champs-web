@@ -36,7 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:adm": "REACT_APP_APP_MODE=adm react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER react-scripts build",
     "build:adm": "REACT_APP_APP_MODE=adm react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

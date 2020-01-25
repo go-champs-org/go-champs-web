@@ -87,7 +87,7 @@ const App: React.FC = () => {
               </p>
 
               <p>
-                Build: <em>0.0.3</em>
+                Build: <em>0.0.{process.env.REACT_APP_BUILD_NUMBER}</em>
               </p>
             </div>
           </footer>
