@@ -1,4 +1,4 @@
-# Go Champs Front-End [![Build Status](https://travis-ci.com/lairjr/b-tournaments.svg?branch=master)](https://travis-ci.com/lairjr/b-tournaments)
+# Go Champs Front-End [![Build Status](https://travis-ci.com/lairjr/go-champs-web.svg?branch=master)](https://travis-ci.com/lairjr/go-champs-web)
 
 *This is the Go Champs Front-End repository.*
 
