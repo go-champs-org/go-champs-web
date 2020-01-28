@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
+import AccountHome from './Pages/AccountHome';
 import Home from './Pages/Home';
 import OrganizationEdit from './Pages/OrganizationEdit';
 import OrganizationHome from './Pages/OrganizationHome';
@@ -25,6 +26,12 @@ const App: React.FC = () => {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route
+                  exact
+                  sensitive
+                  path="/Account"
+                  component={AccountHome}
+                />
                 <Route
                   exact
                   sensitive

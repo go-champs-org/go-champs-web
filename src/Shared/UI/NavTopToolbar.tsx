@@ -1,6 +1,7 @@
 import React, { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo-with-background.png';
+import AdminWrapper from './AdminWrapper';
 import './NavTopToolbar.scss';
 
 class NavTopToolbar extends React.Component {
@@ -46,6 +47,12 @@ class NavTopToolbar extends React.Component {
             <div className="navbar-item">
               <span className="navbar-divider"></span>
             </div>
+
+            <AdminWrapper>
+              <a href="/Account" className="navbar-item">
+                My account
+              </a>
+            </AdminWrapper>
 
             <a href="/About" className="navbar-item">
               Go Champs!
