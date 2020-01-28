@@ -54,10 +54,7 @@ const withTournaments = (WrappedComponent: any) => {
     organizationState: state.organizations
   });
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WithTournaments);
+  return connect(mapStateToProps, mapDispatchToProps)(WithTournaments);
 };
 
 export default withTournaments;

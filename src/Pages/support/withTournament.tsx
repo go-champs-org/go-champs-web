@@ -31,10 +31,7 @@ const withTournament = (WrappedComponent: any) => {
     );
   };
 
-  return connect(
-    state => state,
-    mapDispatchToProps
-  )(WithTournament);
+  return connect(state => state, mapDispatchToProps)(WithTournament);
 };
 
 export default withTournament;

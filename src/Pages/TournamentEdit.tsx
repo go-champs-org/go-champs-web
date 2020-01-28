@@ -43,7 +43,7 @@ class TournamentEdit extends React.Component<TournamentEditProps> {
     const canRender =
       !this.props.organizationState.isLoadingOrganizations &&
       !!this.props.organizationState.organizations[
-      this.props.match.params.organizationSlug
+        this.props.match.params.organizationSlug
       ];
     return (
       <PageLoader canRender={canRender}>
@@ -87,8 +87,5 @@ const mapDispatchToProps = (dispatch: any, props: TournamentEditProps) => {
 };
 
 export default withTournaments(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TournamentEdit)
+  connect(mapStateToProps, mapDispatchToProps)(TournamentEdit)
 );

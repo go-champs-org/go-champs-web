@@ -51,8 +51,5 @@ const mapDispatchToProps = (dispatch: any) =>
   );
 
 export default withOrganizations(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(OrganizationEdit)
+  connect(mapStateToProps, mapDispatchToProps)(OrganizationEdit)
 );

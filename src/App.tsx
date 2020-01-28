@@ -67,9 +67,7 @@ const App: React.FC = () => {
             <div className="content has-text-centered">
               <p>
                 <strong>Go Champs!</strong>
-                &nbsp;
-                by Lair Júnior. The source code is licensed
-                &nbsp;
+                &nbsp; by Lair Júnior. The source code is licensed &nbsp;
                 <a
                   href="http://opensource.org/licenses/mit-license.php"
                   style={{ color: '#970c10' }}

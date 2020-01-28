@@ -22,7 +22,4 @@ const mapDispatchToProps = (dispatch: any) =>
     dispatch
   );
 
-export default connect(
-  state => state,
-  mapDispatchToProps
-)(OrganizationNew);
+export default connect(state => state, mapDispatchToProps)(OrganizationNew);

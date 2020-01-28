@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo-with-background.png';
 import './NavTopToolbar.scss';
@@ -24,7 +24,8 @@ class NavTopToolbar extends React.Component {
             aria-label="menu"
             aria-expanded="false"
             data-target="menu"
-            href="/"
+            href="#"
+            onClick={(event: MouseEvent) => event.preventDefault()}
           >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>

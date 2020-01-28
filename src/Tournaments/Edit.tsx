@@ -10,7 +10,7 @@ interface TournamentEditProps {
 
 export const Edit: React.FC<TournamentEditProps> = ({
   patchTournament,
-  tournament,
+  tournament
 }) => {
   return (
     <div className="columns is-multiline">

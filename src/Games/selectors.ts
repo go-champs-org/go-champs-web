@@ -7,17 +7,14 @@ export const games = (state: GameState): GameEntity[] =>
 
 export const gameDates = (state: GameState): string[] => {
   return games(state)
-    .reduce(
-      (acc, game: GameEntity) => {
-        const date = game.datetime.substring(0, 10);
+    .reduce((acc, game: GameEntity) => {
+      const date = game.datetime.substring(0, 10);
 
-        if (!acc.includes(date)) {
-          return [...acc, date];
-        }
-        return acc;
-      },
-      [] as string[]
-    )
+      if (!acc.includes(date)) {
+        return [...acc, date];
+      }
+      return acc;
+    }, [] as string[])
     .sort();
 };
 

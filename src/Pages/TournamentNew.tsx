@@ -47,8 +47,5 @@ const mapDispatchToProps = (dispatch: any, state: TournamentNewProps) => {
 };
 
 export default withOrganizations(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TournamentNew)
+  connect(mapStateToProps, mapDispatchToProps)(TournamentNew)
 );

@@ -41,10 +41,7 @@ const withPhase = (WrappedComponent: any) => {
     );
   };
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WithPhase);
+  return connect(mapStateToProps, mapDispatchToProps)(WithPhase);
 };
 
 export default withPhase;
