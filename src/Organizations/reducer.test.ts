@@ -298,9 +298,9 @@ describe('getOrganizationSuccess', () => {
 describe('getOrganizations', () => {
   const action = getOrganizationsStart();
 
-  it('sets isLoadingRequestOrganization to true', () => {
+  it('sets isLoadingRequestOrganizations to true', () => {
     expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganizations
     ).toBe(true);
   });
 });
@@ -308,9 +308,9 @@ describe('getOrganizations', () => {
 describe('getOrganizationsFailure', () => {
   const action = getOrganizationsFailure('error');
 
-  it('sets isLoadingRequestOrganization to false', () => {
+  it('sets isLoadingRequestOrganizations to false', () => {
     expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganizations
     ).toBe(false);
   });
 });
@@ -329,9 +329,9 @@ describe('getOrganizationsSuccess', () => {
     }
   ]);
 
-  it('sets isLoadingRequestOrganization to false', () => {
+  it('sets isLoadingRequestOrganizations to false', () => {
     expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganization
+      organizationReducer(initialState, action).isLoadingRequestOrganizations
     ).toBe(false);
   });
 

@@ -1,7 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { organizations, organizationsLoading } from '../Organizations/selectors';
+import { OrganizationEntity } from '../Organizations/state';
+import { StoreState } from '../store';
 import withOrganizations from './support/withOrganizations';
 
-const AccountHome: React.FC = () => {
+interface AccountHomeProps {
+  organizations: OrganizationEntity[];
+  organizationsLoading: boolean;
+}
+
+const AccountHome: React.FC<AccountHomeProps> = ({
+  organizations,
+  organizationsLoading
+}) => {
   return (
     <div>
       <div className="columns is-multiline">
@@ -27,4 +39,11 @@ const AccountHome: React.FC = () => {
   );
 };
 
-export default withOrganizations(AccountHome);
+const mapStateToProps = (state: StoreState) => {
+  return {
+    organizations: organizations(state.organizations),
+    organizationsLoading: organizationsLoading(state.organizations)
+  };
+};
+
+export default withOrganizations(connect(mapStateToProps)(AccountHome));

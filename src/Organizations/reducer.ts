@@ -151,7 +151,7 @@ const getOrganizations = (
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestOrganization: true
+  isLoadingRequestOrganizations: true
 });
 
 const getOrganizationsFailure = (
@@ -159,7 +159,7 @@ const getOrganizationsFailure = (
   action: HttpAction<ActionTypes>
 ) => ({
   ...state,
-  isLoadingRequestOrganization: false
+  isLoadingRequestOrganizations: false
 });
 
 const getOrganizationsSuccess = (
@@ -167,7 +167,7 @@ const getOrganizationsSuccess = (
   action: HttpAction<ActionTypes, OrganizationEntity[]>
 ) => ({
   ...state,
-  isLoadingRequestOrganization: false,
+  isLoadingRequestOrganizations: false,
   organizations: action.payload!.reduce(organizationMapEntities, {})
 });
 
