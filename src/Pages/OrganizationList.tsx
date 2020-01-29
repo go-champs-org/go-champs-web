@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import List, { ListLoading } from '../Organizations/List';
 import {
   organizations,
@@ -19,7 +20,17 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
   organizationsLoading
 }) => (
   <Fragment>
-    <h2 className="subtitle">Organizations</h2>
+    <div className="columns is-gapless is-vcentered is-mobile">
+      <div className="column is-10">
+        <h2 className="subtitle">Organizations</h2>
+      </div>
+
+      <div className="column is-2 has-text-right">
+        <Link className="button is-text" to={`/Account/NewOrganization`}>
+          New
+        </Link>
+      </div>
+    </div>
 
     {organizationsLoading ? (
       <ListLoading />
