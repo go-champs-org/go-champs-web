@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PageLoader from '../Shared/UI/PageLoader';
-import { OrganizationEntity, OrganizationState } from './state';
+import { OrganizationEntity } from './state';
+
+export const ListLoading: React.FC = () => <div></div>;
 
 const OrganizationCard: React.FC<{
   organization: OrganizationEntity;
-  url: string;
   onDeleteOrganization: any;
 }> = ({ organization, onDeleteOrganization }) => (
   <div>
@@ -16,18 +16,17 @@ const OrganizationCard: React.FC<{
 );
 
 export const List: React.FC<{
-  organizationState: OrganizationState;
-  url: string;
-  deleteOrganization: any;
-}> = ({ organizationState, url, deleteOrganization }) => (
-  <PageLoader canRender={!organizationState.isLoadingRequestOrganization}>
-    {Object.keys(organizationState.organizations).map((key: string) => (
+  organizations: OrganizationEntity[];
+}> = ({ organizations }) => (
+  <div>
+    {organizations.map((organization: OrganizationEntity) => (
       <OrganizationCard
-        key={key}
-        organization={organizationState.organizations[key]}
-        url={url}
-        onDeleteOrganization={deleteOrganization}
+        key={organization.id}
+        organization={organization}
+        onDeleteOrganization={false}
       />
     ))}
-  </PageLoader>
+  </div>
 );
+
+export default List;

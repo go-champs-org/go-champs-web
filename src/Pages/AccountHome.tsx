@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { organizations, organizationsLoading } from '../Organizations/selectors';
+import List, { ListLoading } from '../Organizations/List';
+import {
+  organizations,
+  organizationsLoading
+} from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
 import { StoreState } from '../store';
 import withOrganizations from './support/withOrganizations';
@@ -21,6 +25,12 @@ const AccountHome: React.FC<AccountHomeProps> = ({
 
         <div className="column is-8">
           <h2 className="title">Organizations</h2>
+
+          {organizationsLoading ? (
+            <ListLoading />
+          ) : (
+            <List organizations={organizations} />
+          )}
         </div>
 
         <div className="column is-4">
