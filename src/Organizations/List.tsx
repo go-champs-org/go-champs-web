@@ -1,8 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Shimmer from '../Shared/UI/Shimmer';
 import { OrganizationEntity } from './state';
 
-export const ListLoading: React.FC = () => <div></div>;
+const LoadingCard: React.FC = () => (
+  <div className="card item">
+    <div className="card-header">
+      <div className="card-header-title">
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+    </div>
+  </div>
+);
+
+export const ListLoading: React.FC = () => (
+  <div>
+    <LoadingCard />
+    <LoadingCard />
+    <LoadingCard />
+  </div>
+);
 
 const OrganizationCard: React.FC<{
   organization: OrganizationEntity;

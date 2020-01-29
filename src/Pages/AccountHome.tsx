@@ -1,23 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import List, { ListLoading } from '../Organizations/List';
-import {
-  organizations,
-  organizationsLoading
-} from '../Organizations/selectors';
-import { OrganizationEntity } from '../Organizations/state';
-import { StoreState } from '../store';
-import withOrganizations from './support/withOrganizations';
+import { Route, Switch } from 'react-router-dom';
+import OrganizationList from './OrganizationList';
 
-interface AccountHomeProps {
-  organizations: OrganizationEntity[];
-  organizationsLoading: boolean;
-}
-
-const AccountHome: React.FC<AccountHomeProps> = ({
-  organizations,
-  organizationsLoading
-}) => {
+const AccountHome: React.FC = () => {
   return (
     <div>
       <div className="columns is-multiline">
@@ -26,13 +11,9 @@ const AccountHome: React.FC<AccountHomeProps> = ({
         </header>
 
         <div className="column is-8">
-          <h2 className="subtitle">Organizations</h2>
-
-          {organizationsLoading ? (
-            <ListLoading />
-          ) : (
-            <List organizations={organizations} />
-          )}
+          <Switch>
+            <Route path={`/`} component={OrganizationList} />
+          </Switch>
         </div>
 
         <div className="column is-4">
@@ -41,7 +22,7 @@ const AccountHome: React.FC<AccountHomeProps> = ({
 
             <ul className="menu-list">
               <li>
-                <a href="/OrganizationsList">Organizations</a>
+                <a href="/Account/Organizations">Organizations</a>
               </li>
             </ul>
           </aside>
@@ -51,11 +32,4 @@ const AccountHome: React.FC<AccountHomeProps> = ({
   );
 };
 
-const mapStateToProps = (state: StoreState) => {
-  return {
-    organizations: organizations(state.organizations),
-    organizationsLoading: organizationsLoading(state.organizations)
-  };
-};
-
-export default withOrganizations(connect(mapStateToProps)(AccountHome));
+export default AccountHome;
