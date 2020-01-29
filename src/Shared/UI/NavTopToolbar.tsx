@@ -25,7 +25,7 @@ class NavTopToolbar extends React.Component {
             aria-label="menu"
             aria-expanded="false"
             data-target="menu"
-            href="#"
+            href="/"
             onClick={(event: MouseEvent) => event.preventDefault()}
           >
             <span aria-hidden="true"></span>
