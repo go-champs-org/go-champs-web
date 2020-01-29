@@ -1,4 +1,5 @@
 import React from 'react';
+import withOrganizations from './support/withOrganizations';
 
 const AccountHome: React.FC = () => {
   return (
@@ -26,4 +27,4 @@ const AccountHome: React.FC = () => {
   );
 };
 
-export default AccountHome;
+export default withOrganizations(AccountHome);
