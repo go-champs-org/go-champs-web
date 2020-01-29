@@ -8,10 +8,21 @@ const OrganizationCard: React.FC<{
   organization: OrganizationEntity;
   onDeleteOrganization: any;
 }> = ({ organization, onDeleteOrganization }) => (
-  <div>
-    <Link to={`/${organization.slug}`}>{organization.name}</Link>
-    <button onClick={() => onDeleteOrganization(organization)}>Delete</button>
-    <Link to={`/${organization.slug}/OrganizationEdit`}>Edit</Link>
+  <div className="card item">
+    <div className="card-header">
+      <Link
+        className="card-header-title"
+        to={`/OrganizationEdit/${organization.slug}`}
+      >
+        <span className="title is-6">{organization.name}</span>
+      </Link>
+
+      <div className="card-header-icon">
+        <button className="button is-text">
+          <i className="fas fa-trash" />
+        </button>
+      </div>
+    </div>
   </div>
 );
 

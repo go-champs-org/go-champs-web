@@ -21,10 +21,12 @@ const AccountHome: React.FC<AccountHomeProps> = ({
   return (
     <div>
       <div className="columns is-multiline">
-        <header className="column is-12">My account</header>
+        <header className="column is-12">
+          <h1 className="title">My account</h1>
+        </header>
 
         <div className="column is-8">
-          <h2 className="title">Organizations</h2>
+          <h2 className="subtitle">Organizations</h2>
 
           {organizationsLoading ? (
             <ListLoading />
