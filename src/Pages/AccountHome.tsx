@@ -12,7 +12,8 @@ const AccountHome: React.FC = () => {
 
         <div className="column is-8">
           <Switch>
-            <Route path={`/`} component={OrganizationList} />
+            <Route path="/Account/Organizations" component={OrganizationList} />
+            <Route path="/Account" component={OrganizationList} />
           </Switch>
         </div>
 

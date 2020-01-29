@@ -35,6 +35,12 @@ const App: React.FC = () => {
                 <Route
                   exact
                   sensitive
+                  path="/Account/*"
+                  component={AccountHome}
+                />
+                <Route
+                  exact
+                  sensitive
                   path="/New"
                   component={OrganizationNew}
                 />
