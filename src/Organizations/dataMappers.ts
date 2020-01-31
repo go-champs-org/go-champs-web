@@ -15,7 +15,7 @@ export const mapApiOrganizationToOrganizationEntity = (
 export const mapOrganizationEntityToApiOrganizationRequest = (
   organization: OrganizationEntity
 ): ApiOrganizationRequest => ({
-  tournament_organization: {
+  organization: {
     id: organization.id,
     name: organization.name,
     slug: organization.slug

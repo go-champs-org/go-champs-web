@@ -120,7 +120,7 @@ export interface ApiOrganization {
 }
 
 export interface ApiOrganizationRequest {
-  tournament_organization: ApiOrganization;
+  organization: ApiOrganization;
 }
 
 export interface ApiOrganizationResponse {
