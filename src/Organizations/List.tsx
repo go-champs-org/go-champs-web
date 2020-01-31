@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Shimmer from '../Shared/UI/Shimmer';
 import { OrganizationEntity } from './state';
+import { AnyAction, Dispatch } from 'redux';
 
 const LoadingCard: React.FC = () => (
   <div className="card item">
@@ -31,8 +32,8 @@ export const ListLoading: React.FC = () => (
 
 const OrganizationCard: React.FC<{
   organization: OrganizationEntity;
-  onDeleteOrganization: any;
-}> = ({ organization, onDeleteOrganization }) => (
+  deleteOrganization: any;
+}> = ({ organization, deleteOrganization }) => (
   <div className="card item">
     <div className="card-header">
       <Link
@@ -43,7 +44,10 @@ const OrganizationCard: React.FC<{
       </Link>
 
       <div className="card-header-icon">
-        <button className="button is-text">
+        <button
+          className="button is-text"
+          onClick={() => deleteOrganization(organization)}
+        >
           <i className="fas fa-trash" />
         </button>
       </div>
@@ -52,14 +56,15 @@ const OrganizationCard: React.FC<{
 );
 
 export const List: React.FC<{
+  deleteOrgazanition: any;
   organizations: OrganizationEntity[];
-}> = ({ organizations }) => (
+}> = ({ deleteOrgazanition, organizations }) => (
   <div>
     {organizations.map((organization: OrganizationEntity) => (
       <OrganizationCard
         key={organization.id}
+        deleteOrganization={deleteOrgazanition}
         organization={organization}
-        onDeleteOrganization={false}
       />
     ))}
   </div>

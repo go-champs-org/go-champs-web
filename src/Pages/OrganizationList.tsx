@@ -1,21 +1,37 @@
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import List, { ListLoading } from '../Organizations/List';
 import {
   organizations,
   organizationsLoading
 } from '../Organizations/selectors';
-import { OrganizationEntity } from '../Organizations/state';
 import { StoreState } from '../store';
 import withOrganizations from './support/withOrganizations';
+import { bindActionCreators, Dispatch } from 'redux';
+import { deleteOrganization } from '../Organizations/effects';
 
-interface OrganizationListProps {
-  organizations: OrganizationEntity[];
-  organizationsLoading: boolean;
-}
+const mapStateToProps = (state: StoreState) => {
+  return {
+    organizations: organizations(state.organizations),
+    organizationsLoading: organizationsLoading(state.organizations)
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      deleteOrganization
+    },
+    dispatch
+  );
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type OrganizationListProps = ConnectedProps<typeof connector>;
 
 const OrganizationList: React.FC<OrganizationListProps> = ({
+  deleteOrganization,
   organizations,
   organizationsLoading
 }) => (
@@ -35,16 +51,12 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
     {organizationsLoading ? (
       <ListLoading />
     ) : (
-      <List organizations={organizations} />
+      <List
+        deleteOrgazanition={deleteOrganization}
+        organizations={organizations}
+      />
     )}
   </Fragment>
 );
 
-const mapStateToProps = (state: StoreState) => {
-  return {
-    organizations: organizations(state.organizations),
-    organizationsLoading: organizationsLoading(state.organizations)
-  };
-};
-
-export default withOrganizations(connect(mapStateToProps)(OrganizationList));
+export default withOrganizations(connector(OrganizationList));
