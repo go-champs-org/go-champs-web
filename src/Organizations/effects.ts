@@ -21,7 +21,7 @@ import { OrganizationEntity } from './state';
 import { Dispatch } from 'redux';
 
 export const deleteOrganization = (organization: OrganizationEntity) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(deleteOrganizationStart());
 
@@ -36,7 +36,7 @@ export const deleteOrganization = (organization: OrganizationEntity) => async (
 };
 
 export const patchOrganization = (organization: OrganizationEntity) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(patchOrganizationStart());
 
@@ -66,7 +66,7 @@ export const postOrganization = (organization: OrganizationEntity) => async (
 };
 
 export const getOrganization = (organizationId: string) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(getOrganizationStart());
 
@@ -79,7 +79,7 @@ export const getOrganization = (organizationId: string) => async (
   }
 };
 
-export const getOrganizations = () => async (dispatch: any) => {
+export const getOrganizations = () => async (dispatch: Dispatch) => {
   dispatch(getOrganizationsStart());
 
   try {
