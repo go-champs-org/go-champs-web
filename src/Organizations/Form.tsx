@@ -1,12 +1,13 @@
 import React from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
+import { OrganizationEntity } from './state';
 
 const Input: React.FC<FieldRenderProps<any, HTMLInputElement>> = ({
   input,
   meta
 }) => <input className="input" type="text" {...input} />;
 
-const Form: React.FC<FormRenderProps> = ({
+const Form: React.FC<FormRenderProps<OrganizationEntity>> = ({
   handleSubmit,
   submitting,
   pristine
