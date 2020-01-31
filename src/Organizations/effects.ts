@@ -18,6 +18,7 @@ import {
 } from './actions';
 import organizationHttpClient from './organizationHttpClient';
 import { OrganizationEntity } from './state';
+import { Dispatch } from 'redux';
 
 export const deleteOrganization = (organization: OrganizationEntity) => async (
   dispatch: any
@@ -50,7 +51,7 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
 };
 
 export const postOrganization = (organization: OrganizationEntity) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(postOrganizationStart());
 

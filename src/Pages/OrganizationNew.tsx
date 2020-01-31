@@ -1,15 +1,22 @@
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
+import { connect, ConnectedProps } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { postOrganization } from '../Organizations/effects';
 import { default as OrganizationForm } from '../Organizations/Form';
 import { Form } from 'react-final-form';
 import { DEFAULT_ORGANIZATION } from '../Organizations/state';
 
-interface OrganizationNewProps extends RouteComponentProps {
-  postOrganization: any;
-}
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      postOrganization
+    },
+    dispatch
+  );
+
+const connector = connect(state => state, mapDispatchToProps);
+
+type OrganizationNewProps = ConnectedProps<typeof connector>;
 
 const OrganizationNew: React.FC<OrganizationNewProps> = ({
   postOrganization
@@ -33,12 +40,4 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
   );
 };
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      postOrganization
-    },
-    dispatch
-  );
-
-export default connect(state => state, mapDispatchToProps)(OrganizationNew);
+export default connector(OrganizationNew);
