@@ -6,13 +6,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import AccountHome from './Pages/AccountHome';
 import Home from './Pages/Home';
-import OrganizationEdit from './Pages/OrganizationEdit';
-import OrganizationHome from './Pages/OrganizationHome';
 import OrganizationNew from './Pages/OrganizationNew';
 import Search from './Pages/Search';
 import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
-import TournamentNew from './Pages/TournamentNew';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
 
@@ -45,23 +42,6 @@ const App: React.FC = () => {
                   component={OrganizationNew}
                 />
                 <Route exact sensitive path="/Search" component={Search} />
-                <Route
-                  exact
-                  path="/:organizationSlug"
-                  component={OrganizationHome}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/OrganizationEdit"
-                  component={OrganizationEdit}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/TournamentNew"
-                  component={TournamentNew}
-                />
                 <Route
                   path="/:organizationSlug/:tournamentSlug"
                   component={TournamentHome}

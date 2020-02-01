@@ -23,7 +23,7 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
 }) => {
   return (
     <Fragment>
-      <div className="columns is-gapless is-vcentered is-mobile is-multiline">
+      <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
           <h2 className="subtitle">New organization</h2>
         </div>

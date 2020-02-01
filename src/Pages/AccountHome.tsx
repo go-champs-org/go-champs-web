@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
+import OrganizationEdit from './OrganizationEdit';
 
 const AccountHome: React.FC = () => {
   return (
@@ -13,6 +14,10 @@ const AccountHome: React.FC = () => {
 
         <div className="column is-8">
           <Switch>
+            <Route
+              path="/Account/EditOrganization/:organizationSlug"
+              component={OrganizationEdit}
+            />
             <Route
               path="/Account/NewOrganization"
               component={OrganizationNew}

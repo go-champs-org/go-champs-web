@@ -1,4 +1,8 @@
-import { OrganizationEntity, OrganizationState } from './state';
+import {
+  OrganizationEntity,
+  OrganizationState,
+  DEFAULT_ORGANIZATION
+} from './state';
 
 export const organizationsLoading = (state: OrganizationState) =>
   state.isLoadingRequestOrganizations;
@@ -8,8 +12,9 @@ export const organizationLoading = (state: OrganizationState, slug: string) =>
 
 export const organizationBySlug = (
   state: OrganizationState,
-  slug: string
-): OrganizationEntity => state.organizations[slug];
+  slug?: string
+): OrganizationEntity =>
+  slug ? state.organizations[slug] : DEFAULT_ORGANIZATION;
 
 export const organizations = (state: OrganizationState) =>
   Object.keys(state.organizations).map(

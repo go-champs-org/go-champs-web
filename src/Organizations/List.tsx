@@ -40,7 +40,7 @@ const OrganizationCard: React.FC<{
     <div className="card-header">
       <Link
         className="card-header-title"
-        to={`/OrganizationEdit/${organization.slug}`}
+        to={`/Account/EditOrganization/${organization.slug}`}
       >
         <span className="title is-6">{organization.name}</span>
       </Link>

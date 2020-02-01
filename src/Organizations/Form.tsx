@@ -1,11 +1,38 @@
 import React from 'react';
-import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
+import { Field, FormRenderProps } from 'react-final-form';
 import { OrganizationEntity } from './state';
+import StringInput from '../Shared/UI/Form/StringInput';
+import Shimmer from '../Shared/UI/Shimmer';
 
-const Input: React.FC<FieldRenderProps<any, HTMLInputElement>> = ({
-  input,
-  meta
-}) => <input className="input" type="text" {...input} />;
+export const FormLoading: React.FC = () => (
+  <div className="columns is-multiline">
+    <div className="column is-12">
+      <label className="label">Name</label>
+      <Shimmer>
+        <div
+          style={{
+            height: '13px',
+            marginTop: '13px',
+            width: '250px'
+          }}
+        ></div>
+      </Shimmer>
+    </div>
+
+    <div className="column is-12">
+      <label className="label">Slug</label>
+      <Shimmer>
+        <div
+          style={{
+            height: '13px',
+            marginTop: '13px',
+            width: '250px'
+          }}
+        ></div>
+      </Shimmer>
+    </div>
+  </div>
+);
 
 const Form: React.FC<FormRenderProps<OrganizationEntity>> = ({
   handleSubmit,
@@ -17,14 +44,24 @@ const Form: React.FC<FormRenderProps<OrganizationEntity>> = ({
       <div className="field">
         <label className="label">Name</label>
         <div className="control">
-          <Field name="name" component={Input} type="text" placeholder="Name" />
+          <Field
+            name="name"
+            component={StringInput}
+            type="text"
+            placeholder="Name"
+          />
         </div>
       </div>
 
       <div className="field">
         <label className="label">Slug</label>
         <div className="control">
-          <Field name="slug" component={Input} type="text" placeholder="slug" />
+          <Field
+            name="slug"
+            component={StringInput}
+            type="text"
+            placeholder="slug"
+          />
         </div>
       </div>
 

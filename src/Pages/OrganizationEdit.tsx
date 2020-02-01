@@ -1,55 +1,71 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
-import { Edit } from '../Organizations/Edit';
-import { getOrganization, patchOrganization } from '../Organizations/effects';
-import { OrganizationState } from '../Organizations/state';
+import { bindActionCreators, Dispatch } from 'redux';
+import { getOrganizations, patchOrganization } from '../Organizations/effects';
 import { StoreState } from '../store';
-import { OrganizationHomeMatchProps } from './support/routerInterfaces';
+import { RouteProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
+import {
+  organizationBySlug,
+  organizationsLoading
+} from '../Organizations/selectors';
+import { Form } from 'react-final-form';
+import {
+  default as OrganizationForm,
+  FormLoading
+} from '../Organizations/Form';
 
-interface OrganizationEditProps
-  extends RouteComponentProps<OrganizationHomeMatchProps> {
-  patchOrganization: any;
-  organizationState: OrganizationState;
-  getOrganization: any;
-}
-
-class OrganizationEdit extends React.Component<OrganizationEditProps> {
-  render() {
-    const organization = this.props.organizationState.organizations[
-      this.props.match.params.organizationSlug
-    ];
-    return (
-      <Edit
-        organization={organization}
-        patchOrganization={this.props.patchOrganization}
-      />
-    );
-  }
-
-  componentDidMount() {
-    const organizationId = this.props.organizationState.organizations[
-      this.props.match.params.organizationSlug
-    ].id;
-    this.props.getOrganization(organizationId);
-  }
-}
-
-const mapStateToProps = (state: StoreState) => ({
-  organizationState: state.organizations
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => ({
+  organization: organizationBySlug(
+    state.organizations,
+    props.match.params.organizationSlug
+  ),
+  organizationsLoading: organizationsLoading(state.organizations)
 });
 
-const mapDispatchToProps = (dispatch: any) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      patchOrganization,
-      getOrganization
+      getOrganizations,
+      patchOrganization
     },
     dispatch
   );
 
-export default withOrganizations(
-  connect(mapStateToProps, mapDispatchToProps)(OrganizationEdit)
-);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type OrganizationEditProps = ConnectedProps<typeof connector>;
+
+const OrganizationEdit: React.FC<OrganizationEditProps> = ({
+  organization,
+  organizationsLoading,
+  patchOrganization
+}) => {
+  return (
+    <Fragment>
+      <div className="columns is-vcentered is-mobile is-multiline">
+        <div className="column is-12">
+          <h2 className="subtitle">Edit organization</h2>
+        </div>
+
+        <div className="column is-12">
+          {organizationsLoading ? (
+            <FormLoading />
+          ) : (
+            <Form
+              onSubmit={patchOrganization}
+              initialValues={organization}
+              render={OrganizationForm}
+            />
+          )}
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+export default connector(withOrganizations(OrganizationEdit));

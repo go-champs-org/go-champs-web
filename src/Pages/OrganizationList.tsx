@@ -9,7 +9,7 @@ import {
 import { StoreState } from '../store';
 import withOrganizations from './support/withOrganizations';
 import { bindActionCreators, Dispatch } from 'redux';
-import { deleteOrganization } from '../Organizations/effects';
+import { getOrganizations, deleteOrganization } from '../Organizations/effects';
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -21,6 +21,7 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
+      getOrganizations,
       deleteOrganization
     },
     dispatch
@@ -59,4 +60,4 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
   </Fragment>
 );
 
-export default withOrganizations(connector(OrganizationList));
+export default connector(withOrganizations(OrganizationList));
