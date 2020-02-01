@@ -32,7 +32,9 @@ export const ListLoading: React.FC = () => (
 
 const OrganizationCard: React.FC<{
   organization: OrganizationEntity;
-  deleteOrganization: any;
+  deleteOrganization: (
+    organization: OrganizationEntity
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 }> = ({ organization, deleteOrganization }) => (
   <div className="card item">
     <div className="card-header">
@@ -56,7 +58,9 @@ const OrganizationCard: React.FC<{
 );
 
 export const List: React.FC<{
-  deleteOrgazanition: any;
+  deleteOrgazanition: (
+    organization: OrganizationEntity
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   organizations: OrganizationEntity[];
 }> = ({ deleteOrgazanition, organizations }) => (
   <div>

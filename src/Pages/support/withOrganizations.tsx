@@ -1,17 +1,27 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { getOrganizations } from '../../Organizations/effects';
 import { OrganizationHomeMatchProps } from './routerInterfaces';
 
-interface WithOrganizationsProps
-  extends RouteComponentProps<OrganizationHomeMatchProps> {
-  getOrganizations: any;
-}
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getOrganizations
+    },
+    dispatch
+  );
 
-const withOrganizations = (WrappedComponent: any) => {
-  class WithTournaments extends React.Component<WithOrganizationsProps> {
+const connector = connect(null, mapDispatchToProps);
+
+type WithOrganizationsProps = ConnectedProps<typeof connector>;
+
+// TODO: Remove any from extends
+const withOrganizations = <T extends any>(
+  WrappedComponent: React.ComponentType<T>
+) => {
+  class WithTournaments extends React.Component<T & WithOrganizationsProps> {
     render() {
       return <WrappedComponent {...this.props} />;
     }
@@ -21,15 +31,7 @@ const withOrganizations = (WrappedComponent: any) => {
     }
   }
 
-  const mapDispatchToProps = (dispatch: any) =>
-    bindActionCreators(
-      {
-        getOrganizations
-      },
-      dispatch
-    );
-
-  return connect(state => state, mapDispatchToProps)(WithTournaments);
+  return connector(WithTournaments);
 };
 
 export default withOrganizations;
