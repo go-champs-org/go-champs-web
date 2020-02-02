@@ -6,12 +6,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 import AccountHome from './Pages/AccountHome';
 import Home from './Pages/Home';
-import OrganizationNew from './Pages/OrganizationNew';
 import Search from './Pages/Search';
 import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
+import OrganizationHome from './Pages/OrganizationHome';
 
 const App: React.FC = () => {
   return (
@@ -38,8 +38,14 @@ const App: React.FC = () => {
                 <Route
                   exact
                   sensitive
-                  path="/New"
-                  component={OrganizationNew}
+                  path="/Organization/:organizationSlug"
+                  component={OrganizationHome}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/Organization/:organizationSlug/*"
+                  component={OrganizationHome}
                 />
                 <Route exact sensitive path="/Search" component={Search} />
                 <Route
