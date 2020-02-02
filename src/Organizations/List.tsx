@@ -58,16 +58,16 @@ const OrganizationCard: React.FC<{
 );
 
 export const List: React.FC<{
-  deleteOrgazanition: (
+  deleteOrganization: (
     organization: OrganizationEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   organizations: OrganizationEntity[];
-}> = ({ deleteOrgazanition, organizations }) => (
+}> = ({ deleteOrganization, organizations }) => (
   <div>
     {organizations.map((organization: OrganizationEntity) => (
       <OrganizationCard
         key={organization.id}
-        deleteOrganization={deleteOrgazanition}
+        deleteOrganization={deleteOrganization}
         organization={organization}
       />
     ))}

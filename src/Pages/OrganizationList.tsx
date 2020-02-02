@@ -21,8 +21,8 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      getOrganizations,
-      deleteOrganization
+      deleteOrganization,
+      getOrganizations
     },
     dispatch
   );
@@ -53,7 +53,7 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
       <ListLoading />
     ) : (
       <List
-        deleteOrgazanition={deleteOrganization}
+        deleteOrganization={deleteOrganization}
         organizations={organizations}
       />
     )}
