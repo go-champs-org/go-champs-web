@@ -9,7 +9,7 @@ import { tournaments, tournamentsLoading } from '../Tournaments/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import List, { ListLoading } from '../Tournaments/List';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 
 const mapStateToProps = (state: StoreState) => ({
@@ -41,8 +41,17 @@ const TournamentList: React.FC<TournamentListProps> = ({
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
-        <div className="column is-12">
+        <div className="column is-10">
           <h2 className="subtitle">Tournaments</h2>
+        </div>
+
+        <div className="column is-2 has-text-right">
+          <Link
+            className="button is-text"
+            to={`/Organization/${organizationSlug}/NewTournament`}
+          >
+            New
+          </Link>
         </div>
 
         <div className="column is-12">
