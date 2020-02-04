@@ -3,6 +3,7 @@ import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import OrganizationEdit from './OrganizationEdit';
 import TournamentList from './TournamentList';
+import TournamentNew from './TournamentNew';
 
 const OrganizationHome: React.FC<RouteComponentProps<RouteProps>> = ({
   match: {
@@ -25,6 +26,10 @@ const OrganizationHome: React.FC<RouteComponentProps<RouteProps>> = ({
             <Route
               path={`/Organization/:organizationSlug/Edit`}
               component={OrganizationEdit}
+            />
+            <Route
+              path={`/Organization/:organizationSlug/NewTournament`}
+              component={TournamentNew}
             />
             <Route
               path={`/Organization/:organizationSlug/Tournaments`}

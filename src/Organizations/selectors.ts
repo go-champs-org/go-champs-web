@@ -13,8 +13,12 @@ export const organizationLoading = (state: OrganizationState, slug: string) =>
 export const organizationBySlug = (
   state: OrganizationState,
   slug?: string
-): OrganizationEntity =>
-  slug ? state.organizations[slug] : DEFAULT_ORGANIZATION;
+): OrganizationEntity => {
+  if (!slug || !state.organizations[slug]) {
+    return DEFAULT_ORGANIZATION;
+  }
+  return state.organizations[slug];
+};
 
 export const organizations = (state: OrganizationState) =>
   Object.keys(state.organizations).map(

@@ -19,9 +19,10 @@ import {
 } from './actions';
 import { TournamentEntity } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
+import { Dispatch } from 'redux';
 
 export const deleteTournament = (tournament: TournamentEntity) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(deleteTournamentStart());
 
@@ -35,9 +36,10 @@ export const deleteTournament = (tournament: TournamentEntity) => async (
   }
 };
 
-export const patchTournament = (organizationId: string) => (
+export const patchTournament = (
+  organizationId: string,
   tournament: TournamentEntity
-) => async (dispatch: any) => {
+) => async (dispatch: Dispatch) => {
   dispatch(patchTournamentStart());
 
   try {
@@ -53,9 +55,10 @@ export const patchTournament = (organizationId: string) => (
   }
 };
 
-export const postTournament = (organizationId: string) => (
+export const postTournament = (
+  organizationId: string,
   tournament: TournamentEntity
-) => async (dispatch: any) => {
+) => async (dispatch: Dispatch) => {
   dispatch(postTournamentStart());
 
   try {
@@ -72,7 +75,7 @@ export const postTournament = (organizationId: string) => (
 };
 
 export const getTournamentsByFilter = (where: RequestFilter) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(getTournamentsByFilterStart());
 
@@ -86,7 +89,7 @@ export const getTournamentsByFilter = (where: RequestFilter) => async (
 };
 
 export const getTournament = (tournamentId: string) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(getTournamentStart());
 
@@ -102,7 +105,7 @@ export const getTournament = (tournamentId: string) => async (
 export const getTournamentBySlug = (
   organizationSlug: string,
   tournamentSlug: string
-) => async (dispatch: any) => {
+) => async (dispatch: Dispatch) => {
   dispatch(getTournamentStart());
 
   try {

@@ -10,7 +10,7 @@ import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
 import Edit from '../Tournaments/Edit';
 import { getTournament, patchTournament } from '../Tournaments/effects';
-import { TournamentState } from '../Tournaments/state';
+import { TournamentState, DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import { TournamentHomeMatchProps } from './support/routerInterfaces';
 import withTournaments from './support/withTournaments';
 
@@ -79,7 +79,7 @@ const mapDispatchToProps = (dispatch: any, props: TournamentEditProps) => {
   const organizationId = currentOrganization ? currentOrganization.id : '';
   return bindActionCreators(
     {
-      patchTournament: patchTournament(organizationId),
+      patchTournament: patchTournament(organizationId, DEFAULT_TOURNAMENT),
       getTournament
     },
     dispatch
