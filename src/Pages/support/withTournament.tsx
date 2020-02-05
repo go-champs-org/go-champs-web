@@ -1,8 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { bindActionCreators, Dispatch } from 'redux';
-import { getTournamentBySlug } from '../../Tournaments/effects';
 import { TournamentHomeMatchProps } from './routerInterfaces';
 
 interface WithTournamentProps
@@ -10,8 +7,10 @@ interface WithTournamentProps
   getTournamentBySlug: (organizationSlug: string, tournamentSlug: string) => {};
 }
 
-const withTournament = (WrappedComponent: any) => {
-  class WithTournament extends React.Component<WithTournamentProps> {
+const withTournament = <T extends object>(
+  WrappedComponent: React.ComponentType<T>
+) => {
+  class WithTournament extends React.Component<T & WithTournamentProps> {
     render() {
       return <WrappedComponent {...this.props} />;
     }
@@ -22,16 +21,7 @@ const withTournament = (WrappedComponent: any) => {
     }
   }
 
-  const mapDispatchToProps = (dispatch: Dispatch) => {
-    return bindActionCreators(
-      {
-        getTournamentBySlug
-      },
-      dispatch
-    );
-  };
-
-  return connect(state => state, mapDispatchToProps)(WithTournament);
+  return WithTournament;
 };
 
 export default withTournament;

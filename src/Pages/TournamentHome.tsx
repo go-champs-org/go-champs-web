@@ -1,49 +1,53 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import PageLoader from '../Shared/UI/PageLoader';
 import { StoreState } from '../store';
-import { tournamentLoading } from '../Tournaments/selectors';
+import { tournamentLoading, tournamentBySlug } from '../Tournaments/selectors';
+import { getTournamentBySlug } from '../Tournaments/effects';
 import PhaseDefaultRedirect from './PhaseDefaultRedirect';
 import PhaseNotFound from './PhaseNotFound';
-import { TournamentHomeMatchProps } from './support/routerInterfaces';
+import { RouteProps } from './support/routerInterfaces';
 import withTournament from './support/withTournament';
+import { Dispatch, bindActionCreators } from 'redux';
 
-interface TournamentHomeProps
-  extends RouteComponentProps<TournamentHomeMatchProps> {
-  tournamentLoading: boolean;
-}
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => ({
+  tournament: tournamentBySlug(
+    state.tournaments,
+    props.match.params.tournamentSlug
+  ),
+  tournamentLoading: tournamentLoading(state.tournaments)
+});
 
-class TournamentHome extends React.Component<TournamentHomeProps> {
-  render() {
-    const { tournamentLoading } = this.props;
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getTournamentBySlug
+    },
+    dispatch
+  );
 
-    return (
-      <PageLoader canRender={!tournamentLoading}>
-        <Switch>
-          <Route
-            path={`/:organizationSlug/:tournamentSlug/empty`}
-            component={PhaseNotFound}
-          />
-          <Route
-            path={`/:organizationSlug/:tournamentSlug`}
-            component={PhaseDefaultRedirect}
-          />
-        </Switch>
-      </PageLoader>
-    );
-  }
-}
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const mapStateToProps = (state: StoreState, props: TournamentHomeProps) => {
-  const {
-    match: {
-      params: { tournamentSlug }
-    }
-  } = props;
-  return {
-    tournamentLoading: tournamentLoading(state.tournaments, tournamentSlug)
-  };
+type TournamentHomeProps = ConnectedProps<typeof connector>;
+
+const TournamentHome: React.FC<TournamentHomeProps> = () => {
+  return (
+    <div>
+      <Switch>
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/empty`}
+          component={PhaseNotFound}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug`}
+          component={PhaseDefaultRedirect}
+        />
+      </Switch>
+    </div>
+  );
 };
 
-export default withTournament(connect(mapStateToProps)(TournamentHome));
+export default connector(withTournament<TournamentHomeProps>(TournamentHome));

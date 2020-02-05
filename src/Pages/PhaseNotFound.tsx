@@ -5,9 +5,7 @@ const PhaseNotFound: React.FC = () => (
     <div className="content has-text-centered">
       <h2 className="subtitle">Você precisa criar um fase para o torneio.</h2>
 
-      <button className="button is-large is-fullwidth">
-        New phase
-      </button>
+      <button className="button is-large is-fullwidth">New phase</button>
     </div>
   </div>
 );
