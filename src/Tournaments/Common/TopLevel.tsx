@@ -1,83 +1,80 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PhaseEntity, PhaseTypes } from '../../Phases/state';
 import AdminWrapper from '../../Shared/UI/AdminWrapper';
-import Dropdown, {
-  DropdownDivider,
-  DropdownItem
-} from '../../Shared/UI/Dropdown';
+import Dropdown, { DropdownItem } from '../../Shared/UI/Dropdown';
 import { TournamentEntity } from '../state';
 
-const StandingMenu: React.FC<{
-  organizationSlug: string;
-  tournamentSlug: string;
-  phaseId: string;
-}> = ({ organizationSlug, tournamentSlug, phaseId }) => (
-  <div>
-    <DropdownItem>
-      <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGameList`}
-      >
-        Games
-      </Link>
-    </DropdownItem>
+// TODO: Uncomment all of that
 
-    <DropdownItem>
-      <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGroupList`}
-      >
-        Groups
-      </Link>
-    </DropdownItem>
+// const StandingMenu: React.FC<{
+//   organizationSlug: string;
+//   tournamentSlug: string;
+//   phaseId: string;
+// }> = ({ organizationSlug, tournamentSlug, phaseId }) => (
+//   <div>
+//     <DropdownItem>
+//       <Link
+//         to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGameList`}
+//       >
+//         Games
+//       </Link>
+//     </DropdownItem>
 
-    <DropdownItem>
-      <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/EliminationEdit`}
-      >
-        Standings
-      </Link>
-    </DropdownItem>
+//     <DropdownItem>
+//       <Link
+//         to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGroupList`}
+//       >
+//         Groups
+//       </Link>
+//     </DropdownItem>
 
-    <DropdownItem>
-      <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseStatList`}
-      >
-        Stats
-      </Link>
-    </DropdownItem>
-  </div>
-);
+//     <DropdownItem>
+//       <Link
+//         to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/EliminationEdit`}
+//       >
+//         Standings
+//       </Link>
+//     </DropdownItem>
 
-const BracketMenu: React.FC<{
-  organizationSlug: string;
-  tournamentSlug: string;
-  phaseId: string;
-}> = ({ organizationSlug, tournamentSlug, phaseId }) => (
-  <div>
-    <DropdownItem>
-      <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGameList`}
-      >
-        Games
-      </Link>
-    </DropdownItem>
+//     <DropdownItem>
+//       <Link
+//         to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseStatList`}
+//       >
+//         Stats
+//       </Link>
+//     </DropdownItem>
+//   </div>
+// );
 
-    <DropdownItem>
-      <Link
-        to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGroupList`}
-      >
-        Rounds
-      </Link>
-    </DropdownItem>
-  </div>
-);
+// const BracketMenu: React.FC<{
+//   organizationSlug: string;
+//   tournamentSlug: string;
+//   phaseId: string;
+// }> = ({ organizationSlug, tournamentSlug, phaseId }) => (
+//   <div>
+//     <DropdownItem>
+//       <Link
+//         to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGameList`}
+//       >
+//         Games
+//       </Link>
+//     </DropdownItem>
+
+//     <DropdownItem>
+//       <Link
+//         to={`/${organizationSlug}/${tournamentSlug}/phase/${phaseId}/PhaseGroupList`}
+//       >
+//         Rounds
+//       </Link>
+//     </DropdownItem>
+//   </div>
+// );
 
 const TopLevel: React.FC<{
   organizationSlug: string;
   tournament: TournamentEntity;
-  phase: PhaseEntity;
   tournamentSlug: string;
-}> = ({ phase, organizationSlug, tournament, tournamentSlug }) => (
+}> = ({ organizationSlug, tournament, tournamentSlug }) => (
   <nav className="level">
     <div className="level-left">
       <div className="level-item">
@@ -110,22 +107,6 @@ const TopLevel: React.FC<{
                 Teams
               </Link>
             </DropdownItem>
-
-            <DropdownDivider />
-
-            {phase.type === PhaseTypes.draw ? (
-              <BracketMenu
-                organizationSlug={organizationSlug}
-                tournamentSlug={tournamentSlug}
-                phaseId={phase.id}
-              />
-            ) : (
-              <StandingMenu
-                organizationSlug={organizationSlug}
-                tournamentSlug={tournamentSlug}
-                phaseId={phase.id}
-              />
-            )}
           </Dropdown>
         </AdminWrapper>
       </span>

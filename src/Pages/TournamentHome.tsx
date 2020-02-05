@@ -9,16 +9,19 @@ import PhaseNotFound from './PhaseNotFound';
 import { RouteProps } from './support/routerInterfaces';
 import withTournament from './support/withTournament';
 import { Dispatch, bindActionCreators } from 'redux';
+import TopLevel from '../Tournaments/Common/TopLevel';
 
 const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => ({
+  organizationSlug: props.match.params.organizationSlug || '',
   tournament: tournamentBySlug(
     state.tournaments,
     props.match.params.tournamentSlug
   ),
-  tournamentLoading: tournamentLoading(state.tournaments)
+  tournamentLoading: tournamentLoading(state.tournaments),
+  tournamentSlug: props.match.params.tournamentSlug || ''
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -33,9 +36,21 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type TournamentHomeProps = ConnectedProps<typeof connector>;
 
-const TournamentHome: React.FC<TournamentHomeProps> = () => {
+const TournamentHome: React.FC<TournamentHomeProps> = ({
+  organizationSlug,
+  tournament,
+  tournamentSlug
+}) => {
   return (
-    <div>
+    <div className="columns is-multiline">
+      <header className="column is-12">
+        <TopLevel
+          organizationSlug={organizationSlug}
+          tournamentSlug={tournamentSlug}
+          tournament={tournament}
+        />
+      </header>
+
       <Switch>
         <Route
           path={`/:organizationSlug/:tournamentSlug/empty`}
