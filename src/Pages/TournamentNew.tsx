@@ -41,7 +41,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch, props: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getOrganizations,

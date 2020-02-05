@@ -11,6 +11,7 @@ import withTournament from './support/withTournament';
 import { Dispatch, bindActionCreators } from 'redux';
 import TopLevel, { LoadingTopLevel } from '../Tournaments/Common/TopLevel';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import TournamentEdit from './TournamentEdit';
 
 const mapStateToProps = (
   state: StoreState,
@@ -62,6 +63,10 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/empty`}
           component={PhaseNotFound}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Edit`}
+          component={TournamentEdit}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug`}

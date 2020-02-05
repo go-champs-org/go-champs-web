@@ -1,91 +1,113 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
-import { OrganizationState } from '../Organizations/state';
-import { PhaseEliminationStatState } from '../Phases/EliminationStats/state';
-import { selectedPhase } from '../Phases/selectors';
-import { PhaseEntity, PhaseState } from '../Phases/state';
-import PageLoader from '../Shared/UI/PageLoader';
+import { bindActionCreators, Dispatch, AnyAction } from 'redux';
+import { getTournamentBySlug, patchTournament } from '../Tournaments/effects';
 import { StoreState } from '../store';
-import Edit from '../Tournaments/Edit';
-import { getTournament, patchTournament } from '../Tournaments/effects';
-import { TournamentState, DEFAULT_TOURNAMENT } from '../Tournaments/state';
-import { TournamentHomeMatchProps } from './support/routerInterfaces';
-import withTournaments from './support/withTournaments';
+import { RouteProps } from './support/routerInterfaces';
+import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
+import { Form } from 'react-final-form';
+import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
+import withTournament from './support/withTournament';
+import { TournamentEntity } from '../Tournaments/state';
+import { organizationBySlug } from '../Organizations/selectors';
+import { OrganizationEntity } from '../Organizations/state';
+import AdminMenu from '../Tournaments/AdminMenu';
 
-interface TournamentEditProps
-  extends RouteComponentProps<TournamentHomeMatchProps> {
-  phase: PhaseEntity | undefined;
-  deletePhaseEliminationStat: any;
-  organizationState: OrganizationState;
-  tournamentPhaseState: PhaseState;
-  tournamentState: TournamentState;
-  tournamentStatState: PhaseEliminationStatState;
-  patchTournament: any;
-  patchPhaseEliminationStat: any;
-  postPhaseEliminationStat: any;
-  getTournament: any;
+interface StateProps extends RouteComponentProps<RouteProps> {
+  organization: OrganizationEntity;
+  tournament: TournamentEntity;
+  tournamentLoading: boolean;
 }
 
-class TournamentEdit extends React.Component<TournamentEditProps> {
-  render() {
-    if (!this.props.phase) {
-      return (
-        <PageLoader canRender={false}>
-          <div></div>
-        </PageLoader>
-      );
-    }
-    const tournament = this.props.tournamentState.tournaments[
-      this.props.match.params.tournamentSlug
-    ];
-    const canRender =
-      !this.props.organizationState.isLoadingRequestOrganizations &&
-      !!this.props.organizationState.organizations[
-        this.props.match.params.organizationSlug
-      ];
-    return (
-      <PageLoader canRender={canRender}>
-        <Edit
-          patchTournament={this.props.patchTournament}
-          tournament={tournament}
-        />
-      </PageLoader>
-    );
-  }
+type DispatchProps = {
+  getTournamentBySlug: (
+    organizationSlug: string,
+    tournamentSlug: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  patchTournament: (
+    organizationId: string,
+    tournament: TournamentEntity
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+};
 
-  componentDidMount() {
-    const tournamentId = this.props.tournamentState.tournaments[
-      this.props.match.params.tournamentSlug
-    ].id;
-    this.props.getTournament(tournamentId);
-  }
-}
-
-const mapStateToProps = (state: StoreState) => {
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => {
+  const { organizationSlug } = props.match.params;
   return {
-    organizationState: state.organizations,
-    phase: selectedPhase(state.phases),
-    tournamentPhaseState: state.phases,
-    tournamentState: state.tournaments,
-    tournamentStatState: state.eliminationStats
+    ...props,
+    organization: organizationBySlug(state.organizations, organizationSlug),
+    tournament: tournamentBySlug(
+      state.tournaments,
+      props.match.params.tournamentSlug
+    ),
+    tournamentLoading: tournamentLoading(state.tournaments)
   };
 };
 
-const mapDispatchToProps = (dispatch: any, props: TournamentEditProps) => {
-  const currentOrganization =
-    props.organizationState.organizations[props.match.params.organizationSlug];
-  const organizationId = currentOrganization ? currentOrganization.id : '';
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      patchTournament: patchTournament(organizationId, DEFAULT_TOURNAMENT),
-      getTournament
+      getTournamentBySlug,
+      patchTournament
     },
     dispatch
   );
 };
 
-export default withTournaments(
-  connect(mapStateToProps, mapDispatchToProps)(TournamentEdit)
-);
+const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps) => {
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    patchTournament: (tournament: TournamentEntity) =>
+      dispatchProps.patchTournament(stateProps.organization.id, tournament)
+  };
+};
+const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
+
+type TournamentEditProps = ConnectedProps<typeof connector>;
+
+const TournamentEdit: React.FC<TournamentEditProps> = ({
+  match,
+  tournament,
+  tournamentLoading,
+  patchTournament
+}) => {
+  const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  return (
+    <Fragment>
+      <div className="column">
+        <div className="columns is-vcentered is-mobile is-multiline">
+          <div className="column is-12">
+            <h2 className="subtitle">Edit tournament</h2>
+          </div>
+
+          <div className="column is-12">
+            {tournamentLoading ? (
+              <FormLoading />
+            ) : (
+              <Form
+                onSubmit={patchTournament}
+                initialValues={tournament}
+                render={TournamentForm}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="is-divider-vertical"></div>
+
+      <div className="column is-4">
+        <AdminMenu
+          organizationSlug={organizationSlug}
+          tournamentSlug={tournamentSlug}
+        />
+      </div>
+    </Fragment>
+  );
+};
+
+export default connector(withTournament<TournamentEditProps>(TournamentEdit));
