@@ -9,7 +9,8 @@ import PhaseNotFound from './PhaseNotFound';
 import { RouteProps } from './support/routerInterfaces';
 import withTournament from './support/withTournament';
 import { Dispatch, bindActionCreators } from 'redux';
-import TopLevel from '../Tournaments/Common/TopLevel';
+import TopLevel, { LoadingTopLevel } from '../Tournaments/Common/TopLevel';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 const mapStateToProps = (
   state: StoreState,
@@ -39,16 +40,22 @@ type TournamentHomeProps = ConnectedProps<typeof connector>;
 const TournamentHome: React.FC<TournamentHomeProps> = ({
   organizationSlug,
   tournament,
+  tournamentLoading,
   tournamentSlug
 }) => {
   return (
     <div className="columns is-multiline">
       <header className="column is-12">
-        <TopLevel
-          organizationSlug={organizationSlug}
-          tournamentSlug={tournamentSlug}
-          tournament={tournament}
-        />
+        <ComponentLoader
+          canRender={!tournamentLoading}
+          loader={<LoadingTopLevel />}
+        >
+          <TopLevel
+            organizationSlug={organizationSlug}
+            tournamentSlug={tournamentSlug}
+            tournament={tournament}
+          />
+        </ComponentLoader>
       </header>
 
       <Switch>
