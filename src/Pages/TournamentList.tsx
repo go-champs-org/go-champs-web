@@ -11,6 +11,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import List, { ListLoading } from '../Tournaments/List';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 const mapStateToProps = (state: StoreState) => ({
   tournaments: tournaments(state.tournaments),
@@ -55,15 +56,16 @@ const TournamentList: React.FC<TournamentListProps> = ({
         </div>
 
         <div className="column is-12">
-          {tournamentsLoading ? (
-            <ListLoading />
-          ) : (
+          <ComponentLoader
+            canRender={!tournamentsLoading}
+            loader={<ListLoading />}
+          >
             <List
               deleteTournament={deleteTournament}
               organizationSlug={organizationSlug}
               tournaments={tournaments}
             />
-          )}
+          </ComponentLoader>
         </div>
       </div>
     </Fragment>

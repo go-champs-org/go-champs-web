@@ -10,6 +10,7 @@ import { StoreState } from '../store';
 import withOrganizations from './support/withOrganizations';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getOrganizations, deleteOrganization } from '../Organizations/effects';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -49,14 +50,12 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
       </div>
     </div>
 
-    {organizationsLoading ? (
-      <ListLoading />
-    ) : (
+    <ComponentLoader canRender={!organizationsLoading} loader={<ListLoading />}>
       <List
         deleteOrganization={deleteOrganization}
         organizations={organizations}
       />
-    )}
+    </ComponentLoader>
   </Fragment>
 );
 

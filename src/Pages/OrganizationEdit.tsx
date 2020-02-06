@@ -15,6 +15,7 @@ import {
   default as OrganizationForm,
   FormLoading
 } from '../Organizations/Form';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 const mapStateToProps = (
   state: StoreState,
@@ -53,15 +54,16 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
         </div>
 
         <div className="column is-12">
-          {organizationsLoading ? (
-            <FormLoading />
-          ) : (
+          <ComponentLoader
+            canRender={!organizationsLoading}
+            loader={<FormLoading />}
+          >
             <Form
               onSubmit={patchOrganization}
               initialValues={organization}
               render={OrganizationForm}
             />
-          )}
+          </ComponentLoader>
         </div>
       </div>
     </Fragment>

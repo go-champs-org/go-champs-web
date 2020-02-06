@@ -13,6 +13,7 @@ import { TournamentEntity } from '../Tournaments/state';
 import { organizationBySlug } from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
 import AdminMenu from '../Tournaments/AdminMenu';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
@@ -85,15 +86,16 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
           </div>
 
           <div className="column is-12">
-            {tournamentLoading ? (
-              <FormLoading />
-            ) : (
+            <ComponentLoader
+              canRender={!tournamentLoading}
+              loader={<FormLoading />}
+            >
               <Form
                 onSubmit={patchTournament}
                 initialValues={tournament}
                 render={TournamentForm}
               />
-            )}
+            </ComponentLoader>
           </div>
         </div>
       </div>

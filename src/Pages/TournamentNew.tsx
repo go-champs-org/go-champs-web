@@ -15,6 +15,7 @@ import {
 import { OrganizationEntity } from '../Organizations/state';
 import withOrganizations from './support/withOrganizations';
 import { getOrganizations } from '../Organizations/effects';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
@@ -76,15 +77,16 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
         </div>
 
         <div className="column is-12">
-          {organizationsLoading ? (
-            <FormLoading />
-          ) : (
+          <ComponentLoader
+            canRender={!organizationsLoading}
+            loader={<FormLoading />}
+          >
             <Form
               onSubmit={postTournament}
               initialValues={DEFAULT_TOURNAMENT}
               render={TournamentForm}
             />
-          )}
+          </ComponentLoader>
         </div>
       </div>
     </Fragment>
