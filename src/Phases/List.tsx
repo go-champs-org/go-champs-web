@@ -4,10 +4,8 @@ import DraggableItem, { DragTypes } from '../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
   DraggableListProps
 } from '../Shared/UI/DnD/withDraggableList';
-import { TournamentState } from '../Tournaments/state';
-import { byOrder } from './compareFunctions';
 import './List.scss';
-import { PhaseEntity, PhaseState } from './state';
+import { PhaseEntity } from './state';
 
 const PhaseCard: React.FC<{
   onDeletePhase: any;
@@ -49,29 +47,26 @@ const PhaseCard: React.FC<{
   );
 };
 
-interface WrapperProps extends DraggableListProps<PhaseEntity> {
+interface PhaseListProps {
   deletePhase: any;
   patchPhase: any;
-  phase: PhaseEntity;
-  currentOrganizationSlug: string;
-  currentTournamentSlug: string;
-  tournamentPhaseState: PhaseState;
-  tournamentState: TournamentState;
+  organizationSlug: string;
+  tournamentSlug: string;
+  phases: PhaseEntity[];
 }
 
-export const List: React.FC<WrapperProps> = ({
-  currentOrganizationSlug,
-  currentTournamentSlug,
+export const List: React.RefForwardingComponent<
+  DraggableListProps<PhaseEntity>,
+  PhaseListProps & DraggableListProps<PhaseEntity>
+> = ({
+  organizationSlug,
+  tournamentSlug,
   deletePhase,
   patchPhase,
-  phase,
-  tournamentPhaseState,
-  tournamentState,
   sortedItems,
   moveItem
 }) => {
-  const tournament = tournamentState.tournaments[currentTournamentSlug];
-  const baseTournamentUrl = `/${currentOrganizationSlug}/${currentTournamentSlug}`;
+  const baseTournamentUrl = `/${organizationSlug}/${tournamentSlug}`;
 
   return (
     <div className="columns is-multiline">
@@ -107,40 +102,8 @@ export const List: React.FC<WrapperProps> = ({
   );
 };
 
-export const Wrapper: React.FC<WrapperProps> = ({
-  currentOrganizationSlug,
-  currentTournamentSlug,
-  deletePhase,
-  patchPhase,
-  phase,
-  tournamentState,
-  tournamentPhaseState,
-  moveItem,
-  sortedItems
-}) => {
-  return (
-    <List
-      currentOrganizationSlug={currentOrganizationSlug}
-      currentTournamentSlug={currentTournamentSlug}
-      deletePhase={deletePhase}
-      patchPhase={patchPhase}
-      phase={phase}
-      tournamentPhaseState={tournamentPhaseState}
-      tournamentState={tournamentState}
-      moveItem={moveItem}
-      sortedItems={sortedItems}
-    />
-  );
-};
+const mapPropsToInitialItems = (props: PhaseListProps) => props.phases;
 
-interface StateProps {
-  tournamentPhaseState: PhaseState;
-}
-
-export default withDraggableList<PhaseEntity>({
-  getInitialItems: (props: StateProps) => {
-    return Object.keys(props.tournamentPhaseState.phases)
-      .map((key: string) => props.tournamentPhaseState.phases[key])
-      .sort(byOrder);
-  }
-})(Wrapper);
+export default withDraggableList<PhaseListProps, PhaseEntity>(
+  mapPropsToInitialItems
+)(List);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-export interface WrapperProps<T> {
-  getInitialItems: (props: any) => T[];
+export interface WrapperProps<P, T> {
+  mapPropsToInitialItems: (props: P) => T[];
 }
 
 export interface DraggableListProps<T> {
@@ -9,13 +9,12 @@ export interface DraggableListProps<T> {
   sortedItems: T[];
 }
 
-export const withDraggableList = <T extends {}>({
-  getInitialItems
-}: WrapperProps<T>) => (
-  WrappedComponent: React.ComponentType<any & DraggableListProps<T>>
+const withDraggableList = <P, T>(mapPropsToInitialItems: (props: P) => T[]) => (
+  WrappedComponent: React.ComponentType<P & DraggableListProps<T>>
 ) => {
-  const WithDraggableList: React.FC<any> = props => {
-    const [items, setItems] = useState(getInitialItems(props));
+  const WithDraggableList: React.FC<P> = (props: P) => {
+    console.log('aqui', props);
+    const [items, setItems] = useState(mapPropsToInitialItems(props));
 
     const moveItem = (dragIndex: number, hoverIndex: number) => {
       const newItems = [...items];

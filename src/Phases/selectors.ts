@@ -1,8 +1,10 @@
 import { byOrder } from './compareFunctions';
 import { PhaseEntity, PhaseState } from './state';
 
-export const phases = (state: PhaseState): PhaseEntity[] =>
-  Object.keys(state.phases).map((key: string) => state.phases[key]);
+export const phases = (state: PhaseState): PhaseEntity[] => {
+  console.log('primeiro', state.phases);
+  return Object.keys(state.phases).map((key: string) => state.phases[key]);
+};
 
 export const sortedPhases = (state: PhaseState): PhaseEntity[] =>
   phases(state).sort(byOrder);
