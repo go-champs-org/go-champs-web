@@ -13,7 +13,6 @@ const withDraggableList = <P, T>(mapPropsToInitialItems: (props: P) => T[]) => (
   WrappedComponent: React.ComponentType<P & DraggableListProps<T>>
 ) => {
   const WithDraggableList: React.FC<P> = (props: P) => {
-    console.log('aqui', props);
     const [items, setItems] = useState(mapPropsToInitialItems(props));
 
     const moveItem = (dragIndex: number, hoverIndex: number) => {

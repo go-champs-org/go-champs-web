@@ -8,11 +8,11 @@ import withTournament from './support/withTournament';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { patchPhase, deletePhase } from '../Phases/effects';
 import { bindActionCreators, Dispatch } from 'redux';
-import { phases } from '../Phases/selectors';
+import { sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
 
 const mapStateToProps = (state: StoreState) => ({
-  phases: phases(state.phases)
+  phases: sortedPhases(state.phases)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

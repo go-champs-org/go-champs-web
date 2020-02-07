@@ -69,35 +69,36 @@ export const List: React.RefForwardingComponent<
   const baseTournamentUrl = `/${organizationSlug}/${tournamentSlug}`;
 
   return (
-    <div className="columns is-multiline">
-      <div className="column is-8">
-        <div className="columns is-mobile is-vcentered">
-          <div className="column is-8">
-            <h2 className="subtitle">Phases</h2>
-          </div>
-          <div className="column is-4 has-text-right">
-            <Link className="button" to={`./PhaseNew`}>
-              New phase
-            </Link>
-          </div>
-        </div>
-        {sortedItems.map((phase: PhaseEntity, index: number) => (
-          <DraggableItem
-            index={index}
-            key={phase.id}
-            moveItem={moveItem}
-            type={DragTypes.PHASE}
-          >
-            <PhaseCard
-              url={baseTournamentUrl}
-              tournamentPhase={phase}
-              onDeletePhase={deletePhase}
-              order={index + 1}
-              onPatchPhase={patchPhase}
-            />
-          </DraggableItem>
-        ))}
+    <div className="columns is-vcentered is-mobile is-multiline">
+      <div className="column is-10">
+        <h2 className="subtitle">Phases</h2>
       </div>
+
+      <div className="column is-2 has-text-right">
+        <Link
+          className="button is-text"
+          to={`/${organizationSlug}/${tournamentSlug}/NewPhases`}
+        >
+          New
+        </Link>
+      </div>
+
+      {sortedItems.map((phase: PhaseEntity, index: number) => (
+        <DraggableItem
+          index={index}
+          key={phase.id}
+          moveItem={moveItem}
+          type={DragTypes.PHASE}
+        >
+          <PhaseCard
+            url={baseTournamentUrl}
+            tournamentPhase={phase}
+            onDeletePhase={deletePhase}
+            order={index + 1}
+            onPatchPhase={patchPhase}
+          />
+        </DraggableItem>
+      ))}
     </div>
   );
 };
