@@ -28,3 +28,11 @@ export const initialState: PhaseState = {
   phases: {},
   selectedPhaseId: ''
 };
+
+export const DEFAULT_PHASE: PhaseEntity = {
+  id: '',
+  title: '',
+  type: PhaseTypes.elimination,
+  order: 0,
+  isInProgress: false
+};

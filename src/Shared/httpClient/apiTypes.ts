@@ -101,8 +101,12 @@ export interface ApiPhase {
   elimination_stats?: ApiStat[];
 }
 
+export interface ApiPhaseWithDependeciesIds extends ApiPhase {
+  tournament_id: string;
+}
+
 export interface ApiPhaseRequest {
-  tournament_phase: ApiPhase;
+  phase: ApiPhaseWithDependeciesIds;
 }
 
 export interface ApiPhaseResponse {

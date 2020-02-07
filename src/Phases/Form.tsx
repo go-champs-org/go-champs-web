@@ -1,21 +1,19 @@
 import React from 'react';
-import { Field } from 'react-final-form';
+import { Field, FormRenderProps } from 'react-final-form';
 import Select from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
-import { PhaseTypes } from './state';
+import { PhaseTypes, PhaseEntity } from './state';
 
 const PHASE_TYPE_LABELMAP = new Map([
   [PhaseTypes.draw, 'Draw'],
   [PhaseTypes.elimination, 'Standings']
 ]);
 
-interface FromProps {
-  handleSubmit: any;
-  submitting: boolean;
-  pristine: boolean;
-}
-
-const Form: React.FC<FromProps> = ({ handleSubmit, submitting, pristine }) => {
+const Form: React.FC<FormRenderProps<PhaseEntity>> = ({
+  handleSubmit,
+  submitting,
+  pristine
+}) => {
   const values = Array.from(PHASE_TYPE_LABELMAP.keys());
   return (
     <form onSubmit={handleSubmit}>

@@ -9,8 +9,8 @@ import { PhaseEntity } from './state';
 
 const PHASES_API = 'https://yochamps-api.herokuapp.com/api/phases';
 
-const deleteRequest = (tournamentPhaseId: string): Promise<string> => {
-  const url = `${PHASES_API}/${tournamentPhaseId}`;
+const deleteRequest = (phaseId: string): Promise<string> => {
+  const url = `${PHASES_API}/${phaseId}`;
 
   return httpClient.delete(url);
 };
@@ -22,9 +22,12 @@ const get = async (phaseId: string): Promise<ApiPhase> => {
   return data;
 };
 
-const patch = async (tournamentPhase: PhaseEntity): Promise<ApiPhase> => {
-  const url = `${PHASES_API}/${tournamentPhase.id}`;
-  const body = mapPhaseEntityToApiPhaseRequest(tournamentPhase);
+const patch = async (
+  phase: PhaseEntity,
+  tournamentId: string
+): Promise<ApiPhase> => {
+  const url = `${PHASES_API}/${phase.id}`;
+  const body = mapPhaseEntityToApiPhaseRequest(phase, tournamentId);
 
   const { data } = await httpClient.patch<ApiPhaseRequest, ApiPhaseResponse>(
     url,
@@ -33,9 +36,12 @@ const patch = async (tournamentPhase: PhaseEntity): Promise<ApiPhase> => {
   return data;
 };
 
-const post = async (tournamentPhase: PhaseEntity): Promise<ApiPhase> => {
+const post = async (
+  phase: PhaseEntity,
+  tournamentId: string
+): Promise<ApiPhase> => {
   const url = `${PHASES_API}`;
-  const body = mapPhaseEntityToApiPhaseRequest(tournamentPhase);
+  const body = mapPhaseEntityToApiPhaseRequest(phase, tournamentId);
 
   const { data } = await httpClient.post<ApiPhaseRequest, ApiPhaseResponse>(
     url,

@@ -10,12 +10,14 @@ export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
 });
 
 export const mapPhaseEntityToApiPhaseRequest = (
-  phase: PhaseEntity
+  phase: PhaseEntity,
+  tournamentId: string
 ): ApiPhaseRequest => ({
-  tournament_phase: {
+  phase: {
     id: phase.id,
     order: phase.order,
     title: phase.title,
-    type: phase.type
+    type: phase.type,
+    tournament_id: tournamentId
   }
 });
