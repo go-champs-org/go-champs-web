@@ -12,7 +12,8 @@ import { RouteProps } from './routerInterfaces';
 interface WithPhaseProps extends RouteComponentProps<RouteProps> {
   getPhase: (phaseId: string) => {};
   getGamesByFilter: (where: RequestFilter) => {};
-  selectedPhaseId: string;
+  selectedPhaseId: string; // TODO: Remove this property
+  phaseId?: string;
 }
 
 const withPhase = (WrappedComponent: any) => {
@@ -42,6 +43,24 @@ const withPhase = (WrappedComponent: any) => {
   };
 
   return connect(mapStateToProps, mapDispatchToProps)(WithPhase);
+};
+
+export const newWithPhase = <T extends object>(
+  WrappedComponent: React.ComponentType<T>
+) => {
+  class WithPhase extends React.Component<T & WithPhaseProps> {
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+
+    componentDidMount() {
+      // TODO: Remove bang from phaseId
+      this.props.getPhase(this.props.phaseId!);
+      this.props.getGamesByFilter({ phase_id: this.props.phaseId! });
+    }
+  }
+
+  return WithPhase;
 };
 
 export default withPhase;

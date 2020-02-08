@@ -24,7 +24,7 @@ const PhaseCard: React.FC<{
       <div className="card-header">
         <Link
           className="card-header-title"
-          to={`${url}/PhaseEdit/${tournamentPhase.id}`}
+          to={`${url}/EditPhase/${tournamentPhase.id}`}
         >
           <span className="title is-6">{tournamentPhase.title}</span>
         </Link>

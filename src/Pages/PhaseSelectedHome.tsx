@@ -73,4 +73,5 @@ const mapStateToProps = (state: StoreState, props: PhaseSelectedHomeProps) => {
   };
 };
 
+// TODO: Use newWithPhase
 export default withPhase(connect(mapStateToProps)(PhaseSelectedHome));
