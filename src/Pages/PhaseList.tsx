@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import List from '../Phases/List';
 import { ConnectedProps, connect } from 'react-redux';
@@ -40,13 +40,30 @@ const PhaseList: React.FC<PhaseListProps> = ({
   return (
     <Fragment>
       <div className="column">
-        <List
-          deletePhase={deletePhase}
-          organizationSlug={organizationSlug}
-          patchPhase={patchPhase}
-          phases={phases}
-          tournamentSlug={tournamentSlug}
-        />
+        <div className="columns is-vcentered is-mobile is-multiline">
+          <div className="column is-10">
+            <h2 className="subtitle">Phases</h2>
+          </div>
+
+          <div className="column is-2 has-text-right">
+            <Link
+              className="button is-text"
+              to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}
+            >
+              New
+            </Link>
+          </div>
+
+          <div className="column is-12">
+            <List
+              deletePhase={deletePhase}
+              organizationSlug={organizationSlug}
+              patchPhase={patchPhase}
+              phases={phases}
+              tournamentSlug={tournamentSlug}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="is-divider-vertical"></div>

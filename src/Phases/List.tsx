@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import DraggableItem, { DragTypes } from '../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
@@ -67,22 +67,8 @@ export const List: React.RefForwardingComponent<
   moveItem
 }) => {
   const baseTournamentUrl = `/${organizationSlug}/${tournamentSlug}`;
-
   return (
-    <div className="columns is-vcentered is-mobile is-multiline">
-      <div className="column is-10">
-        <h2 className="subtitle">Phases</h2>
-      </div>
-
-      <div className="column is-2 has-text-right">
-        <Link
-          className="button is-text"
-          to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}
-        >
-          New
-        </Link>
-      </div>
-
+    <Fragment>
       {sortedItems.map((phase: PhaseEntity, index: number) => (
         <DraggableItem
           index={index}
@@ -99,7 +85,7 @@ export const List: React.RefForwardingComponent<
           />
         </DraggableItem>
       ))}
-    </div>
+    </Fragment>
   );
 };
 
