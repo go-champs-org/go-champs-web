@@ -77,7 +77,7 @@ export const List: React.RefForwardingComponent<
       <div className="column is-2 has-text-right">
         <Link
           className="button is-text"
-          to={`/${organizationSlug}/${tournamentSlug}/NewPhases`}
+          to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}
         >
           New
         </Link>

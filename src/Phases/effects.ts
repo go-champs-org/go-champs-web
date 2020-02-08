@@ -17,7 +17,9 @@ import phaseHttpClient from './phaseHttpClient';
 import { PhaseEntity } from './state';
 import { Dispatch } from 'redux';
 
-export const deletePhase = (phase: PhaseEntity) => async (dispatch: Dispatch) => {
+export const deletePhase = (phase: PhaseEntity) => async (
+  dispatch: Dispatch
+) => {
   dispatch(deletePhaseStart());
 
   try {
