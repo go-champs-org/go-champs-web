@@ -1,4 +1,8 @@
-import { ApiPhase, ApiPhaseRequest } from '../Shared/httpClient/apiTypes';
+import {
+  ApiPhase,
+  ApiPhasePatchRequest,
+  ApiPhasePostRequest
+} from '../Shared/httpClient/apiTypes';
 import { PhaseEntity } from './state';
 
 export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
@@ -9,15 +13,26 @@ export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
   isInProgress: true
 });
 
-export const mapPhaseEntityToApiPhaseRequest = (
+export const mapPhaseEntityToApiPhasePostRequest = (
   phase: PhaseEntity,
   tournamentId: string
-): ApiPhaseRequest => ({
+): ApiPhasePostRequest => ({
   phase: {
     id: phase.id,
     order: phase.order,
     title: phase.title,
     type: phase.type,
     tournament_id: tournamentId
+  }
+});
+
+export const mapPhaseEntityToApiPhasePatchRequest = (
+  phase: PhaseEntity
+): ApiPhasePatchRequest => ({
+  phase: {
+    id: phase.id,
+    order: phase.order,
+    title: phase.title,
+    type: phase.type
   }
 });

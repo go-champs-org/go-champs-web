@@ -32,13 +32,13 @@ export const deletePhase = (phase: PhaseEntity) => async (
   }
 };
 
-export const patchPhase = (phase: PhaseEntity, tournamentId: string) => async (
+export const patchPhase = (phase: PhaseEntity) => async (
   dispatch: Dispatch
 ) => {
   dispatch(patchPhaseStart());
 
   try {
-    const response = await phaseHttpClient.patch(phase, tournamentId);
+    const response = await phaseHttpClient.patch(phase);
 
     dispatch(patchPhaseSuccess(response));
     displayToast(`${phase.title} updated!`, 'is-success');

@@ -105,8 +105,12 @@ export interface ApiPhaseWithDependeciesIds extends ApiPhase {
   tournament_id: string;
 }
 
-export interface ApiPhaseRequest {
+export interface ApiPhasePostRequest {
   phase: ApiPhaseWithDependeciesIds;
+}
+
+export interface ApiPhasePatchRequest {
+  phase: ApiPhase;
 }
 
 export interface ApiPhaseResponse {

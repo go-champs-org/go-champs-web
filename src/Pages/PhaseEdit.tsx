@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { getPhase, patchPhase } from '../Phases/effects';
 import { default as PhaseForm } from '../Phases/Form';
 import { Form } from 'react-final-form';
-import { DEFAULT_PHASE, PhaseEntity } from '../Phases/state';
+import { PhaseEntity } from '../Phases/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
@@ -21,8 +21,7 @@ type StateProps = {
 
 type DispatchProps = {
   patchPhase: (
-    phase: PhaseEntity,
-    tournamentId: string
+    phase: PhaseEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
@@ -49,12 +48,12 @@ const mergeProps = (
   dispatchProps: DispatchProps,
   ownProps: OwnProps
 ) => {
+  const { phaseId = '' } = ownProps.match.params;
   return {
     ...ownProps,
     ...stateProps,
     ...dispatchProps,
-    patchPhase: (phase: PhaseEntity) =>
-      dispatchProps.patchPhase(phase, ownProps.match.params.phaseId || '')
+    phaseId
   };
 };
 
