@@ -149,8 +149,16 @@ export interface ApiTeam {
   name: string;
 }
 
-export interface ApiTeamRequest {
-  tournament_team: ApiTeam;
+export interface ApiTeamWithDependencies extends ApiTeam {
+  tournament_id: string;
+}
+
+export interface ApiTeamPatchRequest {
+  team: ApiTeam;
+}
+
+export interface ApiTeamPostRequest {
+  team: ApiTeamWithDependencies;
 }
 
 export interface ApiTeamResponse {

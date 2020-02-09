@@ -1,33 +1,29 @@
-import { ApiTeamRequest, ApiTeamResponse } from '../Shared/httpClient/apiTypes';
+import {
+  ApiTeamPatchRequest,
+  ApiTeamPostRequest,
+  ApiTeamResponse
+} from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapApiTeamToTeamEntity,
-  mapTeamEntityToApiTeamRequest
+  mapTeamEntityToApiTeamPatchRequest,
+  mapTeamEntityToApiTeamPostRequest
 } from './dataMappers';
 import { TeamEntity } from './state';
 
-const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
+const TEAMS_API = 'https://yochamps-api.herokuapp.com/api/teams';
 
-const teamsApi = (tournamentId: string) =>
-  `${TOURNAMENT_API}/${tournamentId}/teams`;
-
-const deleteRequest = (
-  tournamentId: string,
-  teamId: string
-): Promise<string> => {
-  const url = `${teamsApi(tournamentId)}/${teamId}`;
+const deleteRequest = (teamId: string): Promise<string> => {
+  const url = `${TEAMS_API}/${teamId}`;
 
   return httpClient.delete(url);
 };
 
-const patch = async (
-  tournamentId: string,
-  team: TeamEntity
-): Promise<TeamEntity> => {
-  const url = `${teamsApi(tournamentId)}/${team.id}`;
-  const body = mapTeamEntityToApiTeamRequest(team);
+const patch = async (team: TeamEntity): Promise<TeamEntity> => {
+  const url = `${TEAMS_API}/${team.id}`;
+  const body = mapTeamEntityToApiTeamPatchRequest(team);
 
-  const { data } = await httpClient.patch<ApiTeamRequest, ApiTeamResponse>(
+  const { data } = await httpClient.patch<ApiTeamPatchRequest, ApiTeamResponse>(
     url,
     body
   );
@@ -35,13 +31,13 @@ const patch = async (
 };
 
 const post = async (
-  tournamentId: string,
-  team: TeamEntity
+  team: TeamEntity,
+  tournamentId: string
 ): Promise<TeamEntity> => {
-  const url = `${teamsApi(tournamentId)}`;
-  const body = mapTeamEntityToApiTeamRequest(team);
+  const url = TEAMS_API;
+  const body = mapTeamEntityToApiTeamPostRequest(team, tournamentId);
 
-  const { data } = await httpClient.post<ApiTeamRequest, ApiTeamResponse>(
+  const { data } = await httpClient.post<ApiTeamPostRequest, ApiTeamResponse>(
     url,
     body
   );

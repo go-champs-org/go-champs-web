@@ -1,4 +1,8 @@
-import { ApiTeam, ApiTeamRequest } from '../Shared/httpClient/apiTypes';
+import {
+  ApiTeam,
+  ApiTeamPatchRequest,
+  ApiTeamPostRequest
+} from '../Shared/httpClient/apiTypes';
 import { TeamEntity } from './state';
 
 export const mapApiTeamToTeamEntity = (apiTeam: ApiTeam): TeamEntity => ({
@@ -6,10 +10,21 @@ export const mapApiTeamToTeamEntity = (apiTeam: ApiTeam): TeamEntity => ({
   name: apiTeam.name
 });
 
-export const mapTeamEntityToApiTeamRequest = (
+export const mapTeamEntityToApiTeamPostRequest = (
+  team: TeamEntity,
+  tournamentId: string
+): ApiTeamPostRequest => ({
+  team: {
+    id: team.id,
+    name: team.name,
+    tournament_id: tournamentId
+  }
+});
+
+export const mapTeamEntityToApiTeamPatchRequest = (
   team: TeamEntity
-): ApiTeamRequest => ({
-  tournament_team: {
+): ApiTeamPatchRequest => ({
+  team: {
     id: team.id,
     name: team.name
   }

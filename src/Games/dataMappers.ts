@@ -3,7 +3,7 @@ import {
   ApiGameWithDepedencies
 } from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
-import { DEFAULT_TEAM_ENTITY } from '../Teams/state';
+import { DEFAULT_TEAM } from '../Teams/state';
 import { GameEntity } from './state';
 
 export const mapApiGameToGameEntity = (
@@ -13,12 +13,12 @@ export const mapApiGameToGameEntity = (
   awayScore: apiGame.away_score,
   awayTeam: apiGame.away_team
     ? mapApiTeamToTeamEntity(apiGame.away_team)
-    : DEFAULT_TEAM_ENTITY,
+    : DEFAULT_TEAM,
   datetime: apiGame.datetime,
   homeScore: apiGame.home_score,
   homeTeam: apiGame.home_team
     ? mapApiTeamToTeamEntity(apiGame.home_team)
-    : DEFAULT_TEAM_ENTITY,
+    : DEFAULT_TEAM,
   location: apiGame.location
 });
 

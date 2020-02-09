@@ -12,14 +12,13 @@ import {
 } from './actions';
 import { TeamEntity } from './state';
 import teamHttpClient from './teamHttpClient';
+import { Dispatch } from 'redux';
 
-export const deleteTeam = (tournamentId: string) => (
-  team: TeamEntity
-) => async (dispatch: any) => {
+export const deleteTeam = (team: TeamEntity) => async (dispatch: Dispatch) => {
   dispatch(deleteTeamStart());
 
   try {
-    const response = await teamHttpClient.delete(tournamentId, team.id);
+    const response = await teamHttpClient.delete(team.id);
 
     dispatch(deleteTeamSuccess(response));
     displayToast(`${team.name} deleted!`, 'is-success');
@@ -28,13 +27,11 @@ export const deleteTeam = (tournamentId: string) => (
   }
 };
 
-export const patchTeam = (tournamentId: string) => (team: TeamEntity) => async (
-  dispatch: any
-) => {
+export const patchTeam = (team: TeamEntity) => async (dispatch: Dispatch) => {
   dispatch(patchTeamStart());
 
   try {
-    const response = await teamHttpClient.patch(tournamentId, team);
+    const response = await teamHttpClient.patch(team);
 
     dispatch(patchTeamSuccess(response));
     displayToast(`${team.name} updated!`, 'is-success');
@@ -43,13 +40,13 @@ export const patchTeam = (tournamentId: string) => (team: TeamEntity) => async (
   }
 };
 
-export const postTeam = (tournamentId: string) => (team: TeamEntity) => async (
-  dispatch: any
+export const postTeam = (team: TeamEntity, tournamentId: string) => async (
+  dispatch: Dispatch
 ) => {
   dispatch(postTeamStart());
 
   try {
-    const response = await teamHttpClient.post(tournamentId, team);
+    const response = await teamHttpClient.post(team, tournamentId);
 
     dispatch(postTeamSuccess(response));
     displayToast(`${team.name} created!`, 'is-success');

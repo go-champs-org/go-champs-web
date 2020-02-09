@@ -19,8 +19,7 @@ export const initialState: TeamState = {
   teams: {}
 };
 
-export const DEFAULT_TEAM_ENTITY = {
+export const DEFAULT_TEAM: TeamEntity = {
   id: '',
-  name: '',
-  stats: {}
+  name: ''
 };

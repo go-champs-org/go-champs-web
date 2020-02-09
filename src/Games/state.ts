@@ -1,4 +1,4 @@
-import { DEFAULT_TEAM_ENTITY, TeamEntity } from '../Teams/state';
+import { DEFAULT_TEAM, TeamEntity } from '../Teams/state';
 
 export interface GameEntity {
   id: string;
@@ -29,9 +29,9 @@ export const initialState: GameState = {
 export const DEFAULT_GAME: GameEntity = {
   id: '',
   awayScore: 0,
-  awayTeam: DEFAULT_TEAM_ENTITY,
+  awayTeam: DEFAULT_TEAM,
   datetime: '',
   homeScore: 0,
-  homeTeam: DEFAULT_TEAM_ENTITY,
+  homeTeam: DEFAULT_TEAM,
   location: ''
 };
