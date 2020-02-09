@@ -17,6 +17,7 @@ import PhaseNew from './PhaseNew';
 import PhaseEdit from './PhaseEdit';
 import TeamList from './TeamList';
 import TeamNew from './TeamNew';
+import TeamEdit from './TeamEdit';
 
 const mapStateToProps = (
   state: StoreState,
@@ -76,6 +77,10 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/EditPhase/:phaseId`}
           component={PhaseEdit}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/EditTeam/:teamId`}
+          component={TeamEdit}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/NewPhase`}

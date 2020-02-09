@@ -1,8 +1,27 @@
 import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
+import Shimmer from '../Shared/UI/Shimmer';
+import { TeamEntity } from './state';
 
-const Form: React.FC<FormRenderProps<any>> = ({
+export const FormLoading: React.FC = () => (
+  <div className="columns is-multiline">
+    <div className="column is-12">
+      <label className="label">Name</label>
+      <Shimmer>
+        <div
+          style={{
+            height: '13px',
+            marginTop: '13px',
+            width: '250px'
+          }}
+        ></div>
+      </Shimmer>
+    </div>
+  </div>
+);
+
+const Form: React.FC<FormRenderProps<TeamEntity>> = ({
   handleSubmit,
   submitting,
   pristine
