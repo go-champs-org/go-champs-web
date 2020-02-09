@@ -6,6 +6,33 @@ import withDraggableList, {
 } from '../Shared/UI/DnD/withDraggableList';
 import './List.scss';
 import { PhaseEntity } from './state';
+import Shimmer from '../Shared/UI/Shimmer';
+
+const LoadingCard: React.FC = () => (
+  <div className="card item">
+    <div className="card-header">
+      <div className="card-header-title">
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+    </div>
+  </div>
+);
+
+export const ListLoading: React.FC = () => (
+  <div>
+    <LoadingCard />
+    <LoadingCard />
+    <LoadingCard />
+  </div>
+);
 
 const PhaseCard: React.FC<{
   onDeletePhase: any;

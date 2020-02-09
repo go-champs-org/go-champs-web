@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
-import List from '../Phases/List';
+import List, { ListLoading } from '../Phases/List';
 import { ConnectedProps, connect } from 'react-redux';
 import withTournament from './support/withTournament';
 import { getTournamentBySlug } from '../Tournaments/effects';
@@ -10,9 +10,12 @@ import { patchPhase, deletePhase } from '../Phases/effects';
 import { bindActionCreators, Dispatch } from 'redux';
 import { sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
+import { tournamentLoading } from '../Tournaments/selectors';
+import ComponentLoader from '../Shared/UI/ComponentLoader';
 
 const mapStateToProps = (state: StoreState) => ({
-  phases: sortedPhases(state.phases)
+  phases: sortedPhases(state.phases),
+  tournamentLoading: tournamentLoading(state.tournaments)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -34,7 +37,8 @@ const PhaseList: React.FC<PhaseListProps> = ({
   deletePhase,
   match,
   patchPhase,
-  phases
+  phases,
+  tournamentLoading
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   return (
@@ -55,13 +59,18 @@ const PhaseList: React.FC<PhaseListProps> = ({
           </div>
 
           <div className="column is-12">
-            <List
-              deletePhase={deletePhase}
-              organizationSlug={organizationSlug}
-              patchPhase={patchPhase}
-              phases={phases}
-              tournamentSlug={tournamentSlug}
-            />
+            <ComponentLoader
+              canRender={!tournamentLoading}
+              loader={<ListLoading />}
+            >
+              <List
+                deletePhase={deletePhase}
+                organizationSlug={organizationSlug}
+                patchPhase={patchPhase}
+                phases={phases}
+                tournamentSlug={tournamentSlug}
+              />
+            </ComponentLoader>
           </div>
         </div>
       </div>
