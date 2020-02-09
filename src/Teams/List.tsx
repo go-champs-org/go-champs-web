@@ -42,7 +42,7 @@ const TeamCard: React.FC<{
     <div className="card-header">
       <Link
         className="card-header-title"
-        to={`${organizationSlug}/${tournamentSlug}/Team/${team.id}`}
+        to={`/${organizationSlug}/${tournamentSlug}/EditTeam/${team.id}`}
       >
         <span className="title is-6">{team.name}</span>
       </Link>
