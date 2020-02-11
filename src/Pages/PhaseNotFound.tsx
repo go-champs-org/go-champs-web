@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import AdminWrapper, { NotAdminWrapper } from '../Shared/UI/AdminWrapper';
 import AdminMenu from '../Tournaments/AdminMenu';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 
 const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
@@ -26,7 +26,11 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
                 Você precisa criar times para o torneio.
               </h2>
 
-              <button className="button is-large is-fullwidth">New team</button>
+              <Link to={`/${organizationSlug}/${tournamentSlug}/NewTeam`}>
+                <button className="button is-large is-fullwidth">
+                  New team
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -36,9 +40,11 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
                 Você precisa criar um fase para o torneio.
               </h2>
 
-              <button className="button is-large is-fullwidth">
-                New phase
-              </button>
+              <Link to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}>
+                <button className="button is-large is-fullwidth">
+                  New phase
+                </button>
+              </Link>
             </div>
           </div>
         </AdminWrapper>
