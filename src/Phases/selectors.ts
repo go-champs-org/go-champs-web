@@ -14,14 +14,14 @@ export const phaseLoading = (state: PhaseState): boolean =>
 export const phaseByIdOrDefault = (state: PhaseState, phaseId?: string) => {
   if (phaseId && state.phases[phaseId]) {
     return state.phases[phaseId];
-  } else if (state.phases[state.selectedPhaseId]) {
-    return state.phases[state.selectedPhaseId];
+  } else if (state.phases[state.currentPhaseId]) {
+    return state.phases[state.currentPhaseId];
   }
   return DEFAULT_PHASE;
 };
 
 export const selectedPhase = (state: PhaseState): PhaseEntity | undefined =>
-  state.phases[state.selectedPhaseId];
+  state.phases[state.currentPhaseId];
 
-export const selectedPhaseId = (state: PhaseState): string =>
-  state.selectedPhaseId;
+export const currentPhaseId = (state: PhaseState): string =>
+  state.currentPhaseId;

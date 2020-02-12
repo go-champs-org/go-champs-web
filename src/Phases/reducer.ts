@@ -134,7 +134,7 @@ const getTournamentSuccess = (
 ) => ({
   ...state,
   phases: action.payload!.phases.reduce(apiPhaseToEntities, {}),
-  selectedPhaseId: currentPhaseId(action.payload!)
+  currentPhaseId: currentPhaseId(action.payload!)
 });
 
 export default createReducer(initialState, {

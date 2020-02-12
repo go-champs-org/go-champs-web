@@ -306,20 +306,20 @@ describe('getTournamentSuccess', () => {
 
   const action = getTournamentSuccess(apiTournament);
 
-  it('sets selectedPhaseId', () => {
+  it('sets currentPhaseId', () => {
     const newState = phaseReducer(initialState, action);
 
-    expect(newState.selectedPhaseId).toEqual('first-phase-id');
+    expect(newState.currentPhaseId).toEqual('first-phase-id');
   });
 
-  it('does not set selectedPhaseId if tournament has no phase', () => {
+  it('does not set currentPhaseId if tournament has no phase', () => {
     const action = getTournamentSuccess({
       ...apiTournament,
       phases: []
     });
     const newState = phaseReducer(initialState, action);
 
-    expect(newState.selectedPhaseId).toEqual('');
+    expect(newState.currentPhaseId).toEqual('');
   });
 
   it('sets entities', () => {

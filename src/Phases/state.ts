@@ -17,7 +17,7 @@ export interface PhaseState {
   isLoadingPostPhase: boolean;
   isLoadingPhase: boolean;
   phases: { [key: string]: PhaseEntity };
-  selectedPhaseId: string;
+  currentPhaseId: string;
 }
 
 export const initialState: PhaseState = {
@@ -26,7 +26,7 @@ export const initialState: PhaseState = {
   isLoadingPostPhase: false,
   isLoadingPhase: false,
   phases: {},
-  selectedPhaseId: ''
+  currentPhaseId: ''
 };
 
 export const DEFAULT_PHASE: PhaseEntity = {

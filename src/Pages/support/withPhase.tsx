@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getGamesByFilter } from '../../Games/effects';
 import { getPhase } from '../../Phases/effects';
-import { selectedPhaseId } from '../../Phases/selectors';
+import { currentPhaseId } from '../../Phases/selectors';
 import { RequestFilter } from '../../Shared/httpClient/requestFilter';
 import { StoreState } from '../../store';
 import { RouteProps } from './routerInterfaces';
@@ -12,7 +12,7 @@ import { RouteProps } from './routerInterfaces';
 interface WithPhaseProps extends RouteComponentProps<RouteProps> {
   getPhase: (phaseId: string) => {};
   getGamesByFilter: (where: RequestFilter) => {};
-  selectedPhaseId: string; // TODO: Remove this property
+  currentPhaseId: string; // TODO: Remove this property
   phaseId?: string;
 }
 
@@ -23,13 +23,13 @@ const withPhase = (WrappedComponent: any) => {
     }
 
     componentDidMount() {
-      this.props.getPhase(this.props.selectedPhaseId);
-      this.props.getGamesByFilter({ phase_id: this.props.selectedPhaseId });
+      this.props.getPhase(this.props.currentPhaseId);
+      this.props.getGamesByFilter({ phase_id: this.props.currentPhaseId });
     }
   }
 
   const mapStateToProps = (state: StoreState) => ({
-    selectedPhaseId: selectedPhaseId(state.phases)
+    currentPhaseId: currentPhaseId(state.phases)
   });
 
   const mapDispatchToProps = (dispatch: Dispatch) => {
