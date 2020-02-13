@@ -28,19 +28,28 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PhaseLoaderProps = ConnectedProps<typeof connector>;
+type PhaseLoaderProps = ConnectedProps<typeof connector> &
+  RouteComponentProps<RouteProps>;
 
-const PhaseLoader: React.FC<PhaseLoaderProps &
-  RouteComponentProps<RouteProps>> = props => {
+const PhaseLoader: React.FC<PhaseLoaderProps> = ({
+  currentPhaseId,
+  match,
+  getGamesByFilter,
+  getPhase,
+  tournamentLoading
+}) => {
+  const { organizationSlug = '', tournamentSlug = '' } = match.params;
   return (
     <ComponentLoader
-      canRender={!props.tournamentLoading}
+      canRender={!tournamentLoading}
       loader={<div>Loading...</div>}
     >
       <PhaseHome
-        phaseId={props.currentPhaseId}
-        getGamesByFilter={props.getGamesByFilter}
-        getPhase={props.getPhase}
+        organizationSlug={organizationSlug}
+        phaseId={currentPhaseId}
+        getGamesByFilter={getGamesByFilter}
+        getPhase={getPhase}
+        tournamentSlug={tournamentSlug}
       />
     </ComponentLoader>
   );

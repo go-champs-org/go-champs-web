@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom';
 import { PhaseEntity } from '../../Phases/state';
 
 const TopBreadcrumbs: React.FC<{
+  organizationSlug: string;
   phases: PhaseEntity[];
   tournamentSlug: string;
-}> = ({ phases, tournamentSlug }) => {
+}> = ({ organizationSlug, phases, tournamentSlug }) => {
   return (
     <nav className="breadcrumb has-succeeds-separator" aria-label="breadcrumbs">
       <ul>
-        {phases.map((tournamentPhase: PhaseEntity) => (
-          <li key={tournamentPhase.id}>
-            <Link to={`./${tournamentSlug}/phase/${tournamentPhase.id}`}>
-              {tournamentPhase.title}
+        {phases.map((phase: PhaseEntity) => (
+          <li key={phase.id}>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/Phase/${phase.id}`}
+            >
+              {phase.title}
             </Link>
           </li>
         ))}
