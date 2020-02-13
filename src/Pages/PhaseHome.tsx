@@ -44,7 +44,7 @@ const connector = connect(mapStateToProps);
 
 type PhaseHomeProps = ConnectedProps<typeof connector> & OwnProps;
 
-const PhaseActualHome: React.FC<PhaseHomeProps> = ({
+const PhaseHome: React.FC<PhaseHomeProps> = ({
   gameDates,
   gamesByDate,
   gamesInitialDatePosition,
@@ -102,4 +102,4 @@ const PhaseActualHome: React.FC<PhaseHomeProps> = ({
   );
 };
 
-export default connector(withPhase<PhaseHomeProps>(PhaseActualHome));
+export default connector(withPhase<PhaseHomeProps>(PhaseHome));

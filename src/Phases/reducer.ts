@@ -125,7 +125,7 @@ const getPhaseSuccess = (
 ) => ({
   ...state,
   isLoadingPhase: false,
-  phases: [action.payload!].reduce(apiPhaseToEntities, {})
+  phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
 });
 
 const getTournamentSuccess = (

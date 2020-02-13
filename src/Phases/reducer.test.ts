@@ -274,6 +274,38 @@ describe('getPhaseSuccess', () => {
       order: 1
     });
   });
+
+  it('keeps others entities in other', () => {
+    const someState: PhaseState = {
+      ...initialState,
+      phases: {
+        'second-id': {
+          id: 'second-id',
+          title: 'second title',
+          type: PhaseTypes.draw,
+          isInProgress: false,
+          order: 2
+        }
+      }
+    };
+
+    const newState = phaseReducer(someState, action);
+
+    expect(newState.phases['first-id']).toEqual({
+      id: 'first-id',
+      title: 'first title',
+      type: PhaseTypes.elimination,
+      isInProgress: true,
+      order: 1
+    });
+    expect(newState.phases['second-id']).toEqual({
+      id: 'second-id',
+      title: 'second title',
+      type: PhaseTypes.draw,
+      isInProgress: false,
+      order: 2
+    });
+  });
 });
 
 describe('getTournamentSuccess', () => {
