@@ -10,7 +10,7 @@ import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
 import { getGamesByFilter } from '../Games/effects';
 import AdminMenu from '../Tournaments/AdminMenu';
-import { newWithPhase } from './support/withPhase';
+import withPhase from './support/withPhase';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
@@ -93,4 +93,4 @@ const PhaseNew: React.FC<PhaseNewProps> = ({ match, patchPhase, phase }) => {
   );
 };
 
-export default connector(newWithPhase<PhaseNewProps>(PhaseNew));
+export default connector(withPhase<PhaseNewProps>(PhaseNew));

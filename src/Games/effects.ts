@@ -19,10 +19,11 @@ import {
 } from './actions';
 import gameHttpClient from './gameHttpClient';
 import { GameEntity } from './state';
+import { Dispatch } from 'redux';
 
 export const deleteGame = (phaseId: string) => (
   tournamentGame: GameEntity
-) => async (dispatch: any) => {
+) => async (dispatch: Dispatch) => {
   dispatch(deleteGameStart());
 
   try {
@@ -37,7 +38,7 @@ export const deleteGame = (phaseId: string) => (
 
 export const patchGame = (phaseId: string) => (
   tournamentGame: GameEntity
-) => async (dispatch: any) => {
+) => async (dispatch: Dispatch) => {
   dispatch(patchGameStart());
 
   try {
@@ -52,7 +53,7 @@ export const patchGame = (phaseId: string) => (
 
 export const postGame = (phaseId: string) => (
   tournamentGame: GameEntity
-) => async (dispatch: any) => {
+) => async (dispatch: Dispatch) => {
   dispatch(postGameStart());
 
   try {
@@ -66,7 +67,7 @@ export const postGame = (phaseId: string) => (
 };
 
 export const getGame = (phaseId: string, tournamentGameId: string) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(getGameStart());
 
@@ -80,7 +81,7 @@ export const getGame = (phaseId: string, tournamentGameId: string) => async (
 };
 
 export const getGamesByFilter = (where: RequestFilter) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(getGamesByFilterStart());
 

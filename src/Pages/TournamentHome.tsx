@@ -4,7 +4,6 @@ import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { StoreState } from '../store';
 import { tournamentLoading, tournamentBySlug } from '../Tournaments/selectors';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import PhaseDefaultRedirect from './PhaseDefaultRedirect';
 import PhaseNotFound from './PhaseNotFound';
 import { RouteProps } from './support/routerInterfaces';
 import withTournament from './support/withTournament';
@@ -18,6 +17,7 @@ import PhaseEdit from './PhaseEdit';
 import TeamList from './TeamList';
 import TeamNew from './TeamNew';
 import TeamEdit from './TeamEdit';
+import PhaseLoader from './PhaseLoader';
 
 const mapStateToProps = (
   state: StoreState,
@@ -100,7 +100,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug`}
-          component={PhaseDefaultRedirect}
+          component={PhaseLoader}
         />
       </Switch>
     </div>
