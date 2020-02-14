@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TournamentEntity } from '../state';
 import Shimmer from '../../Shared/UI/Shimmer';
+import AdminWrapper from '../../Shared/UI/AdminWrapper';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -34,6 +35,22 @@ const TopLevel: React.FC<{
         </Link>
       </div>
     </div>
+
+    <AdminWrapper>
+      <div className="level-right">
+        <div className="level-item">
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage`}>
+            <button className="button is-large">
+              <span className="icon is-medium">
+                <i className="fas fa-cog"></i>
+              </span>
+
+              <span>Manage</span>
+            </button>
+          </Link>
+        </div>
+      </div>
+    </AdminWrapper>
   </nav>
 );
 
