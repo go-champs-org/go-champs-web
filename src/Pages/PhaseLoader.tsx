@@ -4,13 +4,14 @@ import { currentPhaseId } from '../Phases/selectors';
 import { tournamentLoading } from '../Tournaments/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Switch, Route } from 'react-router-dom';
 import { getPhase } from '../Phases/effects';
 import { getGamesByFilter } from '../Games/effects';
 import { RouteProps } from './support/routerInterfaces';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import PhaseHome from './PhaseHome';
 import Shimmer from '../Shared/UI/Shimmer';
+import PhaseManage from './PhaseManage';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -112,19 +113,56 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
   getPhase,
   tournamentLoading
 }) => {
-  const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const {
+    organizationSlug = '',
+    tournamentSlug = '',
+    phaseId = ''
+  } = match.params;
+  const selectedPhaseId = phaseId ? phaseId : currentPhaseId;
+  console.log('esse aqui', selectedPhaseId);
   return (
     <ComponentLoader
       canRender={!tournamentLoading}
       loader={<PhaseHomeLoading />}
     >
-      <PhaseHome
-        organizationSlug={organizationSlug}
-        phaseId={currentPhaseId}
-        getGamesByFilter={getGamesByFilter}
-        getPhase={getPhase}
-        tournamentSlug={tournamentSlug}
-      />
+      <Switch>
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage`}
+          render={() => (
+            <PhaseManage
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Phase/:phaseId`}
+          render={() => (
+            <PhaseHome
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug`}
+          render={() => (
+            <PhaseHome
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
+      </Switch>
     </ComponentLoader>
   );
 };

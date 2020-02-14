@@ -12,7 +12,7 @@ interface WithNewPhaseProps {
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 }
 
-export const withPhase = <T extends object>(
+const withPhase = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
   class WithPhase extends React.Component<T & WithNewPhaseProps> {

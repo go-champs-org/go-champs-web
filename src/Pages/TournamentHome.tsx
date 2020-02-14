@@ -99,7 +99,11 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           component={TeamList}
         />
         <Route
-          path={`/:organizationSlug/:tournamentSlug`}
+          path={`/:organizationSlug/:tournamentSlug/Phase/:phaseId`}
+          component={PhaseLoader}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/`}
           component={PhaseLoader}
         />
       </Switch>

@@ -1,23 +1,16 @@
 import React, { Fragment } from 'react';
-import withPhase from './support/withPhase';
-import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
-import { connect, ConnectedProps } from 'react-redux';
-import {
-  gameDates,
-  gamesByDate,
-  gamesCloserGameDatePosition,
-  gamesLoading
-} from '../Games/selectors';
+import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { allEliminationStats } from '../Phases/EliminationStats/selectors';
 import { allDraws } from '../Draws/selectors';
 import { allElimination } from '../Eliminations/selectors';
-import { default as DrawView } from '../Draws/View';
-import { default as GameListByDate } from '../Games/ListByDate';
-import { default as EliminationView } from '../Eliminations/View';
+import { connect, ConnectedProps } from 'react-redux';
+import withPhase from './support/withPhase';
 import { PhaseTypes } from '../Phases/state';
-import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
+import AdminMenu from '../Tournaments/AdminMenu';
+import { default as DrawView } from '../Draws/View';
+import { default as EliminationView } from '../Eliminations/View';
 
 interface OwnProps {
   organizationSlug: string;
@@ -27,10 +20,6 @@ interface OwnProps {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
-    gamesByDate: gamesByDate(state.games),
-    gamesInitialDatePosition: gamesCloserGameDatePosition(state.games),
-    gamesLoading: gamesLoading(state.games),
-    gameDates: gameDates(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
     eliminationStats: allEliminationStats(state.eliminationStats),
@@ -42,13 +31,9 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
 
 const connector = connect(mapStateToProps);
 
-type PhaseHomeProps = ConnectedProps<typeof connector> & OwnProps;
+type PhaseManageProps = ConnectedProps<typeof connector> & OwnProps;
 
-const PhaseHome: React.FC<PhaseHomeProps> = ({
-  gameDates,
-  gamesByDate,
-  gamesInitialDatePosition,
-  gamesLoading,
+const PhaseManage: React.FC<PhaseManageProps> = ({
   organizationSlug,
   phase,
   phases,
@@ -88,13 +73,10 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
           <div className="is-divider-vertical"></div>
 
           <aside className="column is-4">
-            <ComponentLoader canRender={!gamesLoading} loader={'Loading'}>
-              <GameListByDate
-                dates={gameDates}
-                gamesByDate={gamesByDate}
-                initialDatePosition={gamesInitialDatePosition}
-              />
-            </ComponentLoader>
+            <AdminMenu
+              organizationSlug={organizationSlug}
+              tournamentSlug={tournamentSlug}
+            />
           </aside>
         </div>
       </div>
@@ -102,4 +84,4 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   );
 };
 
-export default connector(withPhase<PhaseHomeProps>(PhaseHome));
+export default connector(withPhase<PhaseManageProps>(PhaseManage));
