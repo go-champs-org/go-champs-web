@@ -20,12 +20,12 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({ organizationSlug, phase
       <p className="menu-label">Draw info</p>
       <ul className="menu-list">
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Phase/${phase.id}/Games`}>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}>
             Games
           </Link>
         </li>
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Phases/${phase.id}/Rounds`}>Rounds</Link>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Rounds`}>Rounds</Link>
         </li>
       </ul>
     </Fragment>
@@ -35,12 +35,12 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({ organizationSlug, phase
       <p className="menu-label">Elimination info</p>
       <ul className="menu-list">
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Phase/${phase.id}/Games`}>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}>
             Games
           </Link>
         </li>
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Phases/${phase.id}/Eliminations`}>Eliminations</Link>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Eliminations`}>Eliminations</Link>
         </li>
       </ul>
     </Fragment>

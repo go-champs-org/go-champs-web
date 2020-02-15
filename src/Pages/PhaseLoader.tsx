@@ -12,6 +12,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import PhaseHome from './PhaseHome';
 import Shimmer from '../Shared/UI/Shimmer';
 import PhaseManage from './PhaseManage';
+import GameList from './GameList';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -112,7 +113,6 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
   match,
   getGamesByFilter,
   getPhase,
-  phaseLoading,
   tournamentLoading
 }) => {
   const {
@@ -121,13 +121,18 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
     phaseId = ''
   } = match.params;
   const selectedPhaseId = phaseId ? phaseId : currentPhaseId;
-  console.log('esse aqui', selectedPhaseId);
   return (
     <ComponentLoader
       canRender={!tournamentLoading}
       loader={<PhaseHomeLoading />}
     >
       <Switch>
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/Games`}
+          render={() => (
+            <GameList />
+          )}
+        />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId`}
           render={() => (
