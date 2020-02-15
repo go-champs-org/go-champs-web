@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { StoreState } from '../store';
-import { currentPhaseId } from '../Phases/selectors';
+import { currentPhaseId, phaseLoading } from '../Phases/selectors';
 import { tournamentLoading } from '../Tournaments/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
@@ -88,6 +88,7 @@ export const PhaseHomeLoading: React.FC = () => (
 
 const mapStateToProps = (state: StoreState) => ({
   currentPhaseId: currentPhaseId(state.phases),
+  phaseLoading: phaseLoading(state.phases),
   tournamentLoading: tournamentLoading(state.tournaments)
 });
 
@@ -111,6 +112,7 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
   match,
   getGamesByFilter,
   getPhase,
+  phaseLoading,
   tournamentLoading
 }) => {
   const {
@@ -126,6 +128,18 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
       loader={<PhaseHomeLoading />}
     >
       <Switch>
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId`}
+          render={() => (
+            <PhaseManage
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage`}
           render={() => (

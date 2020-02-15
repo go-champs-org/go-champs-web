@@ -76,6 +76,7 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
             <AdminMenu
               organizationSlug={organizationSlug}
               tournamentSlug={tournamentSlug}
+              phase={phase}
             />
           </aside>
         </div>
