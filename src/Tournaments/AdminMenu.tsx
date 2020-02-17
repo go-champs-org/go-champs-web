@@ -12,20 +12,30 @@ interface AdminPhaseMenuProps {
   organizationSlug: string;
   phase: PhaseEntity;
   tournamentSlug: string;
-};
+}
 
-const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({ organizationSlug, phase, tournamentSlug }) => {
+const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
+  organizationSlug,
+  phase,
+  tournamentSlug
+}) => {
   const DrawMenu = (
     <Fragment>
       <p className="menu-label">Draw info</p>
       <ul className="menu-list">
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}
+          >
             Games
           </Link>
         </li>
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Rounds`}>Rounds</Link>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Rounds`}
+          >
+            Rounds
+          </Link>
         </li>
       </ul>
     </Fragment>
@@ -35,12 +45,18 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({ organizationSlug, phase
       <p className="menu-label">Elimination info</p>
       <ul className="menu-list">
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}
+          >
             Games
           </Link>
         </li>
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Eliminations`}>Eliminations</Link>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Eliminations`}
+          >
+            Eliminations
+          </Link>
         </li>
       </ul>
     </Fragment>
@@ -50,33 +66,43 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({ organizationSlug, phase
       {phase.type === PhaseTypes.draw ? DrawMenu : EliminationMenu}
     </Fragment>
   );
-}
+};
 
 const AdminMenu: React.FC<AdminMenuProps> = ({
   organizationSlug,
   phase,
-  tournamentSlug,
+  tournamentSlug
 }) => {
-  const PhaseMenu = phase ? <AdminPhaseMenu organizationSlug={organizationSlug} phase={phase} tournamentSlug={tournamentSlug} /> : <div></div>;
+  const PhaseMenu = phase ? (
+    <AdminPhaseMenu
+      organizationSlug={organizationSlug}
+      phase={phase}
+      tournamentSlug={tournamentSlug}
+    />
+  ) : (
+    <div></div>
+  );
   return (
-  <aside className="menu">
-    <p className="menu-label">General</p>
-    <ul className="menu-list">
-      <li>
-        <Link to={`/${organizationSlug}/${tournamentSlug}/Edit`}>
-          Informations
-        </Link>
-      </li>
-      <li>
-        <Link to={`/${organizationSlug}/${tournamentSlug}/Phases`}>Phases</Link>
-      </li>
-      <li>
-        <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>Teams</Link>
-      </li>
-    </ul>
-    {PhaseMenu}
-  </aside>
-)
+    <aside className="menu">
+      <p className="menu-label">General</p>
+      <ul className="menu-list">
+        <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Edit`}>
+            Informations
+          </Link>
+        </li>
+        <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Phases`}>
+            Phases
+          </Link>
+        </li>
+        <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>Teams</Link>
+        </li>
+      </ul>
+      {PhaseMenu}
+    </aside>
+  );
 };
 
 export default AdminMenu;

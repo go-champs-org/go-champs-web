@@ -130,7 +130,13 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/Games`}
           render={() => (
-            <GameList />
+            <GameList
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
           )}
         />
         <Route
