@@ -21,13 +21,11 @@ import gameHttpClient from './gameHttpClient';
 import { GameEntity } from './state';
 import { Dispatch } from 'redux';
 
-export const deleteGame = (phaseId: string) => (
-  tournamentGame: GameEntity
-) => async (dispatch: Dispatch) => {
+export const deleteGame = (game: GameEntity) => async (dispatch: Dispatch) => {
   dispatch(deleteGameStart());
 
   try {
-    const response = await gameHttpClient.delete(phaseId, tournamentGame.id);
+    const response = await gameHttpClient.delete(game.id);
 
     dispatch(deleteGameSuccess(response));
     displayToast(`Game deleted!`, 'is-success');
@@ -36,13 +34,13 @@ export const deleteGame = (phaseId: string) => (
   }
 };
 
-export const patchGame = (phaseId: string) => (
-  tournamentGame: GameEntity
-) => async (dispatch: Dispatch) => {
+export const patchGame = (phaseId: string) => (game: GameEntity) => async (
+  dispatch: Dispatch
+) => {
   dispatch(patchGameStart());
 
   try {
-    const response = await gameHttpClient.patch(phaseId, tournamentGame);
+    const response = await gameHttpClient.patch(game);
 
     dispatch(patchGameSuccess(response));
     displayToast(`Game updated!`, 'is-success');
@@ -51,13 +49,13 @@ export const patchGame = (phaseId: string) => (
   }
 };
 
-export const postGame = (phaseId: string) => (
-  tournamentGame: GameEntity
-) => async (dispatch: Dispatch) => {
+export const postGame = (phaseId: string) => (game: GameEntity) => async (
+  dispatch: Dispatch
+) => {
   dispatch(postGameStart());
 
   try {
-    const response = await gameHttpClient.post(phaseId, tournamentGame);
+    const response = await gameHttpClient.post(game);
 
     dispatch(postGameSuccess(response));
     displayToast(`Game created!`, 'is-success');
@@ -66,13 +64,13 @@ export const postGame = (phaseId: string) => (
   }
 };
 
-export const getGame = (phaseId: string, tournamentGameId: string) => async (
+export const getGame = (phaseId: string, gameId: string) => async (
   dispatch: Dispatch
 ) => {
   dispatch(getGameStart());
 
   try {
-    const response = await gameHttpClient.get(phaseId, tournamentGameId);
+    const response = await gameHttpClient.get(gameId);
 
     dispatch(getGameSuccess(response));
   } catch (err) {

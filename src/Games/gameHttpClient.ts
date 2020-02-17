@@ -16,30 +16,17 @@ import { GameEntity } from './state';
 
 const GAMES_API = 'https://yochamps-api.herokuapp.com/api/games';
 
-const deleteRequest = (
-  phaseId: string,
-  tournamentGameId: string
-): Promise<string> => {
-  const url = `${GAMES_API}/${tournamentGameId}`;
+const deleteRequest = (gameId: string): Promise<string> => {
+  const url = `${GAMES_API}/${gameId}`;
 
   return httpClient.delete(url);
 };
 
-const get = async (
-  phaseId: string,
-  tournamentGameId: string
-): Promise<GameEntity> => {
-  const url = `${GAMES_API}/${tournamentGameId}`;
+const get = async (gameId: string): Promise<GameEntity> => {
+  const url = `${GAMES_API}/${gameId}`;
 
   const { data } = await httpClient.get<ApiGameResponse>(url);
   return mapApiGameToGameEntity(data);
-};
-
-const getAll = async (phaseId: string): Promise<GameEntity[]> => {
-  const url = GAMES_API;
-
-  const { data } = await httpClient.get<ApiGamesResponse>(url);
-  return data.map(mapApiGameToGameEntity);
 };
 
 const getByFilter = async (where: RequestFilter): Promise<GameEntity[]> => {
@@ -49,12 +36,9 @@ const getByFilter = async (where: RequestFilter): Promise<GameEntity[]> => {
   return data.map(mapApiGameToGameEntity);
 };
 
-const patch = async (
-  phaseId: string,
-  tournamentGame: GameEntity
-): Promise<GameEntity> => {
-  const url = `${GAMES_API}/${tournamentGame.id}`;
-  const body = mapGameEntityToApiGameRequest(tournamentGame);
+const patch = async (game: GameEntity): Promise<GameEntity> => {
+  const url = `${GAMES_API}/${game.id}`;
+  const body = mapGameEntityToApiGameRequest(game);
 
   const { data } = await httpClient.patch<ApiGameRequest, ApiGameResponse>(
     url,
@@ -63,12 +47,9 @@ const patch = async (
   return mapApiGameToGameEntity(data);
 };
 
-const post = async (
-  phaseId: string,
-  tournamentGame: GameEntity
-): Promise<GameEntity> => {
+const post = async (game: GameEntity): Promise<GameEntity> => {
   const url = `${GAMES_API}`;
-  const body = mapGameEntityToApiGameRequest(tournamentGame);
+  const body = mapGameEntityToApiGameRequest(game);
 
   const { data } = await httpClient.post<ApiGameRequest, ApiGameResponse>(
     url,
@@ -79,7 +60,6 @@ const post = async (
 
 export default {
   delete: deleteRequest,
-  getAll,
   get,
   getByFilter,
   patch,
