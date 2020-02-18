@@ -1,7 +1,8 @@
 import {
-  ApiGameRequest,
   ApiGameResponse,
-  ApiGamesResponse
+  ApiGamesResponse,
+  ApiGamePostRequest,
+  ApiGamePatchRequest
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -10,7 +11,8 @@ import {
 } from '../Shared/httpClient/requestFilter';
 import {
   mapApiGameToGameEntity,
-  mapGameEntityToApiGameRequest
+  mapGameEntityToApiGamePostRequest,
+  mapGameEntityToApiGamePatchRequest
 } from './dataMappers';
 import { GameEntity } from './state';
 
@@ -38,20 +40,20 @@ const getByFilter = async (where: RequestFilter): Promise<GameEntity[]> => {
 
 const patch = async (game: GameEntity): Promise<GameEntity> => {
   const url = `${GAMES_API}/${game.id}`;
-  const body = mapGameEntityToApiGameRequest(game);
+  const body = mapGameEntityToApiGamePatchRequest(game);
 
-  const { data } = await httpClient.patch<ApiGameRequest, ApiGameResponse>(
+  const { data } = await httpClient.patch<ApiGamePatchRequest, ApiGameResponse>(
     url,
     body
   );
   return mapApiGameToGameEntity(data);
 };
 
-const post = async (game: GameEntity): Promise<GameEntity> => {
+const post = async (game: GameEntity, phaseId: string): Promise<GameEntity> => {
   const url = `${GAMES_API}`;
-  const body = mapGameEntityToApiGameRequest(game);
+  const body = mapGameEntityToApiGamePostRequest(game, phaseId);
 
-  const { data } = await httpClient.post<ApiGameRequest, ApiGameResponse>(
+  const { data } = await httpClient.post<ApiGamePostRequest, ApiGameResponse>(
     url,
     body
   );

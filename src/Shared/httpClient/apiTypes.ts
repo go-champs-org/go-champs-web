@@ -18,8 +18,17 @@ export interface ApiGameWithDepedenciesIds extends ApiGame {
   home_team_id: string;
 }
 
-export interface ApiGameRequest {
-  tournament_game: ApiGameWithDepedenciesIds;
+export interface ApiGamePostWithPhaseIdRequest
+  extends ApiGameWithDepedenciesIds {
+  phase_id: string;
+}
+
+export interface ApiGamePostRequest {
+  game: ApiGamePostWithPhaseIdRequest;
+}
+
+export interface ApiGamePatchRequest {
+  game: ApiGameWithDepedenciesIds;
 }
 
 export interface ApiGameResponse {

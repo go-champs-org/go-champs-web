@@ -1,6 +1,7 @@
 import {
-  ApiGameRequest,
-  ApiGameWithDepedencies
+  ApiGameWithDepedencies,
+  ApiGamePostRequest,
+  ApiGamePatchRequest
 } from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { DEFAULT_TEAM } from '../Teams/state';
@@ -22,10 +23,26 @@ export const mapApiGameToGameEntity = (
   location: apiGame.location
 });
 
-export const mapGameEntityToApiGameRequest = (
+export const mapGameEntityToApiGamePostRequest = (
+  game: GameEntity,
+  phaseId: string
+): ApiGamePostRequest => ({
+  game: {
+    id: game.id,
+    away_score: game.awayScore,
+    away_team_id: game.awayTeam.id && game.awayTeam.id,
+    datetime: game.datetime,
+    home_score: game.homeScore,
+    home_team_id: game.homeTeam.id && game.homeTeam.id,
+    location: game.location,
+    phase_id: phaseId
+  }
+});
+
+export const mapGameEntityToApiGamePatchRequest = (
   game: GameEntity
-): ApiGameRequest => ({
-  tournament_game: {
+): ApiGamePatchRequest => ({
+  game: {
     id: game.id,
     away_score: game.awayScore,
     away_team_id: game.awayTeam.id && game.awayTeam.id,

@@ -34,9 +34,7 @@ export const deleteGame = (game: GameEntity) => async (dispatch: Dispatch) => {
   }
 };
 
-export const patchGame = (phaseId: string) => (game: GameEntity) => async (
-  dispatch: Dispatch
-) => {
+export const patchGame = (game: GameEntity) => async (dispatch: Dispatch) => {
   dispatch(patchGameStart());
 
   try {
@@ -49,13 +47,13 @@ export const patchGame = (phaseId: string) => (game: GameEntity) => async (
   }
 };
 
-export const postGame = (phaseId: string) => (game: GameEntity) => async (
+export const postGame = (game: GameEntity, phaseId: string) => async (
   dispatch: Dispatch
 ) => {
   dispatch(postGameStart());
 
   try {
-    const response = await gameHttpClient.post(game);
+    const response = await gameHttpClient.post(game, phaseId);
 
     dispatch(postGameSuccess(response));
     displayToast(`Game created!`, 'is-success');

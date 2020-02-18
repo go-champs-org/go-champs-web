@@ -4,8 +4,9 @@ import Datetime from '../Shared/UI/Form/Datetime';
 import Select from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { TeamEntity } from '../Teams/state';
+import { GameEntity } from './state';
 
-interface FromProps extends FormRenderProps {
+interface FromProps extends FormRenderProps<GameEntity> {
   teams: { [key: string]: TeamEntity };
 }
 
