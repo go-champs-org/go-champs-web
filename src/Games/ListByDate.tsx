@@ -2,9 +2,7 @@ import React from 'react';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import { GameEntity } from './state';
 
-const MiniGameCard: React.FC<{ tournamentGame: GameEntity }> = ({
-  tournamentGame
-}) => {
+const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
   return (
     <div className="card">
       <div className="card-content">
@@ -12,14 +10,14 @@ const MiniGameCard: React.FC<{ tournamentGame: GameEntity }> = ({
           <div className="column is-12 is-size-7 has-text-weight-bold">
             <div className="columns is-mobile">
               <div className="column is-8" style={{ padding: '.3rem' }}>
-                {timeFromDate(tournamentGame.datetime)}
+                {game.datetime && timeFromDate(game.datetime)}
               </div>
 
               <div
                 className="column is-4 has-text-right"
                 style={{ padding: '.3rem' }}
               >
-                {tournamentGame.location}
+                {game.location}
               </div>
             </div>
           </div>
@@ -27,14 +25,14 @@ const MiniGameCard: React.FC<{ tournamentGame: GameEntity }> = ({
           <div className="column is-12">
             <div className="columns is-mobile">
               <div className="column is-8" style={{ padding: '.3rem' }}>
-                {tournamentGame.awayTeam.name}
+                {game.awayTeam.name}
               </div>
 
               <div
                 className="column is-4 has-text-right"
                 style={{ padding: '.3rem' }}
               >
-                {tournamentGame.awayScore}
+                {game.awayScore}
               </div>
             </div>
           </div>
@@ -42,14 +40,14 @@ const MiniGameCard: React.FC<{ tournamentGame: GameEntity }> = ({
           <div className="column is-12">
             <div className="columns is-mobile">
               <div className="column is-8" style={{ padding: '.3rem' }}>
-                {tournamentGame.homeTeam.name}
+                {game.homeTeam.name}
               </div>
 
               <div
                 className="column is-4 has-text-right"
                 style={{ padding: '.3rem' }}
               >
-                {tournamentGame.homeScore}
+                {game.homeScore}
               </div>
             </div>
           </div>
@@ -63,7 +61,7 @@ const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
   return (
     <div>
       {games.map((game: GameEntity) => (
-        <MiniGameCard key={game.id} tournamentGame={game} />
+        <MiniGameCard key={game.id} game={game} />
       ))}
     </div>
   );

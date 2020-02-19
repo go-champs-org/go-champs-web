@@ -3,7 +3,7 @@ import { PhaseTypes } from '../../Phases/state';
 interface ApiGame {
   id: string;
   away_score: number;
-  datetime: string;
+  datetime?: string;
   home_score: number;
   location: string;
 }

@@ -15,7 +15,7 @@ export const mapApiGameToGameEntity = (
   awayTeam: apiGame.away_team
     ? mapApiTeamToTeamEntity(apiGame.away_team)
     : DEFAULT_TEAM,
-  datetime: apiGame.datetime,
+  datetime: apiGame.datetime ? apiGame.datetime : '',
   homeScore: apiGame.home_score,
   homeTeam: apiGame.home_team
     ? mapApiTeamToTeamEntity(apiGame.home_team)
