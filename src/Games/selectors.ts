@@ -1,4 +1,4 @@
-import { GameEntity, GameState } from './state';
+import { GameEntity, GameState, DEFAULT_GAME } from './state';
 
 export const gamesLoading = (state: GameState) => state.isLoadingRequestGames;
 
@@ -57,3 +57,10 @@ export const gamesByDate = (
 
 export const byGameDate = (gameA: GameEntity, gameB: GameEntity): number =>
   gameA.datetime.localeCompare(gameB.datetime);
+
+export const gameById = (state: GameState, gameId: string) => {
+  if (!gameId || !state.games[gameId]) {
+    return DEFAULT_GAME;
+  }
+  return state.games[gameId];
+};

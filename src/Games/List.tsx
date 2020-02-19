@@ -38,10 +38,7 @@ const GameCard: React.FC<{
 }> = ({ onDeleteGame, url, game }) => (
   <div className="card item">
     <div className="card-header">
-      <Link
-        className="card-header-title"
-        to={`${url}/PhaseGameEdit/${game.id}`}
-      >
+      <Link className="card-header-title" to={url}>
         <div className="columns" style={{ flex: '1' }}>
           <div className="column is-4 has-text-centered">
             <span className="title is-6">
@@ -85,17 +82,18 @@ const GameCard: React.FC<{
 );
 
 const List: React.FC<{
+  baseUrl: string;
   deleteGame: (
     game: GameEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   games: GameEntity[];
-}> = ({ deleteGame, games }) => {
+}> = ({ baseUrl, deleteGame, games }) => {
   return (
     <div>
       {games.map((game: GameEntity) => (
         <GameCard
           key={game.id}
-          url={''}
+          url={`${baseUrl}/EditGame/${game.id}`}
           game={game}
           onDeleteGame={deleteGame}
         />

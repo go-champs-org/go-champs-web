@@ -50,6 +50,7 @@ const GameList: React.FC<GameListProps> = ({
   organizationSlug,
   tournamentSlug
 }) => {
+  const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
   return (
     <Fragment>
       <div className="column is-12">
@@ -82,7 +83,11 @@ const GameList: React.FC<GameListProps> = ({
                   canRender={!gamesLoading}
                   loader={<ListLoading />}
                 >
-                  <List deleteGame={deleteGame} games={games} />
+                  <List
+                    baseUrl={baseUrl}
+                    deleteGame={deleteGame}
+                    games={games}
+                  />
                 </ComponentLoader>
               </div>
             </div>

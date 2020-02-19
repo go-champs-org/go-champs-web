@@ -14,6 +14,7 @@ import Shimmer from '../Shared/UI/Shimmer';
 import PhaseManage from './PhaseManage';
 import GameList from './GameList';
 import GameNew from './GameNew';
+import GameEdit from './GameEdit';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -128,6 +129,19 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
       loader={<PhaseHomeLoading />}
     >
       <Switch>
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditGame/:gameId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <GameEdit
+              {...props}
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewGame`}
           render={() => (
