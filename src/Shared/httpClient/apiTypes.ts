@@ -58,8 +58,16 @@ export interface ApiDraw {
   matches: ApiDrawMatch[];
 }
 
-export interface ApiDrawRequest {
+export interface ApiDrawWithPhaseId extends ApiDraw {
+  phase_id: string;
+}
+
+export interface ApiDrawPatchRequest {
   draw: ApiDraw;
+}
+
+export interface ApiDrawPostRequest {
+  draw: ApiDrawWithPhaseId;
 }
 
 export interface ApiDrawResponse {

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { StoreState } from '../store';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { allEliminationStats } from '../Phases/EliminationStats/selectors';
-import { allDraws } from '../Draws/selectors';
+import { draws } from '../Draws/selectors';
 import { allElimination } from '../Eliminations/selectors';
 import { connect, ConnectedProps } from 'react-redux';
 import withPhase from './support/withPhase';
@@ -23,7 +23,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
     eliminationStats: allEliminationStats(state.eliminationStats),
-    draws: allDraws(state.draws),
+    draws: draws(state.draws),
     eliminations: allElimination(state.eliminations),
     teams: state.teams.teams
   };

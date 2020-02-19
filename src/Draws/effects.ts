@@ -12,14 +12,13 @@ import {
 } from './actions';
 import drawHttpClient from './drawHttpClient';
 import { DrawEntity } from './state';
+import { Dispatch } from 'redux';
 
-export const deleteDraw = (phaseId: string) => (draw: DrawEntity) => async (
-  dispatch: any
-) => {
+export const deleteDraw = (draw: DrawEntity) => async (dispatch: Dispatch) => {
   dispatch(deleteDrawStart());
 
   try {
-    const response = await drawHttpClient.delete(phaseId, draw.id);
+    const response = await drawHttpClient.delete(draw.id);
 
     dispatch(deleteDrawSuccess(response));
     displayToast(`${draw.title} deleted!`, 'is-success');
@@ -29,12 +28,12 @@ export const deleteDraw = (phaseId: string) => (draw: DrawEntity) => async (
 };
 
 export const patchDraw = (phaseId: string) => (draw: DrawEntity) => async (
-  dispatch: any
+  dispatch: Dispatch
 ) => {
   dispatch(patchDrawStart());
 
   try {
-    const response = await drawHttpClient.patch(phaseId, draw);
+    const response = await drawHttpClient.patch(draw);
 
     dispatch(patchDrawSuccess(response));
     displayToast(`${draw.title} updated!`, 'is-success');
@@ -43,13 +42,13 @@ export const patchDraw = (phaseId: string) => (draw: DrawEntity) => async (
   }
 };
 
-export const postDraw = (phaseId: string) => (draw: DrawEntity) => async (
-  dispatch: any
+export const postDraw = (draw: DrawEntity, phaseId: string) => async (
+  dispatch: Dispatch
 ) => {
   dispatch(postDrawStart());
 
   try {
-    const response = await drawHttpClient.post(phaseId, draw);
+    const response = await drawHttpClient.post(draw, phaseId);
 
     dispatch(postDrawSuccess(response));
     displayToast(`${draw.title} created!`, 'is-success');

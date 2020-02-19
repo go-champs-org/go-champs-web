@@ -10,7 +10,7 @@ import {
   gamesLoading
 } from '../Games/selectors';
 import { allEliminationStats } from '../Phases/EliminationStats/selectors';
-import { allDraws } from '../Draws/selectors';
+import { draws } from '../Draws/selectors';
 import { allElimination } from '../Eliminations/selectors';
 import { default as DrawView } from '../Draws/View';
 import { default as GameListByDate } from '../Games/ListByDate';
@@ -34,7 +34,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
     eliminationStats: allEliminationStats(state.eliminationStats),
-    draws: allDraws(state.draws),
+    draws: draws(state.draws),
     eliminations: allElimination(state.eliminations),
     teams: state.teams.teams
   };

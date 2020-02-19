@@ -32,7 +32,7 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
         </li>
         <li>
           <Link
-            to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Rounds`}
+            to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Draws`}
           >
             Rounds
           </Link>

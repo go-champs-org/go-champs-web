@@ -1,7 +1,8 @@
 import {
   ApiDraw,
   ApiDrawMatch,
-  ApiDrawRequest
+  ApiDrawPatchRequest,
+  ApiDrawPostRequest
 } from '../Shared/httpClient/apiTypes';
 import { DrawEntity, DrawMatchEntity } from './state';
 
@@ -38,13 +39,26 @@ export const mapApiDrawToDrawEntity = (apiDraw: ApiDraw): DrawEntity => ({
   title: apiDraw.title || ''
 });
 
-export const mapDrawEntityToApiDrawRequest = (
+export const mapDrawEntityToApiDrawPatchRequest = (
   draw: DrawEntity
-): ApiDrawRequest => ({
+): ApiDrawPatchRequest => ({
   draw: {
     id: draw.id,
     matches: draw.matches.map(mapDrawMatchToApiDraw),
     order: draw.order || undefined,
     title: draw.title
+  }
+});
+
+export const mapDrawEntityToApiDrawPostRequest = (
+  draw: DrawEntity,
+  phaseId: string
+): ApiDrawPostRequest => ({
+  draw: {
+    id: draw.id,
+    matches: draw.matches.map(mapDrawMatchToApiDraw),
+    order: draw.order || undefined,
+    title: draw.title,
+    phase_id: phaseId
   }
 });
