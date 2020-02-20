@@ -7,10 +7,12 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { DEFAULT_DRAW, DrawEntity } from '../Draws/state';
 import { StoreState } from '../store';
 import AdminMenu from '../Tournaments/AdminMenu';
+import arrayMutators from 'final-form-arrays';
 import withPhase from './support/withPhase';
 import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { TeamEntity } from '../Teams/state';
+import { Mutator } from 'final-form';
 
 interface OwnProps {
   organizationSlug: string;
@@ -83,8 +85,17 @@ const DrawNew: React.FC<DrawNewProps> = ({
             <Form
               onSubmit={postDraw}
               initialValues={DEFAULT_DRAW}
+              mutators={
+                (arrayMutators as unknown) as {
+                  [key: string]: Mutator<DrawEntity>;
+                }
+              }
               render={(props: FormRenderProps<DrawEntity>) => (
-                <DrawForm teams={teams} {...props} />
+                <DrawForm
+                  teams={teams}
+                  {...props}
+                  push={props.form.mutators.push}
+                />
               )}
             />
           </div>
