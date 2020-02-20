@@ -32,3 +32,22 @@ export const initialState: DrawState = {
   isLoadingRequestTournament: false,
   draws: {}
 };
+
+export const DEFAULT_DRAW_MATCH: DrawMatchEntity = {
+  id: '',
+  firstTeamId: '',
+  firstTeamParentMatchId: '',
+  firstTeamPlaceholder: '',
+  firstTeamScore: '',
+  secondTeamId: '',
+  secondTeamParentMatchId: '',
+  secondTeamPlaceholder: '',
+  secondTeamScore: ''
+};
+
+export const DEFAULT_DRAW: DrawEntity = {
+  id: '',
+  order: 0,
+  title: '',
+  matches: []
+};
