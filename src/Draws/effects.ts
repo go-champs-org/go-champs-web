@@ -27,9 +27,7 @@ export const deleteDraw = (draw: DrawEntity) => async (dispatch: Dispatch) => {
   }
 };
 
-export const patchDraw = (phaseId: string) => (draw: DrawEntity) => async (
-  dispatch: Dispatch
-) => {
+export const patchDraw = (draw: DrawEntity) => async (dispatch: Dispatch) => {
   dispatch(patchDrawStart());
 
   try {
@@ -45,6 +43,7 @@ export const patchDraw = (phaseId: string) => (draw: DrawEntity) => async (
 export const postDraw = (draw: DrawEntity, phaseId: string) => async (
   dispatch: Dispatch
 ) => {
+  debugger;
   dispatch(postDrawStart());
 
   try {

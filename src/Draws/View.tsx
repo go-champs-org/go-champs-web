@@ -39,7 +39,7 @@ const Round: React.FC<RoundProps> = ({ draw }) => {
       <h1 className="subtitle">{draw.title}</h1>
 
       {draw.matches.map((match: DrawMatchEntity) => (
-        <Match match={match} />
+        <Match match={match} key={match.id} />
       ))}
     </div>
   );
@@ -53,7 +53,7 @@ const Bracket: React.FC<BracketProps> = ({ draws }) => {
   return (
     <div className="columns is-multiline">
       {draws.map((draw: DrawEntity) => (
-        <Round draw={draw} />
+        <Round draw={draw} key={draw.id} />
       ))}
     </div>
   );

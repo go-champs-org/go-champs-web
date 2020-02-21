@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { TeamEntity } from '../Teams/state';
 import { FormRenderProps, Field } from 'react-final-form';
 import { DrawEntity, DEFAULT_DRAW_MATCH, DrawMatchEntity } from './state';
@@ -7,26 +7,114 @@ import { FieldArray } from 'react-final-form-arrays';
 import Select from '../Shared/UI/Form/Select';
 
 interface MatchFormProps {
+  name: string;
   teams: TeamEntity[];
   index: number;
 }
 
-const MatchForm: React.FC<MatchFormProps> = ({ index, teams }) => {
+const MatchForm: React.FC<MatchFormProps> = ({ index, name, teams }) => {
   return (
-    <Fragment>
-      <div className="field">
-        <label className="label">First team</label>
+    <div className="card">
+      <div className="card-content">
+        <div className="field">
+          <label className="label">First team</label>
 
-        <div className="control">
-          <Field
-            name="firstTeam"
-            component={Select}
-            selectOptions={teams}
-            getOptionLabel={(team: TeamEntity) => team.name}
-          />
+          <div className="control">
+            <Field
+              name={`${name}.firstTeamId`}
+              component={Select}
+              selectOptions={teams}
+              getOptionLabel={(team: TeamEntity) => team.name}
+              getOptionValue={(team: TeamEntity) => team.id}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">First parent match id</label>
+
+          <div className="control">
+            <Field
+              name={`${name}.firstTeamParentMatchId`}
+              component={StringInput}
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">First placeholder</label>
+
+          <div className="control">
+            <Field
+              name={`${name}.firstTeamPlaceholder`}
+              component={StringInput}
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">First team score</label>
+          <div className="control">
+            <Field
+              name={`${name}.firstTeamScore`}
+              component={StringInput}
+              type="number"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Second team</label>
+
+          <div className="control">
+            <Field
+              name={`${name}.secondTeamId`}
+              component={Select}
+              selectOptions={teams}
+              getOptionLabel={(team: TeamEntity) => team.name}
+              getOptionValue={(team: TeamEntity) => team.id}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Second parent match id</label>
+
+          <div className="control">
+            <Field
+              name={`${name}.secondTeamParentMatchId`}
+              component={StringInput}
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Second placeholder</label>
+
+          <div className="control">
+            <Field
+              name={`${name}.secondTeamPlaceholder`}
+              component={StringInput}
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Second team score</label>
+          <div className="control">
+            <Field
+              name={`${name}.secondTeamScore`}
+              component={StringInput}
+              type="number"
+            />
+          </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 
@@ -42,7 +130,6 @@ const Form: React.FC<FormProps> = ({
   pristine,
   teams
 }) => {
-  console.log('push', push);
   const selectTeams = Object.keys(teams).map((key: string) => teams[key]);
   return (
     <form onSubmit={handleSubmit}>
@@ -57,7 +144,12 @@ const Form: React.FC<FormProps> = ({
       <FieldArray name="matches">
         {({ fields }) =>
           fields.map((name, index) => (
-            <MatchForm key={name} index={index} teams={selectTeams} />
+            <MatchForm
+              key={name}
+              index={index}
+              name={name}
+              teams={selectTeams}
+            />
           ))
         }
       </FieldArray>

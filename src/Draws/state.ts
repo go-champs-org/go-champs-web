@@ -17,6 +17,13 @@ export interface DrawEntity {
   matches: DrawMatchEntity[];
 }
 
+export interface PostDrawEntity {
+  id: string;
+  order: number;
+  title: string;
+  matches: DrawMatchEntity[];
+}
+
 export interface DrawState {
   isLoadingDeleteDraw: boolean;
   isLoadingPatchDraw: boolean;

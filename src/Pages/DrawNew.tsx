@@ -78,7 +78,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">New Draw</h2>
+            <h2 className="subtitle">New draw</h2>
           </div>
 
           <div className="column is-12">
