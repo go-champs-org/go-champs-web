@@ -7,12 +7,18 @@ import { FieldArray } from 'react-final-form-arrays';
 import Select from '../Shared/UI/Form/Select';
 
 interface MatchFormProps {
-  name: string;
-  teams: TeamEntity[];
   index: number;
+  name: string;
+  onRemove: () => {};
+  teams: TeamEntity[];
 }
 
-const MatchForm: React.FC<MatchFormProps> = ({ index, name, teams }) => {
+const MatchForm: React.FC<MatchFormProps> = ({
+  index,
+  name,
+  onRemove,
+  teams
+}) => {
   return (
     <div className="card">
       <div className="card-content">
@@ -114,6 +120,14 @@ const MatchForm: React.FC<MatchFormProps> = ({ index, name, teams }) => {
           </div>
         </div>
       </div>
+
+      <footer className="card-footer">
+        <div className="card-footer-item">
+          <button className="button is-warning" onClick={onRemove}>
+            Remove
+          </button>
+        </div>
+      </footer>
     </div>
   );
 };
@@ -148,6 +162,7 @@ const Form: React.FC<FormProps> = ({
               key={name}
               index={index}
               name={name}
+              onRemove={() => fields.remove(index)}
               teams={selectTeams}
             />
           ))
