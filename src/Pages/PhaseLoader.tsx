@@ -17,6 +17,7 @@ import GameNew from './GameNew';
 import GameEdit from './GameEdit';
 import DrawList from './DrawList';
 import DrawNew from './DrawNew';
+import DrawEdit from './DrawEdit';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -131,6 +132,19 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
       loader={<PhaseHomeLoading />}
     >
       <Switch>
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditDraw/:drawId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <DrawEdit
+              {...props}
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditGame/:gameId`}
           render={(props: RouteComponentProps<RouteProps>) => (

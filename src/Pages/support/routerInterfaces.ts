@@ -1,4 +1,5 @@
 export interface RouteProps {
+  drawId?: string;
   gameId?: string;
   organizationSlug?: string;
   phaseId?: string;
