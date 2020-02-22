@@ -46,9 +46,9 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
         </td>
       ))}
 
-      <td>
-        <button className="button is-warning" onClick={onRemove}>
-          Remove
+      <td className="has-text-right">
+        <button className="button is-text" onClick={onRemove}>
+          <i className="fas fa-trash" />
         </button>
       </td>
     </tr>
