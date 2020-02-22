@@ -1,5 +1,6 @@
 export interface RouteProps {
   drawId?: string;
+  eliminationId?: string;
   gameId?: string;
   organizationSlug?: string;
   phaseId?: string;
