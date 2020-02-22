@@ -1,6 +1,6 @@
 import { PhaseEliminationStatEntity, PhaseEliminationStatState } from './state';
 
-export const allEliminationStats = (
+export const eliminationStats = (
   state: PhaseEliminationStatState
 ): PhaseEliminationStatEntity[] =>
   Object.keys(state.eliminationStats).map(

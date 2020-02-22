@@ -9,9 +9,9 @@ import {
   gamesCloserGameDatePosition,
   gamesLoading
 } from '../Games/selectors';
-import { allEliminationStats } from '../Phases/EliminationStats/selectors';
+import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { draws } from '../Draws/selectors';
-import { allElimination } from '../Eliminations/selectors';
+import { eliminations } from '../Eliminations/selectors';
 import { default as DrawView } from '../Draws/View';
 import { default as GameListByDate } from '../Games/ListByDate';
 import { default as EliminationView } from '../Eliminations/View';
@@ -33,9 +33,9 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     gameDates: gameDates(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
-    eliminationStats: allEliminationStats(state.eliminationStats),
+    eliminationStats: eliminationStats(state.eliminationStats),
     draws: draws(state.draws),
-    eliminations: allElimination(state.eliminations),
+    eliminations: eliminations(state.eliminations),
     teams: state.teams.teams
   };
 };

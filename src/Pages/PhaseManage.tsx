@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { StoreState } from '../store';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
-import { allEliminationStats } from '../Phases/EliminationStats/selectors';
+import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { draws } from '../Draws/selectors';
-import { allElimination } from '../Eliminations/selectors';
+import { eliminations } from '../Eliminations/selectors';
 import { connect, ConnectedProps } from 'react-redux';
 import withPhase from './support/withPhase';
 import { PhaseTypes } from '../Phases/state';
@@ -22,9 +22,9 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
-    eliminationStats: allEliminationStats(state.eliminationStats),
+    eliminationStats: eliminationStats(state.eliminationStats),
     draws: draws(state.draws),
-    eliminations: allElimination(state.eliminations),
+    eliminations: eliminations(state.eliminations),
     teams: state.teams.teams
   };
 };

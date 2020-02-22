@@ -12,17 +12,15 @@ import {
 } from './actions';
 import eliminationHttpClient from './eliminationHttpClient';
 import { EliminationEntity } from './state';
+import { Dispatch } from 'redux';
 
-export const deleteElimination = (phaseId: string) => (
-  elimination: EliminationEntity
-) => async (dispatch: any) => {
+export const deleteElimination = (elimination: EliminationEntity) => async (
+  dispatch: Dispatch
+) => {
   dispatch(deleteEliminationStart());
 
   try {
-    const response = await eliminationHttpClient.delete(
-      phaseId,
-      elimination.id
-    );
+    const response = await eliminationHttpClient.delete(elimination.id);
 
     dispatch(deleteEliminationSuccess(response));
     displayToast(`${elimination.title} deleted!`, 'is-success');
@@ -31,13 +29,13 @@ export const deleteElimination = (phaseId: string) => (
   }
 };
 
-export const patchElimination = (phaseId: string) => (
-  elimination: EliminationEntity
-) => async (dispatch: any) => {
+export const patchElimination = (elimination: EliminationEntity) => async (
+  dispatch: Dispatch
+) => {
   dispatch(patchEliminationStart());
 
   try {
-    const response = await eliminationHttpClient.patch(phaseId, elimination);
+    const response = await eliminationHttpClient.patch(elimination);
 
     dispatch(patchEliminationSuccess(response));
     displayToast(`${elimination.title} updated!`, 'is-success');
@@ -46,13 +44,14 @@ export const patchElimination = (phaseId: string) => (
   }
 };
 
-export const postElimination = (phaseId: string) => (
-  elimination: EliminationEntity
-) => async (dispatch: any) => {
+export const postElimination = (
+  elimination: EliminationEntity,
+  phaseId: string
+) => async (dispatch: Dispatch) => {
   dispatch(postEliminationStart());
 
   try {
-    const response = await eliminationHttpClient.post(phaseId, elimination);
+    const response = await eliminationHttpClient.post(elimination, phaseId);
 
     dispatch(postEliminationSuccess(response));
     displayToast(`${elimination.title} created!`, 'is-success');

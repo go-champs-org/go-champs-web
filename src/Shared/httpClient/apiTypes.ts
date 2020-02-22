@@ -90,8 +90,16 @@ export interface ApiElimination {
   team_stats: ApiEliminationTeamStat[];
 }
 
-export interface ApiEliminationRequest {
+export interface ApiEliminationWithPhaseId extends ApiElimination {
+  phase_id: string;
+}
+
+export interface ApiEliminationPatchRequest {
   elimination: ApiElimination;
+}
+
+export interface ApiEliminationPostRequest {
+  elimination: ApiEliminationWithPhaseId;
 }
 
 export interface ApiEliminationResponse {

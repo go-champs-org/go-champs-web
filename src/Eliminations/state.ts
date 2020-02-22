@@ -25,3 +25,9 @@ export const initialState: EliminationState = {
   isLoadingRequestTournament: false,
   eliminations: {}
 };
+
+export const DEFAULT_ELIMINATION: EliminationEntity = {
+  id: '',
+  title: '',
+  teamStats: []
+};

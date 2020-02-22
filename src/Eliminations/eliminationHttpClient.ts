@@ -1,51 +1,49 @@
 import {
-  ApiEliminationRequest,
-  ApiEliminationResponse
+  ApiEliminationResponse,
+  ApiEliminationPostRequest,
+  ApiEliminationPatchRequest
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapApiEliminationToEliminationEntity,
-  mapEliminationEntityToApiEliminationRequest
+  mapEliminationEntityToApiEliminationPatchRequest,
+  mapEliminationEntityToApiEliminationPostRequest
 } from './dataMappers';
 import { EliminationEntity } from './state';
 
-const PHASE_API = 'https://yochamps-api.herokuapp.com/api/phases';
+const ELIMINATION_API = 'https://yochamps-api.herokuapp.com/api/eliminations';
 
-const eliminationApi = (phaseId: string) =>
-  `${PHASE_API}/${phaseId}/eliminations`;
-
-const deleteRequest = (
-  phaseId: string,
-  phaseEliminationId: string
-): Promise<string> => {
-  const url = `${eliminationApi(phaseId)}/${phaseEliminationId}`;
+const deleteRequest = (eliminationId: string): Promise<string> => {
+  const url = `${ELIMINATION_API}/${eliminationId}`;
 
   return httpClient.delete(url);
 };
 
 const patch = async (
-  phaseId: string,
-  phaseElimination: EliminationEntity
+  elimination: EliminationEntity
 ): Promise<EliminationEntity> => {
-  const url = `${eliminationApi(phaseId)}/${phaseElimination.id}`;
-  const body = mapEliminationEntityToApiEliminationRequest(phaseElimination);
+  const url = `${ELIMINATION_API}/${elimination.id}`;
+  const body = mapEliminationEntityToApiEliminationPatchRequest(elimination);
 
   const { data } = await httpClient.patch<
-    ApiEliminationRequest,
+    ApiEliminationPatchRequest,
     ApiEliminationResponse
   >(url, body);
   return mapApiEliminationToEliminationEntity(data);
 };
 
 const post = async (
-  phaseId: string,
-  phaseElimination: EliminationEntity
+  elimination: EliminationEntity,
+  phaseId: string
 ): Promise<EliminationEntity> => {
-  const url = `${eliminationApi(phaseId)}`;
-  const body = mapEliminationEntityToApiEliminationRequest(phaseElimination);
-
+  const url = `${ELIMINATION_API}`;
+  const body = mapEliminationEntityToApiEliminationPostRequest(
+    elimination,
+    phaseId
+  );
+  debugger;
   const { data } = await httpClient.post<
-    ApiEliminationRequest,
+    ApiEliminationPostRequest,
     ApiEliminationResponse
   >(url, body);
   return mapApiEliminationToEliminationEntity(data);
