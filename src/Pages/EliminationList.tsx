@@ -72,7 +72,7 @@ const EliminationList: React.FC<EliminationListProps> = ({
               <div className="column is-2 has-text-right">
                 <Link
                   className="button is-text"
-                  to={`/${baseUrl}/NewElimination`}
+                  to={`/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}/NewElimination`}
                 >
                   New
                 </Link>

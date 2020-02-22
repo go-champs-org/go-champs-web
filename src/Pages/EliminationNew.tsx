@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
-import { postDraw } from '../Draws/effects';
-import { default as DrawForm } from '../Draws/Form';
+import { postElimination } from '../Eliminations/effects';
+import { default as EliminationForm } from '../Eliminations/Form';
 import { Form, FormRenderProps } from 'react-final-form';
-import { DEFAULT_DRAW, DrawEntity } from '../Draws/state';
+import { DEFAULT_ELIMINATION, EliminationEntity } from '../Eliminations/state';
 import { StoreState } from '../store';
 import AdminMenu from '../Tournaments/AdminMenu';
 import arrayMutators from 'final-form-arrays';
@@ -26,8 +26,8 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  postDraw: (
-    draw: DrawEntity,
+  postElimination: (
+    elimination: EliminationEntity,
     phaseId: string
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
@@ -42,7 +42,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      postDraw
+      postElimination
     },
     dispatch
   );
@@ -57,19 +57,19 @@ const mergeProps = (
     ...ownProps,
     ...stateProps,
     ...dispatchProps,
-    postDraw: (draw: DrawEntity) =>
-      dispatchProps.postDraw(draw, stateProps.phase.id)
+    postElimination: (elimination: EliminationEntity) =>
+      dispatchProps.postElimination(elimination, stateProps.phase.id)
   };
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 
-type DrawNewProps = ConnectedProps<typeof connector>;
+type EliminationNewProps = ConnectedProps<typeof connector>;
 
-const DrawNew: React.FC<DrawNewProps> = ({
+const EliminationNew: React.FC<EliminationNewProps> = ({
   organizationSlug,
   phase,
-  postDraw,
+  postElimination,
   teams,
   tournamentSlug
 }) => {
@@ -78,20 +78,20 @@ const DrawNew: React.FC<DrawNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">New draw</h2>
+            <h2 className="subtitle">New elimination</h2>
           </div>
 
           <div className="column is-12">
             <Form
-              onSubmit={postDraw}
-              initialValues={DEFAULT_DRAW}
+              onSubmit={postElimination}
+              initialValues={DEFAULT_ELIMINATION}
               mutators={
                 (arrayMutators as unknown) as {
-                  [key: string]: Mutator<DrawEntity>;
+                  [key: string]: Mutator<EliminationEntity>;
                 }
               }
-              render={(props: FormRenderProps<DrawEntity>) => (
-                <DrawForm
+              render={(props: FormRenderProps<EliminationEntity>) => (
+                <EliminationForm
                   teams={teams}
                   {...props}
                   push={props.form.mutators.push}
@@ -115,4 +115,4 @@ const DrawNew: React.FC<DrawNewProps> = ({
   );
 };
 
-export default connector(withPhase<DrawNewProps>(DrawNew));
+export default connector(withPhase<EliminationNewProps>(EliminationNew));

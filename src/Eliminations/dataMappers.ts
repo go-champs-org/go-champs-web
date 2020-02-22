@@ -1,23 +1,23 @@
 import {
   ApiElimination,
   ApiEliminationPatchRequest,
-  ApiEliminationTeamStat,
-  ApiEliminationPostRequest
+  ApiEliminationPostRequest,
+  ApiEliminationTeamStatPatchAndPost,
+  ApiEliminationTeamStatResponse
 } from '../Shared/httpClient/apiTypes';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 
 const mapApiEliminationTeamStatToTeamStat = (
-  apiTeamStats: ApiEliminationTeamStat
+  apiTeamStats: ApiEliminationTeamStatResponse
 ): EliminationTeamStatEntity => ({
   id: apiTeamStats.id,
   stats: apiTeamStats.stats,
   teamId: apiTeamStats.team_id
 });
 
-const mapTeamStatToApiEliminationTeamStat = (
+const mapTeamStatToApiEliminationTeamStatPatchAndPost = (
   teamStats: EliminationTeamStatEntity
-): ApiEliminationTeamStat => ({
-  id: teamStats.id,
+): ApiEliminationTeamStatPatchAndPost => ({
   stats: teamStats.stats,
   team_id: teamStats.teamId
 });
@@ -36,7 +36,9 @@ export const mapEliminationEntityToApiEliminationPatchRequest = (
   elimination: {
     id: elimination.id,
     title: elimination.title,
-    team_stats: elimination.teamStats.map(mapTeamStatToApiEliminationTeamStat)
+    team_stats: elimination.teamStats.map(
+      mapTeamStatToApiEliminationTeamStatPatchAndPost
+    )
   }
 });
 
@@ -47,7 +49,9 @@ export const mapEliminationEntityToApiEliminationPostRequest = (
   elimination: {
     id: elimination.id,
     title: elimination.title,
-    team_stats: elimination.teamStats.map(mapTeamStatToApiEliminationTeamStat),
+    team_stats: elimination.teamStats.map(
+      mapTeamStatToApiEliminationTeamStatPatchAndPost
+    ),
     phase_id: phaseId
   }
 });

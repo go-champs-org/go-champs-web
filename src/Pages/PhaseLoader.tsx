@@ -19,6 +19,7 @@ import DrawList from './DrawList';
 import DrawNew from './DrawNew';
 import DrawEdit from './DrawEdit';
 import EliminationList from './EliminationList';
+import EliminationNew from './EliminationNew';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -163,6 +164,18 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewDraw`}
           render={() => (
             <DrawNew
+              organizationSlug={organizationSlug}
+              phaseId={selectedPhaseId}
+              getGamesByFilter={getGamesByFilter}
+              getPhase={getPhase}
+              tournamentSlug={tournamentSlug}
+            />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewElimination`}
+          render={() => (
+            <EliminationNew
               organizationSlug={organizationSlug}
               phaseId={selectedPhaseId}
               getGamesByFilter={getGamesByFilter}

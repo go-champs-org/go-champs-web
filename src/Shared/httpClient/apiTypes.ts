@@ -78,7 +78,12 @@ export interface ApiDrawsResponse {
   data: ApiDraw[];
 }
 
-export interface ApiEliminationTeamStat {
+export interface ApiEliminationTeamStatPatchAndPost {
+  team_id: string;
+  stats: { [stat_id: string]: string };
+}
+
+export interface ApiEliminationTeamStatResponse {
   id: string;
   team_id: string;
   stats: { [stat_id: string]: string };
@@ -87,15 +92,21 @@ export interface ApiEliminationTeamStat {
 export interface ApiElimination {
   id: string;
   title?: string;
-  team_stats: ApiEliminationTeamStat[];
+  team_stats: ApiEliminationTeamStatResponse[];
 }
 
-export interface ApiEliminationWithPhaseId extends ApiElimination {
+export interface ApiEliminationPatchAndPost {
+  id: string;
+  title?: string;
+  team_stats: ApiEliminationTeamStatPatchAndPost[];
+}
+
+export interface ApiEliminationWithPhaseId extends ApiEliminationPatchAndPost {
   phase_id: string;
 }
 
 export interface ApiEliminationPatchRequest {
-  elimination: ApiElimination;
+  elimination: ApiEliminationPatchAndPost;
 }
 
 export interface ApiEliminationPostRequest {

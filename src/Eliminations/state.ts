@@ -31,3 +31,9 @@ export const DEFAULT_ELIMINATION: EliminationEntity = {
   title: '',
   teamStats: []
 };
+
+export const DEFAULT_ELIMINATION_TEAM_STAT: EliminationTeamStatEntity = {
+  id: '',
+  teamId: '',
+  stats: {}
+};
