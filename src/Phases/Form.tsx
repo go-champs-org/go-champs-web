@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
-import { Field, FormRenderProps } from 'react-final-form';
-import Select from '../Shared/UI/Form/Select';
+import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
+import Select, {
+  SelectInput,
+  SelectOptionType
+} from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
   PhaseTypes,
@@ -9,6 +12,7 @@ import {
   StatEntity
 } from './state';
 import { FieldArray } from 'react-final-form-arrays';
+import { PHASE_TYPES_OPTIONS } from './constans';
 
 interface StatFormProps {
   name: string;
@@ -39,11 +43,6 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
   );
 };
 
-const PHASE_TYPE_LABELMAP = new Map([
-  [PhaseTypes.draw, 'Draw'],
-  [PhaseTypes.elimination, 'Standings']
-]);
-
 interface FormProps extends FormRenderProps<PhaseEntity> {
   push: (fieldName: string, stat: StatEntity) => {};
 }
@@ -55,7 +54,6 @@ const Form: React.FC<FormProps> = ({
   values,
   push
 }) => {
-  const phaseTypeOptions = Array.from(PHASE_TYPE_LABELMAP.keys());
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -75,11 +73,9 @@ const Form: React.FC<FormProps> = ({
         <div className="control">
           <Field
             name="type"
-            component={Select}
-            selectOptions={phaseTypeOptions}
-            getOptionLabel={(option: PhaseTypes) => {
-              return PHASE_TYPE_LABELMAP.get(option);
-            }}
+            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+              <SelectInput {...props} options={PHASE_TYPES_OPTIONS} />
+            )}
           />
         </div>
       </div>
