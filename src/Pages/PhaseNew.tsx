@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
+import arrayMutators from 'final-form-arrays';
+import { Mutator } from 'final-form';
 import { postPhase } from '../Phases/effects';
 import { default as PhaseForm } from '../Phases/Form';
-import { Form } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
 import { DEFAULT_PHASE, PhaseEntity } from '../Phases/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -77,7 +79,14 @@ const PhaseNew: React.FC<PhaseNewProps> = ({ match, postPhase }) => {
             <Form
               onSubmit={postPhase}
               initialValues={DEFAULT_PHASE}
-              render={PhaseForm}
+              mutators={
+                (arrayMutators as unknown) as {
+                  [key: string]: Mutator<PhaseEntity>;
+                }
+              }
+              render={(props: FormRenderProps<PhaseEntity>) => (
+                <PhaseForm {...props} push={props.form.mutators.push} />
+              )}
             />
           </div>
         </div>

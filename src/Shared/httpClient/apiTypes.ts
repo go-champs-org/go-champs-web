@@ -108,6 +108,16 @@ export interface ApiOrganization {
   slug: string;
 }
 
+export interface ApiPhaseRequest {
+  id: string;
+  title: string;
+  type: PhaseTypes;
+  order: number;
+  draws?: ApiDraw[];
+  eliminations?: ApiElimination[];
+  elimination_stats?: ApiPatchAndPostStat[];
+}
+
 export interface ApiPhase {
   id: string;
   title: string;
@@ -118,7 +128,7 @@ export interface ApiPhase {
   elimination_stats?: ApiStat[];
 }
 
-export interface ApiPhaseWithDependeciesIds extends ApiPhase {
+export interface ApiPhaseWithDependeciesIds extends ApiPhaseRequest {
   tournament_id: string;
 }
 
@@ -127,7 +137,7 @@ export interface ApiPhasePostRequest {
 }
 
 export interface ApiPhasePatchRequest {
-  phase: ApiPhase;
+  phase: ApiPhaseRequest;
 }
 
 export interface ApiPhaseResponse {
@@ -135,7 +145,7 @@ export interface ApiPhaseResponse {
 }
 
 export interface ApiPhasesResponse {
-  data: ApiPhase[];
+  data: ApiPhaseRequest[];
 }
 
 export interface ApiOrganization {
@@ -158,6 +168,10 @@ export interface ApiOrganizationsResponse {
 
 export interface ApiStat {
   id: string;
+  title: string;
+}
+
+export interface ApiPatchAndPostStat {
   title: string;
 }
 

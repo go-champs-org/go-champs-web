@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { getPhase, patchPhase } from '../Phases/effects';
 import { default as PhaseForm } from '../Phases/Form';
-import { Form } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
 import { PhaseEntity } from '../Phases/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -11,7 +11,9 @@ import { StoreState } from '../store';
 import { getGamesByFilter } from '../Games/effects';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
+import arrayMutators from 'final-form-arrays';
 import { phaseByIdOrDefault } from '../Phases/selectors';
+import { Mutator } from 'final-form';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
@@ -75,7 +77,14 @@ const PhaseNew: React.FC<PhaseNewProps> = ({ match, patchPhase, phase }) => {
             <Form
               onSubmit={patchPhase}
               initialValues={phase}
-              render={PhaseForm}
+              mutators={
+                (arrayMutators as unknown) as {
+                  [key: string]: Mutator<PhaseEntity>;
+                }
+              }
+              render={(props: FormRenderProps<PhaseEntity>) => (
+                <PhaseForm {...props} push={props.form.mutators.push} />
+              )}
             />
           </div>
         </div>

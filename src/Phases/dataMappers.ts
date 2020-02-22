@@ -1,16 +1,34 @@
 import {
   ApiPhase,
   ApiPhasePatchRequest,
-  ApiPhasePostRequest
+  ApiPhasePostRequest,
+  ApiStat,
+  ApiPatchAndPostStat
 } from '../Shared/httpClient/apiTypes';
-import { PhaseEntity } from './state';
+import { PhaseEntity, StatEntity } from './state';
+
+export const mapApiEliminationStatToStatEntity = (
+  apiStatEntity: ApiStat
+): StatEntity => ({
+  id: apiStatEntity.id,
+  title: apiStatEntity.title
+});
 
 export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
   id: apiPhase.id,
   order: apiPhase.order,
   title: apiPhase.title,
   type: apiPhase.type,
-  isInProgress: true
+  isInProgress: true,
+  eliminationStats: apiPhase.elimination_stats
+    ? apiPhase.elimination_stats.map(mapApiEliminationStatToStatEntity)
+    : []
+});
+
+export const mapStatEntityToApiEliminationStat = (
+  stat: StatEntity
+): ApiPatchAndPostStat => ({
+  title: stat.title
 });
 
 export const mapPhaseEntityToApiPhasePostRequest = (
@@ -22,7 +40,11 @@ export const mapPhaseEntityToApiPhasePostRequest = (
     order: phase.order,
     title: phase.title,
     type: phase.type,
-    tournament_id: tournamentId
+    tournament_id: tournamentId,
+    elimination_stats:
+      phase.eliminationStats.length > 0
+        ? phase.eliminationStats.map(mapStatEntityToApiEliminationStat)
+        : undefined
   }
 });
 
@@ -33,6 +55,10 @@ export const mapPhaseEntityToApiPhasePatchRequest = (
     id: phase.id,
     order: phase.order,
     title: phase.title,
-    type: phase.type
+    type: phase.type,
+    elimination_stats:
+      phase.eliminationStats.length > 0
+        ? phase.eliminationStats.map(mapStatEntityToApiEliminationStat)
+        : undefined
   }
 });

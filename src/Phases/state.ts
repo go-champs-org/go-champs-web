@@ -3,11 +3,17 @@ export enum PhaseTypes {
   draw = 'draw'
 }
 
+export interface StatEntity {
+  id: string;
+  title: string;
+}
+
 export interface PhaseEntity {
   id: string;
   title: string;
   type: PhaseTypes;
   order: number;
+  eliminationStats: StatEntity[];
   isInProgress: boolean;
 }
 
@@ -34,5 +40,11 @@ export const DEFAULT_PHASE: PhaseEntity = {
   title: '',
   type: PhaseTypes.elimination,
   order: 0,
+  eliminationStats: [],
   isInProgress: false
+};
+
+export const DEFAULT_ELIMINATION_STAT: StatEntity = {
+  id: '',
+  title: ''
 };
