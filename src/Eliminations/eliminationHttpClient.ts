@@ -41,7 +41,6 @@ const post = async (
     elimination,
     phaseId
   );
-  debugger;
   const { data } = await httpClient.post<
     ApiEliminationPostRequest,
     ApiEliminationResponse

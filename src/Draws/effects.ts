@@ -43,7 +43,6 @@ export const patchDraw = (draw: DrawEntity) => async (dispatch: Dispatch) => {
 export const postDraw = (draw: DrawEntity, phaseId: string) => async (
   dispatch: Dispatch
 ) => {
-  debugger;
   dispatch(postDrawStart());
 
   try {

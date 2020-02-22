@@ -9,57 +9,68 @@ import {
 import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
 import Select from '../Shared/UI/Form/Select';
+import { StatEntity } from '../Phases/state';
 
 interface TeamStatFormProps {
   name: string;
   onRemove: () => {};
   teams: TeamEntity[];
+  stats: StatEntity[];
 }
 
 const TeamStatForm: React.FC<TeamStatFormProps> = ({
   name,
   onRemove,
-  teams
+  teams,
+  stats
 }) => {
   return (
-    <div className="card">
-      <div className="card-content">
-        <div className="field">
-          <label className="label">Team</label>
+    <tr>
+      <td style={{ paddingLeft: '0', width: '225px' }}>
+        <Field
+          name={`${name}.teamId`}
+          component={Select}
+          selectOptions={teams}
+          getOptionLabel={(team: TeamEntity) => team.name}
+          getOptionValue={(team: TeamEntity) => team.id}
+        />
+      </td>
 
-          <div className="control">
-            <Field
-              name={`${name}.teamId`}
-              component={Select}
-              selectOptions={teams}
-              getOptionLabel={(team: TeamEntity) => team.name}
-              getOptionValue={(team: TeamEntity) => team.id}
-            />
-          </div>
-        </div>
-      </div>
+      {stats.map((stat: StatEntity) => (
+        <td key={stat.id} className="has-text-centered">
+          <Field
+            name={`${name}.stats.${stat.id}`}
+            component={StringInput}
+            type="text"
+          />
+        </td>
+      ))}
 
-      <footer className="card-footer">
-        <div className="card-footer-item">
-          <button className="button is-warning" onClick={onRemove}>
-            Remove
-          </button>
-        </div>
-      </footer>
-    </div>
+      <td>
+        <button className="button is-warning" onClick={onRemove}>
+          Remove
+        </button>
+      </td>
+    </tr>
   );
 };
 
 interface FormProps extends FormRenderProps<EliminationEntity> {
-  teams: { [key: string]: TeamEntity };
   push: (fieldName: string, draw: EliminationTeamStatEntity) => {};
+  stats: StatEntity[];
+  teams: { [key: string]: TeamEntity };
 }
+
+const StatHeader: React.FC<{
+  stat: StatEntity;
+}> = ({ stat }) => <th className="has-text-centered">{stat.title}</th>;
 
 const Form: React.FC<FormProps> = ({
   handleSubmit,
   submitting,
   push,
   pristine,
+  stats,
   teams
 }) => {
   const selectTeams = Object.keys(teams).map((key: string) => teams[key]);
@@ -74,16 +85,31 @@ const Form: React.FC<FormProps> = ({
       </div>
 
       <FieldArray name="teamStats">
-        {({ fields }) =>
-          fields.map((name, index) => (
-            <TeamStatForm
-              key={name}
-              name={name}
-              onRemove={() => fields.remove(index)}
-              teams={selectTeams}
-            />
-          ))
-        }
+        {({ fields }) => (
+          <table className="table is-fullwidth is-striped is-hoverable">
+            <thead>
+              <tr>
+                <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
+                {stats.map((stat: StatEntity) => (
+                  <StatHeader key={stat.id} stat={stat} />
+                ))}
+                <th className="has-text-right">Remove</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {fields.map((name, index) => (
+                <TeamStatForm
+                  key={name}
+                  name={name}
+                  onRemove={() => fields.remove(index)}
+                  stats={stats}
+                  teams={selectTeams}
+                />
+              ))}
+            </tbody>
+          </table>
+        )}
       </FieldArray>
 
       <button

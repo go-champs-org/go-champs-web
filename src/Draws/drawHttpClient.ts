@@ -33,7 +33,6 @@ const patch = async (draw: DrawEntity): Promise<DrawEntity> => {
 const post = async (draw: DrawEntity, phaseId: string): Promise<DrawEntity> => {
   const url = `${DRAW_API}`;
   const body = mapDrawEntityToApiDrawPostRequest(draw, phaseId);
-  debugger;
   const { data } = await httpClient.post<ApiDrawPostRequest, ApiDrawResponse>(
     url,
     body
