@@ -11,8 +11,9 @@ import arrayMutators from 'final-form-arrays';
 import withPhase from './support/withPhase';
 import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { TeamEntity } from '../Teams/state';
 import { Mutator } from 'final-form';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps {
   organizationSlug: string;
@@ -22,7 +23,7 @@ interface OwnProps {
 
 type StateProps = {
   phase: PhaseEntity;
-  teams: { [key: string]: TeamEntity };
+  selectInputTeams: SelectOptionType[];
 };
 
 type DispatchProps = {
@@ -35,7 +36,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    teams: state.teams.teams
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
@@ -70,7 +71,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
   organizationSlug,
   phase,
   postDraw,
-  teams,
+  selectInputTeams,
   tournamentSlug
 }) => {
   return (
@@ -92,9 +93,9 @@ const DrawNew: React.FC<DrawNewProps> = ({
               }
               render={(props: FormRenderProps<DrawEntity>) => (
                 <DrawForm
-                  teams={teams}
                   {...props}
                   push={props.form.mutators.push}
+                  selectInputTeams={selectInputTeams}
                 />
               )}
             />

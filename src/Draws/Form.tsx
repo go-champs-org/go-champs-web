@@ -1,18 +1,21 @@
 import React from 'react';
-import { TeamEntity } from '../Teams/state';
-import { FormRenderProps, Field } from 'react-final-form';
+import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import { DrawEntity, DEFAULT_DRAW_MATCH, DrawMatchEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
-import Select from '../Shared/UI/Form/Select';
+import { SelectOptionType, SelectInput } from '../Shared/UI/Form/Select';
 
 interface MatchFormProps {
   name: string;
   onRemove: () => {};
-  teams: TeamEntity[];
+  selectInputTeams: SelectOptionType[];
 }
 
-const MatchForm: React.FC<MatchFormProps> = ({ name, onRemove, teams }) => {
+const MatchForm: React.FC<MatchFormProps> = ({
+  name,
+  onRemove,
+  selectInputTeams
+}) => {
   return (
     <div className="card">
       <div className="card-content">
@@ -22,10 +25,9 @@ const MatchForm: React.FC<MatchFormProps> = ({ name, onRemove, teams }) => {
           <div className="control">
             <Field
               name={`${name}.firstTeamId`}
-              component={Select}
-              selectOptions={teams}
-              getOptionLabel={(team: TeamEntity) => team.name}
-              getOptionValue={(team: TeamEntity) => team.id}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={selectInputTeams} />
+              )}
             />
           </div>
         </div>
@@ -71,10 +73,9 @@ const MatchForm: React.FC<MatchFormProps> = ({ name, onRemove, teams }) => {
           <div className="control">
             <Field
               name={`${name}.secondTeamId`}
-              component={Select}
-              selectOptions={teams}
-              getOptionLabel={(team: TeamEntity) => team.name}
-              getOptionValue={(team: TeamEntity) => team.id}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={selectInputTeams} />
+              )}
             />
           </div>
         </div>
@@ -127,8 +128,8 @@ const MatchForm: React.FC<MatchFormProps> = ({ name, onRemove, teams }) => {
 };
 
 interface FormProps extends FormRenderProps<DrawEntity> {
-  teams: { [key: string]: TeamEntity };
   push: (fieldName: string, draw: DrawMatchEntity) => {};
+  selectInputTeams: SelectOptionType[];
 }
 
 const Form: React.FC<FormProps> = ({
@@ -136,9 +137,8 @@ const Form: React.FC<FormProps> = ({
   submitting,
   push,
   pristine,
-  teams
+  selectInputTeams
 }) => {
-  const selectTeams = Object.keys(teams).map((key: string) => teams[key]);
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -156,7 +156,7 @@ const Form: React.FC<FormProps> = ({
               key={name}
               name={name}
               onRemove={() => fields.remove(index)}
-              teams={selectTeams}
+              selectInputTeams={selectInputTeams}
             />
           ))
         }

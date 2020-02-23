@@ -14,6 +14,7 @@ import { drawById } from '../Draws/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { Mutator } from 'final-form';
+import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organizationSlug: string;
@@ -26,7 +27,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     draw: drawById(state.draws, drawId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    teams: state.teams.teams
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
@@ -48,7 +49,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
   organizationSlug,
   phase,
   patchDraw,
-  teams,
+  selectInputTeams,
   tournamentSlug
 }) => {
   return (
@@ -70,9 +71,9 @@ const DrawNew: React.FC<DrawNewProps> = ({
               }
               render={(props: FormRenderProps<DrawEntity>) => (
                 <DrawForm
-                  teams={teams}
                   {...props}
                   push={props.form.mutators.push}
+                  selectInputTeams={selectInputTeams}
                 />
               )}
             />
