@@ -67,14 +67,23 @@ class NavTopToolbar extends React.Component {
     );
   }
 
+  close = (event: any) => {
+    if (event && !event.target.classList.contains('navbar-burger')) {
+      const menu = document.getElementById('menu');
+      menu!.classList.remove('is-active');
+    }
+  };
+
   componentDidMount() {
-    const $navbarBurgers = Array.prototype.slice.call(
+    document.addEventListener('click', this.close);
+
+    const navbarBurgers = Array.prototype.slice.call(
       document.querySelectorAll('.navbar-burger'),
       0
     );
 
-    if ($navbarBurgers.length > 0) {
-      $navbarBurgers.forEach(el => {
+    if (navbarBurgers.length > 0) {
+      navbarBurgers.forEach(el => {
         el.addEventListener('click', () => {
           const target = el.dataset.target;
           const menu = document.getElementById(target);
@@ -84,6 +93,10 @@ class NavTopToolbar extends React.Component {
         });
       });
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.close);
   }
 }
 
