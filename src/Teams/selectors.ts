@@ -1,4 +1,5 @@
 import { TeamEntity, TeamState, DEFAULT_TEAM } from './state';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 export const teamsLoading = (state: TeamState) =>
   state.isLoadingRequestTournament;
@@ -10,5 +11,13 @@ export const teamById = (state: TeamState, teamId?: string): TeamEntity => {
   return state.teams[teamId];
 };
 
-export const teams = (state: TeamState) =>
+export const teams = (state: TeamState): TeamEntity[] =>
   Object.keys(state.teams).map((key: string) => state.teams[key]);
+
+export const teamsForSelectInput = (state: TeamState): SelectOptionType[] => {
+  const allTeams = teams(state);
+  return allTeams.map((team: TeamEntity) => ({
+    value: team.id,
+    label: team.name
+  }));
+};

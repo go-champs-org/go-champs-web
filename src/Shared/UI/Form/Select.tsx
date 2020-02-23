@@ -9,33 +9,16 @@ interface SelectProps extends FieldRenderProps<string, HTMLSelectElement> {
   getOptionValue?: any;
 }
 
-const OPTIONS = [
-  { value: 'elimination', label: 'Eliminaćão' },
-  { value: 'draw', label: 'Rounds' }
-];
-
-const getValue = (value: string) => {
-  if (value === OPTIONS[0].value) {
-    return OPTIONS[0];
-  }
-
-  return OPTIONS[1];
-};
-
-const getOptionValue = (option: any) => option.value;
-
 class Select extends React.Component<SelectProps> {
   render() {
-    const { input, getOptionLabel, selectOptions } = this.props;
-    console.log(input, 'value');
+    const { input, getOptionLabel, getOptionValue, selectOptions } = this.props;
 
     return (
       <ReactSelect
-        value={getValue(input.value)}
-        // inputValue={getOptionLabel(input.value)}
-        // getOptionLabel={getOptionLabel}
+        {...input}
+        getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
-        options={OPTIONS}
+        options={selectOptions}
         onChange={(value: any) => this.onChange(value)}
         onBlur={(event: any) => this.onBlur(event)}
         onFocus={(event: any) => this.onFocus(event)}
@@ -48,7 +31,9 @@ class Select extends React.Component<SelectProps> {
   }
 
   onChange(value: any) {
-    const customValue = getOptionValue(value);
+    const customValue = this.props.getOptionValue
+      ? this.props.getOptionValue(value)
+      : value;
     this.props.input.onChange(customValue);
   }
 

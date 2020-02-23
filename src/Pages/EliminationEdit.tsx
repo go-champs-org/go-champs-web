@@ -15,6 +15,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { Mutator } from 'final-form';
 import { eliminationStats } from '../Phases/EliminationStats/selectors';
+import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organizationSlug: string;
@@ -27,8 +28,8 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     elimination: eliminationById(state.eliminations, eliminationId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    stats: eliminationStats(state.eliminationStats),
-    teams: state.teams.teams
+    selectInputTeams: teamsForSelectInput(state.teams),
+    stats: eliminationStats(state.eliminationStats)
   };
 };
 
@@ -50,8 +51,8 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
   organizationSlug,
   phase,
   patchElimination,
+  selectInputTeams,
   stats,
-  teams,
   tournamentSlug
 }) => {
   return (
@@ -73,10 +74,10 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
               }
               render={(props: FormRenderProps<EliminationEntity>) => (
                 <EliminationForm
-                  stats={stats}
-                  teams={teams}
                   {...props}
                   push={props.form.mutators.push}
+                  selectInputTeams={selectInputTeams}
+                  stats={stats}
                 />
               )}
             />

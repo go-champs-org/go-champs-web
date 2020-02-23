@@ -11,9 +11,10 @@ import arrayMutators from 'final-form-arrays';
 import withPhase from './support/withPhase';
 import { PhaseEntity, StatEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { TeamEntity } from '../Teams/state';
 import { Mutator } from 'final-form';
 import { eliminationStats } from '../Phases/EliminationStats/selectors';
+import { teamsForSelectInput } from '../Teams/selectors';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface OwnProps {
   organizationSlug: string;
@@ -24,7 +25,7 @@ interface OwnProps {
 type StateProps = {
   phase: PhaseEntity;
   stats: StatEntity[];
-  teams: { [key: string]: TeamEntity };
+  selectInputTeams: SelectOptionType[];
 };
 
 type DispatchProps = {
@@ -37,8 +38,8 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    stats: eliminationStats(state.eliminationStats),
-    teams: state.teams.teams
+    selectInputTeams: teamsForSelectInput(state.teams),
+    stats: eliminationStats(state.eliminationStats)
   };
 };
 
@@ -73,8 +74,8 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
   organizationSlug,
   phase,
   postElimination,
+  selectInputTeams,
   stats,
-  teams,
   tournamentSlug
 }) => {
   return (
@@ -96,10 +97,10 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
               }
               render={(props: FormRenderProps<EliminationEntity>) => (
                 <EliminationForm
-                  stats={stats}
-                  teams={teams}
                   {...props}
                   push={props.form.mutators.push}
+                  selectInputTeams={selectInputTeams}
+                  stats={stats}
                 />
               )}
             />

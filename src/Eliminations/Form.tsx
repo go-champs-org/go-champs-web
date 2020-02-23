@@ -1,6 +1,5 @@
 import React from 'react';
-import { TeamEntity } from '../Teams/state';
-import { FormRenderProps, Field } from 'react-final-form';
+import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import {
   EliminationEntity,
   DEFAULT_ELIMINATION_TEAM_STAT,
@@ -8,20 +7,20 @@ import {
 } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
-import Select from '../Shared/UI/Form/Select';
+import { SelectOptionType, SelectInput } from '../Shared/UI/Form/Select';
 import { StatEntity } from '../Phases/state';
 
 interface TeamStatFormProps {
   name: string;
   onRemove: () => {};
-  teams: TeamEntity[];
+  selectInputTeams: SelectOptionType[];
   stats: StatEntity[];
 }
 
 const TeamStatForm: React.FC<TeamStatFormProps> = ({
   name,
   onRemove,
-  teams,
+  selectInputTeams,
   stats
 }) => {
   return (
@@ -29,10 +28,9 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
       <td style={{ paddingLeft: '0', width: '225px' }}>
         <Field
           name={`${name}.teamId`}
-          component={Select}
-          selectOptions={teams}
-          getOptionLabel={(team: TeamEntity) => team.name}
-          getOptionValue={(team: TeamEntity) => team.id}
+          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            <SelectInput {...props} options={selectInputTeams} />
+          )}
         />
       </td>
 
@@ -58,7 +56,7 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
 interface FormProps extends FormRenderProps<EliminationEntity> {
   push: (fieldName: string, draw: EliminationTeamStatEntity) => {};
   stats: StatEntity[];
-  teams: { [key: string]: TeamEntity };
+  selectInputTeams: SelectOptionType[];
 }
 
 const StatHeader: React.FC<{
@@ -70,10 +68,9 @@ const Form: React.FC<FormProps> = ({
   submitting,
   push,
   pristine,
-  stats,
-  teams
+  selectInputTeams,
+  stats
 }) => {
-  const selectTeams = Object.keys(teams).map((key: string) => teams[key]);
   return (
     <form onSubmit={handleSubmit}>
       <div className="field">
@@ -103,8 +100,8 @@ const Form: React.FC<FormProps> = ({
                   key={name}
                   name={name}
                   onRemove={() => fields.remove(index)}
+                  selectInputTeams={selectInputTeams}
                   stats={stats}
-                  teams={selectTeams}
                 />
               ))}
             </tbody>
