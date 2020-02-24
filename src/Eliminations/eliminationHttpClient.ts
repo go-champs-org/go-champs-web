@@ -11,7 +11,7 @@ import {
 } from './dataMappers';
 import { EliminationEntity } from './state';
 
-const ELIMINATION_API = 'https://yochamps-api.herokuapp.com/api/eliminations';
+const ELIMINATION_API = `${process.env.REACT_APP_API_HOST}api/eliminations`;
 
 const deleteRequest = (eliminationId: string): Promise<string> => {
   const url = `${ELIMINATION_API}/${eliminationId}`;

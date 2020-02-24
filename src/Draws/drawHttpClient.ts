@@ -11,7 +11,7 @@ import {
 } from './dataMappers';
 import { DrawEntity } from './state';
 
-const DRAW_API = 'https://yochamps-api.herokuapp.com/api/draws';
+const DRAW_API = `${process.env.REACT_APP_API_HOST}api/draws`;
 
 const deleteRequest = (drawId: string): Promise<string> => {
   const url = `${DRAW_API}/${drawId}`;

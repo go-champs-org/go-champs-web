@@ -11,7 +11,7 @@ import {
 } from './dataMappers';
 import { TeamEntity } from './state';
 
-const TEAMS_API = 'https://yochamps-api.herokuapp.com/api/teams';
+const TEAMS_API = `${process.env.REACT_APP_API_HOST}api/teams`;
 
 const deleteRequest = (teamId: string): Promise<string> => {
   const url = `${TEAMS_API}/${teamId}`;

@@ -11,7 +11,7 @@ import {
 } from './dataMappers';
 import { PhaseEntity } from './state';
 
-const PHASES_API = 'https://yochamps-api.herokuapp.com/api/phases';
+const PHASES_API = `${process.env.REACT_APP_API_HOST}api/phases`;
 
 const deleteRequest = (phaseId: string): Promise<string> => {
   const url = `${PHASES_API}/${phaseId}`;

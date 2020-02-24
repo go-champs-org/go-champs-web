@@ -13,7 +13,7 @@ import {
 import { mapTournamentEntityToApiTournamentRequest } from './dataMappers';
 import { TournamentEntity } from './state';
 
-const TOURNAMENT_API = 'https://yochamps-api.herokuapp.com/api/tournaments';
+const TOURNAMENT_API = `${process.env.REACT_APP_API_HOST}api/tournaments`;
 
 const deleteRequest = (tournamentId: string): Promise<string> => {
   const url = `${TOURNAMENT_API}/${tournamentId}`;
