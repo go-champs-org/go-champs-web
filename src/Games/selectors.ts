@@ -50,6 +50,7 @@ export const gamesByDate = (
       .filter((game: GameEntity) => game.datetime.includes(date))
       .sort(byGameDate);
     return {
+      ...acc,
       [date]: gamesInDate
     };
   }, {});
