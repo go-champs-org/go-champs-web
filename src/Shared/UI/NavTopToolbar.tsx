@@ -54,11 +54,11 @@ class NavTopToolbar extends React.Component {
               </a>
             </AdminWrapper>
 
-            <a href="/About" className="navbar-item">
+            <a href="/" className="navbar-item">
               Go Champs!
             </a>
 
-            <a href="/About" className="navbar-item">
+            <a href="/" className="navbar-item">
               Sobre nós
             </a>
           </div>
