@@ -10,7 +10,8 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { TeamEntity } from '../Teams/state';
+import { teamsForSelectInput } from '../Teams/selectors';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface OwnProps {
   organizationSlug: string;
@@ -20,7 +21,7 @@ interface OwnProps {
 
 type StateProps = {
   phase: PhaseEntity;
-  teams: { [key: string]: TeamEntity };
+  selectInputTeams: SelectOptionType[];
 };
 
 type DispatchProps = {
@@ -33,7 +34,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    teams: state.teams.teams
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
@@ -68,7 +69,7 @@ const GameNew: React.FC<GameNewProps> = ({
   organizationSlug,
   phase,
   postGame,
-  teams,
+  selectInputTeams,
   tournamentSlug
 }) => {
   return (
@@ -84,7 +85,7 @@ const GameNew: React.FC<GameNewProps> = ({
               onSubmit={postGame}
               initialValues={DEFAULT_GAME}
               render={(props: FormRenderProps<GameEntity>) => (
-                <GameForm teams={teams} {...props} />
+                <GameForm {...props} selectInputTeams={selectInputTeams} />
               )}
             />
           </div>

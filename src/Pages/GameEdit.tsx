@@ -12,6 +12,7 @@ import { phaseByIdOrDefault } from '../Phases/selectors';
 import { gameById } from '../Games/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
+import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organizationSlug: string;
@@ -24,7 +25,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     game: gameById(state.games, gameId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    teams: state.teams.teams
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
@@ -46,7 +47,7 @@ const GameNew: React.FC<GameNewProps> = ({
   organizationSlug,
   phase,
   patchGame,
-  teams,
+  selectInputTeams,
   tournamentSlug
 }) => {
   return (
@@ -62,7 +63,7 @@ const GameNew: React.FC<GameNewProps> = ({
               onSubmit={patchGame}
               initialValues={game}
               render={(props: FormRenderProps<GameEntity>) => (
-                <GameForm teams={teams} {...props} />
+                <GameForm {...props} selectInputTeams={selectInputTeams} />
               )}
             />
           </div>

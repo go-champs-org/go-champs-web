@@ -3,7 +3,7 @@ import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import { DrawEntity, DEFAULT_DRAW_MATCH, DrawMatchEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
-import { SelectOptionType, SelectInput } from '../Shared/UI/Form/Select';
+import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface MatchFormProps {
   name: string;

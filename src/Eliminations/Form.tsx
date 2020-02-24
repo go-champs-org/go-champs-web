@@ -7,7 +7,7 @@ import {
 } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
-import { SelectOptionType, SelectInput } from '../Shared/UI/Form/Select';
+import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import { StatEntity } from '../Phases/state';
 
 interface TeamStatFormProps {

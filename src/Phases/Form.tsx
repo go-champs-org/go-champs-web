@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
-import { SelectInput } from '../Shared/UI/Form/Select';
+import SelectInput from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
   PhaseTypes,
