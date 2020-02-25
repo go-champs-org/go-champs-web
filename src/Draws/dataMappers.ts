@@ -2,7 +2,8 @@ import {
   ApiDraw,
   ApiDrawMatch,
   ApiDrawPatchRequest,
-  ApiDrawPostRequest
+  ApiDrawPostRequest,
+  ApiPatchAndPostDrawMatch
 } from '../Shared/httpClient/apiTypes';
 import { DrawEntity, DrawMatchEntity } from './state';
 
@@ -20,8 +21,9 @@ const mapApiDrawToDrawMatch = (
   secondTeamScore: apiDrawMatch.second_team_score
 });
 
-const mapDrawMatchToApiDraw = (drawMatch: DrawMatchEntity): ApiDrawMatch => ({
-  id: drawMatch.id,
+const mapDrawMatchToApiDraw = (
+  drawMatch: DrawMatchEntity
+): ApiPatchAndPostDrawMatch => ({
   first_team_id: drawMatch.firstTeamId,
   first_team_parent_id: drawMatch.firstTeamParentMatchId,
   first_team_placeholder: drawMatch.firstTeamPlaceholder,

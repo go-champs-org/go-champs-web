@@ -39,8 +39,7 @@ export interface ApiGamesResponse {
   data: ApiGameWithDepedencies[];
 }
 
-export interface ApiDrawMatch {
-  id: string;
+export interface ApiPatchAndPostDrawMatch {
   first_team_id?: string;
   first_team_parent_id?: string;
   first_team_placeholder?: string;
@@ -51,6 +50,10 @@ export interface ApiDrawMatch {
   second_team_score?: string;
 }
 
+export interface ApiDrawMatch extends ApiPatchAndPostDrawMatch {
+  id: string;
+}
+
 export interface ApiDraw {
   id: string;
   order?: number;
@@ -58,12 +61,19 @@ export interface ApiDraw {
   matches: ApiDrawMatch[];
 }
 
-export interface ApiDrawWithPhaseId extends ApiDraw {
+export interface ApiPatchAndPostDraw {
+  id: string;
+  order?: number;
+  title?: string;
+  matches: ApiPatchAndPostDrawMatch[];
+}
+
+export interface ApiDrawWithPhaseId extends ApiPatchAndPostDraw {
   phase_id: string;
 }
 
 export interface ApiDrawPatchRequest {
-  draw: ApiDraw;
+  draw: ApiPatchAndPostDraw;
 }
 
 export interface ApiDrawPostRequest {
@@ -83,10 +93,9 @@ export interface ApiEliminationTeamStatPatchAndPost {
   stats: { [stat_id: string]: string };
 }
 
-export interface ApiEliminationTeamStatResponse {
+export interface ApiEliminationTeamStatResponse
+  extends ApiEliminationTeamStatPatchAndPost {
   id: string;
-  team_id: string;
-  stats: { [stat_id: string]: string };
 }
 
 export interface ApiElimination {
@@ -185,13 +194,12 @@ export interface ApiOrganizationsResponse {
   data: ApiOrganization[];
 }
 
-export interface ApiStat {
-  id: string;
+export interface ApiPatchAndPostStat {
   title: string;
 }
 
-export interface ApiPatchAndPostStat {
-  title: string;
+export interface ApiStat extends ApiPatchAndPostStat {
+  id: string;
 }
 
 export interface ApiTeam {
