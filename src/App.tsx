@@ -49,6 +49,10 @@ const App: React.FC = () => {
                 />
                 <Route exact sensitive path="/Search" component={Search} />
                 <Route
+                  path="/:organizationSlug/:tournamentSlug/*"
+                  component={TournamentHome}
+                />
+                <Route
                   path="/:organizationSlug/:tournamentSlug"
                   component={TournamentHome}
                 />
