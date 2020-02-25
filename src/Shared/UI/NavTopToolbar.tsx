@@ -71,28 +71,22 @@ class NavTopToolbar extends React.Component {
     if (event && !event.target.classList.contains('navbar-burger')) {
       const menu = document.getElementById('menu');
       menu!.classList.remove('is-active');
+
+      const navbarBurger = document.querySelector('.navbar-burger');
+      navbarBurger!.classList.remove('is-active');
     }
   };
 
   componentDidMount() {
     document.addEventListener('click', this.close);
 
-    const navbarBurgers = Array.prototype.slice.call(
-      document.querySelectorAll('.navbar-burger'),
-      0
-    );
+    const navbarBurger = document.querySelector('.navbar-burger');
+    navbarBurger!.addEventListener('click', () => {
+      const menu = document.getElementById('menu');
 
-    if (navbarBurgers.length > 0) {
-      navbarBurgers.forEach(el => {
-        el.addEventListener('click', () => {
-          const target = el.dataset.target;
-          const menu = document.getElementById(target);
-
-          el.classList.toggle('is-active');
-          menu!.classList.toggle('is-active');
-        });
-      });
-    }
+      navbarBurger!.classList.toggle('is-active');
+      menu!.classList.toggle('is-active');
+    });
   }
 
   componentWillUnmount() {
