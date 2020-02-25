@@ -44,7 +44,7 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
   tournamentSlug
 }) => {
   const MainContent =
-    phase!.type === PhaseTypes.elimination ? (
+    phase.type === PhaseTypes.elimination ? (
       <EliminationView
         {...{
           eliminationStats,
