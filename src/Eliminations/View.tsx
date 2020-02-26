@@ -53,7 +53,7 @@ const Elimination: React.FC<EliminationProps> = ({
       <table className="table is-fullwidth is-striped is-hoverable">
         <thead>
           <tr>
-            <th style={{ paddingLeft: '0', width: '225px' }}>Name</th>
+            <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>
             {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
               <EliminationHeader key={stat.id} tournamentStat={stat} />
             ))}

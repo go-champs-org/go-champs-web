@@ -63,7 +63,7 @@ const List: React.FC = () => {
       <div className="hero">
         <div className="hero-head">
           <div className="container">
-            <h1 className="title">Busca de torneiro</h1>
+            <h1 className="title">Busca de torneios</h1>
 
             <div className="field">
               <div className="control">

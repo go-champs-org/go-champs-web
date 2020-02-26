@@ -105,7 +105,7 @@ class ListByDate extends React.Component<ListByDateProps> {
 
     return (
       <div>
-        <h2 className="subtitle">Games</h2>
+        <h2 className="subtitle">Jogos</h2>
 
         <nav className="columns is-mobile">
           <div className="column is-2">

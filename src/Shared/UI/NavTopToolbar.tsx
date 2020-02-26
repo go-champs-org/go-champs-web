@@ -1,5 +1,4 @@
 import React, { MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
 import logo from '../../assets/logo-with-background.png';
 import AdminWrapper from './AdminWrapper';
 import './NavTopToolbar.scss';
@@ -19,46 +18,46 @@ class NavTopToolbar extends React.Component {
             <h2 className="title">Go Champs!</h2>
           </a>
 
-          <a
+          <span
             role="button"
             className="navbar-burger burger"
             aria-label="menu"
             aria-expanded="false"
             data-target="menu"
-            href="/"
             onClick={(event: MouseEvent) => event.preventDefault()}
           >
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
-          </a>
+          </span>
         </div>
 
         <div id="menu" className="navbar-menu">
           <div className="navbar-end">
-            <div className="navbar-item">
-              <Link to="/Search">
-                <span className="icon is-medium">
-                  <i className="fas fa-search"></i>
-                </span>
-              </Link>
-            </div>
+            <a href="/Search" className="navbar-item has-text-centered-touch">
+              <span className="icon is-medium">
+                <i className="fas fa-search"></i>
+              </span>
+            </a>
 
             <div className="navbar-item">
               <span className="navbar-divider"></span>
             </div>
 
             <AdminWrapper>
-              <a href="/Account" className="navbar-item">
+              <a
+                href="/Account"
+                className="navbar-item has-text-centered-touch"
+              >
                 My account
               </a>
             </AdminWrapper>
 
-            <a href="/" className="navbar-item">
+            <a href="/" className="navbar-item has-text-centered-touch">
               Go Champs!
             </a>
 
-            <a href="/" className="navbar-item">
+            <a href="/" className="navbar-item has-text-centered-touch">
               Sobre nós
             </a>
           </div>
