@@ -53,6 +53,14 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
           </div>
         </div>
       </div>
+
+      {game.info && (
+        <footer className="card-footer has-text-centered">
+          <span className="card-footer-item has-text-centered is-paddingless is-size-7">
+            {game.info}
+          </span>
+        </footer>
+      )}
     </div>
   );
 };

@@ -7,6 +7,7 @@ export interface GameEntity {
   datetime: string;
   homeScore: number;
   homeTeam: TeamEntity;
+  info: string;
   location: string;
 }
 
@@ -33,5 +34,6 @@ export const DEFAULT_GAME: GameEntity = {
   datetime: '',
   homeScore: 0,
   homeTeam: DEFAULT_TEAM,
+  info: '',
   location: ''
 };

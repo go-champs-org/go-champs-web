@@ -20,6 +20,7 @@ export const mapApiGameToGameEntity = (
   homeTeam: apiGame.home_team
     ? mapApiTeamToTeamEntity(apiGame.home_team)
     : DEFAULT_TEAM,
+  info: apiGame.info ? apiGame.info : '',
   location: apiGame.location
 });
 
@@ -34,6 +35,7 @@ export const mapGameEntityToApiGamePostRequest = (
     datetime: game.datetime,
     home_score: game.homeScore,
     home_team_id: game.homeTeam.id && game.homeTeam.id,
+    info: game.info ? game.info : undefined,
     location: game.location,
     phase_id: phaseId
   }
@@ -49,6 +51,7 @@ export const mapGameEntityToApiGamePatchRequest = (
     datetime: game.datetime,
     home_score: game.homeScore,
     home_team_id: game.homeTeam.id && game.homeTeam.id,
+    info: game.info ? game.info : undefined,
     location: game.location
   }
 });

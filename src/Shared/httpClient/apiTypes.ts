@@ -5,6 +5,7 @@ interface ApiGame {
   away_score: number;
   datetime?: string;
   home_score: number;
+  info?: string;
   location: string;
 }
 
