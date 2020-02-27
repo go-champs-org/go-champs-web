@@ -40,5 +40,7 @@ export default createStore(
     teams: teamReducer,
     tournaments: tournamentReducer
   }),
-  composeWithDevTools(applyMiddleware(thunk))
+  process.env.NODE_ENV === 'production'
+    ? applyMiddleware(thunk)
+    : composeWithDevTools(applyMiddleware(thunk))
 );
