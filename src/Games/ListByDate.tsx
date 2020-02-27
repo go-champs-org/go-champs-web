@@ -115,7 +115,7 @@ class ListByDate extends React.Component<ListByDateProps> {
       <div>
         <h2 className="subtitle">Jogos</h2>
 
-        <nav className="columns is-mobile">
+        <nav className="columns is-mobile is-vcentered">
           <div className="column is-2">
             <button
               disabled={!previousDate}
@@ -129,7 +129,9 @@ class ListByDate extends React.Component<ListByDateProps> {
           </div>
 
           <div className="column has-text-centered">
-            {selectedDate && dateFromDate(selectedDate)}
+            <h2 className="title is-5">
+              {selectedDate && dateFromDate(selectedDate)}
+            </h2>
           </div>
 
           <div className="column is-2 has-text-right">
