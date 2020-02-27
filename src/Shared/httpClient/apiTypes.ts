@@ -196,11 +196,13 @@ export interface ApiOrganizationsResponse {
 }
 
 export interface ApiPatchAndPostStat {
+  id?: string;
   title: string;
 }
 
-export interface ApiStat extends ApiPatchAndPostStat {
+export interface ApiStat {
   id: string;
+  title: string;
 }
 
 export interface ApiTeam {

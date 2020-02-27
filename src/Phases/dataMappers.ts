@@ -28,6 +28,7 @@ export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
 export const mapStatEntityToApiEliminationStat = (
   stat: StatEntity
 ): ApiPatchAndPostStat => ({
+  id: stat.id ? stat.id : undefined,
   title: stat.title
 });
 
