@@ -1,5 +1,6 @@
 export interface EliminationTeamStatEntity {
   id: string;
+  placeholder: string;
   teamId: string;
   stats: { [statId: string]: string };
 }
@@ -34,6 +35,7 @@ export const DEFAULT_ELIMINATION: EliminationEntity = {
 
 export const DEFAULT_ELIMINATION_TEAM_STAT: EliminationTeamStatEntity = {
   id: '',
+  placeholder: '',
   teamId: '',
   stats: {}
 };

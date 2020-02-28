@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import {
   EliminationEntity,
@@ -11,27 +11,50 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import { StatEntity } from '../Phases/state';
 
 interface TeamStatFormProps {
+  currentTeamStatValue: EliminationTeamStatEntity;
   name: string;
-  onRemove: () => {};
+  onRemove: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   selectInputTeams: SelectOptionType[];
   stats: StatEntity[];
 }
 
 const TeamStatForm: React.FC<TeamStatFormProps> = ({
+  currentTeamStatValue,
   name,
   onRemove,
   selectInputTeams,
   stats
 }) => {
+  const [state, setState] = useState({
+    usePlaceholder: !!currentTeamStatValue.placeholder
+  });
+
+  const toggleUsePlaceholder = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setState({
+      usePlaceholder: !state.usePlaceholder
+    });
+  };
+
   return (
     <tr>
       <td style={{ paddingLeft: '0', width: '225px' }}>
-        <Field
-          name={`${name}.teamId`}
-          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-            <SelectInput {...props} options={selectInputTeams} />
-          )}
-        />
+        {state.usePlaceholder ? (
+          <Field
+            name={`${name}.placeholder`}
+            component={StringInput}
+            type="text"
+          />
+        ) : (
+          <Field
+            name={`${name}.teamId`}
+            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+              <SelectInput {...props} options={selectInputTeams} />
+            )}
+          />
+        )}
       </td>
 
       {stats.map((stat: StatEntity) => (
@@ -45,6 +68,9 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
       ))}
 
       <td className="has-text-right">
+        <button className="button is-text" onClick={toggleUsePlaceholder}>
+          <i className="fas fa-history" />
+        </button>
         <button className="button is-text" onClick={onRemove}>
           <i className="fas fa-trash" />
         </button>
@@ -84,6 +110,7 @@ const Form: React.FC<FormProps> = ({
       <FieldArray name="teamStats">
         {({ fields }) => (
           <div className="table-container">
+            {JSON.stringify(fields.value[2])}
             <table className="table is-fullwidth is-striped is-hoverable">
               <thead>
                 <tr>
@@ -100,7 +127,13 @@ const Form: React.FC<FormProps> = ({
                   <TeamStatForm
                     key={name}
                     name={name}
-                    onRemove={() => fields.remove(index)}
+                    currentTeamStatValue={fields.value[index]}
+                    onRemove={(
+                      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                    ) => {
+                      event.preventDefault();
+                      fields.remove(index);
+                    }}
                     selectInputTeams={selectInputTeams}
                     stats={stats}
                   />

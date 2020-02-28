@@ -5,13 +5,13 @@ import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 
 const TeamEliminationRow: React.FC<{
-  teamStats: { [statId: string]: string };
   eliminationStats: PhaseEliminationStatEntity[];
-  team: TeamEntity;
-}> = ({ eliminationStats, teamStats, team }) => {
+  firstColumnValue: string;
+  teamStats: { [statId: string]: string };
+}> = ({ eliminationStats, firstColumnValue, teamStats }) => {
   return (
     <tr>
-      <td style={{ paddingLeft: '0', width: '225px' }}>{team.name}</td>
+      <td style={{ paddingLeft: '0', width: '225px' }}>{firstColumnValue}</td>
       {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
         <td key={stat.id} className="has-text-centered">
           {teamStats[stat.id]}
@@ -62,14 +62,19 @@ const Elimination: React.FC<EliminationProps> = ({
           </thead>
           <tbody>
             {eliminations.teamStats.map(
-              (teamStats: EliminationTeamStatEntity) => (
-                <TeamEliminationRow
-                  key={teamStats.id}
-                  eliminationStats={eliminationStats}
-                  team={teams[teamStats.teamId]}
-                  teamStats={teamStats.stats}
-                />
-              )
+              (teamStats: EliminationTeamStatEntity) => {
+                const firstColumnValue = teamStats.teamId
+                  ? teams[teamStats.teamId].name
+                  : teamStats.placeholder;
+                return (
+                  <TeamEliminationRow
+                    key={teamStats.id}
+                    firstColumnValue={firstColumnValue}
+                    eliminationStats={eliminationStats}
+                    teamStats={teamStats.stats}
+                  />
+                );
+              }
             )}
           </tbody>
         </table>

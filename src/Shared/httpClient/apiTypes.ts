@@ -90,7 +90,8 @@ export interface ApiDrawsResponse {
 }
 
 export interface ApiEliminationTeamStatPatchAndPost {
-  team_id: string;
+  placeholder?: string;
+  team_id?: string;
   stats: { [stat_id: string]: string };
 }
 

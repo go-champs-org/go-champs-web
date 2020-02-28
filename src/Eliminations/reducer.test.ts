@@ -245,9 +245,38 @@ describe('getPhaseSuccess', () => {
       }
     ]
   };
-  const action = getPhaseSuccess(apiPhase);
+
+  const apiPhaseWithPlaceholder: ApiPhase = {
+    id: 'phase-id',
+    title: 'phase-title',
+    order: 0,
+    type: PhaseTypes.elimination,
+    eliminations: [
+      {
+        id: 'first-id',
+        title: 'first-title',
+        team_stats: [
+          {
+            id: 'first-team-stat-id',
+            placeholder: 'first placeholder',
+            stats: {
+              'first-stat-id': 'first-team-stat-value'
+            }
+          },
+          {
+            id: 'second-team-stat-id',
+            placeholder: 'second placeholder',
+            stats: {
+              'first-stat-id': 'second-team-stat-value'
+            }
+          }
+        ]
+      }
+    ]
+  };
 
   it('maps api elimination to elimination', () => {
+    const action = getPhaseSuccess(apiPhase);
     const eliminationState = eliminationReducer(initialState, action);
 
     expect(eliminationState.eliminations).toEqual({
@@ -257,6 +286,7 @@ describe('getPhaseSuccess', () => {
         teamStats: [
           {
             id: 'first-team-stat-id',
+            placeholder: '',
             stats: {
               'first-stat-id': 'first-team-stat-value'
             },
@@ -264,10 +294,41 @@ describe('getPhaseSuccess', () => {
           },
           {
             id: 'second-team-stat-id',
+            placeholder: '',
             stats: {
               'first-stat-id': 'second-team-stat-value'
             },
             teamId: 'second-team-id'
+          }
+        ]
+      }
+    });
+  });
+
+  it('maps api elimination to elimination with placeholder', () => {
+    const action = getPhaseSuccess(apiPhaseWithPlaceholder);
+    const eliminationState = eliminationReducer(initialState, action);
+
+    expect(eliminationState.eliminations).toEqual({
+      'first-id': {
+        id: 'first-id',
+        title: 'first-title',
+        teamStats: [
+          {
+            id: 'first-team-stat-id',
+            placeholder: 'first placeholder',
+            stats: {
+              'first-stat-id': 'first-team-stat-value'
+            },
+            teamId: ''
+          },
+          {
+            id: 'second-team-stat-id',
+            placeholder: 'second placeholder',
+            stats: {
+              'first-stat-id': 'second-team-stat-value'
+            },
+            teamId: ''
           }
         ]
       }
