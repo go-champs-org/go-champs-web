@@ -50,28 +50,30 @@ const Elimination: React.FC<EliminationProps> = ({
   return (
     <div className="group">
       {TitleSection}
-      <table className="table is-fullwidth is-striped is-hoverable">
-        <thead>
-          <tr>
-            <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>
-            {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
-              <EliminationHeader key={stat.id} tournamentStat={stat} />
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {eliminations.teamStats.map(
-            (teamStats: EliminationTeamStatEntity) => (
-              <TeamEliminationRow
-                key={teamStats.id}
-                eliminationStats={eliminationStats}
-                team={teams[teamStats.teamId]}
-                teamStats={teamStats.stats}
-              />
-            )
-          )}
-        </tbody>
-      </table>
+      <div className="table-container">
+        <table className="table is-fullwidth is-striped is-hoverable">
+          <thead>
+            <tr>
+              <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>
+              {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
+                <EliminationHeader key={stat.id} tournamentStat={stat} />
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {eliminations.teamStats.map(
+              (teamStats: EliminationTeamStatEntity) => (
+                <TeamEliminationRow
+                  key={teamStats.id}
+                  eliminationStats={eliminationStats}
+                  team={teams[teamStats.teamId]}
+                  teamStats={teamStats.stats}
+                />
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

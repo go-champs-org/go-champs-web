@@ -83,29 +83,31 @@ const Form: React.FC<FormProps> = ({
 
       <FieldArray name="teamStats">
         {({ fields }) => (
-          <table className="table is-fullwidth is-striped is-hoverable">
-            <thead>
-              <tr>
-                <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
-                {stats.map((stat: StatEntity) => (
-                  <StatHeader key={stat.id} stat={stat} />
-                ))}
-                <th className="has-text-right">Remove</th>
-              </tr>
-            </thead>
+          <div className="table-container">
+            <table className="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
+                  {stats.map((stat: StatEntity) => (
+                    <StatHeader key={stat.id} stat={stat} />
+                  ))}
+                  <th className="has-text-right">Remove</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {fields.map((name, index) => (
-                <TeamStatForm
-                  key={name}
-                  name={name}
-                  onRemove={() => fields.remove(index)}
-                  selectInputTeams={selectInputTeams}
-                  stats={stats}
-                />
-              ))}
-            </tbody>
-          </table>
+              <tbody>
+                {fields.map((name, index) => (
+                  <TeamStatForm
+                    key={name}
+                    name={name}
+                    onRemove={() => fields.remove(index)}
+                    selectInputTeams={selectInputTeams}
+                    stats={stats}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </FieldArray>
 
