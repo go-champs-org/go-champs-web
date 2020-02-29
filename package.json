@@ -37,8 +37,9 @@
   "scripts": {
     "start": "react-scripts start",
     "start:adm": "REACT_APP_APP_MODE=adm react-scripts start",
-    "build": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER react-scripts build",
-    "build:adm": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_APP_MODE=adm react-scripts build",
+    "build": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$PROD_API_HOST react-scripts build",
+    "build:adm": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$PROD_API_HOST REACT_APP_APP_MODE=adm react-scripts build",
+    "build:staging": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$STAGING_API_HOST react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"

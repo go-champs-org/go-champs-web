@@ -17,6 +17,17 @@ jobs:
       name: "Unit Tests"
       script:
         - yarn test
+      
+    - stage: deploy_staging
+      name: "Deploy staging"
+      before_deploy:
+        - yarn build:staging
+      deploy:
+        dir: "build/"
+        site: bf4fcd9d-0247-499d-ad5e-ea3e2806083a # staging
+        prod: true
+        provider: netlify
+        edge: true
 
     - stage: deploy_admin
       name: "Deploy admin"
