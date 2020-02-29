@@ -39,10 +39,13 @@ describe('deletePhaseSuccess', () => {
   const deleteState = {
     ...initialState,
     phases: {
-      'first-id': {
+      ['first-id']: {
         id: 'first-id',
         title: 'first-title',
-        type: PhaseTypes.elimination
+        type: PhaseTypes.elimination,
+        order: 1,
+        isInProgress: true,
+        eliminationStats: []
       }
     }
   };
@@ -66,7 +69,8 @@ describe('deletePhaseSuccess', () => {
           title: 'some-title',
           type: PhaseTypes.elimination,
           isInProgress: false,
-          order: 1
+          order: 1,
+          eliminationStats: []
         },
         'first-id': deleteState.phases['first-id']
       }
@@ -79,7 +83,8 @@ describe('deletePhaseSuccess', () => {
       title: 'some-title',
       type: PhaseTypes.elimination,
       isInProgress: false,
-      order: 1
+      order: 1,
+      eliminationStats: []
     });
   });
 });
@@ -105,7 +110,8 @@ describe('patchPhaseSuccess', () => {
     id: 'first-id',
     title: 'some-first-title',
     type: PhaseTypes.elimination,
-    order: 1
+    order: 1,
+    is_in_progress: true
   });
 
   const updateState: PhaseState = {
@@ -116,7 +122,8 @@ describe('patchPhaseSuccess', () => {
         title: 'first-title',
         type: PhaseTypes.elimination,
         isInProgress: true,
-        order: 1
+        order: 1,
+        eliminationStats: []
       }
     }
   };
@@ -187,7 +194,8 @@ describe('postPhaseSuccess', () => {
     id: 'first-id',
     title: 'first-title',
     type: PhaseTypes.elimination,
-    order: 1
+    order: 1,
+    is_in_progress: true
   });
 
   it('sets isLoadingPostPhase to false', () => {
@@ -260,7 +268,8 @@ describe('getPhaseSuccess', () => {
     id: 'first-id',
     order: 1,
     title: 'first title',
-    type: PhaseTypes.elimination
+    type: PhaseTypes.elimination,
+    is_in_progress: true
   });
 
   it('set isPhaseLoading to false', () => {
@@ -329,13 +338,15 @@ describe('getTournamentSuccess', () => {
         id: 'first-phase-id',
         title: 'first phase title',
         type: PhaseTypes.elimination,
-        order: 1
+        order: 1,
+        is_in_progress: false
       },
       {
         id: 'second-phase-id',
         title: 'second phase title',
         type: PhaseTypes.elimination,
-        order: 2
+        order: 2,
+        is_in_progress: true
       }
     ],
     teams: [],
@@ -351,7 +362,7 @@ describe('getTournamentSuccess', () => {
   it('sets currentPhaseId', () => {
     const newState = phaseReducer(initialState, action);
 
-    expect(newState.currentPhaseId).toEqual('first-phase-id');
+    expect(newState.currentPhaseId).toEqual('second-phase-id');
   });
 
   it('does not set currentPhaseId if tournament has no phase', () => {
@@ -371,7 +382,7 @@ describe('getTournamentSuccess', () => {
       id: 'first-phase-id',
       title: 'first phase title',
       type: PhaseTypes.elimination,
-      isInProgress: true,
+      isInProgress: false,
       order: 1,
       eliminationStats: []
     });

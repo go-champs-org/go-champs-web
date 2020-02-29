@@ -19,7 +19,7 @@ export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
   order: apiPhase.order,
   title: apiPhase.title,
   type: apiPhase.type,
-  isInProgress: true,
+  isInProgress: apiPhase.is_in_progress,
   eliminationStats: apiPhase.elimination_stats
     ? apiPhase.elimination_stats.map(mapApiEliminationStatToStatEntity)
     : []
@@ -42,6 +42,7 @@ export const mapPhaseEntityToApiPhasePostRequest = (
     title: phase.title,
     type: phase.type,
     tournament_id: tournamentId,
+    is_in_progress: phase.isInProgress,
     elimination_stats:
       phase.eliminationStats.length > 0
         ? phase.eliminationStats.map(mapStatEntityToApiEliminationStat)
@@ -57,6 +58,7 @@ export const mapPhaseEntityToApiPhasePatchRequest = (
     order: phase.order,
     title: phase.title,
     type: phase.type,
+    is_in_progress: phase.isInProgress,
     elimination_stats:
       phase.eliminationStats.length > 0
         ? phase.eliminationStats.map(mapStatEntityToApiEliminationStat)

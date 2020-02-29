@@ -143,6 +143,7 @@ export interface ApiPhaseRequest {
   title: string;
   type: PhaseTypes;
   order: number;
+  is_in_progress: boolean;
   draws?: ApiDraw[];
   eliminations?: ApiElimination[];
   elimination_stats?: ApiPatchAndPostStat[];
@@ -153,6 +154,7 @@ export interface ApiPhase {
   title: string;
   type: PhaseTypes;
   order: number;
+  is_in_progress: boolean;
   draws?: ApiDraw[];
   eliminations?: ApiElimination[];
   elimination_stats?: ApiStat[];

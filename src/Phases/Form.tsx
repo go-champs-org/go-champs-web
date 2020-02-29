@@ -66,6 +66,14 @@ const Form: React.FC<FormProps> = ({
       </div>
 
       <div className="field">
+        <label className="label">Is in progress</label>
+
+        <div className="control">
+          <Field name="isInProgress" component="input" type="checkbox" />
+        </div>
+      </div>
+
+      <div className="field">
         <label className="label">Type</label>
         <div className="control">
           <Field

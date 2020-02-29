@@ -1,7 +1,8 @@
 import {
   ApiTournament,
   ApiTournamentRequest,
-  ApiTournamentWithDependecies
+  ApiTournamentWithDependecies,
+  ApiPhase
 } from '../Shared/httpClient/apiTypes';
 import { TournamentEntity } from './state';
 
@@ -25,5 +26,13 @@ export const mapTournamentEntityToApiTournamentRequest = (
   }
 });
 
-export const currentPhaseId = (tournament: ApiTournamentWithDependecies) =>
-  tournament.phases.length > 0 ? tournament.phases[0].id : '';
+export const currentPhaseId = (tournament: ApiTournamentWithDependecies) => {
+  const currentPhase = tournament.phases.find(
+    (phase: ApiPhase) => phase.is_in_progress
+  );
+
+  if (currentPhase) {
+    return currentPhase.id;
+  }
+  return '';
+};

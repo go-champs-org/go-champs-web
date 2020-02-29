@@ -77,7 +77,7 @@ const patchPhaseFailure = (
 
 const patchPhaseSuccess = (
   state: PhaseState,
-  action: HttpAction<ActionTypes, PhaseEntity>
+  action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
   ...state,
   isLoadingPatchPhase: false,
@@ -99,7 +99,7 @@ const postPhaseFailure = (
 
 const postPhaseSuccess = (
   state: PhaseState,
-  action: HttpAction<ActionTypes, PhaseEntity>
+  action: HttpAction<ActionTypes, ApiPhase>
 ) => ({
   ...state,
   isLoadingPostPhase: false,
