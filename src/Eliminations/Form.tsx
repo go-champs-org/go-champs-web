@@ -13,6 +13,8 @@ import { StatEntity } from '../Phases/state';
 interface TeamStatFormProps {
   currentTeamStatValue: EliminationTeamStatEntity;
   name: string;
+  onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onRemove: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   selectInputTeams: SelectOptionType[];
   stats: StatEntity[];
@@ -21,6 +23,8 @@ interface TeamStatFormProps {
 const TeamStatForm: React.FC<TeamStatFormProps> = ({
   currentTeamStatValue,
   name,
+  onMoveDown,
+  onMoveUp,
   onRemove,
   selectInputTeams,
   stats
@@ -68,11 +72,17 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
       ))}
 
       <td className="has-text-right">
+        <button className="button is-text" onClick={onMoveUp}>
+          <i className="fas fa-sort-up" />
+        </button>
         <button className="button is-text" onClick={toggleUsePlaceholder}>
           <i className="fas fa-history" />
         </button>
         <button className="button is-text" onClick={onRemove}>
           <i className="fas fa-trash" />
+        </button>
+        <button className="button is-text" onClick={onMoveDown}>
+          <i className="fas fa-sort-down" />
         </button>
       </td>
     </tr>
@@ -88,6 +98,39 @@ interface FormProps extends FormRenderProps<EliminationEntity> {
 const StatHeader: React.FC<{
   stat: StatEntity;
 }> = ({ stat }) => <th className="has-text-centered">{stat.title}</th>;
+
+interface FieldArrayActions {
+  value: any[];
+  remove: (index: number) => void;
+  swap: (indexA: number, indexB: number) => void;
+}
+
+const onRemoveTeamStat = (items: FieldArrayActions, index: number) => (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => {
+  event.preventDefault();
+  return items.remove(index);
+};
+
+const onMoveUpTeamStat = (items: FieldArrayActions, index: number) => (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => {
+  event.preventDefault();
+  if (index === 0) {
+    return;
+  }
+  return items.swap(index, index - 1);
+};
+
+const onMoveDownTeamStat = (items: FieldArrayActions, index: number) => (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => {
+  event.preventDefault();
+  if (index === items.value.length - 1) {
+    return;
+  }
+  return items.swap(index, index + 1);
+};
 
 const Form: React.FC<FormProps> = ({
   handleSubmit,
@@ -117,7 +160,7 @@ const Form: React.FC<FormProps> = ({
                   {stats.map((stat: StatEntity) => (
                     <StatHeader key={stat.id} stat={stat} />
                   ))}
-                  <th className="has-text-right">Remove</th>
+                  <th className="has-text-right">Actions</th>
                 </tr>
               </thead>
 
@@ -127,12 +170,9 @@ const Form: React.FC<FormProps> = ({
                     key={name}
                     name={name}
                     currentTeamStatValue={fields.value[index]}
-                    onRemove={(
-                      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                    ) => {
-                      event.preventDefault();
-                      fields.remove(index);
-                    }}
+                    onMoveDown={onMoveDownTeamStat(fields, index)}
+                    onMoveUp={onMoveUpTeamStat(fields, index)}
+                    onRemove={onRemoveTeamStat(fields, index)}
                     selectInputTeams={selectInputTeams}
                     stats={stats}
                   />
