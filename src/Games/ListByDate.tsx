@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import { GameEntity } from './state';
 
@@ -66,6 +66,18 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 };
 
 const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
+  if (games.length === 0) {
+    return (
+      <div className="hero">
+        <div className="hero-body">
+          <h2 className="title is-6 has-text-centered">
+            Sem jogos para essa fase ainda.
+          </h2>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       {games.map((game: GameEntity) => (
@@ -112,7 +124,7 @@ class ListByDate extends React.Component<ListByDateProps> {
     );
 
     return (
-      <div>
+      <Fragment>
         <h2 className="subtitle">Jogos</h2>
 
         <nav className="columns is-mobile is-vcentered">
@@ -147,7 +159,7 @@ class ListByDate extends React.Component<ListByDateProps> {
           </div>
         </nav>
         <List games={gamesByDate[selectedDate] || []} />
-      </div>
+      </Fragment>
     );
   }
 

@@ -110,7 +110,6 @@ const Form: React.FC<FormProps> = ({
       <FieldArray name="teamStats">
         {({ fields }) => (
           <div className="table-container">
-            {JSON.stringify(fields.value[2])}
             <table className="table is-fullwidth is-striped is-hoverable">
               <thead>
                 <tr>
