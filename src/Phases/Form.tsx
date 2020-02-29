@@ -10,6 +10,7 @@ import {
 } from './state';
 import { FieldArray } from 'react-final-form-arrays';
 import { PHASE_TYPES_OPTIONS } from './constans';
+import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 
 interface StatFormProps {
   name: string;
@@ -66,10 +67,18 @@ const Form: React.FC<FormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Is in progress</label>
+        <div className="control" style={{ paddingTop: '.5rem' }}>
+          <Field
+            name="isInProgress"
+            type="checkbox"
+            render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+              <CheckboxInput {...props} id="isIsProgress" />
+            )}
+          />
 
-        <div className="control">
-          <Field name="isInProgress" component="input" type="checkbox" />
+          <label className="label" htmlFor="isIsProgress">
+            Is in progress
+          </label>
         </div>
       </div>
 
