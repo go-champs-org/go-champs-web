@@ -34,5 +34,8 @@ export const currentPhaseId = (tournament: ApiTournamentWithDependecies) => {
   if (currentPhase) {
     return currentPhase.id;
   }
+  if (tournament.phases.length > 0) {
+    return tournament.phases[0].id;
+  }
   return '';
 };
