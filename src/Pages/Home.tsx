@@ -43,7 +43,7 @@ class Home extends React.Component {
             <p style={{ marginBottom: '1.5rem' }}>
               Acesse nosso torneio exemplo clicando&nbsp;
               <a
-                href="sec-mun-esportes/liga-municipal"
+                href="/demo-organization/demo-tournament"
                 style={{ color: '#970c10' }}
               >
                 aqui
