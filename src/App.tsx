@@ -12,6 +12,7 @@ import TournamentHome from './Pages/TournamentHome';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
 import OrganizationHome from './Pages/OrganizationHome';
+import UseAsApp from './Pages/UseAsApp';
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: React.FC = () => {
                   path="/Account"
                   component={AccountHome}
                 />
+                <Route exact sensitive path="/UseAsApp" component={UseAsApp} />
                 <Route
                   exact
                   sensitive
@@ -70,24 +72,14 @@ const App: React.FC = () => {
             <div className="content has-text-centered">
               <p>
                 <strong>Go Champs!</strong>
-
-                &nbsp;
-
-                by Lair Júnior. The source code is licensed
-
-                &nbsp;
-
+                &nbsp; by Lair Júnior. The source code is licensed &nbsp;
                 <a
                   href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
                   style={{ color: '#970c10' }}
                 >
                   MIT
                 </a>
-                
-                . The website content is licensed
-                
-                &nbsp;
-                
+                . The website content is licensed &nbsp;
                 <a
                   href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
                   style={{ color: '#970c10' }}
