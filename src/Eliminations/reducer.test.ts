@@ -41,6 +41,8 @@ describe('deleteEliminationSuccess', () => {
     eliminations: {
       'first-id': {
         id: 'first-id',
+        info: 'first info',
+        order: 1,
         title: 'first-title',
         teamStats: []
       }
@@ -64,6 +66,8 @@ describe('deleteEliminationSuccess', () => {
       eliminations: {
         'some-id': {
           id: 'some-id',
+          info: 'some info',
+          order: 1,
           title: 'some-title',
           teamStats: []
         },
@@ -75,6 +79,8 @@ describe('deleteEliminationSuccess', () => {
 
     expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
+      info: 'some info',
+      order: 1,
       title: 'some-title',
       teamStats: []
     });
@@ -102,6 +108,8 @@ describe('patchEliminationFailure', () => {
 describe('patchEliminationSuccess', () => {
   const action = patchEliminationSuccess({
     id: 'first-id',
+    info: 'first info',
+    order: 2,
     title: 'some-first-title',
     teamStats: []
   });
@@ -111,6 +119,8 @@ describe('patchEliminationSuccess', () => {
     eliminations: {
       'first-id': {
         id: 'first-id',
+        info: 'first info',
+        order: 1,
         title: 'first-title',
         teamStats: []
       }
@@ -127,6 +137,8 @@ describe('patchEliminationSuccess', () => {
 
     expect(newState.eliminations['first-id']).toEqual({
       id: 'first-id',
+      info: 'first info',
+      order: 2,
       title: 'some-first-title',
       teamStats: []
     });
@@ -138,6 +150,8 @@ describe('patchEliminationSuccess', () => {
       eliminations: {
         'some-id': {
           id: 'some-id',
+          info: 'some info',
+          order: 1,
           title: 'some-title',
           teamStats: []
         }
@@ -148,6 +162,8 @@ describe('patchEliminationSuccess', () => {
 
     expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
+      info: 'some info',
+      order: 1,
       title: 'some-title',
       teamStats: []
     });
@@ -175,6 +191,8 @@ describe('postEliminationFailure', () => {
 describe('postEliminationSuccess', () => {
   const action = postEliminationSuccess({
     id: 'first-id',
+    info: 'first info',
+    order: 1,
     title: 'first-title',
     teamStats: []
   });
@@ -189,6 +207,8 @@ describe('postEliminationSuccess', () => {
 
     expect(newState.eliminations['first-id']).toEqual({
       id: 'first-id',
+      info: 'first info',
+      order: 1,
       title: 'first-title',
       teamStats: []
     });
@@ -200,6 +220,8 @@ describe('postEliminationSuccess', () => {
       eliminations: {
         'some-id': {
           id: 'some-id',
+          info: 'some info',
+          order: 1,
           title: 'some-title',
           teamStats: []
         }
@@ -210,6 +232,8 @@ describe('postEliminationSuccess', () => {
 
     expect(newState.eliminations['some-id']).toEqual({
       id: 'some-id',
+      info: 'some info',
+      order: 1,
       title: 'some-title',
       teamStats: []
     });
@@ -222,9 +246,12 @@ describe('getPhaseSuccess', () => {
     title: 'phase-title',
     order: 0,
     type: PhaseTypes.elimination,
+    is_in_progress: false,
     eliminations: [
       {
         id: 'first-id',
+        info: 'first info',
+        order: 1,
         title: 'first-title',
         team_stats: [
           {
@@ -251,9 +278,12 @@ describe('getPhaseSuccess', () => {
     title: 'phase-title',
     order: 0,
     type: PhaseTypes.elimination,
+    is_in_progress: true,
     eliminations: [
       {
         id: 'first-id',
+        info: 'first info',
+        order: 1,
         title: 'first-title',
         team_stats: [
           {
@@ -282,6 +312,8 @@ describe('getPhaseSuccess', () => {
     expect(eliminationState.eliminations).toEqual({
       'first-id': {
         id: 'first-id',
+        info: 'first info',
+        order: 1,
         title: 'first-title',
         teamStats: [
           {
@@ -312,6 +344,8 @@ describe('getPhaseSuccess', () => {
     expect(eliminationState.eliminations).toEqual({
       'first-id': {
         id: 'first-id',
+        info: 'first info',
+        order: 1,
         title: 'first-title',
         teamStats: [
           {
