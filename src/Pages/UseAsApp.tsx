@@ -9,7 +9,7 @@ const UseComoApp: React.FC = () => (
     <div className="hero is-medium">
       <div className="hero-body">
         <div className="has-text-centered">
-          <h1 className="title">Instalando a como aplicativo de celular</h1>
+          <h1 className="title">Instalando como aplicativo de celular</h1>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@ const UseComoApp: React.FC = () => (
               <div className="columns" style={{ paddingTop: '3rem' }}>
                 <div className="column is-half">
                   <p className="is-size-4">
-                    Confirme opcão clicando em "Adicionar".
+                    Confirme opção clicando em "Adicionar".
                   </p>
                 </div>
               </div>
