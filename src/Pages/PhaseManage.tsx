@@ -3,7 +3,7 @@ import { StoreState } from '../store';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { draws } from '../Draws/selectors';
-import { eliminations } from '../Eliminations/selectors';
+import { sortedEliminations } from '../Eliminations/selectors';
 import { connect, ConnectedProps } from 'react-redux';
 import withPhase from './support/withPhase';
 import { PhaseTypes } from '../Phases/state';
@@ -24,7 +24,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     phases: sortedPhases(state.phases),
     eliminationStats: eliminationStats(state.eliminationStats),
     draws: draws(state.draws),
-    eliminations: eliminations(state.eliminations),
+    eliminations: sortedEliminations(state.eliminations),
     teams: state.teams.teams
   };
 };

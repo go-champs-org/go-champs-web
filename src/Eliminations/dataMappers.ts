@@ -28,6 +28,8 @@ export const mapApiEliminationToEliminationEntity = (
   apiElimination: ApiElimination
 ): EliminationEntity => ({
   id: apiElimination.id,
+  info: apiElimination.info ? apiElimination.info : '',
+  order: apiElimination.order,
   title: apiElimination.title || '',
   teamStats: apiElimination.team_stats.map(mapApiEliminationTeamStatToTeamStat)
 });
@@ -37,6 +39,8 @@ export const mapEliminationEntityToApiEliminationPatchRequest = (
 ): ApiEliminationPatchRequest => ({
   elimination: {
     id: elimination.id,
+    order: Number(elimination.order),
+    info: elimination.info ? elimination.info : undefined,
     title: elimination.title,
     team_stats: elimination.teamStats.map(
       mapTeamStatToApiEliminationTeamStatPatchAndPost
@@ -50,6 +54,7 @@ export const mapEliminationEntityToApiEliminationPostRequest = (
 ): ApiEliminationPostRequest => ({
   elimination: {
     id: elimination.id,
+    info: elimination.info ? elimination.info : undefined,
     title: elimination.title,
     team_stats: elimination.teamStats.map(
       mapTeamStatToApiEliminationTeamStatPatchAndPost

@@ -6,7 +6,10 @@ import { deleteElimination } from '../Eliminations/effects';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
 import withPhase from './support/withPhase';
-import { eliminations, eliminationsLoading } from '../Eliminations/selectors';
+import {
+  eliminationsLoading,
+  sortedEliminations
+} from '../Eliminations/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Eliminations/List';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -20,7 +23,7 @@ interface OwnProps {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
-    eliminations: eliminations(state.eliminations),
+    eliminations: sortedEliminations(state.eliminations),
     eliminationsLoading: eliminationsLoading(state.eliminations),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases)

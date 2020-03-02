@@ -7,6 +7,8 @@ export interface EliminationTeamStatEntity {
 
 export interface EliminationEntity {
   id: string;
+  info: string;
+  order: number;
   title: string;
   teamStats: EliminationTeamStatEntity[];
 }
@@ -29,6 +31,8 @@ export const initialState: EliminationState = {
 
 export const DEFAULT_ELIMINATION: EliminationEntity = {
   id: '',
+  info: '',
+  order: 0,
   title: '',
   teamStats: []
 };

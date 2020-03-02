@@ -102,26 +102,37 @@ export interface ApiEliminationTeamStatResponse
 
 export interface ApiElimination {
   id: string;
+  order: number;
+  info?: string;
   title?: string;
   team_stats: ApiEliminationTeamStatResponse[];
 }
 
-export interface ApiEliminationPatchAndPost {
+export interface ApiEliminationPost {
   id: string;
+  info?: string;
   title?: string;
   team_stats: ApiEliminationTeamStatPatchAndPost[];
 }
 
-export interface ApiEliminationWithPhaseId extends ApiEliminationPatchAndPost {
+export interface ApiEliminationPatch {
+  id: string;
+  order: number;
+  info?: string;
+  title?: string;
+  team_stats: ApiEliminationTeamStatPatchAndPost[];
+}
+
+export interface ApiEliminationPostWithPhaseId extends ApiEliminationPost {
   phase_id: string;
 }
 
 export interface ApiEliminationPatchRequest {
-  elimination: ApiEliminationPatchAndPost;
+  elimination: ApiEliminationPatch;
 }
 
 export interface ApiEliminationPostRequest {
-  elimination: ApiEliminationWithPhaseId;
+  elimination: ApiEliminationPostWithPhaseId;
 }
 
 export interface ApiEliminationResponse {
