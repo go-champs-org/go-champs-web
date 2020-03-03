@@ -11,7 +11,10 @@ export const mapApiTournamentToTournamentEntity = (
 ): TournamentEntity => ({
   id: apiTournament.id,
   name: apiTournament.name,
-  slug: apiTournament.slug
+  slug: apiTournament.slug,
+  facebook: apiTournament.facebook ? apiTournament.facebook : '',
+  instagram: apiTournament.instagram ? apiTournament.instagram : '',
+  siteUrl: apiTournament.site_url ? apiTournament.site_url : ''
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
@@ -22,7 +25,10 @@ export const mapTournamentEntityToApiTournamentRequest = (
     id: tournament.id,
     name: tournament.name,
     slug: tournament.slug,
-    organization_id: organizationId
+    organization_id: organizationId,
+    facebook: tournament.facebook ? tournament.facebook : '',
+    instagram: tournament.instagram ? tournament.instagram : '',
+    site_url: tournament.siteUrl ? tournament.siteUrl : ''
   }
 });
 

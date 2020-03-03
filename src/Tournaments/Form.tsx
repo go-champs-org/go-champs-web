@@ -65,6 +65,42 @@ const Form: React.FC<FormRenderProps<TournamentEntity>> = ({
         </div>
       </div>
 
+      <div className="field">
+        <label className="label">Facebook</label>
+        <div className="control">
+          <Field
+            name="facebook"
+            component={StringInput}
+            type="text"
+            placeholder="www.facebook.com/your-tournament"
+          />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Instagram</label>
+        <div className="control">
+          <Field
+            name="instagram"
+            component={StringInput}
+            type="text"
+            placeholder="www.instagram.com/your-tournament"
+          />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Site</label>
+        <div className="control">
+          <Field
+            name="siteUrl"
+            component={StringInput}
+            type="text"
+            placeholder="www.your-site.com"
+          />
+        </div>
+      </div>
+
       <button
         className="button is-primary"
         type="submit"

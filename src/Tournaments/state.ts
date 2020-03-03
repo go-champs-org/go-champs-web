@@ -2,6 +2,9 @@ export interface TournamentEntity {
   id: string;
   name: string;
   slug: string;
+  facebook: string;
+  instagram: string;
+  siteUrl: string;
 }
 
 export interface TournamentState {
@@ -25,5 +28,8 @@ export const initialState: TournamentState = {
 export const DEFAULT_TOURNAMENT: TournamentEntity = {
   id: '',
   name: '',
-  slug: ''
+  slug: '',
+  facebook: '',
+  instagram: '',
+  siteUrl: ''
 };

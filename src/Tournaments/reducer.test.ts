@@ -115,6 +115,9 @@ describe('patchTournamentSuccess', () => {
     id: 'first-id',
     name: 'some-first-name',
     slug: 'first-slug',
+    facebook: 'first updated facebook',
+    instagram: 'first updated instagram',
+    site_url: 'first updated site url',
     organization: {
       id: 'some-org-id',
       name: 'some org name',
@@ -130,7 +133,10 @@ describe('patchTournamentSuccess', () => {
       'first-slug': {
         id: 'first-id',
         name: 'first-name',
-        slug: 'first-slug'
+        slug: 'first-slug',
+        facebook: 'first facebook',
+        instagram: 'first instagram',
+        siteUrl: 'first site url'
       }
     }
   };
@@ -147,6 +153,15 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('some-first-name');
     expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
+    expect(newState.tournaments['first-slug'].facebook).toEqual(
+      'first updated facebook'
+    );
+    expect(newState.tournaments['first-slug'].instagram).toEqual(
+      'first updated instagram'
+    );
+    expect(newState.tournaments['first-slug'].siteUrl).toEqual(
+      'first updated site url'
+    );
   });
 
   it('keeps others entities in other', () => {
@@ -156,7 +171,10 @@ describe('patchTournamentSuccess', () => {
         'some-slug': {
           id: 'some-id',
           name: 'some-name',
-          slug: 'some-slug'
+          slug: 'some-slug',
+          facebook: 'some facebook',
+          instagram: 'some instagram',
+          siteUrl: 'some site'
         }
       }
     };
@@ -167,7 +185,10 @@ describe('patchTournamentSuccess', () => {
       ...DEFAULT_TOURNAMENT,
       id: 'some-id',
       name: 'some-name',
-      slug: 'some-slug'
+      slug: 'some-slug',
+      facebook: 'some facebook',
+      instagram: 'some instagram',
+      siteUrl: 'some site'
     });
   });
 });
@@ -198,6 +219,9 @@ describe('postTournamentSuccess', () => {
     id: 'first-id',
     name: 'first-name',
     slug: 'first-slug',
+    facebook: 'first facebook',
+    instagram: 'first instagram',
+    site_url: 'first site url',
     organization: {
       id: 'some-org-id',
       name: 'some org name',
@@ -219,6 +243,15 @@ describe('postTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('first-name');
     expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
+    expect(newState.tournaments['first-slug'].facebook).toEqual(
+      'first facebook'
+    );
+    expect(newState.tournaments['first-slug'].instagram).toEqual(
+      'first instagram'
+    );
+    expect(newState.tournaments['first-slug'].siteUrl).toEqual(
+      'first site url'
+    );
   });
 
   it('keeps others entities in other', () => {
@@ -228,7 +261,10 @@ describe('postTournamentSuccess', () => {
         'some-slug': {
           id: 'some-id',
           name: 'some-name',
-          slug: 'some-slug'
+          slug: 'some-slug',
+          facebook: 'some facebook',
+          instagram: 'some instagram',
+          siteUrl: 'some site'
         }
       }
     };
@@ -238,7 +274,10 @@ describe('postTournamentSuccess', () => {
     expect(newState.tournaments['some-slug']).toEqual({
       id: 'some-id',
       name: 'some-name',
-      slug: 'some-slug'
+      slug: 'some-slug',
+      facebook: 'some facebook',
+      instagram: 'some instagram',
+      siteUrl: 'some site'
     });
   });
 });
@@ -320,6 +359,9 @@ describe('getTournamentSuccess', () => {
     id: 'first-id',
     name: 'first-name',
     slug: 'first-slug',
+    facebook: 'first facebook',
+    instagram: 'first instagram',
+    site_url: 'first site url',
     organization: {
       id: 'some-org-id',
       name: 'some org name',
@@ -341,6 +383,15 @@ describe('getTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].id).toEqual('first-id');
     expect(newState.tournaments['first-slug'].name).toEqual('first-name');
     expect(newState.tournaments['first-slug'].slug).toEqual('first-slug');
+    expect(newState.tournaments['first-slug'].facebook).toEqual(
+      'first facebook'
+    );
+    expect(newState.tournaments['first-slug'].instagram).toEqual(
+      'first instagram'
+    );
+    expect(newState.tournaments['first-slug'].siteUrl).toEqual(
+      'first site url'
+    );
   });
 
   it('keeps others entities in other', () => {
@@ -350,7 +401,10 @@ describe('getTournamentSuccess', () => {
         'some-slug': {
           id: 'some-id',
           name: 'some-name',
-          slug: 'some-slug'
+          slug: 'some-slug',
+          facebook: 'some facebook',
+          instagram: 'some instagram',
+          siteUrl: 'some site'
         }
       }
     };
@@ -360,7 +414,10 @@ describe('getTournamentSuccess', () => {
     expect(newState.tournaments['some-slug']).toEqual({
       id: 'some-id',
       name: 'some-name',
-      slug: 'some-slug'
+      slug: 'some-slug',
+      facebook: 'some facebook',
+      instagram: 'some instagram',
+      siteUrl: 'some site'
     });
   });
 });
