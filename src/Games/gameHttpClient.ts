@@ -41,7 +41,6 @@ const getByFilter = async (where: RequestFilter): Promise<GameEntity[]> => {
 const patch = async (game: GameEntity): Promise<GameEntity> => {
   const url = `${GAMES_API}/${game.id}`;
   const body = mapGameEntityToApiGamePatchRequest(game);
-  console.log(body);
 
   const { data } = await httpClient.patch<ApiGamePatchRequest, ApiGameResponse>(
     url,

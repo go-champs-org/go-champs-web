@@ -1,8 +1,45 @@
 import React, { Fragment } from 'react';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
+import classNames from 'classnames';
 import { GameEntity } from './state';
 
+const basicTeamClasses = {
+  column: true,
+  'is-8': true
+};
+
+const basicScoreClasses = {
+  column: true,
+  'is-4': true,
+  'has-text-right': true
+};
+
 const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
+  const awayTeamClasses = classNames(
+    {
+      'has-text-weight-semibold': game.awayScore > game.homeScore
+    },
+    basicTeamClasses
+  );
+  const awayScoreClasses = classNames(
+    {
+      'has-text-weight-semibold': game.awayScore > game.homeScore
+    },
+    basicScoreClasses
+  );
+  const homeTeamClasses = classNames(
+    {
+      'has-text-weight-semibold': game.homeScore > game.awayScore
+    },
+    basicTeamClasses
+  );
+  const homeScoreClasses = classNames(
+    {
+      'has-text-weight-semibold': game.homeScore > game.awayScore
+    },
+    basicScoreClasses
+  );
+
   return (
     <div className="card">
       <div className="card-content">
@@ -24,14 +61,11 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 
           <div className="column is-12">
             <div className="columns is-mobile">
-              <div className="column is-8" style={{ padding: '.3rem' }}>
+              <div className={awayTeamClasses} style={{ padding: '.3rem' }}>
                 {game.awayTeam.name}
               </div>
 
-              <div
-                className="column is-4 has-text-right"
-                style={{ padding: '.3rem' }}
-              >
+              <div className={awayScoreClasses} style={{ padding: '.3rem' }}>
                 {game.awayScore}
               </div>
             </div>
@@ -39,14 +73,11 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
 
           <div className="column is-12">
             <div className="columns is-mobile">
-              <div className="column is-8" style={{ padding: '.3rem' }}>
+              <div className={homeTeamClasses} style={{ padding: '.3rem' }}>
                 {game.homeTeam.name}
               </div>
 
-              <div
-                className="column is-4 has-text-right"
-                style={{ padding: '.3rem' }}
-              >
+              <div className={homeScoreClasses} style={{ padding: '.3rem' }}>
                 {game.homeScore}
               </div>
             </div>
