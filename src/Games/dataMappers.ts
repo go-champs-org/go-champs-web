@@ -32,11 +32,11 @@ export const mapGameEntityToApiGamePostRequest = (
     id: game.id,
     away_score: game.awayScore,
     away_team_id: game.awayTeam.id && game.awayTeam.id,
-    datetime: game.datetime,
+    datetime: game.datetime ? game.datetime : '',
     home_score: game.homeScore,
     home_team_id: game.homeTeam.id && game.homeTeam.id,
-    info: game.info ? game.info : undefined,
-    location: game.location,
+    info: game.info ? game.info : '',
+    location: game.location ? game.location : '',
     phase_id: phaseId
   }
 });
@@ -48,10 +48,10 @@ export const mapGameEntityToApiGamePatchRequest = (
     id: game.id,
     away_score: game.awayScore,
     away_team_id: game.awayTeam.id && game.awayTeam.id,
-    datetime: game.datetime,
+    datetime: game.datetime ? game.datetime : '',
     home_score: game.homeScore,
     home_team_id: game.homeTeam.id && game.homeTeam.id,
-    info: game.info ? game.info : undefined,
-    location: game.location
+    info: game.info ? game.info : '',
+    location: game.location ? game.location : ''
   }
 });
