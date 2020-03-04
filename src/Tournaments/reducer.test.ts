@@ -118,6 +118,7 @@ describe('patchTournamentSuccess', () => {
     facebook: 'first updated facebook',
     instagram: 'first updated instagram',
     site_url: 'first updated site url',
+    twitter: 'first updated twitter',
     organization: {
       id: 'some-org-id',
       name: 'some org name',
@@ -136,7 +137,8 @@ describe('patchTournamentSuccess', () => {
         slug: 'first-slug',
         facebook: 'first facebook',
         instagram: 'first instagram',
-        siteUrl: 'first site url'
+        siteUrl: 'first site url',
+        twitter: 'first twitter'
       }
     }
   };
@@ -162,6 +164,9 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].siteUrl).toEqual(
       'first updated site url'
     );
+    expect(newState.tournaments['first-slug'].twitter).toEqual(
+      'first updated twitter'
+    );
   });
 
   it('keeps others entities in other', () => {
@@ -174,7 +179,8 @@ describe('patchTournamentSuccess', () => {
           slug: 'some-slug',
           facebook: 'some facebook',
           instagram: 'some instagram',
-          siteUrl: 'some site'
+          siteUrl: 'some site',
+          twitter: 'some twitter'
         }
       }
     };
@@ -188,7 +194,8 @@ describe('patchTournamentSuccess', () => {
       slug: 'some-slug',
       facebook: 'some facebook',
       instagram: 'some instagram',
-      siteUrl: 'some site'
+      siteUrl: 'some site',
+      twitter: 'some twitter'
     });
   });
 });
@@ -222,6 +229,7 @@ describe('postTournamentSuccess', () => {
     facebook: 'first facebook',
     instagram: 'first instagram',
     site_url: 'first site url',
+    twitter: 'first twitter',
     organization: {
       id: 'some-org-id',
       name: 'some org name',
@@ -252,6 +260,7 @@ describe('postTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].siteUrl).toEqual(
       'first site url'
     );
+    expect(newState.tournaments['first-slug'].twitter).toEqual('first twitter');
   });
 
   it('keeps others entities in other', () => {
@@ -264,7 +273,8 @@ describe('postTournamentSuccess', () => {
           slug: 'some-slug',
           facebook: 'some facebook',
           instagram: 'some instagram',
-          siteUrl: 'some site'
+          siteUrl: 'some site',
+          twitter: 'some twitter'
         }
       }
     };
@@ -277,7 +287,8 @@ describe('postTournamentSuccess', () => {
       slug: 'some-slug',
       facebook: 'some facebook',
       instagram: 'some instagram',
-      siteUrl: 'some site'
+      siteUrl: 'some site',
+      twitter: 'some twitter'
     });
   });
 });
@@ -362,6 +373,7 @@ describe('getTournamentSuccess', () => {
     facebook: 'first facebook',
     instagram: 'first instagram',
     site_url: 'first site url',
+    twitter: 'first twitter',
     organization: {
       id: 'some-org-id',
       name: 'some org name',
@@ -392,6 +404,7 @@ describe('getTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].siteUrl).toEqual(
       'first site url'
     );
+    expect(newState.tournaments['first-slug'].twitter).toEqual('first twitter');
   });
 
   it('keeps others entities in other', () => {
@@ -404,7 +417,8 @@ describe('getTournamentSuccess', () => {
           slug: 'some-slug',
           facebook: 'some facebook',
           instagram: 'some instagram',
-          siteUrl: 'some site'
+          siteUrl: 'some site',
+          twitter: 'some twitter'
         }
       }
     };
@@ -417,7 +431,8 @@ describe('getTournamentSuccess', () => {
       slug: 'some-slug',
       facebook: 'some facebook',
       instagram: 'some instagram',
-      siteUrl: 'some site'
+      siteUrl: 'some site',
+      twitter: 'some twitter'
     });
   });
 });

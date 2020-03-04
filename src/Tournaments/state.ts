@@ -5,6 +5,7 @@ export interface TournamentEntity {
   facebook: string;
   instagram: string;
   siteUrl: string;
+  twitter: string;
 }
 
 export interface TournamentState {
@@ -31,5 +32,6 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   slug: '',
   facebook: '',
   instagram: '',
-  siteUrl: ''
+  siteUrl: '',
+  twitter: ''
 };

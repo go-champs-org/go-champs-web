@@ -1,5 +1,11 @@
 .social-icon:hover {
   background-color: #5e5f5e63;
   border-radius: 100%;
+}
+
+.social-icon {
+  border-radius: 100%;
   cursor: pointer;
+  padding: 1.2rem;
+  transition: background-color 0.3s ease;
 }

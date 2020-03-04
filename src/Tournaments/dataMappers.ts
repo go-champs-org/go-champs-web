@@ -14,7 +14,8 @@ export const mapApiTournamentToTournamentEntity = (
   slug: apiTournament.slug,
   facebook: apiTournament.facebook ? apiTournament.facebook : '',
   instagram: apiTournament.instagram ? apiTournament.instagram : '',
-  siteUrl: apiTournament.site_url ? apiTournament.site_url : ''
+  siteUrl: apiTournament.site_url ? apiTournament.site_url : '',
+  twitter: apiTournament.twitter ? apiTournament.twitter : ''
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
@@ -28,7 +29,8 @@ export const mapTournamentEntityToApiTournamentRequest = (
     organization_id: organizationId,
     facebook: tournament.facebook ? tournament.facebook : '',
     instagram: tournament.instagram ? tournament.instagram : '',
-    site_url: tournament.siteUrl ? tournament.siteUrl : ''
+    site_url: tournament.siteUrl ? tournament.siteUrl : '',
+    twitter: tournament.twitter ? tournament.twitter : ''
   }
 });
 

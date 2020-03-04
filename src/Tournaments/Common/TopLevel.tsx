@@ -61,7 +61,7 @@ const TopLevel: React.FC<{
 
             {tournament.instagram && (
               <a
-                href={tournament.instagram}
+                href={`https://www.instagram.com/${tournament.instagram}`}
                 className="has-text-dark"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -74,13 +74,26 @@ const TopLevel: React.FC<{
 
             {tournament.facebook && (
               <a
-                href={tournament.facebook}
+                href={`https://www.facebook.com/${tournament.facebook}`}
                 className="has-text-dark"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <span className="icon is-medium social-icon">
                   <i className="fab fa-facebook fa-lg"></i>
+                </span>
+              </a>
+            )}
+
+            {tournament.twitter && (
+              <a
+                href={`https://twitter.com/${tournament.twitter}`}
+                className="has-text-dark"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="icon is-medium social-icon">
+                  <i className="fab fa-twitter fa-lg"></i>
                 </span>
               </a>
             )}

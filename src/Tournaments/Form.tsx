@@ -101,6 +101,18 @@ const Form: React.FC<FormRenderProps<TournamentEntity>> = ({
         </div>
       </div>
 
+      <div className="field">
+        <label className="label">Twitter</label>
+        <div className="control">
+          <Field
+            name="twitter"
+            component={StringInput}
+            type="text"
+            placeholder="www.twitter.com/your-tournament"
+          />
+        </div>
+      </div>
+
       <button
         className="button is-primary"
         type="submit"

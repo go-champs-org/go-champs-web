@@ -251,6 +251,7 @@ export interface ApiTournament {
   facebook?: string;
   instagram?: string;
   site_url?: string;
+  twitter?: string;
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {
