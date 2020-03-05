@@ -77,7 +77,13 @@ const Elimination: React.FC<EliminationProps> = ({
               }
             )}
           </tbody>
+
+          <tfoot></tfoot>
         </table>
+
+        {eliminations.info && (
+          <p className="elimination-info is-size-7">{eliminations.info}</p>
+        )}
       </div>
     </div>
   );
