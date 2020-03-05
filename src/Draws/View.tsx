@@ -2,9 +2,11 @@ import React from 'react';
 import { DrawEntity, DrawMatchEntity } from './state';
 import './View.scss';
 import classNames from 'classnames';
+import { TeamEntity } from '../Teams/state';
 
 interface MatchProps {
   match: DrawMatchEntity;
+  teams: { [id: string]: TeamEntity };
 }
 
 const basicTeamClasses = {
@@ -23,7 +25,7 @@ const basicScoreClasses = {
   'is-size-5': true
 };
 
-const Match: React.FC<MatchProps> = ({ match }) => {
+const Match: React.FC<MatchProps> = ({ match, teams }) => {
   const firstTeamClasses = classNames(
     {
       'has-text-weight-semibold': match.firstTeamScore > match.secondTeamScore
@@ -49,6 +51,13 @@ const Match: React.FC<MatchProps> = ({ match }) => {
     basicScoreClasses
   );
 
+  const firstTeamText = match.firstTeamId
+    ? teams[match.firstTeamId].name
+    : match.firstTeamPlaceholder;
+  const secondTeamText = match.secondTeamId
+    ? teams[match.secondTeamId].name
+    : match.secondTeamPlaceholder;
+
   return (
     <div className="card">
       {match.name && (
@@ -62,9 +71,7 @@ const Match: React.FC<MatchProps> = ({ match }) => {
           <div className="columns is-multiline is-vcentered">
             <div className="column">
               <div className="columns is-mobile is-vcentered">
-                <div className={firstTeamClasses}>
-                  {match.firstTeamPlaceholder}
-                </div>
+                <div className={firstTeamClasses}>{firstTeamText}</div>
 
                 <div className={firstTeamScoreClasses}>
                   {match.firstTeamScore || 0}
@@ -84,9 +91,7 @@ const Match: React.FC<MatchProps> = ({ match }) => {
                   {match.secondTeamScore || 0}
                 </div>
 
-                <div className={secondTeamClasses}>
-                  {match.secondTeamPlaceholder}
-                </div>
+                <div className={secondTeamClasses}>{secondTeamText}</div>
               </div>
             </div>
           </div>
@@ -106,15 +111,16 @@ const Match: React.FC<MatchProps> = ({ match }) => {
 
 interface RoundProps {
   draw: DrawEntity;
+  teams: { [id: string]: TeamEntity };
 }
 
-const Round: React.FC<RoundProps> = ({ draw }) => {
+const Round: React.FC<RoundProps> = ({ draw, teams }) => {
   return (
     <div className="column is-12">
       <h1 className="subtitle">{draw.title}</h1>
 
       {draw.matches.map((match: DrawMatchEntity) => (
-        <Match match={match} key={match.id} />
+        <Match match={match} key={match.id} teams={teams} />
       ))}
     </div>
   );
@@ -122,13 +128,14 @@ const Round: React.FC<RoundProps> = ({ draw }) => {
 
 interface BracketProps {
   draws: DrawEntity[];
+  teams: { [id: string]: TeamEntity };
 }
 
-const Bracket: React.FC<BracketProps> = ({ draws }) => {
+const Bracket: React.FC<BracketProps> = ({ draws, teams }) => {
   return (
     <div className="columns is-multiline">
       {draws.map((draw: DrawEntity) => (
-        <Round draw={draw} key={draw.id} />
+        <Round draw={draw} key={draw.id} teams={teams} />
       ))}
     </div>
   );

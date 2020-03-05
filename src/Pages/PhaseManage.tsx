@@ -53,7 +53,7 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
         }}
       />
     ) : (
-      <DrawView {...{ draws }} />
+      <DrawView {...{ draws, teams }} />
     );
 
   return (
