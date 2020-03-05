@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { connect, ConnectedProps } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { StoreState } from '../store';
@@ -111,6 +112,12 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           component={PhaseLoader}
         />
       </Switch>
+
+      <Helmet>
+        <title>Go Champs! | {tournament.name}</title>
+
+        <meta name="description" content={tournament.name} />
+      </Helmet>
     </div>
   );
 };

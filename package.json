@@ -28,6 +28,7 @@
     "react-dom": "^16.8.6",
     "react-final-form": "6.3.0",
     "react-final-form-arrays": "^3.1.0",
+    "react-helmet": "^5.2.1",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
@@ -62,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-helmet": "^5.0.15",
     "@types/react-redux": "^7.0.8",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.7",
