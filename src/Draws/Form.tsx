@@ -68,6 +68,22 @@ const MatchForm: React.FC<MatchFormProps> = ({
         </div>
 
         <div className="field">
+          <label className="label">Informations</label>
+
+          <div className="control">
+            <Field name={`${name}.info`} component={StringInput} type="text" />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Name</label>
+
+          <div className="control">
+            <Field name={`${name}.name`} component={StringInput} type="text" />
+          </div>
+        </div>
+
+        <div className="field">
           <label className="label">Second team</label>
 
           <div className="control">

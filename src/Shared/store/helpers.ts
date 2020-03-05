@@ -1,3 +1,6 @@
+export const mapStringOrDefault = (value: string | undefined) =>
+  value ? value : '';
+
 export const returnProperty = (key: string) => (entity: {
   [key: string]: any;
 }) => entity[key];

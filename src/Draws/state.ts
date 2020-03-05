@@ -1,13 +1,15 @@
 export interface DrawMatchEntity {
   id: string;
-  firstTeamId?: string;
-  firstTeamParentMatchId?: string;
-  firstTeamPlaceholder?: string;
-  firstTeamScore?: string;
-  secondTeamId?: string;
-  secondTeamParentMatchId?: string;
-  secondTeamPlaceholder?: string;
-  secondTeamScore?: string;
+  firstTeamId: string;
+  firstTeamParentMatchId: string;
+  firstTeamPlaceholder: string;
+  firstTeamScore: string;
+  info: string;
+  name: string;
+  secondTeamId: string;
+  secondTeamParentMatchId: string;
+  secondTeamPlaceholder: string;
+  secondTeamScore: string;
 }
 
 export interface DrawEntity {
@@ -46,6 +48,8 @@ export const DEFAULT_DRAW_MATCH: DrawMatchEntity = {
   firstTeamParentMatchId: '',
   firstTeamPlaceholder: '',
   firstTeamScore: '',
+  info: '',
+  name: '',
   secondTeamId: '',
   secondTeamParentMatchId: '',
   secondTeamPlaceholder: '',

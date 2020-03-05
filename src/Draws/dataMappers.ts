@@ -6,32 +6,41 @@ import {
   ApiPatchAndPostDrawMatch
 } from '../Shared/httpClient/apiTypes';
 import { DrawEntity, DrawMatchEntity } from './state';
+import { mapStringOrDefault } from '../Shared/store/helpers';
 
 const mapApiDrawToDrawMatch = (
   apiDrawMatch: ApiDrawMatch
 ): DrawMatchEntity => ({
   id: apiDrawMatch.id,
-  firstTeamId: apiDrawMatch.first_team_id,
-  firstTeamParentMatchId: apiDrawMatch.first_team_parent_id,
-  firstTeamPlaceholder: apiDrawMatch.first_team_placeholder,
-  firstTeamScore: apiDrawMatch.first_team_score,
-  secondTeamId: apiDrawMatch.second_team_id,
-  secondTeamParentMatchId: apiDrawMatch.second_team_parent_id,
-  secondTeamPlaceholder: apiDrawMatch.second_team_placeholder,
-  secondTeamScore: apiDrawMatch.second_team_score
+  firstTeamId: mapStringOrDefault(apiDrawMatch.first_team_id),
+  firstTeamParentMatchId: mapStringOrDefault(apiDrawMatch.first_team_parent_id),
+  firstTeamPlaceholder: mapStringOrDefault(apiDrawMatch.first_team_placeholder),
+  firstTeamScore: mapStringOrDefault(apiDrawMatch.first_team_score),
+  info: mapStringOrDefault(apiDrawMatch.info),
+  name: mapStringOrDefault(apiDrawMatch.name),
+  secondTeamId: mapStringOrDefault(apiDrawMatch.second_team_id),
+  secondTeamParentMatchId: mapStringOrDefault(
+    apiDrawMatch.second_team_parent_id
+  ),
+  secondTeamPlaceholder: mapStringOrDefault(
+    apiDrawMatch.second_team_placeholder
+  ),
+  secondTeamScore: mapStringOrDefault(apiDrawMatch.second_team_score)
 });
 
 const mapDrawMatchToApiDraw = (
   drawMatch: DrawMatchEntity
 ): ApiPatchAndPostDrawMatch => ({
-  first_team_id: drawMatch.firstTeamId,
-  first_team_parent_id: drawMatch.firstTeamParentMatchId,
-  first_team_placeholder: drawMatch.firstTeamPlaceholder,
-  first_team_score: drawMatch.firstTeamScore,
-  second_team_id: drawMatch.secondTeamId,
-  second_team_parent_id: drawMatch.secondTeamParentMatchId,
-  second_team_placeholder: drawMatch.secondTeamPlaceholder,
-  second_team_score: drawMatch.secondTeamScore
+  first_team_id: mapStringOrDefault(drawMatch.firstTeamId),
+  first_team_parent_id: mapStringOrDefault(drawMatch.firstTeamParentMatchId),
+  first_team_placeholder: mapStringOrDefault(drawMatch.firstTeamPlaceholder),
+  first_team_score: mapStringOrDefault(drawMatch.firstTeamScore),
+  info: mapStringOrDefault(drawMatch.info),
+  name: mapStringOrDefault(drawMatch.name),
+  second_team_id: mapStringOrDefault(drawMatch.secondTeamId),
+  second_team_parent_id: mapStringOrDefault(drawMatch.secondTeamParentMatchId),
+  second_team_placeholder: mapStringOrDefault(drawMatch.secondTeamPlaceholder),
+  second_team_score: mapStringOrDefault(drawMatch.secondTeamScore)
 });
 
 export const mapApiDrawToDrawEntity = (apiDraw: ApiDraw): DrawEntity => ({

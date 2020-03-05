@@ -45,6 +45,8 @@ export interface ApiPatchAndPostDrawMatch {
   first_team_parent_id?: string;
   first_team_placeholder?: string;
   first_team_score?: string;
+  info?: string;
+  name?: string;
   second_team_id?: string;
   second_team_parent_id?: string;
   second_team_placeholder?: string;
