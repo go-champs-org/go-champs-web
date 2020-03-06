@@ -4,6 +4,7 @@ import { TournamentEntity } from '../state';
 import Shimmer from '../../Shared/UI/Shimmer';
 import AdminWrapper from '../../Shared/UI/AdminWrapper';
 import './TopLevel.scss';
+import { OrganizationEntity } from '../../Organizations/state';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -24,19 +25,28 @@ export const LoadingTopLevel: React.FC = () => (
 );
 
 const TopLevel: React.FC<{
+  organization: OrganizationEntity;
   organizationSlug: string;
   tournament: TournamentEntity;
   tournamentSlug: string;
-}> = ({ organizationSlug, tournament, tournamentSlug }) => {
+}> = ({ organization, organizationSlug, tournament, tournamentSlug }) => {
   const hasAnySocialNetword =
     tournament.facebook || tournament.instagram || tournament.siteUrl;
   return (
     <nav className="level">
       <div className="level-left">
         <div className="level-item">
-          <Link to={`/${organizationSlug}/${tournamentSlug}`}>
-            <h1 className="title">{tournament.name}</h1>
-          </Link>
+          <div className="columns is-multiline is-gapless">
+            <div className="column is-12">
+              <Link to={`/${organizationSlug}/${tournamentSlug}`}>
+                <h1 className="title">{tournament.name}</h1>
+              </Link>
+            </div>
+
+            <div className="column is-12">
+              <em>{organization.name}</em>
+            </div>
+          </div>
         </div>
       </div>
 

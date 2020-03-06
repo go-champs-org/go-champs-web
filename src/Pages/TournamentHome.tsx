@@ -19,19 +19,24 @@ import TeamList from './TeamList';
 import TeamNew from './TeamNew';
 import TeamEdit from './TeamEdit';
 import PhaseLoader from './PhaseLoader';
+import { organizationBySlug } from '../Organizations/selectors';
 
 const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
-) => ({
-  organizationSlug: props.match.params.organizationSlug || '',
-  tournament: tournamentBySlug(
-    state.tournaments,
-    props.match.params.tournamentSlug
-  ),
-  tournamentLoading: tournamentLoading(state.tournaments),
-  tournamentSlug: props.match.params.tournamentSlug || ''
-});
+) => {
+  const organizationSlug = props.match.params.organizationSlug || '';
+  return {
+    organization: organizationBySlug(state.organizations, organizationSlug),
+    organizationSlug: organizationSlug,
+    tournament: tournamentBySlug(
+      state.tournaments,
+      props.match.params.tournamentSlug
+    ),
+    tournamentLoading: tournamentLoading(state.tournaments),
+    tournamentSlug: props.match.params.tournamentSlug || ''
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -46,6 +51,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type TournamentHomeProps = ConnectedProps<typeof connector>;
 
 const TournamentHome: React.FC<TournamentHomeProps> = ({
+  organization,
   organizationSlug,
   tournament,
   tournamentLoading,
@@ -59,6 +65,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           loader={<LoadingTopLevel />}
         >
           <TopLevel
+            organization={organization}
             organizationSlug={organizationSlug}
             tournamentSlug={tournamentSlug}
             tournament={tournament}
