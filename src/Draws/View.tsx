@@ -116,7 +116,7 @@ interface RoundProps {
 
 const Round: React.FC<RoundProps> = ({ draw, teams }) => {
   return (
-    <div className="column is-12">
+    <div className="column is-12 round">
       <h1 className="subtitle">{draw.title}</h1>
 
       {draw.matches.map((match: DrawMatchEntity) => (
