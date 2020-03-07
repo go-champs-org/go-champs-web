@@ -5,6 +5,7 @@ import { postOrganization } from '../Organizations/effects';
 import { default as OrganizationForm } from '../Organizations/Form';
 import { Form } from 'react-final-form';
 import { DEFAULT_ORGANIZATION } from '../Organizations/state';
+import Helmet from 'react-helmet';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -36,6 +37,10 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
           />
         </div>
       </div>
+
+      <Helmet>
+        <title>Go Champs! | New Organization</title>
+      </Helmet>
     </Fragment>
   );
 };

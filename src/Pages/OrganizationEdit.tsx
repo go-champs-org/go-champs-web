@@ -16,6 +16,7 @@ import {
   FormLoading
 } from '../Organizations/Form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import Helmet from 'react-helmet';
 
 const mapStateToProps = (
   state: StoreState,
@@ -66,6 +67,10 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
           </ComponentLoader>
         </div>
       </div>
+
+      <Helmet>
+        <title>Go Champs! | Edit Organization</title>
+      </Helmet>
     </Fragment>
   );
 };

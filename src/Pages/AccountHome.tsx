@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
+import Helmet from 'react-helmet';
 
 const AccountHome: React.FC = () => {
   return (
@@ -39,6 +40,10 @@ const AccountHome: React.FC = () => {
           </aside>
         </div>
       </div>
+
+      <Helmet>
+        <title>Go Champs! | My Account</title>
+      </Helmet>
     </div>
   );
 };
