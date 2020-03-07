@@ -7,6 +7,15 @@ module.exports = {
       .end();
   },
 
+  'Navigates to search': function (client) {
+    client
+      .url(client.launchUrl)
+      .waitForElementVisible('body', 1000)
+      .click('a[href="/Search"]')
+      .assert.title('Go Champs! | Search Tournaments')
+      .end();
+  },
+
   'Send email': function (client) {
     client
       .url(client.launchUrl)
