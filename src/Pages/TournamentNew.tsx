@@ -16,6 +16,7 @@ import { OrganizationEntity } from '../Organizations/state';
 import withOrganizations from './support/withOrganizations';
 import { getOrganizations } from '../Organizations/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import Helmet from 'react-helmet';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
@@ -89,6 +90,10 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
           </ComponentLoader>
         </div>
       </div>
+
+      <Helmet>
+        <title>Go Champs! | New Tournament</title>
+      </Helmet>
     </Fragment>
   );
 };

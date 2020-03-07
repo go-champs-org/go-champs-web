@@ -14,6 +14,7 @@ import { organizationBySlug } from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import Helmet from 'react-helmet';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
@@ -108,6 +109,10 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
           tournamentSlug={tournamentSlug}
         />
       </div>
+
+      <Helmet>
+        <title>Go Champs! | Edit Tournament</title>
+      </Helmet>
     </Fragment>
   );
 };
