@@ -69,6 +69,7 @@ const List: React.FC = () => {
               <div className="control">
                 <input
                   className="input is-medium is-primary"
+                  name="searchTearm"
                   type="text"
                   placeholder="Procure torneios..."
                   onChange={e => setSearchTerm(e.target.value)}

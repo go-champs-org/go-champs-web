@@ -9,7 +9,10 @@ const Search = () => (
     <Helmet>
       <title>Go Champs! | Search Tournaments</title>
 
-      <meta name="description" content="Pesquise torneios para ficar informado." />
+      <meta
+        name="description"
+        content="Pesquise torneios para ficar informado."
+      />
     </Helmet>
   </Fragment>
 );
