@@ -42,6 +42,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ input, meta, options }) => {
       onFocus={event =>
         input.onFocus(event as React.FocusEvent<HTMLSelectElement>)
       }
+      name={input.name}
     />
   );
 };

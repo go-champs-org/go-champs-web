@@ -13,6 +13,7 @@ class Datetime extends React.Component<
     return (
       <DateTimePicker
         {...input}
+        name={input.name}
         inputProps={{ className: 'input' }}
         utc
         value={moment(input.value)}
