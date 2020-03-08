@@ -15,7 +15,7 @@ class NavTopToolbar extends React.Component {
           <a className="navbar-item" href="/">
             <img src={logo} alt="Go Champs" className="logo" />
 
-            <h2 className="title">Go Champs!</h2>
+            <h2 className="title notranslate">Go Champs!</h2>
           </a>
 
           <span
