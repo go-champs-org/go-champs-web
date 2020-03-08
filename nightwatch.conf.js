@@ -19,7 +19,7 @@ module.exports = {
         "acceptSslCerts": true,
         "chromeOptions": {
           "args": [
-            "window-size=1280,800"
+            "window-size=1600,900"
           ]
         }
       }
@@ -27,10 +27,28 @@ module.exports = {
 
     "ci:staging" : {
       "launch_url" : process.env.STAGING_APP_HOST,
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "chromeOptions": {
+            "args": [
+                "--headless",
+                "window-size=1600,900",
+            ]
+        }
+      }
     },
 
     "ci:prod" : {
       "launch_url" : process.env.PROD_APP_HOST,
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "chromeOptions": {
+            "args": [
+                "--headless",
+                "window-size=1600,900"
+            ]
+        }
+      }
     }
   }
 }
