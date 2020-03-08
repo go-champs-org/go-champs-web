@@ -1,7 +1,7 @@
 module.exports = {
   'Load tournament page': function (client) {
     client
-      .url(`${client.launchUrl}/demo-organization/demo-tournament`)
+      .url(`${client.launchUrl}demo-organization/demo-tournament`)
       .waitForElementVisible('body', 1000)
       .assert.title('Go Champs! | Demo Tournament')
       .end();
@@ -9,7 +9,7 @@ module.exports = {
 
   'Display elimination table': function (client) {
     client
-      .url(`${client.launchUrl}/demo-organization/demo-tournament`)
+      .url(`${client.launchUrl}demo-organization/demo-tournament`)
       .waitForElementVisible('body', 1000)
       .assert.containsText('thead > tr > th:nth-child(1)', 'Equipe')
       .assert.containsText('thead > tr > th:nth-child(2)', 'Vitórias')
@@ -23,7 +23,7 @@ module.exports = {
 
   'Display games': function (client) {
     client
-      .url(`${client.launchUrl}/demo-organization/demo-tournament`)
+      .url(`${client.launchUrl}demo-organization/demo-tournament`)
       .waitForElementVisible('body', 1000)
       .assert.containsText('.card:nth-child(1) .card-content', 'Slytherin')
       .assert.containsText('.card:nth-child(1) .card-content', 'Hufflepuff')
@@ -34,7 +34,7 @@ module.exports = {
 
   'Display rounds': function (client) {
     client
-    .url(`${client.launchUrl}/demo-organization/demo-tournament`)
+    .url(`${client.launchUrl}demo-organization/demo-tournament`)
     .waitForElementVisible('body', 1000)
     .click('.breadcrumb > ul > li:nth-child(2) > a')
     .assert.containsText('.round:nth-child(1) > .card:nth-of-type(1)', 'Primeiro lugar')

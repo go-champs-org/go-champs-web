@@ -42,7 +42,7 @@
     "start:adm": "REACT_APP_APP_MODE=adm react-scripts start",
     "build": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$PROD_API_HOST react-scripts build",
     "build:adm": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$PROD_API_HOST REACT_APP_APP_MODE=adm react-scripts build",
-    "build:staging": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$STAGING_API_HOST react-scripts build",
+    "build:staging": "REACT_APP_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER REACT_APP_API_HOST=$STAGING_API_HOST REACT_APP_APP_MODE=adm react-scripts build",
     "test": "react-scripts test",
     "test:e2e": "nightwatch",
     "eject": "react-scripts eject",

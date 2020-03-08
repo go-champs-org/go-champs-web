@@ -1,7 +1,7 @@
 module.exports = {
   'Add new round': function (client) {
     client
-      .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
@@ -22,7 +22,7 @@ module.exports = {
 
   'Edit round': function (client) {
     client
-    .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+    .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
@@ -38,7 +38,7 @@ module.exports = {
 
   'Delete round': function (client) {
     client
-      .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")

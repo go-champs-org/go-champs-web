@@ -1,4 +1,4 @@
-{
+module.exports = {
   "src_folders" : ["e2e"],
   "output_folder" : "reports",
 
@@ -10,7 +10,7 @@
 
   "test_settings" : {
     "default" : {
-      "launch_url" : "http://localhost:3000",
+      "launch_url" : "http://localhost:3000/",
       "selenium_port"  : 4444,
       "selenium_host"  : "localhost",
       "desiredCapabilities": {
@@ -23,6 +23,14 @@
           ]
         }
       }
+    },
+
+    "ci:staging" : {
+      "launch_url" : process.env.STAGING_APP_HOST,
+    },
+
+    "ci:prod" : {
+      "launch_url" : process.env.PROD_APP_HOST,
     }
   }
 }

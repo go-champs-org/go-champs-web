@@ -1,7 +1,7 @@
 module.exports = {
   'Add new organization': function (client) {
     client
-      .url(`${client.launchUrl}/Account`)
+      .url(`${client.launchUrl}Account`)
       .waitForElementVisible('body', 1000)
       .click('a[href="/Account/NewOrganization"]')
       .assert.title('Go Champs! | New Organization')
@@ -14,7 +14,7 @@ module.exports = {
 
   'Edit organization': function (client) {
     client
-      .url(`${client.launchUrl}/Account`)
+      .url(`${client.launchUrl}Account`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete)')]")
@@ -29,7 +29,7 @@ module.exports = {
 
   'Delete organization': function (client) {
     client
-      .url(`${client.launchUrl}/Account`)
+      .url(`${client.launchUrl}Account`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button")

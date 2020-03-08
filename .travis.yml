@@ -28,6 +28,8 @@ jobs:
         prod: true
         provider: netlify
         edge: true
+      after_deploy: 
+        - yarn run test:e2e --env=ci:staging
 
     - stage: deploy_admin
       name: "Deploy admin"
@@ -39,6 +41,8 @@ jobs:
         prod: true
         provider: netlify
         edge: true
+      after_deploy: 
+        - yarn run test:e2e --env=ci:prod
 
     - stage: deploy_prod
       name: "Deploy prod"

@@ -1,7 +1,7 @@
 module.exports = {
   'Add new phase': function (client) {
     client
-      .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -17,7 +17,7 @@ module.exports = {
 
   'Edit phase': function (client) {
     client
-    .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+    .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -32,7 +32,7 @@ module.exports = {
 
   'Delete phase': function (client) {
     client
-      .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")

@@ -1,7 +1,7 @@
 module.exports = {
   'Add new tournament': function (client) {
     client
-      .url(`${client.launchUrl}/Organization/test-organization-cannot-delete`)
+      .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .click('a[href="/Organization/test-organization-cannot-delete/NewTournament"]')
       .assert.title('Go Champs! | New Tournament')
@@ -14,7 +14,7 @@ module.exports = {
 
   'Edit tournament': function (client) {
     client
-    .url(`${client.launchUrl}/Organization/test-organization-cannot-delete`)
+    .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test tournament (can delete)')]")
@@ -30,7 +30,7 @@ module.exports = {
 
   'Delete tournament': function (client) {
     client
-      .url(`${client.launchUrl}/Organization/test-organization-cannot-delete`)
+      .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test tournament (can delete)')]/../../div/button")

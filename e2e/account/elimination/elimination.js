@@ -1,7 +1,7 @@
 module.exports = {
   'Add new elimination': function (client) {
     client
-      .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -18,7 +18,7 @@ module.exports = {
 
   'Edit elimination': function (client) {
     client
-    .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+    .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -34,7 +34,7 @@ module.exports = {
 
   'Delete elimination': function (client) {
     client
-      .url(`${client.launchUrl}/test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
