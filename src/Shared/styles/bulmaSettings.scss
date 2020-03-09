@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+// Color
+@import './colors.scss';
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+
+// Import animantions.css
+@import '../node_modules/animate.css/animate.css';
+
+// Update Bulma's global variables
+$family-sans-serif: 'Fira Sans', sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $red;
+$link: $beige-lighter;
+$link-hover: $red;
+$widescreen-enabled: true;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $white;
+$control-border-width: 2px;
+
+// Custom values
+$title-color: $dark;
+$subtitle-color: $red;
+$text: $dark;
+
+// Custom table values
+$table-background-color: transparent;
+$table-color: $text;
+$table-head-cell-color: $title-color;
+$table-row-hover-background-color: $white-dark;
+
+// Custom card values
+$card-background-color: $white;
+$card-color: $dark;
+$card-shadow: 0 2px 3px rgba($dark-light, 0.1), 0 0 0 1px rgba($dark-light, 0.1);
+
+// Custom dropdown values
+$dropdown-content-background-color: $red;
+$dropdown-item-hover-background-color: $white;
+
+// Custom navbar values
+$navbar-background-color: $red;
+$navbar-item-color: $white;
+$navbar-item-hover-background-color: $green;
+
+// Custom form values
+$label-color: $dark;
+
+// Custom input values
+$input-border-color: transparent;
+$input-shadow: none;
+$input-color: $dark;
+
+// Custom breadcrumbs values
+$breadcrumb-item-separator-color: $green;
+$breadcrumb-item-color: $dark;
+$breadcrumb-item-active-color: $green;
+
+// Checkradio
+$checkbox-radius: 5px;
+
+// Import only what you need from Bulma
+@import '../node_modules/bulma/sass/utilities/_all.sass';
+@import '../node_modules/bulma/sass/base/_all.sass';
+@import '../node_modules/bulma/sass/elements/button.sass';
+@import '../node_modules/bulma/sass/elements/container.sass';
+@import '../node_modules/bulma/sass/form/_all.sass';
+@import '../node_modules/bulma/sass/elements/icon.sass';
+@import '../node_modules/bulma/sass/elements/notification.sass';
+@import '../node_modules/bulma/sass/elements/title.sass';
+@import '../node_modules/bulma/sass/elements/table.sass';
+@import '../node_modules/bulma/sass/components/menu.sass';
+@import '../node_modules/bulma/sass/components/navbar.sass';
+@import '../node_modules/bulma/sass/components/breadcrumb.sass';
+@import '../node_modules/bulma/sass/components/card.sass';
+@import '../node_modules/bulma/sass/components/dropdown.sass';
+@import '../node_modules/bulma/sass/components/level.sass';
+@import '../node_modules/bulma/sass/layout/_all.sass';
+@import '../node_modules/bulma/sass/grid/_all.sass';
+@import '../node_modules/bulma-divider/dist/css/bulma-divider.sass';
+@import '../node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass';
+@import '../node_modules/bulma-badge/dist/css/bulma-badge.sass';

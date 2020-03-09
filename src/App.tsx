@@ -3,7 +3,6 @@ import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.scss';
 import AccountHome from './Pages/AccountHome';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
