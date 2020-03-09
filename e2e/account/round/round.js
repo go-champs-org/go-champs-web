@@ -16,6 +16,7 @@ module.exports = {
       .useCss()
       .setValue('input[name="matches[0].firstTeamPlaceholder"]', 'First team placeholder')
       .setValue('input[name="matches[0].secondTeamPlaceholder"]', 'Second team placeholder')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test round (can delete) created!')
       .end();
@@ -33,6 +34,7 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="title"]', ' edited')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test round (can delete) edited updated!')
       .end();

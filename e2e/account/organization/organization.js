@@ -8,6 +8,7 @@ module.exports = {
       .pause(1000)
       .setValue('input[name="name"]', 'Test organization (can delete)')
       .setValue('input[name="slug"]', 'test-organization-can-delete')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test organization (can delete) created!')
       .end();
@@ -24,6 +25,7 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="name"]', ' edited')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test organization (can delete) edited updated!')
       .end();

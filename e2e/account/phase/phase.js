@@ -11,6 +11,7 @@ module.exports = {
       .click('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewPhase"]')
       .pause(1000)
       .setValue('input[name="title"]', 'Test phase (can delete)')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test phase (can delete) created!')
       .end();

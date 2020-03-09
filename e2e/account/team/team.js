@@ -11,6 +11,7 @@ module.exports = {
       .click('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewTeam"]')
       .pause(1000)
       .setValue('input[name="name"]', 'Test team (can delete)')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test team (can delete) created!')
       .end();
@@ -27,6 +28,7 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="name"]', ' edited')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test team (can delete) edited updated!')
       .end();

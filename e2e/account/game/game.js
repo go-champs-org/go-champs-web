@@ -16,6 +16,7 @@ module.exports = {
       .click('.rdtDay')
       .click('input[name="info"]')
       .setValue('input[name="info"]', 'Test game (can delete)')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Game created!')
       .end();
@@ -33,6 +34,7 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="info"]', ' edited')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Game updated!')
       .end();

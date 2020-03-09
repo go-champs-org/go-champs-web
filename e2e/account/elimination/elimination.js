@@ -12,6 +12,7 @@ module.exports = {
       .useCss()
       .setValue('input[name="title"]', 'Test elimination (can delete)')
       .setValue('input[name="info"]', 'Info')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test elimination (can delete) created!')
       .end();
@@ -29,6 +30,7 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="title"]', ' edited')
+      .pause(1000)
       .click('button[type=submit]')
       .assert.containsText('.notification', 'Test elimination (can delete) edited updated!')
       .end();
