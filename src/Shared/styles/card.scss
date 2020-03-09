@@ -1,0 +1,15 @@
+@import './colors.scss';
+
+$card-background-color: $white;
+$card-color: $dark;
+$card-shadow: 0 2px 3px rgba($dark-light, 0.1), 0 0 0 1px rgba($dark-light, 0.1);
+
+.card {
+  &.item {
+    transition: background-color 0.3s ease;
+  }
+
+  &.item:hover {
+    background-color: #eeeeee;
+  }
+}

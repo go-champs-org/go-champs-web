@@ -34,11 +34,6 @@ $table-color: $text;
 $table-head-cell-color: $title-color;
 $table-row-hover-background-color: $white-dark;
 
-// Custom card values
-$card-background-color: $white;
-$card-color: $dark;
-$card-shadow: 0 2px 3px rgba($dark-light, 0.1), 0 0 0 1px rgba($dark-light, 0.1);
-
 // Custom dropdown values
 $dropdown-content-background-color: $red;
 $dropdown-item-hover-background-color: $white;
@@ -63,6 +58,8 @@ $breadcrumb-item-active-color: $green;
 
 // Checkradio
 $checkbox-radius: 5px;
+
+@import './card.scss';
 
 // Import only what you need from Bulma
 @import '../node_modules/bulma/sass/utilities/_all.sass';

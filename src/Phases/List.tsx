@@ -4,7 +4,6 @@ import DraggableItem, { DragTypes } from '../Shared/UI/DnD/DraggableItem';
 import withDraggableList, {
   DraggableListProps
 } from '../Shared/UI/DnD/withDraggableList';
-import './List.scss';
 import { PhaseEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 
