@@ -21,7 +21,7 @@ $fullhd-enabled: false;
 
 // Update some of Bulma's component variables
 $body-background-color: $white;
-$control-border-width: 2px;
+$radius: 2px;
 
 // Custom values
 $title-color: $dark;
@@ -46,11 +46,6 @@ $navbar-item-hover-background-color: $green;
 // Custom form values
 $label-color: $dark;
 
-// Custom input values
-$input-border-color: transparent;
-$input-shadow: none;
-$input-color: $dark;
-
 // Custom breadcrumbs values
 $breadcrumb-item-separator-color: $green;
 $breadcrumb-item-color: $dark;
@@ -60,6 +55,7 @@ $breadcrumb-item-active-color: $green;
 $checkbox-radius: 5px;
 
 @import './card.scss';
+@import './input.scss';
 
 // Import only what you need from Bulma
 @import '../node_modules/bulma/sass/utilities/_all.sass';
