@@ -3,8 +3,11 @@ import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { postOrganization } from '../Organizations/effects';
 import { default as OrganizationForm } from '../Organizations/Form';
-import { Form } from 'react-final-form';
-import { DEFAULT_ORGANIZATION } from '../Organizations/state';
+import { Form, FormRenderProps } from 'react-final-form';
+import {
+  DEFAULT_ORGANIZATION,
+  OrganizationEntity
+} from '../Organizations/state';
 import Helmet from 'react-helmet';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -22,6 +25,7 @@ type OrganizationNewProps = ConnectedProps<typeof connector>;
 const OrganizationNew: React.FC<OrganizationNewProps> = ({
   postOrganization
 }) => {
+  const backUrl = `/Account`;
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -33,7 +37,9 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
           <Form
             onSubmit={postOrganization}
             initialValues={DEFAULT_ORGANIZATION}
-            render={OrganizationForm}
+            render={(props: FormRenderProps<OrganizationEntity>) => (
+              <OrganizationForm {...props} backUrl={backUrl} />
+            )}
           />
         </div>
       </div>

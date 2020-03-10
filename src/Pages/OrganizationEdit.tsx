@@ -10,13 +10,14 @@ import {
   organizationBySlug,
   organizationsLoading
 } from '../Organizations/selectors';
-import { Form } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
 import {
   default as OrganizationForm,
   FormLoading
 } from '../Organizations/Form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
+import { OrganizationEntity } from '../Organizations/state';
 
 const mapStateToProps = (
   state: StoreState,
@@ -47,6 +48,7 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
   organizationsLoading,
   patchOrganization
 }) => {
+  const backUrl = `/Organization/${organization.slug}`;
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -62,7 +64,9 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
             <Form
               onSubmit={patchOrganization}
               initialValues={organization}
-              render={OrganizationForm}
+              render={(props: FormRenderProps<OrganizationEntity>) => (
+                <OrganizationForm {...props} backUrl={backUrl} />
+              )}
             />
           </ComponentLoader>
         </div>
