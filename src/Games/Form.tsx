@@ -4,12 +4,15 @@ import Datetime from '../Shared/UI/Form/Datetime';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { GameEntity } from './state';
+import { Link } from 'react-router-dom';
 
 interface FromProps extends FormRenderProps<GameEntity> {
+  backUrl: string;
   selectInputTeams: SelectOptionType[];
 }
 
 const Form: React.FC<FromProps> = ({
+  backUrl,
   handleSubmit,
   submitting,
   pristine,
@@ -99,13 +102,15 @@ const Form: React.FC<FromProps> = ({
         </button>
       </form>
 
-      <button className="button is-small is-info is-outlined">
-        <span className="icon">
-          <i className="fas fa-caret-left"></i>
-        </span>
+      <Link to={backUrl}>
+        <button className="button is-small is-info is-outlined">
+          <span className="icon">
+            <i className="fas fa-caret-left"></i>
+          </span>
 
-        <span>Back</span>
-      </button>
+          <span>Back</span>
+        </button>
+      </Link>
     </div>
   );
 };

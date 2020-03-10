@@ -15,6 +15,7 @@ import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
+  basePhaseManageUrl: string;
   organizationSlug: string;
   phaseId: string;
   tournamentSlug: string;
@@ -43,6 +44,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameNewProps = ConnectedProps<typeof connector> & OwnProps;
 
 const GameNew: React.FC<GameNewProps> = ({
+  basePhaseManageUrl,
   game,
   organizationSlug,
   phase,
@@ -63,7 +65,11 @@ const GameNew: React.FC<GameNewProps> = ({
               onSubmit={patchGame}
               initialValues={game}
               render={(props: FormRenderProps<GameEntity>) => (
-                <GameForm {...props} selectInputTeams={selectInputTeams} />
+                <GameForm
+                  {...props}
+                  backUrl={`${basePhaseManageUrl}/Games`}
+                  selectInputTeams={selectInputTeams}
+                />
               )}
             />
           </div>

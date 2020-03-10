@@ -14,6 +14,7 @@ import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface OwnProps {
+  basePhaseManageUrl: string;
   organizationSlug: string;
   phaseId: string;
   tournamentSlug: string;
@@ -66,6 +67,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 type GameNewProps = ConnectedProps<typeof connector>;
 
 const GameNew: React.FC<GameNewProps> = ({
+  basePhaseManageUrl,
   organizationSlug,
   phase,
   postGame,
@@ -85,7 +87,11 @@ const GameNew: React.FC<GameNewProps> = ({
               onSubmit={postGame}
               initialValues={DEFAULT_GAME}
               render={(props: FormRenderProps<GameEntity>) => (
-                <GameForm {...props} selectInputTeams={selectInputTeams} />
+                <GameForm
+                  {...props}
+                  backUrl={`${basePhaseManageUrl}/Games`}
+                  selectInputTeams={selectInputTeams}
+                />
               )}
             />
           </div>
