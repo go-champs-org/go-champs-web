@@ -18,6 +18,7 @@ import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
+  basePhaseManageUrl: string;
   organizationSlug: string;
   phaseId: string;
   tournamentSlug: string;
@@ -47,6 +48,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type EliminationNewProps = ConnectedProps<typeof connector> & OwnProps;
 
 const EliminationNew: React.FC<EliminationNewProps> = ({
+  basePhaseManageUrl,
   elimination,
   organizationSlug,
   phase,
@@ -75,6 +77,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
               render={(props: FormRenderProps<EliminationEntity>) => (
                 <EliminationForm
                   {...props}
+                  backUrl={`${basePhaseManageUrl}/Eliminations`}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                   stats={stats}

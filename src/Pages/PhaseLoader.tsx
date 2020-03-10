@@ -155,6 +155,7 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <EliminationEdit
               {...props}
+              basePhaseManageUrl={basePhaseManageUrl}
               organizationSlug={organizationSlug}
               phaseId={selectedPhaseId}
               getGamesByFilter={getGamesByFilter}
@@ -193,6 +194,7 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewElimination`}
           render={() => (
             <EliminationNew
+              basePhaseManageUrl={basePhaseManageUrl}
               organizationSlug={organizationSlug}
               phaseId={selectedPhaseId}
               getGamesByFilter={getGamesByFilter}

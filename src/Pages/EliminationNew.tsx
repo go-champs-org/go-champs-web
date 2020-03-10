@@ -17,6 +17,7 @@ import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface OwnProps {
+  basePhaseManageUrl: string;
   organizationSlug: string;
   phaseId: string;
   tournamentSlug: string;
@@ -71,6 +72,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 type EliminationNewProps = ConnectedProps<typeof connector>;
 
 const EliminationNew: React.FC<EliminationNewProps> = ({
+  basePhaseManageUrl,
   organizationSlug,
   phase,
   postElimination,
@@ -98,6 +100,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
               render={(props: FormRenderProps<EliminationEntity>) => (
                 <EliminationForm
                   {...props}
+                  backUrl={`${basePhaseManageUrl}/Eliminations`}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                   stats={stats}
