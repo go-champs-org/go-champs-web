@@ -156,44 +156,54 @@ const Form: React.FC<FormProps> = ({
   selectInputTeams
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Title</label>
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Title</label>
 
-        <div className="control">
-          <Field name="title" component={StringInput} type="text" />
+          <div className="control">
+            <Field name="title" component={StringInput} type="text" />
+          </div>
         </div>
-      </div>
 
-      <FieldArray name="matches">
-        {({ fields }) =>
-          fields.map((name, index) => (
-            <MatchForm
-              key={name}
-              name={name}
-              onRemove={() => fields.remove(index)}
-              selectInputTeams={selectInputTeams}
-            />
-          ))
-        }
-      </FieldArray>
+        <FieldArray name="matches">
+          {({ fields }) =>
+            fields.map((name, index) => (
+              <MatchForm
+                key={name}
+                name={name}
+                onRemove={() => fields.remove(index)}
+                selectInputTeams={selectInputTeams}
+              />
+            ))
+          }
+        </FieldArray>
 
-      <button
-        className="button is-fullwidth"
-        type="button"
-        onClick={() => push('matches', DEFAULT_DRAW_MATCH)}
-      >
-        Add match
+        <button
+          className="button is-fullwidth"
+          type="button"
+          onClick={() => push('matches', DEFAULT_DRAW_MATCH)}
+        >
+          Add match
+        </button>
+
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
-      </button>
-    </form>
+    </div>
   );
 };
 

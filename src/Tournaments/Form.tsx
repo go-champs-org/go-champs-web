@@ -40,87 +40,97 @@ const Form: React.FC<FormRenderProps<TournamentEntity>> = ({
   pristine
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="control">
-          <Field
-            name="name"
-            component={StringInput}
-            type="text"
-            placeholder="Name"
-          />
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Name</label>
+          <div className="control">
+            <Field
+              name="name"
+              component={StringInput}
+              type="text"
+              placeholder="Name"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Slug</label>
-        <div className="control">
-          <Field
-            name="slug"
-            component={StringInput}
-            type="text"
-            placeholder="slug"
-          />
+        <div className="field">
+          <label className="label">Slug</label>
+          <div className="control">
+            <Field
+              name="slug"
+              component={StringInput}
+              type="text"
+              placeholder="slug"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Facebook</label>
-        <div className="control">
-          <Field
-            name="facebook"
-            component={StringInput}
-            type="text"
-            placeholder="www.facebook.com/your-tournament"
-          />
+        <div className="field">
+          <label className="label">Facebook</label>
+          <div className="control">
+            <Field
+              name="facebook"
+              component={StringInput}
+              type="text"
+              placeholder="www.facebook.com/your-tournament"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Instagram</label>
-        <div className="control">
-          <Field
-            name="instagram"
-            component={StringInput}
-            type="text"
-            placeholder="www.instagram.com/your-tournament"
-          />
+        <div className="field">
+          <label className="label">Instagram</label>
+          <div className="control">
+            <Field
+              name="instagram"
+              component={StringInput}
+              type="text"
+              placeholder="www.instagram.com/your-tournament"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Site</label>
-        <div className="control">
-          <Field
-            name="siteUrl"
-            component={StringInput}
-            type="text"
-            placeholder="www.your-site.com"
-          />
+        <div className="field">
+          <label className="label">Site</label>
+          <div className="control">
+            <Field
+              name="siteUrl"
+              component={StringInput}
+              type="text"
+              placeholder="www.your-site.com"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Twitter</label>
-        <div className="control">
-          <Field
-            name="twitter"
-            component={StringInput}
-            type="text"
-            placeholder="www.twitter.com/your-tournament"
-          />
+        <div className="field">
+          <label className="label">Twitter</label>
+          <div className="control">
+            <Field
+              name="twitter"
+              component={StringInput}
+              type="text"
+              placeholder="www.twitter.com/your-tournament"
+            />
+          </div>
         </div>
-      </div>
 
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-    </form>
+    </div>
   );
 };
 

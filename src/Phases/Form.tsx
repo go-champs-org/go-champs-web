@@ -53,79 +53,89 @@ const Form: React.FC<FormProps> = ({
   push
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Title</label>
-        <div className="control">
-          <Field
-            name="title"
-            component={StringInput}
-            type="text"
-            placeholder="Title"
-          />
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Title</label>
+          <div className="control">
+            <Field
+              name="title"
+              component={StringInput}
+              type="text"
+              placeholder="Title"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <div className="control" style={{ paddingTop: '.5rem' }}>
-          <Field
-            name="isInProgress"
-            type="checkbox"
-            render={(props: FieldRenderProps<string, HTMLInputElement>) => (
-              <CheckboxInput {...props} id="isIsProgress" />
-            )}
-          />
+        <div className="field">
+          <div className="control" style={{ paddingTop: '.5rem' }}>
+            <Field
+              name="isInProgress"
+              type="checkbox"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <CheckboxInput {...props} id="isIsProgress" />
+              )}
+            />
 
-          <label className="label" htmlFor="isIsProgress">
-            Is in progress
-          </label>
+            <label className="label" htmlFor="isIsProgress">
+              Is in progress
+            </label>
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Type</label>
-        <div className="control">
-          <Field
-            name="type"
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-              <SelectInput {...props} options={PHASE_TYPES_OPTIONS} />
-            )}
-          />
+        <div className="field">
+          <label className="label">Type</label>
+          <div className="control">
+            <Field
+              name="type"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={PHASE_TYPES_OPTIONS} />
+              )}
+            />
+          </div>
         </div>
-      </div>
 
-      {values.type === PhaseTypes.elimination && (
-        <Fragment>
-          <FieldArray name="eliminationStats">
-            {({ fields }) =>
-              fields.map((name, index) => (
-                <StatForm
-                  key={name}
-                  name={name}
-                  onRemove={() => fields.remove(index)}
-                />
-              ))
-            }
-          </FieldArray>
+        {values.type === PhaseTypes.elimination && (
+          <Fragment>
+            <FieldArray name="eliminationStats">
+              {({ fields }) =>
+                fields.map((name, index) => (
+                  <StatForm
+                    key={name}
+                    name={name}
+                    onRemove={() => fields.remove(index)}
+                  />
+                ))
+              }
+            </FieldArray>
 
-          <button
-            className="button is-fullwidth"
-            type="button"
-            onClick={() => push('eliminationStats', DEFAULT_ELIMINATION_STAT)}
-          >
-            Add stat
-          </button>
-        </Fragment>
-      )}
+            <button
+              className="button is-fullwidth"
+              type="button"
+              onClick={() => push('eliminationStats', DEFAULT_ELIMINATION_STAT)}
+            >
+              Add stat
+            </button>
+          </Fragment>
+        )}
 
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-    </form>
+    </div>
   );
 };
 

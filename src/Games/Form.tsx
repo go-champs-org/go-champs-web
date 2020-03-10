@@ -16,87 +16,97 @@ const Form: React.FC<FromProps> = ({
   selectInputTeams
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Away team</label>
-        <div className="control">
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Away team</label>
+          <div className="control">
+            <Field
+              name="awayTeam.id"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={selectInputTeams} />
+              )}
+            ></Field>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Away score</label>
+          <div className="control">
+            <Field name="awayScore" component={StringInput} type="number" />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Home team</label>
+          <div className="control">
+            <Field
+              name="homeTeam.id"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={selectInputTeams} />
+              )}
+            ></Field>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Home score</label>
+          <div className="control">
+            <Field name="homeScore" component={StringInput} type="number" />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Date / Time</label>
           <Field
-            name="awayTeam.id"
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-              <SelectInput {...props} options={selectInputTeams} />
-            )}
-          ></Field>
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Away score</label>
-        <div className="control">
-          <Field name="awayScore" component={StringInput} type="number" />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Home team</label>
-        <div className="control">
-          <Field
-            name="homeTeam.id"
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-              <SelectInput {...props} options={selectInputTeams} />
-            )}
-          ></Field>
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Home score</label>
-        <div className="control">
-          <Field name="homeScore" component={StringInput} type="number" />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Date / Time</label>
-        <Field
-          name="datetime"
-          component={Datetime}
-          type="text"
-          placeholder="Date / time"
-        />
-      </div>
-
-      <div className="field">
-        <label className="label">Information</label>
-        <div className="control">
-          <Field
-            name="info"
-            component={StringInput}
+            name="datetime"
+            component={Datetime}
             type="text"
-            placeholder="Some information"
+            placeholder="Date / time"
           />
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Location</label>
-        <div className="control">
-          <Field
-            name="location"
-            component={StringInput}
-            type="text"
-            placeholder="Location"
-          />
+        <div className="field">
+          <label className="label">Information</label>
+          <div className="control">
+            <Field
+              name="info"
+              component={StringInput}
+              type="text"
+              placeholder="Some information"
+            />
+          </div>
         </div>
-      </div>
 
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
+        <div className="field">
+          <label className="label">Location</label>
+          <div className="control">
+            <Field
+              name="location"
+              component={StringInput}
+              type="text"
+              placeholder="Location"
+            />
+          </div>
+        </div>
+
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-    </form>
+    </div>
   );
 };
 

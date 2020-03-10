@@ -141,80 +141,90 @@ const Form: React.FC<FormProps> = ({
   stats
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Title</label>
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Title</label>
 
-        <div className="control">
-          <Field name="title" component={StringInput} type="text" />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Info</label>
-
-        <div className="control">
-          <Field name="info" component={StringInput} type="text" />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Order</label>
-
-        <div className="control">
-          <Field name="order" component={StringInput} type="number" />
-        </div>
-      </div>
-
-      <FieldArray name="teamStats">
-        {({ fields }) => (
-          <div className="table-container">
-            <table className="table is-fullwidth is-striped is-hoverable">
-              <thead>
-                <tr>
-                  <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
-                  {stats.map((stat: StatEntity) => (
-                    <StatHeader key={stat.id} stat={stat} />
-                  ))}
-                  <th className="has-text-right">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {fields.map((name, index) => (
-                  <TeamStatForm
-                    key={name}
-                    name={name}
-                    currentTeamStatValue={fields.value[index]}
-                    onMoveDown={onMoveDownTeamStat(fields, index)}
-                    onMoveUp={onMoveUpTeamStat(fields, index)}
-                    onRemove={onRemoveTeamStat(fields, index)}
-                    selectInputTeams={selectInputTeams}
-                    stats={stats}
-                  />
-                ))}
-              </tbody>
-            </table>
+          <div className="control">
+            <Field name="title" component={StringInput} type="text" />
           </div>
-        )}
-      </FieldArray>
+        </div>
 
-      <button
-        className="button is-fullwidth"
-        type="button"
-        onClick={() => push('teamStats', DEFAULT_ELIMINATION_TEAM_STAT)}
-      >
-        Add team stats
-      </button>
+        <div className="field">
+          <label className="label">Info</label>
 
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
+          <div className="control">
+            <Field name="info" component={StringInput} type="text" />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Order</label>
+
+          <div className="control">
+            <Field name="order" component={StringInput} type="number" />
+          </div>
+        </div>
+
+        <FieldArray name="teamStats">
+          {({ fields }) => (
+            <div className="table-container">
+              <table className="table is-fullwidth is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
+                    {stats.map((stat: StatEntity) => (
+                      <StatHeader key={stat.id} stat={stat} />
+                    ))}
+                    <th className="has-text-right">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {fields.map((name, index) => (
+                    <TeamStatForm
+                      key={name}
+                      name={name}
+                      currentTeamStatValue={fields.value[index]}
+                      onMoveDown={onMoveDownTeamStat(fields, index)}
+                      onMoveUp={onMoveUpTeamStat(fields, index)}
+                      onRemove={onRemoveTeamStat(fields, index)}
+                      selectInputTeams={selectInputTeams}
+                      stats={stats}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </FieldArray>
+
+        <button
+          className="button is-fullwidth"
+          type="button"
+          onClick={() => push('teamStats', DEFAULT_ELIMINATION_TEAM_STAT)}
+        >
+          Add team stats
+        </button>
+
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-    </form>
+    </div>
   );
 };
 

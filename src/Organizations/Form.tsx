@@ -40,39 +40,49 @@ const Form: React.FC<FormRenderProps<OrganizationEntity>> = ({
   pristine
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="control">
-          <Field
-            name="name"
-            component={StringInput}
-            type="text"
-            placeholder="Name"
-          />
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Name</label>
+          <div className="control">
+            <Field
+              name="name"
+              component={StringInput}
+              type="text"
+              placeholder="Name"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">Slug</label>
-        <div className="control">
-          <Field
-            name="slug"
-            component={StringInput}
-            type="text"
-            placeholder="slug"
-          />
+        <div className="field">
+          <label className="label">Slug</label>
+          <div className="control">
+            <Field
+              name="slug"
+              component={StringInput}
+              type="text"
+              placeholder="slug"
+            />
+          </div>
         </div>
-      </div>
 
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-    </form>
+    </div>
   );
 };
 
