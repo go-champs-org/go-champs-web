@@ -16,6 +16,7 @@ import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps {
+  basePhaseManageUrl: string;
   organizationSlug: string;
   phaseId: string;
   tournamentSlug: string;
@@ -68,6 +69,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 type DrawNewProps = ConnectedProps<typeof connector>;
 
 const DrawNew: React.FC<DrawNewProps> = ({
+  basePhaseManageUrl,
   organizationSlug,
   phase,
   postDraw,
@@ -94,6 +96,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
               render={(props: FormRenderProps<DrawEntity>) => (
                 <DrawForm
                   {...props}
+                  backUrl={`${basePhaseManageUrl}/Draws`}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                 />

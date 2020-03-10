@@ -4,6 +4,7 @@ import { DrawEntity, DEFAULT_DRAW_MATCH, DrawMatchEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
+import { Link } from 'react-router-dom';
 
 interface MatchFormProps {
   name: string;
@@ -144,11 +145,13 @@ const MatchForm: React.FC<MatchFormProps> = ({
 };
 
 interface FormProps extends FormRenderProps<DrawEntity> {
+  backUrl: string;
   push: (fieldName: string, draw: DrawMatchEntity) => {};
   selectInputTeams: SelectOptionType[];
 }
 
 const Form: React.FC<FormProps> = ({
+  backUrl,
   handleSubmit,
   submitting,
   push,
@@ -196,13 +199,15 @@ const Form: React.FC<FormProps> = ({
         </button>
       </form>
 
-      <button className="button is-small is-info is-outlined">
-        <span className="icon">
-          <i className="fas fa-caret-left"></i>
-        </span>
+      <Link to={backUrl}>
+        <button className="button is-small is-info is-outlined">
+          <span className="icon">
+            <i className="fas fa-caret-left"></i>
+          </span>
 
-        <span>Back</span>
-      </button>
+          <span>Back</span>
+        </button>
+      </Link>
     </div>
   );
 };

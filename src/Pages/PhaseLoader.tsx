@@ -129,6 +129,7 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
     phaseId = ''
   } = match.params;
   const selectedPhaseId = phaseId ? phaseId : currentPhaseId;
+  const basePhaseManageUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${selectedPhaseId}`;
   return (
     <ComponentLoader
       canRender={!tournamentLoading}
@@ -140,6 +141,7 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <DrawEdit
               {...props}
+              basePhaseManageUrl={basePhaseManageUrl}
               organizationSlug={organizationSlug}
               phaseId={selectedPhaseId}
               getGamesByFilter={getGamesByFilter}
@@ -178,6 +180,7 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewDraw`}
           render={() => (
             <DrawNew
+              basePhaseManageUrl={basePhaseManageUrl}
               organizationSlug={organizationSlug}
               phaseId={selectedPhaseId}
               getGamesByFilter={getGamesByFilter}

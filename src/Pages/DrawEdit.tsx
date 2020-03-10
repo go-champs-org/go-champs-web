@@ -17,6 +17,7 @@ import { Mutator } from 'final-form';
 import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
+  basePhaseManageUrl: string;
   organizationSlug: string;
   phaseId: string;
   tournamentSlug: string;
@@ -45,6 +46,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type DrawNewProps = ConnectedProps<typeof connector> & OwnProps;
 
 const DrawNew: React.FC<DrawNewProps> = ({
+  basePhaseManageUrl,
   draw,
   organizationSlug,
   phase,
@@ -72,6 +74,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
               render={(props: FormRenderProps<DrawEntity>) => (
                 <DrawForm
                   {...props}
+                  backUrl={`${basePhaseManageUrl}/Draws`}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                 />
