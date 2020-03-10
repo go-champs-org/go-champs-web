@@ -11,6 +11,7 @@ import {
 import { FieldArray } from 'react-final-form-arrays';
 import { PHASE_TYPES_OPTIONS } from './constans';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
+import { Link } from 'react-router-dom';
 
 interface StatFormProps {
   name: string;
@@ -42,10 +43,12 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
 };
 
 interface FormProps extends FormRenderProps<PhaseEntity> {
+  backUrl: string;
   push: (fieldName: string, stat: StatEntity) => {};
 }
 
 const Form: React.FC<FormProps> = ({
+  backUrl,
   handleSubmit,
   submitting,
   pristine,
@@ -128,13 +131,15 @@ const Form: React.FC<FormProps> = ({
         </button>
       </form>
 
-      <button className="button is-small is-info is-outlined">
-        <span className="icon">
-          <i className="fas fa-caret-left"></i>
-        </span>
+      <Link to={backUrl}>
+        <button className="button is-small is-info is-outlined">
+          <span className="icon">
+            <i className="fas fa-caret-left"></i>
+          </span>
 
-        <span>Back</span>
-      </button>
+          <span>Back</span>
+        </button>
+      </Link>
     </div>
   );
 };

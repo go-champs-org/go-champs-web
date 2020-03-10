@@ -67,6 +67,7 @@ type PhaseNewProps = ConnectedProps<typeof connector>;
 
 const PhaseNew: React.FC<PhaseNewProps> = ({ match, postPhase }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const backUrl = `/${organizationSlug}/${tournamentSlug}/Phases`;
   return (
     <Fragment>
       <div className="column">
@@ -85,7 +86,11 @@ const PhaseNew: React.FC<PhaseNewProps> = ({ match, postPhase }) => {
                 }
               }
               render={(props: FormRenderProps<PhaseEntity>) => (
-                <PhaseForm {...props} push={props.form.mutators.push} />
+                <PhaseForm
+                  {...props}
+                  backUrl={backUrl}
+                  push={props.form.mutators.push}
+                />
               )}
             />
           </div>
