@@ -4,8 +4,41 @@ import { RouteProps } from './support/routerInterfaces';
 import OrganizationEdit from './OrganizationEdit';
 import TournamentList from './TournamentList';
 import TournamentNew from './TournamentNew';
+import { StoreState } from '../store';
+import {
+  organizationBySlug,
+  organizationsLoading
+} from '../Organizations/selectors';
+import { connect, ConnectedProps } from 'react-redux';
+import withOrganizations from './support/withOrganizations';
+import { getOrganizations } from '../Organizations/effects';
+import { bindActionCreators, Dispatch } from 'redux';
 
-const OrganizationHome: React.FC<RouteComponentProps<RouteProps>> = ({
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => ({
+  organization: organizationBySlug(
+    state.organizations,
+    props.match.params.organizationSlug
+  ),
+  organizationsLoading: organizationsLoading(state.organizations)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getOrganizations
+    },
+    dispatch
+  );
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type OrganizationHomeProps = ConnectedProps<typeof connector> &
+  RouteComponentProps<RouteProps>;
+
+const OrganizationHome: React.FC<OrganizationHomeProps> = ({
+  organization,
   match: {
     params: { organizationSlug }
   }
@@ -18,7 +51,7 @@ const OrganizationHome: React.FC<RouteComponentProps<RouteProps>> = ({
     <div>
       <div className="columns is-multiline">
         <header className="column is-12">
-          <h1 className="title">Organization</h1>
+          <h1 className="title">{organization.name}</h1>
         </header>
 
         <div className="column is-8">
@@ -66,4 +99,4 @@ const OrganizationHome: React.FC<RouteComponentProps<RouteProps>> = ({
   );
 };
 
-export default OrganizationHome;
+export default connector(withOrganizations(OrganizationHome));
