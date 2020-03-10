@@ -27,27 +27,37 @@ const Form: React.FC<FormRenderProps<TeamEntity>> = ({
   pristine
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="field">
-        <label className="label">Name</label>
-        <div className="control">
-          <Field
-            name="name"
-            component={StringInput}
-            type="text"
-            placeholder="Name"
-          />
+    <div>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="field">
+          <label className="label">Name</label>
+          <div className="control">
+            <Field
+              name="name"
+              component={StringInput}
+              type="text"
+              placeholder="Name"
+            />
+          </div>
         </div>
-      </div>
 
-      <button
-        className="button is-primary"
-        type="submit"
-        disabled={submitting || pristine}
-      >
-        Save
+        <button
+          className="button is-primary"
+          type="submit"
+          disabled={submitting || pristine}
+        >
+          Save
+        </button>
+      </form>
+
+      <button className="button is-small is-info is-outlined">
+        <span className="icon">
+          <i className="fas fa-caret-left"></i>
+        </span>
+
+        <span>Back</span>
       </button>
-    </form>
+    </div>
   );
 };
 
