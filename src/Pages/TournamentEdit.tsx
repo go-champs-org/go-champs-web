@@ -6,7 +6,7 @@ import { getTournamentBySlug, patchTournament } from '../Tournaments/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
-import { Form } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
 import withTournament from './support/withTournament';
 import { TournamentEntity } from '../Tournaments/state';
@@ -78,6 +78,7 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
   patchTournament
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const backUrl = `/${organizationSlug}/${tournamentSlug}`;
   return (
     <Fragment>
       <div className="column">
@@ -94,7 +95,9 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
               <Form
                 onSubmit={patchTournament}
                 initialValues={tournament}
-                render={TournamentForm}
+                render={(props: FormRenderProps<TournamentEntity>) => (
+                  <TournamentForm {...props} backUrl={backUrl} />
+                )}
               />
             </ComponentLoader>
           </div>

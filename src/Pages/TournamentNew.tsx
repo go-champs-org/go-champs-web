@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { postTournament } from '../Tournaments/effects';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
-import { Form } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -22,10 +22,10 @@ interface OwnProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
 }
 
-type StateProps = {
+interface StateProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
   organizationsLoading: boolean;
-};
+}
 
 type DispatchProps = {
   getOrganizations: () => (dispatch: Dispatch<AnyAction>) => Promise<void>;
@@ -38,6 +38,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { organizationSlug } = props.match.params;
   return {
+    ...props,
     organization: organizationBySlug(state.organizations, organizationSlug),
     organizationsLoading: organizationsLoading(state.organizations)
   };
@@ -67,9 +68,12 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 type TournamentNewProps = ConnectedProps<typeof connector>;
 
 const TournamentNew: React.FC<TournamentNewProps> = ({
+  match,
   organizationsLoading,
   postTournament
 }) => {
+  const { organizationSlug = '' } = match.params;
+  const backUrl = `/Organization/${organizationSlug}`;
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -85,7 +89,9 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
             <Form
               onSubmit={postTournament}
               initialValues={DEFAULT_TOURNAMENT}
-              render={TournamentForm}
+              render={(props: FormRenderProps<TournamentEntity>) => (
+                <TournamentForm {...props} backUrl={backUrl} />
+              )}
             />
           </ComponentLoader>
         </div>
