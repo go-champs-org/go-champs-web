@@ -14,7 +14,10 @@ module.exports = {
       .setValue('input[name="info"]', 'Info')
       .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test elimination (can delete) created!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .useCss()
+      .assert.containsText('.card-header-title', 'Test elimination (can delete)')
       .end();
   },
 
@@ -32,7 +35,10 @@ module.exports = {
       .setValue('input[name="title"]', ' edited')
       .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test elimination (can delete) edited updated!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .useCss()
+      .assert.containsText('.card-header-title', 'Test elimination (can delete) edited')
       .end();
   },
 
@@ -46,7 +52,7 @@ module.exports = {
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test elimination (can delete) edited')]/../../div/button")
       .useCss()
-      .assert.containsText('.notification', 'Test elimination (can delete) edited deleted!')
+      .assert.not.elementPresent('.card-header-title')
       .end();
   }
 }
