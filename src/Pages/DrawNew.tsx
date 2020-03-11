@@ -14,6 +14,7 @@ import { phaseByIdOrDefault } from '../Phases/selectors';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { postingDraw } from '../Draws/selectors';
 
 interface OwnProps {
   basePhaseManageUrl: string;
@@ -23,6 +24,7 @@ interface OwnProps {
 }
 
 type StateProps = {
+  isPostingDraw: boolean;
   phase: PhaseEntity;
   selectInputTeams: SelectOptionType[];
 };
@@ -36,6 +38,7 @@ type DispatchProps = {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
+    isPostingDraw: postingDraw(state.draws),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams)
   };
@@ -70,6 +73,7 @@ type DrawNewProps = ConnectedProps<typeof connector>;
 
 const DrawNew: React.FC<DrawNewProps> = ({
   basePhaseManageUrl,
+  isPostingDraw,
   organizationSlug,
   phase,
   postDraw,
@@ -97,6 +101,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
                 <DrawForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Draws`}
+                  isLoading={isPostingDraw}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                 />

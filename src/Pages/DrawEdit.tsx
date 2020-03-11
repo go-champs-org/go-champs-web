@@ -10,7 +10,7 @@ import arrayMutators from 'final-form-arrays';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { drawById } from '../Draws/selectors';
+import { drawById, patchingDraw } from '../Draws/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { Mutator } from 'final-form';
@@ -27,6 +27,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { drawId = '' } = props.match.params;
   return {
     draw: drawById(state.draws, drawId),
+    isPatchingDraw: patchingDraw(state.draws),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams)
   };
@@ -48,6 +49,7 @@ type DrawNewProps = ConnectedProps<typeof connector> & OwnProps;
 const DrawNew: React.FC<DrawNewProps> = ({
   basePhaseManageUrl,
   draw,
+  isPatchingDraw,
   organizationSlug,
   phase,
   patchDraw,
@@ -75,6 +77,7 @@ const DrawNew: React.FC<DrawNewProps> = ({
                 <DrawForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Draws`}
+                  isLoading={isPatchingDraw}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                 />

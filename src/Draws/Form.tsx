@@ -5,6 +5,7 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import { FieldArray } from 'react-final-form-arrays';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import { Link } from 'react-router-dom';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 interface MatchFormProps {
   name: string;
@@ -146,12 +147,14 @@ const MatchForm: React.FC<MatchFormProps> = ({
 
 interface FormProps extends FormRenderProps<DrawEntity> {
   backUrl: string;
+  isLoading: boolean;
   push: (fieldName: string, draw: DrawMatchEntity) => {};
   selectInputTeams: SelectOptionType[];
 }
 
 const Form: React.FC<FormProps> = ({
   backUrl,
+  isLoading,
   handleSubmit,
   submitting,
   push,
@@ -190,13 +193,14 @@ const Form: React.FC<FormProps> = ({
           Add match
         </button>
 
-        <button
+        <LoadingButton
+          isLoading={isLoading}
           className="button is-primary"
           type="submit"
           disabled={submitting || pristine}
         >
           Save
-        </button>
+        </LoadingButton>
       </form>
 
       <Link to={backUrl}>
