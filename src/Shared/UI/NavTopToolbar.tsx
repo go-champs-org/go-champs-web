@@ -20,7 +20,7 @@ class NavTopToolbar extends React.Component {
 
           <span
             role="button"
-            className="navbar-burger burger has-badge-bottom-left has-badge-rounded has-badge-small has-badge-success"
+            className="navbar-burger burger"
             data-badge=""
             aria-label="menu"
             aria-expanded="false"
@@ -55,16 +55,7 @@ class NavTopToolbar extends React.Component {
             </AdminWrapper>
 
             <a href="/UseAsApp" className="navbar-item has-text-centered-touch">
-              <span
-                className="has-badge-rounded has-badge-small has-badge-success"
-                data-badge=""
-              >
-                Use como App
-              </span>
-            </a>
-
-            <a href="/" className="navbar-item has-text-centered-touch">
-              Go Champs!
+              Use no celular
             </a>
 
             <a href="/" className="navbar-item has-text-centered-touch">
