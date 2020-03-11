@@ -12,6 +12,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { PHASE_TYPES_OPTIONS } from './constans';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import { Link } from 'react-router-dom';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 interface StatFormProps {
   name: string;
@@ -44,11 +45,13 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
 
 interface FormProps extends FormRenderProps<PhaseEntity> {
   backUrl: string;
+  isLoading: boolean;
   push: (fieldName: string, stat: StatEntity) => {};
 }
 
 const Form: React.FC<FormProps> = ({
   backUrl,
+  isLoading,
   handleSubmit,
   submitting,
   pristine,
@@ -122,13 +125,14 @@ const Form: React.FC<FormProps> = ({
           </Fragment>
         )}
 
-        <button
+        <LoadingButton
+          isLoading={isLoading}
           className="button is-primary"
           type="submit"
           disabled={submitting || pristine}
         >
           Save
-        </button>
+        </LoadingButton>
       </form>
 
       <Link to={backUrl}>

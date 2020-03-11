@@ -15,10 +15,12 @@ import withTournament from './support/withTournament';
 import { TournamentEntity } from '../Tournaments/state';
 import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
+import { postingPhase } from '../Phases/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
 type StateProps = {
+  isPostingPhase: boolean;
   tournament: TournamentEntity;
 };
 
@@ -32,6 +34,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { tournamentSlug } = props.match.params;
   return {
+    isPostingPhase: postingPhase(state.phases),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -65,7 +68,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 
 type PhaseNewProps = ConnectedProps<typeof connector>;
 
-const PhaseNew: React.FC<PhaseNewProps> = ({ match, postPhase }) => {
+const PhaseNew: React.FC<PhaseNewProps> = ({
+  isPostingPhase,
+  match,
+  postPhase
+}) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Phases`;
   return (
@@ -88,6 +95,7 @@ const PhaseNew: React.FC<PhaseNewProps> = ({ match, postPhase }) => {
               render={(props: FormRenderProps<PhaseEntity>) => (
                 <PhaseForm
                   {...props}
+                  isLoading={isPostingPhase}
                   backUrl={backUrl}
                   push={props.form.mutators.push}
                 />

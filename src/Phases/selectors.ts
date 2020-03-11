@@ -8,9 +8,6 @@ export const phases = (state: PhaseState): PhaseEntity[] => {
 export const sortedPhases = (state: PhaseState): PhaseEntity[] =>
   phases(state).sort(byOrder);
 
-export const phaseLoading = (state: PhaseState): boolean =>
-  state.isLoadingPhase;
-
 export const phaseByIdOrDefault = (state: PhaseState, phaseId?: string) => {
   if (phaseId && state.phases[phaseId]) {
     return state.phases[phaseId];
@@ -25,3 +22,12 @@ export const selectedPhase = (state: PhaseState): PhaseEntity | undefined =>
 
 export const currentPhaseId = (state: PhaseState): string =>
   state.currentPhaseId;
+
+export const phaseLoading = (state: PhaseState): boolean =>
+  state.isLoadingPhase;
+export const patchingPhase = (state: PhaseState): boolean =>
+  state.isLoadingPatchPhase;
+export const postingPhase = (state: PhaseState): boolean =>
+  state.isLoadingPostPhase;
+export const deletingPhase = (state: PhaseState): boolean =>
+  state.isLoadingDeletePhase;

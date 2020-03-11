@@ -12,12 +12,13 @@ import { getGamesByFilter } from '../Games/effects';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import arrayMutators from 'final-form-arrays';
-import { phaseByIdOrDefault } from '../Phases/selectors';
+import { phaseByIdOrDefault, patchingPhase } from '../Phases/selectors';
 import { Mutator } from 'final-form';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
 type StateProps = {
+  isPatchingPhase: boolean;
   phase: PhaseEntity;
 };
 
@@ -30,6 +31,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { phaseId } = props.match.params;
   return {
+    isPatchingPhase: patchingPhase(state.phases),
     phase: phaseByIdOrDefault(state.phases, phaseId)
   };
 };
@@ -63,7 +65,12 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 
 type PhaseNewProps = ConnectedProps<typeof connector>;
 
-const PhaseNew: React.FC<PhaseNewProps> = ({ match, patchPhase, phase }) => {
+const PhaseNew: React.FC<PhaseNewProps> = ({
+  isPatchingPhase,
+  match,
+  patchPhase,
+  phase
+}) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Phases`;
   return (
@@ -87,6 +94,7 @@ const PhaseNew: React.FC<PhaseNewProps> = ({ match, patchPhase, phase }) => {
                 <PhaseForm
                   {...props}
                   backUrl={backUrl}
+                  isLoading={isPatchingPhase}
                   push={props.form.mutators.push}
                 />
               )}
