@@ -33,6 +33,7 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="title"]', ' edited')
+      .pause(500)
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")

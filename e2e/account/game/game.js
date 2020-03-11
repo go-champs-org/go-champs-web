@@ -21,6 +21,7 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
+      .refresh()
       .useCss()
       .assert.containsText('.card-header-title', 'Test team (cannot delete) A')
       .end();
