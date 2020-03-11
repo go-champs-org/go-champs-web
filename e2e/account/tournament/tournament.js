@@ -2,21 +2,24 @@ module.exports = {
   'Add new tournament': function (client) {
     client
       .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .click('a[href="/Organization/test-organization-cannot-delete/NewTournament"]')
       .assert.title('Go Champs! | New Tournament')
       .pause(1000)
       .setValue('input[name="name"]', 'Test tournament (can delete)')
       .setValue('input[name="slug"]', 'test-tournament-can-delete')
-      .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test tournament (can delete) created!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test tournament (can delete)')]")
       .end();
   },
 
   'Edit tournament': function (client) {
     client
-    .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
+      .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test tournament (can delete)')]")
@@ -26,20 +29,21 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="name"]', ' edited')
-      .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test tournament (can delete) edited updated!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//h1[contains(text(), 'Test tournament (can delete) edited')]")
       .end();
   },
 
   'Delete tournament': function (client) {
     client
       .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
-      .click("//*[contains(text(), 'Test tournament (can delete)')]/../../div/button")
-      .useCss()
-      .assert.containsText('.notification', 'Test tournament (can delete) edited deleted!')
+      .click("//*[contains(text(), 'Test tournament (can delete) edited')]/../../div/button")
+      .assert.not.elementPresent("//*[contains(text(), 'Test tournement (can delete) edited')]")
       .end();
   }
 }
