@@ -2,6 +2,7 @@ module.exports = {
   'Add new organization': function (client) {
     client
       .url(`${client.launchUrl}Account`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .click('a[href="/Account/NewOrganization"]')
       .assert.title('Go Champs! | New Organization')
@@ -10,13 +11,16 @@ module.exports = {
       .setValue('input[name="slug"]', 'test-organization-can-delete')
       .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test organization (can delete) created!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test organization (can delete)')]")
       .end();
   },
 
   'Edit organization': function (client) {
     client
       .url(`${client.launchUrl}Account`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete)')]")
@@ -27,18 +31,20 @@ module.exports = {
       .setValue('input[name="name"]', ' edited')
       .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test organization (can delete) edited updated!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test organization (can delete) edited')]")
       .end();
   },
 
   'Delete organization': function (client) {
     client
       .url(`${client.launchUrl}Account`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button")
-      .useCss()
-      .assert.containsText('.notification', 'Test organization (can delete) edited deleted!')
+      .assert.not.elementPresent("//*[contains(text(), 'Test organization (can delete) edited')]")
       .end();
   }
 }
