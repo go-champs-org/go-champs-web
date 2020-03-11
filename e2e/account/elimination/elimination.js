@@ -2,6 +2,7 @@ module.exports = {
   'Add new elimination': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -16,14 +17,14 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .useCss()
-      .assert.containsText('.card-header-title', 'Test elimination (can delete)')
+      .assert.visible("//*[contains(text(), 'Test elimination (can delete)')]")
       .end();
   },
 
   'Edit elimination': function (client) {
     client
     .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -37,14 +38,14 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .useCss()
-      .assert.containsText('.card-header-title', 'Test elimination (can delete) edited')
+      .assert.visible("//*[contains(text(), 'Test elimination (can delete) edited')]")
       .end();
   },
 
   'Delete elimination': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
