@@ -2,6 +2,7 @@ module.exports = {
   'Load account page': function (client) {
     client
       .url(`${client.launchUrl}Account`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .assert.title('Go Champs! | My Account')
       .end();
@@ -10,6 +11,7 @@ module.exports = {
   'List account organizations': function (client) {
     client
       .url(`${client.launchUrl}Account`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .assert.elementPresent('.card')
       .end();

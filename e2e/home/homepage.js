@@ -2,6 +2,7 @@ module.exports = {
   'Load home page': function (client) {
     client
       .url(client.launchUrl)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .assert.title('Go Champs!')
       .end();
@@ -10,6 +11,7 @@ module.exports = {
   'Navigates to search': function (client) {
     client
       .url(client.launchUrl)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .click('a[href="/Search"]')
       .assert.title('Go Champs! | Search Tournaments')
@@ -19,6 +21,7 @@ module.exports = {
   'Send email': function (client) {
     client
       .url(client.launchUrl)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .setValue('input[name=name]', 'Some name')
       .setValue('input[name=email]', 'test@test.com')
