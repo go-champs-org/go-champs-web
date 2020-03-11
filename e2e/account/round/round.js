@@ -2,6 +2,7 @@ module.exports = {
   'Add new round': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
@@ -18,13 +19,16 @@ module.exports = {
       .setValue('input[name="matches[0].secondTeamPlaceholder"]', 'Second team placeholder')
       .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test round (can delete) created!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test round (can delete)')]")
       .end();
   },
 
   'Edit round': function (client) {
     client
     .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+    .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
@@ -36,21 +40,23 @@ module.exports = {
       .setValue('input[name="title"]', ' edited')
       .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test round (can delete) edited updated!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test round (can delete) edited')]")
       .end();
   },
 
   'Delete round': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
       .click("//*[contains(text(), 'Rounds')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button")
-      .useCss()
-      .assert.containsText('.notification', 'Test round (can delete) edited deleted!')
+      .assert.not.elementPresent("//*[contains(text(), 'Test round (can delete) edited')]")
       .end();
   }
 }
