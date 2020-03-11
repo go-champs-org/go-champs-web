@@ -7,12 +7,13 @@ import { patchTeam } from '../Teams/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsLoading, teamById } from '../Teams/selectors';
-import { Form } from 'react-final-form';
-import { default as TournamentForm, FormLoading } from '../Teams/Form';
+import { Form, FormRenderProps } from 'react-final-form';
+import { default as TeamForm, FormLoading } from '../Teams/Form';
 import withTournament from './support/withTournament';
 import { organizationBySlug } from '../Organizations/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import { TeamEntity } from '../Teams/state';
 
 const mapStateToProps = (
   state: StoreState,
@@ -48,6 +49,7 @@ const TeamEdit: React.FC<TeamEditProps> = ({
   patchTeam
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const backUrl = `/${organizationSlug}/${tournamentSlug}/Teams`;
   return (
     <Fragment>
       <div className="column">
@@ -61,7 +63,9 @@ const TeamEdit: React.FC<TeamEditProps> = ({
               <Form
                 onSubmit={patchTeam}
                 initialValues={team}
-                render={TournamentForm}
+                render={(props: FormRenderProps<TeamEntity>) => (
+                  <TeamForm {...props} backUrl={backUrl} />
+                )}
               />
             </ComponentLoader>
           </div>

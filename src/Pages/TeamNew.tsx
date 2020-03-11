@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { postTeam } from '../Teams/effects';
 import { default as TeamForm } from '../Teams/Form';
-import { Form } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
 import { DEFAULT_TEAM, TeamEntity } from '../Teams/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -65,6 +65,7 @@ type TeamNewProps = ConnectedProps<typeof connector>;
 
 const TeamNew: React.FC<TeamNewProps> = ({ match, postTeam }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const backUrl = `/${organizationSlug}/${tournamentSlug}/Teams`;
   return (
     <Fragment>
       <div className="column">
@@ -77,7 +78,9 @@ const TeamNew: React.FC<TeamNewProps> = ({ match, postTeam }) => {
             <Form
               onSubmit={postTeam}
               initialValues={DEFAULT_TEAM}
-              render={TeamForm}
+              render={(props: FormRenderProps<TeamEntity>) => (
+                <TeamForm {...props} backUrl={backUrl} />
+              )}
             />
           </div>
         </div>

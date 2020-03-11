@@ -3,6 +3,7 @@ import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { TeamEntity } from './state';
+import { Link } from 'react-router-dom';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -21,7 +22,12 @@ export const FormLoading: React.FC = () => (
   </div>
 );
 
-const Form: React.FC<FormRenderProps<TeamEntity>> = ({
+interface FormProps extends FormRenderProps<TeamEntity> {
+  backUrl: string;
+}
+
+const Form: React.FC<FormProps> = ({
+  backUrl,
   handleSubmit,
   submitting,
   pristine
@@ -50,13 +56,15 @@ const Form: React.FC<FormRenderProps<TeamEntity>> = ({
         </button>
       </form>
 
-      <button className="button is-small is-info is-outlined">
-        <span className="icon">
-          <i className="fas fa-caret-left"></i>
-        </span>
+      <Link to={backUrl}>
+        <button className="button is-small is-info is-outlined">
+          <span className="icon">
+            <i className="fas fa-caret-left"></i>
+          </span>
 
-        <span>Back</span>
-      </button>
+          <span>Back</span>
+        </button>
+      </Link>
     </div>
   );
 };
