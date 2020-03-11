@@ -2,6 +2,7 @@ module.exports = {
   'Add new team': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -11,15 +12,17 @@ module.exports = {
       .click('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewTeam"]')
       .pause(1000)
       .setValue('input[name="name"]', 'Test team (can delete)')
-      .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test team (can delete) created!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test team (can delete)')]")
       .end();
   },
 
   'Edit team': function (client) {
     client
     .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
@@ -28,22 +31,23 @@ module.exports = {
       .useCss()
       .pause(1000)
       .setValue('input[name="name"]', ' edited')
-      .pause(1000)
       .click('button[type=submit]')
-      .assert.containsText('.notification', 'Test team (can delete) edited updated!')
+      .useXpath()
+      .click("//*[contains(text(), 'Back')]")
+      .assert.visible("//*[contains(text(), 'Test team (can delete) edited')]")
       .end();
   },
 
   'Delete team': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
       .click("//*[contains(text(), 'Teams')]")
       .click("//*[contains(text(), 'Test team (can delete) edited')]/../../div/button")
-      .useCss()
-      .assert.containsText('.notification', 'Test team (can delete) edited deleted!')
+      .assert.not.elementPresent("//*[contains(text(), 'Test team (can delete) edited')]")
       .end();
   }
 }
