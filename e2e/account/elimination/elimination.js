@@ -38,6 +38,7 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
+      .refresh()
       .assert.visible("//*[contains(text(), 'Test elimination (can delete) edited') and contains(@class, 'title')]")
       .end();
   },
