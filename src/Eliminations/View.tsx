@@ -1,18 +1,18 @@
 import React from 'react';
-import { PhaseEliminationStatEntity } from '../Phases/EliminationStats/state';
+import { StatEntity } from '../Phases/state';
 import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 
 const TeamEliminationRow: React.FC<{
-  eliminationStats: PhaseEliminationStatEntity[];
+  eliminationStats: StatEntity[];
   firstColumnValue: string;
   teamStats: { [statId: string]: string };
 }> = ({ eliminationStats, firstColumnValue, teamStats }) => {
   return (
     <tr>
       <td style={{ paddingLeft: '0', width: '225px' }}>{firstColumnValue}</td>
-      {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
+      {eliminationStats.map((stat: StatEntity) => (
         <td key={stat.id} className="has-text-centered">
           {teamStats[stat.id]}
         </td>
@@ -22,13 +22,13 @@ const TeamEliminationRow: React.FC<{
 };
 
 const EliminationHeader: React.FC<{
-  tournamentStat: PhaseEliminationStatEntity;
+  tournamentStat: StatEntity;
 }> = ({ tournamentStat }) => (
   <th className="has-text-centered">{tournamentStat.title}</th>
 );
 
 interface EliminationProps {
-  eliminationStats: PhaseEliminationStatEntity[];
+  eliminationStats: StatEntity[];
   eliminations: EliminationEntity;
   teams: { [id: string]: TeamEntity };
 }
@@ -55,7 +55,7 @@ const Elimination: React.FC<EliminationProps> = ({
           <thead>
             <tr>
               <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>
-              {eliminationStats.map((stat: PhaseEliminationStatEntity) => (
+              {eliminationStats.map((stat: StatEntity) => (
                 <EliminationHeader key={stat.id} tournamentStat={stat} />
               ))}
             </tr>
@@ -90,7 +90,7 @@ const Elimination: React.FC<EliminationProps> = ({
 };
 
 interface TournamentEliminationViewProps {
-  eliminationStats: PhaseEliminationStatEntity[];
+  eliminationStats: StatEntity[];
   eliminations: EliminationEntity[];
   teams: { [id: string]: TeamEntity };
 }

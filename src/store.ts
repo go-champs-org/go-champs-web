@@ -9,8 +9,6 @@ import { default as tournamentGameReducer } from './Games/reducer';
 import { GameState } from './Games/state';
 import { default as organizationReducer } from './Organizations/reducer';
 import { OrganizationState } from './Organizations/state';
-import { default as eliminationStatReducer } from './Phases/EliminationStats/reducer';
-import { PhaseEliminationStatState } from './Phases/EliminationStats/state';
 import { default as tournamentPhaseReducer } from './Phases/reducer';
 import { PhaseState } from './Phases/state';
 import { default as teamReducer } from './Teams/reducer';
@@ -21,7 +19,6 @@ import { TournamentState } from './Tournaments/state';
 export interface StoreState {
   draws: DrawState;
   eliminations: EliminationState;
-  eliminationStats: PhaseEliminationStatState;
   games: GameState;
   organizations: OrganizationState;
   phases: PhaseState;
@@ -33,7 +30,6 @@ export default createStore(
   combineReducers({
     draws: drawsReducer,
     eliminations: eliminationsReducer,
-    eliminationStats: eliminationStatReducer,
     games: tournamentGameReducer,
     organizations: organizationReducer,
     phases: tournamentPhaseReducer,

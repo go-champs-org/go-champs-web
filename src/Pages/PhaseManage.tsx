@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { StoreState } from '../store';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
-import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { draws } from '../Draws/selectors';
 import { sortedEliminations } from '../Eliminations/selectors';
 import { connect, ConnectedProps } from 'react-redux';
@@ -22,7 +21,6 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
-    eliminationStats: eliminationStats(state.eliminationStats),
     draws: draws(state.draws),
     eliminations: sortedEliminations(state.eliminations),
     teams: state.teams.teams
@@ -37,7 +35,6 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
   organizationSlug,
   phase,
   phases,
-  eliminationStats,
   draws,
   eliminations,
   teams,
@@ -47,7 +44,7 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
     phase.type === PhaseTypes.elimination ? (
       <EliminationView
         {...{
-          eliminationStats,
+          eliminationStats: phase.eliminationStats,
           eliminations,
           teams
         }}

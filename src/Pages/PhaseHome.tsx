@@ -9,7 +9,6 @@ import {
   gamesCloserGameDatePosition,
   gamesLoading
 } from '../Games/selectors';
-import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { draws } from '../Draws/selectors';
 import { sortedEliminations } from '../Eliminations/selectors';
 import { default as DrawView } from '../Draws/View';
@@ -33,7 +32,6 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     gameDates: gameDates(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
-    eliminationStats: eliminationStats(state.eliminationStats),
     draws: draws(state.draws),
     eliminations: sortedEliminations(state.eliminations),
     teams: state.teams.teams
@@ -52,7 +50,6 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   organizationSlug,
   phase,
   phases,
-  eliminationStats,
   draws,
   eliminations,
   teams,
@@ -62,7 +59,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
     phase!.type === PhaseTypes.elimination ? (
       <EliminationView
         {...{
-          eliminationStats,
+          eliminationStats: phase.eliminationStats,
           eliminations,
           teams
         }}

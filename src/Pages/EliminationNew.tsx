@@ -9,10 +9,9 @@ import { StoreState } from '../store';
 import AdminMenu from '../Tournaments/AdminMenu';
 import arrayMutators from 'final-form-arrays';
 import withPhase from './support/withPhase';
-import { PhaseEntity, StatEntity } from '../Phases/state';
+import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { Mutator } from 'final-form';
-import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { postingElimination } from '../Eliminations/selectors';
@@ -27,7 +26,6 @@ interface OwnProps {
 type StateProps = {
   isPostingElimination: boolean;
   phase: PhaseEntity;
-  stats: StatEntity[];
   selectInputTeams: SelectOptionType[];
 };
 
@@ -42,8 +40,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     isPostingElimination: postingElimination(state.eliminations),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    selectInputTeams: teamsForSelectInput(state.teams),
-    stats: eliminationStats(state.eliminationStats)
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
@@ -81,7 +78,6 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
   phase,
   postElimination,
   selectInputTeams,
-  stats,
   tournamentSlug
 }) => {
   return (
@@ -108,7 +104,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
                   isLoading={isPostingElimination}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
-                  stats={stats}
+                  stats={phase.eliminationStats}
                 />
               )}
             />

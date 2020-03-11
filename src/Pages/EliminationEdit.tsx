@@ -17,7 +17,6 @@ import {
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { Mutator } from 'final-form';
-import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
@@ -33,8 +32,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     elimination: eliminationById(state.eliminations, eliminationId),
     isPacthingElimination: patchingElimination(state.eliminations),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    selectInputTeams: teamsForSelectInput(state.teams),
-    stats: eliminationStats(state.eliminationStats)
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
@@ -59,7 +57,6 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
   phase,
   patchElimination,
   selectInputTeams,
-  stats,
   tournamentSlug
 }) => {
   return (
@@ -86,7 +83,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
                   isLoading={isPacthingElimination}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
-                  stats={stats}
+                  stats={phase.eliminationStats}
                 />
               )}
             />
