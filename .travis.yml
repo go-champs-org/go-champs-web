@@ -23,6 +23,7 @@ jobs:
       
     - stage: deploy_staging
       name: "Deploy staging"
+      if: branch = master
       before_deploy:
         - yarn build:staging
       deploy:
@@ -34,11 +35,13 @@ jobs:
 
     - stage: test_e2e_staging
       name: "Test e2e staging"
+      if: branch = master
       script: 
         - yarn run test:e2e --env=ci:staging
 
     - stage: deploy_admin
       name: "Deploy admin"
+      if: branch = master
       before_deploy:
         - yarn build:adm
       deploy:
@@ -50,11 +53,13 @@ jobs:
 
     - stage: test_e2e_prod
       name: "Test e2e prod"
+      if: branch = master
       script: 
         - yarn run test:e2e --env=ci:prod
 
     - stage: deploy_prod
       name: "Deploy prod"
+      if: branch = master
       before_deploy:
         - yarn build
       deploy:
