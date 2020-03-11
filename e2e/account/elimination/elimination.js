@@ -17,7 +17,7 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .assert.visible("//*[contains(text(), 'Test elimination (can delete)')]")
+      .assert.visible("//*[contains(text(), 'Test elimination (can delete)') and contains(@class, 'title')]")
       .end();
   },
 
@@ -38,7 +38,7 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .assert.visible("//*[contains(text(), 'Test elimination (can delete) edited')]")
+      .assert.visible("//*[contains(text(), 'Test elimination (can delete) edited') and contains(@class, 'title')]")
       .end();
   },
 
@@ -52,6 +52,7 @@ module.exports = {
       .click("//*[contains(text(), 'Eliminations')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test elimination (can delete) edited')]/../../div/button")
+      .pause(1000)
       .useCss()
       .assert.not.elementPresent('.card-header-title')
       .end();

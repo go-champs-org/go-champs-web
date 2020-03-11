@@ -16,7 +16,8 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .assert.visible("//*[contains(text(), 'Test phase (can delete)')]")
+      .refresh()
+      .assert.visible("//*[contains(text(), 'Test phase (can delete)') and contains(@class, 'title')]")
       .end();
   },
 
@@ -35,7 +36,8 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .assert.visible("//*[contains(text(), 'Test phase (can delete) edited')]")
+      .refresh()
+      .assert.visible("//*[contains(text(), 'Test phase (can delete) edited') and contains(@class, 'title')]")
       .end();
   },
 
@@ -48,8 +50,9 @@ module.exports = {
       .click("//*[contains(text(), 'Manage')]")
       .click("//*[contains(text(), 'Phases')]")
       .click("//*[contains(text(), 'Test phase (can delete) edited')]/../../div/button[2]")
+      .pause(1000)
       .refresh()
-      .assert.not.elementPresent("//*[contains(text(), 'Test phase (can delete) edited')]")
+      .assert.not.elementPresent("//*[contains(text(), 'Test phase (can delete) edited') and contains(@class, 'title')]")
       .end();
   }
 }

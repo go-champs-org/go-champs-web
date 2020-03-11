@@ -21,7 +21,7 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .assert.visible("//*[contains(text(), 'Test round (can delete)')]")
+      .assert.visible("//*[contains(text(), 'Test round (can delete)') and contains(@class, 'title')]")
       .end();
   },
 
@@ -42,7 +42,7 @@ module.exports = {
       .click('button[type=submit]')
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
-      .assert.visible("//*[contains(text(), 'Test round (can delete) edited')]")
+      .assert.visible("//*[contains(text(), 'Test round (can delete) edited') and contains(@class, 'title')]")
       .end();
   },
 
@@ -56,7 +56,8 @@ module.exports = {
       .click("//*[contains(text(), 'Rounds')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button")
-      .assert.not.elementPresent("//*[contains(text(), 'Test round (can delete) edited')]")
+      .pause(1000)
+      .assert.not.elementPresent("//*[contains(text(), 'Test round (can delete) edited') and contains(@class, 'title')]")
       .end();
   }
 }
