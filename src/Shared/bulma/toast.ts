@@ -7,7 +7,6 @@ export const displayToast = (message: string, type: ToastTypes) => {
     message: message,
     type: type,
     pauseOnHover: true,
-    duration: 4000,
     position: 'top-center',
     animate: { in: 'fadeIn', out: 'fadeOut' }
   });
