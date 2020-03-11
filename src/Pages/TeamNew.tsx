@@ -13,10 +13,12 @@ import withTournament from './support/withTournament';
 import { TournamentEntity } from '../Tournaments/state';
 import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
+import { postingTeam } from '../Teams/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
 type StateProps = {
+  isPostingTeam: boolean;
   tournament: TournamentEntity;
 };
 
@@ -30,6 +32,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { tournamentSlug } = props.match.params;
   return {
+    isPostingTeam: postingTeam(state.teams),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -63,7 +66,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 
 type TeamNewProps = ConnectedProps<typeof connector>;
 
-const TeamNew: React.FC<TeamNewProps> = ({ match, postTeam }) => {
+const TeamNew: React.FC<TeamNewProps> = ({
+  isPostingTeam,
+  match,
+  postTeam
+}) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Teams`;
   return (
@@ -79,7 +86,11 @@ const TeamNew: React.FC<TeamNewProps> = ({ match, postTeam }) => {
               onSubmit={postTeam}
               initialValues={DEFAULT_TEAM}
               render={(props: FormRenderProps<TeamEntity>) => (
-                <TeamForm {...props} backUrl={backUrl} />
+                <TeamForm
+                  {...props}
+                  backUrl={backUrl}
+                  isLoading={isPostingTeam}
+                />
               )}
             />
           </div>

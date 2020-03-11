@@ -1,9 +1,6 @@
 import { TeamEntity, TeamState, DEFAULT_TEAM } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 
-export const teamsLoading = (state: TeamState) =>
-  state.isLoadingRequestTournament;
-
 export const teamById = (state: TeamState, teamId?: string): TeamEntity => {
   if (!teamId || !state.teams[teamId]) {
     return DEFAULT_TEAM;
@@ -21,3 +18,12 @@ export const teamsForSelectInput = (state: TeamState): SelectOptionType[] => {
     label: team.name
   }));
 };
+
+export const teamsLoading = (state: TeamState) =>
+  state.isLoadingRequestTournament;
+export const patchingTeam = (state: TeamState): boolean =>
+  state.isLoadingPatchTeam;
+export const postingTeam = (state: TeamState): boolean =>
+  state.isLoadingPostTeam;
+export const deletingTeam = (state: TeamState): boolean =>
+  state.isLoadingDeleteTeam;

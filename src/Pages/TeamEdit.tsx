@@ -6,7 +6,7 @@ import { getTournamentBySlug } from '../Tournaments/effects';
 import { patchTeam } from '../Teams/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
-import { teamsLoading, teamById } from '../Teams/selectors';
+import { teamsLoading, teamById, patchingTeam } from '../Teams/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import { default as TeamForm, FormLoading } from '../Teams/Form';
 import withTournament from './support/withTournament';
@@ -22,6 +22,7 @@ const mapStateToProps = (
   const { organizationSlug } = props.match.params;
   return {
     ...props,
+    isPatchingTeam: patchingTeam(state.teams),
     organization: organizationBySlug(state.organizations, organizationSlug),
     teamsLoading: teamsLoading(state.teams),
     team: teamById(state.teams, props.match.params.teamId)
@@ -43,6 +44,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type TeamEditProps = ConnectedProps<typeof connector>;
 
 const TeamEdit: React.FC<TeamEditProps> = ({
+  isPatchingTeam,
   match,
   team,
   teamsLoading,
@@ -64,7 +66,11 @@ const TeamEdit: React.FC<TeamEditProps> = ({
                 onSubmit={patchTeam}
                 initialValues={team}
                 render={(props: FormRenderProps<TeamEntity>) => (
-                  <TeamForm {...props} backUrl={backUrl} />
+                  <TeamForm
+                    {...props}
+                    backUrl={backUrl}
+                    isLoading={isPatchingTeam}
+                  />
                 )}
               />
             </ComponentLoader>
