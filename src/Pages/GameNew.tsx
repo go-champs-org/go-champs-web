@@ -12,6 +12,7 @@ import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { postingGame } from '../Games/selectors';
 
 interface OwnProps {
   basePhaseManageUrl: string;
@@ -21,6 +22,7 @@ interface OwnProps {
 }
 
 type StateProps = {
+  isPostingGame: boolean;
   phase: PhaseEntity;
   selectInputTeams: SelectOptionType[];
 };
@@ -34,6 +36,7 @@ type DispatchProps = {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
+    isPostingGame: postingGame(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams)
   };
@@ -68,6 +71,7 @@ type GameNewProps = ConnectedProps<typeof connector>;
 
 const GameNew: React.FC<GameNewProps> = ({
   basePhaseManageUrl,
+  isPostingGame,
   organizationSlug,
   phase,
   postGame,
@@ -90,6 +94,7 @@ const GameNew: React.FC<GameNewProps> = ({
                 <GameForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Games`}
+                  isLoading={isPostingGame}
                   selectInputTeams={selectInputTeams}
                 />
               )}

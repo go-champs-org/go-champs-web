@@ -1,7 +1,5 @@
 import { GameEntity, GameState, DEFAULT_GAME } from './state';
 
-export const gamesLoading = (state: GameState) => state.isLoadingRequestGames;
-
 export const games = (state: GameState): GameEntity[] =>
   Object.keys(state.games).map((key: string) => state.games[key]);
 
@@ -65,3 +63,11 @@ export const gameById = (state: GameState, gameId: string) => {
   }
   return state.games[gameId];
 };
+
+export const gamesLoading = (state: GameState) => state.isLoadingRequestGames;
+export const patchingGame = (state: GameState): boolean =>
+  state.isLoadingPatchGame;
+export const postingGame = (state: GameState): boolean =>
+  state.isLoadingPostGame;
+export const deletingGame = (state: GameState): boolean =>
+  state.isLoadingDeleteGame;

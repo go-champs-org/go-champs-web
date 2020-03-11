@@ -19,7 +19,10 @@ import {
   GET_TOURNAMENT_GAME_SUCCESS,
   POST_TOURNAMENT_GAME,
   POST_TOURNAMENT_GAME_FAILURE,
-  POST_TOURNAMENT_GAME_SUCCESS
+  POST_TOURNAMENT_GAME_SUCCESS,
+  PATCH_TOURNAMENT_GAME,
+  PATCH_TOURNAMENT_GAME_FAILURE,
+  PATCH_TOURNAMENT_GAME_SUCCESS
 } from './actions';
 import { GameEntity, GameState, initialState } from './state';
 
@@ -51,6 +54,28 @@ const deleteGameSuccess = (
     games
   };
 };
+
+const patchGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
+  ...state,
+  isLoadingPatchGame: true
+});
+
+const patchGameFailure = (
+  state: GameState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingPatchGame: false
+});
+
+const patchGameSuccess = (
+  state: GameState,
+  action: HttpAction<ActionTypes, GameEntity>
+) => ({
+  ...state,
+  isLoadingPatchGame: false,
+  games: [action.payload].reduce(tournamentGameMapEntities, state.games)
+});
 
 const postGame = (state: GameState, action: HttpAction<ActionTypes>) => ({
   ...state,
@@ -122,6 +147,9 @@ export default createReducer(initialState, {
   [DELETE_TOURNAMENT_GAME]: deleteGame,
   [DELETE_TOURNAMENT_GAME_FAILURE]: deleteGameFailure,
   [DELETE_TOURNAMENT_GAME_SUCCESS]: deleteGameSuccess,
+  [PATCH_TOURNAMENT_GAME]: patchGame,
+  [PATCH_TOURNAMENT_GAME_FAILURE]: patchGameFailure,
+  [PATCH_TOURNAMENT_GAME_SUCCESS]: patchGameSuccess,
   [POST_TOURNAMENT_GAME]: postGame,
   [POST_TOURNAMENT_GAME_FAILURE]: postGameFailure,
   [POST_TOURNAMENT_GAME_SUCCESS]: postGameSuccess,

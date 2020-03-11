@@ -1,4 +1,5 @@
 import { HttpAction } from '../Shared/store/interfaces';
+import { GameEntity } from './state';
 
 export const DELETE_TOURNAMENT_GAME = 'API_DELETE_TOURNAMENT_GAME';
 export const DELETE_TOURNAMENT_GAME_SUCCESS =
@@ -41,7 +42,9 @@ export const patchGameStart = (): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_GAME
 });
 
-export const patchGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const patchGameSuccess = (
+  payload: GameEntity
+): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_GAME_SUCCESS,
   payload
 });

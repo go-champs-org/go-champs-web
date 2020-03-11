@@ -9,7 +9,7 @@ import { StoreState } from '../store';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { gameById } from '../Games/selectors';
+import { gameById, patchingGame } from '../Games/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
@@ -24,6 +24,7 @@ interface OwnProps extends RouteComponentProps<RouteProps> {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { gameId = '' } = props.match.params;
   return {
+    isGamePatching: patchingGame(state.games),
     game: gameById(state.games, gameId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams)
@@ -45,6 +46,7 @@ type GameNewProps = ConnectedProps<typeof connector> & OwnProps;
 
 const GameNew: React.FC<GameNewProps> = ({
   basePhaseManageUrl,
+  isGamePatching,
   game,
   organizationSlug,
   phase,
@@ -68,6 +70,7 @@ const GameNew: React.FC<GameNewProps> = ({
                 <GameForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Games`}
+                  isLoading={isGamePatching}
                   selectInputTeams={selectInputTeams}
                 />
               )}

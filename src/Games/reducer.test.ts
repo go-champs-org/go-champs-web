@@ -10,7 +10,10 @@ import {
   getGameSuccess,
   postGameFailure,
   postGameStart,
-  postGameSuccess
+  postGameSuccess,
+  patchGameStart,
+  patchGameFailure,
+  patchGameSuccess
 } from './actions';
 import gameReducer from './reducer';
 import { DEFAULT_GAME, GameState, initialState } from './state';
@@ -82,6 +85,134 @@ describe('deleteGameSuccess', () => {
     expect(newState.games['some-id']).toEqual({
       ...DEFAULT_GAME,
       id: 'some-id'
+    });
+  });
+});
+
+describe('patchGame', () => {
+  const action = patchGameStart();
+
+  it('sets isLoadingPatchGame to true', () => {
+    const newState = gameReducer(initialState, action);
+    expect(newState.isLoadingPatchGame).toBe(true);
+  });
+});
+
+describe('patchGameFailure', () => {
+  const action = patchGameFailure('error');
+
+  it('sets isLoadingPatchGame to false', () => {
+    const newState = gameReducer(initialState, action);
+    expect(newState.isLoadingPatchGame).toBe(false);
+  });
+});
+
+describe('patchGameSuccess', () => {
+  const action = patchGameSuccess({
+    id: 'first-id',
+    awayScore: 30,
+    awayTeam: {
+      id: 'updated-away-team-id',
+      name: 'updated-away-team'
+    },
+    datetime: '2019-05-22T03:21:21.248Z',
+    homeScore: 40,
+    homeTeam: {
+      id: 'updated-home-team-id',
+      name: 'updated-home-team'
+    },
+    info: 'updated info',
+    location: 'updated location'
+  });
+
+  const updateState: GameState = {
+    ...initialState,
+    games: {
+      'first-id': {
+        id: 'first-id',
+        awayScore: 10,
+        awayTeam: {
+          id: 'first-away-team-id',
+          name: 'first-away-team'
+        },
+        datetime: '2019-05-22T03:21:21.248Z',
+        homeScore: 20,
+        homeTeam: {
+          id: 'first-home-team-id',
+          name: 'first-home-team'
+        },
+        info: 'first info',
+        location: 'first location'
+      }
+    }
+  };
+
+  it('sets isLoadingPatchGame to false', () => {
+    const newState = gameReducer(updateState, action);
+    expect(newState.isLoadingPatchGame).toBe(false);
+  });
+
+  it('set entity', () => {
+    const newState = gameReducer(updateState, action);
+
+    expect(newState.games['first-id']).toEqual({
+      id: 'first-id',
+      awayScore: 30,
+      awayTeam: {
+        id: 'updated-away-team-id',
+        name: 'updated-away-team'
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 40,
+      homeTeam: {
+        id: 'updated-home-team-id',
+        name: 'updated-home-team'
+      },
+      info: 'updated info',
+      location: 'updated location'
+    });
+  });
+
+  it('keeps others entities in other', () => {
+    const someState: GameState = {
+      ...updateState,
+      games: {
+        'some-id': {
+          id: 'some-id',
+          awayScore: 50,
+          awayTeam: {
+            id: 'some-away-team-id',
+            name: 'some-away-team'
+          },
+          datetime: '2019-05-22T03:21:21.248Z',
+          homeScore: 60,
+          homeTeam: {
+            id: 'some-home-team-id',
+            name: 'some-home-team'
+          },
+          info: 'some info',
+          location: 'some location'
+        }
+      }
+    };
+
+    const newState = gameReducer(someState, action);
+
+    expect(newState.games['some-id']).toEqual({
+      id: 'some-id',
+      awayScore: 50,
+      awayTeam: {
+        id: 'some-away-team-id',
+        name: 'some-away-team'
+      },
+      datetime: '2019-05-22T03:21:21.248Z',
+      homeScore: 60,
+      homeTeam: {
+        id: 'some-home-team-id',
+        name: 'some-home-team'
+      },
+      info: 'some info',
+      location: 'some location'
     });
   });
 });

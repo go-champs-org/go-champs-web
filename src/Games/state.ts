@@ -13,6 +13,7 @@ export interface GameEntity {
 
 export interface GameState {
   isLoadingDeleteGame: boolean;
+  isLoadingPatchGame: boolean;
   isLoadingPostGame: boolean;
   isLoadingRequestGame: boolean;
   isLoadingRequestGames: boolean;
@@ -21,6 +22,7 @@ export interface GameState {
 
 export const initialState: GameState = {
   isLoadingDeleteGame: false,
+  isLoadingPatchGame: false,
   isLoadingPostGame: false,
   isLoadingRequestGame: false,
   isLoadingRequestGames: false,

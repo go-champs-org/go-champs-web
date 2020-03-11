@@ -5,14 +5,17 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { GameEntity } from './state';
 import { Link } from 'react-router-dom';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 interface FromProps extends FormRenderProps<GameEntity> {
   backUrl: string;
+  isLoading: boolean;
   selectInputTeams: SelectOptionType[];
 }
 
 const Form: React.FC<FromProps> = ({
   backUrl,
+  isLoading,
   handleSubmit,
   submitting,
   pristine,
@@ -93,13 +96,14 @@ const Form: React.FC<FromProps> = ({
           </div>
         </div>
 
-        <button
+        <LoadingButton
+          isLoading={isLoading}
           className="button is-primary"
           type="submit"
           disabled={submitting || pristine}
         >
           Save
-        </button>
+        </LoadingButton>
       </form>
 
       <Link to={backUrl}>
