@@ -10,7 +10,10 @@ import arrayMutators from 'final-form-arrays';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { eliminationById } from '../Eliminations/selectors';
+import {
+  eliminationById,
+  patchingElimination
+} from '../Eliminations/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { Mutator } from 'final-form';
@@ -28,6 +31,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { eliminationId = '' } = props.match.params;
   return {
     elimination: eliminationById(state.eliminations, eliminationId),
+    isPacthingElimination: patchingElimination(state.eliminations),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams),
     stats: eliminationStats(state.eliminationStats)
@@ -49,6 +53,7 @@ type EliminationNewProps = ConnectedProps<typeof connector> & OwnProps;
 
 const EliminationNew: React.FC<EliminationNewProps> = ({
   basePhaseManageUrl,
+  isPacthingElimination,
   elimination,
   organizationSlug,
   phase,
@@ -78,6 +83,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
                 <EliminationForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Eliminations`}
+                  isLoading={isPacthingElimination}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                   stats={stats}

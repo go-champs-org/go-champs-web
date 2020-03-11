@@ -15,6 +15,7 @@ import { Mutator } from 'final-form';
 import { eliminationStats } from '../Phases/EliminationStats/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { postingElimination } from '../Eliminations/selectors';
 
 interface OwnProps {
   basePhaseManageUrl: string;
@@ -24,6 +25,7 @@ interface OwnProps {
 }
 
 type StateProps = {
+  isPostingElimination: boolean;
   phase: PhaseEntity;
   stats: StatEntity[];
   selectInputTeams: SelectOptionType[];
@@ -38,6 +40,7 @@ type DispatchProps = {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
+    isPostingElimination: postingElimination(state.eliminations),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams),
     stats: eliminationStats(state.eliminationStats)
@@ -73,6 +76,7 @@ type EliminationNewProps = ConnectedProps<typeof connector>;
 
 const EliminationNew: React.FC<EliminationNewProps> = ({
   basePhaseManageUrl,
+  isPostingElimination,
   organizationSlug,
   phase,
   postElimination,
@@ -101,6 +105,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
                 <EliminationForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Eliminations`}
+                  isLoading={isPostingElimination}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
                   stats={stats}

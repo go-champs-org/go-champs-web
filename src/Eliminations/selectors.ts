@@ -12,9 +12,6 @@ export const sortedEliminations = (
   state: EliminationState
 ): EliminationEntity[] => eliminations(state).sort(byOrder);
 
-export const eliminationsLoading = (state: EliminationState): boolean =>
-  state.isLoadingRequestTournament;
-
 export const eliminationById = (
   state: EliminationState,
   eliminationId: string
@@ -24,3 +21,12 @@ export const eliminationById = (
   }
   return state.eliminations[eliminationId];
 };
+
+export const eliminationsLoading = (state: EliminationState): boolean =>
+  state.isLoadingRequestTournament;
+export const patchingElimination = (state: EliminationState): boolean =>
+  state.isLoadingPatchElimination;
+export const postingElimination = (state: EliminationState): boolean =>
+  state.isLoadingPostElimination;
+export const deletingElimination = (state: EliminationState): boolean =>
+  state.isLoadingDeleteElimination;

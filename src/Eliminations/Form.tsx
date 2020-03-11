@@ -10,6 +10,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import { StatEntity } from '../Phases/state';
 import { Link } from 'react-router-dom';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 interface TeamStatFormProps {
   currentTeamStatValue: EliminationTeamStatEntity;
@@ -92,6 +93,7 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
 
 interface FormProps extends FormRenderProps<EliminationEntity> {
   backUrl: string;
+  isLoading: boolean;
   push: (fieldName: string, draw: EliminationTeamStatEntity) => {};
   stats: StatEntity[];
   selectInputTeams: SelectOptionType[];
@@ -136,6 +138,7 @@ const onMoveDownTeamStat = (items: FieldArrayActions, index: number) => (
 
 const Form: React.FC<FormProps> = ({
   backUrl,
+  isLoading,
   handleSubmit,
   submitting,
   push,
@@ -211,13 +214,14 @@ const Form: React.FC<FormProps> = ({
           Add team stats
         </button>
 
-        <button
+        <LoadingButton
+          isLoading={isLoading}
           className="button is-primary"
           type="submit"
           disabled={submitting || pristine}
         >
           Save
-        </button>
+        </LoadingButton>
       </form>
 
       <Link to={backUrl}>
