@@ -6,8 +6,9 @@ export const displayToast = (message: string, type: ToastTypes) => {
   bulmaToast.toast({
     message: message,
     type: type,
+    closeOnClick: true,
     pauseOnHover: true,
-    position: 'top-center',
+    position: 'bottom-right',
     animate: { in: 'fadeIn', out: 'fadeOut' }
   });
 };
