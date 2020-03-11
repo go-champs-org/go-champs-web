@@ -4,6 +4,7 @@ import { OrganizationEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -36,10 +37,12 @@ export const FormLoading: React.FC = () => (
 );
 
 interface FormProps extends FormRenderProps<OrganizationEntity> {
+  isLoading: boolean;
   backUrl: string;
 }
 
 const Form: React.FC<FormProps> = ({
+  isLoading,
   backUrl,
   handleSubmit,
   submitting,
@@ -72,13 +75,14 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
-        <button
+        <LoadingButton
+          isLoading={isLoading}
           className="button is-primary"
           type="submit"
           disabled={submitting || pristine}
         >
           Save
-        </button>
+        </LoadingButton>
       </form>
 
       <Link to={backUrl}>

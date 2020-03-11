@@ -24,3 +24,9 @@ export const organizations = (state: OrganizationState) =>
   Object.keys(state.organizations).map(
     (key: string) => state.organizations[key]
   );
+
+export const patchingOrganization = (state: OrganizationState) =>
+  state.isLoadingPatchOrganization;
+
+export const postingOrganization = (state: OrganizationState) =>
+  state.isLoadingPostOrganization;

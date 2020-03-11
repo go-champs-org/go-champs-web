@@ -8,7 +8,8 @@ import { RouteProps } from './support/routerInterfaces';
 import withOrganizations from './support/withOrganizations';
 import {
   organizationBySlug,
-  organizationsLoading
+  organizationsLoading,
+  patchingOrganization
 } from '../Organizations/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import {
@@ -23,6 +24,7 @@ const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => ({
+  isPatchingOrganization: patchingOrganization(state.organizations),
   organization: organizationBySlug(
     state.organizations,
     props.match.params.organizationSlug
@@ -44,6 +46,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type OrganizationEditProps = ConnectedProps<typeof connector>;
 
 const OrganizationEdit: React.FC<OrganizationEditProps> = ({
+  isPatchingOrganization,
   organization,
   organizationsLoading,
   patchOrganization
@@ -65,7 +68,11 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
               onSubmit={patchOrganization}
               initialValues={organization}
               render={(props: FormRenderProps<OrganizationEntity>) => (
-                <OrganizationForm {...props} backUrl={backUrl} />
+                <OrganizationForm
+                  {...props}
+                  backUrl={backUrl}
+                  isLoading={isPatchingOrganization}
+                />
               )}
             />
           </ComponentLoader>

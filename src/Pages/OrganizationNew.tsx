@@ -9,6 +9,12 @@ import {
   OrganizationEntity
 } from '../Organizations/state';
 import Helmet from 'react-helmet';
+import { StoreState } from '../store';
+import { postingOrganization } from '../Organizations/selectors';
+
+const mapStateToProps = (state: StoreState) => ({
+  isPostingOrganization: postingOrganization(state.organizations)
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -18,11 +24,12 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     dispatch
   );
 
-const connector = connect(state => state, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type OrganizationNewProps = ConnectedProps<typeof connector>;
 
 const OrganizationNew: React.FC<OrganizationNewProps> = ({
+  isPostingOrganization,
   postOrganization
 }) => {
   const backUrl = `/Account`;
@@ -38,7 +45,11 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
             onSubmit={postOrganization}
             initialValues={DEFAULT_ORGANIZATION}
             render={(props: FormRenderProps<OrganizationEntity>) => (
-              <OrganizationForm {...props} backUrl={backUrl} />
+              <OrganizationForm
+                {...props}
+                backUrl={backUrl}
+                isLoading={isPostingOrganization}
+              />
             )}
           />
         </div>
