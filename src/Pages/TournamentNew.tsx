@@ -17,12 +17,14 @@ import withOrganizations from './support/withOrganizations';
 import { getOrganizations } from '../Organizations/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
+import { postingTournament } from '../Tournaments/selectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
 }
 
 interface StateProps extends RouteComponentProps<RouteProps> {
+  isPostingTournament: boolean;
   organization: OrganizationEntity;
   organizationsLoading: boolean;
 }
@@ -39,6 +41,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { organizationSlug } = props.match.params;
   return {
     ...props,
+    isPostingTournament: postingTournament(state.tournaments),
     organization: organizationBySlug(state.organizations, organizationSlug),
     organizationsLoading: organizationsLoading(state.organizations)
   };
@@ -68,6 +71,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 type TournamentNewProps = ConnectedProps<typeof connector>;
 
 const TournamentNew: React.FC<TournamentNewProps> = ({
+  isPostingTournament,
   match,
   organizationsLoading,
   postTournament
@@ -90,7 +94,11 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
               onSubmit={postTournament}
               initialValues={DEFAULT_TOURNAMENT}
               render={(props: FormRenderProps<TournamentEntity>) => (
-                <TournamentForm {...props} backUrl={backUrl} />
+                <TournamentForm
+                  {...props}
+                  backUrl={backUrl}
+                  isLoading={isPostingTournament}
+                />
               )}
             />
           </ComponentLoader>

@@ -5,7 +5,11 @@ import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { getTournamentBySlug, patchTournament } from '../Tournaments/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
-import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
+import {
+  tournamentBySlug,
+  tournamentLoading,
+  patchingTournament
+} from '../Tournaments/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
 import withTournament from './support/withTournament';
@@ -17,6 +21,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
+  isPatchingTournament: boolean;
   organization: OrganizationEntity;
   tournament: TournamentEntity;
   tournamentLoading: boolean;
@@ -40,6 +45,7 @@ const mapStateToProps = (
   const { organizationSlug } = props.match.params;
   return {
     ...props,
+    isPatchingTournament: patchingTournament(state.tournaments),
     organization: organizationBySlug(state.organizations, organizationSlug),
     tournament: tournamentBySlug(
       state.tournaments,
@@ -72,6 +78,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 type TournamentEditProps = ConnectedProps<typeof connector>;
 
 const TournamentEdit: React.FC<TournamentEditProps> = ({
+  isPatchingTournament,
   match,
   tournament,
   tournamentLoading,
@@ -96,7 +103,11 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                 onSubmit={patchTournament}
                 initialValues={tournament}
                 render={(props: FormRenderProps<TournamentEntity>) => (
-                  <TournamentForm {...props} backUrl={backUrl} />
+                  <TournamentForm
+                    {...props}
+                    backUrl={backUrl}
+                    isLoading={isPatchingTournament}
+                  />
                 )}
               />
             </ComponentLoader>
