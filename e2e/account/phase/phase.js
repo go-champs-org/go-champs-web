@@ -50,9 +50,11 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Manage')]")
       .click("//*[contains(text(), 'Phases')]")
-      .click("//*[contains(text(), 'Test phase (can delete) edited')]/../../div/button[2]")
+      .click("//*[contains(text(), 'Test phase (can delete) edited')]/../../div/button[2]") 
+      .click("//*[contains(text(), 'Test phase (can delete) edited')]/../../div/button[2]") // needs to double click
       .pause(1000)
       .refresh()
+      .pause(1000)
       .assert.not.elementPresent("//*[contains(text(), 'Test phase (can delete) edited') and contains(@class, 'title')]")
       .end();
   }
