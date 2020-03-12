@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Shimmer from '../Shared/UI/Shimmer';
 import { EliminationEntity } from './state';
 import { AnyAction, Dispatch } from 'redux';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 const LoadingCard: React.FC = () => (
   <div className="card item">
@@ -47,12 +48,12 @@ const EliminationCard: React.FC<{
       </Link>
 
       <div className="card-header-icon">
-        <button
+        <DoubleClickButton
           className="button is-text"
           onClick={() => deleteElimination(elimination)}
         >
           <i className="fas fa-trash" />
-        </button>
+        </DoubleClickButton>
       </div>
     </div>
   </div>

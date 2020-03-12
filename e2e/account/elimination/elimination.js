@@ -54,6 +54,7 @@ module.exports = {
       .click("//*[contains(text(), 'Eliminations')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test elimination (can delete) edited')]/../../div/button")
+      .click("//*[contains(text(), 'Test elimination (can delete) edited')]/../../div/button") // needs to double click
       .pause(1000)
       .useCss()
       .assert.not.elementPresent('.card-header-title')

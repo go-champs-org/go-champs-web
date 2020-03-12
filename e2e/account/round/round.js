@@ -58,6 +58,7 @@ module.exports = {
       .click("//*[contains(text(), 'Rounds')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button")
+      .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button") // needs to double click
       .pause(1000)
       .assert.not.elementPresent("//*[contains(text(), 'Test round (can delete) edited') and contains(@class, 'title')]")
       .end();

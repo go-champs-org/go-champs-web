@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Shimmer from '../Shared/UI/Shimmer';
 import { DrawEntity } from './state';
 import { AnyAction, Dispatch } from 'redux';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 const LoadingCard: React.FC = () => (
   <div className="card item">
@@ -44,9 +45,12 @@ const DrawCard: React.FC<{
       </Link>
 
       <div className="card-header-icon">
-        <button className="button is-text" onClick={() => deleteDraw(draw)}>
+        <DoubleClickButton
+          className="button is-text"
+          onClick={() => deleteDraw(draw)}
+        >
           <i className="fas fa-trash" />
-        </button>
+        </DoubleClickButton>
       </div>
     </div>
   </div>

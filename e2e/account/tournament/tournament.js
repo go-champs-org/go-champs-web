@@ -47,6 +47,7 @@ module.exports = {
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test tournament (can delete) edited')]/../../div/button")
+      .click("//*[contains(text(), 'Test tournament (can delete) edited')]/../../div/button") // needs to double click
       .pause(1000)
       .assert.not.elementPresent("//*[contains(text(), 'Test tournement (can delete) edited') and contains(@class, 'title')]")
       .end();

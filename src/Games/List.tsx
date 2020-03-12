@@ -4,6 +4,7 @@ import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import { GameEntity } from './state';
 import { Dispatch, AnyAction } from 'redux';
 import Shimmer from '../Shared/UI/Shimmer';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 const LoadingCard: React.FC = () => (
   <div className="card item">
@@ -59,9 +60,12 @@ const GameCard: React.FC<{
         </div>
       </Link>
       <div className="card-header-icon">
-        <button className="button is-text" onClick={() => onDeleteGame(game)}>
+        <DoubleClickButton
+          className="button is-text"
+          onClick={() => onDeleteGame(game)}
+        >
           <i className="fas fa-trash" />
-        </button>
+        </DoubleClickButton>
       </div>
     </div>
 
