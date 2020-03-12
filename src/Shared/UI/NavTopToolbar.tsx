@@ -21,7 +21,6 @@ class NavTopToolbar extends React.Component {
           <span
             role="button"
             className="navbar-burger burger"
-            data-badge=""
             aria-label="menu"
             aria-expanded="false"
             data-target="menu"
