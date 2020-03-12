@@ -6,6 +6,7 @@ import withDraggableList, {
 } from '../Shared/UI/DnD/withDraggableList';
 import { PhaseEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 const LoadingCard: React.FC = () => (
   <div className="card item">
@@ -61,12 +62,13 @@ const PhaseCard: React.FC<{
           >
             Save order (Temp)
           </button>
-          <button
+
+          <DoubleClickButton
             className="button is-text"
             onClick={() => onDeletePhase(tournamentPhase)}
           >
             <i className="fas fa-trash" />
-          </button>
+          </DoubleClickButton>
         </div>
       </div>
     </div>
