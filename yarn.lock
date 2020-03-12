@@ -2823,6 +2823,11 @@ bulma-toast@^1.5.1:
   resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-1.5.4.tgz#ee72a1f49a1da07c49c0507ffa4ade6c1d3026f8"
   integrity sha512-yLGeupj1WOCgOS6Gtik2eyJ2aA55nFwDyTeLSoTDdRRdWsWbBcMsna3j7ZATiQTZ4o5BI05X4z/qCKc9qMysUA==
 
+bulma-tooltip@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/bulma-tooltip/-/bulma-tooltip-3.0.2.tgz#2cf0abab1de2eba07f9d84eb7f07a8a88819ea92"
+  integrity sha512-CsT3APjhlZScskFg38n8HYL8oYNUHQtcu4sz6ERarxkUpBRbk9v0h/5KAvXeKapVSn2dp9l7bOGit5SECP8EWQ==
+
 bulma@^0.7.4:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"

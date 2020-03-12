@@ -30,11 +30,18 @@ const DoubleClickButton: React.FC<DoubleClickButtonProps> = (
 
   const classes = classNames(props.className, {
     'is-active': canPerfomAction,
-    'is-danger': canPerfomAction
+    'is-danger': canPerfomAction,
+    'has-tooltip-left': true
   });
 
   return (
-    <button {...props} className={classes} ref={ref} onClick={onClickFunction}>
+    <button
+      {...props}
+      className={classes}
+      data-tooltip={canPerfomAction ? 'Double click to confirm' : undefined}
+      onClick={onClickFunction}
+      ref={ref}
+    >
       {props.children}
     </button>
   );
