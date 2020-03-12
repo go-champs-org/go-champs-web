@@ -14,14 +14,20 @@ const DoubleClickButton: React.FC<DoubleClickButtonProps> = (
   const [canPerfomAction, setCanPerfomAction] = useState(false);
 
   useEffect(() => {
-    document.addEventListener('click', (event: UIEvent) => {
+    const handleDoubleButtonClick = (event: UIEvent) => {
       const isSame = event
         .composedPath()
         .includes(ref.current as HTMLButtonElement);
       if (!isSame) {
         setCanPerfomAction(false);
       }
-    });
+    };
+
+    document.addEventListener('click', handleDoubleButtonClick);
+
+    return () => {
+      document.removeEventListener('click', handleDoubleButtonClick);
+    };
   }, []);
 
   const firstClick = () => setCanPerfomAction(true);
