@@ -12,7 +12,7 @@ import { StatEntity } from '../Phases/state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
-import { stat } from 'fs';
+import './View.scss';
 
 interface TeamStatFormProps {
   currentTeamStatValue: EliminationTeamStatEntity;
@@ -49,7 +49,13 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
   return (
     <Fragment>
       <tr>
-        <td style={{ paddingLeft: '0', width: '225px' }}>
+        <td
+          style={{
+            minWidth: '150px',
+            paddingLeft: 0,
+            width: '250px'
+          }}
+        >
           {state.usePlaceholder ? (
             <Field
               name={`${name}.placeholder`}
@@ -67,7 +73,11 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
         </td>
 
         {stats.map((stat: StatEntity) => (
-          <td key={stat.id} className="has-text-centered">
+          <td
+            key={stat.id}
+            className="has-text-centered"
+            style={{ minWidth: '90px' }}
+          >
             <Field
               name={`${name}.stats.${stat.id}`}
               component={StringInput}

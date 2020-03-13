@@ -11,9 +11,21 @@ const TeamEliminationRow: React.FC<{
 }> = ({ eliminationStats, firstColumnValue, teamStats }) => {
   return (
     <tr>
-      <td style={{ paddingLeft: '0', width: '225px' }}>{firstColumnValue}</td>
+      <td
+        style={{
+          paddingLeft: '0',
+          width: '225px'
+        }}
+      >
+        {firstColumnValue}
+      </td>
+
       {eliminationStats.map((stat: StatEntity) => (
-        <td key={stat.id} className="has-text-centered">
+        <td
+          key={stat.id}
+          className="has-text-centered"
+          style={{ minWidth: '90px' }}
+        >
           {teamStats[stat.id]}
         </td>
       ))}
