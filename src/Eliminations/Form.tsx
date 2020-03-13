@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import {
   EliminationEntity,
@@ -12,6 +12,7 @@ import { StatEntity } from '../Phases/state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import { stat } from 'fs';
 
 interface TeamStatFormProps {
   currentTeamStatValue: EliminationTeamStatEntity;
@@ -46,52 +47,85 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
   };
 
   return (
-    <tr>
-      <td style={{ paddingLeft: '0', width: '225px' }}>
-        {state.usePlaceholder ? (
-          <Field
-            name={`${name}.placeholder`}
-            component={StringInput}
-            type="text"
-          />
-        ) : (
-          <Field
-            name={`${name}.teamId`}
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-              <SelectInput {...props} options={selectInputTeams} />
-            )}
-          />
-        )}
-      </td>
-
-      {stats.map((stat: StatEntity) => (
-        <td key={stat.id} className="has-text-centered">
-          <Field
-            name={`${name}.stats.${stat.id}`}
-            component={StringInput}
-            type="text"
-          />
+    <Fragment>
+      <tr>
+        <td style={{ paddingLeft: '0', width: '225px' }}>
+          {state.usePlaceholder ? (
+            <Field
+              name={`${name}.placeholder`}
+              component={StringInput}
+              type="text"
+            />
+          ) : (
+            <Field
+              name={`${name}.teamId`}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={selectInputTeams} />
+              )}
+            />
+          )}
         </td>
-      ))}
 
-      <td className="has-text-right">
-        <button className="button is-text" onClick={onMoveUp}>
-          <i className="fas fa-sort-up" />
-        </button>
+        {stats.map((stat: StatEntity) => (
+          <td key={stat.id} className="has-text-centered">
+            <Field
+              name={`${name}.stats.${stat.id}`}
+              component={StringInput}
+              type="text"
+            />
+          </td>
+        ))}
+      </tr>
 
-        <button className="button is-text" onClick={toggleUsePlaceholder}>
-          <i className="fas fa-history" />
-        </button>
+      <tr>
+        <td style={{ verticalAlign: 'middle' }}>
+          <span className="is-italic">Actions</span>
+        </td>
 
-        <DoubleClickButton className="button is-text" onClick={onRemove}>
-          <i className="fas fa-trash" />
-        </DoubleClickButton>
+        <td className="has-text-right" colSpan={stats.length}>
+          <div className="columns is-mobile">
+            <div className="column is-3 has-text-centered">
+              <button
+                className="button"
+                data-tooltip="Move up"
+                onClick={onMoveUp}
+              >
+                <i className="fas fa-arrow-up" />
+              </button>
+            </div>
 
-        <button className="button is-text" onClick={onMoveDown}>
-          <i className="fas fa-sort-down" />
-        </button>
-      </td>
-    </tr>
+            <div className="column is-3 has-text-centered">
+              <button
+                className="button"
+                data-tooltip="Use placeholder"
+                onClick={toggleUsePlaceholder}
+              >
+                <i className="fas fa-history" />
+              </button>
+            </div>
+
+            <div className="column is-3 has-text-centered">
+              <DoubleClickButton
+                className="button has-tooltip-top"
+                onClick={onRemove}
+              >
+                <i className="fas fa-trash" />
+              </DoubleClickButton>
+            </div>
+
+            <div className="column is-3 has-text-centered">
+              <button
+                className="button"
+                data-tooltip="Move down"
+                onClick={onMoveDown}
+              >
+                <i className="fas fa-arrow-down" />
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </Fragment>
   );
 };
 
@@ -184,10 +218,10 @@ const Form: React.FC<FormProps> = ({
                 <thead>
                   <tr>
                     <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
+
                     {stats.map((stat: StatEntity) => (
                       <StatHeader key={stat.id} stat={stat} />
                     ))}
-                    <th className="has-text-right">Actions</th>
                   </tr>
                 </thead>
 

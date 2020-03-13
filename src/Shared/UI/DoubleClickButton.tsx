@@ -7,6 +7,9 @@ interface DoubleClickButtonProps
     HTMLButtonElement
   > {}
 
+const hasTooltipClass = (classes?: string) =>
+  classes ? classes.includes('has-tooltip') : false;
+
 const DoubleClickButton: React.FC<DoubleClickButtonProps> = (
   props: DoubleClickButtonProps
 ) => {
@@ -42,7 +45,7 @@ const DoubleClickButton: React.FC<DoubleClickButtonProps> = (
   const classes = classNames(props.className, {
     'is-active': canPerfomAction,
     'is-danger': canPerfomAction,
-    'has-tooltip-left': true
+    'has-tooltip-left': !hasTooltipClass(props.className)
   });
 
   return (
