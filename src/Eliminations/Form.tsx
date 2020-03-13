@@ -254,22 +254,28 @@ const Form: React.FC<FormProps> = ({
           )}
         </FieldArray>
 
-        <button
-          className="button is-fullwidth"
-          type="button"
-          onClick={() => push('teamStats', DEFAULT_ELIMINATION_TEAM_STAT)}
-        >
-          Add team stats
-        </button>
+        <div className="columns is-multiline">
+          <div className="column is-12">
+            <button
+              className="button is-fullwidth is-medium"
+              type="button"
+              onClick={() => push('teamStats', DEFAULT_ELIMINATION_TEAM_STAT)}
+            >
+              Add row
+            </button>
+          </div>
 
-        <LoadingButton
-          isLoading={isLoading}
-          className="button is-primary"
-          type="submit"
-          disabled={submitting || pristine}
-        >
-          Save
-        </LoadingButton>
+          <div className="column is-12">
+            <LoadingButton
+              isLoading={isLoading}
+              className="button is-primary"
+              type="submit"
+              disabled={submitting || pristine}
+            >
+              Save
+            </LoadingButton>
+          </div>
+        </div>
       </form>
 
       <Link to={backUrl}>
