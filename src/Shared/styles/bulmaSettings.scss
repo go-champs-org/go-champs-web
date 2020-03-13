@@ -55,6 +55,7 @@ $breadcrumb-item-active-color: $green;
 // Checkradio
 $checkbox-radius: 5px;
 
+@import './button.scss';
 @import './card.scss';
 @import './input.scss';
 
