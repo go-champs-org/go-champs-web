@@ -19,80 +19,90 @@ const App: React.FC = () => {
       <Router>
         <DndProvider backend={HTML5Backend}>
           <NavTopToolbar />
-          <section className="section">
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route
-                  exact
-                  sensitive
-                  path="/Account"
-                  component={AccountHome}
-                />
-                <Route exact sensitive path="/UseAsApp" component={UseAsApp} />
-                <Route
-                  exact
-                  sensitive
-                  path="/Account/*"
-                  component={AccountHome}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/Organization/:organizationSlug"
-                  component={OrganizationHome}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/Organization/:organizationSlug/*"
-                  component={OrganizationHome}
-                />
-                <Route exact sensitive path="/Search" component={Search} />
-                <Route
-                  path="/:organizationSlug/:tournamentSlug/*"
-                  component={TournamentHome}
-                />
-                <Route
-                  path="/:organizationSlug/:tournamentSlug"
-                  component={TournamentHome}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/:organizationSlug/:tournamentSlug/TournamentEdit"
-                  component={TournamentEdit}
-                />
-              </Switch>
-            </div>
-          </section>
 
-          <footer className="footer">
-            <div className="content has-text-centered">
-              <p>
-                <strong>Go Champs!</strong>
-                &nbsp; by Lair Júnior. The source code is licensed &nbsp;
-                <a
-                  href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
-                  style={{ color: '#970c10' }}
-                >
-                  MIT
-                </a>
-                . The website content is licensed &nbsp;
-                <a
-                  href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-                  style={{ color: '#970c10' }}
-                >
-                  CC BY NC SA 4.0
-                </a>
-                .
-              </p>
+          <div className="hero is-fullheight-with-navbar">
+            <section className="section">
+              <div className="container">
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route
+                    exact
+                    sensitive
+                    path="/Account"
+                    component={AccountHome}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/UseAsApp"
+                    component={UseAsApp}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/Account/*"
+                    component={AccountHome}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/Organization/:organizationSlug"
+                    component={OrganizationHome}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/Organization/:organizationSlug/*"
+                    component={OrganizationHome}
+                  />
+                  <Route exact sensitive path="/Search" component={Search} />
+                  <Route
+                    path="/:organizationSlug/:tournamentSlug/*"
+                    component={TournamentHome}
+                  />
+                  <Route
+                    path="/:organizationSlug/:tournamentSlug"
+                    component={TournamentHome}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/:organizationSlug/:tournamentSlug/TournamentEdit"
+                    component={TournamentEdit}
+                  />
+                </Switch>
+              </div>
+            </section>
 
-              <p>
-                Build: <em>0.0.{process.env.REACT_APP_BUILD_NUMBER}</em>
-              </p>
+            <div className="hero-foot">
+              <footer className="footer">
+                <div className="content has-text-centered">
+                  <p>
+                    <strong>Go Champs!</strong>
+                    &nbsp; by Lair Júnior. The source code is licensed &nbsp;
+                    <a
+                      href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
+                      style={{ color: '#970c10' }}
+                    >
+                      MIT
+                    </a>
+                    . The website content is licensed &nbsp;
+                    <a
+                      href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+                      style={{ color: '#970c10' }}
+                    >
+                      CC BY NC SA 4.0
+                    </a>
+                    .
+                  </p>
+
+                  <p>
+                    Build: <em>0.0.{process.env.REACT_APP_BUILD_NUMBER}</em>
+                  </p>
+                </div>
+              </footer>
             </div>
-          </footer>
+          </div>
         </DndProvider>
       </Router>
     </Provider>

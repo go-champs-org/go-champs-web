@@ -8,7 +8,7 @@ const UseComoApp: React.FC = () => (
   <Fragment>
     <div className="hero is-medium">
       <div className="hero-body">
-        <div className="has-text-centered">
+        <div className="container has-text-centered">
           <h1 className="title">Instalando como aplicativo de celular</h1>
         </div>
       </div>
@@ -16,7 +16,7 @@ const UseComoApp: React.FC = () => (
 
     <div className="hero">
       <div className="hero-body">
-        <div>
+        <div className="container has-text-centered">
           <ol>
             <li>
               <div className="columns is-vcentered">

@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+html,
+body {
+  height: 100%;
+}
+
 @import './Shared/styles/card.scss';
 @import './Shared/styles/form.scss';
 @import './Shared/styles/bulmaSettings.scss';

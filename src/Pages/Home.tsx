@@ -27,7 +27,7 @@ class Home extends React.Component {
         </div>
 
         <div className="hero-body">
-          <div className="has-text-centered">
+          <div className="container has-text-centered">
             <h1 className="title">O que é o Go Champs?</h1>
 
             <p style={{ marginBottom: '1.5rem' }}>
