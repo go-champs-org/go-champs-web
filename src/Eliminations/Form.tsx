@@ -11,6 +11,7 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import { StatEntity } from '../Phases/state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 interface TeamStatFormProps {
   currentTeamStatValue: EliminationTeamStatEntity;
@@ -77,12 +78,15 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
         <button className="button is-text" onClick={onMoveUp}>
           <i className="fas fa-sort-up" />
         </button>
+
         <button className="button is-text" onClick={toggleUsePlaceholder}>
           <i className="fas fa-history" />
         </button>
-        <button className="button is-text" onClick={onRemove}>
+
+        <DoubleClickButton className="button is-text" onClick={onRemove}>
           <i className="fas fa-trash" />
-        </button>
+        </DoubleClickButton>
+
         <button className="button is-text" onClick={onMoveDown}>
           <i className="fas fa-sort-down" />
         </button>

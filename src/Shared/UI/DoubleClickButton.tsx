@@ -30,7 +30,12 @@ const DoubleClickButton: React.FC<DoubleClickButtonProps> = (
     };
   }, []);
 
-  const firstClick = () => setCanPerfomAction(true);
+  const firstClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setCanPerfomAction(true);
+  };
 
   const onClickFunction = canPerfomAction ? props.onClick : firstClick;
 
