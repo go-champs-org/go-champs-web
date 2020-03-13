@@ -2,8 +2,11 @@
 
 $input-border-color: $red;
 $input-focus-border-color: $red;
+$textarea-border-color: $red;
+$textarea-focus-border-color: $red;
 
-.input {
+.input,
+.textarea {
   height: 2.65em !important;
 
   &:focus {
