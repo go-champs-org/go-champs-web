@@ -13,6 +13,7 @@ import { PHASE_TYPES_OPTIONS } from './constans';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 interface StatFormProps {
   name: string;
@@ -21,25 +22,25 @@ interface StatFormProps {
 
 const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
   return (
-    <div className="card">
-      <div className="card-content">
-        <div className="field">
-          <label className="label">Name</label>
+    <tr>
+      <td
+        style={{
+          paddingLeft: '0'
+        }}
+      >
+        <Field name={`${name}.title`} component={StringInput} type="text" />
+      </td>
 
-          <div className="control">
-            <Field name={`${name}.title`} component={StringInput} type="text" />
-          </div>
-        </div>
-      </div>
-
-      <footer className="card-footer">
-        <div className="card-footer-item">
-          <button className="button is-warning" onClick={onRemove}>
-            Remove
-          </button>
-        </div>
-      </footer>
-    </div>
+      <td
+        style={{
+          textAlign: 'center'
+        }}
+      >
+        <DoubleClickButton className="button" onClick={onRemove}>
+          <i className="fas fa-trash" />
+        </DoubleClickButton>
+      </td>
+    </tr>
   );
 };
 
@@ -102,27 +103,53 @@ const Form: React.FC<FormProps> = ({
         </div>
 
         {values.type === PhaseTypes.elimination && (
-          <Fragment>
-            <FieldArray name="eliminationStats">
-              {({ fields }) =>
-                fields.map((name, index) => (
-                  <StatForm
-                    key={name}
-                    name={name}
-                    onRemove={() => fields.remove(index)}
-                  />
-                ))
-              }
-            </FieldArray>
+          <div className="field">
+            <label className="label">Group stats</label>
+
+            <table className="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th
+                    style={{
+                      paddingLeft: '0'
+                    }}
+                  >
+                    Name
+                  </th>
+                  <th
+                    style={{
+                      textAlign: 'center',
+                      width: '80px'
+                    }}
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <FieldArray name="eliminationStats">
+                  {({ fields }) =>
+                    fields.map((name, index) => (
+                      <StatForm
+                        key={name}
+                        name={name}
+                        onRemove={() => fields.remove(index)}
+                      />
+                    ))
+                  }
+                </FieldArray>
+              </tbody>
+            </table>
 
             <button
-              className="button is-fullwidth"
+              className="button is-fullwidth  is-medium"
               type="button"
               onClick={() => push('eliminationStats', DEFAULT_ELIMINATION_STAT)}
             >
               Add stat
             </button>
-          </Fragment>
+          </div>
         )}
 
         <LoadingButton
