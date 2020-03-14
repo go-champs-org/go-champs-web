@@ -18,7 +18,7 @@ module.exports = {
       .end();
   },
 
-  'Send email': function (client) {
+  'Send email': !function (client) {
     client
       .url(client.launchUrl)
       .useCss()
