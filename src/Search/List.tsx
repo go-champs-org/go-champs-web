@@ -80,13 +80,15 @@ const List: React.FC = () => {
         </div>
 
         <div className="hero-body">
-          <ComponentLoader canRender={!isSearching} loader={ListShimmer}>
-            <div className="columns is-multiline">
-              {results.map((tournament: ApiTournamentWithDependecies) => (
-                <Result tournament={tournament} key={tournament.id} />
-              ))}
-            </div>
-          </ComponentLoader>
+          <div className="container">
+            <ComponentLoader canRender={!isSearching} loader={ListShimmer}>
+              <div className="columns is-multiline">
+                {results.map((tournament: ApiTournamentWithDependecies) => (
+                  <Result tournament={tournament} key={tournament.id} />
+                ))}
+              </div>
+            </ComponentLoader>
+          </div>
         </div>
       </div>
     </section>
