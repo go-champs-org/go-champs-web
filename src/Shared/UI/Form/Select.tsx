@@ -2,6 +2,7 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { default as ReactSelect } from 'react-select';
 import { ValueType } from 'react-select/lib/types';
+import './Select.scss';
 
 export interface SelectOptionType {
   value: string;
@@ -22,6 +23,19 @@ const findOptionByValue = (options: SelectOptionType[], value: string) => {
   }
 };
 
+const styles = {
+  option: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#970c10' : 'transparent',
+    ':active': {
+      backgroundColor: '#ad383c9a'
+    },
+    ':hover': {
+      backgroundColor: '#ad383c9a'
+    }
+  })
+};
+
 const SelectInput: React.FC<SelectInputProps> = ({ input, meta, options }) => {
   const value = findOptionByValue(options, input.value);
 
@@ -32,7 +46,9 @@ const SelectInput: React.FC<SelectInputProps> = ({ input, meta, options }) => {
 
   return (
     <ReactSelect
+      className="select-override"
       value={value}
+      styles={styles}
       getOptionValue={getOptionValue}
       options={options}
       onChange={onChange}
