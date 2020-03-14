@@ -395,4 +395,30 @@ describe('getTournamentSuccess', () => {
       eliminationStats: []
     });
   });
+
+  it('does not set entity if state already has it', () => {
+    const someState = {
+      ...initialState,
+      phases: {
+        ['first-phase-id']: {
+          id: 'first-phase-id',
+          title: 'some phase title',
+          type: PhaseTypes.draw,
+          order: 2,
+          isInProgress: true,
+          eliminationStats: []
+        }
+      }
+    };
+    const newState = phaseReducer(someState, action);
+
+    expect(newState.phases['first-phase-id']).toEqual({
+      id: 'first-phase-id',
+      title: 'some phase title',
+      type: PhaseTypes.draw,
+      isInProgress: true,
+      order: 2,
+      eliminationStats: []
+    });
+  });
 });

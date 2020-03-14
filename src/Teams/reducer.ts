@@ -3,7 +3,7 @@ import {
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import {
-  apiDataToEntities,
+  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntities,
@@ -29,7 +29,7 @@ import { initialState, TeamEntity, TeamState } from './state';
 
 const teamMapEntities = mapEntities<TeamEntity>(returnProperty('id'));
 
-const apiTeamToEntities = apiDataToEntities<ApiTeam, TeamEntity>(
+const apiTeamToEntities = apiDataToEntitiesOverride<ApiTeam, TeamEntity>(
   mapApiTeamToTeamEntity,
   returnProperty('id')
 );

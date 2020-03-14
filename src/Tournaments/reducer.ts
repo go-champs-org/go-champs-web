@@ -3,7 +3,7 @@ import {
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import {
-  apiDataToEntities,
+  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntitiesByKey,
@@ -31,7 +31,7 @@ import {
 import { mapApiTournamentToTournamentEntity } from './dataMappers';
 import { initialState, TournamentEntity, TournamentState } from './state';
 
-const apiTournamentToEntities = apiDataToEntities<
+const apiTournamentToEntities = apiDataToEntitiesOverride<
   ApiTournament,
   TournamentEntity
 >(mapApiTournamentToTournamentEntity, returnProperty('slug'));

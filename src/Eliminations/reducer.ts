@@ -1,7 +1,7 @@
 import { GET_PHASE_SUCCESS } from '../Phases/actions';
 import { ApiElimination, ApiPhase } from '../Shared/httpClient/apiTypes';
 import {
-  apiDataToEntities,
+  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntities,
@@ -28,7 +28,7 @@ const eliminationMapEntities = mapEntities<EliminationEntity>(
   returnProperty('id')
 );
 
-const apiEliminationToEntities = apiDataToEntities<
+const apiEliminationToEntities = apiDataToEntitiesOverride<
   ApiElimination,
   EliminationEntity
 >(mapApiEliminationToEliminationEntity, returnProperty('id'));

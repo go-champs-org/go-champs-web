@@ -3,11 +3,12 @@ import {
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import {
-  apiDataToEntities,
+  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntitiesByKey,
-  returnProperty
+  returnProperty,
+  apiDataToEntities
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
@@ -29,6 +30,11 @@ import {
 } from './actions';
 import { mapApiPhaseToPhaseEntity } from './dataMappers';
 import { initialState, PhaseEntity, PhaseState } from './state';
+
+const apiPhaseToEntitiesOverride = apiDataToEntitiesOverride<
+  ApiPhase,
+  PhaseEntity
+>(mapApiPhaseToPhaseEntity, returnProperty('id'));
 
 const apiPhaseToEntities = apiDataToEntities<ApiPhase, PhaseEntity>(
   mapApiPhaseToPhaseEntity,
@@ -81,7 +87,7 @@ const patchPhaseSuccess = (
 ) => ({
   ...state,
   isLoadingPatchPhase: false,
-  phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
+  phases: [action.payload!].reduce(apiPhaseToEntitiesOverride, state.phases)
 });
 
 const postPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
@@ -103,7 +109,7 @@ const postPhaseSuccess = (
 ) => ({
   ...state,
   isLoadingPostPhase: false,
-  phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
+  phases: [action.payload!].reduce(apiPhaseToEntitiesOverride, state.phases)
 });
 
 const getPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
@@ -125,7 +131,7 @@ const getPhaseSuccess = (
 ) => ({
   ...state,
   isLoadingPhase: false,
-  phases: [action.payload!].reduce(apiPhaseToEntities, state.phases)
+  phases: [action.payload!].reduce(apiPhaseToEntitiesOverride, state.phases)
 });
 
 const getTournamentSuccess = (
@@ -133,7 +139,7 @@ const getTournamentSuccess = (
   action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
-  phases: action.payload!.phases.reduce(apiPhaseToEntities, {}),
+  phases: action.payload!.phases.reduce(apiPhaseToEntities, state.phases),
   currentPhaseId: currentPhaseId(action.payload!)
 });
 

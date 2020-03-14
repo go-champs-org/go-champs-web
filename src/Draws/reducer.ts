@@ -5,7 +5,7 @@ import {
 } from '../Phases/actions';
 import { ApiDraw, ApiPhase } from '../Shared/httpClient/apiTypes';
 import {
-  apiDataToEntities,
+  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntities,
@@ -30,7 +30,7 @@ import { DrawEntity, DrawState, initialState } from './state';
 
 const drawMapEntities = mapEntities<DrawEntity>(returnProperty('id'));
 
-const apiDrawToEntities = apiDataToEntities<ApiDraw, DrawEntity>(
+const apiDrawToEntities = apiDataToEntitiesOverride<ApiDraw, DrawEntity>(
   mapApiDrawToDrawEntity,
   returnProperty('id')
 );

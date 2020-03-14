@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
 import SelectInput from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
@@ -33,7 +33,8 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
 
       <td
         style={{
-          textAlign: 'center'
+          textAlign: 'center',
+          verticalAlign: 'middle'
         }}
       >
         <DoubleClickButton className="button" onClick={onRemove}>
@@ -147,7 +148,7 @@ const Form: React.FC<FormProps> = ({
               type="button"
               onClick={() => push('eliminationStats', DEFAULT_ELIMINATION_STAT)}
             >
-              Add stat
+              Add elimination stat
             </button>
           </div>
         )}
