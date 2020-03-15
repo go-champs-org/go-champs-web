@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import { DrawEntity, DEFAULT_DRAW_MATCH, DrawMatchEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import './Form.scss';
 
 const MatchTitle: React.FC<{ match: DrawMatchEntity }> = ({ match }) => {
   if (match.name) {
@@ -25,19 +26,23 @@ const MatchTitle: React.FC<{ match: DrawMatchEntity }> = ({ match }) => {
 interface MatchFormProps {
   currentMatchValue: DrawMatchEntity;
   name: string;
-  onRemove: () => {};
+  onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onRemove: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   selectInputTeams: SelectOptionType[];
 }
 
 const MatchForm: React.FC<MatchFormProps> = ({
   currentMatchValue,
   name,
+  onMoveDown,
+  onMoveUp,
   onRemove,
   selectInputTeams
 }) => {
   const [state, setState] = useState({
-    useFirstTeamPlaceholder: !currentMatchValue.firstTeamId,
-    useSecondTeamPlaceholder: !currentMatchValue.secondTeamId
+    useFirstTeamPlaceholder: false,
+    useSecondTeamPlaceholder: false
   });
 
   const toggleFirstTeamPlaceholder = (
@@ -60,27 +65,48 @@ const MatchForm: React.FC<MatchFormProps> = ({
     });
   };
 
-  const DeleteButton = (
-    <DoubleClickButton className="button is-text" onClick={onRemove}>
-      <i className="fas fa-trash" />
-    </DoubleClickButton>
+  const HeaderButtons = (
+    <Fragment>
+      <button
+        className="button is-text has-tooltip-left circular-button"
+        data-tooltip="Move up"
+        onClick={onMoveUp}
+      >
+        <i className="fas fa-arrow-up" />
+      </button>
+
+      <button
+        className="button is-text has-tooltip-left circular-button"
+        data-tooltip="Move down"
+        onClick={onMoveDown}
+      >
+        <i className="fas fa-arrow-down" />
+      </button>
+
+      <DoubleClickButton
+        className="button is-text circular-button"
+        onClick={onRemove}
+      >
+        <i className="fas fa-trash" />
+      </DoubleClickButton>
+    </Fragment>
   );
 
   return (
     <CollapsibleCard
       isInitiallyCollapsed={!!!currentMatchValue.id}
       titleElement={<MatchTitle match={currentMatchValue} />}
-      headerButtonsElement={DeleteButton}
+      headerButtonsElement={HeaderButtons}
     >
       <div className="field">
-        <div className="field">
-          <label className="label">Name</label>
+        <label className="label">Name</label>
 
-          <div className="control">
-            <Field name={`${name}.name`} component={StringInput} type="text" />
-          </div>
+        <div className="control">
+          <Field name={`${name}.name`} component={StringInput} type="text" />
         </div>
+      </div>
 
+      <div className="field">
         <label className="label">First team / placeholder</label>
 
         <div className="control">
@@ -183,6 +209,39 @@ const MatchForm: React.FC<MatchFormProps> = ({
   );
 };
 
+interface FieldArrayActions {
+  value: any[];
+  remove: (index: number) => void;
+  swap: (indexA: number, indexB: number) => void;
+}
+
+const onRemoveMatch = (items: FieldArrayActions, index: number) => (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => {
+  event.preventDefault();
+  return items.remove(index);
+};
+
+const onMoveUpMatch = (items: FieldArrayActions, index: number) => (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => {
+  event.preventDefault();
+  if (index === 0) {
+    return;
+  }
+  return items.swap(index, index - 1);
+};
+
+const onMoveDownMatch = (items: FieldArrayActions, index: number) => (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+) => {
+  event.preventDefault();
+  if (index === items.value.length - 1) {
+    return;
+  }
+  return items.swap(index, index + 1);
+};
+
 interface FormProps extends FormRenderProps<DrawEntity> {
   backUrl: string;
   isLoading: boolean;
@@ -222,7 +281,9 @@ const Form: React.FC<FormProps> = ({
                     key={name}
                     name={name}
                     currentMatchValue={values.matches[index]}
-                    onRemove={() => fields.remove(index)}
+                    onMoveDown={onMoveDownMatch(fields, index)}
+                    onMoveUp={onMoveUpMatch(fields, index)}
+                    onRemove={onRemoveMatch(fields, index)}
                     selectInputTeams={selectInputTeams}
                   />
                 );
