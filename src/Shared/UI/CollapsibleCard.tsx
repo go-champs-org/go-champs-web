@@ -53,7 +53,11 @@ const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
       <div
         className="card-content-wrapper"
         style={{
-          height: state.isExpanded ? ref.current!.clientHeight : 0
+          height: state.isExpanded
+            ? ref.current
+              ? ref.current.clientHeight
+              : 0
+            : 0
         }}
       >
         <div className="card-content" ref={ref}>

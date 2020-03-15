@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormRenderProps, Field, FieldRenderProps } from 'react-final-form';
 import { DrawEntity, DEFAULT_DRAW_MATCH, DrawMatchEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
@@ -35,6 +35,31 @@ const MatchForm: React.FC<MatchFormProps> = ({
   onRemove,
   selectInputTeams
 }) => {
+  const [state, setState] = useState({
+    useFirstTeamPlaceholder: !currentMatchValue.firstTeamId,
+    useSecondTeamPlaceholder: !currentMatchValue.secondTeamId
+  });
+
+  const toggleFirstTeamPlaceholder = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setState({
+      ...state,
+      useFirstTeamPlaceholder: !state.useFirstTeamPlaceholder
+    });
+  };
+
+  const toggleSecondTeamPlaceholder = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setState({
+      ...state,
+      useSecondTeamPlaceholder: !state.useSecondTeamPlaceholder
+    });
+  };
+
   const DeleteButton = (
     <DoubleClickButton className="button is-text" onClick={onRemove}>
       <i className="fas fa-trash" />
@@ -43,43 +68,50 @@ const MatchForm: React.FC<MatchFormProps> = ({
 
   return (
     <CollapsibleCard
+      isInitiallyCollapsed={!!!currentMatchValue.id}
       titleElement={<MatchTitle match={currentMatchValue} />}
       headerButtonsElement={DeleteButton}
     >
       <div className="field">
-        <label className="label">First team</label>
+        <div className="field">
+          <label className="label">Name</label>
 
-        <div className="control">
-          <Field
-            name={`${name}.firstTeamId`}
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-              <SelectInput {...props} options={selectInputTeams} />
-            )}
-          />
+          <div className="control">
+            <Field name={`${name}.name`} component={StringInput} type="text" />
+          </div>
         </div>
-      </div>
 
-      <div className="field">
-        <label className="label">First parent match id</label>
+        <label className="label">First team / placeholder</label>
 
         <div className="control">
-          <Field
-            name={`${name}.firstTeamParentMatchId`}
-            component={StringInput}
-            type="text"
-          />
-        </div>
-      </div>
+          <div className="columns is-mobile is-vcentered">
+            <div className="column">
+              {state.useFirstTeamPlaceholder ? (
+                <Field
+                  name={`${name}.firstTeamPlaceholder`}
+                  component={StringInput}
+                  type="text"
+                />
+              ) : (
+                <Field
+                  name={`${name}.firstTeamId`}
+                  render={(
+                    props: FieldRenderProps<string, HTMLSelectElement>
+                  ) => <SelectInput {...props} options={selectInputTeams} />}
+                />
+              )}
+            </div>
 
-      <div className="field">
-        <label className="label">First placeholder</label>
-
-        <div className="control">
-          <Field
-            name={`${name}.firstTeamPlaceholder`}
-            component={StringInput}
-            type="text"
-          />
+            <div className="column is-2 has-text-right">
+              <button
+                className="button is-text has-tooltip-left"
+                data-tooltip="Use team / placeholder"
+                onClick={toggleFirstTeamPlaceholder}
+              >
+                <i className="fas fa-history" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -95,55 +127,37 @@ const MatchForm: React.FC<MatchFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Informations</label>
+        <label className="label">Second team / placeholder</label>
 
         <div className="control">
-          <Field name={`${name}.info`} component={StringInput} type="text" />
-        </div>
-      </div>
+          <div className="columns is-mobile is-vcentered">
+            <div className="column">
+              {state.useSecondTeamPlaceholder ? (
+                <Field
+                  name={`${name}.secondTeamPlaceholder`}
+                  component={StringInput}
+                  type="text"
+                />
+              ) : (
+                <Field
+                  name={`${name}.secondTeamId`}
+                  render={(
+                    props: FieldRenderProps<string, HTMLSelectElement>
+                  ) => <SelectInput {...props} options={selectInputTeams} />}
+                />
+              )}
+            </div>
 
-      <div className="field">
-        <label className="label">Name</label>
-
-        <div className="control">
-          <Field name={`${name}.name`} component={StringInput} type="text" />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Second team</label>
-
-        <div className="control">
-          <Field
-            name={`${name}.secondTeamId`}
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-              <SelectInput {...props} options={selectInputTeams} />
-            )}
-          />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Second parent match id</label>
-
-        <div className="control">
-          <Field
-            name={`${name}.secondTeamParentMatchId`}
-            component={StringInput}
-            type="text"
-          />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">Second placeholder</label>
-
-        <div className="control">
-          <Field
-            name={`${name}.secondTeamPlaceholder`}
-            component={StringInput}
-            type="text"
-          />
+            <div className="column is-2 has-text-right">
+              <button
+                className="button is-text has-tooltip-left"
+                data-tooltip="Use team / placeholder"
+                onClick={toggleSecondTeamPlaceholder}
+              >
+                <i className="fas fa-history" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -155,6 +169,14 @@ const MatchForm: React.FC<MatchFormProps> = ({
             component={StringInput}
             type="number"
           />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Informations</label>
+
+        <div className="control">
+          <Field name={`${name}.info`} component={StringInput} type="text" />
         </div>
       </div>
     </CollapsibleCard>
