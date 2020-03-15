@@ -172,6 +172,10 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
+        <div className="field">
+          <label className="label">Matches</label>
+        </div>
+
         <FieldArray name="matches">
           {({ fields }) =>
             fields.map((name, index) => (
