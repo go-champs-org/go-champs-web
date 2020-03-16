@@ -10,6 +10,7 @@ export interface SelectOptionType {
 }
 
 interface SelectInputProps extends FieldRenderProps<string, HTMLSelectElement> {
+  isClearable?: boolean;
   options: SelectOptionType[];
 }
 
@@ -36,12 +37,20 @@ const styles = {
   })
 };
 
-const SelectInput: React.FC<SelectInputProps> = ({ input, meta, options }) => {
+const SelectInput: React.FC<SelectInputProps> = ({
+  input,
+  meta,
+  isClearable,
+  options
+}) => {
   const value = findOptionByValue(options, input.value);
 
-  const onChange = (eventValue: ValueType<SelectOptionType>) => {
-    const newValue = getOptionValue(eventValue as SelectOptionType);
-    return input.onChange(newValue);
+  const onChange = (eventValue?: ValueType<SelectOptionType>) => {
+    if (eventValue) {
+      const newValue = getOptionValue(eventValue as SelectOptionType);
+      return input.onChange(newValue);
+    }
+    return input.onChange(null);
   };
 
   return (
@@ -49,6 +58,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ input, meta, options }) => {
       className="select-override"
       value={value}
       styles={styles}
+      isClearable={isClearable}
       getOptionValue={getOptionValue}
       options={options}
       onChange={onChange}

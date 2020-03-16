@@ -123,7 +123,13 @@ const MatchForm: React.FC<MatchFormProps> = ({
                   name={`${name}.firstTeamId`}
                   render={(
                     props: FieldRenderProps<string, HTMLSelectElement>
-                  ) => <SelectInput {...props} options={selectInputTeams} />}
+                  ) => (
+                    <SelectInput
+                      {...props}
+                      isClearable
+                      options={selectInputTeams}
+                    />
+                  )}
                 />
               )}
             </div>
@@ -169,7 +175,13 @@ const MatchForm: React.FC<MatchFormProps> = ({
                   name={`${name}.secondTeamId`}
                   render={(
                     props: FieldRenderProps<string, HTMLSelectElement>
-                  ) => <SelectInput {...props} options={selectInputTeams} />}
+                  ) => (
+                    <SelectInput
+                      {...props}
+                      isClearable
+                      options={selectInputTeams}
+                    />
+                  )}
                 />
               )}
             </div>
