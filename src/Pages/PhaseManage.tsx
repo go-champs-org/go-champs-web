@@ -67,9 +67,9 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
         <div className="columns is-multiline">
           <div className="column">{MainContent}</div>
 
-          <div className="is-divider-vertical"></div>
+          <div className="is-divider-vertical is-hidden-tablet-only"></div>
 
-          <aside className="column is-4">
+          <aside className="column is-4-desktop is-12-tablet">
             <AdminMenu
               organizationSlug={organizationSlug}
               tournamentSlug={tournamentSlug}

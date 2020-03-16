@@ -64,9 +64,9 @@ export const PhaseHomeLoading: React.FC = () => (
       </div>
     </div>
 
-    <div className="is-divider-vertical"></div>
+    <div className="is-divider-vertical is-hidden-tablet-only"></div>
 
-    <aside className="column is-4">
+    <aside className="column is-4-desktop is-12-tablet">
       <div className="columns is-multiline">
         <div className="column is-12 has-text-centered">
           <Shimmer>

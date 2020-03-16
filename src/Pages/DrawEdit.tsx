@@ -87,9 +87,9 @@ const DrawNew: React.FC<DrawNewProps> = ({
         </div>
       </div>
 
-      <div className="is-divider-vertical"></div>
+      <div className="is-divider-vertical is-hidden-tablet-only"></div>
 
-      <div className="column is-4">
+      <div className="column is-4-desktop is-12-tablet">
         <AdminMenu
           organizationSlug={organizationSlug}
           phase={phase}
