@@ -8,3 +8,7 @@ body {
 @import './Shared/styles/card.scss';
 @import './Shared/styles/form.scss';
 @import './Shared/styles/bulmaSettings.scss';
+
+html {
+  overflow: auto;
+}
