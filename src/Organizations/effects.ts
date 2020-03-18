@@ -19,6 +19,7 @@ import {
 import organizationHttpClient from './organizationHttpClient';
 import { OrganizationEntity } from './state';
 import { Dispatch } from 'redux';
+import ApiError from '../Shared/httpClient/ApiError';
 
 export const deleteOrganization = (organization: OrganizationEntity) => async (
   dispatch: Dispatch
@@ -44,7 +45,7 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
     const response = await organizationHttpClient.patch(organization);
 
     dispatch(patchOrganizationSuccess(response));
-    displayToast(`${organization.name} updated!`, 'is-success');
+    displayToast(`${response.name} updated!`, 'is-success');
   } catch (err) {
     dispatch(patchOrganizationFailure(err));
   }
@@ -59,9 +60,13 @@ export const postOrganization = (organization: OrganizationEntity) => async (
     const response = await organizationHttpClient.post(organization);
 
     dispatch(postOrganizationSuccess(response));
-    displayToast(`${organization.name} created!`, 'is-success');
+    displayToast(`${response.name} created!`, 'is-success');
   } catch (err) {
     dispatch(postOrganizationFailure(err));
+
+    if (err instanceof ApiError) {
+      return err.payload.data.errors ? err.payload.data.errors : {};
+    }
   }
 };
 

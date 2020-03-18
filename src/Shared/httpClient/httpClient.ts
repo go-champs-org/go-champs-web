@@ -1,3 +1,5 @@
+import ApiError from './ApiError';
+
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 };
@@ -6,7 +8,16 @@ const deleteRequest = async (url: string): Promise<string> => {
   const response = await fetch(url, { method: 'DELETE' });
 
   const splittedUrl = response.url.split('/');
-  return splittedUrl[splittedUrl.length - 1];
+  const deletedId = splittedUrl[splittedUrl.length - 1];
+
+  if (!response.ok) {
+    throw new ApiError({
+      status: response.status,
+      data: deletedId
+    });
+  }
+
+  return deletedId;
 };
 
 const get = async <R>(url: string): Promise<R> => {
@@ -21,7 +32,17 @@ const patch = async <T, R>(url: string, data: T): Promise<R> => {
     method: 'PATCH',
     body: JSON.stringify(data)
   });
-  return await response.json();
+
+  const jsonData = await response.json();
+
+  if (!response.ok) {
+    throw new ApiError({
+      status: response.status,
+      data: jsonData
+    });
+  }
+
+  return jsonData;
 };
 
 const post = async <T, R>(url: string, data: T): Promise<R> => {
@@ -30,7 +51,16 @@ const post = async <T, R>(url: string, data: T): Promise<R> => {
     method: 'POST',
     body: JSON.stringify(data)
   });
+
   const jsonData = await response.json();
+
+  if (!response.ok) {
+    throw new ApiError({
+      status: response.status,
+      data: jsonData
+    });
+  }
+
   return jsonData;
 };
 
