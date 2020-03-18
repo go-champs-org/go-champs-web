@@ -1,0 +1,9 @@
+@import '../../styles/colors.scss';
+
+.help {
+  text-transform: capitalize;
+}
+
+.input.is-warning {
+  box-shadow: 0 0 1pt 1pt $red-light !important;
+}
