@@ -10,6 +10,7 @@ import {
   composeValidators,
   mustBeSlug
 } from '../Shared/UI/Form/Validators/commonValidators';
+import { mustHaveOrganizationSlugAvailable } from './validators';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -53,6 +54,7 @@ const Form: React.FC<FormProps> = ({
   submitting,
   pristine,
   values,
+  validating,
   valid
 }) => {
   return (
@@ -93,7 +95,7 @@ const Form: React.FC<FormProps> = ({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine || !valid}
+          disabled={submitting || pristine || !valid || validating}
         >
           Save
         </LoadingButton>

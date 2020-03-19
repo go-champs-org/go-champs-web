@@ -1,6 +1,9 @@
 const SLUG_REGEX = RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
 export type ValidatorFunction = (value: any) => string | undefined;
+export type AsyncValidatorFunction = (
+  value: any
+) => Promise<string | undefined>;
 
 export const required = (value: string) =>
   value ? undefined : "Can't be blank";
@@ -19,14 +22,12 @@ export const mustBeSlug = (value: string) =>
     ? undefined
     : 'Must be all lowercase and only alphanumeric or dash characters are accepted';
 
-export const composeValidators = (validators: ValidatorFunction[]) => (
-  value: any
-) => {
-  return validators.reduce(
-    (
-      errors: string[] | undefined,
-      validator: (value: any) => string | undefined
-    ) => {
+export const composeValidators = (
+  validators: ValidatorFunction[],
+  asyncValidators: AsyncValidatorFunction[] = []
+) => async (value: any) => {
+  const syncErrors = validators.reduce(
+    (errors: string[] | undefined, validator: ValidatorFunction) => {
       const validatorError = validator(value);
 
       if (validatorError) {
@@ -40,4 +41,18 @@ export const composeValidators = (validators: ValidatorFunction[]) => (
     },
     undefined
   );
+
+  if (syncErrors) {
+    return syncErrors;
+  }
+
+  const asyncErrors = await Promise.all(
+    asyncValidators.map((asyncValidator: AsyncValidatorFunction) =>
+      asyncValidator(value)
+    )
+  );
+
+  return asyncErrors.some((asyncError: string | undefined) => !!asyncError)
+    ? Promise.resolve(asyncErrors)
+    : Promise.resolve(undefined);
 };
