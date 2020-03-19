@@ -19,7 +19,9 @@ const MetaInput: React.FC<MetaInputProps> = ({ component, meta }) => {
 
       {meta.submitError &&
         meta.submitError.map((error: string) => (
-          <p className="help is-warning">{error}</p>
+          <p key={error} className="help is-warning">
+            {error}
+          </p>
         ))}
     </Fragment>
   );
