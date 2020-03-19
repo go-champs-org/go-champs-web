@@ -20,6 +20,7 @@ import {
 import { TournamentEntity } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
 import { Dispatch } from 'redux';
+import ApiError from '../Shared/httpClient/ApiError';
 
 export const deleteTournament = (tournament: TournamentEntity) => async (
   dispatch: Dispatch
@@ -49,9 +50,13 @@ export const patchTournament = (
     );
 
     dispatch(patchTournamentSuccess(response));
-    displayToast(`${tournament.name} updated!`, 'is-success');
+    displayToast(`${response.name} updated!`, 'is-success');
   } catch (err) {
     dispatch(patchTournamentFailure(err));
+
+    if (err instanceof ApiError) {
+      return err.payload.data.errors ? err.payload.data.errors : {};
+    }
   }
 };
 
@@ -68,9 +73,13 @@ export const postTournament = (
     );
 
     dispatch(postTournamentSuccess(response));
-    displayToast(`${tournament.name} created!`, 'is-success');
+    displayToast(`${response.name} created!`, 'is-success');
   } catch (err) {
     dispatch(postTournamentFailure(err));
+
+    if (err instanceof ApiError) {
+      return err.payload.data.errors ? err.payload.data.errors : {};
+    }
   }
 };
 
