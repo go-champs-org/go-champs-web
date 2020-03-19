@@ -46,7 +46,8 @@ const Form: React.FC<FormProps> = ({
   backUrl,
   handleSubmit,
   submitting,
-  pristine
+  pristine,
+  values
 }) => {
   return (
     <div>
@@ -65,6 +66,7 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">Slug</label>
+
           <div className="control">
             <Field
               name="slug"
@@ -73,6 +75,10 @@ const Form: React.FC<FormProps> = ({
               placeholder="slug"
             />
           </div>
+
+          <p className="help is-info">
+            {`${document.location.origin}/${values.slug ? values.slug : ''}`}
+          </p>
         </div>
 
         <LoadingButton
