@@ -48,6 +48,10 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
     displayToast(`${response.name} updated!`, 'is-success');
   } catch (err) {
     dispatch(patchOrganizationFailure(err));
+
+    if (err instanceof ApiError) {
+      return err.payload.data.errors ? err.payload.data.errors : {};
+    }
   }
 };
 
@@ -89,6 +93,7 @@ export const getOrganizations = () => async (dispatch: Dispatch) => {
 
   try {
     const response = await organizationHttpClient.getAll();
+
     dispatch(getOrganizationsSuccess(response));
   } catch (err) {
     dispatch(getOrganizationsFailure(err));
