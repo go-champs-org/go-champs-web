@@ -9,13 +9,20 @@ interface MetaInputProps {
 }
 
 const MetaInput: React.FC<MetaInputProps> = ({ component, meta }) => {
+  const shouldSetError =
+    meta.touched && !meta.dirtySinceLastSubmit && meta.invalid;
+
   const inputMetaClasses = classNames({
-    'is-warning': !meta.dirtySinceLastSubmit && meta.invalid
+    'is-warning': shouldSetError
   });
 
   return (
     <Fragment>
       {component(inputMetaClasses)}
+
+      {meta.touched && meta.error && (
+        <p className="help is-warning">{meta.error}</p>
+      )}
 
       {meta.submitError &&
         meta.submitError.map((error: string) => (

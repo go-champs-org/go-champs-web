@@ -5,6 +5,11 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import {
+  required,
+  composeValidators,
+  mustBeSlug
+} from '../Shared/UI/Form/Validators/commonValidators';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -47,7 +52,8 @@ const Form: React.FC<FormProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  values
+  values,
+  valid
 }) => {
   return (
     <div>
@@ -60,6 +66,7 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="Name"
+              validate={required}
             />
           </div>
         </div>
@@ -73,6 +80,7 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="slug"
+              validate={composeValidators([required, mustBeSlug])}
             />
           </div>
 
@@ -85,7 +93,7 @@ const Form: React.FC<FormProps> = ({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={submitting || pristine || !valid}
         >
           Save
         </LoadingButton>
