@@ -53,6 +53,6 @@ export const composeValidators = (
   );
 
   return asyncErrors.some((asyncError: string | undefined) => !!asyncError)
-    ? Promise.resolve(asyncErrors)
-    : Promise.resolve(undefined);
+    ? asyncErrors
+    : undefined;
 };
