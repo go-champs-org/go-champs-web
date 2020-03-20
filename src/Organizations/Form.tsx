@@ -84,8 +84,7 @@ const Form: React.FC<FormProps> = ({
               type="text"
               placeholder="slug"
               validate={composeValidators(
-                [required, mustBeSlug],
-                [mustHaveOrganizationSlugAvailable]
+                [required, mustBeSlug]
               )}
             />
           </div>

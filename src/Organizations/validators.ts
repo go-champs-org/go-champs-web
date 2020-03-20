@@ -3,7 +3,8 @@ import { AsyncValidatorFunction } from '../Shared/UI/Form/Validators/commonValid
 export const mustHaveOrganizationSlugAvailable: AsyncValidatorFunction = async (
   value: string
 ) => {
-  await new Promise(resolve => setTimeout(resolve, 5000));
+  await new Promise(resolve => setTimeout(resolve, 0));
+  // Fetch organizations
 
   return value === 'aaaa' ? undefined : 'Slug has been taken';
 };
