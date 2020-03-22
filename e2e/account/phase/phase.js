@@ -9,6 +9,7 @@ module.exports = {
       .click("//*[contains(text(), 'Phases')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .useCss()
+      .pause(1000)
       .click('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewPhase"]')
       .pause(1000)
       .setValue('input[name="title"]', 'Test phase (can delete)')

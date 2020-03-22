@@ -14,6 +14,7 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
       .pause(1000)
+      .refresh()
       .assert.visible("//*[contains(text(), 'Test organization (can delete)') and contains(@class, 'title')]")
       .end();
   },
@@ -35,6 +36,7 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Back')]")
       .pause(1000)
+      .refresh()
       .assert.visible("//*[contains(text(), 'Test organization (can delete) edited') and contains(@class, 'title')]")
       .end();
   },

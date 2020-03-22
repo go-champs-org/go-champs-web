@@ -59,6 +59,7 @@ const Elimination: React.FC<EliminationProps> = ({
   ) : (
     <div></div>
   );
+
   return (
     <div className="group">
       {TitleSection}
@@ -75,9 +76,10 @@ const Elimination: React.FC<EliminationProps> = ({
           <tbody>
             {eliminations.teamStats.map(
               (teamStats: EliminationTeamStatEntity) => {
-                const firstColumnValue = teamStats.teamId
-                  ? teams[teamStats.teamId].name
-                  : teamStats.placeholder;
+                const firstColumnValue =
+                  teamStats.teamId && teams[teamStats.teamId]
+                    ? teams[teamStats.teamId].name
+                    : teamStats.placeholder;
                 return (
                   <TeamEliminationRow
                     key={teamStats.id}

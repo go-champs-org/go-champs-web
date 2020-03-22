@@ -16,7 +16,7 @@ const withTournament = <T extends object>(
         params: { organizationSlug, tournamentSlug }
       }
     } = props;
-    
+
     useEffect(() => {
       if (organizationSlug && tournamentSlug) {
         getTournamentBySlug(organizationSlug, tournamentSlug);

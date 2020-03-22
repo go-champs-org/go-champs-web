@@ -139,7 +139,7 @@ const getTournamentSuccess = (
   action: HttpAction<ActionTypes, ApiTournamentWithDependecies>
 ) => ({
   ...state,
-  phases: action.payload!.phases.reduce(apiPhaseToEntities, state.phases),
+  phases: action.payload!.phases.reduce(apiPhaseToEntities, {}),
   currentPhaseId: currentPhaseId(action.payload!)
 });
 

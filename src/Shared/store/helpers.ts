@@ -26,7 +26,10 @@ export const apiDataToEntities = <T, E>(
   const key = mapKey(entity);
 
   if (currentEntities[key]) {
-    return currentEntities;
+    return {
+      ...currentEntities,
+      [key]: currentEntities[key]
+    };
   }
 
   return {
