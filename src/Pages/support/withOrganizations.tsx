@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dispatch, AnyAction } from 'redux';
 
 interface WithOrganizationsProps {
@@ -8,15 +8,16 @@ interface WithOrganizationsProps {
 const withOrganizations = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
-  class WithTournaments extends React.Component<T & WithOrganizationsProps> {
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
+  const WithTournaments: React.FC<T & WithOrganizationsProps> = props => {
+    const { getOrganizations } = props;
 
-    componentDidMount() {
-      this.props.getOrganizations();
-    }
-  }
+    useEffect(() => {
+      getOrganizations();
+      return () => undefined;
+    }, [getOrganizations]);
+
+    return <WrappedComponent {...props} />;
+  };
 
   return WithTournaments;
 };
