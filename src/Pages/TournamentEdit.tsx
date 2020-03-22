@@ -107,6 +107,7 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                     {...props}
                     backUrl={backUrl}
                     isLoading={isPatchingTournament}
+                    organizationSlug={organizationSlug}
                   />
                 )}
               />

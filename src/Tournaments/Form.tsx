@@ -5,6 +5,11 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import {
+  required,
+  composeValidators,
+  mustBeSlug
+} from '../Shared/UI/Form/Validators/commonValidators';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -39,6 +44,7 @@ export const FormLoading: React.FC = () => (
 interface FormProps extends FormRenderProps<TournamentEntity> {
   backUrl: string;
   isLoading: boolean;
+  organizationSlug: string;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -46,7 +52,10 @@ const Form: React.FC<FormProps> = ({
   isLoading,
   handleSubmit,
   submitting,
-  pristine
+  pristine,
+  values,
+  organizationSlug,
+  valid
 }) => {
   return (
     <div>
@@ -59,6 +68,7 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="Name"
+              validate={required}
             />
           </div>
         </div>
@@ -71,8 +81,15 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="slug"
+              validate={composeValidators([required, mustBeSlug])}
             />
           </div>
+
+          <p className="help is-info">
+            {`${document.location.origin}/${organizationSlug}/${
+              values.slug ? values.slug : ''
+            }`}
+          </p>
         </div>
 
         <div className="field">
@@ -127,7 +144,7 @@ const Form: React.FC<FormProps> = ({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={submitting || pristine || !valid}
         >
           Save
         </LoadingButton>

@@ -98,6 +98,7 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPostingTournament}
+                  organizationSlug={organizationSlug}
                 />
               )}
             />
