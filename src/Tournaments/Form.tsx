@@ -102,6 +102,12 @@ const Form: React.FC<FormProps> = ({
               placeholder="www.facebook.com/your-tournament"
             />
           </div>
+
+          <p className="help is-info">
+            {`https://www.facebook.com/${
+              values.facebook ? values.facebook : ''
+            }`}
+          </p>
         </div>
 
         <div className="field">
@@ -114,18 +120,12 @@ const Form: React.FC<FormProps> = ({
               placeholder="www.instagram.com/your-tournament"
             />
           </div>
-        </div>
 
-        <div className="field">
-          <label className="label">Site</label>
-          <div className="control">
-            <Field
-              name="siteUrl"
-              component={StringInput}
-              type="text"
-              placeholder="www.your-site.com"
-            />
-          </div>
+          <p className="help is-info">
+            {`https://www.instagram.com/${
+              values.instagram ? values.instagram : ''
+            }`}
+          </p>
         </div>
 
         <div className="field">
@@ -136,6 +136,22 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="www.twitter.com/your-tournament"
+            />
+          </div>
+
+          <p className="help is-info">
+            {`https://www.twitter.com/${values.twitter ? values.twitter : ''}`}
+          </p>
+        </div>
+
+        <div className="field">
+          <label className="label">Site</label>
+          <div className="control">
+            <Field
+              name="siteUrl"
+              component={StringInput}
+              type="text"
+              placeholder="www.your-site.com"
             />
           </div>
         </div>
