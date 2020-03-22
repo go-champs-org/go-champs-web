@@ -8,7 +8,7 @@ interface WithOrganizationsProps {
 const withOrganizations = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
-  const WithTournaments: React.FC<T & WithOrganizationsProps> = props => {
+  const WithOrganizations: React.FC<T & WithOrganizationsProps> = props => {
     const { getOrganizations } = props;
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const withOrganizations = <T extends object>(
     return <WrappedComponent {...props} />;
   };
 
-  return WithTournaments;
+  return WithOrganizations;
 };
 
 export default withOrganizations;

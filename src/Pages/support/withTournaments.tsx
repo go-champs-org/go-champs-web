@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dispatch, AnyAction } from 'redux';
 import { RequestFilter } from '../../Shared/httpClient/requestFilter';
 import { RouteComponentProps } from 'react-router-dom';
@@ -13,20 +13,24 @@ interface WithTournamentsProps extends RouteComponentProps<RouteProps> {
 const withTournaments = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
-  class WithTournaments extends React.Component<T & WithTournamentsProps> {
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
-
-    componentDidMount() {
-      const { organizationSlug } = this.props.match.params;
-      if (organizationSlug) {
-        this.props.getTournamentsByFilter({
-          organization_slug: organizationSlug
-        });
+  const WithTournaments: React.FC<T & WithTournamentsProps> = props => {
+    const {
+      getTournamentsByFilter,
+      match: {
+        params: { organizationSlug }
       }
-    }
-  }
+    } = props;
+
+    useEffect(() => {
+      if (organizationSlug) {
+        getTournamentsByFilter({ organization_slug: organizationSlug });
+      }
+
+      return () => undefined;
+    }, [getTournamentsByFilter, organizationSlug]);
+
+    return <WrappedComponent {...props} />;
+  };
 
   return WithTournaments;
 };
