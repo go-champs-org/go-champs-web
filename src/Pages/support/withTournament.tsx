@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { RouteProps } from './routerInterfaces';
 
@@ -9,19 +9,24 @@ interface WithTournamentProps extends RouteComponentProps<RouteProps> {
 const withTournament = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
-  class WithTournament extends React.Component<T & WithTournamentProps> {
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
+  const WithTournament: React.FC<T & WithTournamentProps> = props => {
+    const {
+      getTournamentBySlug,
+      match: {
+        params: { organizationSlug, tournamentSlug }
+      }
+    } = props;
+    
+    useEffect(() => {
+      if (organizationSlug && tournamentSlug) {
+        getTournamentBySlug(organizationSlug, tournamentSlug);
+      }
 
-    componentDidMount() {
-      const {
-        organizationSlug = '',
-        tournamentSlug = ''
-      } = this.props.match.params;
-      this.props.getTournamentBySlug(organizationSlug, tournamentSlug);
-    }
-  }
+      return () => undefined;
+    }, [organizationSlug, tournamentSlug, getTournamentBySlug]);
+
+    return <WrappedComponent {...props} />;
+  };
 
   return WithTournament;
 };
