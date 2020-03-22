@@ -10,8 +10,6 @@ import {
   composeValidators,
   mustBeSlug
 } from '../Shared/UI/Form/Validators/commonValidators';
-import { mustHaveOrganizationSlugAvailable } from './validators';
-import StringInputWithAsyncValidator from '../Shared/UI/Form/StringInputWithAsyncValidator';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -80,12 +78,10 @@ const Form: React.FC<FormProps> = ({
           <div className="control">
             <Field
               name="slug"
-              component={StringInputWithAsyncValidator}
+              component={StringInput}
               type="text"
               placeholder="slug"
-              validate={composeValidators(
-                [required, mustBeSlug]
-              )}
+              validate={composeValidators([required, mustBeSlug])}
             />
           </div>
 
