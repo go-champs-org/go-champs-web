@@ -14,6 +14,7 @@ import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import { required } from '../Shared/UI/Form/Validators/commonValidators';
 
 interface StatFormProps {
   name: string;
@@ -28,7 +29,12 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
           paddingLeft: '0'
         }}
       >
-        <Field name={`${name}.title`} component={StringInput} type="text" />
+        <Field
+          name={`${name}.title`}
+          component={StringInput}
+          type="text"
+          validate={required}
+        />
       </td>
 
       <td
@@ -58,6 +64,7 @@ const Form: React.FC<FormProps> = ({
   submitting,
   pristine,
   values,
+  valid,
   push
 }) => {
   return (
@@ -71,6 +78,7 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="Title"
+              validate={required}
             />
           </div>
         </div>
@@ -99,6 +107,7 @@ const Form: React.FC<FormProps> = ({
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
                 <SelectInput {...props} options={PHASE_TYPES_OPTIONS} />
               )}
+              validate={required}
             />
           </div>
         </div>
@@ -157,7 +166,7 @@ const Form: React.FC<FormProps> = ({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={submitting || pristine || !valid}
         >
           Save
         </LoadingButton>

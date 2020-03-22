@@ -5,6 +5,7 @@ import Shimmer from '../Shared/UI/Shimmer';
 import { TeamEntity } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import { required } from '../Shared/UI/Form/Validators/commonValidators';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -33,7 +34,8 @@ const Form: React.FC<FormProps> = ({
   isLoading,
   handleSubmit,
   submitting,
-  pristine
+  pristine,
+  valid
 }) => {
   return (
     <div>
@@ -46,6 +48,7 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="Name"
+              validate={required}
             />
           </div>
         </div>
@@ -54,7 +57,7 @@ const Form: React.FC<FormProps> = ({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={submitting || pristine || !valid}
         >
           Save
         </LoadingButton>
