@@ -12,6 +12,7 @@ import { sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import ListHeader from '../Shared/UI/ListHeader';
 
 const mapStateToProps = (state: StoreState) => ({
   phases: sortedPhases(state.phases),
@@ -41,22 +42,12 @@ const PhaseList: React.FC<PhaseListProps> = ({
   tournamentLoading
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const newUrl = `/${organizationSlug}/${tournamentSlug}/NewPhase`;
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-10">
-            <h2 className="subtitle">Phases</h2>
-          </div>
-
-          <div className="column is-2 has-text-right">
-            <Link
-              className="button is-text"
-              to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}
-            >
-              New
-            </Link>
-          </div>
+          <ListHeader newUrl={newUrl} title={'Phases'} />
 
           <div className="column is-12">
             <ComponentLoader
