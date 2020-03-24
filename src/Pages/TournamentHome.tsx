@@ -120,11 +120,13 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         />
       </Switch>
 
-      <Helmet>
-        <title>Go Champs! | {tournament.name}</title>
+      {tournament.name && (
+        <Helmet>
+          <title>Go Champs! | {tournament.name}</title>
 
-        <meta name="description" content={tournament.name} />
-      </Helmet>
+          <meta name="description" content={tournament.name} />
+        </Helmet>
+      )}
     </div>
   );
 };
