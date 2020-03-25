@@ -1,0 +1,24 @@
+.filters-container {
+  flex: 1;
+  padding: 0 0.75rem;
+  overflow: hidden;
+  transition: margin 400ms linear;
+
+  .expand-toogle {
+    border-radius: 100%;
+    transition: transform 400ms linear;
+  }
+
+  &[aria-expanded='false'] {
+    margin: 0 0;
+  }
+
+  &[aria-expanded='true'] {
+    margin: 5px 0;
+  }
+
+  .filters-wrapper {
+    padding: 0;
+    transition: height 400ms linear;
+  }
+}
