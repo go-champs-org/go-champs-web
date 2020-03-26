@@ -27,31 +27,41 @@ const ListHeader: React.FC<ListHeaderProps> = ({
 
   return (
     <div className="filters-container">
-      <div className="columns is-multiline is-mobile is-vcentered">
-        <div className="column is-6">
-          {hasFilter ? (
-            <a href="#" onClick={toogleShouldDisplayFilters}>
+      <div className="headers">
+        <div className="columns is-multiline is-mobile is-vcentered">
+          <div className="column is-6">
+            {hasFilter ? (
+              <a
+                className="subtitle"
+                href="#"
+                onClick={toogleShouldDisplayFilters}
+              >
+                <span>{title}</span>
+
+                <span className="icon is-small has-text-primary">
+                  <i className="fas fa-filter"></i>
+                </span>
+              </a>
+            ) : (
               <h2 className="subtitle">{title}</h2>
-            </a>
-          ) : (
-            <h2 className="subtitle">{title}</h2>
-          )}
-        </div>
+            )}
+          </div>
 
-        <div className="column is-6 has-text-right">
-          {onUpdateOrder && (
-            <button className="button is-text">Save order</button>
-          )}
+          <div className="column is-6 has-text-right">
+            {onUpdateOrder && (
+              <button className="button is-text">Save order</button>
+            )}
 
-          <Link className="button is-text" to={newUrl}>
-            New
-          </Link>
+            <Link className="button is-text" to={newUrl}>
+              New
+            </Link>
+          </div>
         </div>
       </div>
 
       {hasFilter && (
         <div
-          className="columns filters-wrapper"
+          className="filters-wrapper"
           aria-expanded={shouldDisplayFilters}
           style={{
             height: shouldDisplayFilters
@@ -61,8 +71,8 @@ const ListHeader: React.FC<ListHeaderProps> = ({
               : 0
           }}
         >
-          <div className="column is-12" ref={ref}>
-            <div className="columns">{filters}</div>
+          <div className="columns is-mobile is-vcentered" ref={ref}>
+            {filters}
           </div>
         </div>
       )}

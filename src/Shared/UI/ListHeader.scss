@@ -2,7 +2,6 @@
   flex: 1;
   padding: 0 0.75rem;
   overflow: hidden;
-  transition: margin 400ms linear;
 
   .expand-toogle {
     border-radius: 100%;
@@ -19,6 +18,13 @@
 
   .filters-wrapper {
     padding: 0;
-    transition: height 400ms linear;
+    transition: height 400ms linear, margin 400ms linear;
+  }
+
+  .subtitle {
+    .icon {
+      font-size: 0.75em;
+      margin-left: 0.25rem;
+    }
   }
 }

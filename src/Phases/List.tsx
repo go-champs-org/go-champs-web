@@ -83,42 +83,28 @@ interface PhaseListProps {
   phases: PhaseEntity[];
 }
 
-export const List: React.RefForwardingComponent<
-  DraggableListProps<PhaseEntity>,
-  PhaseListProps & DraggableListProps<PhaseEntity>
-> = ({
+export const List: React.FC<PhaseListProps> = ({
   organizationSlug,
   tournamentSlug,
   deletePhase,
   patchPhase,
-  sortedItems,
-  moveItem
+  phases
 }) => {
   const baseTournamentUrl = `/${organizationSlug}/${tournamentSlug}`;
   return (
     <Fragment>
-      {sortedItems.map((phase: PhaseEntity, index: number) => (
-        <DraggableItem
-          index={index}
+      {phases.map((phase: PhaseEntity, index: number) => (
+        <PhaseCard
           key={phase.id}
-          moveItem={moveItem}
-          type={DragTypes.PHASE}
-        >
-          <PhaseCard
-            url={baseTournamentUrl}
-            tournamentPhase={phase}
-            onDeletePhase={deletePhase}
-            order={index + 1}
-            onPatchPhase={patchPhase}
-          />
-        </DraggableItem>
+          url={baseTournamentUrl}
+          tournamentPhase={phase}
+          onDeletePhase={deletePhase}
+          order={index + 1}
+          onPatchPhase={patchPhase}
+        />
       ))}
     </Fragment>
   );
 };
 
-const mapPropsToInitialItems = (props: PhaseListProps) => props.phases;
-
-export default withDraggableList<PhaseListProps, PhaseEntity>(
-  mapPropsToInitialItems
-)(List);
+export default List;
