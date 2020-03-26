@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -61,19 +61,51 @@ const PhaseList: React.FC<PhaseListProps> = ({
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const newUrl = `/${organizationSlug}/${tournamentSlug}/NewPhase`;
+  const [sortedPhases, setSortedPhases] = useState(phases);
+  useEffect(() => {
+    setSortedPhases(phases);
+
+    return () => undefined;
+  }, [phases]);
   const [searchTitleTerm, setSearchTitleTerm] = useState('');
+
+  const onMoveDown = (index: number) => (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if (index === sortedPhases.length - 1) {
+      return;
+    }
+    const newSortedPhases = [...sortedPhases];
+    newSortedPhases[index] = sortedPhases[index + 1];
+    newSortedPhases[index + 1] = sortedPhases[index];
+    setSortedPhases(newSortedPhases);
+  };
+  const onMoveUp = (index: number) => (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if (index === 0) {
+      return;
+    }
+    const newSortedPhases = [...sortedPhases];
+    newSortedPhases[index] = sortedPhases[index - 1];
+    newSortedPhases[index - 1] = sortedPhases[index];
+    setSortedPhases(newSortedPhases);
+  };
+
   const onSearchTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTitleTerm(event.target.value);
     event.preventDefault();
   };
   const filteredPhases = searchTitleTerm
-    ? phases.filter(
+    ? sortedPhases.filter(
         (phase: PhaseEntity) =>
           phase.title
             .toLocaleLowerCase()
             .indexOf(searchTitleTerm.toLocaleLowerCase()) >= 0
       )
-    : phases;
+    : sortedPhases;
 
   return (
     <Fragment>
@@ -83,7 +115,10 @@ const PhaseList: React.FC<PhaseListProps> = ({
             newUrl={newUrl}
             title={'Phases'}
             filters={[
-              <SearchByTitle onSearchInputChange={onSearchTitleChange} />
+              <SearchByTitle
+                key="search"
+                onSearchInputChange={onSearchTitleChange}
+              />
             ]}
           />
 
@@ -95,9 +130,10 @@ const PhaseList: React.FC<PhaseListProps> = ({
               <List
                 deletePhase={deletePhase}
                 organizationSlug={organizationSlug}
-                patchPhase={patchPhase}
                 phases={filteredPhases}
                 tournamentSlug={tournamentSlug}
+                onMoveDown={onMoveDown}
+                onMoveUp={onMoveUp}
               />
             </ComponentLoader>
           </div>

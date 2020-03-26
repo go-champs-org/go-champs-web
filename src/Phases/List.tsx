@@ -32,16 +32,11 @@ export const ListLoading: React.FC = () => (
 
 const PhaseCard: React.FC<{
   onDeletePhase: any;
-  onPatchPhase: any;
   url: string;
   tournamentPhase: PhaseEntity;
-  order: number;
-}> = ({ onDeletePhase, url, tournamentPhase, order, onPatchPhase }) => {
-  // TODO: Find better way to update order
-  const tournamentPhaseWithOrder = {
-    ...tournamentPhase,
-    order
-  };
+  onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}> = ({ onDeletePhase, url, tournamentPhase, onMoveDown, onMoveUp }) => {
   return (
     <div className="card item">
       <div className="card-header">
@@ -52,11 +47,12 @@ const PhaseCard: React.FC<{
           <span className="title is-6">{tournamentPhase.title}</span>
         </Link>
         <div className="card-header-icon">
-          <button
-            className="button is-text"
-            onClick={() => onPatchPhase(tournamentPhaseWithOrder)}
-          >
-            Save order (Temp)
+          <button className="button is-text" onClick={onMoveUp}>
+            <i className="fas fa-arrow-up" />
+          </button>
+
+          <button className="button is-text" onClick={onMoveDown}>
+            <i className="fas fa-arrow-down" />
           </button>
 
           <DoubleClickButton
@@ -73,18 +69,24 @@ const PhaseCard: React.FC<{
 
 interface PhaseListProps {
   deletePhase: any;
-  patchPhase: any;
+  onMoveDown: (
+    index: number
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (
+    index: number
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   organizationSlug: string;
-  tournamentSlug: string;
   phases: PhaseEntity[];
+  tournamentSlug: string;
 }
 
 export const List: React.FC<PhaseListProps> = ({
-  organizationSlug,
-  tournamentSlug,
   deletePhase,
-  patchPhase,
-  phases
+  phases,
+  onMoveDown,
+  onMoveUp,
+  organizationSlug,
+  tournamentSlug
 }) => {
   const baseTournamentUrl = `/${organizationSlug}/${tournamentSlug}`;
   return (
@@ -95,8 +97,8 @@ export const List: React.FC<PhaseListProps> = ({
           url={baseTournamentUrl}
           tournamentPhase={phase}
           onDeletePhase={deletePhase}
-          order={index + 1}
-          onPatchPhase={patchPhase}
+          onMoveDown={onMoveDown(index)}
+          onMoveUp={onMoveUp(index)}
         />
       ))}
     </Fragment>
