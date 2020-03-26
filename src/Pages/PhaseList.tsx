@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import List, { ListLoading } from '../Phases/List';
 import { ConnectedProps, connect } from 'react-redux';

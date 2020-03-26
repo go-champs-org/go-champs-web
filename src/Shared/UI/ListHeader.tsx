@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useRef, Fragment } from 'react';
+import React, { ReactNode, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './ListHeader.scss';
 
@@ -29,25 +29,24 @@ const ListHeader: React.FC<ListHeaderProps> = ({
     <div className="filters-container">
       <div className="headers">
         <div className="columns is-multiline is-mobile is-vcentered">
-          <div className="column is-6">
-            {hasFilter ? (
-              <a
-                className="subtitle"
-                href="#"
-                onClick={toogleShouldDisplayFilters}
-              >
-                <span>{title}</span>
-
-                <span className="icon is-small has-text-primary">
-                  <i className="fas fa-filter"></i>
-                </span>
-              </a>
-            ) : (
-              <h2 className="subtitle">{title}</h2>
-            )}
+          <div className="column is-4">
+            <h2 className="subtitle">{title}</h2>
           </div>
 
-          <div className="column is-6 has-text-right">
+          <div className="column is-8 has-text-right">
+            {hasFilter && (
+              <button
+                className="button is-text"
+                onClick={toogleShouldDisplayFilters}
+              >
+                <span className="icon is-small">
+                  <i className="fas fa-filter"></i>
+                </span>
+
+                <span>Filter</span>
+              </button>
+            )}
+
             {onUpdateOrder && (
               <button className="button is-text">Save order</button>
             )}

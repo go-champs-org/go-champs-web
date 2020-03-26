@@ -1,9 +1,5 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import DraggableItem, { DragTypes } from '../Shared/UI/DnD/DraggableItem';
-import withDraggableList, {
-  DraggableListProps
-} from '../Shared/UI/DnD/withDraggableList';
 import { PhaseEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
