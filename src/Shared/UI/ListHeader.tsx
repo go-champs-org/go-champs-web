@@ -6,13 +6,13 @@ interface ListHeaderProps {
   newUrl: string;
   title: string;
   filters?: ReactNode[];
-  onUpdateOrder?: () => {};
+  onSaveOrder?: () => {};
 }
 
 const ListHeader: React.FC<ListHeaderProps> = ({
   filters,
   newUrl,
-  onUpdateOrder,
+  onSaveOrder,
   title
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -47,8 +47,14 @@ const ListHeader: React.FC<ListHeaderProps> = ({
               </button>
             )}
 
-            {onUpdateOrder && (
-              <button className="button is-text">Save order</button>
+            {onSaveOrder && (
+              <button className="button is-text">
+                <span className="icon is-small">
+                  <i className="fas fa-sort-amount-down-alt"></i>
+                </span>
+
+                <span>Save order</span>
+              </button>
             )}
 
             <Link className="button is-text" to={newUrl}>

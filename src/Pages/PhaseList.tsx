@@ -106,6 +106,10 @@ const PhaseList: React.FC<PhaseListProps> = ({
             .indexOf(searchTitleTerm.toLocaleLowerCase()) >= 0
       )
     : sortedPhases;
+  const onSaveOrder = () => {
+    // TODO: Implement order logic here
+    return '';
+  }
 
   return (
     <Fragment>
@@ -113,13 +117,14 @@ const PhaseList: React.FC<PhaseListProps> = ({
         <div className="columns is-vcentered is-mobile is-multiline">
           <ListHeader
             newUrl={newUrl}
-            title={'Phases'}
+            title="Phases"
             filters={[
               <SearchByTitle
                 key="search"
                 onSearchInputChange={onSearchTitleChange}
               />
             ]}
+            onSaveOrder={onSaveOrder}
           />
 
           <div className="column is-12">
