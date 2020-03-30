@@ -14,6 +14,7 @@ import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
 import { PhaseEntity } from '../Phases/state';
+import useSortedItems from '../Shared/hooks/useSortedItems';
 
 interface SearchByTitle {
   onSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -61,38 +62,12 @@ const PhaseList: React.FC<PhaseListProps> = ({
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const newUrl = `/${organizationSlug}/${tournamentSlug}/NewPhase`;
-  const [sortedPhases, setSortedPhases] = useState(phases);
-  useEffect(() => {
-    setSortedPhases(phases);
 
-    return () => undefined;
-  }, [phases]);
+  const [sortedPhases, onMoveUp, onMoveDown] = useSortedItems<PhaseEntity>(
+    phases
+  );
+
   const [searchTitleTerm, setSearchTitleTerm] = useState('');
-
-  const onMoveDown = (index: number) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    if (index === sortedPhases.length - 1) {
-      return;
-    }
-    const newSortedPhases = [...sortedPhases];
-    newSortedPhases[index] = sortedPhases[index + 1];
-    newSortedPhases[index + 1] = sortedPhases[index];
-    setSortedPhases(newSortedPhases);
-  };
-  const onMoveUp = (index: number) => (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    if (index === 0) {
-      return;
-    }
-    const newSortedPhases = [...sortedPhases];
-    newSortedPhases[index] = sortedPhases[index - 1];
-    newSortedPhases[index - 1] = sortedPhases[index];
-    setSortedPhases(newSortedPhases);
-  };
 
   const onSearchTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTitleTerm(event.target.value);
@@ -106,10 +81,6 @@ const PhaseList: React.FC<PhaseListProps> = ({
             .indexOf(searchTitleTerm.toLocaleLowerCase()) >= 0
       )
     : sortedPhases;
-  const onSaveOrder = () => {
-    // TODO: Implement order logic here
-    return '';
-  }
 
   return (
     <Fragment>
@@ -124,7 +95,6 @@ const PhaseList: React.FC<PhaseListProps> = ({
                 onSearchInputChange={onSearchTitleChange}
               />
             ]}
-            onSaveOrder={onSaveOrder}
           />
 
           <div className="column is-12">

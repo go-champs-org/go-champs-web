@@ -48,13 +48,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             )}
 
             {onSaveOrder && (
-              <button className="button is-text">
-                <span className="icon is-small">
-                  <i className="fas fa-sort-amount-down-alt"></i>
-                </span>
-
-                <span>Save order</span>
-              </button>
+              <button className="button is-text">Save order</button>
             )}
 
             <Link className="button is-text" to={newUrl}>
