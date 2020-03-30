@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -56,16 +56,19 @@ type PhaseListProps = ConnectedProps<typeof connector> &
 const PhaseList: React.FC<PhaseListProps> = ({
   deletePhase,
   match,
-  patchPhase,
   phases,
   tournamentLoading
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const newUrl = `/${organizationSlug}/${tournamentSlug}/NewPhase`;
 
-  const [sortedPhases, onMoveUp, onMoveDown] = useSortedItems<PhaseEntity>(
-    phases
-  );
+  const {
+    items: sortedPhases,
+    onMoveDown,
+    onMoveUp,
+    shouldDisplaySortButtons,
+    toogleShouldDisplaySortButtons
+  } = useSortedItems<PhaseEntity>(phases);
 
   const [searchTitleTerm, setSearchTitleTerm] = useState('');
 
@@ -95,6 +98,9 @@ const PhaseList: React.FC<PhaseListProps> = ({
                 onSearchInputChange={onSearchTitleChange}
               />
             ]}
+            onSaveOrder={() => ''}
+            shouldDisplaySortButtons={shouldDisplaySortButtons}
+            toogleShouldDisplaySortButtons={toogleShouldDisplaySortButtons}
           />
 
           <div className="column is-12">
@@ -109,6 +115,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
                 tournamentSlug={tournamentSlug}
                 onMoveDown={onMoveDown}
                 onMoveUp={onMoveUp}
+                shouldDisplaySortButtons={shouldDisplaySortButtons}
               />
             </ComponentLoader>
           </div>

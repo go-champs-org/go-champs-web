@@ -7,13 +7,19 @@ interface ListHeaderProps {
   title: string;
   filters?: ReactNode[];
   onSaveOrder?: () => {};
+  shouldDisplaySortButtons?: boolean;
+  toogleShouldDisplaySortButtons?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
 }
 
 const ListHeader: React.FC<ListHeaderProps> = ({
   filters,
   newUrl,
+  title,
   onSaveOrder,
-  title
+  shouldDisplaySortButtons,
+  toogleShouldDisplaySortButtons
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [shouldDisplayFilters, setShouldDisplayFilters] = useState(false);
@@ -25,6 +31,9 @@ const ListHeader: React.FC<ListHeaderProps> = ({
 
   const hasFilter = filters && filters.length > 0;
 
+  const shouldDisplaySortControls = onSaveOrder && !shouldDisplayFilters;
+  const shouldDisplayFilterControls = hasFilter && !shouldDisplaySortButtons;
+
   return (
     <div className="filters-container">
       <div className="headers">
@@ -34,7 +43,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
           </div>
 
           <div className="column is-8 has-text-right">
-            {hasFilter && (
+            {shouldDisplayFilterControls && !shouldDisplayFilters && (
               <button
                 className="button is-text"
                 onClick={toogleShouldDisplayFilters}
@@ -47,8 +56,41 @@ const ListHeader: React.FC<ListHeaderProps> = ({
               </button>
             )}
 
-            {onSaveOrder && (
-              <button className="button is-text">Save order</button>
+            {shouldDisplayFilterControls && shouldDisplayFilters && (
+              <button
+                className="button is-text"
+                onClick={toogleShouldDisplayFilters}
+              >
+                Cancel
+              </button>
+            )}
+
+            {shouldDisplaySortControls && !shouldDisplaySortButtons && (
+              <button
+                className="button is-text"
+                onClick={toogleShouldDisplaySortButtons}
+              >
+                <span className="icon is-small">
+                  <i className="fas fa-sort"></i>
+                </span>
+
+                <span>Sort</span>
+              </button>
+            )}
+
+            {shouldDisplaySortControls && shouldDisplaySortButtons && (
+              <button className="button is-text" onClick={onSaveOrder}>
+                Save order
+              </button>
+            )}
+
+            {shouldDisplaySortControls && shouldDisplaySortButtons && (
+              <button
+                className="button is-text"
+                onClick={toogleShouldDisplaySortButtons}
+              >
+                Cancel
+              </button>
             )}
 
             <Link className="button is-text" to={newUrl}>

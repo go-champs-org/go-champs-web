@@ -36,7 +36,15 @@ const PhaseCard: React.FC<{
   tournamentPhase: PhaseEntity;
   onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onMoveUp: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}> = ({ onDeletePhase, url, tournamentPhase, onMoveDown, onMoveUp }) => {
+  shouldDisplaySortButtons: boolean;
+}> = ({
+  onDeletePhase,
+  url,
+  tournamentPhase,
+  onMoveDown,
+  onMoveUp,
+  shouldDisplaySortButtons
+}) => {
   return (
     <div className="card item">
       <div className="card-header">
@@ -46,14 +54,19 @@ const PhaseCard: React.FC<{
         >
           <span className="title is-6">{tournamentPhase.title}</span>
         </Link>
-        <div className="card-header-icon">
-          <button className="button is-text" onClick={onMoveUp}>
-            <i className="fas fa-arrow-up" />
-          </button>
 
-          <button className="button is-text" onClick={onMoveDown}>
-            <i className="fas fa-arrow-down" />
-          </button>
+        <div className="card-header-icon">
+          {shouldDisplaySortButtons && (
+            <Fragment>
+              <button className="button is-text" onClick={onMoveUp}>
+                <i className="fas fa-arrow-up" />
+              </button>
+
+              <button className="button is-text" onClick={onMoveDown}>
+                <i className="fas fa-arrow-down" />
+              </button>
+            </Fragment>
+          )}
 
           <DoubleClickButton
             className="button is-text"
@@ -77,6 +90,7 @@ interface PhaseListProps {
   ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   organizationSlug: string;
   phases: PhaseEntity[];
+  shouldDisplaySortButtons: boolean;
   tournamentSlug: string;
 }
 
@@ -86,6 +100,7 @@ export const List: React.FC<PhaseListProps> = ({
   onMoveDown,
   onMoveUp,
   organizationSlug,
+  shouldDisplaySortButtons,
   tournamentSlug
 }) => {
   const baseTournamentUrl = `/${organizationSlug}/${tournamentSlug}`;
@@ -99,6 +114,7 @@ export const List: React.FC<PhaseListProps> = ({
           onDeletePhase={deletePhase}
           onMoveDown={onMoveDown(index)}
           onMoveUp={onMoveUp(index)}
+          shouldDisplaySortButtons={shouldDisplaySortButtons}
         />
       ))}
     </Fragment>

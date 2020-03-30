@@ -4,7 +4,17 @@ type OnMoveType = (
   index: number
 ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 
-const useSortedItems = <T>(items: T[]): [T[], OnMoveType, OnMoveType] => {
+interface UseSortedItemsData<T> {
+  items: T[];
+  onMoveDown: OnMoveType;
+  onMoveUp: OnMoveType;
+  shouldDisplaySortButtons: boolean;
+  toogleShouldDisplaySortButtons: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+}
+
+const useSortedItems = <T>(items: T[]): UseSortedItemsData<T> => {
   const [stateItems, setStateItems] = useState(items);
 
   useEffect(() => {
@@ -39,7 +49,24 @@ const useSortedItems = <T>(items: T[]): [T[], OnMoveType, OnMoveType] => {
     setStateItems(newStateItems);
   };
 
-  return [stateItems, onMoveUp, onMoveDown];
+  const [shouldDisplaySortButtons, setShouldDisplaySortButtons] = useState(
+    false
+  );
+
+  const toogleShouldDisplaySortButtons = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setShouldDisplaySortButtons(!shouldDisplaySortButtons);
+  };
+
+  return {
+    items: stateItems,
+    onMoveDown,
+    onMoveUp,
+    shouldDisplaySortButtons,
+    toogleShouldDisplaySortButtons
+  };
 };
 
 export default useSortedItems;
