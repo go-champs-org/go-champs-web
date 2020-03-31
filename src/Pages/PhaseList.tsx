@@ -68,7 +68,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
     onMoveDown,
     onMoveUp,
     shouldDisplaySortButtons,
-    toogleShouldDisplaySortButtons
+    toggleShouldDisplaySortButtons
   } = useSortedItems<PhaseEntity>(phases);
 
   const {
@@ -91,7 +91,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
             ]}
             onSaveOrder={() => ''}
             shouldDisplaySortButtons={shouldDisplaySortButtons}
-            toogleShouldDisplaySortButtons={toogleShouldDisplaySortButtons}
+            toggleShouldDisplaySortButtons={toggleShouldDisplaySortButtons}
           />
 
           <div className="column is-12">

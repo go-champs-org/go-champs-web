@@ -10,7 +10,7 @@ interface UseSortedItemsData<T> {
   onMoveDown: OnMoveType;
   onMoveUp: OnMoveType;
   shouldDisplaySortButtons: boolean;
-  toogleShouldDisplaySortButtons: (
+  toggleShouldDisplaySortButtons: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
 }
@@ -55,7 +55,7 @@ const useSortedItems = <T>(items: T[]): UseSortedItemsData<T> => {
   );
 
   const history = useHistory();
-  const toogleShouldDisplaySortButtons = (
+  const toggleShouldDisplaySortButtons = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -70,7 +70,7 @@ const useSortedItems = <T>(items: T[]): UseSortedItemsData<T> => {
     onMoveDown,
     onMoveUp,
     shouldDisplaySortButtons,
-    toogleShouldDisplaySortButtons
+    toggleShouldDisplaySortButtons
   };
 };
 

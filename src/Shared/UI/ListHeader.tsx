@@ -8,7 +8,7 @@ interface ListHeaderProps {
   filters?: ReactNode[];
   onSaveOrder?: () => {};
   shouldDisplaySortButtons?: boolean;
-  toogleShouldDisplaySortButtons?: (
+  toggleShouldDisplaySortButtons?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
 }
@@ -19,12 +19,12 @@ const ListHeader: React.FC<ListHeaderProps> = ({
   title,
   onSaveOrder,
   shouldDisplaySortButtons,
-  toogleShouldDisplaySortButtons
+  toggleShouldDisplaySortButtons
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [shouldDisplayFilters, setShouldDisplayFilters] = useState(false);
 
-  const toogleShouldDisplayFilters = (event: React.MouseEvent) => {
+  const toggleShouldDisplayFilters = (event: React.MouseEvent) => {
     event.preventDefault();
     setShouldDisplayFilters(!shouldDisplayFilters);
   };
@@ -45,7 +45,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             {shouldDisplayFilterControls && !shouldDisplayFilters && (
               <button
                 className="button is-text"
-                onClick={toogleShouldDisplayFilters}
+                onClick={toggleShouldDisplayFilters}
               >
                 <span className="icon is-small">
                   <i className="fas fa-filter"></i>
@@ -58,7 +58,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             {shouldDisplayFilterControls && shouldDisplayFilters && (
               <button
                 className="button is-text"
-                onClick={toogleShouldDisplayFilters}
+                onClick={toggleShouldDisplayFilters}
               >
                 Cancel
               </button>
@@ -67,7 +67,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             {shouldDisplaySortControls && !shouldDisplaySortButtons && (
               <button
                 className="button is-text"
-                onClick={toogleShouldDisplaySortButtons}
+                onClick={toggleShouldDisplaySortButtons}
               >
                 <span className="icon is-small">
                   <i className="fas fa-sort"></i>
@@ -86,7 +86,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             {shouldDisplaySortControls && shouldDisplaySortButtons && (
               <button
                 className="button is-text"
-                onClick={toogleShouldDisplaySortButtons}
+                onClick={toggleShouldDisplaySortButtons}
               >
                 Cancel
               </button>

@@ -20,7 +20,7 @@ const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
     isExpanded: !!isInitiallyCollapsed
   });
 
-  const toogleIsExpanded = (
+  const toggleIsExpanded = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -39,8 +39,8 @@ const CollapsibleCard: React.FC<CollapsibleCardProps> = ({
           {headerButtonsElement}
 
           <button
-            className="button is-text expand-toogle"
-            onClick={toogleIsExpanded}
+            className="button is-text expand-toggle"
+            onClick={toggleIsExpanded}
             style={{
               transform: state.isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
             }}
