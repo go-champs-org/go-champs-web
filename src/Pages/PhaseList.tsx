@@ -19,9 +19,13 @@ import useFilteredItemsByString from '../Shared/hooks/useFilteredItemsByString';
 
 interface SearchByTitle {
   onSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string | null;
 }
 
-const SearchByTitle: React.FC<SearchByTitle> = ({ onSearchInputChange }) => (
+const SearchByTitle: React.FC<SearchByTitle> = ({
+  onSearchInputChange,
+  value
+}) => (
   <Fragment>
     <div className="column is-12">
       <input
@@ -29,6 +33,7 @@ const SearchByTitle: React.FC<SearchByTitle> = ({ onSearchInputChange }) => (
         type="text"
         onChange={onSearchInputChange}
         placeholder="Search title"
+        value={value ? value : ''}
       />
     </div>
   </Fragment>
@@ -73,7 +78,8 @@ const PhaseList: React.FC<PhaseListProps> = ({
 
   const {
     items: filteredPhases,
-    onPropertyNameChange: onSearchTitleChange
+    onPropertyNameChange: onSearchTitleChange,
+    searchValue
   } = useFilteredItemsByString<PhaseEntity>(sortedPhases, 'title');
 
   return (
@@ -87,6 +93,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
               <SearchByTitle
                 key="title"
                 onSearchInputChange={onSearchTitleChange}
+                value={searchValue}
               />
             ]}
             onSaveOrder={() => ''}

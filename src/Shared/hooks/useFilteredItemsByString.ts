@@ -15,14 +15,14 @@ const useFilteredItemsByString = <T extends { [key: string]: any }>(
 
   const location = useLocation();
   const urlSearch = new URLSearchParams(location.search);
-  const searchTerm = urlSearch.get(propertyName);
+  const searchValue = urlSearch.get(propertyName);
 
-  const filteredItems = searchTerm
+  const filteredItems = searchValue
     ? stateItems.filter((item: T) => {
         return item.hasOwnProperty(propertyName)
           ? item[propertyName]
               .toLocaleLowerCase()
-              .indexOf(searchTerm.toLocaleLowerCase()) >= 0
+              .indexOf(searchValue.toLocaleLowerCase()) >= 0
           : true;
       })
     : stateItems;
@@ -43,7 +43,8 @@ const useFilteredItemsByString = <T extends { [key: string]: any }>(
 
   return {
     items: filteredItems,
-    onPropertyNameChange
+    onPropertyNameChange,
+    searchValue: searchValue
   };
 };
 
