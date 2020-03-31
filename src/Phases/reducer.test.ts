@@ -396,6 +396,25 @@ describe('getTournamentSuccess', () => {
     });
   });
 
+  it('removes entities that does not pertain to the tournament', () => {
+    const someState = {
+      ...initialState,
+      phases: {
+        ['some-other-phase-id']: {
+          id: 'some-other-phase-id',
+          title: 'some other phase title',
+          type: PhaseTypes.draw,
+          order: 1,
+          isInProgress: true,
+          eliminationStats: []
+        }
+      }
+    };
+    const newState = phaseReducer(someState, action);
+
+    expect(newState.phases['some-other-phase-id']).toBeUndefined();
+  });
+
   it('does not set entity if state already has it', () => {
     const someState = {
       ...initialState,

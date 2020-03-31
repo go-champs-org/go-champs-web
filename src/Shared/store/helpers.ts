@@ -21,14 +21,17 @@ export const apiDataToEntitiesOverride = <T, E>(
 export const apiDataToEntities = <T, E>(
   mapFunc: (apiData: T) => E,
   mapKey: (entity: E) => string
-) => (currentEntities: { [key: string]: E }, apiData: T) => {
+) => (stateEntities: { [key: string]: E }) => (
+  currentEntities: { [key: string]: E },
+  apiData: T
+) => {
   const entity = mapFunc(apiData);
   const key = mapKey(entity);
 
-  if (currentEntities[key]) {
+  if (stateEntities[key]) {
     return {
       ...currentEntities,
-      [key]: currentEntities[key]
+      [key]: stateEntities[key]
     };
   }
 
