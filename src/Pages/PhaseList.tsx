@@ -15,29 +15,6 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
 import { PhaseEntity } from '../Phases/state';
 import useSortedItems from '../Shared/hooks/useSortedItems';
-import useFilteredItemsByString from '../Shared/hooks/useFilteredItemsByString';
-
-interface SearchByTitle {
-  onSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string | null;
-}
-
-const SearchByTitle: React.FC<SearchByTitle> = ({
-  onSearchInputChange,
-  value
-}) => (
-  <Fragment>
-    <div className="column is-12">
-      <input
-        className="input is-small"
-        type="text"
-        onChange={onSearchInputChange}
-        placeholder="Search title"
-        value={value ? value : ''}
-      />
-    </div>
-  </Fragment>
-);
 
 const mapStateToProps = (state: StoreState) => ({
   phases: sortedPhases(state.phases),
@@ -77,12 +54,6 @@ const PhaseList: React.FC<PhaseListProps> = ({
     toggleShouldDisplaySortButtons
   } = useSortedItems<PhaseEntity>(phases);
 
-  const {
-    items: filteredPhases,
-    onPropertyNameChange: onSearchTitleChange,
-    searchValue
-  } = useFilteredItemsByString<PhaseEntity>(sortedPhases, 'title');
-
   return (
     <Fragment>
       <div className="column">
@@ -90,13 +61,6 @@ const PhaseList: React.FC<PhaseListProps> = ({
           <ListHeader
             newUrl={newUrl}
             title="Phases"
-            filters={[
-              <SearchByTitle
-                key="title"
-                onSearchInputChange={onSearchTitleChange}
-                value={searchValue}
-              />
-            ]}
             onSaveOrder={() => ''}
             onCancelOrder={onCancelSort}
             shouldDisplaySortButtons={shouldDisplaySortButtons}
@@ -111,7 +75,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
               <List
                 deletePhase={deletePhase}
                 organizationSlug={organizationSlug}
-                phases={filteredPhases}
+                phases={sortedPhases}
                 tournamentSlug={tournamentSlug}
                 onMoveDown={onMoveDown}
                 onMoveUp={onMoveUp}
