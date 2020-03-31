@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -15,6 +15,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
 import { PhaseEntity } from '../Phases/state';
 import useSortedItems from '../Shared/hooks/useSortedItems';
+import useFilteredItemsByString from '../Shared/hooks/useFilteredItemsByString';
 
 interface SearchByTitle {
   onSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -70,20 +71,10 @@ const PhaseList: React.FC<PhaseListProps> = ({
     toogleShouldDisplaySortButtons
   } = useSortedItems<PhaseEntity>(phases);
 
-  const [searchTitleTerm, setSearchTitleTerm] = useState('');
-
-  const onSearchTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTitleTerm(event.target.value);
-    event.preventDefault();
-  };
-  const filteredPhases = searchTitleTerm
-    ? sortedPhases.filter(
-        (phase: PhaseEntity) =>
-          phase.title
-            .toLocaleLowerCase()
-            .indexOf(searchTitleTerm.toLocaleLowerCase()) >= 0
-      )
-    : sortedPhases;
+  const {
+    items: filteredPhases,
+    onPropertyNameChange: onSearchTitleChange
+  } = useFilteredItemsByString<PhaseEntity>(sortedPhases, 'title');
 
   return (
     <Fragment>
@@ -94,7 +85,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
             title="Phases"
             filters={[
               <SearchByTitle
-                key="search"
+                key="title"
                 onSearchInputChange={onSearchTitleChange}
               />
             ]}

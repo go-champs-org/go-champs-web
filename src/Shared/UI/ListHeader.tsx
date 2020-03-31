@@ -30,7 +30,6 @@ const ListHeader: React.FC<ListHeaderProps> = ({
   };
 
   const hasFilter = filters && filters.length > 0;
-
   const shouldDisplaySortControls = onSaveOrder && !shouldDisplayFilters;
   const shouldDisplayFilterControls = hasFilter && !shouldDisplaySortButtons;
 
