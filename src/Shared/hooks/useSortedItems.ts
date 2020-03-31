@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 type OnMoveType = (
   index: number
@@ -53,10 +54,14 @@ const useSortedItems = <T>(items: T[]): UseSortedItemsData<T> => {
     false
   );
 
+  const history = useHistory();
   const toogleShouldDisplaySortButtons = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
+    history.push({
+      search: ''
+    });
     setShouldDisplaySortButtons(!shouldDisplaySortButtons);
   };
 
