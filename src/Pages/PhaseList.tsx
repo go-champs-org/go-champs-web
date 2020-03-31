@@ -70,6 +70,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
 
   const {
     items: sortedPhases,
+    onCancelSort,
     onMoveDown,
     onMoveUp,
     shouldDisplaySortButtons,
@@ -97,6 +98,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
               />
             ]}
             onSaveOrder={() => ''}
+            onCancelOrder={onCancelSort}
             shouldDisplaySortButtons={shouldDisplaySortButtons}
             toggleShouldDisplaySortButtons={toggleShouldDisplaySortButtons}
           />

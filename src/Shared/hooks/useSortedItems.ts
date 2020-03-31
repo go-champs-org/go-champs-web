@@ -7,6 +7,9 @@ type OnMoveType = (
 
 interface UseSortedItemsData<T> {
   items: T[];
+  onCancelSort: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
   onMoveDown: OnMoveType;
   onMoveUp: OnMoveType;
   shouldDisplaySortButtons: boolean;
@@ -17,12 +20,22 @@ interface UseSortedItemsData<T> {
 
 const useSortedItems = <T>(items: T[]): UseSortedItemsData<T> => {
   const [stateItems, setStateItems] = useState(items);
+  const [initialStateItems, setInitialStateItems] = useState(items);
 
   useEffect(() => {
     setStateItems(items);
+    setInitialStateItems(items);
 
     return () => undefined;
   }, [items]);
+
+  const onCancelSort = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setStateItems(initialStateItems);
+    setShouldDisplaySortButtons(false);
+  };
 
   const onMoveDown: OnMoveType = (index: number) => (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -67,6 +80,7 @@ const useSortedItems = <T>(items: T[]): UseSortedItemsData<T> => {
 
   return {
     items: stateItems,
+    onCancelSort,
     onMoveDown,
     onMoveUp,
     shouldDisplaySortButtons,

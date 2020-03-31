@@ -6,6 +6,9 @@ interface ListHeaderProps {
   newUrl: string;
   title: string;
   filters?: ReactNode[];
+  onCancelOrder: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
   onSaveOrder?: () => {};
   shouldDisplaySortButtons?: boolean;
   toggleShouldDisplaySortButtons?: (
@@ -17,6 +20,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
   filters,
   newUrl,
   title,
+  onCancelOrder,
   onSaveOrder,
   shouldDisplaySortButtons,
   toggleShouldDisplaySortButtons
@@ -84,10 +88,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             )}
 
             {shouldDisplaySortControls && shouldDisplaySortButtons && (
-              <button
-                className="button is-text"
-                onClick={toggleShouldDisplaySortButtons}
-              >
+              <button className="button is-text" onClick={onCancelOrder}>
                 Cancel
               </button>
             )}
