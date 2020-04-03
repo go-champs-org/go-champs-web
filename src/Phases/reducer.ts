@@ -26,10 +26,12 @@ import {
   PATCH_PHASE_SUCCESS,
   POST_PHASE,
   POST_PHASE_FAILURE,
-  POST_PHASE_SUCCESS
+  POST_PHASE_SUCCESS,
+  PATCH_BATCH_PHASE_SUCCESS
 } from './actions';
 import { mapApiPhaseToPhaseEntity } from './dataMappers';
 import { initialState, PhaseEntity, PhaseState } from './state';
+import { ApiPhaseBatchResponseData } from './phaseHttpClient';
 
 const apiPhaseToEntitiesOverride = apiDataToEntitiesOverride<
   ApiPhase,
@@ -88,6 +90,28 @@ const patchPhaseSuccess = (
   ...state,
   isLoadingPatchPhase: false,
   phases: [action.payload!].reduce(apiPhaseToEntitiesOverride, state.phases)
+});
+
+const batchPatchPhaseSuccess = (
+  state: PhaseState,
+  action: HttpAction<ActionTypes, ApiPhaseBatchResponseData>
+) => ({
+  isLoadingPatchPhase: false,
+  phases: Object.keys(action.payload!).reduce(
+    (currentEntities: { [id: string]: PhaseEntity }, phaseId: string) => {
+      const mappedPhase = mapApiPhaseToPhaseEntity(action.payload![phaseId]);
+      const patchedPhase = {
+        ...currentEntities[phaseId],
+        ...mappedPhase
+      };
+
+      return {
+        ...currentEntities,
+        [phaseId]: patchedPhase
+      };
+    },
+    state.phases
+  )
 });
 
 const postPhase = (state: PhaseState, action: HttpAction<ActionTypes>) => ({
@@ -150,6 +174,7 @@ export default createReducer(initialState, {
   [PATCH_PHASE]: patchPhase,
   [PATCH_PHASE_FAILURE]: patchPhaseFailure,
   [PATCH_PHASE_SUCCESS]: patchPhaseSuccess,
+  [PATCH_BATCH_PHASE_SUCCESS]: batchPatchPhaseSuccess,
   [POST_PHASE]: postPhase,
   [POST_PHASE_FAILURE]: postPhaseFailure,
   [POST_PHASE_SUCCESS]: postPhaseSuccess,

@@ -5,6 +5,7 @@ import {
   GET_TOURNAMENT_FAILURE,
   GET_TOURNAMENT_SUCCESS
 } from '../Tournaments/actions';
+import { ApiPhaseBatchResponseData } from './phaseHttpClient';
 
 export const DELETE_PHASE = 'API_DELETE_PHASE';
 export const DELETE_PHASE_SUCCESS = 'API_DELETE_PHASE_SUCCESS';
@@ -12,6 +13,7 @@ export const DELETE_PHASE_FAILURE = 'API_DELETE_PHASE_FAILURE';
 export const PATCH_PHASE = 'API_PATCH_PHASE';
 export const PATCH_PHASE_SUCCESS = 'API_PATCH_PHASE_SUCCESS';
 export const PATCH_PHASE_FAILURE = 'API_PATCH_PHASE_FAILURE';
+export const PATCH_BATCH_PHASE_SUCCESS = 'API_PATCH_BATCH_PHASE_SUCCESS';
 export const POST_PHASE = 'API_POST_PHASE';
 export const POST_PHASE_SUCCESS = 'API_POST_PHASE_SUCCESS';
 export const POST_PHASE_FAILURE = 'API_POST_PHASE_FAILURE';
@@ -44,6 +46,13 @@ export const patchPhaseSuccess = (
 ): HttpAction<ActionTypes, ApiPhase> => ({
   type: PATCH_PHASE_SUCCESS,
   payload
+});
+
+export const batchPatchPhaseSuccess = (
+  payload: ApiPhaseBatchResponseData
+): HttpAction<ActionTypes, ApiPhaseBatchResponseData> => ({
+  type: PATCH_BATCH_PHASE_SUCCESS,
+  payload: payload
 });
 
 export const patchPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
@@ -90,6 +99,7 @@ export type ActionTypes =
   | typeof PATCH_PHASE
   | typeof PATCH_PHASE_SUCCESS
   | typeof PATCH_PHASE_FAILURE
+  | typeof PATCH_BATCH_PHASE_SUCCESS
   | typeof POST_PHASE
   | typeof POST_PHASE_SUCCESS
   | typeof POST_PHASE_FAILURE

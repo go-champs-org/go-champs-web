@@ -185,12 +185,22 @@ export interface ApiPhasePatchRequest {
   phase: ApiPhaseRequest;
 }
 
+export interface ApiPhaseBatchPatchRequest {
+  phases: ApiPhaseRequest[];
+}
+
 export interface ApiPhaseResponse {
   data: ApiPhase;
 }
 
 export interface ApiPhasesResponse {
   data: ApiPhaseRequest[];
+}
+
+export interface ApiPhaseBatchResponse {
+  data: {
+    [id: string]: ApiPhase;
+  };
 }
 
 export interface ApiOrganization {

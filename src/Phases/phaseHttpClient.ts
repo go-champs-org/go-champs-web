@@ -2,14 +2,21 @@ import {
   ApiPhase,
   ApiPhasePatchRequest,
   ApiPhasePostRequest,
-  ApiPhaseResponse
+  ApiPhaseResponse,
+  ApiPhaseBatchResponse,
+  ApiPhaseBatchPatchRequest
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapPhaseEntityToApiPhasePostRequest,
-  mapPhaseEntityToApiPhasePatchRequest
+  mapPhaseEntityToApiPhasePatchRequest,
+  mapPhaseEntitiesToApiPhasePatchBatchRequest
 } from './dataMappers';
 import { PhaseEntity } from './state';
+
+export interface ApiPhaseBatchResponseData {
+  [id: string]: ApiPhase;
+}
 
 const PHASES_API = `${process.env.REACT_APP_API_HOST}api/phases`;
 
@@ -37,6 +44,19 @@ const patch = async (phase: PhaseEntity): Promise<ApiPhase> => {
   return data;
 };
 
+const patchBatch = async (
+  phases: PhaseEntity[]
+): Promise<ApiPhaseBatchResponseData> => {
+  const url = PHASES_API;
+  const body = mapPhaseEntitiesToApiPhasePatchBatchRequest(phases);
+
+  const { data } = await httpClient.patch<
+    ApiPhaseBatchPatchRequest,
+    ApiPhaseBatchResponse
+  >(url, body);
+  return data;
+};
+
 const post = async (
   phase: PhaseEntity,
   tournamentId: string
@@ -55,5 +75,6 @@ export default {
   delete: deleteRequest,
   get,
   patch,
+  patchBatch,
   post
 };

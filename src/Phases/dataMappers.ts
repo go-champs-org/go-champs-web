@@ -3,7 +3,8 @@ import {
   ApiPhasePatchRequest,
   ApiPhasePostRequest,
   ApiStat,
-  ApiPatchAndPostStat
+  ApiPatchAndPostStat,
+  ApiPhaseBatchPatchRequest
 } from '../Shared/httpClient/apiTypes';
 import { PhaseEntity, StatEntity } from './state';
 
@@ -64,4 +65,20 @@ export const mapPhaseEntityToApiPhasePatchRequest = (
         ? phase.eliminationStats.map(mapStatEntityToApiEliminationStat)
         : undefined
   }
+});
+
+export const mapPhaseEntitiesToApiPhasePatchBatchRequest = (
+  phases: PhaseEntity[]
+): ApiPhaseBatchPatchRequest => ({
+  phases: phases.map(phase => ({
+    id: phase.id,
+    order: phase.order,
+    title: phase.title,
+    type: phase.type,
+    is_in_progress: phase.isInProgress,
+    elimination_stats:
+      phase.eliminationStats.length > 0
+        ? phase.eliminationStats.map(mapStatEntityToApiEliminationStat)
+        : undefined
+  }))
 });

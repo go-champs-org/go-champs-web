@@ -11,7 +11,8 @@ import {
   patchPhaseSuccess,
   postPhaseFailure,
   postPhaseStart,
-  postPhaseSuccess
+  postPhaseSuccess,
+  batchPatchPhaseSuccess
 } from './actions';
 import phaseHttpClient from './phaseHttpClient';
 import { PhaseEntity } from './state';
@@ -42,6 +43,21 @@ export const patchPhase = (phase: PhaseEntity) => async (
 
     dispatch(patchPhaseSuccess(response));
     displayToast(`${phase.title} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchPhaseFailure(err));
+  }
+};
+
+export const patchBatchPhase = (phases: PhaseEntity[]) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(patchPhaseStart());
+
+  try {
+    const response = await phaseHttpClient.patchBatch(phases);
+
+    dispatch(batchPatchPhaseSuccess(response));
+    displayToast(`Phases updated!`, 'is-success');
   } catch (err) {
     dispatch(patchPhaseFailure(err));
   }

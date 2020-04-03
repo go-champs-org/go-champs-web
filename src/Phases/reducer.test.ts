@@ -12,7 +12,8 @@ import {
   patchPhaseSuccess,
   postPhaseFailure,
   postPhaseStart,
-  postPhaseSuccess
+  postPhaseSuccess,
+  batchPatchPhaseSuccess
 } from './actions';
 import phaseReducer from './reducer';
 import { initialState, PhaseState, PhaseTypes } from './state';
@@ -140,6 +141,99 @@ describe('patchPhaseSuccess', () => {
       isInProgress: true,
       title: 'some-first-title',
       type: PhaseTypes.elimination,
+      order: 1,
+      eliminationStats: []
+    });
+  });
+
+  it('keeps others entities in other', () => {
+    const someState: PhaseState = {
+      ...updateState,
+      phases: {
+        'some-id': {
+          id: 'some-id',
+          title: 'some-title',
+          type: PhaseTypes.elimination,
+          isInProgress: true,
+          order: 1,
+          eliminationStats: []
+        }
+      }
+    };
+
+    const newState = phaseReducer(someState, action);
+
+    expect(newState.phases['some-id']).toEqual({
+      id: 'some-id',
+      title: 'some-title',
+      type: PhaseTypes.elimination,
+      order: 1,
+      isInProgress: true,
+      eliminationStats: []
+    });
+  });
+});
+
+describe('batchPatchPhaseSuccess', () => {
+  const action = batchPatchPhaseSuccess({
+    'first-id': {
+      id: 'first-id',
+      title: 'updated-first-title',
+      type: PhaseTypes.draw,
+      order: 2,
+      is_in_progress: true
+    },
+    'second-id': {
+      id: 'second-id',
+      title: 'updated-second-title',
+      type: PhaseTypes.draw,
+      order: 1,
+      is_in_progress: true
+    }
+  });
+
+  const updateState: PhaseState = {
+    ...initialState,
+    phases: {
+      'first-id': {
+        id: 'first-id',
+        title: 'first-title',
+        type: PhaseTypes.elimination,
+        isInProgress: true,
+        order: 1,
+        eliminationStats: []
+      },
+      'second-id': {
+        id: 'second-id',
+        title: 'second-title',
+        type: PhaseTypes.elimination,
+        isInProgress: true,
+        order: 2,
+        eliminationStats: []
+      }
+    }
+  };
+
+  it('sets isLoadingPatchPhase to false', () => {
+    expect(phaseReducer(updateState, action).isLoadingPatchPhase).toBe(false);
+  });
+
+  it('set entities', () => {
+    const newState = phaseReducer(updateState, action);
+
+    expect(newState.phases['first-id']).toEqual({
+      id: 'first-id',
+      isInProgress: true,
+      title: 'updated-first-title',
+      type: PhaseTypes.draw,
+      order: 2,
+      eliminationStats: []
+    });
+    expect(newState.phases['second-id']).toEqual({
+      id: 'second-id',
+      isInProgress: true,
+      title: 'updated-second-title',
+      type: PhaseTypes.draw,
       order: 1,
       eliminationStats: []
     });
