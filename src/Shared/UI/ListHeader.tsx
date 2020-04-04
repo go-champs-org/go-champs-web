@@ -9,7 +9,7 @@ interface ListHeaderProps {
   onCancelOrder: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
-  onSaveOrder?: () => {};
+  onSaveOrder?: (event: React.MouseEvent) => void;
   shouldDisplaySortButtons?: boolean;
   toggleShouldDisplaySortButtons?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>

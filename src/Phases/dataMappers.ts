@@ -82,3 +82,11 @@ export const mapPhaseEntitiesToApiPhasePatchBatchRequest = (
         : undefined
   }))
 });
+
+export const mapPhaseOrderByIndex = (phase: PhaseEntity, index: number) => ({
+  ...phase,
+  order: index + 1
+});
+
+export const mapPhasesOrderByIndex = (phases: PhaseEntity[]) =>
+  phases.map(mapPhaseOrderByIndex);

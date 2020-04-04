@@ -19,8 +19,10 @@ const withPhase = <T extends object>(
     const { getGamesByFilter, getPhase, phaseId } = props;
 
     useEffect(() => {
-      getPhase(phaseId);
-      getGamesByFilter({ phase_id: phaseId });
+      if (phaseId) {
+        getPhase(phaseId);
+        getGamesByFilter({ phase_id: phaseId });
+      }
 
       return () => undefined;
     }, [getGamesByFilter, getPhase, phaseId]);

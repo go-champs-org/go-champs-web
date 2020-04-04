@@ -6,7 +6,7 @@ import List, { ListLoading } from '../Phases/List';
 import { ConnectedProps, connect } from 'react-redux';
 import withTournament from './support/withTournament';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import { patchPhase, deletePhase } from '../Phases/effects';
+import { patchPhase, deletePhase, patchBatchPhase } from '../Phases/effects';
 import { bindActionCreators, Dispatch } from 'redux';
 import { sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
@@ -15,6 +15,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
 import { PhaseEntity } from '../Phases/state';
 import useSortedItems from '../Shared/hooks/useSortedItems';
+import { mapPhasesOrderByIndex } from '../Phases/dataMappers';
 
 const mapStateToProps = (state: StoreState) => ({
   phases: sortedPhases(state.phases),
@@ -26,7 +27,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       deletePhase,
       getTournamentBySlug,
-      patchPhase
+      patchPhase,
+      patchBatchPhase
     },
     dispatch
   );
@@ -39,6 +41,7 @@ type PhaseListProps = ConnectedProps<typeof connector> &
 const PhaseList: React.FC<PhaseListProps> = ({
   deletePhase,
   match,
+  patchBatchPhase,
   phases,
   tournamentLoading
 }) => {
@@ -61,7 +64,9 @@ const PhaseList: React.FC<PhaseListProps> = ({
           <ListHeader
             newUrl={newUrl}
             title="Phases"
-            onSaveOrder={() => ''}
+            onSaveOrder={() =>
+              patchBatchPhase(mapPhasesOrderByIndex(sortedPhases))
+            }
             onCancelOrder={onCancelSort}
             shouldDisplaySortButtons={shouldDisplaySortButtons}
             toggleShouldDisplaySortButtons={toggleShouldDisplaySortButtons}
