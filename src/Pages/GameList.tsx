@@ -10,8 +10,36 @@ import { games, gamesLoading } from '../Games/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Games/List';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Link } from 'react-router-dom';
 import ListHeader from '../Shared/UI/ListHeader';
+import useFilteredItemsByDate from '../Shared/hooks/useFilteredItemsByDate';
+
+const SearchDateInput: React.FC<{
+  value: string | null;
+}> = ({ value }) => {
+  return (
+    <div className="column is-12">
+      <div className="columns is-mobile is-vcentered">
+        <div className="column is-2">
+          <button className="button">
+            <span className="icon is-small">
+              <i className="fas fa-chevron-left" />
+            </span>
+          </button>
+        </div>
+        <div className="column is-8 has-text-centered">
+          {value ? value : ''}
+        </div>
+        <div className="column is-2 has-text-right">
+          <button className="button">
+            <span className="icon is-small">
+              <i className="fas fa-chevron-right" />
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 interface OwnProps {
   organizationSlug: string;
@@ -53,6 +81,11 @@ const GameList: React.FC<GameListProps> = ({
 }) => {
   const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
   const newUrl = `${baseUrl}/NewGame`;
+  const {
+    items: filteredGames,
+    filterValue: dateFilterValue,
+    onFilterValueChange
+  } = useFilteredItemsByDate(games, 'name');
 
   return (
     <Fragment>
@@ -68,7 +101,13 @@ const GameList: React.FC<GameListProps> = ({
         <div className="columns is-multiline">
           <div className="column">
             <div className="columns is-vcentered is-mobile is-multiline">
-              <ListHeader title="Games" newUrl={newUrl} />
+              <ListHeader
+                title="Games"
+                newUrl={newUrl}
+                filters={[
+                  <SearchDateInput key="name" value={dateFilterValue} />
+                ]}
+              />
 
               <div className="column is-12">
                 <ComponentLoader
@@ -78,7 +117,7 @@ const GameList: React.FC<GameListProps> = ({
                   <List
                     baseUrl={baseUrl}
                     deleteGame={deleteGame}
-                    games={games}
+                    games={filteredGames}
                   />
                 </ComponentLoader>
               </div>
