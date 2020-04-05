@@ -8,7 +8,7 @@ import withTournament from './support/withTournament';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { patchPhase, deletePhase, patchBatchPhase } from '../Phases/effects';
 import { bindActionCreators, Dispatch } from 'redux';
-import { sortedPhases } from '../Phases/selectors';
+import { sortedPhases, patchingPhase } from '../Phases/selectors';
 import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
@@ -18,6 +18,7 @@ import useSortedItems from '../Shared/hooks/useSortedItems';
 import { mapPhasesOrderByIndex } from '../Phases/dataMappers';
 
 const mapStateToProps = (state: StoreState) => ({
+  isPatchingPhase: patchingPhase(state.phases),
   phases: sortedPhases(state.phases),
   tournamentLoading: tournamentLoading(state.tournaments)
 });
@@ -40,6 +41,7 @@ type PhaseListProps = ConnectedProps<typeof connector> &
 
 const PhaseList: React.FC<PhaseListProps> = ({
   deletePhase,
+  isPatchingPhase,
   match,
   patchBatchPhase,
   phases,
@@ -67,6 +69,7 @@ const PhaseList: React.FC<PhaseListProps> = ({
             onSaveOrder={() =>
               patchBatchPhase(mapPhasesOrderByIndex(sortedPhases))
             }
+            isSavingOrder={isPatchingPhase}
             onCancelOrder={onCancelSort}
             shouldDisplaySortButtons={shouldDisplaySortButtons}
             toggleShouldDisplaySortButtons={toggleShouldDisplaySortButtons}

@@ -1,6 +1,7 @@
 import React, { ReactNode, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './ListHeader.scss';
+import LoadingButton from './LoadingButton';
 
 interface ListHeaderProps {
   newUrl: string;
@@ -10,6 +11,7 @@ interface ListHeaderProps {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   onSaveOrder?: (event: React.MouseEvent) => void;
+  isSavingOrder?: boolean;
   shouldDisplaySortButtons?: boolean;
   toggleShouldDisplaySortButtons?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -22,6 +24,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
   title,
   onCancelOrder,
   onSaveOrder,
+  isSavingOrder,
   shouldDisplaySortButtons,
   toggleShouldDisplaySortButtons
 }) => {
@@ -82,9 +85,13 @@ const ListHeader: React.FC<ListHeaderProps> = ({
             )}
 
             {shouldDisplaySortControls && shouldDisplaySortButtons && (
-              <button className="button is-text" onClick={onSaveOrder}>
+              <LoadingButton
+                className="button is-text"
+                onClick={onSaveOrder}
+                isLoading={isSavingOrder ? isSavingOrder : false}
+              >
                 Save order
-              </button>
+              </LoadingButton>
             )}
 
             {shouldDisplaySortControls && shouldDisplaySortButtons && (
