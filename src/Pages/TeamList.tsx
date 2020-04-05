@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import List, { ListLoading } from '../Teams/List';
 import { ConnectedProps, connect } from 'react-redux';
@@ -13,6 +13,22 @@ import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
+import useFilteredItemsByString from '../Shared/hooks/useFilteredItemsByString';
+
+const SearchNameInput: React.FC<{
+  value: string | null;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ onInputChange, value }) => (
+  <div className="column is-12">
+    <input
+      className="input is-small"
+      type="text"
+      onChange={onInputChange}
+      placeholder="Search name"
+      value={value ? value : ''}
+    />
+  </div>
+);
 
 const mapStateToProps = (state: StoreState) => ({
   teams: teams(state.teams),
@@ -41,12 +57,27 @@ const TeamList: React.FC<TeamListProps> = ({
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const newUrl = `/${organizationSlug}/${tournamentSlug}/NewTeam`;
+  const {
+    items: filteredTeams,
+    onPropertyNameChange: onTeamNameChange,
+    searchValue: teamNameFilterValue
+  } = useFilteredItemsByString(teams, 'name');
 
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <ListHeader newUrl={newUrl} title="Teams" />
+          <ListHeader
+            newUrl={newUrl}
+            title="Teams"
+            filters={[
+              <SearchNameInput
+                key="name"
+                onInputChange={onTeamNameChange}
+                value={teamNameFilterValue}
+              />
+            ]}
+          />
 
           <div className="column is-12">
             <ComponentLoader
@@ -56,7 +87,7 @@ const TeamList: React.FC<TeamListProps> = ({
               <List
                 deleteTeam={deleteTeam}
                 organizationSlug={organizationSlug}
-                teams={teams}
+                teams={filteredTeams}
                 tournamentSlug={tournamentSlug}
               />
             </ComponentLoader>
