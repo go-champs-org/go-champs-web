@@ -7,7 +7,7 @@ interface ListHeaderProps {
   newUrl: string;
   title: string;
   filters?: ReactNode[];
-  onCancelOrder: (
+  onCancelOrder?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   onSaveOrder?: (event: React.MouseEvent) => void;

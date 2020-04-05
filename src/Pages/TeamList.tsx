@@ -12,6 +12,7 @@ import { teams } from '../Teams/selectors';
 import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import ListHeader from '../Shared/UI/ListHeader';
 
 const mapStateToProps = (state: StoreState) => ({
   teams: teams(state.teams),
@@ -39,22 +40,13 @@ const TeamList: React.FC<TeamListProps> = ({
   tournamentLoading
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const newUrl = `/${organizationSlug}/${tournamentSlug}/NewTeam`;
+
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-10">
-            <h2 className="subtitle">Teams</h2>
-          </div>
-
-          <div className="column is-2 has-text-right">
-            <Link
-              className="button is-text"
-              to={`/${organizationSlug}/${tournamentSlug}/NewTeam`}
-            >
-              New
-            </Link>
-          </div>
+          <ListHeader newUrl={newUrl} title="Teams" />
 
           <div className="column is-12">
             <ComponentLoader
