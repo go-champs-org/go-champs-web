@@ -1,7 +1,9 @@
 import { GameEntity, GameState, DEFAULT_GAME } from './state';
 
 export const games = (state: GameState): GameEntity[] =>
-  Object.keys(state.games).map((key: string) => state.games[key]);
+  Object.keys(state.games)
+    .map((key: string) => state.games[key])
+    .sort(byGameDate);
 
 export const gameDates = (state: GameState): string[] => {
   return games(state)
