@@ -6,31 +6,56 @@ import { deleteGame } from '../Games/effects';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
 import withPhase from './support/withPhase';
-import { games, gamesLoading } from '../Games/selectors';
+import { games, gamesLoading, gameDates } from '../Games/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Games/List';
 import { bindActionCreators, Dispatch } from 'redux';
 import ListHeader from '../Shared/UI/ListHeader';
 import useFilteredItemsByDate from '../Shared/hooks/useFilteredItemsByDate';
+import { dateFromDate } from '../Shared/datetime/format';
 
 const SearchDateInput: React.FC<{
+  dates: string[];
+  onFilterValueChange: (value: string) => void;
   value: string | null;
-}> = ({ value }) => {
+}> = ({ dates, onFilterValueChange, value }) => {
+  const currentPosition = value ? dates.indexOf(value) : -1;
+  const onRightClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    const nextIndex = currentPosition + 1;
+    onFilterValueChange(dates[nextIndex]);
+  };
+  const onLeftClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    const nextIndex = currentPosition - 1;
+    onFilterValueChange(dates[nextIndex]);
+  };
+
   return (
     <div className="column is-12">
       <div className="columns is-mobile is-vcentered">
         <div className="column is-2">
-          <button className="button">
+          <button
+            className="button"
+            onClick={onLeftClick}
+            disabled={currentPosition === 0}
+          >
             <span className="icon is-small">
               <i className="fas fa-chevron-left" />
             </span>
           </button>
         </div>
+
         <div className="column is-8 has-text-centered">
-          {value ? value : ''}
+          {value ? dateFromDate(value) : 'Click right to go to the first day'}
         </div>
+
         <div className="column is-2 has-text-right">
-          <button className="button">
+          <button
+            className="button"
+            onClick={onRightClick}
+            disabled={currentPosition === dates.length - 1}
+          >
             <span className="icon is-small">
               <i className="fas fa-chevron-right" />
             </span>
@@ -50,6 +75,7 @@ interface OwnProps {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
     games: games(state.games),
+    gameDates: gameDates(state.games),
     gamesLoading: gamesLoading(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases)
@@ -71,6 +97,7 @@ type GameListProps = ConnectedProps<typeof connector> & OwnProps;
 
 const GameList: React.FC<GameListProps> = ({
   deleteGame,
+  gameDates,
   games,
   gamesLoading,
   phase,
@@ -85,7 +112,7 @@ const GameList: React.FC<GameListProps> = ({
     items: filteredGames,
     filterValue: dateFilterValue,
     onFilterValueChange
-  } = useFilteredItemsByDate(games, 'name');
+  } = useFilteredItemsByDate(games, 'datetime');
 
   return (
     <Fragment>
@@ -105,7 +132,12 @@ const GameList: React.FC<GameListProps> = ({
                 title="Games"
                 newUrl={newUrl}
                 filters={[
-                  <SearchDateInput key="name" value={dateFilterValue} />
+                  <SearchDateInput
+                    key="name"
+                    dates={gameDates}
+                    value={dateFilterValue}
+                    onFilterValueChange={onFilterValueChange}
+                  />
                 ]}
               />
 
