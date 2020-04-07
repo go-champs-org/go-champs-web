@@ -10,7 +10,8 @@ import {
   patchEliminationSuccess,
   postEliminationFailure,
   postEliminationStart,
-  postEliminationSuccess
+  postEliminationSuccess,
+  batchPatchEliminationSuccess
 } from './actions';
 import eliminationReducer from './reducer';
 import { EliminationState, initialState } from './state';
@@ -165,6 +166,95 @@ describe('patchEliminationSuccess', () => {
       info: 'some info',
       order: 1,
       title: 'some-title',
+      teamStats: []
+    });
+  });
+});
+
+describe('batchPatchEliminationSuccess', () => {
+  const action = batchPatchEliminationSuccess({
+    'first-id': {
+      id: 'first-id',
+      info: 'first updated info',
+      order: 1,
+      title: 'first-updated-title',
+      team_stats: []
+    },
+    'second-id': {
+      id: 'second-id',
+      info: 'second updated info',
+      order: 2,
+      title: 'second-updated-title',
+      team_stats: []
+    }
+  });
+
+  const updateState: EliminationState = {
+    ...initialState,
+    eliminations: {
+      'first-id': {
+        id: 'first-id',
+        info: 'first info',
+        order: 2,
+        title: 'first-title',
+        teamStats: []
+      },
+      'second-id': {
+        id: 'second-id',
+        info: 'second info',
+        order: 1,
+        title: 'second-title',
+        teamStats: []
+      }
+    }
+  };
+
+  it('sets isLoadingPatchElimination to false', () => {
+    expect(
+      eliminationReducer(updateState, action).isLoadingPatchElimination
+    ).toBe(false);
+  });
+
+  it('set entities', () => {
+    const newState = eliminationReducer(updateState, action);
+
+    expect(newState.eliminations['first-id']).toEqual({
+      id: 'first-id',
+      info: 'first updated info',
+      order: 1,
+      title: 'first-updated-title',
+      teamStats: []
+    });
+    expect(newState.eliminations['second-id']).toEqual({
+      id: 'second-id',
+      info: 'second updated info',
+      order: 2,
+      title: 'second-updated-title',
+      teamStats: []
+    });
+  });
+
+  it('keeps others entities in other', () => {
+    const someState: EliminationState = {
+      ...updateState,
+      eliminations: {
+        'some-id': {
+          id: 'some-id',
+          info: 'some updated info',
+          order: 1,
+          title: 'some-updated-title',
+          teamStats: []
+        }
+      }
+    };
+
+    const newState = eliminationReducer(someState, action);
+
+    expect(newState.eliminations['some-id']).toEqual({
+      id: 'some-id',
+      info: 'some updated info',
+      order: 1,
+      title: 'some-updated-title',
       teamStats: []
     });
   });

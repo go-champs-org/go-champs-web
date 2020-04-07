@@ -129,6 +129,10 @@ export interface ApiEliminationPostWithPhaseId extends ApiEliminationPost {
   phase_id: string;
 }
 
+export interface ApiEliminationBatchPatchRequest {
+  eliminations: ApiEliminationPatch[];
+}
+
 export interface ApiEliminationPatchRequest {
   elimination: ApiEliminationPatch;
 }
@@ -143,6 +147,12 @@ export interface ApiEliminationResponse {
 
 export interface ApiEliminationsResponse {
   data: ApiElimination[];
+}
+
+export interface ApiEliminationBatchResponse {
+  data: {
+    [id: string]: ApiElimination;
+  };
 }
 
 export interface ApiOrganization {

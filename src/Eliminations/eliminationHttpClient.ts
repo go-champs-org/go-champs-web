@@ -1,15 +1,23 @@
 import {
   ApiEliminationResponse,
   ApiEliminationPostRequest,
-  ApiEliminationPatchRequest
+  ApiEliminationPatchRequest,
+  ApiElimination,
+  ApiEliminationBatchPatchRequest,
+  ApiEliminationBatchResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapApiEliminationToEliminationEntity,
   mapEliminationEntityToApiEliminationPatchRequest,
-  mapEliminationEntityToApiEliminationPostRequest
+  mapEliminationEntityToApiEliminationPostRequest,
+  mapEliminationEntitiesToApiEliminationPatchBatchRequest
 } from './dataMappers';
 import { EliminationEntity } from './state';
+
+export interface ApiEliminationBatchResponseData {
+  [id: string]: ApiElimination;
+}
 
 const ELIMINATION_API = `${process.env.REACT_APP_API_HOST}api/eliminations`;
 
@@ -32,6 +40,21 @@ const patch = async (
   return mapApiEliminationToEliminationEntity(data);
 };
 
+const patchBatch = async (
+  eliminations: EliminationEntity[]
+): Promise<ApiEliminationBatchResponseData> => {
+  const url = ELIMINATION_API;
+  const body = mapEliminationEntitiesToApiEliminationPatchBatchRequest(
+    eliminations
+  );
+
+  const { data } = await httpClient.patch<
+    ApiEliminationBatchPatchRequest,
+    ApiEliminationBatchResponse
+  >(url, body);
+  return data;
+};
+
 const post = async (
   elimination: EliminationEntity,
   phaseId: string
@@ -51,5 +74,6 @@ const post = async (
 export default {
   delete: deleteRequest,
   patch,
+  patchBatch,
   post
 };

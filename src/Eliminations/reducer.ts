@@ -19,10 +19,12 @@ import {
   PATCH_ELIMINATION_SUCCESS,
   POST_ELIMINATION,
   POST_ELIMINATION_FAILURE,
-  POST_ELIMINATION_SUCCESS
+  POST_ELIMINATION_SUCCESS,
+  PATCH_BATCH_ELIMINATION_SUCCESS
 } from './actions';
 import { mapApiEliminationToEliminationEntity } from './dataMappers';
 import { EliminationEntity, EliminationState, initialState } from './state';
+import { ApiEliminationBatchResponseData } from './eliminationHttpClient';
 
 const eliminationMapEntities = mapEntities<EliminationEntity>(
   returnProperty('id')
@@ -91,6 +93,33 @@ const patchEliminationSuccess = (
   )
 });
 
+const batchPatchEliminationSuccess = (
+  state: EliminationState,
+  action: HttpAction<ActionTypes, ApiEliminationBatchResponseData>
+) => ({
+  isLoadingPatchElimination: false,
+  eliminations: Object.keys(action.payload!).reduce(
+    (
+      currentEntities: { [id: string]: EliminationEntity },
+      eliminationId: string
+    ) => {
+      const mappedElimination = mapApiEliminationToEliminationEntity(
+        action.payload![eliminationId]
+      );
+      const patchedElimination = {
+        ...currentEntities[eliminationId],
+        ...mappedElimination
+      };
+
+      return {
+        ...currentEntities,
+        [eliminationId]: patchedElimination
+      };
+    },
+    state.eliminations
+  )
+});
+
 const postElimination = (
   state: EliminationState,
   action: HttpAction<ActionTypes>
@@ -137,6 +166,7 @@ export default createReducer<EliminationState>(initialState, {
   [PATCH_ELIMINATION]: patchElimination,
   [PATCH_ELIMINATION_FAILURE]: patchEliminationFailure,
   [PATCH_ELIMINATION_SUCCESS]: patchEliminationSuccess,
+  [PATCH_BATCH_ELIMINATION_SUCCESS]: batchPatchEliminationSuccess,
   [POST_ELIMINATION]: postElimination,
   [POST_ELIMINATION_FAILURE]: postEliminationFailure,
   [POST_ELIMINATION_SUCCESS]: postEliminationSuccess,

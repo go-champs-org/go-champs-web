@@ -3,7 +3,8 @@ import {
   ApiEliminationPatchRequest,
   ApiEliminationPostRequest,
   ApiEliminationTeamStatPatchAndPost,
-  ApiEliminationTeamStatResponse
+  ApiEliminationTeamStatResponse,
+  ApiEliminationBatchPatchRequest
 } from '../Shared/httpClient/apiTypes';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 
@@ -61,4 +62,18 @@ export const mapEliminationEntityToApiEliminationPostRequest = (
     ),
     phase_id: phaseId
   }
+});
+
+export const mapEliminationEntitiesToApiEliminationPatchBatchRequest = (
+  eliminations: EliminationEntity[]
+): ApiEliminationBatchPatchRequest => ({
+  eliminations: eliminations.map(elimination => ({
+    id: elimination.id,
+    order: Number(elimination.order),
+    info: elimination.info ? elimination.info : undefined,
+    title: elimination.title,
+    team_stats: elimination.teamStats.map(
+      mapTeamStatToApiEliminationTeamStatPatchAndPost
+    )
+  }))
 });
