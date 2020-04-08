@@ -14,6 +14,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Eliminations/List';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
+import ListHeader from '../Shared/UI/ListHeader';
 
 interface OwnProps {
   organizationSlug: string;
@@ -54,6 +55,8 @@ const EliminationList: React.FC<EliminationListProps> = ({
   tournamentSlug
 }) => {
   const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
+  const newUrl = `${baseUrl}/NewElimination`;
+
   return (
     <Fragment>
       <div className="column is-12">
@@ -68,18 +71,7 @@ const EliminationList: React.FC<EliminationListProps> = ({
         <div className="columns is-multiline">
           <div className="column">
             <div className="columns is-vcentered is-mobile is-multiline">
-              <div className="column is-10">
-                <h2 className="subtitle">Eliminations</h2>
-              </div>
-
-              <div className="column is-2 has-text-right">
-                <Link
-                  className="button is-text"
-                  to={`/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}/NewElimination`}
-                >
-                  New
-                </Link>
-              </div>
+              <ListHeader title="Eliminations" newUrl={newUrl} />
 
               <div className="column is-12">
                 <ComponentLoader
