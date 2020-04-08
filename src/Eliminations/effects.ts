@@ -8,7 +8,8 @@ import {
   patchEliminationSuccess,
   postEliminationFailure,
   postEliminationStart,
-  postEliminationSuccess
+  postEliminationSuccess,
+  batchPatchEliminationSuccess
 } from './actions';
 import eliminationHttpClient from './eliminationHttpClient';
 import { EliminationEntity } from './state';
@@ -39,6 +40,21 @@ export const patchElimination = (elimination: EliminationEntity) => async (
 
     dispatch(patchEliminationSuccess(response));
     displayToast(`${elimination.title} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchEliminationFailure(err));
+  }
+};
+
+export const patchBatchElimination = (
+  eliminations: EliminationEntity[]
+) => async (dispatch: Dispatch) => {
+  dispatch(patchEliminationStart());
+
+  try {
+    const response = await eliminationHttpClient.patchBatch(eliminations);
+
+    dispatch(batchPatchEliminationSuccess(response));
+    displayToast(`Eliminations updated!`, 'is-success');
   } catch (err) {
     dispatch(patchEliminationFailure(err));
   }

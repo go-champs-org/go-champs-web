@@ -77,3 +77,15 @@ export const mapEliminationEntitiesToApiEliminationPatchBatchRequest = (
     )
   }))
 });
+
+export const mapEliminationOrderByIndex = (
+  elimination: EliminationEntity,
+  index: number
+) => ({
+  ...elimination,
+  order: index + 1
+});
+
+export const mapEliminationsOrderByIndex = (
+  eliminations: EliminationEntity[]
+) => eliminations.map(mapEliminationOrderByIndex);

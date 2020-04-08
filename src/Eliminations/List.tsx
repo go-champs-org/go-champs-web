@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Shimmer from '../Shared/UI/Shimmer';
 import { EliminationEntity } from './state';
@@ -37,7 +37,17 @@ const EliminationCard: React.FC<{
   deleteElimination: (
     elimination: EliminationEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
-}> = ({ baseUrl, elimination, deleteElimination }) => (
+  onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  shouldDisplaySortButtons: boolean;
+}> = ({
+  baseUrl,
+  elimination,
+  deleteElimination,
+  onMoveDown,
+  onMoveUp,
+  shouldDisplaySortButtons
+}) => (
   <div className="card item">
     <div className="card-header">
       <Link
@@ -48,6 +58,18 @@ const EliminationCard: React.FC<{
       </Link>
 
       <div className="card-header-icon">
+        {shouldDisplaySortButtons && (
+          <Fragment>
+            <button className="button is-text" onClick={onMoveUp}>
+              <i className="fas fa-arrow-up" />
+            </button>
+
+            <button className="button is-text" onClick={onMoveDown}>
+              <i className="fas fa-arrow-down" />
+            </button>
+          </Fragment>
+        )}
+
         <DoubleClickButton
           className="button is-text"
           onClick={() => deleteElimination(elimination)}
@@ -65,14 +87,31 @@ export const List: React.FC<{
     elimination: EliminationEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   eliminations: EliminationEntity[];
-}> = ({ baseUrl, deleteElimination, eliminations }) => (
+  shouldDisplaySortButtons: boolean;
+  onMoveDown: (
+    index: number
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (
+    index: number
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}> = ({
+  baseUrl,
+  deleteElimination,
+  eliminations,
+  onMoveDown,
+  onMoveUp,
+  shouldDisplaySortButtons
+}) => (
   <div>
-    {eliminations.map((elimination: EliminationEntity) => (
+    {eliminations.map((elimination: EliminationEntity, index: number) => (
       <EliminationCard
         key={elimination.id}
         baseUrl={baseUrl}
         deleteElimination={deleteElimination}
         elimination={elimination}
+        shouldDisplaySortButtons={shouldDisplaySortButtons}
+        onMoveDown={onMoveDown(index)}
+        onMoveUp={onMoveUp(index)}
       />
     ))}
   </div>

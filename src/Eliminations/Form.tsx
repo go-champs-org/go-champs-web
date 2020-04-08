@@ -213,14 +213,6 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
-        <div className="field">
-          <label className="label">Order</label>
-
-          <div className="control">
-            <Field name="order" component={StringInput} type="number" />
-          </div>
-        </div>
-
         <FieldArray name="teamStats">
           {({ fields }) => (
             <div className="table-container">

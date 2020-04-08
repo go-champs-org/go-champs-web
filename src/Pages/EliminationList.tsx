@@ -2,19 +2,26 @@ import React, { Fragment } from 'react';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { connect, ConnectedProps } from 'react-redux';
-import { deleteElimination } from '../Eliminations/effects';
+import {
+  deleteElimination,
+  patchBatchElimination
+} from '../Eliminations/effects';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
 import withPhase from './support/withPhase';
 import {
   eliminationsLoading,
-  sortedEliminations
+  sortedEliminations,
+  patchingElimination
 } from '../Eliminations/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Eliminations/List';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Link } from 'react-router-dom';
+
 import ListHeader from '../Shared/UI/ListHeader';
+import useSortedItems from '../Shared/hooks/useSortedItems';
+import { EliminationEntity } from '../Eliminations/state';
+import { mapEliminationsOrderByIndex } from '../Eliminations/dataMappers';
 
 interface OwnProps {
   organizationSlug: string;
@@ -22,19 +29,19 @@ interface OwnProps {
   tournamentSlug: string;
 }
 
-const mapStateToProps = (state: StoreState, props: OwnProps) => {
-  return {
-    eliminations: sortedEliminations(state.eliminations),
-    eliminationsLoading: eliminationsLoading(state.eliminations),
-    phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    phases: sortedPhases(state.phases)
-  };
-};
+const mapStateToProps = (state: StoreState, props: OwnProps) => ({
+  eliminations: sortedEliminations(state.eliminations),
+  eliminationsLoading: eliminationsLoading(state.eliminations),
+  isPatchingElimination: patchingElimination(state.eliminations),
+  phase: phaseByIdOrDefault(state.phases, props.phaseId),
+  phases: sortedPhases(state.phases)
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      deleteElimination
+      deleteElimination,
+      patchBatchElimination
     },
     dispatch
   );
@@ -48,6 +55,8 @@ const EliminationList: React.FC<EliminationListProps> = ({
   deleteElimination,
   eliminations,
   eliminationsLoading,
+  isPatchingElimination,
+  patchBatchElimination,
   phase,
   phaseId,
   phases,
@@ -56,6 +65,15 @@ const EliminationList: React.FC<EliminationListProps> = ({
 }) => {
   const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
   const newUrl = `${baseUrl}/NewElimination`;
+
+  const {
+    items: sortedEliminations,
+    onCancelSort,
+    onMoveDown,
+    onMoveUp,
+    shouldDisplaySortButtons,
+    toggleShouldDisplaySortButtons
+  } = useSortedItems<EliminationEntity>(eliminations);
 
   return (
     <Fragment>
@@ -71,7 +89,19 @@ const EliminationList: React.FC<EliminationListProps> = ({
         <div className="columns is-multiline">
           <div className="column">
             <div className="columns is-vcentered is-mobile is-multiline">
-              <ListHeader title="Eliminations" newUrl={newUrl} />
+              <ListHeader
+                newUrl={newUrl}
+                title="Eliminations"
+                onSaveOrder={() =>
+                  patchBatchElimination(
+                    mapEliminationsOrderByIndex(sortedEliminations)
+                  )
+                }
+                onCancelOrder={onCancelSort}
+                isSavingOrder={isPatchingElimination}
+                shouldDisplaySortButtons={shouldDisplaySortButtons}
+                toggleShouldDisplaySortButtons={toggleShouldDisplaySortButtons}
+              />
 
               <div className="column is-12">
                 <ComponentLoader
@@ -81,7 +111,10 @@ const EliminationList: React.FC<EliminationListProps> = ({
                   <List
                     baseUrl={baseUrl}
                     deleteElimination={deleteElimination}
-                    eliminations={eliminations}
+                    eliminations={sortedEliminations}
+                    onMoveDown={onMoveDown}
+                    onMoveUp={onMoveUp}
+                    shouldDisplaySortButtons={shouldDisplaySortButtons}
                   />
                 </ComponentLoader>
               </div>
