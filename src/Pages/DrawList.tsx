@@ -2,16 +2,18 @@ import React, { Fragment } from 'react';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { connect, ConnectedProps } from 'react-redux';
-import { deleteDraw } from '../Draws/effects';
+import { deleteDraw, patchBatchDraw } from '../Draws/effects';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import { StoreState } from '../store';
 import withPhase from './support/withPhase';
-import { draws, drawsLoading } from '../Draws/selectors';
+import { draws, drawsLoading, patchingDraw } from '../Draws/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Draws/List';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Link } from 'react-router-dom';
 import ListHeader from '../Shared/UI/ListHeader';
+import { DrawEntity } from '../Draws/state';
+import useSortedItems from '../Shared/hooks/useSortedItems';
+import { mapDrawsOrderByIndex } from '../Draws/dataMappers';
 
 interface OwnProps {
   organizationSlug: string;
@@ -19,19 +21,19 @@ interface OwnProps {
   tournamentSlug: string;
 }
 
-const mapStateToProps = (state: StoreState, props: OwnProps) => {
-  return {
-    draws: draws(state.draws),
-    drawsLoading: drawsLoading(state.draws),
-    phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    phases: sortedPhases(state.phases)
-  };
-};
+const mapStateToProps = (state: StoreState, props: OwnProps) => ({
+  draws: draws(state.draws),
+  drawsLoading: drawsLoading(state.draws),
+  isPatchingDraw: patchingDraw(state.draws),
+  phase: phaseByIdOrDefault(state.phases, props.phaseId),
+  phases: sortedPhases(state.phases)
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      deleteDraw
+      deleteDraw,
+      patchBatchDraw
     },
     dispatch
   );
@@ -45,6 +47,8 @@ const DrawList: React.FC<DrawListProps> = ({
   deleteDraw,
   draws,
   drawsLoading,
+  isPatchingDraw,
+  patchBatchDraw,
   phase,
   phaseId,
   phases,
@@ -53,6 +57,15 @@ const DrawList: React.FC<DrawListProps> = ({
 }) => {
   const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
   const newUrl = `${baseUrl}/NewDraw`;
+
+  const {
+    items: sortedDraws,
+    onCancelSort,
+    onMoveDown,
+    onMoveUp,
+    shouldDisplaySortButtons,
+    toggleShouldDisplaySortButtons
+  } = useSortedItems<DrawEntity>(draws);
 
   return (
     <Fragment>
@@ -68,7 +81,17 @@ const DrawList: React.FC<DrawListProps> = ({
         <div className="columns is-multiline">
           <div className="column">
             <div className="columns is-vcentered is-mobile is-multiline">
-              <ListHeader newUrl={newUrl} title="Draws" />
+              <ListHeader
+                newUrl={newUrl}
+                title="Draws"
+                onSaveOrder={() =>
+                  patchBatchDraw(mapDrawsOrderByIndex(sortedDraws))
+                }
+                onCancelOrder={onCancelSort}
+                isSavingOrder={isPatchingDraw}
+                shouldDisplaySortButtons={shouldDisplaySortButtons}
+                toggleShouldDisplaySortButtons={toggleShouldDisplaySortButtons}
+              />
 
               <div className="column is-12">
                 <ComponentLoader
@@ -78,7 +101,10 @@ const DrawList: React.FC<DrawListProps> = ({
                   <List
                     baseUrl={baseUrl}
                     deleteDraw={deleteDraw}
-                    draws={draws}
+                    draws={sortedDraws}
+                    onMoveDown={onMoveDown}
+                    onMoveUp={onMoveUp}
+                    shouldDisplaySortButtons={shouldDisplaySortButtons}
                   />
                 </ComponentLoader>
               </div>

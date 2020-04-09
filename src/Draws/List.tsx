@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Shimmer from '../Shared/UI/Shimmer';
 import { DrawEntity } from './state';
@@ -37,7 +37,17 @@ const DrawCard: React.FC<{
   deleteDraw: (
     draw: DrawEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
-}> = ({ baseUrl, draw, deleteDraw }) => (
+  onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  shouldDisplaySortButtons: boolean;
+}> = ({
+  baseUrl,
+  draw,
+  deleteDraw,
+  onMoveDown,
+  onMoveUp,
+  shouldDisplaySortButtons
+}) => (
   <div className="card item">
     <div className="card-header">
       <Link className="card-header-title" to={`${baseUrl}/EditDraw/${draw.id}`}>
@@ -45,6 +55,18 @@ const DrawCard: React.FC<{
       </Link>
 
       <div className="card-header-icon">
+        {shouldDisplaySortButtons && (
+          <Fragment>
+            <button className="button is-text" onClick={onMoveUp}>
+              <i className="fas fa-arrow-up" />
+            </button>
+
+            <button className="button is-text" onClick={onMoveDown}>
+              <i className="fas fa-arrow-down" />
+            </button>
+          </Fragment>
+        )}
+
         <DoubleClickButton
           className="button is-text"
           onClick={() => deleteDraw(draw)}
@@ -62,14 +84,31 @@ export const List: React.FC<{
     draw: DrawEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   draws: DrawEntity[];
-}> = ({ baseUrl, deleteDraw, draws }) => (
+  shouldDisplaySortButtons: boolean;
+  onMoveDown: (
+    index: number
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onMoveUp: (
+    index: number
+  ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}> = ({
+  baseUrl,
+  deleteDraw,
+  draws,
+  onMoveDown,
+  onMoveUp,
+  shouldDisplaySortButtons
+}) => (
   <div>
-    {draws.map((draw: DrawEntity) => (
+    {draws.map((draw: DrawEntity, index: number) => (
       <DrawCard
         key={draw.id}
         baseUrl={baseUrl}
         deleteDraw={deleteDraw}
         draw={draw}
+        shouldDisplaySortButtons={shouldDisplaySortButtons}
+        onMoveDown={onMoveDown(index)}
+        onMoveUp={onMoveUp(index)}
       />
     ))}
   </div>
