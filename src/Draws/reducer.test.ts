@@ -7,7 +7,8 @@ import {
   patchDrawSuccess,
   postDrawFailure,
   postDrawStart,
-  postDrawSuccess
+  postDrawSuccess,
+  batchPatchDrawSuccess
 } from './actions';
 import drawReducer from './reducer';
 import { DrawState, initialState } from './state';
@@ -149,6 +150,85 @@ describe('patchDrawSuccess', () => {
     expect(newState.draws['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
+      matches: []
+    });
+  });
+});
+
+describe('batchPatchDrawSuccess', () => {
+  const action = batchPatchDrawSuccess({
+    'first-id': {
+      id: 'first-id',
+      order: 2,
+      title: 'some-updated-first-title',
+      matches: []
+    },
+    'second-id': {
+      id: 'second-id',
+      order: 1,
+      title: 'some-updated-second-title',
+      matches: []
+    }
+  });
+
+  const updateState: DrawState = {
+    ...initialState,
+    draws: {
+      'first-id': {
+        id: 'first-id',
+        order: 1,
+        title: 'some-first-title',
+        matches: []
+      },
+      'second-id': {
+        id: 'second-id',
+        order: 2,
+        title: 'some-second-title',
+        matches: []
+      }
+    }
+  };
+
+  it('sets isLoadingPatchDraw to false', () => {
+    expect(drawReducer(updateState, action).isLoadingPatchDraw).toBe(false);
+  });
+
+  it('set entities', () => {
+    const newState = drawReducer(updateState, action);
+
+    expect(newState.draws['first-id']).toEqual({
+      id: 'first-id',
+      order: 2,
+      title: 'some-updated-first-title',
+      matches: []
+    });
+    expect(newState.draws['second-id']).toEqual({
+      id: 'second-id',
+      order: 1,
+      title: 'some-updated-second-title',
+      matches: []
+    });
+  });
+
+  it('keeps others entities in other', () => {
+    const someState: DrawState = {
+      ...updateState,
+      draws: {
+        'some-id': {
+          id: 'some-id',
+          order: 1,
+          title: 'some-some-title',
+          matches: []
+        }
+      }
+    };
+
+    const newState = drawReducer(someState, action);
+
+    expect(newState.draws['some-id']).toEqual({
+      id: 'some-id',
+      order: 1,
+      title: 'some-some-title',
       matches: []
     });
   });

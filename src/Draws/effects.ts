@@ -8,7 +8,8 @@ import {
   patchDrawSuccess,
   postDrawFailure,
   postDrawStart,
-  postDrawSuccess
+  postDrawSuccess,
+  batchPatchDrawSuccess
 } from './actions';
 import drawHttpClient from './drawHttpClient';
 import { DrawEntity } from './state';
@@ -35,6 +36,21 @@ export const patchDraw = (draw: DrawEntity) => async (dispatch: Dispatch) => {
 
     dispatch(patchDrawSuccess(response));
     displayToast(`${draw.title} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchDrawFailure(err));
+  }
+};
+
+export const patchBatchDraw = (draws: DrawEntity[]) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(patchDrawStart());
+
+  try {
+    const response = await drawHttpClient.patchBatch(draws);
+
+    dispatch(batchPatchDrawSuccess(response));
+    displayToast(`Draws updated!`, 'is-success');
   } catch (err) {
     dispatch(patchDrawFailure(err));
   }

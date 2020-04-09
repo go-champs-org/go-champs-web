@@ -3,7 +3,8 @@ import {
   ApiDrawMatch,
   ApiDrawPatchRequest,
   ApiDrawPostRequest,
-  ApiPatchAndPostDrawMatch
+  ApiPatchAndPostDrawMatch,
+  ApiDrawBatchPatchRequest
 } from '../Shared/httpClient/apiTypes';
 import { DrawEntity, DrawMatchEntity } from './state';
 import { mapStringOrDefault } from '../Shared/store/helpers';
@@ -73,3 +74,22 @@ export const mapDrawEntityToApiDrawPostRequest = (
     phase_id: phaseId
   }
 });
+
+export const mapDrawEntitiesToApiDrawPatchBatchRequest = (
+  draws: DrawEntity[]
+): ApiDrawBatchPatchRequest => ({
+  draws: draws.map(draw => ({
+    id: draw.id,
+    matches: draw.matches.map(mapDrawMatchToApiDraw),
+    order: draw.order || undefined,
+    title: draw.title
+  }))
+});
+
+export const mapDrawOrderByIndex = (draw: DrawEntity, index: number) => ({
+  ...draw,
+  order: index + 1
+});
+
+export const mapDrawsOrderByIndex = (draws: DrawEntity[]) =>
+  draws.map(mapDrawOrderByIndex);

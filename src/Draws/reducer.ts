@@ -21,12 +21,14 @@ import {
   PATCH_DRAW,
   PATCH_DRAW_FAILURE,
   PATCH_DRAW_SUCCESS,
+  PATCH_BATCH_DRAW_SUCCESS,
   POST_DRAW,
   POST_DRAW_FAILURE,
   POST_DRAW_SUCCESS
 } from './actions';
 import { mapApiDrawToDrawEntity } from './dataMappers';
 import { DrawEntity, DrawState, initialState } from './state';
+import { ApiDrawBatchResponseData } from './drawHttpClient';
 
 const drawMapEntities = mapEntities<DrawEntity>(returnProperty('id'));
 
@@ -84,6 +86,28 @@ const patchDrawSuccess = (
   draws: [action.payload].reduce(drawMapEntities, state.draws)
 });
 
+const batchPatchDrawSuccess = (
+  state: DrawState,
+  action: HttpAction<ActionTypes, ApiDrawBatchResponseData>
+) => ({
+  isLoadingPatchDraw: false,
+  draws: Object.keys(action.payload!).reduce(
+    (currentEntities: { [id: string]: DrawEntity }, drawId: string) => {
+      const mappedDraw = mapApiDrawToDrawEntity(action.payload![drawId]);
+      const patchedDraw = {
+        ...currentEntities[drawId],
+        ...mappedDraw
+      };
+
+      return {
+        ...currentEntities,
+        [drawId]: patchedDraw
+      };
+    },
+    state.draws
+  )
+});
+
 const postDraw = (state: DrawState, action: HttpAction<ActionTypes>) => ({
   ...state,
   isLoadingPostDraw: true
@@ -137,6 +161,7 @@ export default createReducer<DrawState>(initialState, {
   [PATCH_DRAW]: patchDraw,
   [PATCH_DRAW_FAILURE]: patchDrawFailure,
   [PATCH_DRAW_SUCCESS]: patchDrawSuccess,
+  [PATCH_BATCH_DRAW_SUCCESS]: batchPatchDrawSuccess,
   [POST_DRAW]: postDraw,
   [POST_DRAW_FAILURE]: postDrawFailure,
   [POST_DRAW_SUCCESS]: postDrawSuccess,

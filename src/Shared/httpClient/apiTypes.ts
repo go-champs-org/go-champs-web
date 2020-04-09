@@ -75,6 +75,10 @@ export interface ApiDrawWithPhaseId extends ApiPatchAndPostDraw {
   phase_id: string;
 }
 
+export interface ApiDrawBatchPatchRequest {
+  draws: ApiPatchAndPostDraw[];
+}
+
 export interface ApiDrawPatchRequest {
   draw: ApiPatchAndPostDraw;
 }
@@ -89,6 +93,12 @@ export interface ApiDrawResponse {
 
 export interface ApiDrawsResponse {
   data: ApiDraw[];
+}
+
+export interface ApiDrawBatchResponse {
+  data: {
+    [id: string]: ApiDraw;
+  };
 }
 
 export interface ApiEliminationTeamStatPatchAndPost {

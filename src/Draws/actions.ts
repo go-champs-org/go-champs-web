@@ -1,5 +1,6 @@
 import { HttpAction } from '../Shared/store/interfaces';
 import { DrawEntity } from './state';
+import { ApiDrawBatchResponseData } from './drawHttpClient';
 
 export const DELETE_DRAW = 'API_DELETE_DRAW';
 export const DELETE_DRAW_SUCCESS = 'API_DELETE_DRAW_SUCCESS';
@@ -7,6 +8,7 @@ export const DELETE_DRAW_FAILURE = 'API_DELETE_DRAW_FAILURE';
 export const PATCH_DRAW = 'API_PATCH_DRAW';
 export const PATCH_DRAW_SUCCESS = 'API_PATCH_DRAW_SUCCESS';
 export const PATCH_DRAW_FAILURE = 'API_PATCH_DRAW_FAILURE';
+export const PATCH_BATCH_DRAW_SUCCESS = 'API_PATCH_BATCH_DRAW_SUCCESS';
 export const POST_DRAW = 'API_POST_DRAW';
 export const POST_DRAW_SUCCESS = 'API_POST_DRAW_SUCCESS';
 export const POST_DRAW_FAILURE = 'API_POST_DRAW_FAILURE';
@@ -38,6 +40,13 @@ export const patchDrawSuccess = (
   payload
 });
 
+export const batchPatchDrawSuccess = (
+  payload: ApiDrawBatchResponseData
+): HttpAction<ActionTypes, ApiDrawBatchResponseData> => ({
+  type: PATCH_BATCH_DRAW_SUCCESS,
+  payload: payload
+});
+
 export const patchDrawFailure = (payload: any): HttpAction<ActionTypes> => ({
   type: PATCH_DRAW_FAILURE,
   payload
@@ -66,6 +75,7 @@ export type ActionTypes =
   | typeof PATCH_DRAW
   | typeof PATCH_DRAW_SUCCESS
   | typeof PATCH_DRAW_FAILURE
+  | typeof PATCH_BATCH_DRAW_SUCCESS
   | typeof POST_DRAW
   | typeof POST_DRAW_SUCCESS
   | typeof POST_DRAW_FAILURE;

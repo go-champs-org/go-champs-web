@@ -1,15 +1,23 @@
 import {
   ApiDrawResponse,
   ApiDrawPostRequest,
-  ApiDrawPatchRequest
+  ApiDrawPatchRequest,
+  ApiDraw,
+  ApiDrawBatchPatchRequest,
+  ApiDrawBatchResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
   mapApiDrawToDrawEntity,
   mapDrawEntityToApiDrawPatchRequest,
-  mapDrawEntityToApiDrawPostRequest
+  mapDrawEntityToApiDrawPostRequest,
+  mapDrawEntitiesToApiDrawPatchBatchRequest
 } from './dataMappers';
 import { DrawEntity } from './state';
+
+export interface ApiDrawBatchResponseData {
+  [id: string]: ApiDraw;
+}
 
 const DRAW_API = `${process.env.REACT_APP_API_HOST}api/draws`;
 
@@ -30,6 +38,19 @@ const patch = async (draw: DrawEntity): Promise<DrawEntity> => {
   return mapApiDrawToDrawEntity(data);
 };
 
+const patchBatch = async (
+  draws: DrawEntity[]
+): Promise<ApiDrawBatchResponseData> => {
+  const url = DRAW_API;
+  const body = mapDrawEntitiesToApiDrawPatchBatchRequest(draws);
+
+  const { data } = await httpClient.patch<
+    ApiDrawBatchPatchRequest,
+    ApiDrawBatchResponse
+  >(url, body);
+  return data;
+};
+
 const post = async (draw: DrawEntity, phaseId: string): Promise<DrawEntity> => {
   const url = `${DRAW_API}`;
   const body = mapDrawEntityToApiDrawPostRequest(draw, phaseId);
@@ -43,5 +64,6 @@ const post = async (draw: DrawEntity, phaseId: string): Promise<DrawEntity> => {
 export default {
   delete: deleteRequest,
   patch,
+  patchBatch,
   post
 };
