@@ -11,6 +11,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Draws/List';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
+import ListHeader from '../Shared/UI/ListHeader';
 
 interface OwnProps {
   organizationSlug: string;
@@ -51,6 +52,8 @@ const DrawList: React.FC<DrawListProps> = ({
   tournamentSlug
 }) => {
   const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
+  const newUrl = `${baseUrl}/NewDraw`;
+
   return (
     <Fragment>
       <div className="column is-12">
@@ -65,18 +68,7 @@ const DrawList: React.FC<DrawListProps> = ({
         <div className="columns is-multiline">
           <div className="column">
             <div className="columns is-vcentered is-mobile is-multiline">
-              <div className="column is-10">
-                <h2 className="subtitle">Draws</h2>
-              </div>
-
-              <div className="column is-2 has-text-right">
-                <Link
-                  className="button is-text"
-                  to={`/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}/NewDraw`}
-                >
-                  New
-                </Link>
-              </div>
+              <ListHeader newUrl={newUrl} title="Draws" />
 
               <div className="column is-12">
                 <ComponentLoader
