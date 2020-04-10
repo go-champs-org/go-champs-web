@@ -1,5 +1,6 @@
 import React from 'react';
 import EmailForm from '../Shared/UI/Form/EmailFrom';
+import homePhone from '../assets/home-photo.png';
 
 const Home: React.FC = () => (
   <div className="hero is-medium">
@@ -15,10 +16,7 @@ const Home: React.FC = () => (
           </div>
 
           <div className="column is-6">
-            <img
-              src="https://cronhub.io/img/ch-dashboard-shadow.png"
-              alt="Demo Tournament"
-            />
+            <img src={homePhone} alt="Demo tournament" />
           </div>
         </div>
       </div>
