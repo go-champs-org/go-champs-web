@@ -43,12 +43,14 @@ const List: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<ApiTournamentWithDependecies[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [haveSearched, setHaveSearched] = useState(false);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
       setIsSearching(true);
+      setHaveSearched(true);
       searchHttpClient.getAll(debouncedSearchTerm).then(results => {
         // Set back to false since request finished
         setIsSearching(false);
@@ -82,11 +84,23 @@ const List: React.FC = () => {
         <div className="hero-body">
           <div className="container">
             <ComponentLoader canRender={!isSearching} loader={ListShimmer}>
-              <div className="columns is-multiline">
-                {results.map((tournament: ApiTournamentWithDependecies) => (
-                  <Result tournament={tournament} key={tournament.id} />
-                ))}
-              </div>
+              {results.length > 0 ? (
+                <div className="columns is-multiline">
+                  {results.map((tournament: ApiTournamentWithDependecies) => (
+                    <Result tournament={tournament} key={tournament.id} />
+                  ))}
+                </div>
+              ) : (
+                <div className="columns">
+                  <p className="column has-text-centered">
+                    <span className="is-size-3">
+                      {haveSearched
+                        ? 'Torneios não encontrados.'
+                        : 'Digite para pesquisar...'}
+                    </span>
+                  </p>
+                </div>
+              )}
             </ComponentLoader>
           </div>
         </div>
