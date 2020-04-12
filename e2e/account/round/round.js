@@ -1,12 +1,12 @@
 module.exports = {
-  'Add new round': function (client) {
+  'Add new draw': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//*[contains(text(), 'Rounds')]")
+      .click("//*[contains(text(), 'Draws')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'New')]/../a")
       .useCss()
@@ -29,14 +29,14 @@ module.exports = {
       .end();
   },
 
-  'Edit round': function (client) {
+  'Edit draw': function (client) {
     client
     .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
     .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//*[contains(text(), 'Rounds')]")
+      .click("//*[contains(text(), 'Draws')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete)')]")
       .useCss()
@@ -51,14 +51,14 @@ module.exports = {
       .end();
   },
 
-  'Delete round': function (client) {
+  'Delete draw': function (client) {
     client
       .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
       .useCss()
       .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//*[contains(text(), 'Rounds')]")
+      .click("//*[contains(text(), 'Draws')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button") // needs to double click
