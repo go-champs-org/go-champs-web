@@ -311,3 +311,22 @@ export interface ApiTournamentsResponse {
 export interface ApiSearchTournamentsResponse {
   data: ApiTournamentWithDependecies[];
 }
+
+export interface ApiSignInRequest {
+  email: string;
+  password: string;
+}
+
+export interface ApiSignUpRequest {
+  user: {
+    email: string;
+    password: string;
+  };
+}
+
+export interface ApiUserResponse {
+  data: {
+    email: string;
+    token: string;
+  };
+}
