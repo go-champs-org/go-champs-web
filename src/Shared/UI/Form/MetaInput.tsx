@@ -5,17 +5,25 @@ import './MetaInput.scss';
 import { isArray } from 'util';
 
 interface MetaInputProps {
+  className?: string;
   component: (inputMetaClasses: string) => ReactNode;
   meta: FieldMetaState<string>;
 }
 
-const MetaInput: React.FC<MetaInputProps> = ({ component, meta }) => {
+const MetaInput: React.FC<MetaInputProps> = ({
+  className,
+  component,
+  meta
+}) => {
   const shouldSetError =
     meta.touched && !meta.dirtySinceLastSubmit && meta.invalid;
 
-  const inputMetaClasses = classNames({
-    'is-warning': shouldSetError
-  });
+  const inputMetaClasses = classNames(
+    {
+      'is-warning': shouldSetError
+    },
+    className
+  );
 
   return (
     <Fragment>
