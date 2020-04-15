@@ -10,7 +10,7 @@ import {
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 
-export const singIn = (user: UserEntity) => async (dispatch: Dispatch) => {
+export const signIn = (user: UserEntity) => async (dispatch: Dispatch) => {
   dispatch(signInStart());
 
   try {
@@ -22,7 +22,7 @@ export const singIn = (user: UserEntity) => async (dispatch: Dispatch) => {
   }
 };
 
-export const singUp = (user: UserEntity) => async (dispatch: Dispatch) => {
+export const signUp = (user: UserEntity) => async (dispatch: Dispatch) => {
   dispatch(signUpStart());
 
   try {

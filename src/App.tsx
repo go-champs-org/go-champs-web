@@ -12,6 +12,7 @@ import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
 import OrganizationHome from './Pages/OrganizationHome';
 import UseAsApp from './Pages/UseAsApp';
+import SignIn from './Pages/SignIn';
 
 const App: React.FC = () => {
   return (
@@ -43,6 +44,7 @@ const App: React.FC = () => {
                     path="/Account/*"
                     component={AccountHome}
                   />
+                  <Route exact sensitive path="/SignIn" component={SignIn} />
                   <Route
                     exact
                     sensitive

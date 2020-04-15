@@ -45,6 +45,12 @@ class NavTopToolbar extends React.Component {
             </div>
 
             <AdminWrapper>
+              <a href="/SignIn" className="navbar-item has-text-centered-touch">
+                Login
+              </a>
+            </AdminWrapper>
+
+            <AdminWrapper>
               <a
                 href="/Account"
                 className="navbar-item has-text-centered-touch"

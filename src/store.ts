@@ -1,6 +1,8 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { default as accountReducer } from './Accounts/reducer';
+import { AccountState } from './Accounts/state';
 import { default as drawsReducer } from './Draws/reducer';
 import { DrawState } from './Draws/state';
 import { default as eliminationsReducer } from './Eliminations/reducer';
@@ -17,6 +19,7 @@ import { default as tournamentReducer } from './Tournaments/reducer';
 import { TournamentState } from './Tournaments/state';
 
 export interface StoreState {
+  account: AccountState;
   draws: DrawState;
   eliminations: EliminationState;
   games: GameState;
@@ -28,6 +31,7 @@ export interface StoreState {
 
 export default createStore(
   combineReducers({
+    account: accountReducer,
     draws: drawsReducer,
     eliminations: eliminationsReducer,
     games: tournamentGameReducer,
