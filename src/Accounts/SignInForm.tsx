@@ -3,7 +3,11 @@ import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { UserEntity } from './entity';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { required } from '../Shared/UI/Form/Validators/commonValidators';
+import {
+  required,
+  mustBeEmail,
+  composeValidators
+} from '../Shared/UI/Form/Validators/commonValidators';
 
 interface FormProps extends FormRenderProps<UserEntity> {
   isLoading: boolean;
@@ -28,7 +32,7 @@ const SingInForm: React.FC<FormProps> = ({
             type="text"
             placeholder="Name"
             className="has-text-centered"
-            validate={required}
+            validate={composeValidators([required, mustBeEmail])}
           />
         </div>
       </div>
