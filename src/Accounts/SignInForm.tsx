@@ -3,6 +3,7 @@ import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { UserEntity } from './entity';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import { required } from '../Shared/UI/Form/Validators/commonValidators';
 
 interface FormProps extends FormRenderProps<UserEntity> {
   isLoading: boolean;
@@ -12,7 +13,8 @@ const SingInForm: React.FC<FormProps> = ({
   isLoading,
   handleSubmit,
   submitting,
-  pristine
+  pristine,
+  valid
 }) => {
   return (
     <form onSubmit={handleSubmit} className="form">
@@ -26,6 +28,7 @@ const SingInForm: React.FC<FormProps> = ({
             type="text"
             placeholder="Name"
             className="has-text-centered"
+            validate={required}
           />
         </div>
       </div>
@@ -39,6 +42,7 @@ const SingInForm: React.FC<FormProps> = ({
             component={StringInput}
             type="password"
             className="has-text-centered"
+            validate={required}
           />
         </div>
       </div>
@@ -48,7 +52,7 @@ const SingInForm: React.FC<FormProps> = ({
           isLoading={isLoading}
           className="button is-fullwidth is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={submitting || pristine || !valid}
         >
           Sign in
         </LoadingButton>
