@@ -101,7 +101,10 @@ const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
     return (
       <div className="hero">
         <div className="hero-body">
-          <h2 className="title is-6 has-text-centered">
+          <h2
+            className="title is-6 has-text-centered"
+            style={{ margin: 'auto' }}
+          >
             Sem jogos para essa fase ainda.
           </h2>
         </div>
