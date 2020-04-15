@@ -1,6 +1,13 @@
 import accountReducer from './reducer';
 import { initialState, AccountState } from './state';
-import { signInStart, signInSuccess, signInFailure } from './actions';
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  signUpStart,
+  signUpSuccess,
+  signUpFailure
+} from './actions';
 
 describe('accountReducer', () => {
   describe('on signInStart', () => {
@@ -42,6 +49,48 @@ describe('accountReducer', () => {
 
     it('sets isSignInLoading to false', () => {
       expect(state.isLoadingSingIn).toBe(false);
+    });
+  });
+
+  describe('on signUpStart', () => {
+    it('sets isSignInLoading to true', () => {
+      const state = accountReducer(initialState, signUpStart());
+
+      expect(state.isLoadingSingUp).toBe(true);
+    });
+  });
+
+  describe('on signUpSuccess', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        { ...initialState, isLoadingSingUp: true },
+        signUpSuccess({ data: { email: 'some email', token: 'some token' } })
+      );
+    });
+
+    it('sets isSignInLoading to false', () => {
+      expect(state.isLoadingSingUp).toBe(false);
+    });
+
+    it('sets response email', () => {
+      expect(state.account!.email).toEqual('some email');
+    });
+  });
+
+  describe('on signUpFailure', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        { ...initialState, isLoadingSingUp: true },
+        signUpFailure({})
+      );
+    });
+
+    it('sets isSignInLoading to false', () => {
+      expect(state.isLoadingSingUp).toBe(false);
     });
   });
 });
