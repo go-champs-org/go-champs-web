@@ -13,6 +13,7 @@ import store from './store';
 import OrganizationHome from './Pages/OrganizationHome';
 import UseAsApp from './Pages/UseAsApp';
 import SignIn from './Pages/SignIn';
+import SignUp from './Pages/SignUp';
 
 const App: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ const App: React.FC = () => {
                     component={AccountHome}
                   />
                   <Route exact sensitive path="/SignIn" component={SignIn} />
+                  <Route exact sensitive path="/SignUp" component={SignUp} />
                   <Route
                     exact
                     sensitive
