@@ -19,50 +19,48 @@ const SingInForm: React.FC<FormProps> = ({
   submitting,
   pristine,
   valid
-}) => {
-  return (
-    <form onSubmit={handleSubmit} className="form">
-      <div className="field">
-        <label className="label">Email</label>
+}) => (
+  <form onSubmit={handleSubmit} className="form">
+    <div className="field">
+      <label className="label">Email</label>
 
-        <div className="control">
-          <Field
-            name="email"
-            component={StringInput}
-            type="text"
-            placeholder="Name"
-            className="has-text-centered"
-            validate={composeValidators([required, mustBeEmail])}
-          />
-        </div>
+      <div className="control">
+        <Field
+          name="email"
+          component={StringInput}
+          type="text"
+          placeholder="Name"
+          className="has-text-centered"
+          validate={composeValidators([required, mustBeEmail])}
+        />
       </div>
+    </div>
 
-      <div className="field">
-        <label className="label">Password</label>
+    <div className="field">
+      <label className="label">Password</label>
 
-        <div className="control">
-          <Field
-            name="password"
-            component={StringInput}
-            type="password"
-            className="has-text-centered"
-            validate={required}
-          />
-        </div>
+      <div className="control">
+        <Field
+          name="password"
+          component={StringInput}
+          type="password"
+          className="has-text-centered"
+          validate={required}
+        />
       </div>
+    </div>
 
-      <div style={{ paddingBottom: '1rem', paddingTop: '1rem' }}>
-        <LoadingButton
-          isLoading={isLoading}
-          className="button is-fullwidth is-primary"
-          type="submit"
-          disabled={submitting || pristine || !valid}
-        >
-          Sign in
-        </LoadingButton>
-      </div>
-    </form>
-  );
-};
+    <div style={{ paddingBottom: '1rem', paddingTop: '1rem' }}>
+      <LoadingButton
+        isLoading={isLoading}
+        className="button is-fullwidth is-primary"
+        type="submit"
+        disabled={submitting || pristine || !valid}
+      >
+        Sign in
+      </LoadingButton>
+    </div>
+  </form>
+);
 
 export default SingInForm;
