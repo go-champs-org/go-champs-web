@@ -1,5 +1,8 @@
 const SLUG_REGEX = RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const EMAIL_REGEX = RegExp(/[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/gim);
+const PASSWORD_REGEX = RegExp(
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
+);
 
 export type ValidatorFunction = (value: any) => string | undefined;
 export type AsyncValidatorFunction = (
@@ -25,6 +28,11 @@ export const mustBeSlug = (value: string) =>
 
 export const mustBeEmail = (value: string) =>
   EMAIL_REGEX.test(value) ? undefined : 'Must be an email';
+
+export const mustBeStrongPassword = (value: string) =>
+  PASSWORD_REGEX.test(value)
+    ? undefined
+    : 'Use at least one: special, lower, upper, numeric character';
 
 export const composeValidators = (
   validators: ValidatorFunction[],
