@@ -1,6 +1,7 @@
+import ReCAPTCHA from 'react-google-recaptcha';
 import React from 'react';
 import { UserEntity } from './entity';
-import { FormRenderProps, Field } from 'react-final-form';
+import { FormRenderProps, Field, useField } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
   composeValidators,
@@ -10,17 +11,35 @@ import {
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
 
-export const repeatedPassword = (formValues: SignUpEntity) => {
-  if (formValues.password === formValues.repeatedPassword) {
+export const signUpValidor = (formValues: SignUpEntity) => {
+  if (
+    formValues.password === formValues.repeatedPassword &&
+    formValues.recaptcha
+  ) {
+    return undefined;
+  }
+
+  return {
+    recaptcha: formValues.recaptcha ? undefined : `Required`,
+    repeatedPassword:
+      formValues.password === formValues.repeatedPassword
+        ? undefined
+        : `Passwords don't match`
+  };
+};
+
+export const hasReCAPTCHA = (formValues: SignUpEntity) => {
+  if (formValues.recaptcha) {
     return undefined;
   }
   return {
-    repeatedPassword: `Passwords don't match`
+    recaptcha: `ReCAPTCHA required`
   };
 };
 
 export interface SignUpEntity extends UserEntity {
   repeatedPassword: string;
+  recaptcha: string;
 }
 
 interface FormProps extends FormRenderProps<SignUpEntity> {
@@ -33,62 +52,73 @@ const SignUpForm: React.FC<FormProps> = ({
   submitting,
   pristine,
   valid
-}) => (
-  <form onSubmit={handleSubmit} className="form no-border-botton">
-    <div className="field">
-      <label className="label">Email</label>
+}) => {
+  const recaptchaField = useField('recaptcha');
 
-      <div className="control">
-        <Field
-          name="email"
-          component={StringInput}
-          type="text"
-          placeholder="Name"
-          className="has-text-centered"
-          validate={composeValidators([required, mustBeEmail])}
+  return (
+    <form onSubmit={handleSubmit} className="form no-border-botton">
+      <div className="field">
+        <label className="label">Email</label>
+
+        <div className="control">
+          <Field
+            name="email"
+            component={StringInput}
+            type="text"
+            placeholder="Name"
+            className="has-text-centered"
+            validate={composeValidators([required, mustBeEmail])}
+          />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Password</label>
+
+        <div className="control">
+          <Field
+            name="password"
+            component={StringInput}
+            type="password"
+            className="has-text-centered"
+            validate={composeValidators([required, mustBeStrongPassword])}
+          />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Repeat password</label>
+
+        <div className="control">
+          <Field
+            name="repeatedPassword"
+            component={StringInput}
+            type="repeatedPassword"
+            className="has-text-centered"
+            validate={required}
+          />
+        </div>
+      </div>
+
+      <div className="field" style={{ marginLeft: '1rem' }}>
+        <ReCAPTCHA
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''}
+          onChange={recaptchaField.input.onChange}
         />
       </div>
-    </div>
 
-    <div className="field">
-      <label className="label">Password</label>
-
-      <div className="control">
-        <Field
-          name="password"
-          component={StringInput}
-          type="password"
-          className="has-text-centered"
-          validate={composeValidators([required, mustBeStrongPassword])}
-        />
+      <div style={{ paddingTop: '1rem' }}>
+        <LoadingButton
+          isLoading={isLoading}
+          className="button is-fullwidth is-primary"
+          type="submit"
+          disabled={submitting || pristine || !valid}
+        >
+          Sign up
+        </LoadingButton>
       </div>
-    </div>
-
-    <div className="field">
-      <label className="label">Repeat password</label>
-
-      <div className="control">
-        <Field
-          name="repeatedPassword"
-          component={StringInput}
-          type="repeatedPassword"
-          className="has-text-centered"
-          validate={required}
-        />
-      </div>
-    </div>
-
-    <div style={{ paddingTop: '1rem' }}>
-      <LoadingButton
-        isLoading={isLoading}
-        className="button is-fullwidth is-primary"
-        type="submit"
-        disabled={submitting || pristine || !valid}
-      >
-        Sign up
-      </LoadingButton>
-    </div>
-  </form>
-);
+    </form>
+  );
+};
 
 export default SignUpForm;

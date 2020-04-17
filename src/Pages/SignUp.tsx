@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import SignUpForm, {
   SignUpEntity,
-  repeatedPassword
+  signUpValidor
 } from '../Accounts/SignUpForm';
 import { StoreState } from '../store';
 import { isSigingUp } from '../Accounts/selectors';
@@ -41,9 +41,10 @@ const SignUp: React.FC<SignUpProps> = ({ isSigingUp, signUp }) => (
               initialValues={{
                 email: '',
                 password: '',
-                repeatedPassword: ''
+                repeatedPassword: '',
+                recaptcha: ''
               }}
-              validate={repeatedPassword}
+              validate={signUpValidor}
               render={(props: FormRenderProps<SignUpEntity>) => (
                 <SignUpForm {...props} isLoading={isSigingUp} />
               )}
