@@ -1,6 +1,9 @@
 import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-import SignUpForm, { SignUpEntity } from '../Accounts/SignUpForm';
+import SignUpForm, {
+  SignUpEntity,
+  repeatedPassword
+} from '../Accounts/SignUpForm';
 import { StoreState } from '../store';
 import { isSigingUp } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -40,6 +43,7 @@ const SignUp: React.FC<SignUpProps> = ({ isSigingUp, signUp }) => (
                 password: '',
                 repeatedPassword: ''
               }}
+              validate={repeatedPassword}
               render={(props: FormRenderProps<SignUpEntity>) => (
                 <SignUpForm {...props} isLoading={isSigingUp} />
               )}

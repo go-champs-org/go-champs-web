@@ -9,6 +9,15 @@ import {
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
 
+export const repeatedPassword = (formValues: SignUpEntity) => {
+  if (formValues.password === formValues.repeatedPassword) {
+    return undefined;
+  }
+  return {
+    repeatedPassword: `Passwords don't match`
+  };
+};
+
 export interface SignUpEntity extends UserEntity {
   repeatedPassword: string;
 }
@@ -68,7 +77,7 @@ const SignUpForm: React.FC<FormProps> = ({
       </div>
     </div>
 
-    <div style={{ paddingBottom: '1rem', paddingTop: '1rem' }}>
+    <div style={{ paddingTop: '1rem' }}>
       <LoadingButton
         isLoading={isLoading}
         className="button is-fullwidth is-primary"
