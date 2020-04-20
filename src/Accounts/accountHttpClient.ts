@@ -4,7 +4,7 @@ import {
   ApiUserResponse,
   ApiSignUpRequest
 } from '../Shared/httpClient/apiTypes';
-import { UserEntity } from './entity';
+import { UserEntity, SignUpEntity } from './entity';
 
 const ACCOUNT_API = `${process.env.REACT_APP_API_HOST}v1/users`;
 
@@ -14,7 +14,7 @@ const signIn = async (user: UserEntity): Promise<ApiUserResponse> => {
   return await httpClient.post<ApiSignInRequest, ApiUserResponse>(url, user);
 };
 
-const signUp = async (user: UserEntity): Promise<ApiUserResponse> => {
+const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
   const url = `${ACCOUNT_API}/signup`;
 
   return await httpClient.post<ApiSignUpRequest, ApiUserResponse>(url, {

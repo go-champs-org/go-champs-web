@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { UserEntity } from './entity';
+import { UserEntity, SignUpEntity } from './entity';
 import {
   signInStart,
   signInSuccess,
@@ -22,7 +22,7 @@ export const signIn = (user: UserEntity) => async (dispatch: Dispatch) => {
   }
 };
 
-export const signUp = (user: UserEntity) => async (dispatch: Dispatch) => {
+export const signUp = (user: SignUpEntity) => async (dispatch: Dispatch) => {
   dispatch(signUpStart());
 
   try {

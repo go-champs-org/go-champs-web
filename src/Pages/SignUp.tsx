@@ -1,14 +1,12 @@
 import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-import SignUpForm, {
-  SignUpEntity,
-  signUpValidor
-} from '../Accounts/SignUpForm';
+import SignUpForm, { signUpValidor } from '../Accounts/SignUpForm';
 import { StoreState } from '../store';
 import { isSigingUp } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
 import { signUp } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
+import { SignUpEntity } from '../Accounts/entity';
 
 const mapStateToProps = (state: StoreState) => ({
   isSigingUp: isSigingUp(state.account)

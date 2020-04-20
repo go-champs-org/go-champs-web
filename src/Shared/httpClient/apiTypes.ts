@@ -321,6 +321,7 @@ export interface ApiSignUpRequest {
   user: {
     email: string;
     password: string;
+    recaptcha: string;
   };
 }
 

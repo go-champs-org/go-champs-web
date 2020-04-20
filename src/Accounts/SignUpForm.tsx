@@ -1,6 +1,6 @@
 import ReCAPTCHA from 'react-google-recaptcha';
 import React from 'react';
-import { UserEntity } from './entity';
+import { SignUpEntity } from './entity';
 import { FormRenderProps, Field, useField } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
@@ -36,11 +36,6 @@ export const hasReCAPTCHA = (formValues: SignUpEntity) => {
     recaptcha: `ReCAPTCHA required`
   };
 };
-
-export interface SignUpEntity extends UserEntity {
-  repeatedPassword: string;
-  recaptcha: string;
-}
 
 interface FormProps extends FormRenderProps<SignUpEntity> {
   isLoading: boolean;
@@ -93,7 +88,7 @@ const SignUpForm: React.FC<FormProps> = ({
           <Field
             name="repeatedPassword"
             component={StringInput}
-            type="repeatedPassword"
+            type="password"
             className="has-text-centered"
             validate={required}
           />
