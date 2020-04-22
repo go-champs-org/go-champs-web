@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import SingInForm from '../Accounts/SignInForm';
 import { StoreState } from '../store';
 import { connect, ConnectedProps } from 'react-redux';
@@ -13,13 +13,17 @@ const mapStateToProps = (state: StoreState) => ({
   isSigingIn: isSigingIn(state.account)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
+const mapDispatchToProps = (
+  dispatch: Dispatch,
+  { history }: RouteComponentProps
+) => {
+  return bindActionCreators(
     {
-      signIn
+      signIn: (user: UserEntity) => signIn(user, history)
     },
     dispatch
   );
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

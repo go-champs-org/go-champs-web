@@ -14,13 +14,14 @@ const mapStateToProps = (state: StoreState) => ({
   isSigingUp: isSigingUp(state.account)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return bindActionCreators(
     {
       signUp
     },
     dispatch
   );
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

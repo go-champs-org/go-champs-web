@@ -12,14 +12,18 @@ import {
   passwordResetFailure
 } from './actions';
 import accountHttpClient from './accountHttpClient';
+import { History } from 'history';
 
-export const signIn = (user: UserEntity) => async (dispatch: Dispatch) => {
+export const signIn = (user: UserEntity, history: History) => async (
+  dispatch: Dispatch
+) => {
   dispatch(signInStart());
 
   try {
     const response = await accountHttpClient.signIn(user);
 
     dispatch(signInSuccess(response));
+    history.push('/Account');
   } catch (err) {
     dispatch(signInFailure(err));
   }
