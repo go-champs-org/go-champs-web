@@ -1,23 +1,27 @@
 import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { StoreState } from '../store';
-import { isSigingUp } from '../Accounts/selectors';
+import { isResetingPassword } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
-import { signUp } from '../Accounts/effects';
+import { passwordReset } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
-import { SignUpEntity } from '../Accounts/entity';
+import { PasswordResetEntity } from '../Accounts/entity';
 import PasswordRecoveryForm, {
   passwordResetValidor
 } from '../Accounts/PasswordResetForm';
+import { RouteComponentProps } from 'react-router-dom';
 
 const mapStateToProps = (state: StoreState) => ({
-  isSigingUp: isSigingUp(state.account)
+  isResetingPassword: isResetingPassword(state.account)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (
+  dispatch: Dispatch,
+  { history }: RouteComponentProps
+) => {
   return bindActionCreators(
     {
-      signUp
+      passwordReset: (user: PasswordResetEntity) => passwordReset(user, history)
     },
     dispatch
   );
@@ -28,8 +32,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PasswordRecoveryProps = ConnectedProps<typeof connector>;
 
 const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
-  isSigingUp,
-  signUp
+  isResetingPassword,
+  passwordReset
 }) => (
   <div className="container has-text-centered">
     <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
@@ -41,7 +45,7 @@ const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
 
           <div className="column is-12">
             <Form
-              onSubmit={signUp}
+              onSubmit={passwordReset}
               initialValues={{
                 email: '',
                 password: '',
@@ -49,8 +53,11 @@ const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
                 recaptcha: ''
               }}
               validate={passwordResetValidor}
-              render={(props: FormRenderProps<SignUpEntity>) => (
-                <PasswordRecoveryForm {...props} isLoading={isSigingUp} />
+              render={(props: FormRenderProps<PasswordResetEntity>) => (
+                <PasswordRecoveryForm
+                  {...props}
+                  isLoading={isResetingPassword}
+                />
               )}
             />
           </div>

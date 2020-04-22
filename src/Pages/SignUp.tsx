@@ -7,15 +7,19 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { signUp } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { SignUpEntity } from '../Accounts/entity';
+import { RouteComponentProps } from 'react-router-dom';
 
 const mapStateToProps = (state: StoreState) => ({
   isSigingUp: isSigingUp(state.account)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (
+  dispatch: Dispatch,
+  { history }: RouteComponentProps
+) =>
   bindActionCreators(
     {
-      signUp
+      signUp: (user: SignUpEntity) => signUp(user, history)
     },
     dispatch
   );

@@ -29,27 +29,32 @@ export const signIn = (user: UserEntity, history: History) => async (
   }
 };
 
-export const signUp = (user: SignUpEntity) => async (dispatch: Dispatch) => {
+export const signUp = (user: SignUpEntity, history: History) => async (
+  dispatch: Dispatch
+) => {
   dispatch(signUpStart());
 
   try {
     const response = await accountHttpClient.signUp(user);
 
     dispatch(signUpSuccess(response));
+    history.push('/Account');
   } catch (err) {
     dispatch(signUpFailure(err));
   }
 };
 
-export const passwordReset = (user: PasswordResetEntity) => async (
-  dispatch: Dispatch
-) => {
+export const passwordReset = (
+  user: PasswordResetEntity,
+  history: History
+) => async (dispatch: Dispatch) => {
   dispatch(passwordResetStart());
 
   try {
     const response = await accountHttpClient.passwordReset(user);
 
     dispatch(passwordResetSuccess(response));
+    history.push('/SignIn');
   } catch (err) {
     dispatch(passwordResetFailure(err));
   }
