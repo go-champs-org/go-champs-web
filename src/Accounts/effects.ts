@@ -13,6 +13,7 @@ import {
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import { History } from 'history';
+import ApiError from '../Shared/httpClient/ApiError';
 
 export const signIn = (user: UserEntity, history: History) => async (
   dispatch: Dispatch
@@ -26,6 +27,21 @@ export const signIn = (user: UserEntity, history: History) => async (
     history.push('/Account');
   } catch (err) {
     dispatch(signInFailure(err));
+
+    if (err instanceof ApiError) {
+      if (err.payload.status === 404) {
+        return {
+          email: ['user not found']
+        };
+      }
+
+      if (err.payload.status === 401) {
+        return {
+          email: ['invalid credentials'],
+          password: ['invalid credentials']
+        };
+      }
+    }
   }
 };
 
