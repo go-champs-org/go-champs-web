@@ -317,6 +317,14 @@ export interface ApiSignInRequest {
   password: string;
 }
 
+export interface ApiPasswordResetRequest {
+  user: {
+    email: string;
+    password: string;
+    recaptcha: string;
+  };
+}
+
 export interface ApiSignUpRequest {
   user: {
     email: string;

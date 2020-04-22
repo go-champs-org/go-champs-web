@@ -10,6 +10,13 @@ export interface SignUpEntity {
   repeatedPassword: string;
 }
 
+export interface PasswordResetEntity {
+  email: string;
+  password: string;
+  recaptcha: string;
+  repeatedPassword: string;
+}
+
 export interface AccountEntity {
   email: string;
 }

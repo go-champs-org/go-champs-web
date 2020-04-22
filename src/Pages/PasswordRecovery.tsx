@@ -1,14 +1,14 @@
 import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
-import PasswordRecoveryForm, {
-  signUpValidor
-} from '../Accounts/PasswordRecoveryForm';
 import { StoreState } from '../store';
 import { isSigingUp } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
 import { signUp } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { SignUpEntity } from '../Accounts/entity';
+import PasswordRecoveryForm, {
+  passwordResetValidor
+} from '../Accounts/PasswordResetForm';
 
 const mapStateToProps = (state: StoreState) => ({
   isSigingUp: isSigingUp(state.account)
@@ -35,7 +35,7 @@ const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
       <div className="card-content">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <p className="title has-text-centered">Sign up</p>
+            <p className="title has-text-centered">Password Reset</p>
           </div>
 
           <div className="column is-12">
@@ -47,7 +47,7 @@ const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
                 repeatedPassword: '',
                 recaptcha: ''
               }}
-              validate={signUpValidor}
+              validate={passwordResetValidor}
               render={(props: FormRenderProps<SignUpEntity>) => (
                 <PasswordRecoveryForm {...props} isLoading={isSigingUp} />
               )}

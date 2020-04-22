@@ -6,10 +6,57 @@ import {
   signInFailure,
   signUpStart,
   signUpSuccess,
-  signUpFailure
+  signUpFailure,
+  passwordResetFailure,
+  passwordResetSuccess,
+  passwordResetStart
 } from './actions';
 
-describe('accountReducer', () => {
+describe.only('accountReducer', () => {
+  describe('on passwordResetStart', () => {
+    it('sets isSignInLoading to true', () => {
+      const state = accountReducer(initialState, passwordResetStart());
+
+      expect(state.isLoadingPasswordReset).toBe(true);
+    });
+  });
+
+  describe('on passwordResetSuccess', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        { ...initialState, isLoadingPasswordReset: true },
+        passwordResetSuccess({
+          data: { email: 'some email', token: 'some token' }
+        })
+      );
+    });
+
+    it('sets isSignInLoading to false', () => {
+      expect(state.isLoadingPasswordReset).toBe(false);
+    });
+
+    it('sets response email', () => {
+      expect(state.account!.email).toEqual('some email');
+    });
+  });
+
+  describe('on passwordResetFailure', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        { ...initialState, isLoadingPasswordReset: true },
+        passwordResetFailure({})
+      );
+    });
+
+    it('sets isSignInLoading to false', () => {
+      expect(state.isLoadingPasswordReset).toBe(false);
+    });
+  });
+
   describe('on signInStart', () => {
     it('sets isSignInLoading to true', () => {
       const state = accountReducer(initialState, signInStart());
