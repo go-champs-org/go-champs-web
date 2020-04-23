@@ -14,6 +14,7 @@ import {
 import accountHttpClient from './accountHttpClient';
 import { History } from 'history';
 import ApiError from '../Shared/httpClient/ApiError';
+import { displayToast } from '../Shared/bulma/toast';
 
 export const signIn = (user: UserEntity, history: History) => async (
   dispatch: Dispatch
@@ -57,6 +58,7 @@ export const signUp = (user: SignUpEntity, history: History) => async (
     history.push('/Account');
   } catch (err) {
     dispatch(signUpFailure(err));
+    displayToast(`Sign up failed :(`, 'is-primary');
   }
 };
 
@@ -73,5 +75,6 @@ export const passwordReset = (
     history.push('/SignIn');
   } catch (err) {
     dispatch(passwordResetFailure(err));
+    displayToast(`Password recovery failed :(`, 'is-primary');
   }
 };
