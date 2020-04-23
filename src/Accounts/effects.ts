@@ -25,6 +25,7 @@ export const signIn = (user: UserEntity, history: History) => async (
     const response = await accountHttpClient.signIn(user);
 
     dispatch(signInSuccess(response));
+    localStorage.setItem('token', response.data.token);
     history.push('/Account');
   } catch (err) {
     dispatch(signInFailure(err));

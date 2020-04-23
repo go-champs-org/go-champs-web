@@ -38,9 +38,10 @@ const mockHistory = ({
   push: jest.fn()
 } as unknown) as History;
 
-describe.only('accountEffects', () => {
+describe('accountEffects', () => {
   beforeEach(() => {
     jest.spyOn(toast, 'displayToast');
+    jest.spyOn(Storage.prototype, 'setItem');
   });
 
   describe('signIn', () => {
@@ -73,6 +74,13 @@ describe.only('accountEffects', () => {
               token: 'some token'
             }
           })
+        );
+      });
+
+      it('sets the token on local storage', () => {
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          'token',
+          'some token'
         );
       });
 

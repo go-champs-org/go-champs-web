@@ -12,7 +12,7 @@ import {
   passwordResetStart
 } from './actions';
 
-describe.only('accountReducer', () => {
+describe('accountReducer', () => {
   describe('on passwordResetStart', () => {
     it('sets isSignInLoading to true', () => {
       const state = accountReducer(initialState, passwordResetStart());

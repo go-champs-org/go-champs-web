@@ -15,6 +15,7 @@ import UseAsApp from './Pages/UseAsApp';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import PasswordRecovery from './Pages/PasswordRecovery';
+import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 
 const App: React.FC = () => {
   return (
@@ -32,7 +33,11 @@ const App: React.FC = () => {
                     exact
                     sensitive
                     path="/Account"
-                    component={AccountHome}
+                    render={() => (
+                      <AuthenticatedRoute>
+                        <AccountHome />
+                      </AuthenticatedRoute>
+                    )}
                   />
                   <Route
                     exact
