@@ -13,6 +13,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import withOrganizations from './support/withOrganizations';
 import { getOrganizations } from '../Organizations/effects';
 import { bindActionCreators, Dispatch } from 'redux';
+import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 
 const mapStateToProps = (
   state: StoreState,
@@ -58,19 +59,32 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
           <Switch>
             <Route
               path={`/Organization/:organizationSlug/Edit`}
-              component={OrganizationEdit}
+              render={(props: RouteComponentProps<RouteProps>) => (
+                <AuthenticatedRoute>
+                  <OrganizationEdit {...props} />
+                </AuthenticatedRoute>
+              )}
             />
+            {/* Need to wrap on authenticated route */}
             <Route
               path={`/Organization/:organizationSlug/NewTournament`}
               component={TournamentNew}
             />
             <Route
               path={`/Organization/:organizationSlug/Tournaments`}
-              component={TournamentList}
+              render={(props: RouteComponentProps<RouteProps>) => (
+                <AuthenticatedRoute>
+                  <TournamentList {...props} />
+                </AuthenticatedRoute>
+              )}
             />
             <Route
               path={`/Organization/:organizationSlug`}
-              component={TournamentList}
+              render={(props: RouteComponentProps<RouteProps>) => (
+                <AuthenticatedRoute>
+                  <TournamentList {...props} />
+                </AuthenticatedRoute>
+              )}
             />
           </Switch>
         </div>

@@ -2,7 +2,12 @@ import React from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  RouteComponentProps
+} from 'react-router-dom';
 import AccountHome from './Pages/AccountHome';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
@@ -14,6 +19,8 @@ import UseAsApp from './Pages/UseAsApp';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import PasswordRecovery from './Pages/PasswordRecovery';
+import { RouteProps } from './Pages/support/routerInterfaces';
+import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 
 const App: React.FC = () => {
   return (
@@ -31,7 +38,11 @@ const App: React.FC = () => {
                     exact
                     sensitive
                     path="/Account"
-                    render={() => <AccountHome />}
+                    render={() => (
+                      <AuthenticatedRoute>
+                        <AccountHome />
+                      </AuthenticatedRoute>
+                    )}
                   />
                   <Route
                     exact
@@ -51,13 +62,21 @@ const App: React.FC = () => {
                     exact
                     sensitive
                     path="/Organization/:organizationSlug"
-                    component={OrganizationHome}
+                    render={(props: RouteComponentProps<RouteProps>) => (
+                      <AuthenticatedRoute>
+                        <OrganizationHome {...props} />
+                      </AuthenticatedRoute>
+                    )}
                   />
                   <Route
                     exact
                     sensitive
                     path="/Organization/:organizationSlug/*"
-                    component={OrganizationHome}
+                    render={(props: RouteComponentProps<RouteProps>) => (
+                      <AuthenticatedRoute>
+                        <OrganizationHome {...props} />
+                      </AuthenticatedRoute>
+                    )}
                   />
                   <Route exact sensitive path="/Search" component={Search} />
                   <Route

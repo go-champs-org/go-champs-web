@@ -38,11 +38,9 @@ type DispatchProps = {
 };
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
-  const { organizationSlug } = props.match.params;
   return {
     ...props,
     isPostingTournament: postingTournament(state.tournaments),
-    organization: organizationBySlug(state.organizations, organizationSlug),
     organizationsLoading: organizationsLoading(state.organizations)
   };
 };
