@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AccountHome from './Pages/AccountHome';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
-import TournamentEdit from './Pages/TournamentEdit';
 import TournamentHome from './Pages/TournamentHome';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
 import store from './store';
@@ -15,7 +14,6 @@ import UseAsApp from './Pages/UseAsApp';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import PasswordRecovery from './Pages/PasswordRecovery';
-import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 
 const App: React.FC = () => {
   return (
@@ -33,23 +31,13 @@ const App: React.FC = () => {
                     exact
                     sensitive
                     path="/Account"
-                    render={() => (
-                      <AuthenticatedRoute>
-                        <AccountHome />
-                      </AuthenticatedRoute>
-                    )}
+                    render={() => <AccountHome />}
                   />
                   <Route
                     exact
                     sensitive
                     path="/UseAsApp"
                     component={UseAsApp}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/Account/*"
-                    component={AccountHome}
                   />
                   <Route exact sensitive path="/SignIn" component={SignIn} />
                   <Route exact sensitive path="/SignUp" component={SignUp} />
@@ -79,12 +67,6 @@ const App: React.FC = () => {
                   <Route
                     path="/:organizationSlug/:tournamentSlug"
                     component={TournamentHome}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/:organizationSlug/:tournamentSlug/TournamentEdit"
-                    component={TournamentEdit}
                   />
                 </Switch>
               </div>

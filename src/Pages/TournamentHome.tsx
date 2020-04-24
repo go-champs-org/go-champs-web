@@ -107,6 +107,12 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           component={TeamList}
         />
         <Route
+          exact
+          sensitive
+          path="/:organizationSlug/:tournamentSlug/TournamentEdit"
+          component={TournamentEdit}
+        />
+        <Route
           path={`/:organizationSlug/:tournamentSlug/Phase/:phaseId`}
           component={PhaseLoader}
         />
