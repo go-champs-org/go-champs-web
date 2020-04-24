@@ -21,6 +21,7 @@ import DrawEdit from './DrawEdit';
 import EliminationList from './EliminationList';
 import EliminationNew from './EliminationNew';
 import EliminationEdit from './EliminationEdit';
+import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -139,142 +140,164 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditDraw/:drawId`}
           render={(props: RouteComponentProps<RouteProps>) => (
-            <DrawEdit
-              {...props}
-              basePhaseManageUrl={basePhaseManageUrl}
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <DrawEdit
+                {...props}
+                basePhaseManageUrl={basePhaseManageUrl}
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditElimination/:eliminationId`}
           render={(props: RouteComponentProps<RouteProps>) => (
-            <EliminationEdit
-              {...props}
-              basePhaseManageUrl={basePhaseManageUrl}
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <EliminationEdit
+                {...props}
+                basePhaseManageUrl={basePhaseManageUrl}
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditGame/:gameId`}
           render={(props: RouteComponentProps<RouteProps>) => (
-            <GameEdit
-              {...props}
-              basePhaseManageUrl={basePhaseManageUrl}
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <GameEdit
+                {...props}
+                basePhaseManageUrl={basePhaseManageUrl}
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewDraw`}
           render={() => (
-            <DrawNew
-              basePhaseManageUrl={basePhaseManageUrl}
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <DrawNew
+                basePhaseManageUrl={basePhaseManageUrl}
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewElimination`}
           render={() => (
-            <EliminationNew
-              basePhaseManageUrl={basePhaseManageUrl}
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <EliminationNew
+                basePhaseManageUrl={basePhaseManageUrl}
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/NewGame`}
           render={() => (
-            <GameNew
-              basePhaseManageUrl={basePhaseManageUrl}
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <GameNew
+                basePhaseManageUrl={basePhaseManageUrl}
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/Draws`}
           render={() => (
-            <DrawList
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <DrawList
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/Eliminations`}
           render={() => (
-            <EliminationList
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <EliminationList
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/Games`}
           render={() => (
-            <GameList
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <GameList
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId`}
           render={() => (
-            <PhaseManage
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <PhaseManage
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage`}
           render={() => (
-            <PhaseManage
-              organizationSlug={organizationSlug}
-              phaseId={selectedPhaseId}
-              getGamesByFilter={getGamesByFilter}
-              getPhase={getPhase}
-              tournamentSlug={tournamentSlug}
-            />
+            <AuthenticatedRoute>
+              <PhaseManage
+                organizationSlug={organizationSlug}
+                phaseId={selectedPhaseId}
+                getGamesByFilter={getGamesByFilter}
+                getPhase={getPhase}
+                tournamentSlug={tournamentSlug}
+              />
+            </AuthenticatedRoute>
           )}
         />
         <Route
