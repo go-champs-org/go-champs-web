@@ -20,6 +20,7 @@ import TeamNew from './TeamNew';
 import TeamEdit from './TeamEdit';
 import PhaseLoader from './PhaseLoader';
 import { organizationBySlug } from '../Organizations/selectors';
+import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 
 const mapStateToProps = (
   state: StoreState,
@@ -76,41 +77,58 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
       <Switch>
         <Route
           path={`/:organizationSlug/:tournamentSlug/empty`}
-          component={PhaseNotFound}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PhaseNotFound {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Edit`}
-          component={TournamentEdit}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TournamentEdit {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/EditPhase/:phaseId`}
+          /* Need to wrap on authenticated route */
           component={PhaseEdit}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/EditTeam/:teamId`}
-          component={TeamEdit}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TeamEdit {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/NewPhase`}
+          /* Need to wrap on authenticated route */
           component={PhaseNew}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/NewTeam`}
+          /* Need to wrap on authenticated route */
           component={TeamNew}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Phases`}
-          component={PhaseList}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PhaseList {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Teams`}
-          component={TeamList}
-        />
-        <Route
-          exact
-          sensitive
-          path="/:organizationSlug/:tournamentSlug/TournamentEdit"
-          component={TournamentEdit}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TeamList {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Phase/:phaseId`}
@@ -118,7 +136,11 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId`}
-          component={PhaseLoader}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PhaseLoader {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/`}

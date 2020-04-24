@@ -8,10 +8,7 @@ import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
-import {
-  organizationBySlug,
-  organizationsLoading
-} from '../Organizations/selectors';
+import { organizationsLoading } from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
 import withOrganizations from './support/withOrganizations';
 import { getOrganizations } from '../Organizations/effects';
