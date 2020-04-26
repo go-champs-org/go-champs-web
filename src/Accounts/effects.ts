@@ -12,13 +12,14 @@ import {
   passwordResetFailure
 } from './actions';
 import accountHttpClient from './accountHttpClient';
-import { History } from 'history';
+import { History, Location } from 'history';
 import ApiError from '../Shared/httpClient/ApiError';
 import { displayToast } from '../Shared/bulma/toast';
 
-export const signIn = (user: UserEntity, history: History) => async (
-  dispatch: Dispatch
-) => {
+export const signIn = (
+  user: UserEntity,
+  { history, location }: { history: History; location: Location }
+) => async (dispatch: Dispatch) => {
   dispatch(signInStart());
 
   try {
@@ -26,7 +27,12 @@ export const signIn = (user: UserEntity, history: History) => async (
 
     dispatch(signInSuccess(response));
     localStorage.setItem('token', response.data.token);
-    history.push('/Account');
+    const search = new URLSearchParams(location.search);
+    if (search.get('redirectTo')) {
+      history.push(search.get('redirectTo')!);
+    } else {
+      history.push('/Account');
+    }
   } catch (err) {
     dispatch(signInFailure(err));
 

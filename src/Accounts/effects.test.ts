@@ -1,7 +1,7 @@
 import { signIn, signUp, passwordReset } from './effects';
 import { UserEntity, SignUpEntity, PasswordResetEntity } from './entity';
 import * as toast from '../Shared/bulma/toast';
-import { History } from 'history';
+import { History, Location } from 'history';
 import {
   signInStart,
   signInSuccess,
@@ -34,36 +34,53 @@ const SOME_USER: UserEntity = {
   email: 'some@email.com',
   password: 'some password'
 };
-const mockHistory = ({
-  push: jest.fn()
-} as unknown) as History;
 
-describe('accountEffects', () => {
+describe.only('accountEffects', () => {
+  let mockHistory: History;
+
   beforeEach(() => {
+    mockHistory = ({
+      push: jest.fn()
+    } as unknown) as History;
+
     jest.spyOn(toast, 'displayToast');
     jest.spyOn(Storage.prototype, 'setItem');
   });
 
   describe('signIn', () => {
+    let mockLocation: Location;
+
     beforeEach(() => {
+      mockLocation = ({
+        search: ''
+      } as unknown) as Location;
+
       dispatch = jest.fn();
     });
 
     it('dispatches start sign in action', () => {
-      signIn(SOME_USER, mockHistory)(dispatch);
+      signIn(SOME_USER, { history: mockHistory, location: mockLocation })(
+        dispatch
+      );
 
       expect(dispatch).toHaveBeenCalledWith(signInStart());
     });
 
     describe('on success', () => {
-      beforeEach(() => {
+      let pushSpy: jest.SpyInstance;
+
+      beforeEach(async () => {
         dispatch.mockReset();
 
         jest.spyOn(accountHttpClient, 'signIn').mockResolvedValue({
           data: { email: 'some@email.com', token: 'some token' }
         });
 
-        signIn(SOME_USER, mockHistory)(dispatch);
+        pushSpy = jest.spyOn(mockHistory, 'push');
+
+        signIn(SOME_USER, { history: mockHistory, location: mockLocation })(
+          dispatch
+        );
       });
 
       it('dispatches post success action', () => {
@@ -85,7 +102,18 @@ describe('accountEffects', () => {
       });
 
       it('redirects to account page', () => {
-        expect(mockHistory.push).toHaveBeenCalledWith('/Account');
+        expect(pushSpy).toHaveBeenCalledWith('/Account');
+      });
+
+      it('redirects to redirectTo search param', async () => {
+        mockLocation.search = '?redirectTo=/someOtherLocation';
+
+        await signIn(SOME_USER, {
+          history: mockHistory,
+          location: mockLocation
+        })(dispatch);
+
+        expect(pushSpy.mock.calls.pop()[0]).toEqual('/someOtherLocation');
       });
     });
 
@@ -99,7 +127,10 @@ describe('accountEffects', () => {
       });
 
       it('dispatches post failure action', async () => {
-        await signIn(SOME_USER, mockHistory)(dispatch);
+        await signIn(SOME_USER, {
+          history: mockHistory,
+          location: mockLocation
+        })(dispatch);
 
         expect(dispatch).toHaveBeenCalledWith(
           signInFailure(new Error('some error'))
@@ -119,7 +150,10 @@ describe('accountEffects', () => {
         });
 
         it('returns formatted errors', async () => {
-          const result = await signIn(SOME_USER, mockHistory)(dispatch);
+          const result = await signIn(SOME_USER, {
+            history: mockHistory,
+            location: mockLocation
+          })(dispatch);
           expect(result).toEqual({
             email: ['user not found']
           });
@@ -139,7 +173,10 @@ describe('accountEffects', () => {
         });
 
         it('returns formatted errors', async () => {
-          const result = await signIn(SOME_USER, mockHistory)(dispatch);
+          const result = await signIn(SOME_USER, {
+            history: mockHistory,
+            location: mockLocation
+          })(dispatch);
           expect(result).toEqual({
             email: ['invalid credentials'],
             password: ['invalid credentials']
@@ -247,7 +284,7 @@ describe('accountEffects', () => {
       });
 
       it('redirects to account page', () => {
-        expect(mockHistory.push).toHaveBeenCalledWith('/Account');
+        expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
       });
     });
 
