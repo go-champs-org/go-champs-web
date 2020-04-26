@@ -1,8 +1,12 @@
 module.exports = {
-  'Load account page': function (client) {
+  'Sign in and load account page': function (client) {
     client
-      .url(`${client.launchUrl}Account`)
+      .url(`${client.launchUrl}SignIn`)
       .useCss()
+      .waitForElementVisible('body', 1000)
+      .setValue('input[name="email"]', process.env.TEST_EMAIL)
+      .setValue('input[name="password"]', process.env.TEST_PASSWORD)
+      .click('button[type=submit]')
       .waitForElementVisible('body', 1000)
       .assert.title('Go Champs! | My Account')
       .end();
@@ -10,8 +14,12 @@ module.exports = {
 
   'List account organizations': function (client) {
     client
-      .url(`${client.launchUrl}Account`)
+      .url(`${client.launchUrl}SignIn`)
       .useCss()
+      .waitForElementVisible('body', 1000)
+      .setValue('input[name="email"]', process.env.TEST_EMAIL)
+      .setValue('input[name="password"]', process.env.TEST_PASSWORD)
+      .click('button[type=submit]')
       .waitForElementVisible('body', 1000)
       .assert.elementPresent('.card')
       .end();
