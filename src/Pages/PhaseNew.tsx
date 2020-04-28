@@ -117,4 +117,4 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
   );
 };
 
-export default connector(withTournament<PhaseNewProps>(PhaseNew));
+export default connector<any>(withTournament<PhaseNewProps>(PhaseNew));

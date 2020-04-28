@@ -15,11 +15,11 @@ const mapStateToProps = (state: StoreState) => ({
 
 const mapDispatchToProps = (
   dispatch: Dispatch,
-  { history }: RouteComponentProps
+  { history, location }: RouteComponentProps
 ) => {
   return bindActionCreators(
     {
-      signIn: (user: UserEntity) => signIn(user, history)
+      signIn: (user: UserEntity) => signIn(user, { history, location })
     },
     dispatch
   );

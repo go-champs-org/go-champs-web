@@ -107,6 +107,9 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/NewPhase`}
           /* Need to wrap on authenticated route */
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <PhaseNew {...props} />
+          )}
           component={PhaseNew}
         />
         <Route

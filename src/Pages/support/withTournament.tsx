@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { RouteProps } from './routerInterfaces';
+import { useRouteMatch } from 'react-router';
+import { AnyAction, Dispatch } from 'redux';
 
-interface WithTournamentProps extends RouteComponentProps<RouteProps> {
-  getTournamentBySlug: (organizationSlug: string, tournamentSlug: string) => {};
+interface WithTournamentProps {
+  getTournamentBySlug: (
+    organizationSlug: string,
+    tournamentSlug: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 }
 
 const withTournament = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
   const WithTournament: React.FC<T & WithTournamentProps> = props => {
+    const { getTournamentBySlug } = props;
     const {
-      getTournamentBySlug,
-      match: {
-        params: { organizationSlug, tournamentSlug }
-      }
-    } = props;
-
+      params: { organizationSlug, tournamentSlug }
+    } = useRouteMatch();
     useEffect(() => {
       if (organizationSlug && tournamentSlug) {
         getTournamentBySlug(organizationSlug, tournamentSlug);

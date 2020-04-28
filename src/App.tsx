@@ -47,10 +47,20 @@ const App: React.FC = () => {
                   <Route
                     exact
                     sensitive
+                    path="/Account/*"
+                    render={() => (
+                      <AuthenticatedRoute>
+                        <AccountHome />
+                      </AuthenticatedRoute>
+                    )}
+                  />
+                  <Route
+                    exact
+                    sensitive
                     path="/UseAsApp"
                     component={UseAsApp}
                   />
-                  <Route exact sensitive path="/SignIn" component={SignIn} />
+                  <Route exact sensitive path="/SignIn*" component={SignIn} />
                   <Route exact sensitive path="/SignUp" component={SignUp} />
                   <Route
                     exact
