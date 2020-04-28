@@ -1,12 +1,22 @@
 module.exports = {
-  'Add new draw': function (client) {
+  beforeEach : function (client) {
     client
-      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
+      .url(`${client.launchUrl}SignIn`)
       .useCss()
       .waitForElementVisible('body', 1000)
+      .setValue('input[name="email"]', process.env.TEST_EMAIL)
+      .setValue('input[name="password"]', process.env.TEST_PASSWORD)
+      .click('button[type=submit]')
+      .waitForElementVisible('body', 1000)
       .useXpath()
+      .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
+      .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
       .click("//*[contains(text(), 'Draws')]")
+  },
+
+  'Add new draw': function (client) {
+    client
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'New')]/../a")
       .useCss()
@@ -31,12 +41,6 @@ module.exports = {
 
   'Edit draw': function (client) {
     client
-    .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
-    .useCss()
-      .waitForElementVisible('body', 1000)
-      .useXpath()
-      .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//*[contains(text(), 'Draws')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete)')]")
       .useCss()
@@ -53,12 +57,6 @@ module.exports = {
 
   'Delete draw': function (client) {
     client
-      .url(`${client.launchUrl}test-organization-cannot-delete/test-tournament-cannot-delete`)
-      .useCss()
-      .waitForElementVisible('body', 1000)
-      .useXpath()
-      .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//*[contains(text(), 'Draws')]")
       .assert.title('Go Champs! | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button") // needs to double click

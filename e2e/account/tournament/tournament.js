@@ -1,9 +1,20 @@
 module.exports = {
-  'Add new tournament': function (client) {
+  beforeEach : function (client) {
     client
-      .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
+      .url(`${client.launchUrl}SignIn`)
       .useCss()
       .waitForElementVisible('body', 1000)
+      .setValue('input[name="email"]', process.env.TEST_EMAIL)
+      .setValue('input[name="password"]', process.env.TEST_PASSWORD)
+      .click('button[type=submit]')
+      .waitForElementVisible('body', 1000)
+      .useXpath()
+      .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
+  },
+
+  'Add new tournament': function (client) {
+    client
+      .useCss()
       .click('a[href="/Organization/test-organization-cannot-delete/NewTournament"]')
       .assert.title('Go Champs! | New Tournament')
       .pause(1000)
@@ -20,10 +31,6 @@ module.exports = {
 
   'Edit tournament': function (client) {
     client
-      .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
-      .useCss()
-      .waitForElementVisible('body', 1000)
-      .useXpath()
       .click("//*[contains(text(), 'Test tournament (can delete)')]")
       .click("//*[contains(text(), 'Manage')]")
       .click("//*[contains(text(), 'Informations')]")
@@ -42,9 +49,6 @@ module.exports = {
 
   'Delete tournament': function (client) {
     client
-      .url(`${client.launchUrl}Organization/test-organization-cannot-delete`)
-      .useCss()
-      .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test tournament (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test tournament (can delete) edited')]/../../div/button") // needs to double click

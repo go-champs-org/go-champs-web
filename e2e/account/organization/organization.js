@@ -1,9 +1,17 @@
 module.exports = {
-  'Add new organization': function (client) {
+  beforeEach : function (client) {
     client
-      .url(`${client.launchUrl}Account`)
+      .url(`${client.launchUrl}SignIn`)
       .useCss()
       .waitForElementVisible('body', 1000)
+      .setValue('input[name="email"]', process.env.TEST_EMAIL)
+      .setValue('input[name="password"]', process.env.TEST_PASSWORD)
+      .click('button[type=submit]')
+      .waitForElementVisible('body', 1000)
+  },
+
+  'Add new organization': function (client) {
+    client
       .click('a[href="/Account/NewOrganization"]')
       .assert.title('Go Champs! | New Organization')
       .pause(1000)
@@ -21,9 +29,6 @@ module.exports = {
 
   'Edit organization': function (client) {
     client
-      .url(`${client.launchUrl}Account`)
-      .useCss()
-      .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete)')]")
       .click("//*[contains(text(), 'Informations')]")
@@ -43,9 +48,6 @@ module.exports = {
 
   'Delete organization': function (client) {
     client
-      .url(`${client.launchUrl}Account`)
-      .useCss()
-      .waitForElementVisible('body', 1000)
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button") // needs to double click
