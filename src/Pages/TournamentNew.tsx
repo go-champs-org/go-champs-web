@@ -8,7 +8,7 @@ import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
-import { organizationsLoading } from '../Organizations/selectors';
+import { organizationsLoading, organizationBySlug } from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
 import withOrganizations from './support/withOrganizations';
 import { getOrganizations } from '../Organizations/effects';
@@ -35,8 +35,12 @@ type DispatchProps = {
 };
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
+  const {
+    organizationSlug,
+  } = props.match.params;
   return {
     ...props,
+    organization: organizationBySlug(state.organizations, organizationSlug),
     isPostingTournament: postingTournament(state.tournaments),
     organizationsLoading: organizationsLoading(state.organizations)
   };
