@@ -4,7 +4,7 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 
-const SEARCH_API = `${process.env.REACT_APP_API_HOST}api/search`;
+const SEARCH_API = `${process.env.REACT_APP_API_HOST}v1/search`;
 
 const getAll = async (
   searchTerm: string

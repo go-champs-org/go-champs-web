@@ -10,7 +10,7 @@ import {
 } from './dataMappers';
 import { OrganizationEntity } from './state';
 
-const ORGANIZATION_API = `${process.env.REACT_APP_API_HOST}api/organizations`;
+const ORGANIZATION_API = `${process.env.REACT_APP_API_HOST}v1/organizations`;
 
 const deleteRequest = (organizationId: string): Promise<string> => {
   const url = `${ORGANIZATION_API}/${organizationId}`;

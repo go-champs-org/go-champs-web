@@ -18,7 +18,7 @@ export interface ApiPhaseBatchResponseData {
   [id: string]: ApiPhase;
 }
 
-const PHASES_API = `${process.env.REACT_APP_API_HOST}api/phases`;
+const PHASES_API = `${process.env.REACT_APP_API_HOST}v1/phases`;
 
 const deleteRequest = (phaseId: string): Promise<string> => {
   const url = `${PHASES_API}/${phaseId}`;

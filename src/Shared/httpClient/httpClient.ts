@@ -4,8 +4,19 @@ const DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 };
 
+const buildAuthenticationHeader = () => {
+  const token = localStorage.getItem('token');
+  return {
+    ...DEFAULT_HEADERS,
+    Authorization: `Bearer ${token}`
+  };
+};
+
 const deleteRequest = async (url: string): Promise<string> => {
-  const response = await fetch(url, { method: 'DELETE' });
+  const response = await fetch(url, {
+    headers: buildAuthenticationHeader(),
+    method: 'DELETE'
+  });
 
   const splittedUrl = response.url.split('/');
   const deletedId = splittedUrl[splittedUrl.length - 1];
@@ -28,7 +39,7 @@ const get = async <R>(url: string): Promise<R> => {
 
 const patch = async <T, R>(url: string, data: T): Promise<R> => {
   const response = await fetch(url, {
-    headers: DEFAULT_HEADERS,
+    headers: buildAuthenticationHeader(),
     method: 'PATCH',
     body: JSON.stringify(data)
   });
@@ -47,7 +58,7 @@ const patch = async <T, R>(url: string, data: T): Promise<R> => {
 
 const post = async <T, R>(url: string, data: T): Promise<R> => {
   const response = await fetch(url, {
-    headers: DEFAULT_HEADERS,
+    headers: buildAuthenticationHeader(),
     method: 'POST',
     body: JSON.stringify(data)
   });

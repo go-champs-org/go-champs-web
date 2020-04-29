@@ -19,7 +19,7 @@ export interface ApiDrawBatchResponseData {
   [id: string]: ApiDraw;
 }
 
-const DRAW_API = `${process.env.REACT_APP_API_HOST}api/draws`;
+const DRAW_API = `${process.env.REACT_APP_API_HOST}v1/draws`;
 
 const deleteRequest = (drawId: string): Promise<string> => {
   const url = `${DRAW_API}/${drawId}`;

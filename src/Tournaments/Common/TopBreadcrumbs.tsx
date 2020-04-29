@@ -20,6 +20,7 @@ const TopBreadcrumbs: React.FC<{
                 {phase.title}
               </Link>
             </NotAdminWrapper>
+
             <AdminWrapper>
               <Link
                 to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}`}

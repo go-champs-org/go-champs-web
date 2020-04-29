@@ -19,7 +19,7 @@ export interface ApiEliminationBatchResponseData {
   [id: string]: ApiElimination;
 }
 
-const ELIMINATION_API = `${process.env.REACT_APP_API_HOST}api/eliminations`;
+const ELIMINATION_API = `${process.env.REACT_APP_API_HOST}v1/eliminations`;
 
 const deleteRequest = (eliminationId: string): Promise<string> => {
   const url = `${ELIMINATION_API}/${eliminationId}`;
