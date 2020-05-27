@@ -5,6 +5,7 @@ const EMAIL_REGEX = RegExp(
 const PASSWORD_REGEX = RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
 );
+const USERNAME_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){4,20}$/);
 
 export type ValidatorFunction = (value: any) => string | undefined;
 export type AsyncValidatorFunction = (
@@ -27,6 +28,11 @@ export const mustBeSlug = (value: string) =>
   SLUG_REGEX.test(value)
     ? undefined
     : 'Must be all lowercase and only alphanumeric or dash characters are accepted';
+
+export const mustBeUsername = (value: string) =>
+  USERNAME_REGEX.test(value)
+    ? undefined
+    : 'Must be between 8 and 20 characters';
 
 export const mustBeEmail = (value: string) =>
   EMAIL_REGEX.test(value) ? undefined : 'Must be an email';

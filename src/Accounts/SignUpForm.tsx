@@ -7,7 +7,8 @@ import {
   composeValidators,
   required,
   mustBeEmail,
-  mustBeStrongPassword
+  mustBeStrongPassword,
+  mustBeUsername
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
 
@@ -52,6 +53,21 @@ const SignUpForm: React.FC<FormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="form no-border-botton">
+      <div className="field">
+        <label className="label">Username</label>
+
+        <div className="control">
+          <Field
+            name="username"
+            component={StringInput}
+            type="text"
+            placeholder="username"
+            className="has-text-centered"
+            validate={composeValidators([required, mustBeUsername])}
+          />
+        </div>
+      </div>
+
       <div className="field">
         <label className="label">Email</label>
 

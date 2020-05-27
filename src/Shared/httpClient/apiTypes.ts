@@ -313,8 +313,8 @@ export interface ApiSearchTournamentsResponse {
 }
 
 export interface ApiSignInRequest {
-  email: string;
   password: string;
+  username: string;
 }
 
 export interface ApiPasswordResetRequest {
@@ -322,6 +322,7 @@ export interface ApiPasswordResetRequest {
     email: string;
     password: string;
     recaptcha: string;
+    username: string;
   };
 }
 
@@ -330,6 +331,7 @@ export interface ApiSignUpRequest {
     email: string;
     password: string;
     recaptcha: string;
+    username: string;
   };
 }
 
@@ -337,5 +339,6 @@ export interface ApiUserResponse {
   data: {
     email: string;
     token: string;
+    username: string;
   };
 }

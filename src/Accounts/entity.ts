@@ -1,6 +1,6 @@
-export interface UserEntity {
-  email: string;
+export interface SignInEntity {
   password: string;
+  username: string;
 }
 
 export interface SignUpEntity {
@@ -8,6 +8,7 @@ export interface SignUpEntity {
   password: string;
   recaptcha: string;
   repeatedPassword: string;
+  username: string;
 }
 
 export interface PasswordResetEntity {
@@ -15,8 +16,10 @@ export interface PasswordResetEntity {
   password: string;
   recaptcha: string;
   repeatedPassword: string;
+  username: string;
 }
 
 export interface AccountEntity {
   email: string;
+  username: string;
 }

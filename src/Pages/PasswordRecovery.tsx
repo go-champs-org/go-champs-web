@@ -50,7 +50,8 @@ const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
                 email: '',
                 password: '',
                 repeatedPassword: '',
-                recaptcha: ''
+                recaptcha: '',
+                username: ''
               }}
               validate={passwordResetValidor}
               render={(props: FormRenderProps<PasswordResetEntity>) => (

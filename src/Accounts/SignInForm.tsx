@@ -1,15 +1,15 @@
 import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
-import { UserEntity } from './entity';
+import { SignInEntity } from './entity';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import {
   required,
-  mustBeEmail,
-  composeValidators
+  composeValidators,
+  mustBeUsername
 } from '../Shared/UI/Form/Validators/commonValidators';
 
-interface FormProps extends FormRenderProps<UserEntity> {
+interface FormProps extends FormRenderProps<SignInEntity> {
   isLoading: boolean;
 }
 
@@ -23,16 +23,16 @@ const SingInForm: React.FC<FormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="form">
       <div className="field">
-        <label className="label">Email</label>
+        <label className="label">Username</label>
 
         <div className="control">
           <Field
-            name="email"
+            name="username"
             component={StringInput}
             type="text"
-            placeholder="Name"
+            placeholder="Username"
             className="has-text-centered"
-            validate={composeValidators([required, mustBeEmail])}
+            validate={composeValidators([required, mustBeUsername])}
           />
         </div>
       </div>

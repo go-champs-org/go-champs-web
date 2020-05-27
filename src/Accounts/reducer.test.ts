@@ -28,7 +28,11 @@ describe('accountReducer', () => {
       state = accountReducer(
         { ...initialState, isLoadingPasswordReset: true },
         passwordResetSuccess({
-          data: { email: 'some email', token: 'some token' }
+          data: {
+            email: 'some email',
+            token: 'some token',
+            username: 'someusername'
+          }
         })
       );
     });
@@ -37,8 +41,9 @@ describe('accountReducer', () => {
       expect(state.isLoadingPasswordReset).toBe(false);
     });
 
-    it('sets response email', () => {
+    it('sets response email and username', () => {
       expect(state.account!.email).toEqual('some email');
+      expect(state.account!.username).toEqual('someusername');
     });
   });
 
@@ -71,7 +76,13 @@ describe('accountReducer', () => {
     beforeEach(() => {
       state = accountReducer(
         { ...initialState, isLoadingSingIn: true },
-        signInSuccess({ data: { email: 'some email', token: 'some token' } })
+        signInSuccess({
+          data: {
+            email: 'some email',
+            token: 'some token',
+            username: 'someusername'
+          }
+        })
       );
     });
 
@@ -79,8 +90,9 @@ describe('accountReducer', () => {
       expect(state.isLoadingSingIn).toBe(false);
     });
 
-    it('sets response email', () => {
+    it('sets response email and username', () => {
       expect(state.account!.email).toEqual('some email');
+      expect(state.account!.username).toEqual('someusername');
     });
   });
 
@@ -113,7 +125,13 @@ describe('accountReducer', () => {
     beforeEach(() => {
       state = accountReducer(
         { ...initialState, isLoadingSingUp: true },
-        signUpSuccess({ data: { email: 'some email', token: 'some token' } })
+        signUpSuccess({
+          data: {
+            email: 'some email',
+            token: 'some token',
+            username: 'someusername'
+          }
+        })
       );
     });
 
@@ -121,8 +139,9 @@ describe('accountReducer', () => {
       expect(state.isLoadingSingUp).toBe(false);
     });
 
-    it('sets response email', () => {
+    it('sets response email and username', () => {
       expect(state.account!.email).toEqual('some email');
+      expect(state.account!.username).toEqual('someusername');
     });
   });
 

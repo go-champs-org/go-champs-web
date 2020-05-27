@@ -1,5 +1,5 @@
 import { signIn, signUp, passwordReset } from './effects';
-import { UserEntity, SignUpEntity, PasswordResetEntity } from './entity';
+import { SignInEntity, SignUpEntity, PasswordResetEntity } from './entity';
 import * as toast from '../Shared/bulma/toast';
 import { History, Location } from 'history';
 import {
@@ -30,7 +30,7 @@ const SIGN_UP: SignUpEntity = {
   recaptcha: 'some recaptcha',
   repeatedPassword: 'some repeated password'
 };
-const SOME_USER: UserEntity = {
+const SOME_USER: SignInEntity = {
   email: 'some@email.com',
   password: 'some password'
 };

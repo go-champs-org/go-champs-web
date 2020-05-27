@@ -6,7 +6,7 @@ import { StoreState } from '../store';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { signIn } from '../Accounts/effects';
-import { UserEntity } from '../Accounts/entity';
+import { SignInEntity } from '../Accounts/entity';
 import { isSigingIn } from '../Accounts/selectors';
 
 const mapStateToProps = (state: StoreState) => ({
@@ -19,7 +19,7 @@ const mapDispatchToProps = (
 ) => {
   return bindActionCreators(
     {
-      signIn: (user: UserEntity) => signIn(user, { history, location })
+      signIn: (user: SignInEntity) => signIn(user, { history, location })
     },
     dispatch
   );
@@ -41,8 +41,8 @@ const SignIn: React.FC<SignInProps> = ({ isSigingIn, signIn }) => (
           <div className="column is-12">
             <Form
               onSubmit={signIn}
-              initialValues={{ email: '', password: '' }}
-              render={(props: FormRenderProps<UserEntity>) => (
+              initialValues={{ username: '', password: '' }}
+              render={(props: FormRenderProps<SignInEntity>) => (
                 <SingInForm {...props} isLoading={isSigingIn} />
               )}
             />

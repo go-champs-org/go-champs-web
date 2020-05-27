@@ -26,7 +26,10 @@ const signInSuccess = (
 ): AccountState => ({
   ...state,
   isLoadingSingIn: false,
-  account: { email: action.payload!.data.email }
+  account: {
+    email: action.payload!.data.email,
+    username: action.payload!.data.username
+  }
 });
 
 const signInFailure = (state: AccountState): AccountState => ({
@@ -45,7 +48,10 @@ const signUpSuccess = (
 ): AccountState => ({
   ...state,
   isLoadingSingUp: false,
-  account: { email: action.payload!.data.email }
+  account: {
+    email: action.payload!.data.email,
+    username: action.payload!.data.username
+  }
 });
 
 const signUpFailure = (state: AccountState): AccountState => ({
@@ -64,7 +70,10 @@ const passwordResetSuccess = (
 ): AccountState => ({
   ...state,
   isLoadingPasswordReset: false,
-  account: { email: action.payload!.data.email }
+  account: {
+    email: action.payload!.data.email,
+    username: action.payload!.data.username
+  }
 });
 
 const passwordResetFailure = (state: AccountState): AccountState => ({

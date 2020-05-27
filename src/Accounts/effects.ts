@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { UserEntity, SignUpEntity, PasswordResetEntity } from './entity';
+import { SignInEntity, SignUpEntity, PasswordResetEntity } from './entity';
 import {
   signInStart,
   signInSuccess,
@@ -17,7 +17,7 @@ import ApiError from '../Shared/httpClient/ApiError';
 import { displayToast } from '../Shared/bulma/toast';
 
 export const signIn = (
-  user: UserEntity,
+  user: SignInEntity,
   { history, location }: { history: History; location: Location }
 ) => async (dispatch: Dispatch) => {
   dispatch(signInStart());

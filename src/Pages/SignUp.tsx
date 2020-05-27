@@ -44,7 +44,8 @@ const SignUp: React.FC<SignUpProps> = ({ isSigingUp, signUp }) => (
                 email: '',
                 password: '',
                 repeatedPassword: '',
-                recaptcha: ''
+                recaptcha: '',
+                username: ''
               }}
               validate={signUpValidor}
               render={(props: FormRenderProps<SignUpEntity>) => (
