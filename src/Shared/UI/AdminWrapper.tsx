@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode } from 'react';
 
-export const NotAdminWrapper: React.FC<{ children: ReactNode }> = ({
+export const NotAuthenticatedWrapper: React.FC<{ children: ReactNode }> = ({
   children
 }) => {
   if (
@@ -13,15 +13,24 @@ export const NotAdminWrapper: React.FC<{ children: ReactNode }> = ({
   return <div></div>;
 };
 
-const AdminWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
-  if (
-    process.env.REACT_APP_APP_MODE === 'adm' &&
-    localStorage.getItem('token')
-  ) {
+export const AdminWrapper: React.FC<{ children: ReactNode }> = ({
+  children
+}) => {
+  if (process.env.REACT_APP_APP_MODE === 'adm') {
     return <Fragment>{children}</Fragment>;
   }
 
   return <div></div>;
 };
 
-export default AdminWrapper;
+const AuthenticatedWrapper: React.FC<{ children: ReactNode }> = ({
+  children
+}) => {
+  if (localStorage.getItem('token')) {
+    return <Fragment>{children}</Fragment>;
+  }
+
+  return <div></div>;
+};
+
+export default AuthenticatedWrapper;

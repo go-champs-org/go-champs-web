@@ -1,7 +1,7 @@
 import React, { MouseEvent } from 'react';
 import logo from '../../assets/logo-with-background.png';
-import AdminWrapper from './AdminWrapper';
 import './NavTopToolbar.scss';
+import AuthenticatedWrapper, { AdminWrapper } from './AdminWrapper';
 
 class NavTopToolbar extends React.Component {
   render() {
@@ -50,14 +50,14 @@ class NavTopToolbar extends React.Component {
               </a>
             </AdminWrapper>
 
-            <AdminWrapper>
+            <AuthenticatedWrapper>
               <a
                 href="/Account"
                 className="navbar-item has-text-centered-touch"
               >
                 My account
               </a>
-            </AdminWrapper>
+            </AuthenticatedWrapper>
 
             <a href="/UseAsApp" className="navbar-item has-text-centered-touch">
               Use no celular

@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import AdminWrapper, { NotAdminWrapper } from '../Shared/UI/AdminWrapper';
+import AuthenticatedWrapper, {
+  NotAuthenticatedWrapper
+} from '../Shared/UI/AdminWrapper';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
@@ -11,15 +13,15 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
   return (
     <Fragment>
       <div className="column">
-        <NotAdminWrapper>
+        <NotAuthenticatedWrapper>
           <div className="notification is-danger is-light">
             <div className="content has-text-centered">
               <h2 className="subtitle">Este torneiro está em construção.</h2>
             </div>
           </div>
-        </NotAdminWrapper>
+        </NotAuthenticatedWrapper>
 
-        <AdminWrapper>
+        <AuthenticatedWrapper>
           <div className="notification is-danger is-light">
             <div className="content has-text-centered">
               <h2 className="subtitle">
@@ -47,10 +49,10 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
               </Link>
             </div>
           </div>
-        </AdminWrapper>
+        </AuthenticatedWrapper>
       </div>
 
-      <AdminWrapper>
+      <AuthenticatedWrapper>
         <div className="is-divider-vertical is-hidden-tablet-only"></div>
 
         <div className="column is-4-desktop is-12-tablet">
@@ -59,7 +61,7 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
             tournamentSlug={tournamentSlug}
           />
         </div>
-      </AdminWrapper>
+      </AuthenticatedWrapper>
     </Fragment>
   );
 };
