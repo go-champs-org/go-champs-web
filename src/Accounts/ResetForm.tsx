@@ -13,17 +13,21 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 export const accountResetValidor = (formValues: AccountResetEntity) => {
   if (
     formValues.password === formValues.repeatedPassword &&
-    formValues.recaptcha
+    formValues.recaptcha &&
+    formValues.username &&
+    formValues.recoveryToken
   ) {
     return undefined;
   }
 
   return {
     recaptcha: formValues.recaptcha ? undefined : `Required`,
+    recoveryToken: formValues.recoveryToken ? undefined : 'Required',
     repeatedPassword:
       formValues.password === formValues.repeatedPassword
         ? undefined
-        : `Passwords don't match`
+        : `Passwords don't match`,
+    username: formValues.username ? undefined : 'Required'
   };
 };
 
@@ -100,7 +104,7 @@ const AccountResetForm: React.FC<FormProps> = ({
           type="submit"
           disabled={submitting || pristine || !valid}
         >
-          Reset password
+          Resetar conta
         </LoadingButton>
       </div>
     </form>
