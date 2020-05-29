@@ -48,9 +48,15 @@ const SignIn: React.FC<SignInProps> = ({ isSigingIn, signIn }) => (
             />
           </div>
 
-          <div className="column is-12">
+          <div className="column is-12" style={{ padding: 0 }}>
             <Link to="/SignUp" className="button is-text">
               Ou cria uma conta
+            </Link>
+          </div>
+
+          <div className="column is-12" style={{ padding: 0 }}>
+            <Link to="/RecoveryAccount" className="button is-text">
+              Esqueceu sua senha?
             </Link>
           </div>
         </div>

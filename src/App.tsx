@@ -21,6 +21,7 @@ import SignUp from './Pages/SignUp';
 import PasswordRecovery from './Pages/PasswordRecovery';
 import { RouteProps } from './Pages/support/routerInterfaces';
 import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
+import RecoveryAccount from './Pages/RecoveryAccount';
 
 const App: React.FC = () => {
   return (
@@ -67,6 +68,12 @@ const App: React.FC = () => {
                     sensitive
                     path="/PasswordRecovery"
                     component={PasswordRecovery}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/RecoveryAccount"
+                    component={RecoveryAccount}
                   />
                   <Route
                     exact
