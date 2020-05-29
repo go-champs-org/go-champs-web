@@ -3,25 +3,28 @@ import {
   ApiSignInRequest,
   ApiUserResponse,
   ApiSignUpRequest,
-  ApiPasswordResetRequest,
+  ApiAccountResetRequest,
   ApiAccountRecoveryRequest
 } from '../Shared/httpClient/apiTypes';
 import {
   SignInEntity,
   SignUpEntity,
-  PasswordResetEntity,
+  AccountResetEntity,
   AccountRecoveryEntity
 } from './entity';
 
 const ACCOUNT_API = `${process.env.REACT_APP_API_HOST}v1/users`;
 
-const passwordReset = async (
-  user: PasswordResetEntity
-): Promise<ApiUserResponse> => {
+const reset = async (user: AccountResetEntity): Promise<void> => {
   const url = `${ACCOUNT_API}`;
 
-  return await httpClient.patch<ApiPasswordResetRequest, ApiUserResponse>(url, {
-    user
+  return await httpClient.patch<ApiAccountResetRequest, void>(url, {
+    user: {
+      username: user.username,
+      password: user.password,
+      recaptcha: user.recaptcha,
+      recovery_token: user.recoveryToken
+    }
   });
 };
 
@@ -47,7 +50,7 @@ const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
 
 export default {
   recovery,
-  passwordReset,
+  reset,
   signIn,
   signUp
 };

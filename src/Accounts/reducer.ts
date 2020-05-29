@@ -8,9 +8,9 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
-  PASSWORD_RESET,
-  PASSWORD_RESET_SUCCESS,
-  PASSWORD_RESET_FAILURE,
+  ACCOUNT_RESET,
+  ACCOUNT_RESET_SUCCESS,
+  ACCOUNT_RESET_FAILURE,
   ACCOUNT_RECOVERY,
   ACCOUNT_RECOVERY_SUCCESS,
   ACCOUNT_RECOVERY_FAILURE
@@ -62,26 +62,22 @@ const signUpFailure = (state: AccountState): AccountState => ({
   isLoadingSingUp: false
 });
 
-const passwordReset = (state: AccountState): AccountState => ({
+const accountReset = (state: AccountState): AccountState => ({
   ...state,
-  isLoadingPasswordReset: true
+  isLoadingAccountReset: true
 });
 
-const passwordResetSuccess = (
+const accountResetSuccess = (
   state: AccountState,
   action: HttpAction<ActionTypes, ApiUserResponse>
 ): AccountState => ({
   ...state,
-  isLoadingPasswordReset: false,
-  account: {
-    email: action.payload!.data.email,
-    username: action.payload!.data.username
-  }
+  isLoadingAccountReset: false
 });
 
-const passwordResetFailure = (state: AccountState): AccountState => ({
+const accountResetFailure = (state: AccountState): AccountState => ({
   ...state,
-  isLoadingPasswordReset: false
+  isLoadingAccountReset: false
 });
 
 const accountRecovery = (state: AccountState): AccountState => ({
@@ -103,9 +99,9 @@ export default createReducer<AccountState>(initialState, {
   [ACCOUNT_RECOVERY]: accountRecovery,
   [ACCOUNT_RECOVERY_SUCCESS]: accountRecoverySuccess,
   [ACCOUNT_RECOVERY_FAILURE]: accountRecoveryFailure,
-  [PASSWORD_RESET]: passwordReset,
-  [PASSWORD_RESET_SUCCESS]: passwordResetSuccess,
-  [PASSWORD_RESET_FAILURE]: passwordResetFailure,
+  [ACCOUNT_RESET]: accountReset,
+  [ACCOUNT_RESET_SUCCESS]: accountResetSuccess,
+  [ACCOUNT_RESET_FAILURE]: accountResetFailure,
   [SIGN_IN]: signIn,
   [SIGN_IN_SUCCESS]: signInSuccess,
   [SIGN_IN_FAILURE]: signInFailure,

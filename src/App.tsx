@@ -18,10 +18,10 @@ import OrganizationHome from './Pages/OrganizationHome';
 import UseAsApp from './Pages/UseAsApp';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
-import PasswordRecovery from './Pages/PasswordRecovery';
-import { RouteProps } from './Pages/support/routerInterfaces';
+import AccountReset from './Pages/AccountReset';
 import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 import AccountRecovery from './Pages/AccountRecovery';
+import { RouteProps } from './Pages/support/routerInterfaces';
 
 const App: React.FC = () => {
   return (
@@ -66,8 +66,8 @@ const App: React.FC = () => {
                   <Route
                     exact
                     sensitive
-                    path="/PasswordRecovery"
-                    component={PasswordRecovery}
+                    path="/AccountReset"
+                    component={AccountReset}
                   />
                   <Route
                     exact

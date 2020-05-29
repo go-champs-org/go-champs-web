@@ -16,10 +16,10 @@ export interface AccountRecoveryEntity {
   recaptcha: string;
 }
 
-export interface PasswordResetEntity {
-  email: string;
+export interface AccountResetEntity {
   password: string;
   recaptcha: string;
+  recoveryToken: string;
   repeatedPassword: string;
   username: string;
 }

@@ -1,17 +1,16 @@
 import ReCAPTCHA from 'react-google-recaptcha';
 import React from 'react';
-import { PasswordResetEntity } from './entity';
+import { AccountResetEntity } from './entity';
 import { FormRenderProps, Field, useField } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
   composeValidators,
   required,
-  mustBeEmail,
   mustBeStrongPassword
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
 
-export const passwordResetValidor = (formValues: PasswordResetEntity) => {
+export const accountResetValidor = (formValues: AccountResetEntity) => {
   if (
     formValues.password === formValues.repeatedPassword &&
     formValues.recaptcha
@@ -28,7 +27,7 @@ export const passwordResetValidor = (formValues: PasswordResetEntity) => {
   };
 };
 
-export const hasReCAPTCHA = (formValues: PasswordResetEntity) => {
+export const hasReCAPTCHA = (formValues: AccountResetEntity) => {
   if (formValues.recaptcha) {
     return undefined;
   }
@@ -37,34 +36,26 @@ export const hasReCAPTCHA = (formValues: PasswordResetEntity) => {
   };
 };
 
-interface FormProps extends FormRenderProps<PasswordResetEntity> {
+interface FormProps extends FormRenderProps<AccountResetEntity> {
   isLoading: boolean;
 }
 
-const PasswordResetForm: React.FC<FormProps> = ({
+const AccountResetForm: React.FC<FormProps> = ({
   isLoading,
   handleSubmit,
   submitting,
   pristine,
-  valid
+  valid,
+  values
 }) => {
   const recaptchaField = useField('recaptcha');
 
   return (
     <form onSubmit={handleSubmit} className="form no-border-botton">
       <div className="field">
-        <label className="label">Email</label>
+        <label className="label">Username</label>
 
-        <div className="control">
-          <Field
-            name="email"
-            component={StringInput}
-            type="text"
-            placeholder="Name"
-            className="has-text-centered"
-            validate={composeValidators([required, mustBeEmail])}
-          />
-        </div>
+        <div className="control has-text-centered">{values.username}</div>
       </div>
 
       <div className="field">
@@ -116,4 +107,4 @@ const PasswordResetForm: React.FC<FormProps> = ({
   );
 };
 
-export default PasswordResetForm;
+export default AccountResetForm;

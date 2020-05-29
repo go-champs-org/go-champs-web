@@ -1,14 +1,8 @@
-import {
-  signIn,
-  signUp,
-  passwordReset,
-  recovery,
-  accountRecovery
-} from './effects';
+import { signIn, signUp, accountReset, accountRecovery } from './effects';
 import {
   SignInEntity,
   SignUpEntity,
-  PasswordResetEntity,
+  AccountResetEntity,
   AccountRecoveryEntity
 } from './entity';
 import * as toast from '../Shared/bulma/toast';
@@ -20,9 +14,9 @@ import {
   signUpStart,
   signUpSuccess,
   signUpFailure,
-  passwordResetStart,
-  passwordResetSuccess,
-  passwordResetFailure,
+  accountResetStart,
+  accountResetSuccess,
+  accountResetFailure,
   accountRecoveryStart,
   accountRecoverySuccess,
   accountRecoveryFailure
@@ -36,10 +30,11 @@ const ACCOUNT_RECOVERY: AccountRecoveryEntity = {
   email: 'some@email.com',
   recaptcha: 'some recaptcha'
 };
-const PASSWORD_RESET: PasswordResetEntity = {
-  email: 'some@email.com',
+const ACCOUNT_RESET: AccountResetEntity = {
+  username: 'username',
   password: 'some password',
   recaptcha: 'some recaptcha',
+  recoveryToken: 'some token',
   repeatedPassword: 'some repeated password'
 };
 const SIGN_UP: SignUpEntity = {
@@ -268,37 +263,28 @@ describe('accountEffects', () => {
     });
   });
 
-  describe('passwordReset', () => {
+  describe('accountReset', () => {
     beforeEach(() => {
       dispatch = jest.fn();
     });
 
     it('dispatches start sign in action', () => {
-      passwordReset(PASSWORD_RESET, mockHistory)(dispatch);
+      accountReset(ACCOUNT_RESET, mockHistory)(dispatch);
 
-      expect(dispatch).toHaveBeenCalledWith(passwordResetStart());
+      expect(dispatch).toHaveBeenCalledWith(accountResetStart());
     });
 
     describe('on success', () => {
       beforeEach(() => {
         dispatch.mockReset();
 
-        jest.spyOn(accountHttpClient, 'passwordReset').mockResolvedValue({
-          data: { email: 'some@email.com', token: 'some token' }
-        });
+        jest.spyOn(accountHttpClient, 'reset').mockResolvedValue();
 
-        passwordReset(PASSWORD_RESET, mockHistory)(dispatch);
+        accountReset(ACCOUNT_RESET, mockHistory)(dispatch);
       });
 
       it('dispatches post success action', () => {
-        expect(dispatch).toHaveBeenCalledWith(
-          passwordResetSuccess({
-            data: {
-              email: 'some@email.com',
-              token: 'some token'
-            }
-          })
-        );
+        expect(dispatch).toHaveBeenCalledWith(accountResetSuccess());
       });
 
       it('redirects to account page', () => {
@@ -311,21 +297,21 @@ describe('accountEffects', () => {
         dispatch.mockReset();
 
         jest
-          .spyOn(accountHttpClient, 'passwordReset')
+          .spyOn(accountHttpClient, 'reset')
           .mockRejectedValue(new Error('some error'));
       });
 
       it('dispatches post failure action', async () => {
-        await passwordReset(PASSWORD_RESET, mockHistory)(dispatch);
+        await accountReset(ACCOUNT_RESET, mockHistory)(dispatch);
 
         expect(dispatch).toHaveBeenCalledWith(
-          passwordResetFailure(new Error('some error'))
+          accountResetFailure(new Error('some error'))
         );
       });
 
       it('dispatches display toast', () => {
         expect(toast.displayToast).toHaveBeenCalledWith(
-          'Password recovery failed :(',
+          'Account reset failed :(',
           'is-primary'
         );
       });

@@ -322,11 +322,11 @@ export interface ApiAccountRecoveryRequest {
   recaptcha: string;
 }
 
-export interface ApiPasswordResetRequest {
+export interface ApiAccountResetRequest {
   user: {
-    email: string;
     password: string;
     recaptcha: string;
+    recovery_token: string;
     username: string;
   };
 }

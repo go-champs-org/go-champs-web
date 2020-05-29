@@ -3,12 +3,10 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { StoreState } from '../store';
 import { isResetingPassword } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
-import { passwordReset } from '../Accounts/effects';
+import { accountReset } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
-import { PasswordResetEntity } from '../Accounts/entity';
-import PasswordRecoveryForm, {
-  passwordResetValidor
-} from '../Accounts/PasswordResetForm';
+import { AccountResetEntity } from '../Accounts/entity';
+import AccountResetForm, { accountResetValidor } from '../Accounts/ResetForm';
 import { RouteComponentProps } from 'react-router-dom';
 
 const mapStateToProps = (state: StoreState) => ({
@@ -21,7 +19,7 @@ const mapDispatchToProps = (
 ) => {
   return bindActionCreators(
     {
-      passwordReset: (user: PasswordResetEntity) => passwordReset(user, history)
+      accountReset: (user: AccountResetEntity) => accountReset(user, history)
     },
     dispatch
   );
@@ -29,36 +27,33 @@ const mapDispatchToProps = (
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type PasswordRecoveryProps = ConnectedProps<typeof connector>;
+type AccountResetProps = ConnectedProps<typeof connector>;
 
-const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
+const AccountReset: React.FC<AccountResetProps> = ({
   isResetingPassword,
-  passwordReset
+  accountReset
 }) => (
   <div className="container has-text-centered">
     <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
       <div className="card-content">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <p className="title has-text-centered">Password Reset</p>
+            <p className="title has-text-centered">Account Reset</p>
           </div>
 
           <div className="column is-12">
             <Form
-              onSubmit={passwordReset}
+              onSubmit={accountReset}
               initialValues={{
-                email: '',
                 password: '',
                 repeatedPassword: '',
+                recoveryToken: '',
                 recaptcha: '',
-                username: ''
+                username: 'testaccount'
               }}
-              validate={passwordResetValidor}
-              render={(props: FormRenderProps<PasswordResetEntity>) => (
-                <PasswordRecoveryForm
-                  {...props}
-                  isLoading={isResetingPassword}
-                />
+              validate={accountResetValidor}
+              render={(props: FormRenderProps<AccountResetEntity>) => (
+                <AccountResetForm {...props} isLoading={isResetingPassword} />
               )}
             />
           </div>
@@ -68,4 +63,4 @@ const PasswordRecovery: React.FC<PasswordRecoveryProps> = ({
   </div>
 );
 
-export default connector(PasswordRecovery);
+export default connector(AccountReset);

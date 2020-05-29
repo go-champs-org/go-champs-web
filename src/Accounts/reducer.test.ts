@@ -7,61 +7,50 @@ import {
   signUpStart,
   signUpSuccess,
   signUpFailure,
-  passwordResetFailure,
-  passwordResetSuccess,
-  passwordResetStart,
+  accountResetFailure,
+  accountResetSuccess,
+  accountResetStart,
   accountRecoveryStart,
   accountRecoverySuccess,
   accountRecoveryFailure
 } from './actions';
 
 describe('accountReducer', () => {
-  describe('on passwordResetStart', () => {
+  describe('on accountResetStart', () => {
     it('sets isSignInLoading to true', () => {
-      const state = accountReducer(initialState, passwordResetStart());
+      const state = accountReducer(initialState, accountResetStart());
 
-      expect(state.isLoadingPasswordReset).toBe(true);
+      expect(state.isLoadingAccountReset).toBe(true);
     });
   });
 
-  describe('on passwordResetSuccess', () => {
+  describe('on accountResetSuccess', () => {
     let state: AccountState;
 
     beforeEach(() => {
       state = accountReducer(
-        { ...initialState, isLoadingPasswordReset: true },
-        passwordResetSuccess({
-          data: {
-            email: 'some email',
-            token: 'some token',
-            username: 'someusername'
-          }
-        })
+        { ...initialState, isLoadingAccountReset: true },
+        accountResetSuccess()
       );
     });
 
     it('sets isSignInLoading to false', () => {
-      expect(state.isLoadingPasswordReset).toBe(false);
-    });
-
-    it('sets response email and username', () => {
-      expect(state.account!.email).toEqual('some email');
-      expect(state.account!.username).toEqual('someusername');
+      expect(state.isLoadingAccountReset).toBe(false);
     });
   });
 
-  describe('on passwordResetFailure', () => {
+  describe('on accountResetFailure', () => {
     let state: AccountState;
 
     beforeEach(() => {
       state = accountReducer(
-        { ...initialState, isLoadingPasswordReset: true },
-        passwordResetFailure({})
+        { ...initialState, isLoadingAccountReset: true },
+        accountResetFailure({})
       );
     });
 
     it('sets isSignInLoading to false', () => {
-      expect(state.isLoadingPasswordReset).toBe(false);
+      expect(state.isLoadingAccountReset).toBe(false);
     });
   });
 
