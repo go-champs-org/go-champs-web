@@ -1,5 +1,16 @@
-import { signIn, signUp, passwordReset } from './effects';
-import { SignInEntity, SignUpEntity, PasswordResetEntity } from './entity';
+import {
+  signIn,
+  signUp,
+  passwordReset,
+  recovery,
+  accountRecovery
+} from './effects';
+import {
+  SignInEntity,
+  SignUpEntity,
+  PasswordResetEntity,
+  AccountRecoveryEntity
+} from './entity';
 import * as toast from '../Shared/bulma/toast';
 import { History, Location } from 'history';
 import {
@@ -11,13 +22,20 @@ import {
   signUpFailure,
   passwordResetStart,
   passwordResetSuccess,
-  passwordResetFailure
+  passwordResetFailure,
+  accountRecoveryStart,
+  accountRecoverySuccess,
+  accountRecoveryFailure
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import ApiError from '../Shared/httpClient/ApiError';
 
 let dispatch: jest.Mock;
 
+const ACCOUNT_RECOVERY: AccountRecoveryEntity = {
+  email: 'some@email.com',
+  recaptcha: 'some recaptcha'
+};
 const PASSWORD_RESET: PasswordResetEntity = {
   email: 'some@email.com',
   password: 'some password',
@@ -35,7 +53,7 @@ const SOME_USER: SignInEntity = {
   password: 'some password'
 };
 
-describe.only('accountEffects', () => {
+describe('accountEffects', () => {
   let mockHistory: History;
 
   beforeEach(() => {
@@ -308,6 +326,61 @@ describe.only('accountEffects', () => {
       it('dispatches display toast', () => {
         expect(toast.displayToast).toHaveBeenCalledWith(
           'Password recovery failed :(',
+          'is-primary'
+        );
+      });
+    });
+  });
+
+  describe('accountRecovery', () => {
+    beforeEach(() => {
+      dispatch = jest.fn();
+    });
+
+    it('dispatches start sign in action', () => {
+      accountRecovery(ACCOUNT_RECOVERY, mockHistory)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(accountRecoveryStart());
+    });
+
+    describe('on success', () => {
+      beforeEach(() => {
+        dispatch.mockReset();
+
+        jest.spyOn(accountHttpClient, 'recovery').mockResolvedValue();
+
+        accountRecovery(ACCOUNT_RECOVERY, mockHistory)(dispatch);
+      });
+
+      it('dispatches post success action', () => {
+        expect(dispatch).toHaveBeenCalledWith(accountRecoverySuccess());
+      });
+
+      it('redirects to account page', () => {
+        expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
+      });
+    });
+
+    describe('on failure', () => {
+      beforeEach(() => {
+        dispatch.mockReset();
+
+        jest
+          .spyOn(accountHttpClient, 'recovery')
+          .mockRejectedValue(new Error('some error'));
+      });
+
+      it('dispatches post failure action', async () => {
+        await accountRecovery(ACCOUNT_RECOVERY, mockHistory)(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(
+          accountRecoveryFailure(new Error('some error'))
+        );
+      });
+
+      it('dispatches display toast', () => {
+        expect(toast.displayToast).toHaveBeenCalledWith(
+          'Account recovery failed :(',
           'is-primary'
         );
       });

@@ -10,7 +10,10 @@ import {
   SIGN_UP_FAILURE,
   PASSWORD_RESET,
   PASSWORD_RESET_SUCCESS,
-  PASSWORD_RESET_FAILURE
+  PASSWORD_RESET_FAILURE,
+  ACCOUNT_RECOVERY,
+  ACCOUNT_RECOVERY_SUCCESS,
+  ACCOUNT_RECOVERY_FAILURE
 } from './actions';
 import { ApiUserResponse } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
@@ -81,7 +84,25 @@ const passwordResetFailure = (state: AccountState): AccountState => ({
   isLoadingPasswordReset: false
 });
 
+const accountRecovery = (state: AccountState): AccountState => ({
+  ...state,
+  isAccountRecoveryLoading: true
+});
+
+const accountRecoverySuccess = (state: AccountState): AccountState => ({
+  ...state,
+  isAccountRecoveryLoading: false
+});
+
+const accountRecoveryFailure = (state: AccountState): AccountState => ({
+  ...state,
+  isAccountRecoveryLoading: false
+});
+
 export default createReducer<AccountState>(initialState, {
+  [ACCOUNT_RECOVERY]: accountRecovery,
+  [ACCOUNT_RECOVERY_SUCCESS]: accountRecoverySuccess,
+  [ACCOUNT_RECOVERY_FAILURE]: accountRecoveryFailure,
   [PASSWORD_RESET]: passwordReset,
   [PASSWORD_RESET_SUCCESS]: passwordResetSuccess,
   [PASSWORD_RESET_FAILURE]: passwordResetFailure,

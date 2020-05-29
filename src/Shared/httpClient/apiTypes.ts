@@ -317,6 +317,11 @@ export interface ApiSignInRequest {
   username: string;
 }
 
+export interface ApiAccountRecoveryRequest {
+  email: string;
+  recaptcha: string;
+}
+
 export interface ApiPasswordResetRequest {
   user: {
     email: string;

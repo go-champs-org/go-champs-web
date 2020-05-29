@@ -1,6 +1,7 @@
 import { AccountEntity } from './entity';
 
 export interface AccountState {
+  isAccountRecoveryLoading: boolean;
   isLoadingDeactive: boolean;
   isLoadingPasswordReset: boolean;
   isLoadingPatchAccount: boolean;
@@ -11,6 +12,7 @@ export interface AccountState {
 }
 
 export const initialState: AccountState = {
+  isAccountRecoveryLoading: false,
   isLoadingDeactive: false,
   isLoadingPasswordReset: false,
   isLoadingPatchAccount: false,

@@ -9,7 +9,10 @@ import {
   signUpFailure,
   passwordResetFailure,
   passwordResetSuccess,
-  passwordResetStart
+  passwordResetStart,
+  accountRecoveryStart,
+  accountRecoverySuccess,
+  accountRecoveryFailure
 } from './actions';
 
 describe('accountReducer', () => {
@@ -112,7 +115,7 @@ describe('accountReducer', () => {
   });
 
   describe('on signUpStart', () => {
-    it('sets isSignInLoading to true', () => {
+    it('sets isSignUpLoading to true', () => {
       const state = accountReducer(initialState, signUpStart());
 
       expect(state.isLoadingSingUp).toBe(true);
@@ -135,7 +138,7 @@ describe('accountReducer', () => {
       );
     });
 
-    it('sets isSignInLoading to false', () => {
+    it('sets isSignUpLoading to false', () => {
       expect(state.isLoadingSingUp).toBe(false);
     });
 
@@ -155,8 +158,46 @@ describe('accountReducer', () => {
       );
     });
 
-    it('sets isSignInLoading to false', () => {
+    it('sets isSignUpLoading to false', () => {
       expect(state.isLoadingSingUp).toBe(false);
+    });
+  });
+
+  describe('on accountRecoveryStart', () => {
+    it('sets isAccountRecoveryLoading to true', () => {
+      const state = accountReducer(initialState, accountRecoveryStart());
+
+      expect(state.isAccountRecoveryLoading).toBe(true);
+    });
+  });
+
+  describe('on accountRecoverySuccess', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        { ...initialState, isAccountRecoveryLoading: true },
+        accountRecoverySuccess()
+      );
+    });
+
+    it('sets isAccountRecoveryLoading to false', () => {
+      expect(state.isAccountRecoveryLoading).toBe(false);
+    });
+  });
+
+  describe('on accountRecoveryFailure', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        { ...initialState, isAccountRecoveryLoading: true },
+        accountRecoveryFailure({})
+      );
+    });
+
+    it('sets isAccountRecoveryLoading to false', () => {
+      expect(state.isAccountRecoveryLoading).toBe(false);
     });
   });
 });

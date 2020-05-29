@@ -11,6 +11,11 @@ export interface SignUpEntity {
   username: string;
 }
 
+export interface AccountRecoveryEntity {
+  email: string;
+  recaptcha: string;
+}
+
 export interface PasswordResetEntity {
   email: string;
   password: string;

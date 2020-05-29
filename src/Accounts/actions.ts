@@ -1,6 +1,9 @@
 import { HttpAction } from '../Shared/store/interfaces';
 import { ApiUserResponse } from '../Shared/httpClient/apiTypes';
 
+export const ACCOUNT_RECOVERY = 'API_ACCOUNT_RECOVERY';
+export const ACCOUNT_RECOVERY_SUCCESS = 'API_ACCOUNT_RECOVERY_SUCCESS';
+export const ACCOUNT_RECOVERY_FAILURE = 'API_ACCOUNT_RECOVERY_FAILURE';
 export const PASSWORD_RESET = 'API_PASSWORD_RESET';
 export const PASSWORD_RESET_SUCCESS = 'API_PASSWORD_RESET_SUCCESS';
 export const PASSWORD_RESET_FAILURE = 'API_PASSWORD_RESET_FAILURE';
@@ -61,7 +64,25 @@ export const passwordResetFailure = (
   payload
 });
 
+export const accountRecoveryStart = (): HttpAction<ActionTypes> => ({
+  type: ACCOUNT_RECOVERY
+});
+
+export const accountRecoverySuccess = (): HttpAction<ActionTypes> => ({
+  type: ACCOUNT_RECOVERY_SUCCESS
+});
+
+export const accountRecoveryFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: ACCOUNT_RECOVERY_FAILURE,
+  payload
+});
+
 export type ActionTypes =
+  | typeof ACCOUNT_RECOVERY
+  | typeof ACCOUNT_RECOVERY_SUCCESS
+  | typeof ACCOUNT_RECOVERY_FAILURE
   | typeof PASSWORD_RESET
   | typeof PASSWORD_RESET_SUCCESS
   | typeof PASSWORD_RESET_FAILURE

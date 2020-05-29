@@ -1,5 +1,10 @@
 import { Dispatch } from 'redux';
-import { SignInEntity, SignUpEntity, PasswordResetEntity } from './entity';
+import {
+  SignInEntity,
+  SignUpEntity,
+  PasswordResetEntity,
+  AccountRecoveryEntity
+} from './entity';
 import {
   signInStart,
   signInSuccess,
@@ -9,7 +14,10 @@ import {
   signUpFailure,
   passwordResetStart,
   passwordResetSuccess,
-  passwordResetFailure
+  passwordResetFailure,
+  accountRecoveryStart,
+  accountRecoverySuccess,
+  accountRecoveryFailure
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import { History, Location } from 'history';
@@ -83,5 +91,22 @@ export const passwordReset = (
   } catch (err) {
     dispatch(passwordResetFailure(err));
     displayToast(`Password recovery failed :(`, 'is-primary');
+  }
+};
+
+export const accountRecovery = (
+  accountRecovery: AccountRecoveryEntity,
+  history: History
+) => async (dispatch: Dispatch) => {
+  dispatch(accountRecoveryStart());
+
+  try {
+    await accountHttpClient.recovery(accountRecovery);
+
+    dispatch(accountRecoverySuccess());
+    history.push('/SignIn');
+  } catch (err) {
+    dispatch(accountRecoveryFailure(err));
+    displayToast(`Account recovery failed :(`, 'is-primary');
   }
 };
