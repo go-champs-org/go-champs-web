@@ -87,6 +87,7 @@ export const accountReset = (
     await accountHttpClient.reset(user);
 
     dispatch(accountResetSuccess());
+    displayToast(`Account reset successful`, 'is-success');
     history.push('/SignIn');
   } catch (err) {
     dispatch(accountResetFailure(err));
@@ -104,6 +105,7 @@ export const accountRecovery = (
     await accountHttpClient.recovery(accountRecovery);
 
     dispatch(accountRecoverySuccess());
+    displayToast(`Check your e-mail`, 'is-success');
     history.push('/SignIn');
   } catch (err) {
     dispatch(accountRecoveryFailure(err));

@@ -63,7 +63,8 @@ const post = async <T, R>(url: string, data: T): Promise<R> => {
     body: JSON.stringify(data)
   });
 
-  const jsonData = await response.json();
+  const jsonText = await response.text();
+  const jsonData = jsonText ? JSON.parse(jsonText) : {};
 
   if (!response.ok) {
     throw new ApiError({

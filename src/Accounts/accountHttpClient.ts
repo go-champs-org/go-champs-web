@@ -16,9 +16,9 @@ import {
 const ACCOUNT_API = `${process.env.REACT_APP_API_HOST}v1/users`;
 
 const reset = async (user: AccountResetEntity): Promise<void> => {
-  const url = `${ACCOUNT_API}`;
+  const url = `${ACCOUNT_API}/reset`;
 
-  return await httpClient.patch<ApiAccountResetRequest, void>(url, {
+  return await httpClient.post<ApiAccountResetRequest, void>(url, {
     user: {
       username: user.username,
       password: user.password,

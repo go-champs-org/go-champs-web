@@ -290,6 +290,13 @@ describe('accountEffects', () => {
       it('redirects to account page', () => {
         expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
       });
+
+      it('dispatches display toast', () => {
+        expect(toast.displayToast).toHaveBeenCalledWith(
+          'Account reset successful',
+          'is-success'
+        );
+      });
     });
 
     describe('on failure', () => {
@@ -344,6 +351,13 @@ describe('accountEffects', () => {
 
       it('redirects to account page', () => {
         expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
+      });
+
+      it('dispatches display toast', () => {
+        expect(toast.displayToast).toHaveBeenCalledWith(
+          'Check your e-mail',
+          'is-success'
+        );
       });
     });
 
