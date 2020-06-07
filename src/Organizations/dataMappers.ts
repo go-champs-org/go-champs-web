@@ -9,7 +9,8 @@ export const mapApiOrganizationToOrganizationEntity = (
 ): OrganizationEntity => ({
   id: apiOrganization.id,
   name: apiOrganization.name,
-  slug: apiOrganization.slug
+  slug: apiOrganization.slug,
+  members: apiOrganization.members || []
 });
 
 export const mapOrganizationEntityToApiOrganizationRequest = (

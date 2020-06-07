@@ -20,357 +20,381 @@ import {
 import organizationReducer from './reducer';
 import { initialState, OrganizationState } from './state';
 
-describe('deleteOrganization', () => {
-  const action = deleteOrganizationStart();
+describe('organizationReducer', () => {
+  describe('deleteOrganization', () => {
+    const action = deleteOrganizationStart();
 
-  it('sets isLoadingDeleteOrganization to true', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingDeleteOrganization
-    ).toBe(true);
-  });
-});
-
-describe('deleteOrganizationFailure', () => {
-  const action = deleteOrganizationFailure('error');
-
-  it('sets isLoadingDeleteOrganization to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingDeleteOrganization
-    ).toBe(false);
-  });
-});
-
-describe('deleteOrganizationSuccess', () => {
-  const action = deleteOrganizationSuccess('first-id');
-
-  const deleteState = {
-    ...initialState,
-    organizations: {
-      ['first-slug']: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
-    }
-  };
-
-  it('sets isLoadingDeleteOrganization to false', () => {
-    expect(
-      organizationReducer(deleteState, action).isLoadingDeleteOrganization
-    ).toBe(false);
+    it('sets isLoadingDeleteOrganization to true', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingDeleteOrganization
+      ).toBe(true);
+    });
   });
 
-  it('remove entity', () => {
-    const newState = organizationReducer(deleteState, action);
+  describe('deleteOrganizationFailure', () => {
+    const action = deleteOrganizationFailure('error');
 
-    expect(newState.organizations['first-slug']).toBeUndefined();
+    it('sets isLoadingDeleteOrganization to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingDeleteOrganization
+      ).toBe(false);
+    });
   });
 
-  it('keeps others entities in other', () => {
-    const someState: OrganizationState = {
+  describe('deleteOrganizationSuccess', () => {
+    const action = deleteOrganizationSuccess('first-id');
+
+    const deleteState = {
       ...initialState,
       organizations: {
-        ['some-slug']: {
-          id: 'some-id',
-          name: 'some-name',
-          slug: 'some-slug'
-        },
-        ...deleteState.organizations
+        ['first-slug']: {
+          id: 'first-id',
+          name: 'first-name',
+          slug: 'first-slug',
+          members: []
+        }
       }
     };
 
-    const newState = organizationReducer(someState, action);
+    it('sets isLoadingDeleteOrganization to false', () => {
+      expect(
+        organizationReducer(deleteState, action).isLoadingDeleteOrganization
+      ).toBe(false);
+    });
 
-    expect(newState.organizations['some-slug']).toEqual({
-      id: 'some-id',
-      name: 'some-name',
-      slug: 'some-slug'
+    it('remove entity', () => {
+      const newState = organizationReducer(deleteState, action);
+
+      expect(newState.organizations['first-slug']).toBeUndefined();
+    });
+
+    it('keeps others entities in other', () => {
+      const someState: OrganizationState = {
+        ...initialState,
+        organizations: {
+          ['some-slug']: {
+            id: 'some-id',
+            name: 'some-name',
+            slug: 'some-slug',
+            members: []
+          },
+          ...deleteState.organizations
+        }
+      };
+
+      const newState = organizationReducer(someState, action);
+
+      expect(newState.organizations['some-slug']).toEqual({
+        id: 'some-id',
+        name: 'some-name',
+        slug: 'some-slug',
+        members: []
+      });
     });
   });
-});
 
-describe('patchOrganization', () => {
-  const action = patchOrganizationStart();
+  describe('patchOrganization', () => {
+    const action = patchOrganizationStart();
 
-  it('sets isLoadingPatchOrganization to true', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingPatchOrganization
-    ).toBe(true);
-  });
-});
-
-describe('patchOrganizationFailure', () => {
-  const action = patchOrganizationFailure('error');
-
-  it('sets isLoadingPatchOrganization to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingPatchOrganization
-    ).toBe(false);
-  });
-});
-
-describe('patchOrganizationSuccess', () => {
-  const action = patchOrganizationSuccess({
-    id: 'first-id',
-    name: 'some-first-name',
-    slug: 'first-slug'
+    it('sets isLoadingPatchOrganization to true', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingPatchOrganization
+      ).toBe(true);
+    });
   });
 
-  const updateState: OrganizationState = {
-    ...initialState,
-    organizations: {
-      ['first-slug']: {
-        id: 'first-id',
-        name: 'first-name',
-        slug: 'first-slug'
-      }
-    }
-  };
+  describe('patchOrganizationFailure', () => {
+    const action = patchOrganizationFailure('error');
 
-  it('sets isLoadingPatchOrganization to false', () => {
-    expect(
-      organizationReducer(updateState, action).isLoadingPatchOrganization
-    ).toBe(false);
+    it('sets isLoadingPatchOrganization to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingPatchOrganization
+      ).toBe(false);
+    });
   });
 
-  it('set entity', () => {
-    const newState = organizationReducer(updateState, action);
-
-    expect(newState.organizations['first-slug']).toEqual({
+  describe('patchOrganizationSuccess', () => {
+    const action = patchOrganizationSuccess({
       id: 'first-id',
       name: 'some-first-name',
-      slug: 'first-slug'
+      slug: 'first-slug',
+      members: [{ username: 'some-username' }]
     });
-  });
 
-  it('keeps others entities in other', () => {
-    const someState: OrganizationState = {
-      ...updateState,
-      organizations: {
-        ['some-slug']: {
-          id: 'some-id',
-          name: 'some-name',
-          slug: 'some-slug'
-        }
-      }
-    };
-
-    const newState = organizationReducer(someState, action);
-
-    expect(newState.organizations['some-slug']).toEqual({
-      id: 'some-id',
-      name: 'some-name',
-      slug: 'some-slug'
-    });
-  });
-});
-
-describe('postOrganization', () => {
-  const action = postOrganizationStart();
-
-  it('sets isLoadingPostOrganization to true', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingPostOrganization
-    ).toBe(true);
-  });
-});
-
-describe('postOrganizationFailure', () => {
-  const action = postOrganizationFailure('error');
-
-  it('sets isLoadingPostOrganization to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingPostOrganization
-    ).toBe(false);
-  });
-});
-
-describe('postOrganizationSuccess', () => {
-  const action = postOrganizationSuccess({
-    id: 'first-id',
-    name: 'first-name',
-    slug: 'first-slug'
-  });
-
-  it('sets isLoadingPostOrganization to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingPostOrganization
-    ).toBe(false);
-  });
-
-  it('set entity', () => {
-    const newState = organizationReducer(initialState, action);
-
-    expect(newState.organizations['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    });
-  });
-
-  it('keeps others entities in other', () => {
-    const someState: OrganizationState = {
+    const updateState: OrganizationState = {
       ...initialState,
       organizations: {
-        ['some-slug']: {
-          id: 'some-id',
-          name: 'some-name',
-          slug: 'some-slug'
+        ['first-slug']: {
+          id: 'first-id',
+          name: 'first-name',
+          slug: 'first-slug',
+          members: [{ username: 'first-username' }]
         }
       }
     };
 
-    const newState = organizationReducer(someState, action);
-
-    expect(newState.organizations['some-slug']).toEqual({
-      id: 'some-id',
-      name: 'some-name',
-      slug: 'some-slug'
+    it('sets isLoadingPatchOrganization to false', () => {
+      expect(
+        organizationReducer(updateState, action).isLoadingPatchOrganization
+      ).toBe(false);
     });
-  });
-});
 
-describe('getOrganization', () => {
-  const action = getOrganizationStart();
+    it('set entity', () => {
+      const newState = organizationReducer(updateState, action);
 
-  it('sets isLoadingRequestOrganizations to true', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganizations
-    ).toBe(true);
-  });
-});
-
-describe('getOrganizationFailure', () => {
-  const action = getOrganizationFailure('error');
-
-  it('sets isLoadingRequestOrganizations to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganizations
-    ).toBe(false);
-  });
-});
-
-describe('getOrganizationSuccess', () => {
-  const action = getOrganizationSuccess({
-    id: 'first-id',
-    name: 'first-name',
-    slug: 'first-slug'
-  });
-
-  it('sets isLoadingRequestOrganizations to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganizations
-    ).toBe(false);
-  });
-
-  it('sets entities', () => {
-    const newState = organizationReducer(initialState, action);
-
-    expect(newState.organizations['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
+      expect(newState.organizations['first-slug']).toEqual({
+        id: 'first-id',
+        name: 'some-first-name',
+        slug: 'first-slug',
+        members: [{ username: 'some-username' }]
+      });
     });
-  });
 
-  it('keeps others entities in other', () => {
-    const someState: OrganizationState = {
-      ...initialState,
-      organizations: {
-        ['some-slug']: {
-          id: 'some-id',
-          name: 'some-name',
-          slug: 'some-slug'
+    it('keeps others entities in other', () => {
+      const someState: OrganizationState = {
+        ...updateState,
+        organizations: {
+          ['some-slug']: {
+            id: 'some-id',
+            name: 'some-name',
+            slug: 'some-slug',
+            members: [{ username: 'some-username' }]
+          }
         }
+      };
+
+      const newState = organizationReducer(someState, action);
+
+      expect(newState.organizations['some-slug']).toEqual({
+        id: 'some-id',
+        name: 'some-name',
+        slug: 'some-slug',
+        members: [{ username: 'some-username' }]
+      });
+    });
+  });
+
+  describe('postOrganization', () => {
+    const action = postOrganizationStart();
+
+    it('sets isLoadingPostOrganization to true', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingPostOrganization
+      ).toBe(true);
+    });
+  });
+
+  describe('postOrganizationFailure', () => {
+    const action = postOrganizationFailure('error');
+
+    it('sets isLoadingPostOrganization to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingPostOrganization
+      ).toBe(false);
+    });
+  });
+
+  describe('postOrganizationSuccess', () => {
+    const action = postOrganizationSuccess({
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug',
+      members: [{ username: 'first-username' }]
+    });
+
+    it('sets isLoadingPostOrganization to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingPostOrganization
+      ).toBe(false);
+    });
+
+    it('set entity', () => {
+      const newState = organizationReducer(initialState, action);
+
+      expect(newState.organizations['first-slug']).toEqual({
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      });
+    });
+
+    it('keeps others entities in other', () => {
+      const someState: OrganizationState = {
+        ...initialState,
+        organizations: {
+          ['some-slug']: {
+            id: 'some-id',
+            name: 'some-name',
+            slug: 'some-slug',
+            members: [{ username: 'some-username' }]
+          }
+        }
+      };
+
+      const newState = organizationReducer(someState, action);
+
+      expect(newState.organizations['some-slug']).toEqual({
+        id: 'some-id',
+        name: 'some-name',
+        slug: 'some-slug',
+        members: [{ username: 'some-username' }]
+      });
+    });
+  });
+
+  describe('getOrganization', () => {
+    const action = getOrganizationStart();
+
+    it('sets isLoadingRequestOrganizations to true', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingRequestOrganizations
+      ).toBe(true);
+    });
+  });
+
+  describe('getOrganizationFailure', () => {
+    const action = getOrganizationFailure('error');
+
+    it('sets isLoadingRequestOrganizations to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingRequestOrganizations
+      ).toBe(false);
+    });
+  });
+
+  describe('getOrganizationSuccess', () => {
+    const action = getOrganizationSuccess({
+      id: 'first-id',
+      name: 'first-name',
+      slug: 'first-slug',
+      members: [{ username: 'first-username' }]
+    });
+
+    it('sets isLoadingRequestOrganizations to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingRequestOrganizations
+      ).toBe(false);
+    });
+
+    it('sets entities', () => {
+      const newState = organizationReducer(initialState, action);
+
+      expect(newState.organizations['first-slug']).toEqual({
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      });
+    });
+
+    it('keeps others entities in other', () => {
+      const someState: OrganizationState = {
+        ...initialState,
+        organizations: {
+          ['some-slug']: {
+            id: 'some-id',
+            name: 'some-name',
+            slug: 'some-slug',
+            members: [{ username: 'some-username' }]
+          }
+        }
+      };
+
+      const newState = organizationReducer(someState, action);
+
+      expect(newState.organizations['some-slug']).toEqual({
+        id: 'some-id',
+        name: 'some-name',
+        slug: 'some-slug',
+        members: [{ username: 'some-username' }]
+      });
+    });
+  });
+
+  describe('getOrganizations', () => {
+    const action = getOrganizationsStart();
+
+    it('sets isLoadingRequestOrganizations to true', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingRequestOrganizations
+      ).toBe(true);
+    });
+  });
+
+  describe('getOrganizationsFailure', () => {
+    const action = getOrganizationsFailure('error');
+
+    it('sets isLoadingRequestOrganizations to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingRequestOrganizations
+      ).toBe(false);
+    });
+  });
+
+  describe('getOrganizationsSuccess', () => {
+    const action = getOrganizationsSuccess([
+      {
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      },
+      {
+        id: 'second-id',
+        name: 'second-name',
+        slug: 'second-slug',
+        members: [{ username: 'second-username' }]
       }
-    };
+    ]);
 
-    const newState = organizationReducer(someState, action);
+    it('sets isLoadingRequestOrganizations to false', () => {
+      expect(
+        organizationReducer(initialState, action).isLoadingRequestOrganizations
+      ).toBe(false);
+    });
 
-    expect(newState.organizations['some-slug']).toEqual({
-      id: 'some-id',
-      name: 'some-name',
-      slug: 'some-slug'
+    it('sets entities', () => {
+      const newState = organizationReducer(initialState, action);
+
+      expect(newState.organizations['first-slug']).toEqual({
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      });
+      expect(newState.organizations['second-slug']).toEqual({
+        id: 'second-id',
+        name: 'second-name',
+        slug: 'second-slug',
+        members: [{ username: 'second-username' }]
+      });
     });
   });
-});
 
-describe('getOrganizations', () => {
-  const action = getOrganizationsStart();
-
-  it('sets isLoadingRequestOrganizations to true', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganizations
-    ).toBe(true);
-  });
-});
-
-describe('getOrganizationsFailure', () => {
-  const action = getOrganizationsFailure('error');
-
-  it('sets isLoadingRequestOrganizations to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganizations
-    ).toBe(false);
-  });
-});
-
-describe('getOrganizationsSuccess', () => {
-  const action = getOrganizationsSuccess([
-    {
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    },
-    {
-      id: 'second-id',
-      name: 'second-name',
-      slug: 'second-slug'
-    }
-  ]);
-
-  it('sets isLoadingRequestOrganizations to false', () => {
-    expect(
-      organizationReducer(initialState, action).isLoadingRequestOrganizations
-    ).toBe(false);
-  });
-
-  it('sets entities', () => {
-    const newState = organizationReducer(initialState, action);
-
-    expect(newState.organizations['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
+  describe('getTournamentSuccess', () => {
+    const action = getTournamentSuccess({
+      ...DEFAULT_TOURNAMENT,
+      id: 'some-tournament-id',
+      organization: {
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      },
+      phases: [],
+      teams: []
     });
-    expect(newState.organizations['second-slug']).toEqual({
-      id: 'second-id',
-      name: 'second-name',
-      slug: 'second-slug'
-    });
-  });
-});
 
-describe('getTournamentSuccess', () => {
-  const action = getTournamentSuccess({
-    ...DEFAULT_TOURNAMENT,
-    id: 'some-tournament-id',
-    organization: {
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
-    },
-    phases: [],
-    teams: []
-  });
+    it('sets entities', () => {
+      const newState = organizationReducer(initialState, action);
 
-  it('sets entities', () => {
-    const newState = organizationReducer(initialState, action);
-
-    expect(newState.organizations['first-slug']).toEqual({
-      id: 'first-id',
-      name: 'first-name',
-      slug: 'first-slug'
+      expect(newState.organizations['first-slug']).toEqual({
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      });
     });
   });
 });

@@ -1,7 +1,12 @@
+export interface MemberEntity {
+  username: string;
+}
+
 export interface OrganizationEntity {
   id: string;
   name: string;
   slug: string;
+  members: MemberEntity[];
 }
 
 export interface OrganizationState {
@@ -25,5 +30,10 @@ export const initialState: OrganizationState = {
 export const DEFAULT_ORGANIZATION: OrganizationEntity = {
   id: '',
   name: '',
-  slug: ''
+  slug: '',
+  members: []
+};
+
+export const DEFAULT_MEMBER: MemberEntity = {
+  username: ''
 };

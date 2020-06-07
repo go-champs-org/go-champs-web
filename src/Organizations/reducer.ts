@@ -1,10 +1,13 @@
-import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
+import {
+  ApiTournamentWithDependecies,
+  ApiOrganization
+} from '../Shared/httpClient/apiTypes';
 import {
   createReducer,
   entityById,
-  mapEntities,
   mapEntitiesByKey,
-  returnProperty
+  returnProperty,
+  apiDataToEntitiesOverride
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
@@ -27,10 +30,12 @@ import {
   POST_ORGANIZATION_SUCCESS
 } from './actions';
 import { initialState, OrganizationEntity, OrganizationState } from './state';
+import { mapApiOrganizationToOrganizationEntity } from './dataMappers';
 
-const organizationMapEntities = mapEntities<OrganizationEntity>(
-  returnProperty('slug')
-);
+const apiOrganizationToEntities = apiDataToEntitiesOverride<
+  ApiOrganization,
+  OrganizationEntity
+>(mapApiOrganizationToOrganizationEntity, returnProperty('slug'));
 
 const deleteOrganization = (
   state: OrganizationState,
@@ -80,12 +85,12 @@ const patchOrganizationFailure = (
 
 const patchOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes, OrganizationEntity>
+  action: HttpAction<ActionTypes, ApiOrganization>
 ) => ({
   ...state,
   isLoadingPatchOrganization: false,
-  organizations: [action.payload].reduce(
-    organizationMapEntities,
+  organizations: [action.payload!].reduce(
+    apiOrganizationToEntities,
     state.organizations
   )
 });
@@ -108,12 +113,12 @@ const postOrganizationFailure = (
 
 const postOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes, OrganizationEntity>
+  action: HttpAction<ActionTypes, ApiOrganization>
 ) => ({
   ...state,
   isLoadingPostOrganization: false,
-  organizations: [action.payload].reduce(
-    organizationMapEntities,
+  organizations: [action.payload!].reduce(
+    apiOrganizationToEntities,
     state.organizations
   )
 });
@@ -136,12 +141,12 @@ const getOrganizationFailure = (
 
 const getOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes, OrganizationEntity>
+  action: HttpAction<ActionTypes, ApiOrganization>
 ) => ({
   ...state,
   isLoadingRequestOrganizations: false,
-  organizations: [action.payload].reduce(
-    organizationMapEntities,
+  organizations: [action.payload!].reduce(
+    apiOrganizationToEntities,
     state.organizations
   )
 });
@@ -168,7 +173,7 @@ const getOrganizationsSuccess = (
 ) => ({
   ...state,
   isLoadingRequestOrganizations: false,
-  organizations: action.payload!.reduce(organizationMapEntities, {})
+  organizations: action.payload!.reduce(apiOrganizationToEntities, {})
 });
 
 const getTournamentSuccess = (
@@ -177,7 +182,7 @@ const getTournamentSuccess = (
 ) => ({
   ...state,
   organizations: [action.payload!.organization].reduce(
-    organizationMapEntities,
+    apiOrganizationToEntities,
     {}
   )
 });

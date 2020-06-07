@@ -1,7 +1,6 @@
 import { ApiOrganization } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
-import { OrganizationEntity } from './state';
 
 export const DELETE_ORGANIZATION = 'API_DELETE_ORGANIZATION';
 export const DELETE_ORGANIZATION_SUCCESS = 'API_DELETE_ORGANIZATION_SUCCESS';
@@ -61,7 +60,7 @@ export const postOrganizationStart = (): HttpAction<ActionTypes> => ({
 
 export const postOrganizationSuccess = (
   payload: ApiOrganization
-): HttpAction<ActionTypes, OrganizationEntity> => ({
+): HttpAction<ActionTypes, ApiOrganization> => ({
   type: POST_ORGANIZATION_SUCCESS,
   payload
 });

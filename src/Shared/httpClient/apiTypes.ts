@@ -165,10 +165,15 @@ export interface ApiEliminationBatchResponse {
   };
 }
 
+export interface ApiOrganizationMember {
+  username: string;
+}
+
 export interface ApiOrganization {
   id: string;
   name: string;
   slug: string;
+  members?: ApiOrganizationMember[];
 }
 
 export interface ApiPhaseRequest {

@@ -3,6 +3,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { postOrganization } from '../Organizations/effects';
 import { default as OrganizationForm } from '../Organizations/Form';
+import arrayMutators from 'final-form-arrays';
+import { Mutator } from 'final-form';
 import { Form, FormRenderProps } from 'react-final-form';
 import {
   DEFAULT_ORGANIZATION,
@@ -44,11 +46,17 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
           <Form
             onSubmit={postOrganization}
             initialValues={DEFAULT_ORGANIZATION}
+            mutators={
+              (arrayMutators as unknown) as {
+                [key: string]: Mutator<OrganizationEntity>;
+              }
+            }
             render={(props: FormRenderProps<OrganizationEntity>) => (
               <OrganizationForm
                 {...props}
                 backUrl={backUrl}
                 isLoading={isPostingOrganization}
+                push={props.form.mutators.push}
               />
             )}
           />
