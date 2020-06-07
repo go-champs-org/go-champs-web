@@ -22,7 +22,7 @@ const MemberForm: React.FC<OrganizationMemberProps> = ({ name, onRemove }) => {
   return (
     <Fragment>
       <tr>
-        <td>
+        <td style={{ paddingLeft: '0' }}>
           <Field
             name={`${name}.username`}
             component={StringInput}
@@ -30,7 +30,10 @@ const MemberForm: React.FC<OrganizationMemberProps> = ({ name, onRemove }) => {
           />
         </td>
 
-        <td>
+        <td
+          className="has-text-right"
+          style={{ paddingRight: '0', verticalAlign: 'middle' }}
+        >
           <DoubleClickButton
             className="button has-tooltip-top"
             onClick={onRemove}

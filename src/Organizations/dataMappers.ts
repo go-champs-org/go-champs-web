@@ -2,7 +2,7 @@ import {
   ApiOrganization,
   ApiOrganizationRequest
 } from '../Shared/httpClient/apiTypes';
-import { OrganizationEntity } from './state';
+import { OrganizationEntity, MemberEntity } from './state';
 
 export const mapApiOrganizationToOrganizationEntity = (
   apiOrganization: ApiOrganization
@@ -13,12 +13,22 @@ export const mapApiOrganizationToOrganizationEntity = (
   members: apiOrganization.members || []
 });
 
+export const mapMemberEntityToApiOrganizationMember = (
+  member: MemberEntity
+) => ({
+  username: member.username
+});
+
 export const mapOrganizationEntityToApiOrganizationRequest = (
   organization: OrganizationEntity
 ): ApiOrganizationRequest => ({
   organization: {
     id: organization.id,
     name: organization.name,
-    slug: organization.slug
+    slug: organization.slug,
+    members:
+      organization.members.length > 0
+        ? organization.members.map(mapMemberEntityToApiOrganizationMember)
+        : undefined
   }
 });
