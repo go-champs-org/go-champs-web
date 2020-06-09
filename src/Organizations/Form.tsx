@@ -22,7 +22,7 @@ const MemberForm: React.FC<OrganizationMemberProps> = ({ name, onRemove }) => {
   return (
     <Fragment>
       <tr>
-        <td style={{ paddingLeft: '0' }}>
+        <td>
           <Field
             name={`${name}.username`}
             component={StringInput}

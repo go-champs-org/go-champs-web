@@ -88,6 +88,26 @@ export const getOrganization = (organizationId: string) => async (
   }
 };
 
+export const getOrganizationBySlug = (organizationSlug: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(getOrganizationStart());
+
+  try {
+    const organizations = await organizationHttpClient.getByFilter({
+      slug: organizationSlug
+    });
+
+    const organizationId = organizations[0].id;
+
+    const response = await organizationHttpClient.get(organizationId);
+
+    dispatch(getOrganizationSuccess(response));
+  } catch (err) {
+    dispatch(getOrganizationFailure(err));
+  }
+};
+
 export const getOrganizations = () => async (dispatch: Dispatch) => {
   dispatch(getOrganizationsStart());
 

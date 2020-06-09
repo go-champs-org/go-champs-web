@@ -10,10 +10,10 @@ import {
   organizationsLoading
 } from '../Organizations/selectors';
 import { connect, ConnectedProps } from 'react-redux';
-import withOrganizations from './support/withOrganizations';
-import { getOrganizations } from '../Organizations/effects';
+import { getOrganizationBySlug } from '../Organizations/effects';
 import { bindActionCreators, Dispatch } from 'redux';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
+import withOrganization from './support/withOrganization';
 
 const mapStateToProps = (
   state: StoreState,
@@ -29,7 +29,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      getOrganizations
+      getOrganizationBySlug
     },
     dispatch
   );
@@ -113,4 +113,4 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
   );
 };
 
-export default connector(withOrganizations(OrganizationHome));
+export default connector(withOrganization(OrganizationHome));

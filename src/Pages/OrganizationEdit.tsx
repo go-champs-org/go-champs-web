@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getOrganizations, patchOrganization } from '../Organizations/effects';
+import {
+  getOrganizationBySlug,
+  patchOrganization
+} from '../Organizations/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import arrayMutators from 'final-form-arrays';
-import withOrganizations from './support/withOrganizations';
 import {
   organizationBySlug,
   organizationsLoading,
@@ -21,6 +23,7 @@ import {
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
 import { OrganizationEntity } from '../Organizations/state';
+import withOrganization from './support/withOrganization';
 
 const mapStateToProps = (
   state: StoreState,
@@ -37,7 +40,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      getOrganizations,
+      getOrganizationBySlug,
       patchOrganization
     },
     dispatch
@@ -94,4 +97,4 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
   );
 };
 
-export default connector(withOrganizations(OrganizationEdit));
+export default connector(withOrganization(OrganizationEdit));

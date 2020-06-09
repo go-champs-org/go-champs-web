@@ -1,7 +1,8 @@
 import {
   ApiOrganizationRequest,
   ApiOrganizationResponse,
-  ApiOrganizationsResponse
+  ApiOrganizationsResponse,
+  ApiOrganization
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -9,6 +10,10 @@ import {
   mapOrganizationEntityToApiOrganizationRequest
 } from './dataMappers';
 import { OrganizationEntity } from './state';
+import {
+  RequestFilter,
+  mapRequestFilterToQueryString
+} from '../Shared/httpClient/requestFilter';
 
 const ORGANIZATION_API = `${process.env.REACT_APP_API_HOST}v1/organizations`;
 
@@ -30,6 +35,15 @@ const getAll = async (): Promise<OrganizationEntity[]> => {
 
   const { data } = await httpClient.get<ApiOrganizationsResponse>(url);
   return data.map(mapApiOrganizationToOrganizationEntity);
+};
+
+const getByFilter = async (
+  where: RequestFilter
+): Promise<ApiOrganization[]> => {
+  const url = `${ORGANIZATION_API}?${mapRequestFilterToQueryString(where)}`;
+
+  const { data } = await httpClient.get<ApiOrganizationsResponse>(url);
+  return data;
 };
 
 const patch = async (
@@ -61,6 +75,7 @@ const post = async (
 export default {
   delete: deleteRequest,
   getAll,
+  getByFilter,
   get,
   patch,
   post
