@@ -1,5 +1,8 @@
 import { HttpAction } from '../Shared/store/interfaces';
-import { ApiUserResponse } from '../Shared/httpClient/apiTypes';
+import {
+  ApiUserResponse,
+  ApiAccountResponse
+} from '../Shared/httpClient/apiTypes';
 
 export const ACCOUNT_RECOVERY = 'API_ACCOUNT_RECOVERY';
 export const ACCOUNT_RECOVERY_SUCCESS = 'API_ACCOUNT_RECOVERY_SUCCESS';
@@ -13,6 +16,9 @@ export const SIGN_IN_FAILURE = 'API_SIGN_IN_FAILURE';
 export const SIGN_UP = 'API_SIGN_UP';
 export const SIGN_UP_SUCCESS = 'API_SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'API_SIGN_UP_FAILURE';
+export const GET_ACCOUNT = 'API_GET_ACCOUNT';
+export const GET_ACCOUNT_SUCCESS = 'API_GET_ACCOUNT_SUCCESS';
+export const GET_ACCOUNT_FAILURE = 'API_GET_ACCOUNT_FAILURE';
 
 export const signInStart = (): HttpAction<ActionTypes> => ({
   type: SIGN_IN
@@ -74,6 +80,22 @@ export const accountRecoveryFailure = (
   payload
 });
 
+export const getAccountStart = (): HttpAction<ActionTypes> => ({
+  type: GET_ACCOUNT
+});
+
+export const getAccountSuccess = (
+  payload: ApiAccountResponse
+): HttpAction<ActionTypes, ApiAccountResponse> => ({
+  type: GET_ACCOUNT_SUCCESS,
+  payload
+});
+
+export const getAccountFailure = (payload: any): HttpAction<ActionTypes> => ({
+  type: GET_ACCOUNT_FAILURE,
+  payload
+});
+
 export type ActionTypes =
   | typeof ACCOUNT_RECOVERY
   | typeof ACCOUNT_RECOVERY_SUCCESS
@@ -81,6 +103,9 @@ export type ActionTypes =
   | typeof ACCOUNT_RESET
   | typeof ACCOUNT_RESET_SUCCESS
   | typeof ACCOUNT_RESET_FAILURE
+  | typeof GET_ACCOUNT
+  | typeof GET_ACCOUNT_SUCCESS
+  | typeof GET_ACCOUNT_FAILURE
   | typeof SIGN_IN
   | typeof SIGN_IN_SUCCESS
   | typeof SIGN_IN_FAILURE

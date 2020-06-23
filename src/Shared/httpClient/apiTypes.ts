@@ -352,3 +352,11 @@ export interface ApiUserResponse {
     username: string;
   };
 }
+
+export interface ApiAccountResponse {
+  data: {
+    email: string;
+    username: string;
+    organizations: ApiOrganization[];
+  };
+}

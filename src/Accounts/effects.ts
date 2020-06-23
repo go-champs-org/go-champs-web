@@ -17,7 +17,10 @@ import {
   accountResetFailure,
   accountRecoveryStart,
   accountRecoverySuccess,
-  accountRecoveryFailure
+  accountRecoveryFailure,
+  getAccountStart,
+  getAccountSuccess,
+  getAccountFailure
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import { History, Location } from 'history';
@@ -109,6 +112,20 @@ export const accountRecovery = (
     history.push('/SignIn');
   } catch (err) {
     dispatch(accountRecoveryFailure(err));
+    displayToast(`Account recovery failed :(`, 'is-primary');
+  }
+};
+
+export const getAccount = (username: string) => async (dispatch: Dispatch) => {
+  dispatch(getAccountStart());
+
+  try {
+    const response = await accountHttpClient.getAccount(username);
+
+    dispatch(getAccountSuccess(response));
+    displayToast(`Check your e-mail`, 'is-success');
+  } catch (err) {
+    dispatch(getAccountFailure(err));
     displayToast(`Account recovery failed :(`, 'is-primary');
   }
 };

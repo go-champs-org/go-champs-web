@@ -4,7 +4,8 @@ import {
   ApiUserResponse,
   ApiSignUpRequest,
   ApiAccountResetRequest,
-  ApiAccountRecoveryRequest
+  ApiAccountRecoveryRequest,
+  ApiAccountResponse
 } from '../Shared/httpClient/apiTypes';
 import {
   SignInEntity,
@@ -13,7 +14,11 @@ import {
   AccountRecoveryEntity
 } from './entity';
 
-const ACCOUNT_API = `${process.env.REACT_APP_API_HOST}v1/users`;
+const ACCOUNT_API = `${process.env.REACT_APP_API_HOST}v1/accounts`;
+const USER_API = `${process.env.REACT_APP_API_HOST}v1/users`;
+
+export const getAccount = async (username: string) =>
+  await httpClient.get<ApiAccountResponse>(`${USER_API}/${username}`);
 
 const reset = async (user: AccountResetEntity): Promise<void> => {
   const url = `${ACCOUNT_API}/reset`;
@@ -49,6 +54,7 @@ const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
 };
 
 export default {
+  getAccount,
   recovery,
   reset,
   signIn,
