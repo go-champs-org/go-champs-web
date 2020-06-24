@@ -1,6 +1,7 @@
 import {
   ApiTournamentWithDependecies,
-  ApiOrganization
+  ApiOrganization,
+  ApiAccountResponse
 } from '../Shared/httpClient/apiTypes';
 import {
   createReducer,
@@ -31,6 +32,7 @@ import {
 } from './actions';
 import { initialState, OrganizationEntity, OrganizationState } from './state';
 import { mapApiOrganizationToOrganizationEntity } from './dataMappers';
+import { GET_ACCOUNT_SUCCESS } from '../Accounts/actions';
 
 const apiOrganizationToEntities = apiDataToEntitiesOverride<
   ApiOrganization,
@@ -123,6 +125,17 @@ const postOrganizationSuccess = (
   )
 });
 
+const getAccountSuccess = (
+  state: OrganizationState,
+  action: HttpAction<ActionTypes, ApiAccountResponse>
+) => ({
+  ...state,
+  organizations: action.payload?.data.organizations.reduce(
+    apiOrganizationToEntities,
+    state.organizations
+  )
+});
+
 const getOrganization = (
   state: OrganizationState,
   action: HttpAction<ActionTypes>
@@ -197,6 +210,7 @@ export default createReducer(initialState, {
   [POST_ORGANIZATION]: postOrganization,
   [POST_ORGANIZATION_FAILURE]: postOrganizationFailure,
   [POST_ORGANIZATION_SUCCESS]: postOrganizationSuccess,
+  [GET_ACCOUNT_SUCCESS]: getAccountSuccess,
   [GET_ORGANIZATION]: getOrganization,
   [GET_ORGANIZATION_FAILURE]: getOrganizationFailure,
   [GET_ORGANIZATION_SUCCESS]: getOrganizationSuccess,

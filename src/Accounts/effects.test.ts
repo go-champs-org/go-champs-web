@@ -1,4 +1,10 @@
-import { signIn, signUp, accountReset, accountRecovery } from './effects';
+import {
+  signIn,
+  signUp,
+  accountReset,
+  accountRecovery,
+  getAccount
+} from './effects';
 import {
   SignInEntity,
   SignUpEntity,
@@ -19,7 +25,10 @@ import {
   accountResetFailure,
   accountRecoveryStart,
   accountRecoverySuccess,
-  accountRecoveryFailure
+  accountRecoveryFailure,
+  getAccountStart,
+  getAccountFailure,
+  getAccountSuccess
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import ApiError from '../Shared/httpClient/ApiError';
@@ -383,6 +392,74 @@ describe('accountEffects', () => {
           'Account recovery failed :(',
           'is-primary'
         );
+      });
+    });
+  });
+
+  describe('getAccount', () => {
+    beforeEach(() => {
+      dispatch = jest.fn();
+    });
+
+    it('dispatches start get action', () => {
+      getAccount('someusername')(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(getAccountStart());
+    });
+
+    describe('on success', () => {
+      beforeEach(() => {
+        jest.spyOn(accountHttpClient, 'getAccount').mockResolvedValue({
+          data: {
+            email: 'some@email.com',
+            username: 'someusername',
+            organizations: [
+              {
+                id: 'some-org-id',
+                name: 'some org name',
+                slug: 'some-org-slug'
+              }
+            ]
+          }
+        });
+
+        getAccount('someusername')(dispatch);
+      });
+
+      it('dispatches get success action', () => {
+        expect(dispatch).toHaveBeenCalledWith(
+          getAccountSuccess({
+            data: {
+              email: 'some@email.com',
+              username: 'someusername',
+              organizations: [
+                {
+                  id: 'some-org-id',
+                  name: 'some org name',
+                  slug: 'some-org-slug'
+                }
+              ]
+            }
+          })
+        );
+      });
+    });
+
+    describe('on failure', () => {
+      const apiError = new Error('some-error');
+
+      beforeEach(() => {
+        dispatch.mockReset();
+
+        jest.spyOn(accountHttpClient, 'getAccount').mockRejectedValue(apiError);
+
+        getAccount('some-id')(dispatch);
+      });
+
+      it('dispatches get failure action', async () => {
+        await getAccount('some-id')(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(getAccountFailure(apiError));
       });
     });
   });

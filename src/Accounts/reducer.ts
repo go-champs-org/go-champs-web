@@ -13,7 +13,10 @@ import {
   ACCOUNT_RESET_FAILURE,
   ACCOUNT_RECOVERY,
   ACCOUNT_RECOVERY_SUCCESS,
-  ACCOUNT_RECOVERY_FAILURE
+  ACCOUNT_RECOVERY_FAILURE,
+  GET_ACCOUNT,
+  GET_ACCOUNT_SUCCESS,
+  GET_ACCOUNT_FAILURE
 } from './actions';
 import { ApiUserResponse } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
@@ -95,6 +98,28 @@ const accountRecoveryFailure = (state: AccountState): AccountState => ({
   isAccountRecoveryLoading: false
 });
 
+const getAccount = (state: AccountState): AccountState => ({
+  ...state,
+  isGettingAccountLoading: true
+});
+
+const getAccountSuccess = (
+  state: AccountState,
+  action: HttpAction<ActionTypes, ApiUserResponse>
+): AccountState => ({
+  ...state,
+  isGettingAccountLoading: false,
+  account: {
+    email: action.payload!.data.email,
+    username: action.payload!.data.username
+  }
+});
+
+const getAccountFailure = (state: AccountState): AccountState => ({
+  ...state,
+  isGettingAccountLoading: false
+});
+
 export default createReducer<AccountState>(initialState, {
   [ACCOUNT_RECOVERY]: accountRecovery,
   [ACCOUNT_RECOVERY_SUCCESS]: accountRecoverySuccess,
@@ -102,6 +127,9 @@ export default createReducer<AccountState>(initialState, {
   [ACCOUNT_RESET]: accountReset,
   [ACCOUNT_RESET_SUCCESS]: accountResetSuccess,
   [ACCOUNT_RESET_FAILURE]: accountResetFailure,
+  [GET_ACCOUNT]: getAccount,
+  [GET_ACCOUNT_SUCCESS]: getAccountSuccess,
+  [GET_ACCOUNT_FAILURE]: getAccountFailure,
   [SIGN_IN]: signIn,
   [SIGN_IN_SUCCESS]: signInSuccess,
   [SIGN_IN_FAILURE]: signInFailure,

@@ -12,7 +12,10 @@ import {
   accountResetStart,
   accountRecoveryStart,
   accountRecoverySuccess,
-  accountRecoveryFailure
+  accountRecoveryFailure,
+  getAccountStart,
+  getAccountSuccess,
+  getAccountFailure
 } from './actions';
 
 describe('accountReducer', () => {
@@ -187,6 +190,52 @@ describe('accountReducer', () => {
 
     it('sets isAccountRecoveryLoading to false', () => {
       expect(state.isAccountRecoveryLoading).toBe(false);
+    });
+  });
+
+  describe('on getAccountStart', () => {
+    it('sets isGettingAccountLoading to true', () => {
+      const state = accountReducer(initialState, getAccountStart());
+
+      expect(state.isGettingAccountLoading).toBe(true);
+    });
+  });
+
+  describe('on getAccountSuccess', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(
+        initialState,
+        getAccountSuccess({
+          data: {
+            email: 'some email',
+            username: 'someusername',
+            organizations: []
+          }
+        })
+      );
+    });
+
+    it('sets isGettingAccountLoading to false', () => {
+      expect(state.isGettingAccountLoading).toBe(false);
+    });
+
+    it('sets response email and username', () => {
+      expect(state.account!.email).toEqual('some email');
+      expect(state.account!.username).toEqual('someusername');
+    });
+  });
+
+  describe('on getAccountFailure', () => {
+    let state: AccountState;
+
+    beforeEach(() => {
+      state = accountReducer(initialState, getAccountFailure({}));
+    });
+
+    it('sets isGettingAccountLoading to false', () => {
+      expect(state.isGettingAccountLoading).toBe(false);
     });
   });
 });

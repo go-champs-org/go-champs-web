@@ -19,6 +19,7 @@ import {
 } from './actions';
 import organizationReducer from './reducer';
 import { initialState, OrganizationState } from './state';
+import { getAccountSuccess } from '../Accounts/actions';
 
 describe('organizationReducer', () => {
   describe('deleteOrganization', () => {
@@ -239,6 +240,47 @@ describe('organizationReducer', () => {
         name: 'some-name',
         slug: 'some-slug',
         members: [{ username: 'some-username' }]
+      });
+    });
+  });
+
+  describe('on getAccountSuccess', () => {
+    it('sets entities', () => {
+      const newState = organizationReducer(
+        initialState,
+        getAccountSuccess({
+          data: {
+            email: 'some email',
+            username: 'someusername',
+            organizations: [
+              {
+                id: 'first-id',
+                name: 'first-name',
+                slug: 'first-slug',
+                members: [{ username: 'first-username' }]
+              },
+              {
+                id: 'second-id',
+                name: 'second-name',
+                slug: 'second-slug',
+                members: [{ username: 'second-username' }]
+              }
+            ]
+          }
+        })
+      );
+
+      expect(newState.organizations['first-slug']).toEqual({
+        id: 'first-id',
+        name: 'first-name',
+        slug: 'first-slug',
+        members: [{ username: 'first-username' }]
+      });
+      expect(newState.organizations['second-slug']).toEqual({
+        id: 'second-id',
+        name: 'second-name',
+        slug: 'second-slug',
+        members: [{ username: 'second-username' }]
       });
     });
   });
