@@ -7,13 +7,16 @@ import {
   organizationsLoading
 } from '../Organizations/selectors';
 import { StoreState } from '../store';
-import withOrganizations from './support/withOrganizations';
+import withAccount from './support/withAccount';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getOrganizations, deleteOrganization } from '../Organizations/effects';
+import { deleteOrganization } from '../Organizations/effects';
+import { getAccount } from '../Accounts/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import { account } from '../Accounts/selectors';
 
 const mapStateToProps = (state: StoreState) => {
   return {
+    account: account(state.account),
     organizations: organizations(state.organizations),
     organizationsLoading: organizationsLoading(state.organizations)
   };
@@ -23,7 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       deleteOrganization,
-      getOrganizations
+      getAccount
     },
     dispatch
   );
@@ -59,4 +62,4 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
   </Fragment>
 );
 
-export default connector(withOrganizations(OrganizationList));
+export default connector(withAccount(OrganizationList));

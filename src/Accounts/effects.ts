@@ -38,6 +38,7 @@ export const signIn = (
 
     dispatch(signInSuccess(response));
     localStorage.setItem('token', response.data.token);
+    localStorage.setItem('username', response.data.username);
     const search = new URLSearchParams(location.search);
     if (search.get('redirectTo')) {
       history.push(search.get('redirectTo')!);
@@ -123,7 +124,6 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
     const response = await accountHttpClient.getAccount(username);
 
     dispatch(getAccountSuccess(response));
-    displayToast(`Check your e-mail`, 'is-success');
   } catch (err) {
     dispatch(getAccountFailure(err));
     displayToast(`Account recovery failed :(`, 'is-primary');

@@ -32,7 +32,9 @@ const deleteRequest = async (url: string): Promise<string> => {
 };
 
 const get = async <R>(url: string): Promise<R> => {
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: buildAuthenticationHeader()
+  });
   const jsonData = await response.json();
   return jsonData;
 };

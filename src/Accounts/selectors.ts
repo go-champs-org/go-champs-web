@@ -1,5 +1,6 @@
 import { AccountState } from './state';
 
+export const account = (state: AccountState) => state.account;
 export const isAccountRecovering = (state: AccountState): boolean =>
   state.isAccountRecoveryLoading;
 export const isResetingPassword = (state: AccountState): boolean =>

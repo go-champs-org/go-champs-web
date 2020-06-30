@@ -130,7 +130,7 @@ const getAccountSuccess = (
   action: HttpAction<ActionTypes, ApiAccountResponse>
 ) => ({
   ...state,
-  organizations: action.payload?.data.organizations.reduce(
+  organizations: action.payload!.data.organizations.reduce(
     apiOrganizationToEntities,
     state.organizations
   )

@@ -95,7 +95,11 @@ describe('accountEffects', () => {
         dispatch.mockReset();
 
         jest.spyOn(accountHttpClient, 'signIn').mockResolvedValue({
-          data: { email: 'some@email.com', token: 'some token' }
+          data: {
+            email: 'some@email.com',
+            token: 'some token',
+            username: 'someusername'
+          }
         });
 
         pushSpy = jest.spyOn(mockHistory, 'push');
@@ -110,7 +114,8 @@ describe('accountEffects', () => {
           signInSuccess({
             data: {
               email: 'some@email.com',
-              token: 'some token'
+              token: 'some token',
+              username: 'someusername'
             }
           })
         );
@@ -120,6 +125,13 @@ describe('accountEffects', () => {
         expect(localStorage.setItem).toHaveBeenCalledWith(
           'token',
           'some token'
+        );
+      });
+
+      it('sets the username on local storage', () => {
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          'username',
+          'someusername'
         );
       });
 
