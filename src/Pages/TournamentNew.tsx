@@ -13,11 +13,11 @@ import {
   organizationBySlug
 } from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
-import withOrganizations from './support/withOrganizations';
-import { getOrganizations } from '../Organizations/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import { getAccount } from '../Accounts/effects';
 import Helmet from 'react-helmet';
 import { postingTournament } from '../Tournaments/selectors';
+import withAccount from './support/withAccount';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
@@ -30,7 +30,9 @@ interface StateProps extends RouteComponentProps<RouteProps> {
 }
 
 type DispatchProps = {
-  getOrganizations: () => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getAccount: (
+    username: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postTournament: (
     organizationId: string,
     tournament: TournamentEntity
@@ -50,7 +52,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      getOrganizations,
+      getAccount,
       postTournament
     },
     dispatch
@@ -113,4 +115,4 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
   );
 };
 
-export default connector(withOrganizations(TournamentNew));
+export default connector(withAccount(TournamentNew));

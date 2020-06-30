@@ -12,11 +12,9 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { deleteOrganization } from '../Organizations/effects';
 import { getAccount } from '../Accounts/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
-import { account } from '../Accounts/selectors';
 
 const mapStateToProps = (state: StoreState) => {
   return {
-    account: account(state.account),
     organizations: organizations(state.organizations),
     organizationsLoading: organizationsLoading(state.organizations)
   };
