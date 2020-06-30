@@ -254,7 +254,7 @@ describe('accountEffects', () => {
       });
 
       it('redirects to account page', () => {
-        expect(mockHistory.push).toHaveBeenCalledWith('/Account');
+        expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
       });
     });
 

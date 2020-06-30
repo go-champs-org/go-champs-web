@@ -74,7 +74,7 @@ export const signUp = (user: SignUpEntity, history: History) => async (
     const response = await accountHttpClient.signUp(user);
 
     dispatch(signUpSuccess(response));
-    history.push('/Account');
+    history.push('/SignIn');
   } catch (err) {
     dispatch(signUpFailure(err));
     displayToast(`Sign up failed :(`, 'is-primary');
