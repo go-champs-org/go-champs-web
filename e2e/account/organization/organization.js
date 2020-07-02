@@ -19,10 +19,9 @@ module.exports = {
       .setValue('input[name="slug"]', 'test-organization-can-delete')
       .pause(1000)
       .click('button[type=submit]')
-      .useXpath()
-      .click("//*[contains(text(), 'Back')]")
       .pause(1000)
       .refresh()
+      .useXpath()
       .assert.visible("//*[contains(text(), 'Test organization (can delete)') and contains(@class, 'title')]")
       .end();
   },

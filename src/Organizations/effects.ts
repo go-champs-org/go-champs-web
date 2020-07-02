@@ -20,6 +20,7 @@ import organizationHttpClient from './organizationHttpClient';
 import { OrganizationEntity } from './state';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
+import { History } from 'history';
 
 export const deleteOrganization = (organization: OrganizationEntity) => async (
   dispatch: Dispatch
@@ -55,15 +56,17 @@ export const patchOrganization = (organization: OrganizationEntity) => async (
   }
 };
 
-export const postOrganization = (organization: OrganizationEntity) => async (
-  dispatch: Dispatch
-) => {
+export const postOrganization = (
+  organization: OrganizationEntity,
+  history: History
+) => async (dispatch: Dispatch) => {
   dispatch(postOrganizationStart());
 
   try {
     const response = await organizationHttpClient.post(organization);
 
     dispatch(postOrganizationSuccess(response));
+    history.push(`/Organization/${response.slug}`);
     displayToast(`${response.name} created!`, 'is-success');
   } catch (err) {
     dispatch(postOrganizationFailure(err));

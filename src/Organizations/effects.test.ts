@@ -23,6 +23,7 @@ import {
   deleteOrganizationSuccess,
   deleteOrganizationFailure
 } from './actions';
+import { History } from 'history';
 import organizationHttpClient from './organizationHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
@@ -258,6 +259,10 @@ describe('patchOrganization', () => {
 });
 
 describe('postOrganization', () => {
+  const mockHistory = ({
+    push: jest.fn()
+  } as unknown) as History;
+
   beforeEach(() => {
     dispatch = jest.fn();
   });
@@ -278,7 +283,7 @@ describe('postOrganization', () => {
         slug: 'posted-organization-slug'
       });
 
-      postOrganization(DEFAULT_ORGANIZATION)(dispatch);
+      postOrganization(DEFAULT_ORGANIZATION, mockHistory)(dispatch);
     });
 
     it('dispatches post success action', () => {
@@ -295,6 +300,12 @@ describe('postOrganization', () => {
       expect(toast.displayToast).toHaveBeenCalledWith(
         'posted organization created!',
         'is-success'
+      );
+    });
+
+    it('redirects to organization page', () => {
+      expect(mockHistory.push).toHaveBeenCalledWith(
+        '/Organization/posted-organization-slug'
       );
     });
   });

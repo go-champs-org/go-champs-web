@@ -6,22 +6,25 @@ import { default as OrganizationForm } from '../Organizations/Form';
 import arrayMutators from 'final-form-arrays';
 import { Mutator } from 'final-form';
 import { Form, FormRenderProps } from 'react-final-form';
-import {
-  DEFAULT_ORGANIZATION,
-  OrganizationEntity
-} from '../Organizations/state';
+import { OrganizationEntity } from '../Organizations/state';
 import Helmet from 'react-helmet';
 import { StoreState } from '../store';
 import { postingOrganization } from '../Organizations/selectors';
+import { buildNewOrganizationWithMember } from '../Organizations/dataMappers';
+import { RouteComponentProps } from 'react-router-dom';
 
 const mapStateToProps = (state: StoreState) => ({
   isPostingOrganization: postingOrganization(state.organizations)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (
+  dispatch: Dispatch,
+  { history }: RouteComponentProps
+) =>
   bindActionCreators(
     {
-      postOrganization
+      postOrganization: (organization: OrganizationEntity) =>
+        postOrganization(organization, history)
     },
     dispatch
   );
@@ -35,6 +38,7 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
   postOrganization
 }) => {
   const backUrl = `/Account`;
+  const initialOrganization = buildNewOrganizationWithMember();
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -45,7 +49,7 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
         <div className="column is-12">
           <Form
             onSubmit={postOrganization}
-            initialValues={DEFAULT_ORGANIZATION}
+            initialValues={initialOrganization}
             mutators={
               (arrayMutators as unknown) as {
                 [key: string]: Mutator<OrganizationEntity>;

@@ -2,7 +2,11 @@ import {
   ApiOrganization,
   ApiOrganizationRequest
 } from '../Shared/httpClient/apiTypes';
-import { OrganizationEntity, MemberEntity } from './state';
+import {
+  OrganizationEntity,
+  MemberEntity,
+  DEFAULT_ORGANIZATION
+} from './state';
 
 export const mapApiOrganizationToOrganizationEntity = (
   apiOrganization: ApiOrganization
@@ -32,3 +36,11 @@ export const mapOrganizationEntityToApiOrganizationRequest = (
         : undefined
   }
 });
+
+export const buildNewOrganizationWithMember = () => {
+  const currentUsername = localStorage.getItem('username') || '';
+  return {
+    ...DEFAULT_ORGANIZATION,
+    members: [{ username: currentUsername }]
+  };
+};

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { AnyAction, Dispatch } from 'redux';
-import { AccountEntity } from '../../Accounts/entity';
 
 interface WithAccountProps {
   getAccount: (
