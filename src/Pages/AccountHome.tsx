@@ -4,6 +4,7 @@ import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
 import Helmet from 'react-helmet';
+import AccountLogout from './AccountLogout';
 
 const AccountHome: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const AccountHome: React.FC = () => {
               component={OrganizationNew}
             />
             <Route path="/Account/Organizations" component={OrganizationList} />
+            <Route path="/Account/Logout" component={AccountLogout} />
             <Route path="/Account" component={OrganizationList} />
           </Switch>
         </div>
@@ -35,6 +37,14 @@ const AccountHome: React.FC = () => {
             <ul className="menu-list">
               <li>
                 <a href="/Account/Organizations">Organizations</a>
+              </li>
+            </ul>
+
+            <p className="menu-label">Account</p>
+
+            <ul className="menu-list">
+              <li>
+                <a href="/Account/Logout">Log out</a>
               </li>
             </ul>
           </aside>
