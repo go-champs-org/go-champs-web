@@ -1,7 +1,10 @@
 import React, { MouseEvent } from 'react';
 import logo from '../../assets/logo-with-background.png';
 import './NavTopToolbar.scss';
-import AuthenticatedWrapper, { AdminWrapper } from './AdminWrapper';
+import AuthenticatedWrapper, {
+  AdminWrapper,
+  NotAuthenticatedWrapper
+} from './AdminWrapper';
 
 class NavTopToolbar extends React.Component {
   render() {
@@ -44,11 +47,11 @@ class NavTopToolbar extends React.Component {
               <span className="navbar-divider"></span>
             </div>
 
-            <AdminWrapper>
+            <NotAuthenticatedWrapper>
               <a href="/SignIn" className="navbar-item has-text-centered-touch">
                 Login
               </a>
-            </AdminWrapper>
+            </NotAuthenticatedWrapper>
 
             <AuthenticatedWrapper>
               <a
