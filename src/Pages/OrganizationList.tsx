@@ -12,11 +12,12 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { deleteOrganization } from '../Organizations/effects';
 import { getAccount } from '../Accounts/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import { isGettingAccountLoading } from '../Accounts/selectors';
 
 const mapStateToProps = (state: StoreState) => {
   return {
-    organizations: organizations(state.organizations),
-    organizationsLoading: organizationsLoading(state.organizations)
+    isGettingAccountLoading: isGettingAccountLoading(state.account),
+    organizations: organizations(state.organizations)
   };
 };
 
@@ -35,8 +36,8 @@ type OrganizationListProps = ConnectedProps<typeof connector>;
 
 const OrganizationList: React.FC<OrganizationListProps> = ({
   deleteOrganization,
-  organizations,
-  organizationsLoading
+  isGettingAccountLoading,
+  organizations
 }) => (
   <Fragment>
     <div className="columns is-gapless is-vcentered is-mobile">
@@ -51,7 +52,10 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
       </div>
     </div>
 
-    <ComponentLoader canRender={!organizationsLoading} loader={<ListLoading />}>
+    <ComponentLoader
+      canRender={!isGettingAccountLoading}
+      loader={<ListLoading />}
+    >
       <List
         deleteOrganization={deleteOrganization}
         organizations={organizations}
