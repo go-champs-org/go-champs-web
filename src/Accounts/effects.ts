@@ -81,6 +81,11 @@ export const signUp = (user: SignUpEntity, history: History) => async (
   }
 };
 
+export const signOut = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('username');
+};
+
 export const accountReset = (
   user: AccountResetEntity,
   history: History

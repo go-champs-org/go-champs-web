@@ -1,12 +1,17 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
 import Helmet from 'react-helmet';
-import AccountLogout from './AccountLogout';
+import { signOut } from '../Accounts/effects';
 
 const AccountHome: React.FC = () => {
+  const logOutClick = () => {
+    signOut();
+    return '/'; // root path
+  };
+
   return (
     <div>
       <div className="columns is-multiline">
@@ -25,7 +30,6 @@ const AccountHome: React.FC = () => {
               component={OrganizationNew}
             />
             <Route path="/Account/Organizations" component={OrganizationList} />
-            <Route path="/Account/Logout" component={AccountLogout} />
             <Route path="/Account" component={OrganizationList} />
           </Switch>
         </div>
@@ -44,7 +48,9 @@ const AccountHome: React.FC = () => {
 
             <ul className="menu-list">
               <li>
-                <a href="/Account/Logout">Log out</a>
+                <a href="/" onClick={signOut}>
+                  Log out
+                </a>
               </li>
             </ul>
           </aside>
