@@ -5,8 +5,21 @@ import AuthenticatedWrapper, {
   AdminWrapper,
   NotAuthenticatedWrapper
 } from './AdminWrapper';
+import { StoreState } from '../../store';
+import { account } from '../../Accounts/selectors';
+import { connect, ConnectedProps } from 'react-redux';
 
-class NavTopToolbar extends React.Component {
+const mapStateToProps = (state: StoreState) => {
+  return {
+    account: account(state.account)
+  };
+};
+
+const connector = connect(mapStateToProps);
+
+type NavTopToolbarProps = ConnectedProps<typeof connector>;
+
+class NavTopToolbar extends React.Component<NavTopToolbarProps> {
   render() {
     return (
       <nav
@@ -58,7 +71,7 @@ class NavTopToolbar extends React.Component {
                 href="/Account"
                 className="navbar-item has-text-centered-touch"
               >
-                My account
+                {this.props.account && `@${this.props.account.username}`}
               </a>
             </AuthenticatedWrapper>
 
@@ -102,4 +115,4 @@ class NavTopToolbar extends React.Component {
   }
 }
 
-export default NavTopToolbar;
+export default connector(NavTopToolbar);
