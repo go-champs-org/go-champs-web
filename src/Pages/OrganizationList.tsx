@@ -2,10 +2,7 @@ import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import List, { ListLoading } from '../Organizations/List';
-import {
-  organizations,
-  organizationsLoading
-} from '../Organizations/selectors';
+import { organizations } from '../Organizations/selectors';
 import { StoreState } from '../store';
 import withAccount from './support/withAccount';
 import { bindActionCreators, Dispatch } from 'redux';

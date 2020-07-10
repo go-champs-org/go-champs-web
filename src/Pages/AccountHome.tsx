@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
@@ -7,11 +7,6 @@ import Helmet from 'react-helmet';
 import { signOut } from '../Accounts/effects';
 
 const AccountHome: React.FC = () => {
-  const logOutClick = () => {
-    signOut();
-    return '/'; // root path
-  };
-
   return (
     <div>
       <div className="columns is-multiline">

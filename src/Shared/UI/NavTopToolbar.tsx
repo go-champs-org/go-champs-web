@@ -1,19 +1,14 @@
 import React, { MouseEvent } from 'react';
 import logo from '../../assets/logo-with-background.png';
 import './NavTopToolbar.scss';
-import AuthenticatedWrapper, {
-  AdminWrapper,
-  NotAuthenticatedWrapper
-} from './AdminWrapper';
+import AuthenticatedWrapper, { NotAuthenticatedWrapper } from './AdminWrapper';
 import { StoreState } from '../../store';
 import { account } from '../../Accounts/selectors';
 import { connect, ConnectedProps } from 'react-redux';
 
-const mapStateToProps = (state: StoreState) => {
-  return {
-    account: account(state.account)
-  };
-};
+const mapStateToProps = (state: StoreState) => ({
+  account: account(state.account)
+});
 
 const connector = connect(mapStateToProps);
 
