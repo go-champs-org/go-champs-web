@@ -4,7 +4,24 @@ import androidMenu from '../assets/android-menu.png';
 import iosSite from '../assets/ios-site.png';
 import iosMenu from '../assets/ios-menu.png';
 
-const UseComoApp: React.FC = () => (
+import { Dispatch, bindActionCreators } from 'redux';
+import { getAccount } from '../Accounts/effects';
+import { connect, ConnectedProps } from 'react-redux';
+import withAccount from './support/withAccount';
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getAccount
+    },
+    dispatch
+  );
+
+const connector = connect(null, mapDispatchToProps);
+
+type UseComoAppProps = ConnectedProps<typeof connector>;
+
+const UseComoApp: React.FC<UseComoAppProps> = () => (
   <Fragment>
     <div className="hero is-medium">
       <div className="hero-body">
@@ -98,4 +115,4 @@ const UseComoApp: React.FC = () => (
   </Fragment>
 );
 
-export default UseComoApp;
+export default connector(withAccount(UseComoApp));
