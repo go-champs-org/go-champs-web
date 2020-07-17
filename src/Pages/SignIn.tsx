@@ -8,6 +8,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { signIn } from '../Accounts/effects';
 import { SignInEntity } from '../Accounts/entity';
 import { isSigingIn } from '../Accounts/selectors';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   isSigingIn: isSigingIn(state.account)
@@ -35,7 +36,9 @@ const SignIn: React.FC<SignInProps> = ({ isSigingIn, signIn }) => (
       <div className="card-content">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <p className="title has-text-centered">Sign in</p>
+            <p className="title has-text-centered">
+              <Trans>signIn</Trans>
+            </p>
           </div>
 
           <div className="column is-12">
@@ -50,13 +53,13 @@ const SignIn: React.FC<SignInProps> = ({ isSigingIn, signIn }) => (
 
           <div className="column is-12" style={{ padding: 0 }}>
             <Link to="/SignUp" className="button is-text">
-              Ou cria uma conta
+              <Trans>orSignUp</Trans>
             </Link>
           </div>
 
           <div className="column is-12" style={{ padding: 0 }}>
             <Link to="/AccountRecovery" className="button is-text">
-              Esqueceu sua senha?
+              <Trans>forgotYourPassword</Trans>
             </Link>
           </div>
         </div>

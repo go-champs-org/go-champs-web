@@ -8,6 +8,7 @@ import {
   composeValidators,
   mustBeUsername
 } from '../Shared/UI/Form/Validators/commonValidators';
+import { Trans } from 'react-i18next';
 
 interface FormProps extends FormRenderProps<SignInEntity> {
   isLoading: boolean;
@@ -23,7 +24,9 @@ const SingInForm: React.FC<FormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="form">
       <div className="field">
-        <label className="label">Username</label>
+        <label className="label">
+          <Trans>username</Trans>
+        </label>
 
         <div className="control">
           <Field
@@ -38,7 +41,9 @@ const SingInForm: React.FC<FormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Password</label>
+        <label className="label">
+          <Trans>password</Trans>
+        </label>
 
         <div className="control">
           <Field
@@ -58,7 +63,7 @@ const SingInForm: React.FC<FormProps> = ({
           type="submit"
           disabled={submitting || pristine || !valid}
         >
-          Sign in
+          <Trans>signIn</Trans>
         </LoadingButton>
       </div>
     </form>

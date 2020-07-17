@@ -1,5 +1,10 @@
 export default {
   translation: {
-    signIn: 'Entrar'
+    // Sign page
+    forgotYourPassword: 'Esqueceu sua senha?',
+    orSignUp: 'Ou crie uma conta',
+    password: 'Senha',
+    signIn: 'Entrar',
+    username: 'Usuário'
   }
 };
