@@ -5,6 +5,7 @@ import AuthenticatedWrapper, { NotAuthenticatedWrapper } from './AdminWrapper';
 import { StoreState } from '../../store';
 import { account } from '../../Accounts/selectors';
 import { connect, ConnectedProps } from 'react-redux';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   account: account(state.account)
@@ -57,7 +58,7 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
 
             <NotAuthenticatedWrapper>
               <a href="/SignIn" className="navbar-item has-text-centered-touch">
-                Login
+                <Trans>signIn</Trans>
               </a>
             </NotAuthenticatedWrapper>
 

@@ -22,6 +22,7 @@ import AccountReset from './Pages/AccountReset';
 import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 import AccountRecovery from './Pages/AccountRecovery';
 import { RouteProps } from './Pages/support/routerInterfaces';
+import './Shared/translations/i18n';
 
 const App: React.FC = () => {
   return (
