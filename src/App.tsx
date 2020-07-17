@@ -23,8 +23,10 @@ import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 import AccountRecovery from './Pages/AccountRecovery';
 import { RouteProps } from './Pages/support/routerInterfaces';
 import './Shared/translations/i18n';
+import { useTranslation } from 'react-i18next';
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <Provider store={store}>
       <Router>
@@ -114,14 +116,19 @@ const App: React.FC = () => {
                 <div className="content has-text-centered">
                   <p>
                     <strong>Go Champs!</strong>
-                    &nbsp; by Lair Júnior. The source code is licensed &nbsp;
+                    <span>{` ${t('with')} 🖤 `}</span>
+                    <span>
+                      {`${t('by')} Lair Júnior. ${t(
+                        'theSourceCodeIsLicensed'
+                      )} `}
+                    </span>
                     <a
                       href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
                       style={{ color: '#970c10' }}
                     >
                       MIT
                     </a>
-                    . The website content is licensed &nbsp;
+                    <span>{`. ${t('theWebsiteContentIsLicensed')} `}</span>
                     <a
                       href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
                       style={{ color: '#970c10' }}

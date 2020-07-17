@@ -1,5 +1,6 @@
 export default {
   translation: {
+    by: 'por',
     email: 'Email',
     forgotYourPassword: 'Esqueceu sua senha?',
     orSignUp: 'Ou crie uma conta',
@@ -7,6 +8,9 @@ export default {
     repeatPassword: 'Senha novamente',
     signIn: 'Entrar',
     signUp: 'Novo usuário',
-    username: 'Usuário'
+    username: 'Usuário',
+    with: 'com',
+    theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',
+    theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado'
   }
 };
