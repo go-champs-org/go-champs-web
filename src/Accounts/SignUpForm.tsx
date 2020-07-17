@@ -11,6 +11,7 @@ import {
   mustBeUsername
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import { Trans } from 'react-i18next';
 
 export const signUpValidor = (formValues: SignUpEntity) => {
   if (
@@ -54,7 +55,9 @@ const SignUpForm: React.FC<FormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="form no-border-botton">
       <div className="field">
-        <label className="label">Username</label>
+        <label className="label">
+          <Trans>username</Trans>
+        </label>
 
         <div className="control">
           <Field
@@ -69,7 +72,9 @@ const SignUpForm: React.FC<FormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Email</label>
+        <label className="label">
+          <Trans>email</Trans>
+        </label>
 
         <div className="control">
           <Field
@@ -84,7 +89,9 @@ const SignUpForm: React.FC<FormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Password</label>
+        <label className="label">
+          <Trans>password</Trans>
+        </label>
 
         <div className="control">
           <Field
@@ -98,7 +105,9 @@ const SignUpForm: React.FC<FormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Repeat password</label>
+        <label className="label">
+          <Trans>repeatPassword</Trans>
+        </label>
 
         <div className="control">
           <Field
@@ -125,7 +134,7 @@ const SignUpForm: React.FC<FormProps> = ({
           type="submit"
           disabled={submitting || pristine || !valid}
         >
-          Sign up
+          <Trans>signUp</Trans>
         </LoadingButton>
       </div>
     </form>

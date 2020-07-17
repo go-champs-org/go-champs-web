@@ -8,6 +8,7 @@ import { signUp } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { SignUpEntity } from '../Accounts/entity';
 import { RouteComponentProps } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   isSigingUp: isSigingUp(state.account)
@@ -34,7 +35,9 @@ const SignUp: React.FC<SignUpProps> = ({ isSigingUp, signUp }) => (
       <div className="card-content">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <p className="title has-text-centered">Sign up</p>
+            <p className="title has-text-centered">
+              <Trans>signUp</Trans>
+            </p>
           </div>
 
           <div className="column is-12">
