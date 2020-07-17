@@ -1,5 +1,6 @@
 export default {
   translation: {
+    aboutUs: 'About us',
     by: 'by',
     email: 'Email',
     forgotYourPassword: 'Dig you forget your password?',
@@ -9,6 +10,7 @@ export default {
     signIn: 'Sign in',
     signUp: 'Sign up',
     username: 'Username',
+    useAsAnApp: 'Install on your phone',
     with: 'with',
     theSourceCodeIsLicensed: 'The source code is licensed',
     theWebsiteContentIsLicensed: 'The website content is licensed'
