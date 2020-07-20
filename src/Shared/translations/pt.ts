@@ -16,6 +16,9 @@ export default {
     signUp: 'Novo usuário',
     username: 'Usuário',
     useAsAnApp: 'Use no celular',
+    useAsAnAppLine1: 'Abra o menu do seu navegador de internet.',
+    useAsAnAppLine2: 'Clique em "Adicionar na Área de Trabalho".',
+    useAsAnAppLine3: 'Confirme opção clicando em "Adicionar".',
     theBestAppToManageTournaments:
       'A web app mais maneira para gerenciar torneios',
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',

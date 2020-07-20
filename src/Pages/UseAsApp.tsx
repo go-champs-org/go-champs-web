@@ -8,6 +8,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { getAccount } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import withAccount from './support/withAccount';
+import { Trans } from 'react-i18next';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -26,7 +27,9 @@ const UseComoApp: React.FC<UseComoAppProps> = () => (
     <div className="hero is-medium">
       <div className="hero-body">
         <div className="container has-text-centered">
-          <h1 className="title">Instalando como aplicativo de celular</h1>
+          <h1 className="title">
+            <Trans>useAsAnApp</Trans>
+          </h1>
         </div>
       </div>
     </div>
@@ -39,7 +42,7 @@ const UseComoApp: React.FC<UseComoAppProps> = () => (
               <div className="columns is-vcentered">
                 <div className="column is-half">
                   <p className="is-size-4">
-                    Abra o menu do seu navegador de internet.
+                    <Trans>useAsAnAppLine1</Trans>
                   </p>
                 </div>
 
@@ -67,7 +70,7 @@ const UseComoApp: React.FC<UseComoAppProps> = () => (
               >
                 <div className="column is-half">
                   <p className="is-size-4">
-                    Clique em "Adicionar na Área de Trabalho".
+                    <Trans>useAsAnAppLine2</Trans>
                   </p>
                 </div>
 
@@ -103,7 +106,7 @@ const UseComoApp: React.FC<UseComoAppProps> = () => (
               <div className="columns" style={{ paddingTop: '3rem' }}>
                 <div className="column is-half">
                   <p className="is-size-4">
-                    Confirme opção clicando em "Adicionar".
+                    <Trans>useAsAnAppLine3</Trans>
                   </p>
                 </div>
               </div>

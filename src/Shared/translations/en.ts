@@ -16,6 +16,9 @@ export default {
     signUp: 'Sign up',
     username: 'Username',
     useAsAnApp: 'Install on your phone',
+    useAsAnAppLine1: 'Open your browser menu.',
+    useAsAnAppLine2: 'Click on "Add to the desktop".',
+    useAsAnAppLine3: 'Click on "Add" to confirm the option.',
     theBestAppToManageTournaments:
       'The coolest web app to manage your tournaments',
     theSourceCodeIsLicensed: 'The source code is licensed',
