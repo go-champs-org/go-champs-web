@@ -5,6 +5,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { getAccount } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import withAccount from './support/withAccount';
+import { Trans } from 'react-i18next';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -27,7 +28,7 @@ const Home: React.FC<HomeProps> = () => (
             <h1 className="title">Go Champs!</h1>
 
             <span className="subtitle">
-              A web app mais maneira para gerenciar torneios
+              <Trans>theBestAppToManageTournaments</Trans>
             </span>
           </div>
 
@@ -40,25 +41,26 @@ const Home: React.FC<HomeProps> = () => (
 
     <div className="hero-body">
       <div className="container has-text-centered">
-        <h1 className="title">O que é o Go Champs?</h1>
+        <h1 className="title">
+          <Trans>whatIsGoChamps</Trans>
+        </h1>
 
         <p style={{ marginBottom: '1.5rem' }}>
-          Go Champs! É uma aplicacão para você criar seu torneio e gerenciar
-          fases, times, jogos, classificacões e muito mais.
+          <Trans>whatIsGoChampsLine1</Trans>
         </p>
 
         <p style={{ marginBottom: '1.5rem' }}>
-          As informacões ficam disponibilizadas para qualquer pessoa acessar e
-          pode acompanhar seu torneio.
+          <Trans>whatIsGoChampsLine2</Trans>
         </p>
 
         <p style={{ marginBottom: '1.5rem' }}>
-          Acesse nosso torneio exemplo clicando&nbsp;
+          <Trans>whatIsGoChampsLine3</Trans>
+          &nbsp;
           <a
             href="/demo-organization/demo-tournament"
             style={{ color: '#970c10' }}
           >
-            aqui
+            <Trans>here</Trans>
           </a>
           .
         </p>
@@ -67,7 +69,9 @@ const Home: React.FC<HomeProps> = () => (
 
     <div className="hero-foot">
       <div className="has-text-centered">
-        <h1 className="title">Mande seu feedback</h1>
+        <h1 className="title">
+          <Trans>sendYourFeedback</Trans>
+        </h1>
 
         <EmailForm />
       </div>

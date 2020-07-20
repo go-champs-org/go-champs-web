@@ -1,6 +1,7 @@
 import React from 'react';
 import emailjs from 'emailjs-com';
 import { displayToast } from '../../bulma/toast';
+import { Trans } from 'react-i18next';
 
 const EmailForm: React.FC = () => {
   const sendEmail = async (event: React.FormEvent) => {
@@ -25,7 +26,10 @@ const EmailForm: React.FC = () => {
       <div className="columns is-centered">
         <div className="column is-half">
           <div className="field">
-            <label className="label">Nome</label>
+            <label className="label">
+              <Trans>name</Trans>
+            </label>
+
             <div className="control">
               <input
                 className="input is-primary"
@@ -37,7 +41,10 @@ const EmailForm: React.FC = () => {
           </div>
 
           <div className="field">
-            <label className="label">Email</label>
+            <label className="label">
+              <Trans>email</Trans>
+            </label>
+
             <div className="control">
               <input
                 className="input is-primary"
@@ -49,7 +56,10 @@ const EmailForm: React.FC = () => {
           </div>
 
           <div className="field">
-            <label className="label">Mensagem</label>
+            <label className="label">
+              <Trans>message</Trans>
+            </label>
+
             <div className="control">
               <textarea
                 className="textarea is-primary"
@@ -61,7 +71,7 @@ const EmailForm: React.FC = () => {
 
           <div className="control">
             <button className="button is-primary" type="submit">
-              Enviar
+              <Trans>send</Trans>
             </button>
           </div>
         </div>
