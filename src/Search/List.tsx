@@ -4,6 +4,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Result, { ResultShimmer } from './Result';
 import './Result.scss';
 import searchHttpClient from './searchHttpClient';
+import { Trans, useTranslation } from 'react-i18next';
 
 const ListShimmer = (
   <div className="columns is-multiline">
@@ -60,12 +61,16 @@ const List: React.FC = () => {
     }
   }, [debouncedSearchTerm]);
 
+  const { t } = useTranslation();
+
   return (
     <section className="container">
       <div className="hero">
         <div className="hero-head">
           <div className="container">
-            <h1 className="title">Busca de torneios</h1>
+            <h1 className="title">
+              <Trans>searchTournaments</Trans>
+            </h1>
 
             <div className="field">
               <div className="control">
@@ -73,7 +78,7 @@ const List: React.FC = () => {
                   className="input is-medium is-primary"
                   name="searchTearm"
                   type="text"
-                  placeholder="Procure torneios..."
+                  placeholder={`${t('searchTournaments')}...`}
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
@@ -95,8 +100,8 @@ const List: React.FC = () => {
                   <p className="column has-text-centered">
                     <span className="is-size-3">
                       {haveSearched
-                        ? 'Torneios não encontrados.'
-                        : 'Digite para pesquisar...'}
+                        ? `${t('tournamentNotFound')}.`
+                        : `${t('startTyping')}...`}
                     </span>
                   </p>
                 </div>
