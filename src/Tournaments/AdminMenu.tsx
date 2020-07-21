@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseTypes } from '../Phases/state';
+import { Trans } from 'react-i18next';
 
 interface AdminMenuProps {
   organizationSlug: string;
@@ -21,41 +22,48 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
 }) => {
   const DrawMenu = (
     <Fragment>
-      <p className="menu-label">Draw info</p>
+      <p className="menu-label">
+        <Trans>roundsMenuTitle</Trans>
+      </p>
+
       <ul className="menu-list">
         <li>
           <Link
             to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}
           >
-            Games
+            <Trans>games</Trans>
           </Link>
         </li>
         <li>
           <Link
             to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Draws`}
           >
-            Draws
+            <Trans>rounds</Trans>
           </Link>
         </li>
       </ul>
     </Fragment>
   );
+
   const EliminationMenu = (
     <Fragment>
-      <p className="menu-label">Elimination info</p>
+      <p className="menu-label">
+        <Trans>eliminationMenuTitle</Trans>
+      </p>
+
       <ul className="menu-list">
         <li>
           <Link
             to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Games`}
           >
-            Games
+            <Trans>games</Trans>
           </Link>
         </li>
         <li>
           <Link
             to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Eliminations`}
           >
-            Eliminations
+            <Trans>eliminations</Trans>
           </Link>
         </li>
       </ul>
@@ -84,20 +92,25 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
   );
   return (
     <aside className="menu">
-      <p className="menu-label">General</p>
+      <p className="menu-label">
+        <Trans>general</Trans>
+      </p>
+
       <ul className="menu-list">
         <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Edit`}>
-            Informations
+            <Trans>informations</Trans>
           </Link>
         </li>
         <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Phases`}>
-            Phases
+            <Trans>phases</Trans>
           </Link>
         </li>
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>Teams</Link>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>
+            <Trans>teams</Trans>
+          </Link>
         </li>
       </ul>
       {PhaseMenu}
