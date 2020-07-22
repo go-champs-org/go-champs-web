@@ -11,6 +11,7 @@ import { deleteOrganization } from '../Organizations/effects';
 import { getAccount } from '../Accounts/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { isGettingAccountLoading } from '../Accounts/selectors';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -40,12 +41,14 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
   <Fragment>
     <div className="columns is-gapless is-vcentered is-mobile">
       <div className="column is-10">
-        <h2 className="subtitle">Organizations</h2>
+        <h2 className="subtitle">
+          <Trans>organizations</Trans>
+        </h2>
       </div>
 
       <div className="column is-2 has-text-right">
         <Link className="button is-text" to={`/Account/NewOrganization`}>
-          New
+          <Trans>new</Trans>
         </Link>
       </div>
     </div>

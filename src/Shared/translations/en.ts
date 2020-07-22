@@ -14,6 +14,7 @@ export default {
     message: 'Message',
     myAccount: 'My account',
     name: 'Name',
+    new: 'New',
     organizations: 'Organizations',
     orSignUp: 'Or sign up',
     password: 'Password',

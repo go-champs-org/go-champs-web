@@ -15,6 +15,7 @@ export default {
     message: 'Mensagem',
     myAccount: 'Minha conta',
     name: 'Nome',
+    new: 'Novo',
     organizations: 'Organizacões',
     password: 'Senha',
     phases: 'Fases',
