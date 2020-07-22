@@ -1,6 +1,7 @@
 export default {
   translation: {
     aboutUs: 'Sobre nós',
+    account: 'Conta',
     by: 'por',
     eliminationMenuTitle: 'Menu eliminacões',
     eliminations: 'Eliminacoes',
@@ -12,7 +13,9 @@ export default {
     games: 'Partidas',
     general: 'Gerais',
     message: 'Mensagem',
+    myAccount: 'Minha conta',
     name: 'Nome',
+    organizations: 'Organizacões',
     password: 'Senha',
     phases: 'Fases',
     repeatPassword: 'Senha novamente',
@@ -23,6 +26,7 @@ export default {
     sendYourFeedback: 'Mande seu feedback',
     signIn: 'Entrar',
     signUp: 'Novo usuário',
+    signOut: 'Sair',
     startTyping: 'Digite para pesquisar',
     username: 'Usuário',
     useAsAnApp: 'Use no celular',

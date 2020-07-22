@@ -5,13 +5,16 @@ import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
 import Helmet from 'react-helmet';
 import { signOut } from '../Accounts/effects';
+import { Trans } from 'react-i18next';
 
 const AccountHome: React.FC = () => {
   return (
     <div>
       <div className="columns is-multiline">
         <header className="column is-12">
-          <h1 className="title">My account</h1>
+          <h1 className="title">
+            <Trans>myAccount</Trans>
+          </h1>
         </header>
 
         <div className="column is-8">
@@ -31,20 +34,26 @@ const AccountHome: React.FC = () => {
 
         <div className="column is-4">
           <aside className="menu">
-            <p className="menu-label">General</p>
+            <p className="menu-label">
+              <Trans>general</Trans>
+            </p>
 
             <ul className="menu-list">
               <li>
-                <a href="/Account/Organizations">Organizations</a>
+                <a href="/Account/Organizations">
+                  <Trans>organizations</Trans>
+                </a>
               </li>
             </ul>
 
-            <p className="menu-label">Account</p>
+            <p className="menu-label">
+              <Trans>account</Trans>
+            </p>
 
             <ul className="menu-list">
               <li>
                 <a href="/" onClick={signOut}>
-                  Log out
+                  <Trans>signOut</Trans>
                 </a>
               </li>
             </ul>

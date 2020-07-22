@@ -1,6 +1,7 @@
 export default {
   translation: {
     aboutUs: 'About us',
+    account: 'Account',
     by: 'by',
     eliminationMenuTitle: 'Elimination menu',
     eliminations: 'Eliminations',
@@ -11,7 +12,9 @@ export default {
     games: 'Games',
     general: 'General',
     message: 'Message',
+    myAccount: 'My account',
     name: 'Name',
+    organizations: 'Organizations',
     orSignUp: 'Or sign up',
     password: 'Password',
     phases: 'Phases',
@@ -23,6 +26,7 @@ export default {
     sendYourFeedback: 'Send us your feedback',
     signIn: 'Sign in',
     signUp: 'Sign up',
+    signOut: 'Sign out',
     startTyping: 'Type something to begin search',
     username: 'Username',
     useAsAnApp: 'Install on your phone',
