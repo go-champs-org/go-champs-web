@@ -12,6 +12,7 @@ import {
 } from '../Shared/UI/Form/Validators/commonValidators';
 import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import { Trans } from 'react-i18next';
 
 interface OrganizationMemberProps {
   name: string;
@@ -49,7 +50,9 @@ const MemberForm: React.FC<OrganizationMemberProps> = ({ name, onRemove }) => {
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
     <div className="column is-12">
-      <label className="label">Name</label>
+      <label className="label">
+        <Trans>name</Trans>
+      </label>
       <Shimmer>
         <div
           style={{
@@ -110,7 +113,10 @@ const Form: React.FC<FormProps> = ({
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
-          <label className="label">Name</label>
+          <label className="label">
+            <Trans>name</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="name"
@@ -147,7 +153,9 @@ const Form: React.FC<FormProps> = ({
                 <table className="table is-fullwidth is-striped is-hoverable">
                   <thead>
                     <tr>
-                      <th style={{ paddingLeft: '0' }}>Members</th>
+                      <th style={{ paddingLeft: '0' }}>
+                        <Trans>members</Trans>
+                      </th>
                       <th></th>
                     </tr>
                   </thead>
@@ -173,7 +181,7 @@ const Form: React.FC<FormProps> = ({
               type="button"
               onClick={() => push('members', DEFAULT_MEMBER)}
             >
-              Add member
+              <Trans>addMember</Trans>
             </button>
           </div>
 
@@ -184,7 +192,7 @@ const Form: React.FC<FormProps> = ({
               type="submit"
               disabled={submitting || pristine || !valid || validating}
             >
-              Save
+              <Trans>save</Trans>
             </LoadingButton>
           </div>
         </div>
@@ -196,7 +204,9 @@ const Form: React.FC<FormProps> = ({
             <i className="fas fa-caret-left"></i>
           </span>
 
-          <span>Back</span>
+          <span>
+            <Trans>back</Trans>
+          </span>
         </button>
       </Link>
     </div>

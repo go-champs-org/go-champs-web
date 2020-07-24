@@ -24,6 +24,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
 import { OrganizationEntity } from '../Organizations/state';
 import withOrganization from './support/withOrganization';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (
   state: StoreState,
@@ -61,7 +62,9 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
-          <h2 className="subtitle">Edit organization</h2>
+          <h2 className="subtitle">
+            <Trans>editOrganization</Trans>
+          </h2>
         </div>
 
         <div className="column is-12">

@@ -12,6 +12,7 @@ import { StoreState } from '../store';
 import { postingOrganization } from '../Organizations/selectors';
 import { buildNewOrganizationWithMember } from '../Organizations/dataMappers';
 import { RouteComponentProps } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   isPostingOrganization: postingOrganization(state.organizations)
@@ -43,7 +44,9 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
-          <h2 className="subtitle">New organization</h2>
+          <h2 className="subtitle">
+            <Trans>newOrganization</Trans>
+          </h2>
         </div>
 
         <div className="column is-12">
