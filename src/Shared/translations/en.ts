@@ -14,6 +14,7 @@ export default {
     informations: 'Informations',
     games: 'Games',
     general: 'General',
+    manage: 'Manage',
     members: 'Members',
     message: 'Message',
     myAccount: 'My account',

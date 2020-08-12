@@ -5,6 +5,7 @@ import Shimmer from '../../Shared/UI/Shimmer';
 import './TopLevel.scss';
 import { OrganizationEntity } from '../../Organizations/state';
 import AuthenticatedWrapper from '../../Shared/UI/AdminWrapper';
+import { Trans } from 'react-i18next';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -118,7 +119,9 @@ const TopLevel: React.FC<{
                   <i className="fas fa-cog"></i>
                 </span>
 
-                <span>Manage</span>
+                <span>
+                  <Trans>manage</Trans>
+                </span>
               </button>
             </Link>
           </div>

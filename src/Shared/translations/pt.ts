@@ -15,6 +15,7 @@ export default {
     orSignUp: 'Ou crie uma conta',
     games: 'Partidas',
     general: 'Gerais',
+    manage: 'Gerenciar',
     members: 'Membros',
     message: 'Mensagem',
     myAccount: 'Minha conta',
