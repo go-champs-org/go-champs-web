@@ -2,6 +2,8 @@ export default {
   translation: {
     aboutUs: 'Sobre nós',
     account: 'Conta',
+    actions: 'Acões',
+    addGroupStat: 'Adicionar estatística',
     addMember: 'Adicionar membro',
     addMatch: 'Adicionar confronto',
     awayTeam: 'Equipe visitante',
@@ -20,8 +22,10 @@ export default {
     homeTeam: 'Equipe casa',
     homeScore: 'Pontuacao casa',
     informations: 'Informacões',
+    isInProgress: 'Em progresso',
     games: 'Partidas',
     general: 'Gerais',
+    groupStats: 'Estatísticas de grupo',
     location: 'Local',
     match: 'Confronto',
     matches: 'Confrontos',
@@ -63,6 +67,7 @@ export default {
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
     title: 'Título',
     tournamentNotFound: 'Torneio não encontrado',
+    type: 'Tipo',
     with: 'com',
     whatIsGoChamps: 'O que é o Go Champs?',
     whatIsGoChampsLine1:

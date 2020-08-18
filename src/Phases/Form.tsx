@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import { required } from '../Shared/UI/Form/Validators/commonValidators';
+import { Trans } from 'react-i18next';
 
 interface StatFormProps {
   name: string;
@@ -71,7 +72,10 @@ const Form: React.FC<FormProps> = ({
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
-          <label className="label">Title</label>
+          <label className="label">
+            <Trans>title</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="title"
@@ -94,13 +98,16 @@ const Form: React.FC<FormProps> = ({
             />
 
             <label className="label" htmlFor="isIsProgress">
-              Is in progress
+              <Trans>isInProgress</Trans>>
             </label>
           </div>
         </div>
 
         <div className="field">
-          <label className="label">Type</label>
+          <label className="label">
+            <Trans>type</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="type"
@@ -114,7 +121,9 @@ const Form: React.FC<FormProps> = ({
 
         {values.type === PhaseTypes.elimination && (
           <div className="field">
-            <label className="label">Group stats</label>
+            <label className="label">
+              <Trans>groupStats</Trans>
+            </label>
 
             <table className="table is-fullwidth is-striped is-hoverable">
               <thead>
@@ -124,7 +133,7 @@ const Form: React.FC<FormProps> = ({
                       paddingLeft: '0'
                     }}
                   >
-                    Name
+                    <Trans>name</Trans>
                   </th>
                   <th
                     style={{
@@ -132,7 +141,7 @@ const Form: React.FC<FormProps> = ({
                       width: '80px'
                     }}
                   >
-                    Actions
+                    <Trans>actions</Trans>
                   </th>
                 </tr>
               </thead>
@@ -157,7 +166,7 @@ const Form: React.FC<FormProps> = ({
               type="button"
               onClick={() => push('eliminationStats', DEFAULT_ELIMINATION_STAT)}
             >
-              Add elimination stat
+              <Trans>addGroupStat</Trans>
             </button>
           </div>
         )}
@@ -168,7 +177,7 @@ const Form: React.FC<FormProps> = ({
           type="submit"
           disabled={submitting || pristine || !valid}
         >
-          Save
+          <Trans>save</Trans>
         </LoadingButton>
       </form>
 
@@ -178,7 +187,9 @@ const Form: React.FC<FormProps> = ({
             <i className="fas fa-caret-left"></i>
           </span>
 
-          <span>Back</span>
+          <span>
+            <Trans>back</Trans>
+          </span>
         </button>
       </Link>
     </div>

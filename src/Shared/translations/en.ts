@@ -2,6 +2,8 @@ export default {
   translation: {
     aboutUs: 'About us',
     account: 'Account',
+    actions: 'Actions',
+    addGroupStat: 'Add group stat',
     addMember: 'Add member',
     addMatch: 'Add match',
     awayTeam: 'Away team',
@@ -20,8 +22,10 @@ export default {
     homeTeam: 'Home team',
     homeScore: 'Home score',
     informations: 'Informations',
+    isInProgress: 'Is is progress',
     games: 'Games',
     general: 'General',
+    groupStats: 'Group stats',
     location: 'Location',
     match: 'Match',
     matches: 'Matches',
@@ -63,6 +67,7 @@ export default {
     theWebsiteContentIsLicensed: 'The website content is licensed',
     title: 'Title',
     tournamentNotFound: 'Tournament not found',
+    type: 'Type',
     with: 'with',
     whatIsGoChamps: 'What is Go Champs?',
     whatIsGoChampsLine1:
