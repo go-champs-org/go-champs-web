@@ -131,6 +131,7 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
     dispatch(getAccountSuccess(response));
   } catch (err) {
     dispatch(getAccountFailure(err));
-    displayToast(`Account recovery failed :(`, 'is-primary');
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
   }
 };
