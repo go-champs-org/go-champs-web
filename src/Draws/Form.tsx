@@ -9,18 +9,27 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import './Form.scss';
+import { Trans } from 'react-i18next';
 
 const MatchTitle: React.FC<{ match: DrawMatchEntity }> = ({ match }) => {
   if (match.name) {
     return <span>{match.name}</span>;
   } else if (match.firstTeamId && match.secondTeamId) {
-    return <span>Teams</span>;
+    return (
+      <span>
+        <Trans>teams</Trans>
+      </span>
+    );
   } else if (match.firstTeamPlaceholder && match.firstTeamPlaceholder) {
     return (
       <span>{`${match.firstTeamPlaceholder} x ${match.secondTeamPlaceholder}`}</span>
     );
   }
-  return <span>Match</span>;
+  return (
+    <span>
+      <Trans>match</Trans>
+    </span>
+  );
 };
 
 interface MatchFormProps {
@@ -99,7 +108,9 @@ const MatchForm: React.FC<MatchFormProps> = ({
       headerButtonsElement={HeaderButtons}
     >
       <div className="field">
-        <label className="label">Name</label>
+        <label className="label">
+          <Trans>name</Trans>
+        </label>
 
         <div className="control">
           <Field name={`${name}.name`} component={StringInput} type="text" />
@@ -107,7 +118,9 @@ const MatchForm: React.FC<MatchFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">First team / placeholder</label>
+        <label className="label">
+          <Trans>firstTeam</Trans> / <Trans>placeholder</Trans>
+        </label>
 
         <div className="control">
           <div className="columns is-mobile is-vcentered">
@@ -148,7 +161,9 @@ const MatchForm: React.FC<MatchFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">First team score</label>
+        <label className="label">
+          <Trans>firstTeamScore</Trans>
+        </label>
         <div className="control">
           <Field
             name={`${name}.firstTeamScore`}
@@ -159,7 +174,9 @@ const MatchForm: React.FC<MatchFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Second team / placeholder</label>
+        <label className="label">
+          <Trans>secondTeam</Trans> / <Trans>placeholder</Trans>
+        </label>
 
         <div className="control">
           <div className="columns is-mobile is-vcentered">
@@ -200,7 +217,9 @@ const MatchForm: React.FC<MatchFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Second team score</label>
+        <label className="label">
+          <Trans>secondTeamScore</Trans>
+        </label>
         <div className="control">
           <Field
             name={`${name}.secondTeamScore`}
@@ -211,7 +230,9 @@ const MatchForm: React.FC<MatchFormProps> = ({
       </div>
 
       <div className="field">
-        <label className="label">Informations</label>
+        <label className="label">
+          <Trans>informations</Trans>
+        </label>
 
         <div className="control">
           <Field name={`${name}.info`} component={StringInput} type="text" />
@@ -275,7 +296,9 @@ const Form: React.FC<FormProps> = ({
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
-          <label className="label">Title</label>
+          <label className="label">
+            <Trans>title</Trans>
+          </label>
 
           <div className="control">
             <Field name="title" component={StringInput} type="text" />
@@ -283,7 +306,9 @@ const Form: React.FC<FormProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Matches</label>
+          <label className="label">
+            <Trans>matches</Trans>
+          </label>
 
           <FieldArray name="matches">
             {({ fields }) =>
@@ -309,7 +334,7 @@ const Form: React.FC<FormProps> = ({
             style={{ marginTop: '1.5rem' }}
             onClick={() => push('matches', DEFAULT_DRAW_MATCH)}
           >
-            Add match
+            <Trans>addMatch</Trans>
           </button>
         </div>
 
@@ -319,7 +344,7 @@ const Form: React.FC<FormProps> = ({
           type="submit"
           disabled={submitting || pristine}
         >
-          Save
+          <Trans>save</Trans>
         </LoadingButton>
       </form>
 
@@ -329,7 +354,9 @@ const Form: React.FC<FormProps> = ({
             <i className="fas fa-caret-left"></i>
           </span>
 
-          <span>Back</span>
+          <span>
+            <Trans>back</Trans>
+          </span>
         </button>
       </Link>
     </div>
