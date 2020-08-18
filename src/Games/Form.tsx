@@ -6,6 +6,7 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import { GameEntity } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import { Trans } from 'react-i18next';
 
 interface FromProps extends FormRenderProps<GameEntity> {
   backUrl: string;
@@ -25,7 +26,10 @@ const Form: React.FC<FromProps> = ({
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
-          <label className="label">Away team</label>
+          <label className="label">
+            <Trans>awayTeam</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="awayTeam.id"
@@ -37,14 +41,20 @@ const Form: React.FC<FromProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Away score</label>
+          <label className="label">
+            <Trans>awayScore</Trans>
+          </label>
+
           <div className="control">
             <Field name="awayScore" component={StringInput} type="number" />
           </div>
         </div>
 
         <div className="field">
-          <label className="label">Home team</label>
+          <label className="label">
+            <Trans>homeTeam</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="homeTeam.id"
@@ -56,14 +66,20 @@ const Form: React.FC<FromProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Home score</label>
+          <label className="label">
+            <Trans>homeScore</Trans>
+          </label>
+
           <div className="control">
             <Field name="homeScore" component={StringInput} type="number" />
           </div>
         </div>
 
         <div className="field">
-          <label className="label">Date / Time</label>
+          <label className="label">
+            <Trans>dateTime</Trans>
+          </label>
+
           <Field
             name="datetime"
             component={Datetime}
@@ -73,7 +89,10 @@ const Form: React.FC<FromProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Information</label>
+          <label className="label">
+            <Trans>informations</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="info"
@@ -85,7 +104,10 @@ const Form: React.FC<FromProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Location</label>
+          <label className="label">
+            <Trans>location</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="location"
@@ -102,7 +124,7 @@ const Form: React.FC<FromProps> = ({
           type="submit"
           disabled={submitting || pristine}
         >
-          Save
+          <Trans>save</Trans>
         </LoadingButton>
       </form>
 
@@ -112,7 +134,9 @@ const Form: React.FC<FromProps> = ({
             <i className="fas fa-caret-left"></i>
           </span>
 
-          <span>Back</span>
+          <span>
+            <Trans>back</Trans>
+          </span>
         </button>
       </Link>
     </div>

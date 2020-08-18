@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import classNames from 'classnames';
 import { GameEntity } from './state';
+import { Trans } from 'react-i18next';
 
 const basicTeamClasses = {
   column: true,
@@ -105,7 +106,7 @@ const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
             className="title is-6 has-text-centered"
             style={{ margin: 'auto' }}
           >
-            Sem jogos para essa fase ainda.
+            <Trans>noGamesScheduled</Trans>
           </h2>
         </div>
       </div>
@@ -159,7 +160,9 @@ class ListByDate extends React.Component<ListByDateProps> {
 
     return (
       <Fragment>
-        <h2 className="subtitle">Jogos</h2>
+        <h2 className="subtitle">
+          <Trans>games</Trans>
+        </h2>
 
         <nav className="columns is-mobile is-vcentered">
           <div className="column is-2">
