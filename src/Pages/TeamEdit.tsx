@@ -14,6 +14,7 @@ import { organizationBySlug } from '../Organizations/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { TeamEntity } from '../Teams/state';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (
   state: StoreState,
@@ -57,7 +58,9 @@ const TeamEdit: React.FC<TeamEditProps> = ({
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">Edit team</h2>
+            <h2 className="subtitle">
+              <Trans>editTeam</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

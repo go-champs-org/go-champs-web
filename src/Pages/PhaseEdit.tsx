@@ -14,6 +14,7 @@ import withPhase from './support/withPhase';
 import arrayMutators from 'final-form-arrays';
 import { phaseByIdOrDefault, patchingPhase } from '../Phases/selectors';
 import { Mutator } from 'final-form';
+import { Trans } from 'react-i18next';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
@@ -78,7 +79,9 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">Edit Phase</h2>
+            <h2 className="subtitle">
+              <Trans>editPhase</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

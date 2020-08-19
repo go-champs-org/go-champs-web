@@ -15,6 +15,7 @@ import { Mutator } from 'final-form';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { postingElimination } from '../Eliminations/selectors';
+import { Trans } from 'react-i18next';
 
 interface OwnProps {
   basePhaseManageUrl: string;
@@ -85,7 +86,9 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">New elimination</h2>
+            <h2 className="subtitle">
+              <Trans>newElimination</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

@@ -18,6 +18,7 @@ import { getAccount } from '../Accounts/effects';
 import Helmet from 'react-helmet';
 import { postingTournament } from '../Tournaments/selectors';
 import withAccount from './support/withAccount';
+import { Trans } from 'react-i18next';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   organization: OrganizationEntity;
@@ -84,7 +85,9 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
-          <h2 className="subtitle">New tournament</h2>
+          <h2 className="subtitle">
+            <Trans>newTournament</Trans>
+          </h2>
         </div>
 
         <div className="column is-12">

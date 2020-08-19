@@ -14,6 +14,7 @@ import ListHeader from '../Shared/UI/ListHeader';
 import { DrawEntity } from '../Draws/state';
 import useSortedItems from '../Shared/hooks/useSortedItems';
 import { mapDrawsOrderByIndex } from '../Draws/dataMappers';
+import { useTranslation } from 'react-i18next';
 
 interface OwnProps {
   organizationSlug: string;
@@ -67,6 +68,8 @@ const DrawList: React.FC<DrawListProps> = ({
     toggleShouldDisplaySortButtons
   } = useSortedItems<DrawEntity>(draws);
 
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <div className="column is-12">
@@ -83,7 +86,7 @@ const DrawList: React.FC<DrawListProps> = ({
             <div className="columns is-vcentered is-mobile is-multiline">
               <ListHeader
                 newUrl={newUrl}
-                title="Draws"
+                title={t('draws')}
                 onSaveOrder={() =>
                   patchBatchDraw(mapDrawsOrderByIndex(sortedDraws))
                 }

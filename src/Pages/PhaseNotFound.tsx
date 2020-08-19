@@ -5,6 +5,7 @@ import AuthenticatedWrapper, {
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
+import { Trans } from 'react-i18next';
 
 const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
   match
@@ -16,7 +17,9 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
         <NotAuthenticatedWrapper>
           <div className="notification is-danger is-light">
             <div className="content has-text-centered">
-              <h2 className="subtitle">Este torneiro está em construção.</h2>
+              <h2 className="subtitle">
+                <Trans>thisTournamentIsUnderContruction</Trans>
+              </h2>
             </div>
           </div>
         </NotAuthenticatedWrapper>
@@ -25,12 +28,12 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
           <div className="notification is-danger is-light">
             <div className="content has-text-centered">
               <h2 className="subtitle">
-                Você precisa criar times para o torneio.
+                <Trans>youNeedCreateTeams</Trans>
               </h2>
 
               <Link to={`/${organizationSlug}/${tournamentSlug}/NewTeam`}>
                 <button className="button is-large is-fullwidth">
-                  New team
+                  <Trans>newTeam</Trans>
                 </button>
               </Link>
             </div>
@@ -39,12 +42,12 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
           <div className="notification is-danger is-light">
             <div className="content has-text-centered">
               <h2 className="subtitle">
-                Você precisa criar um fase para o torneio.
+                <Trans>youNeedCreatePhases</Trans>>
               </h2>
 
               <Link to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}>
                 <button className="button is-large is-fullwidth">
-                  New phase
+                  <Trans>newPhase</Trans>
                 </button>
               </Link>
             </div>

@@ -12,6 +12,7 @@ import List, { ListLoading } from '../Tournaments/List';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   tournaments: tournaments(state.tournaments),
@@ -43,7 +44,9 @@ const TournamentList: React.FC<TournamentListProps> = ({
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-10">
-          <h2 className="subtitle">Tournaments</h2>
+          <h2 className="subtitle">
+            <Trans>tournaments</Trans>
+          </h2>
         </div>
 
         <div className="column is-2 has-text-right">
@@ -51,7 +54,7 @@ const TournamentList: React.FC<TournamentListProps> = ({
             className="button is-text"
             to={`/Organization/${organizationSlug}/NewTournament`}
           >
-            New
+            <Trans>new</Trans>
           </Link>
         </div>
 

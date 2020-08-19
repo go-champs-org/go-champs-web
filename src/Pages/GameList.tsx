@@ -13,6 +13,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import ListHeader from '../Shared/UI/ListHeader';
 import useFilteredItemsByDate from '../Shared/hooks/useFilteredItemsByDate';
 import { dateFromDate } from '../Shared/datetime/format';
+import { useTranslation } from 'react-i18next';
 
 const SearchDateInput: React.FC<{
   dates: string[];
@@ -114,6 +115,7 @@ const GameList: React.FC<GameListProps> = ({
     onFilterValueChange
   } = useFilteredItemsByDate(games, 'datetime');
 
+  const { t } = useTranslation();
   return (
     <Fragment>
       <div className="column is-12">
@@ -129,7 +131,7 @@ const GameList: React.FC<GameListProps> = ({
           <div className="column">
             <div className="columns is-vcentered is-mobile is-multiline">
               <ListHeader
-                title="Games"
+                title={t('games')}
                 newUrl={newUrl}
                 filters={[
                   <SearchDateInput

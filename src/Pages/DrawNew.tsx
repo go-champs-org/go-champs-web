@@ -15,6 +15,7 @@ import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { postingDraw } from '../Draws/selectors';
+import { Trans } from 'react-i18next';
 
 interface OwnProps {
   basePhaseManageUrl: string;
@@ -85,7 +86,9 @@ const DrawNew: React.FC<DrawNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">New draw</h2>
+            <h2 className="subtitle">
+              <Trans>newDraw</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

@@ -14,6 +14,7 @@ import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
 import useFilteredItemsByString from '../Shared/hooks/useFilteredItemsByString';
+import { useTranslation } from 'react-i18next';
 
 const SearchNameInput: React.FC<{
   value: string | null;
@@ -63,13 +64,15 @@ const TeamList: React.FC<TeamListProps> = ({
     searchValue: teamNameFilterValue
   } = useFilteredItemsByString(teams, 'name');
 
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
           <ListHeader
             newUrl={newUrl}
-            title="Teams"
+            title={t('teams')}
             filters={[
               <SearchNameInput
                 key="name"

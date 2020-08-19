@@ -18,6 +18,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { Mutator } from 'final-form';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { Trans } from 'react-i18next';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   basePhaseManageUrl: string;
@@ -64,7 +65,9 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">Edit elimination</h2>
+            <h2 className="subtitle">
+              <Trans>editElimination</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

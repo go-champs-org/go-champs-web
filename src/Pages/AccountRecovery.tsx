@@ -10,6 +10,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { accountRecovery } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   isAccountRecovering: isAccountRecovering(state.account)
@@ -42,7 +43,9 @@ const AccountRecovery: React.FC<AccountRecoveryProps> = ({
         <div className="card-content">
           <div className="columns is-multiline">
             <div className="column is-12">
-              <p className="title has-text-centered">Account recovery</p>
+              <p className="title has-text-centered">
+                <Trans>accountRecovery</Trans>
+              </p>
             </div>
 
             <div className="column is-12">

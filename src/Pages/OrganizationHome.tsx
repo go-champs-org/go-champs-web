@@ -14,6 +14,7 @@ import { getOrganizationBySlug } from '../Organizations/effects';
 import { bindActionCreators, Dispatch } from 'redux';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 import withOrganization from './support/withOrganization';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (
   state: StoreState,
@@ -91,18 +92,20 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
 
         <div className="column is-4">
           <aside className="menu">
-            <p className="menu-label">General</p>
+            <p className="menu-label">
+              <Trans>general</Trans>
+            </p>
 
             <ul className="menu-list">
               <li>
                 <a href={`/Organization/${organizationSlug}/Edit`}>
-                  Informations
+                  <Trans>informations</Trans>
                 </a>
               </li>
 
               <li>
                 <a href={`/Organization/${organizationSlug}/Tournaments`}>
-                  Tournaments
+                  <Trans>tournaments</Trans>
                 </a>
               </li>
             </ul>

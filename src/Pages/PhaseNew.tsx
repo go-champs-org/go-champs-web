@@ -16,6 +16,7 @@ import { TournamentEntity } from '../Tournaments/state';
 import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { postingPhase } from '../Phases/selectors';
+import { Trans } from 'react-i18next';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
@@ -80,7 +81,9 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">New Phase</h2>
+            <h2 className="subtitle">
+              <Trans>newPhase</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

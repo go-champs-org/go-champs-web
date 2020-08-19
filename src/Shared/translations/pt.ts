@@ -2,6 +2,8 @@ export default {
   translation: {
     aboutUs: 'Sobre nós',
     account: 'Conta',
+    accountRecovery: 'Recuperar conta',
+    accountReset: 'Resetar conta',
     actions: 'Acões',
     addGroupStat: 'Adicionar estatística',
     addMember: 'Adicionar membro',
@@ -13,7 +15,14 @@ export default {
     cancel: 'Cancelar',
     dateTime: 'Data | Hora',
     doubleClickToConfirm: 'Dois cliques para confirmar',
+    draws: 'Chaveamentos',
+    editDraw: 'Editar chaveamento',
+    editElimination: 'Editar eliminacoes',
+    editGame: 'Editar jogo',
     editOrganization: 'Editar organizacão',
+    editPhase: 'Editar fase',
+    editTeam: 'Editar equipe',
+    editTournament: 'Editar torneio',
     eliminationMenuTitle: 'Menu eliminacões',
     eliminations: 'Eliminacoes',
     email: 'Email',
@@ -38,7 +47,13 @@ export default {
     myAccount: 'Minha conta',
     name: 'Nome',
     new: 'Novo',
+    newDraw: 'Novo chaveamento',
+    newElimination: 'Nova eliminacao',
+    newGame: 'Nova partida',
     newOrganization: 'Nova organizacão',
+    newPhase: 'Nova fase',
+    newTeam: 'Nova equipe',
+    newTournament: 'Novo torneio',
     noGamesScheduled: 'Sem jogos agendados',
     organizations: 'Organizacões',
     orSignUp: 'Ou crie uma conta',
@@ -70,7 +85,9 @@ export default {
       'A web app mais maneira para gerenciar torneios',
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
+    thisTournamentIsUnderContruction: 'Este torneiro está em construção.',
     title: 'Título',
+    tournaments: 'Torneios',
     tournamentNotFound: 'Torneio não encontrado',
     type: 'Tipo',
     with: 'com',
@@ -79,6 +96,8 @@ export default {
       'Go Champs! É uma aplicacão para você criar seu torneio e gerenciar fases, times, jogos, classificacões e muito mais.',
     whatIsGoChampsLine2:
       'As informacões ficam disponibilizadas para qualquer pessoa acessar e pode acompanhar seu torneio.',
-    whatIsGoChampsLine3: 'Acesse nosso torneio exemplo clicando'
+    whatIsGoChampsLine3: 'Acesse nosso torneio exemplo clicando',
+    youNeedCreateTeams: 'Você precisa criar times.',
+    youNeedCreatePhases: 'Você precisa criar fases.'
   }
 };

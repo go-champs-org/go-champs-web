@@ -19,6 +19,7 @@ import { OrganizationEntity } from '../Organizations/state';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
+import { Trans } from 'react-i18next';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
@@ -91,7 +92,9 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">Edit tournament</h2>
+            <h2 className="subtitle">
+              <Trans>editTournament</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">

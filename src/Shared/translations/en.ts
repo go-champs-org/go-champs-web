@@ -2,6 +2,8 @@ export default {
   translation: {
     aboutUs: 'About us',
     account: 'Account',
+    accountRecovery: 'Account recovery',
+    accountReset: 'Account reset',
     actions: 'Actions',
     addGroupStat: 'Add group stat',
     addMember: 'Add member',
@@ -13,7 +15,14 @@ export default {
     cancel: 'Cancel',
     dateTime: 'Date | Time',
     doubleClickToConfirm: 'Double click to confirm',
+    draws: 'Draws',
+    editDraw: 'Edit draw',
+    editElimination: 'Edit elimination',
+    editGame: 'Edit game',
     editOrganization: 'Edit organization',
+    editPhase: 'Edit phase',
+    editTeam: 'Edit team',
+    editTournament: 'Edit tournament',
     eliminationMenuTitle: 'Elimination menu',
     eliminations: 'Eliminations',
     email: 'Email',
@@ -38,7 +47,13 @@ export default {
     myAccount: 'My account',
     name: 'Name',
     new: 'New',
+    newDraw: 'New draw',
+    newElimination: 'New elimination',
+    newGame: 'New game',
     newOrganization: 'New organization',
+    newPhase: 'New phase',
+    newTeam: 'New team',
+    newTournament: 'New tournament',
     noGamesScheduled: 'No games scheduled',
     organizations: 'Organizations',
     orSignUp: 'Or sign up',
@@ -70,7 +85,9 @@ export default {
       'The coolest web app to manage your tournaments',
     theSourceCodeIsLicensed: 'The source code is licensed',
     theWebsiteContentIsLicensed: 'The website content is licensed',
+    thisTournamentIsUnderContruction: 'This tournament is under contruction.',
     title: 'Title',
+    tournaments: 'Tournaments',
     tournamentNotFound: 'Tournament not found',
     type: 'Type',
     with: 'with',
@@ -79,6 +96,8 @@ export default {
       'Go Champs! It is an application for you to create your tournament and manage phases, teams, games, qualifications and much more.',
     whatIsGoChampsLine2:
       'All information is available for anyone to access and can follow your tournament.',
-    whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking'
+    whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking',
+    youNeedCreateTeams: 'You need to create teams.',
+    youNeedCreatePhases: 'You need to create phases.'
   }
 };

@@ -22,6 +22,7 @@ import ListHeader from '../Shared/UI/ListHeader';
 import useSortedItems from '../Shared/hooks/useSortedItems';
 import { EliminationEntity } from '../Eliminations/state';
 import { mapEliminationsOrderByIndex } from '../Eliminations/dataMappers';
+import { useTranslation } from 'react-i18next';
 
 interface OwnProps {
   organizationSlug: string;
@@ -75,6 +76,8 @@ const EliminationList: React.FC<EliminationListProps> = ({
     toggleShouldDisplaySortButtons
   } = useSortedItems<EliminationEntity>(eliminations);
 
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <div className="column is-12">
@@ -91,7 +94,7 @@ const EliminationList: React.FC<EliminationListProps> = ({
             <div className="columns is-vcentered is-mobile is-multiline">
               <ListHeader
                 newUrl={newUrl}
-                title="Eliminations"
+                title={t('eliminations')}
                 onSaveOrder={() =>
                   patchBatchElimination(
                     mapEliminationsOrderByIndex(sortedEliminations)

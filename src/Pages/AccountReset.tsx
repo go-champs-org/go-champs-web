@@ -8,6 +8,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { AccountResetEntity } from '../Accounts/entity';
 import AccountResetForm, { accountResetValidor } from '../Accounts/ResetForm';
 import { RouteComponentProps, useLocation } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   isResetingPassword: isResetingPassword(state.account)
@@ -44,7 +45,9 @@ const AccountReset: React.FC<AccountResetProps> = ({
         <div className="card-content">
           <div className="columns is-multiline">
             <div className="column is-12">
-              <p className="title has-text-centered">Account Reset</p>
+              <p className="title has-text-centered">
+                <Trans>accountReset</Trans>
+              </p>
             </div>
 
             <div className="column is-12">

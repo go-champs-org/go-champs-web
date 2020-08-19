@@ -13,6 +13,7 @@ import { gameById, patchingGame } from '../Games/selectors';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { Trans } from 'react-i18next';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   basePhaseManageUrl: string;
@@ -59,7 +60,9 @@ const GameNew: React.FC<GameNewProps> = ({
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
-            <h2 className="subtitle">Edit Game</h2>
+            <h2 className="subtitle">
+              <Trans>editGame</Trans>
+            </h2>
           </div>
 
           <div className="column is-12">
