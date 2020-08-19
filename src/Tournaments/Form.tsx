@@ -31,6 +31,7 @@ export const FormLoading: React.FC = () => (
 
     <div className="column is-12">
       <label className="label">Slug</label>
+
       <Shimmer>
         <div
           style={{
@@ -81,6 +82,7 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">Slug</label>
+
           <div className="control">
             <Field
               name="slug"

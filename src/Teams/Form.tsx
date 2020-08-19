@@ -6,11 +6,15 @@ import { TeamEntity } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { required } from '../Shared/UI/Form/Validators/commonValidators';
+import { Trans } from 'react-i18next';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
     <div className="column is-12">
-      <label className="label">Name</label>
+      <label className="label">
+        <Trans>name</Trans>
+      </label>
+
       <Shimmer>
         <div
           style={{
@@ -41,7 +45,10 @@ const Form: React.FC<FormProps> = ({
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
-          <label className="label">Name</label>
+          <label className="label">
+            <Trans>name</Trans>
+          </label>
+
           <div className="control">
             <Field
               name="name"
@@ -59,7 +66,7 @@ const Form: React.FC<FormProps> = ({
           type="submit"
           disabled={submitting || pristine || !valid}
         >
-          Save
+          <Trans>save</Trans>
         </LoadingButton>
       </form>
 
@@ -69,7 +76,9 @@ const Form: React.FC<FormProps> = ({
             <i className="fas fa-caret-left"></i>
           </span>
 
-          <span>Back</span>
+          <span>
+            <Trans>back</Trans>
+          </span>
         </button>
       </Link>
     </div>
