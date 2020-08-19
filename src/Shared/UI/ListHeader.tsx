@@ -2,6 +2,7 @@ import React, { ReactNode, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './ListHeader.scss';
 import LoadingButton from './LoadingButton';
+import { Trans } from 'react-i18next';
 
 interface ListHeaderProps {
   newUrl: string;
@@ -58,7 +59,9 @@ const ListHeader: React.FC<ListHeaderProps> = ({
                   <i className="fas fa-filter"></i>
                 </span>
 
-                <span>Filter</span>
+                <span>
+                  <Trans>filter</Trans>
+                </span>
               </button>
             )}
 
@@ -67,7 +70,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({
                 className="button is-text"
                 onClick={toggleShouldDisplayFilters}
               >
-                Cancel
+                <Trans>cancel</Trans>
               </button>
             )}
 
@@ -80,7 +83,9 @@ const ListHeader: React.FC<ListHeaderProps> = ({
                   <i className="fas fa-sort"></i>
                 </span>
 
-                <span>Sort</span>
+                <span>
+                  <Trans>sort</Trans>
+                </span>
               </button>
             )}
 
@@ -90,18 +95,18 @@ const ListHeader: React.FC<ListHeaderProps> = ({
                 onClick={onSaveOrder}
                 isLoading={isSavingOrder ? isSavingOrder : false}
               >
-                Save order
+                <Trans>saveOrder</Trans>
               </LoadingButton>
             )}
 
             {shouldDisplaySortControls && shouldDisplaySortButtons && (
               <button className="button is-text" onClick={onCancelOrder}>
-                Cancel
+                <Trans>cancel</Trans>
               </button>
             )}
 
             <Link className="button is-text" to={newUrl}>
-              New
+              <Trans>new</Trans>
             </Link>
           </div>
         </div>

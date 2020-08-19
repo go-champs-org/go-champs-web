@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface DoubleClickButtonProps
   extends React.DetailedHTMLProps<
@@ -48,11 +49,13 @@ const DoubleClickButton: React.FC<DoubleClickButtonProps> = (
     'has-tooltip-left': !hasTooltipClass(props.className)
   });
 
+  const { t } = useTranslation();
+
   return (
     <button
       {...props}
       className={classes}
-      data-tooltip={canPerfomAction ? 'Double click to confirm' : undefined}
+      data-tooltip={canPerfomAction ? t('doubleClickToConfirm') : undefined}
       onClick={onClickFunction}
       ref={ref}
     >
