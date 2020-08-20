@@ -43,7 +43,7 @@ jobs:
       name: "Deploy admin"
       if: branch = master
       before_deploy:
-        - yarn build:adm
+        - yarn build
       deploy:
         dir: "build/"
         site: fd6c308a-dd0a-45eb-b958-8f34abd756f7 # admin
