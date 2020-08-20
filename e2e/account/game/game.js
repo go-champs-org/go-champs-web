@@ -22,7 +22,7 @@ module.exports = {
       .pause(1000)
       .setValue("//*[contains(text(), 'Away team')]/../div/div/div/div/div/div[1]/input", ['Test team (cannot delete) A', client.Keys.ENTER])
       .setValue("//*[contains(text(), 'Home team')]/../div/div/div/div/div/div[1]/input", ['Test team (cannot delete) B', client.Keys.ENTER])
-      .setValue("//*[contains(text(), 'Date / Time')]/../div/div[1]/p/input", ['1'])
+      .setValue("//*[contains(text(), 'Date | Time')]/../div/div[1]/p/input", ['1'])
       .useCss()
       .click('.rdtDay')
       .click('input[name="info"]')

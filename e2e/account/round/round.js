@@ -12,7 +12,7 @@ module.exports = {
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//*[contains(text(), 'Draws')]")
+      .click("//a[contains(text(), 'Rounds')]")
   },
 
   'Add new draw': function (client) {
