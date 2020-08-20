@@ -3,26 +3,9 @@ import androidSite from '../assets/android-site.png';
 import androidMenu from '../assets/android-menu.png';
 import iosSite from '../assets/ios-site.png';
 import iosMenu from '../assets/ios-menu.png';
-
-import { Dispatch, bindActionCreators } from 'redux';
-import { getAccount } from '../Accounts/effects';
-import { connect, ConnectedProps } from 'react-redux';
-import withAccount from './support/withAccount';
 import { Trans } from 'react-i18next';
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      getAccount
-    },
-    dispatch
-  );
-
-const connector = connect(null, mapDispatchToProps);
-
-type UseComoAppProps = ConnectedProps<typeof connector>;
-
-const UseComoApp: React.FC<UseComoAppProps> = () => (
+const UseComoApp: React.FC = () => (
   <Fragment>
     <div className="hero is-medium">
       <div className="hero-body">
@@ -118,4 +101,4 @@ const UseComoApp: React.FC<UseComoAppProps> = () => (
   </Fragment>
 );
 
-export default connector(withAccount(UseComoApp));
+export default UseComoApp;

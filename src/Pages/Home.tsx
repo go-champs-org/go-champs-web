@@ -1,25 +1,9 @@
 import React from 'react';
 import EmailForm from '../Shared/UI/Form/EmailFrom';
 import homePhone from '../assets/home-photo.png';
-import { Dispatch, bindActionCreators } from 'redux';
-import { getAccount } from '../Accounts/effects';
-import { connect, ConnectedProps } from 'react-redux';
-import withAccount from './support/withAccount';
 import { Trans } from 'react-i18next';
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      getAccount
-    },
-    dispatch
-  );
-
-const connector = connect(null, mapDispatchToProps);
-
-type HomeProps = ConnectedProps<typeof connector>;
-
-const Home: React.FC<HomeProps> = () => (
+const Home: React.FC = () => (
   <div className="hero is-medium">
     <div className="hero-head">
       <div className="content">
@@ -79,4 +63,4 @@ const Home: React.FC<HomeProps> = () => (
   </div>
 );
 
-export default connector(withAccount(Home));
+export default Home;

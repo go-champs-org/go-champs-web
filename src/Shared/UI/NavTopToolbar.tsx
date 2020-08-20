@@ -4,14 +4,25 @@ import './NavTopToolbar.scss';
 import AuthenticatedWrapper, { NotAuthenticatedWrapper } from './AdminWrapper';
 import { StoreState } from '../../store';
 import { account } from '../../Accounts/selectors';
+import { getAccount } from '../../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { Trans } from 'react-i18next';
+import { bindActionCreators, Dispatch } from 'redux';
+import withAccount from '../../Pages/support/withAccount';
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getAccount
+    },
+    dispatch
+  );
 
 const mapStateToProps = (state: StoreState) => ({
   account: account(state.account)
 });
 
-const connector = connect(mapStateToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type NavTopToolbarProps = ConnectedProps<typeof connector>;
 
@@ -111,4 +122,4 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
   }
 }
 
-export default connector(NavTopToolbar);
+export default connector(withAccount(NavTopToolbar));

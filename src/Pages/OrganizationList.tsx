@@ -4,11 +4,8 @@ import { Link } from 'react-router-dom';
 import List, { ListLoading } from '../Organizations/List';
 import { organizations } from '../Organizations/selectors';
 import { StoreState } from '../store';
-import withAccount from './support/withAccount';
 import { bindActionCreators, Dispatch } from 'redux';
 import { deleteOrganization } from '../Organizations/effects';
-
-import { getAccount } from '../Accounts/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { isGettingAccountLoading } from '../Accounts/selectors';
 import { Trans } from 'react-i18next';
@@ -23,8 +20,7 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      deleteOrganization,
-      getAccount
+      deleteOrganization
     },
     dispatch
   );
@@ -65,4 +61,4 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
   </Fragment>
 );
 
-export default connector(withAccount(OrganizationList));
+export default connector(OrganizationList);

@@ -14,10 +14,8 @@ import {
 } from '../Organizations/selectors';
 import { OrganizationEntity } from '../Organizations/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
-import { getAccount } from '../Accounts/effects';
 import Helmet from 'react-helmet';
 import { postingTournament } from '../Tournaments/selectors';
-import withAccount from './support/withAccount';
 import { Trans } from 'react-i18next';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
@@ -31,9 +29,6 @@ interface StateProps extends RouteComponentProps<RouteProps> {
 }
 
 type DispatchProps = {
-  getAccount: (
-    username: string
-  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postTournament: (
     organizationId: string,
     tournament: TournamentEntity
@@ -53,7 +48,6 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      getAccount,
       postTournament
     },
     dispatch
@@ -118,4 +112,4 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
   );
 };
 
-export default connector(withAccount(TournamentNew));
+export default connector(TournamentNew);

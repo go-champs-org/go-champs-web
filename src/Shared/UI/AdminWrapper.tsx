@@ -3,20 +3,7 @@ import React, { Fragment, ReactNode } from 'react';
 export const NotAuthenticatedWrapper: React.FC<{ children: ReactNode }> = ({
   children
 }) => {
-  if (
-    process.env.REACT_APP_APP_MODE !== 'adm' ||
-    !localStorage.getItem('token')
-  ) {
-    return <Fragment>{children}</Fragment>;
-  }
-
-  return <div></div>;
-};
-
-export const AdminWrapper: React.FC<{ children: ReactNode }> = ({
-  children
-}) => {
-  if (process.env.REACT_APP_APP_MODE === 'adm') {
+  if (!localStorage.getItem('token')) {
     return <Fragment>{children}</Fragment>;
   }
 
