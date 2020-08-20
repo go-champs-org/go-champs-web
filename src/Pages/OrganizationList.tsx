@@ -9,6 +9,8 @@ import { deleteOrganization } from '../Organizations/effects';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { isGettingAccountLoading } from '../Accounts/selectors';
 import { Trans } from 'react-i18next';
+import withAccount from './support/withAccount';
+import { getAccount } from '../Accounts/effects';
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -20,7 +22,8 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      deleteOrganization
+      deleteOrganization,
+      getAccount
     },
     dispatch
   );
@@ -61,4 +64,4 @@ const OrganizationList: React.FC<OrganizationListProps> = ({
   </Fragment>
 );
 
-export default connector(OrganizationList);
+export default connector(withAccount(OrganizationList));

@@ -34,6 +34,7 @@ export const deleteOrganization = (organization: OrganizationEntity) => async (
     displayToast(`${organization.name} deleted!`, 'is-success');
   } catch (err) {
     dispatch(deleteOrganizationFailure(err));
+    displayToast(`Error on deleting :(`, 'is-primary');
   }
 };
 
