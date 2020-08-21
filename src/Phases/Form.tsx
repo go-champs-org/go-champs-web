@@ -98,7 +98,7 @@ const Form: React.FC<FormProps> = ({
             />
 
             <label className="label" htmlFor="isIsProgress">
-              <Trans>isInProgress</Trans>>
+              <Trans>isInProgress</Trans>
             </label>
           </div>
         </div>

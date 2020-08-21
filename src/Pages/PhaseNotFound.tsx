@@ -42,7 +42,7 @@ const PhaseNotFound: React.FC<RouteComponentProps<RouteProps>> = ({
           <div className="notification is-danger is-light">
             <div className="content has-text-centered">
               <h2 className="subtitle">
-                <Trans>youNeedCreatePhases</Trans>>
+                <Trans>youNeedCreatePhases</Trans>
               </h2>
 
               <Link to={`/${organizationSlug}/${tournamentSlug}/NewPhase`}>
