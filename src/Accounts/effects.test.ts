@@ -3,13 +3,15 @@ import {
   signUp,
   accountReset,
   accountRecovery,
-  getAccount
+  getAccount,
+  facebookSignUp
 } from './effects';
 import {
   SignInEntity,
   SignUpEntity,
   AccountResetEntity,
-  AccountRecoveryEntity
+  AccountRecoveryEntity,
+  FacebookSignUpEntity
 } from './entity';
 import * as toast from '../Shared/bulma/toast';
 import { History, Location } from 'history';
@@ -48,12 +50,19 @@ const ACCOUNT_RESET: AccountResetEntity = {
 };
 const SIGN_UP: SignUpEntity = {
   email: 'some@email.com',
+  username: 'someusername',
   password: 'some password',
   recaptcha: 'some recaptcha',
   repeatedPassword: 'some repeated password'
 };
-const SOME_USER: SignInEntity = {
+const FACEBOOK_SIGN_UP: FacebookSignUpEntity = {
   email: 'some@email.com',
+  facebookId: 'some-facebook-id',
+  recaptcha: 'some recaptcha',
+  username: 'someusername'
+};
+const SOME_USER: SignInEntity = {
+  username: 'some@email.com',
   password: 'some password'
 };
 
@@ -269,6 +278,70 @@ describe('accountEffects', () => {
 
       it('dispatches post failure action', async () => {
         await signUp(SIGN_UP, mockHistory)(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(
+          signUpFailure(new Error('some error'))
+        );
+      });
+
+      it('dispatches display toast', () => {
+        expect(toast.displayToast).toHaveBeenCalledWith(
+          'Sign up failed :(',
+          'is-primary'
+        );
+      });
+    });
+  });
+
+  describe('facebookSignUp', () => {
+    beforeEach(() => {
+      dispatch = jest.fn();
+    });
+
+    it('dispatches start sign in action', () => {
+      facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(signUpStart());
+    });
+
+    describe('on success', () => {
+      beforeEach(() => {
+        dispatch.mockReset();
+
+        jest.spyOn(accountHttpClient, 'facebookSignUp').mockResolvedValue({
+          data: { email: 'some@email.com', token: 'some token' }
+        });
+
+        facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
+      });
+
+      it('dispatches post success action', () => {
+        expect(dispatch).toHaveBeenCalledWith(
+          signUpSuccess({
+            data: {
+              email: 'some@email.com',
+              token: 'some token'
+            }
+          })
+        );
+      });
+
+      it('redirects to account page', () => {
+        expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
+      });
+    });
+
+    describe('on failure', () => {
+      beforeEach(() => {
+        dispatch.mockReset();
+
+        jest
+          .spyOn(accountHttpClient, 'facebookSignUp')
+          .mockRejectedValue(new Error('some error'));
+      });
+
+      it('dispatches post failure action', async () => {
+        await facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
 
         expect(dispatch).toHaveBeenCalledWith(
           signUpFailure(new Error('some error'))

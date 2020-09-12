@@ -345,6 +345,15 @@ export interface ApiSignUpRequest {
   };
 }
 
+export interface ApiFacebookSignUpRequest {
+  user: {
+    email: string;
+    facebook_id: string;
+    recaptcha: string;
+    username: string;
+  };
+}
+
 export interface ApiUserResponse {
   data: {
     email: string;

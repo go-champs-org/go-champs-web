@@ -3,7 +3,8 @@ import {
   SignInEntity,
   SignUpEntity,
   AccountRecoveryEntity,
-  AccountResetEntity
+  AccountResetEntity,
+  FacebookSignUpEntity
 } from './entity';
 import {
   signInStart,
@@ -72,6 +73,23 @@ export const signUp = (user: SignUpEntity, history: History) => async (
 
   try {
     const response = await accountHttpClient.signUp(user);
+
+    dispatch(signUpSuccess(response));
+    history.push('/SignIn');
+  } catch (err) {
+    dispatch(signUpFailure(err));
+    displayToast(`Sign up failed :(`, 'is-primary');
+  }
+};
+
+export const facebookSignUp = (
+  user: FacebookSignUpEntity,
+  history: History
+) => async (dispatch: Dispatch) => {
+  dispatch(signUpStart());
+
+  try {
+    const response = await accountHttpClient.facebookSignUp(user);
 
     dispatch(signUpSuccess(response));
     history.push('/SignIn');
