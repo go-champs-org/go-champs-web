@@ -1556,6 +1556,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-facebook-login@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-facebook-login/-/react-facebook-login-4.1.2.tgz#5a4894fa9abd6972f1454528f2cdf2af28ef3a4d"
+  integrity sha512-GHeUSSa/GMGsNMxmwvb3OcQpfiPviPCm9QFV8u20WfpQwYI5jFhi+HZHlICfj/9oGGe+lzWC4L/4+9hQChIutQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-google-recaptcha@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-1.1.1.tgz#7dd2a4dd15d38d8059a2753cd4a7e3485c9bb3ea"
@@ -9800,6 +9807,11 @@ react-error-overlay@^6.0.3:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
+
+react-facebook-login@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
+  integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
 react-fast-compare@^2.0.2:
   version "2.0.4"

@@ -4,14 +4,16 @@ import SignUpForm, { signUpValidor } from '../Accounts/SignUpForm';
 import { StoreState } from '../store';
 import { isSigingUp } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
-import { signUp } from '../Accounts/effects';
+import { signUp, redirectToFacebookSignUp } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { SignUpEntity } from '../Accounts/entity';
 import { RouteComponentProps } from 'react-router-dom';
 import { Trans } from 'react-i18next';
+import FacebookLogin from 'react-facebook-login';
 
-const mapStateToProps = (state: StoreState) => ({
-  isSigingUp: isSigingUp(state.account)
+const mapStateToProps = (state: StoreState, props: RouteComponentProps) => ({
+  isSigingUp: isSigingUp(state.account),
+  history: props.history
 });
 
 const mapDispatchToProps = (
@@ -29,7 +31,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type SignUpProps = ConnectedProps<typeof connector>;
 
-const SignUp: React.FC<SignUpProps> = ({ isSigingUp, signUp }) => (
+const SignUp: React.FC<SignUpProps> = ({ isSigingUp, history, signUp }) => (
   <div className="container has-text-centered">
     <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
       <div className="card-content">
@@ -54,6 +56,17 @@ const SignUp: React.FC<SignUpProps> = ({ isSigingUp, signUp }) => (
               render={(props: FormRenderProps<SignUpEntity>) => (
                 <SignUpForm {...props} isLoading={isSigingUp} />
               )}
+            />
+          </div>
+
+          <div className="column is-12" style={{ paddingTop: 0 }}>
+            <FacebookLogin
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+              fields="id,email"
+              isDisabled={false}
+              callback={redirectToFacebookSignUp(history)}
+              cssClass="button facebook"
+              icon="fab fa-facebook"
             />
           </div>
         </div>

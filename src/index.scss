@@ -12,3 +12,13 @@ body {
 html {
   overflow: auto;
 }
+
+.button.facebook {
+  background-color: #4267b2;
+  color: white;
+  border-color: black;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+}

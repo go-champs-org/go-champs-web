@@ -99,6 +99,14 @@ export const facebookSignUp = (
   }
 };
 
+export const redirectToFacebookSignUp = (history: History) => (
+  facebookResponse: any
+) => {
+  console.log(facebookResponse);
+  const { email, id: facebookId } = facebookResponse;
+  history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
+};
+
 export const signOut = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('username');
