@@ -8,7 +8,7 @@ import { signUp, redirectToFacebookSignUp } from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { SignUpEntity } from '../Accounts/entity';
 import { RouteComponentProps } from 'react-router-dom';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import FacebookLogin from 'react-facebook-login';
 
 const mapStateToProps = (state: StoreState, props: RouteComponentProps) => ({
@@ -31,48 +31,52 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type SignUpProps = ConnectedProps<typeof connector>;
 
-const SignUp: React.FC<SignUpProps> = ({ isSigingUp, history, signUp }) => (
-  <div className="container has-text-centered">
-    <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
-      <div className="card-content">
-        <div className="columns is-multiline">
-          <div className="column is-12">
-            <p className="title has-text-centered">
-              <Trans>signUp</Trans>
-            </p>
-          </div>
+const SignUp: React.FC<SignUpProps> = ({ isSigingUp, history, signUp }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="container has-text-centered">
+      <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
+        <div className="card-content">
+          <div className="columns is-multiline">
+            <div className="column is-12">
+              <p className="title has-text-centered">
+                <Trans>signUp</Trans>
+              </p>
+            </div>
 
-          <div className="column is-12">
-            <Form
-              onSubmit={signUp}
-              initialValues={{
-                email: '',
-                password: '',
-                repeatedPassword: '',
-                recaptcha: '',
-                username: ''
-              }}
-              validate={signUpValidor}
-              render={(props: FormRenderProps<SignUpEntity>) => (
-                <SignUpForm {...props} isLoading={isSigingUp} />
-              )}
-            />
-          </div>
+            <div className="column is-12">
+              <Form
+                onSubmit={signUp}
+                initialValues={{
+                  email: '',
+                  password: '',
+                  repeatedPassword: '',
+                  recaptcha: '',
+                  username: ''
+                }}
+                validate={signUpValidor}
+                render={(props: FormRenderProps<SignUpEntity>) => (
+                  <SignUpForm {...props} isLoading={isSigingUp} />
+                )}
+              />
+            </div>
 
-          <div className="column is-12" style={{ paddingTop: 0 }}>
-            <FacebookLogin
-              appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
-              fields="id,email"
-              isDisabled={false}
-              callback={redirectToFacebookSignUp(history)}
-              cssClass="button facebook"
-              icon="fab fa-facebook"
-            />
+            <div className="column is-12" style={{ paddingTop: 0 }}>
+              <FacebookLogin
+                appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+                fields="id,email"
+                isDisabled={false}
+                callback={redirectToFacebookSignUp(history)}
+                cssClass="button facebook"
+                textButton={t('signUpWithFacebook')}
+                icon="fab fa-facebook"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default connector(SignUp);

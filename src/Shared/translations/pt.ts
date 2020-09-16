@@ -72,6 +72,7 @@ export default {
     sendYourFeedback: 'Mande seu feedback',
     signIn: 'Entrar',
     signUp: 'Novo usuário',
+    signUpWithFacebook: 'Acesse com Facebook',
     signOut: 'Sair',
     sort: 'Ordenar',
     startTyping: 'Digite para pesquisar',

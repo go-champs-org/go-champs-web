@@ -72,6 +72,7 @@ export default {
     sendYourFeedback: 'Send us your feedback',
     signIn: 'Sign in',
     signUp: 'Sign up',
+    signUpWithFacebook: 'Sign up with Facebook',
     signOut: 'Sign out',
     sort: 'Sort',
     startTyping: 'Type something to begin search',
