@@ -31,7 +31,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type SignUpProps = ConnectedProps<typeof connector>;
 
-const SignUp: React.FC<SignUpProps> = ({ isSigingUp, history, signUp }) => {
+function SignUp({
+  isSigingUp,
+  history,
+  signUp
+}: SignUpProps): React.ReactElement {
   const { t } = useTranslation();
   return (
     <div className="container has-text-centered">
@@ -77,6 +81,6 @@ const SignUp: React.FC<SignUpProps> = ({ isSigingUp, history, signUp }) => {
       </div>
     </div>
   );
-};
+}
 
 export default connector(SignUp);

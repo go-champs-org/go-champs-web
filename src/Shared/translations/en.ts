@@ -71,6 +71,7 @@ export default {
     send: 'Send it',
     sendYourFeedback: 'Send us your feedback',
     signIn: 'Sign in',
+    signInWithFacebook: 'Sign in with Facebook',
     signUp: 'Sign up',
     signUpWithFacebook: 'Sign up with Facebook',
     signOut: 'Sign out',

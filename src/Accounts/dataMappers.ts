@@ -1,5 +1,8 @@
-import { FacebookSignUpEntity } from './entity';
-import { ApiFacebookSignUpRequest } from '../Shared/httpClient/apiTypes';
+import { FacebookSignUpEntity, FacebookSignInEntity } from './entity';
+import {
+  ApiFacebookSignUpRequest,
+  ApiFacebookSignInRequest
+} from '../Shared/httpClient/apiTypes';
 
 export const mapFacebookSignUpEntityToApiFacebookSignUpPostRequest = (
   facebookSignUpEntity: FacebookSignUpEntity
@@ -10,4 +13,10 @@ export const mapFacebookSignUpEntityToApiFacebookSignUpPostRequest = (
     username: facebookSignUpEntity.username,
     recaptcha: facebookSignUpEntity.recaptcha
   }
+});
+
+export const mapFacebookSignInEntityToApiFacebookSignInPostRequest = (
+  facebookSignInEntity: FacebookSignInEntity
+): ApiFacebookSignInRequest => ({
+  facebook_id: facebookSignInEntity.facebookId
 });

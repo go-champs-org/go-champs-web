@@ -99,12 +99,27 @@ export const facebookSignUp = (
   }
 };
 
-export const redirectToFacebookSignUp = (history: History) => (
+export const redirectToFacebookSignUp = (history: History) => async (
   facebookResponse: any
 ) => {
-  console.log(facebookResponse);
+  if (facebookResponse.status) {
+    displayToast(`Sign up failed :(`, 'is-primary');
+    return;
+  }
+
   const { email, id: facebookId } = facebookResponse;
-  history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
+
+  try {
+    const response = await accountHttpClient.facebookSignIn({
+      facebookId
+    });
+
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('username', response.data.username);
+    history.push('/Account');
+  } catch {
+    history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
+  }
 };
 
 export const signOut = () => {

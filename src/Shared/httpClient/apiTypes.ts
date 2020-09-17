@@ -322,6 +322,10 @@ export interface ApiSignInRequest {
   username: string;
 }
 
+export interface ApiFacebookSignInRequest {
+  facebook_id: string;
+}
+
 export interface ApiAccountRecoveryRequest {
   email: string;
   recaptcha: string;

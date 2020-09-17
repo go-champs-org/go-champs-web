@@ -6,16 +6,21 @@ import {
   ApiAccountResetRequest,
   ApiAccountRecoveryRequest,
   ApiAccountResponse,
-  ApiFacebookSignUpRequest
+  ApiFacebookSignUpRequest,
+  ApiFacebookSignInRequest
 } from '../Shared/httpClient/apiTypes';
 import {
   SignInEntity,
   SignUpEntity,
   AccountResetEntity,
   AccountRecoveryEntity,
-  FacebookSignUpEntity
+  FacebookSignUpEntity,
+  FacebookSignInEntity
 } from './entity';
-import { mapFacebookSignUpEntityToApiFacebookSignUpPostRequest } from './dataMappers';
+import {
+  mapFacebookSignUpEntityToApiFacebookSignUpPostRequest,
+  mapFacebookSignInEntityToApiFacebookSignInPostRequest
+} from './dataMappers';
 
 const ACCOUNT_API = `${process.env.REACT_APP_API_HOST}v1/accounts`;
 const USER_API = `${process.env.REACT_APP_API_HOST}v1/users`;
@@ -70,7 +75,23 @@ const facebookSignUp = async (
   );
 };
 
+const facebookSignIn = async (
+  facebookUser: FacebookSignInEntity
+): Promise<ApiUserResponse> => {
+  const url = `${ACCOUNT_API}/facebook-signin`;
+
+  const body = mapFacebookSignInEntityToApiFacebookSignInPostRequest(
+    facebookUser
+  );
+
+  return await httpClient.post<ApiFacebookSignInRequest, ApiUserResponse>(
+    url,
+    body
+  );
+};
+
 export default {
+  facebookSignIn,
   facebookSignUp,
   getAccount,
   recovery,

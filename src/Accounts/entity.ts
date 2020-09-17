@@ -18,6 +18,10 @@ export interface FacebookSignUpEntity {
   username: string;
 }
 
+export interface FacebookSignInEntity {
+  facebookId: string;
+}
+
 export interface AccountRecoveryEntity {
   email: string;
   recaptcha: string;
