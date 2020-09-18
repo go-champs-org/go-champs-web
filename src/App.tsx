@@ -25,6 +25,7 @@ import { RouteProps } from './Pages/support/routerInterfaces';
 import './Shared/translations/i18n';
 import { useTranslation } from 'react-i18next';
 import FacebookSignUp from './Pages/FacebookSignUp';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -70,6 +71,12 @@ const App: React.FC = () => {
                     sensitive
                     path="/FacebookSignUp*"
                     component={FacebookSignUp}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/PrivacyPolicy*"
+                    component={PrivacyPolicy}
                   />
                   <Route
                     exact
