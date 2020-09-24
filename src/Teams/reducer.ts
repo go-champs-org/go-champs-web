@@ -111,7 +111,9 @@ const getTournamentSuccess = (
 ) => ({
   ...state,
   isLoadingRequestTournament: false,
-  teams: action.payload!.teams.reduce(apiTeamToEntities, {})
+  teams: action.payload!.teams
+    ? action.payload!.teams.reduce(apiTeamToEntities, {})
+    : {}
 });
 
 export default createReducer(initialState, {

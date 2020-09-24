@@ -309,4 +309,17 @@ describe('getTournamentSuccess', () => {
       username: 'second-username'
     });
   });
+
+  it('does not break is null players', () => {
+    const emptyResponseAction: HttpAction<
+      ActionTypes,
+      ApiTournamentWithDependecies
+    > = {
+      type: GET_TOURNAMENT_SUCCESS,
+      payload: (DEFAULT_TOURNAMENT as unknown) as ApiTournamentWithDependecies
+    };
+    const newState = playerReducer(initialState, emptyResponseAction);
+
+    expect(newState).toEqual(initialState);
+  });
 });

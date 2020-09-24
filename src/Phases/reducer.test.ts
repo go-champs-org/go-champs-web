@@ -17,6 +17,8 @@ import {
 } from './actions';
 import phaseReducer from './reducer';
 import { initialState, PhaseState, PhaseTypes } from './state';
+import { HttpAction } from '../Shared/store/interfaces';
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 
 describe('deletePhase', () => {
   const action = deletePhaseStart();
@@ -533,5 +535,14 @@ describe('getTournamentSuccess', () => {
       order: 2,
       eliminationStats: []
     });
+  });
+
+  it('does not break is null phases', () => {
+    const emptyResponseAction = getTournamentSuccess(
+      (DEFAULT_TOURNAMENT as unknown) as ApiTournamentWithDependecies
+    );
+    const newState = phaseReducer(initialState, emptyResponseAction);
+
+    expect(newState).toEqual(initialState);
   });
 });

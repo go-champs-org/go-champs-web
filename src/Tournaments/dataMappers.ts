@@ -35,6 +35,10 @@ export const mapTournamentEntityToApiTournamentRequest = (
 });
 
 export const currentPhaseId = (tournament: ApiTournamentWithDependecies) => {
+  if (!tournament.phases) {
+    return '';
+  }
+
   const currentPhase = tournament.phases.find(
     (phase: ApiPhase) => phase.is_in_progress
   );

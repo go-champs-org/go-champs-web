@@ -1,6 +1,9 @@
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
-import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import {
+  GET_TOURNAMENT_SUCCESS,
+  getTournamentSuccess
+} from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import {
   ActionTypes,
@@ -235,5 +238,14 @@ describe('getTournamentSuccess', () => {
       id: 'second-team-id',
       name: 'second team name'
     });
+  });
+
+  it('does not break is null phases', () => {
+    const emptyResponseAction = getTournamentSuccess(
+      (DEFAULT_TOURNAMENT as unknown) as ApiTournamentWithDependecies
+    );
+    const newState = teamReducer(initialState, emptyResponseAction);
+
+    expect(newState).toEqual(initialState);
   });
 });
