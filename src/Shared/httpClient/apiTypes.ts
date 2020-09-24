@@ -281,6 +281,35 @@ export interface ApiTeamsResponse {
   data: ApiTeam[];
 }
 
+export interface ApiPlayer {
+  facebook: string;
+  id: string;
+  instagram: string;
+  name: string;
+  username: string;
+  twitter: string;
+}
+
+export interface ApiPlayerWithDependencies extends ApiPlayer {
+  tournament_id: string;
+}
+
+export interface ApiPlayerPatchRequest {
+  player: ApiPlayer;
+}
+
+export interface ApiPlayerPostRequest {
+  player: ApiPlayerWithDependencies;
+}
+
+export interface ApiPlayerResponse {
+  data: ApiPlayer;
+}
+
+export interface ApiPlayersResponse {
+  data: ApiPlayer[];
+}
+
 export interface ApiTournament {
   id: string;
   name: string;
@@ -294,6 +323,7 @@ export interface ApiTournament {
 export interface ApiTournamentWithDependecies extends ApiTournament {
   organization: ApiOrganization;
   phases: ApiPhase[];
+  players: ApiPlayer[];
   teams: ApiTeam[];
 }
 

@@ -17,6 +17,8 @@ import { default as teamReducer } from './Teams/reducer';
 import { TeamState } from './Teams/state';
 import { default as tournamentReducer } from './Tournaments/reducer';
 import { TournamentState } from './Tournaments/state';
+import { default as playerReducer } from './Players/reducer';
+import { PlayerState } from './Players/state';
 
 export interface StoreState {
   account: AccountState;
@@ -25,6 +27,7 @@ export interface StoreState {
   games: GameState;
   organizations: OrganizationState;
   phases: PhaseState;
+  players: PlayerState;
   teams: TeamState;
   tournaments: TournamentState;
 }
@@ -37,6 +40,7 @@ export default createStore(
     games: tournamentGameReducer,
     organizations: organizationReducer,
     phases: tournamentPhaseReducer,
+    players: playerReducer,
     teams: teamReducer,
     tournaments: tournamentReducer
   }),
