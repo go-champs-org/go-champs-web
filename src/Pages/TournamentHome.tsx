@@ -13,6 +13,7 @@ import TopLevel, { LoadingTopLevel } from '../Tournaments/Common/TopLevel';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TournamentEdit from './TournamentEdit';
 import PhaseList from './PhaseList';
+import PlayerList from './PlayerList';
 import PhaseNew from './PhaseNew';
 import PhaseEdit from './PhaseEdit';
 import TeamList from './TeamList';
@@ -122,6 +123,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PhaseList {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Players`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PlayerList {...props} />
             </AuthenticatedRoute>
           )}
         />
