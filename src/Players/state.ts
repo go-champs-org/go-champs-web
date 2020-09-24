@@ -1,3 +1,5 @@
+import { TeamEntity, DEFAULT_TEAM } from '../Teams/state';
+
 export interface PlayerEntity {
   facebook: string;
   id: string;
@@ -5,6 +7,8 @@ export interface PlayerEntity {
   name: string;
   username: string;
   twitter: string;
+  team: TeamEntity;
+  teamId: string;
 }
 
 export interface PlayerState {
@@ -29,5 +33,7 @@ export const DEFAULT_PLAYER: PlayerEntity = {
   instagram: '',
   name: '',
   username: '',
-  twitter: ''
+  twitter: '',
+  team: DEFAULT_TEAM,
+  teamId: ''
 };

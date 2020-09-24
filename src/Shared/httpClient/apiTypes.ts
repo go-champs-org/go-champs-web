@@ -288,10 +288,12 @@ export interface ApiPlayer {
   name: string;
   username: string;
   twitter: string;
+  team_id?: string;
 }
 
 export interface ApiPlayerWithDependencies extends ApiPlayer {
   tournament_id: string;
+  team_id?: string;
 }
 
 export interface ApiPlayerPatchRequest {

@@ -16,7 +16,7 @@ import ListHeader from '../Shared/UI/ListHeader';
 
 const mapStateToProps = (state: StoreState) => ({
   isPatchingPlayer: patchingPlayer(state.players),
-  players: players(state.players),
+  players: players(state.players, state.teams),
   tournamentLoading: tournamentLoading(state.tournaments)
 });
 

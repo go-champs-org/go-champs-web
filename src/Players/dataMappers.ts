@@ -4,6 +4,7 @@ import {
   ApiPlayerPostRequest
 } from '../Shared/httpClient/apiTypes';
 import { PlayerEntity } from './state';
+import { DEFAULT_TEAM } from '../Teams/state';
 
 export const mapApiPlayerToPlayerEntity = (
   apiPlayer: ApiPlayer
@@ -13,7 +14,9 @@ export const mapApiPlayerToPlayerEntity = (
   instagram: apiPlayer.instagram,
   facebook: apiPlayer.facebook,
   twitter: apiPlayer.twitter,
-  username: apiPlayer.username
+  username: apiPlayer.username,
+  team: DEFAULT_TEAM,
+  teamId: apiPlayer.team_id || ''
 });
 
 export const mapPlayerEntityToApiPlayerPostRequest = (
@@ -27,7 +30,8 @@ export const mapPlayerEntityToApiPlayerPostRequest = (
     facebook: player.facebook,
     twitter: player.twitter,
     username: player.username,
-    tournament_id: tournamentId
+    tournament_id: tournamentId,
+    team_id: player.team.id && player.team.id
   }
 });
 
@@ -40,6 +44,7 @@ export const mapPlayerEntityToApiPlayerPatchRequest = (
     instagram: player.instagram,
     facebook: player.facebook,
     twitter: player.twitter,
-    username: player.username
+    username: player.username,
+    team_id: player.team.id && player.team.id
   }
 });
