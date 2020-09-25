@@ -108,6 +108,11 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
           </Link>
         </li>
         <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
+            <Trans>players</Trans>
+          </Link>
+        </li>
+        <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>
             <Trans>teams</Trans>
           </Link>

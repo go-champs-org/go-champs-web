@@ -59,6 +59,7 @@ export default {
     orSignUp: 'Ou crie uma conta',
     password: 'Senha',
     phases: 'Fases',
+    players: 'Jogadores',
     placeholder: 'Temporário',
     repeatPassword: 'Senha novamente',
     rounds: 'Chaveamentos',

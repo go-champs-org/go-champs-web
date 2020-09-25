@@ -59,6 +59,7 @@ export default {
     orSignUp: 'Or sign up',
     password: 'Password',
     phases: 'Phases',
+    players: 'Players',
     placeholder: 'Placeholder',
     repeatPassword: 'Repeat password',
     rounds: 'Rounds',
