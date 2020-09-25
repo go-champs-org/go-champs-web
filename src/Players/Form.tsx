@@ -44,7 +44,11 @@ function Form({
             <Field
               name="team.id"
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-                <SelectInput {...props} options={selectInputTeams} />
+                <SelectInput 
+                  {...props} 
+                  isClearable
+                  options={selectInputTeams} 
+                />
               )}
             ></Field>
           </div>
