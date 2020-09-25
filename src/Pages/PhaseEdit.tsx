@@ -16,8 +16,6 @@ import { phaseByIdOrDefault, patchingPhase } from '../Phases/selectors';
 import { Mutator } from 'final-form';
 import { Trans } from 'react-i18next';
 
-interface OwnProps extends RouteComponentProps<RouteProps> {}
-
 type StateProps = {
   isPatchingPhase: boolean;
   phase: PhaseEntity;
@@ -29,7 +27,10 @@ type DispatchProps = {
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
-const mapStateToProps = (state: StoreState, props: OwnProps) => {
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => {
   const { phaseId } = props.match.params;
   return {
     isPatchingPhase: patchingPhase(state.phases),
@@ -51,7 +52,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: OwnProps
+  ownProps: any
 ) => {
   const { phaseId = '' } = ownProps.match.params;
   return {

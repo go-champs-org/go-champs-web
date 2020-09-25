@@ -18,10 +18,6 @@ import Helmet from 'react-helmet';
 import { postingTournament } from '../Tournaments/selectors';
 import { Trans } from 'react-i18next';
 
-interface OwnProps extends RouteComponentProps<RouteProps> {
-  organization: OrganizationEntity;
-}
-
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
   organization: OrganizationEntity;
@@ -35,7 +31,10 @@ type DispatchProps = {
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
-const mapStateToProps = (state: StoreState, props: OwnProps) => {
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => {
   const { organizationSlug } = props.match.params;
   return {
     ...props,

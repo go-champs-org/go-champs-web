@@ -66,10 +66,13 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
                 </AuthenticatedRoute>
               )}
             />
-            {/* Need to wrap on authenticated route */}
             <Route
               path={`/Organization/:organizationSlug/NewTournament`}
-              component={TournamentNew}
+              render={(props: RouteComponentProps<RouteProps>) => (
+                <AuthenticatedRoute>
+                  <TournamentNew {...props} />
+                </AuthenticatedRoute>
+              )}
             />
             <Route
               path={`/Organization/:organizationSlug/Tournaments`}

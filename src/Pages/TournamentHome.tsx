@@ -22,6 +22,7 @@ import TeamEdit from './TeamEdit';
 import PhaseLoader from './PhaseLoader';
 import { organizationBySlug } from '../Organizations/selectors';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
+import PlayerNew from './PlayerNew';
 
 const mapStateToProps = (
   state: StoreState,
@@ -94,8 +95,11 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/EditPhase/:phaseId`}
-          /* Need to wrap on authenticated route */
-          component={PhaseEdit}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PhaseEdit {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/EditTeam/:teamId`}
@@ -107,16 +111,27 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/NewPhase`}
-          /* Need to wrap on authenticated route */
           render={(props: RouteComponentProps<RouteProps>) => (
-            <PhaseNew {...props} />
+            <AuthenticatedRoute>
+              <PhaseNew {...props} />
+            </AuthenticatedRoute>
           )}
-          component={PhaseNew}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/NewPlayer`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PlayerNew {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/NewTeam`}
-          /* Need to wrap on authenticated route */
-          component={TeamNew}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TeamNew {...props} />
+            </AuthenticatedRoute>
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Phases`}

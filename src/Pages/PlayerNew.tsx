@@ -1,30 +1,32 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
-import { postTeam } from '../Teams/effects';
-import { default as TeamForm } from '../Teams/Form';
+import { postPlayer } from '../Players/effects';
+import { default as PlayerForm } from '../Players/Form';
 import { Form, FormRenderProps } from 'react-final-form';
-import { DEFAULT_TEAM, TeamEntity } from '../Teams/state';
-import { RouteComponentProps } from 'react-router-dom';
-import { RouteProps } from './support/routerInterfaces';
+import { DEFAULT_PLAYER, PlayerEntity } from '../Players/state';
 import { StoreState } from '../store';
-import { getTournamentBySlug } from '../Tournaments/effects';
-import withTournament from './support/withTournament';
-import { TournamentEntity } from '../Tournaments/state';
-import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
-import { postingTeam } from '../Teams/selectors';
+import withPhase from './support/withPhase';
+import { teamsForSelectInput } from '../Teams/selectors';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { postingPlayer } from '../Players/selectors';
 import { Trans } from 'react-i18next';
+import { RouteProps } from './support/routerInterfaces';
+import { RouteComponentProps } from 'react-router-dom';
+import { tournamentBySlug } from '../Tournaments/selectors';
+import { TournamentEntity } from '../Tournaments/state';
 
 type StateProps = {
-  isPostingTeam: boolean;
+  isPostingPlayer: boolean;
   tournament: TournamentEntity;
+  selectInputTeams: SelectOptionType[];
 };
 
 type DispatchProps = {
-  postTeam: (
-    team: TeamEntity,
-    tournamentId: string
+  postPlayer: (
+    player: PlayerEntity,
+    phaseId: string
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
@@ -34,17 +36,16 @@ const mapStateToProps = (
 ) => {
   const { tournamentSlug } = props.match.params;
   return {
-    isPostingTeam: postingTeam(state.teams),
+    isPostingPlayer: postingPlayer(state.players),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
-    tournamentLoading: tournamentLoading(state.tournaments)
+    selectInputTeams: teamsForSelectInput(state.teams)
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      getTournamentBySlug,
-      postTeam
+      postPlayer
     },
     dispatch
   );
@@ -59,41 +60,44 @@ const mergeProps = (
     ...ownProps,
     ...stateProps,
     ...dispatchProps,
-    postTeam: (team: TeamEntity) =>
-      dispatchProps.postTeam(team, stateProps.tournament.id)
+    postPlayer: (player: PlayerEntity) =>
+      dispatchProps.postPlayer(player, stateProps.tournament.id)
   };
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 
-type TeamNewProps = ConnectedProps<typeof connector>;
+type PlayerNewProps = ConnectedProps<typeof connector>;
 
-const TeamNew: React.FC<TeamNewProps> = ({
-  isPostingTeam,
-  match,
-  postTeam
+const PlayerNew: React.FC<PlayerNewProps> = ({
+  isPostingPlayer,
+  organizationSlug,
+  phase,
+  postPlayer,
+  selectInputTeams,
+  tournamentSlug
 }) => {
-  const { organizationSlug = '', tournamentSlug = '' } = match.params;
-  const backUrl = `/${organizationSlug}/${tournamentSlug}/Teams`;
+  const backUrl = `/${organizationSlug}/${tournamentSlug}/Players`;
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-multiline">
           <div className="column is-12">
             <h2 className="subtitle">
-              <Trans>newTeam</Trans>
+              <Trans>newPlayer</Trans>
             </h2>
           </div>
 
           <div className="column is-12">
             <Form
-              onSubmit={postTeam}
-              initialValues={DEFAULT_TEAM}
-              render={(props: FormRenderProps<TeamEntity>) => (
-                <TeamForm
+              onSubmit={postPlayer}
+              initialValues={DEFAULT_PLAYER}
+              render={(props: FormRenderProps<PlayerEntity>) => (
+                <PlayerForm
                   {...props}
                   backUrl={backUrl}
-                  isLoading={isPostingTeam}
+                  isLoading={isPostingPlayer}
+                  selectInputTeams={selectInputTeams}
                 />
               )}
             />
@@ -106,6 +110,7 @@ const TeamNew: React.FC<TeamNewProps> = ({
       <div className="column is-4-desktop is-12-tablet">
         <AdminMenu
           organizationSlug={organizationSlug}
+          phase={phase}
           tournamentSlug={tournamentSlug}
         />
       </div>
@@ -113,4 +118,4 @@ const TeamNew: React.FC<TeamNewProps> = ({
   );
 };
 
-export default connector(withTournament<TeamNewProps>(TeamNew));
+export default connector(withPhase<PlayerNewProps>(PlayerNew));
