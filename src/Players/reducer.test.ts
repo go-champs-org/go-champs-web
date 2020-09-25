@@ -16,6 +16,7 @@ import {
 } from './actions';
 import playerReducer from './reducer';
 import { initialState, PlayerState } from './state';
+import { DEFAULT_TEAM } from '../Teams/state';
 
 describe('deletePlayer', () => {
   const action = deletePlayerStart();
@@ -297,6 +298,8 @@ describe('getTournamentSuccess', () => {
       name: 'first player name',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
+      team: DEFAULT_TEAM,
+      teamId: '',
       twitter: 'first-twitter',
       username: 'first-username'
     });
@@ -305,6 +308,8 @@ describe('getTournamentSuccess', () => {
       name: 'second player name',
       facebook: 'second-facebook',
       instagram: 'second-instagram',
+      team: DEFAULT_TEAM,
+      teamId: '',
       twitter: 'second-twitter',
       username: 'second-username'
     });
