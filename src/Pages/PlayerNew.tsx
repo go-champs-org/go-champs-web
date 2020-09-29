@@ -69,14 +69,14 @@ const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
 
 type PlayerNewProps = ConnectedProps<typeof connector>;
 
-const PlayerNew: React.FC<PlayerNewProps> = ({
+function PlayerNew({
   isPostingPlayer,
   organizationSlug,
   phase,
   postPlayer,
   selectInputTeams,
   tournamentSlug
-}) => {
+}: PlayerNewProps): React.ReactElement {
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Players`;
   return (
     <Fragment>
@@ -116,6 +116,6 @@ const PlayerNew: React.FC<PlayerNewProps> = ({
       </div>
     </Fragment>
   );
-};
+}
 
 export default connector(withPhase<PlayerNewProps>(PlayerNew));

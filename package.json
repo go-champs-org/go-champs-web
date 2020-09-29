@@ -38,7 +38,7 @@
     "typescript": "3.4.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f env.local.js react-scripts start",
     "build": "env-cmd -f env.prod.js react-scripts build",
     "build:adm": "env-cmd -f env.prod.js react-scripts build",
     "build:staging": "env-cmd -f env.staging.js react-scripts build",

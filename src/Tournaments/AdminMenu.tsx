@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseTypes } from '../Phases/state';
 import { Trans } from 'react-i18next';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface AdminMenuProps {
   organizationSlug: string;
@@ -107,11 +108,13 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
             <Trans>phases</Trans>
           </Link>
         </li>
-        <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
-            <Trans>players</Trans>
-          </Link>
-        </li>
+        <BehindFeatureFlag>
+          <li>
+            <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
+              <Trans>players</Trans>
+            </Link>
+          </li>
+        </BehindFeatureFlag>
         <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>
             <Trans>teams</Trans>
