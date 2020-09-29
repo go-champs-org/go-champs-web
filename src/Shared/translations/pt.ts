@@ -21,6 +21,7 @@ export default {
     editGame: 'Editar jogo',
     editOrganization: 'Editar organizacão',
     editPhase: 'Editar fase',
+    editPlayer: 'Editar jogador',
     editTeam: 'Editar equipe',
     editTournament: 'Editar torneio',
     eliminationMenuTitle: 'Menu eliminacões',

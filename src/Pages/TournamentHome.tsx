@@ -23,6 +23,7 @@ import PhaseLoader from './PhaseLoader';
 import { organizationBySlug } from '../Organizations/selectors';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 import PlayerNew from './PlayerNew';
+import PlayerEdit from './PlayerEdit';
 
 const mapStateToProps = (
   state: StoreState,
@@ -98,6 +99,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PhaseEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/EditPlayer/:playerId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PlayerEdit {...props} />
             </AuthenticatedRoute>
           )}
         />

@@ -6,6 +6,61 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import { PlayerEntity } from './state';
+import Shimmer from '../Shared/UI/Shimmer';
+
+export function FormLoading(): React.ReactElement {
+  return (
+    <div className="columns is-multiline">
+      <div className="column is-12">
+        <label className="label">
+          <Trans>name</Trans>
+        </label>
+
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+
+      <div className="column is-12">
+        <label className="label">
+          <Trans>team</Trans>
+        </label>
+
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+
+      <div className="column is-12">
+        <label className="label">
+          <Trans>facebook</Trans>
+        </label>
+
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+    </div>
+  );
+}
 
 interface FromProps extends FormRenderProps<PlayerEntity> {
   backUrl: string;

@@ -1,15 +1,24 @@
 import { PlayerEntity, PlayerState, DEFAULT_PLAYER } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
-import { TeamState, DEFAULT_TEAM } from '../Teams/state';
+import { TeamState, DEFAULT_TEAM, TeamEntity } from '../Teams/state';
+
+const mergeTeam = (player: PlayerEntity, team?: TeamEntity) => ({
+  ...player,
+  team: team || DEFAULT_TEAM
+});
 
 export const playerById = (
   state: PlayerState,
+  teamState: TeamState,
   playerId?: string
 ): PlayerEntity => {
   if (!playerId || !state.players[playerId]) {
     return DEFAULT_PLAYER;
   }
-  return state.players[playerId];
+
+  const currentPlayer = state.players[playerId];
+
+  return mergeTeam(currentPlayer, teamState.teams[currentPlayer.teamId]);
 };
 
 export const players = (
@@ -19,12 +28,7 @@ export const players = (
   return Object.keys(state.players).map((key: string) => {
     const currentPlayer = state.players[key];
 
-    return {
-      ...currentPlayer,
-      team: currentPlayer.teamId
-        ? teamState.teams[currentPlayer.teamId]
-        : DEFAULT_TEAM
-    };
+    return mergeTeam(currentPlayer, teamState.teams[currentPlayer.teamId]);
   });
 };
 
