@@ -13,10 +13,47 @@ import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
+import useFilteredItemsByString from '../Shared/hooks/useFilteredItemsByString';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { teamsForSelectInput } from '../Teams/selectors';
+import { default as ReactSelect } from 'react-select';
+import { ValueType } from 'react-select/lib/types';
+import './PlayerList.scss';
+
+const SearchTeamInput: React.FC<{
+  value: string | null;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  selectInputTeams: SelectOptionType[];
+}> = ({ onInputChange, selectInputTeams, value }) => {
+  const onChange = (selected: ValueType<SelectOptionType>) => {
+    const event = ({
+      preventDefault: () => {},
+      target: selected || {
+        value: undefined
+      }
+    } as unknown) as React.ChangeEvent<HTMLInputElement>;
+    onInputChange(event);
+  };
+  const selectValue = selectInputTeams.find(team => team.value === value);
+
+  return (
+    <div className="column is-12">
+      <ReactSelect
+        className="select-filter-override"
+        isClearable
+        value={selectValue}
+        options={selectInputTeams}
+        onChange={onChange}
+        name="teamId"
+      />
+    </div>
+  );
+};
 
 const mapStateToProps = (state: StoreState) => ({
   isPatchingPlayer: patchingPlayer(state.players),
   players: players(state.players, state.teams),
+  selectInputTeams: teamsForSelectInput(state.teams),
   tournamentLoading: tournamentLoading(state.tournaments)
 });
 
@@ -39,10 +76,17 @@ function PlayerList({
   isPatchingPlayer,
   match,
   players,
+  selectInputTeams,
   tournamentLoading
 }: PlayerListProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const newUrl = `/${organizationSlug}/${tournamentSlug}/NewPlayer`;
+
+  const {
+    items: filteredPlayers,
+    onPropertyNameChange: onPlayerNameChange,
+    searchValue: teamNameFilterValue
+  } = useFilteredItemsByString(players, 'teamId');
 
   return (
     <Fragment>
@@ -52,6 +96,14 @@ function PlayerList({
             newUrl={newUrl}
             title="Players"
             isSavingOrder={isPatchingPlayer}
+            filters={[
+              <SearchTeamInput
+                key="teamId"
+                onInputChange={onPlayerNameChange}
+                selectInputTeams={selectInputTeams}
+                value={teamNameFilterValue}
+              />
+            ]}
           />
 
           <div className="column is-12">
@@ -62,7 +114,7 @@ function PlayerList({
               <List
                 deletePlayer={deletePlayer}
                 organizationSlug={organizationSlug}
-                players={players}
+                players={filteredPlayers}
                 tournamentSlug={tournamentSlug}
               />
             </ComponentLoader>

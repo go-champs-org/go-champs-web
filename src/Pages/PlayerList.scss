@@ -1,0 +1,25 @@
+@import '../Shared/styles/colors.scss';
+
+.select-filter-override {
+  outline: 0 !important;
+
+  > div:first-of-type {
+    border-color: $red;
+    border-radius: 3px;
+    height: 1.75em !important;
+  }
+
+  > div:first-of-type:focus {
+    box-shadow: 0 0 1pt 1pt $red;
+  }
+
+  > div:first-of-type:hover {
+    box-shadow: 0 0 1pt 1pt $red;
+  }
+
+  > div[class*='-menu'] {
+    border: 1px solid $dark-light;
+    border-radius: 3px;
+    margin-top: 0;
+  }
+}
