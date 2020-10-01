@@ -124,8 +124,16 @@ describe('patchTournamentSuccess', () => {
       name: 'some org name',
       slug: 'some-org-slug'
     },
+    player_stats: [
+      {
+        id: 'some-stat-id',
+        title: 'some-updated-stat-title',
+        aggregation_type: 'average'
+      }
+    ],
     phases: [],
-    teams: []
+    teams: [],
+    players: []
   });
 
   const updateState: TournamentState = {
@@ -138,7 +146,14 @@ describe('patchTournamentSuccess', () => {
         facebook: 'first facebook',
         instagram: 'first instagram',
         siteUrl: 'first site url',
-        twitter: 'first twitter'
+        twitter: 'first twitter',
+        playerStats: [
+          {
+            id: 'some-stat-id',
+            title: 'some-stat-title',
+            aggregationType: 'fixed'
+          }
+        ]
       }
     }
   };
@@ -167,6 +182,13 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].twitter).toEqual(
       'first updated twitter'
     );
+    expect(newState.tournaments['first-slug'].playerStats).toEqual([
+      {
+        id: 'some-stat-id',
+        title: 'some-updated-stat-title',
+        aggregationType: 'average'
+      }
+    ]);
   });
 
   it('keeps others entities in other', () => {
@@ -180,7 +202,8 @@ describe('patchTournamentSuccess', () => {
           facebook: 'some facebook',
           instagram: 'some instagram',
           siteUrl: 'some site',
-          twitter: 'some twitter'
+          twitter: 'some twitter',
+          playerStats: []
         }
       }
     };
@@ -195,7 +218,8 @@ describe('patchTournamentSuccess', () => {
       facebook: 'some facebook',
       instagram: 'some instagram',
       siteUrl: 'some site',
-      twitter: 'some twitter'
+      twitter: 'some twitter',
+      playerStats: []
     });
   });
 });

@@ -10,7 +10,8 @@ import {
   composeValidators,
   mustBeSlug
 } from '../Shared/UI/Form/Validators/commonValidators';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -61,6 +62,8 @@ const Form: React.FC<FormProps> = ({
   organizationSlug,
   valid
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -101,67 +104,73 @@ const Form: React.FC<FormProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Facebook</label>
-          <div className="control">
-            <Field
-              name="facebook"
-              component={StringInput}
-              type="text"
-              placeholder="www.facebook.com/your-tournament"
-            />
-          </div>
+          <CollapsibleCard titleElement={t('socialNetworks')}>
+            <div className="field">
+              <label className="label">Facebook</label>
+              <div className="control">
+                <Field
+                  name="facebook"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.facebook.com/your-tournament"
+                />
+              </div>
 
-          <p className="help is-info">
-            {`https://www.facebook.com/${
-              values.facebook ? values.facebook : ''
-            }`}
-          </p>
-        </div>
+              <p className="help is-info">
+                {`https://www.facebook.com/${
+                  values.facebook ? values.facebook : ''
+                }`}
+              </p>
+            </div>
 
-        <div className="field">
-          <label className="label">Instagram</label>
-          <div className="control">
-            <Field
-              name="instagram"
-              component={StringInput}
-              type="text"
-              placeholder="www.instagram.com/your-tournament"
-            />
-          </div>
+            <div className="field">
+              <label className="label">Instagram</label>
+              <div className="control">
+                <Field
+                  name="instagram"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.instagram.com/your-tournament"
+                />
+              </div>
 
-          <p className="help is-info">
-            {`https://www.instagram.com/${
-              values.instagram ? values.instagram : ''
-            }`}
-          </p>
-        </div>
+              <p className="help is-info">
+                {`https://www.instagram.com/${
+                  values.instagram ? values.instagram : ''
+                }`}
+              </p>
+            </div>
 
-        <div className="field">
-          <label className="label">Twitter</label>
-          <div className="control">
-            <Field
-              name="twitter"
-              component={StringInput}
-              type="text"
-              placeholder="www.twitter.com/your-tournament"
-            />
-          </div>
+            <div className="field">
+              <label className="label">Twitter</label>
+              <div className="control">
+                <Field
+                  name="twitter"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.twitter.com/your-tournament"
+                />
+              </div>
 
-          <p className="help is-info">
-            {`https://www.twitter.com/${values.twitter ? values.twitter : ''}`}
-          </p>
-        </div>
+              <p className="help is-info">
+                {`https://www.twitter.com/${
+                  values.twitter ? values.twitter : ''
+                }`}
+              </p>
+            </div>
 
-        <div className="field">
-          <label className="label">Site</label>
-          <div className="control">
-            <Field
-              name="siteUrl"
-              component={StringInput}
-              type="text"
-              placeholder="www.your-site.com"
-            />
-          </div>
+            <div className="field">
+              <label className="label">Site</label>
+              <div className="control">
+                <Field
+                  name="siteUrl"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.your-site.com"
+                />
+              </div>
+            </div>
+          </CollapsibleCard>
         </div>
 
         <LoadingButton

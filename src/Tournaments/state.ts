@@ -6,6 +6,13 @@ export interface TournamentEntity {
   instagram: string;
   siteUrl: string;
   twitter: string;
+  playerStats: PlayerStatEntity[];
+}
+
+export interface PlayerStatEntity {
+  id: string;
+  title: string;
+  aggregationType: 'average' | 'fixed' | 'sum';
 }
 
 export interface TournamentState {
@@ -33,5 +40,6 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   facebook: '',
   instagram: '',
   siteUrl: '',
-  twitter: ''
+  twitter: '',
+  playerStats: []
 };

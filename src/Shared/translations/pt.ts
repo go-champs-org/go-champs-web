@@ -78,6 +78,7 @@ export default {
     signUp: 'Novo usuário',
     signUpWithFacebook: 'Acesse com Facebook',
     signOut: 'Sair',
+    socialNetworks: 'Redes sociais',
     sort: 'Ordenar',
     startTyping: 'Digite para pesquisar',
     username: 'Usuário',

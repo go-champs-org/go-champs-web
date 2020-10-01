@@ -78,6 +78,7 @@ export default {
     signUp: 'Sign up',
     signUpWithFacebook: 'Sign up with Facebook',
     signOut: 'Sign out',
+    socialNetworks: 'Social networks',
     sort: 'Sort',
     startTyping: 'Type something to begin search',
     username: 'Username',

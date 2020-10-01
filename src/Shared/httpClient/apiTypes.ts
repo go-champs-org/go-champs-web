@@ -312,6 +312,12 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
+export interface ApiPlayerStat {
+  id: string;
+  title: string;
+  aggregation_type: 'average' | 'fixed' | 'sum';
+}
+
 export interface ApiTournament {
   id: string;
   name: string;
@@ -320,6 +326,7 @@ export interface ApiTournament {
   instagram?: string;
   site_url?: string;
   twitter?: string;
+  player_stats?: ApiPlayerStat[];
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {

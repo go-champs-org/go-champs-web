@@ -2,9 +2,26 @@ import {
   ApiTournament,
   ApiTournamentRequest,
   ApiTournamentWithDependecies,
-  ApiPhase
+  ApiPhase,
+  ApiPlayerStat
 } from '../Shared/httpClient/apiTypes';
-import { TournamentEntity } from './state';
+import { TournamentEntity, PlayerStatEntity } from './state';
+
+export const mapPlayerStatEntityToApiPlayerStat = (
+  apiPlayerStat: PlayerStatEntity
+): ApiPlayerStat => ({
+  id: apiPlayerStat.id,
+  title: apiPlayerStat.title,
+  aggregation_type: apiPlayerStat.aggregationType
+});
+
+export const mapApiPlayerStatToPlayerStatEntity = (
+  apiPlayerStat: ApiPlayerStat
+): PlayerStatEntity => ({
+  id: apiPlayerStat.id,
+  title: apiPlayerStat.title,
+  aggregationType: apiPlayerStat.aggregation_type
+});
 
 export const mapApiTournamentToTournamentEntity = (
   apiTournament: ApiTournament
@@ -15,7 +32,10 @@ export const mapApiTournamentToTournamentEntity = (
   facebook: apiTournament.facebook ? apiTournament.facebook : '',
   instagram: apiTournament.instagram ? apiTournament.instagram : '',
   siteUrl: apiTournament.site_url ? apiTournament.site_url : '',
-  twitter: apiTournament.twitter ? apiTournament.twitter : ''
+  twitter: apiTournament.twitter ? apiTournament.twitter : '',
+  playerStats: apiTournament.player_stats
+    ? apiTournament.player_stats.map(mapApiPlayerStatToPlayerStatEntity)
+    : []
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
@@ -30,7 +50,11 @@ export const mapTournamentEntityToApiTournamentRequest = (
     facebook: tournament.facebook ? tournament.facebook : '',
     instagram: tournament.instagram ? tournament.instagram : '',
     site_url: tournament.siteUrl ? tournament.siteUrl : '',
-    twitter: tournament.twitter ? tournament.twitter : ''
+    twitter: tournament.twitter ? tournament.twitter : '',
+    player_stats:
+      tournament.playerStats.length > 0
+        ? tournament.playerStats.map(mapPlayerStatEntityToApiPlayerStat)
+        : undefined
   }
 });
 
