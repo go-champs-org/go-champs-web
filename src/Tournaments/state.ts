@@ -43,3 +43,9 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   twitter: '',
   playerStats: []
 };
+
+export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {
+  id: '',
+  title: '',
+  aggregationType: 'fixed'
+};

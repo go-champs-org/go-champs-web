@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import arrayMutators from 'final-form-arrays';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { postTournament } from '../Tournaments/effects';
@@ -17,6 +18,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
 import { postingTournament } from '../Tournaments/selectors';
 import { Trans } from 'react-i18next';
+import { Mutator } from 'final-form';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
@@ -91,12 +93,18 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
             <Form
               onSubmit={postTournament}
               initialValues={DEFAULT_TOURNAMENT}
+              mutators={
+                (arrayMutators as unknown) as {
+                  [key: string]: Mutator<TournamentEntity>;
+                }
+              }
               render={(props: FormRenderProps<TournamentEntity>) => (
                 <TournamentForm
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPostingTournament}
                   organizationSlug={organizationSlug}
+                  push={props.form.mutators.push}
                 />
               )}
             />

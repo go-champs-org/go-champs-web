@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import arrayMutators from 'final-form-arrays';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
@@ -20,6 +21,7 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
 import { Trans } from 'react-i18next';
+import { Mutator } from 'final-form';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
@@ -105,12 +107,18 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
               <Form
                 onSubmit={patchTournament}
                 initialValues={tournament}
+                mutators={
+                  (arrayMutators as unknown) as {
+                    [key: string]: Mutator<TournamentEntity>;
+                  }
+                }
                 render={(props: FormRenderProps<TournamentEntity>) => (
                   <TournamentForm
                     {...props}
                     backUrl={backUrl}
                     isLoading={isPatchingTournament}
                     organizationSlug={organizationSlug}
+                    push={props.form.mutators.push}
                   />
                 )}
               />

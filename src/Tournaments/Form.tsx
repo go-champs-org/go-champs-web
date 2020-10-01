@@ -1,6 +1,10 @@
 import React from 'react';
-import { Field, FormRenderProps } from 'react-final-form';
-import { TournamentEntity } from './state';
+import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
+import {
+  TournamentEntity,
+  PlayerStatEntity,
+  DEFAULT_PLAYER_STAT
+} from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
@@ -12,6 +16,80 @@ import {
 } from '../Shared/UI/Form/Validators/commonValidators';
 import { Trans, useTranslation } from 'react-i18next';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
+import { FieldArray } from 'react-final-form-arrays';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
+
+const generateAggregationTypes = (
+  averageLabel: string,
+  fixedLabel: string,
+  sumLabel: string
+): SelectOptionType[] => {
+  return [
+    {
+      label: fixedLabel,
+      value: 'fixed'
+    },
+    {
+      label: averageLabel,
+      value: 'average'
+    },
+    {
+      label: sumLabel,
+      value: 'sum'
+    }
+  ];
+};
+
+interface PlayerStatFormProps {
+  aggregationTypesOptions: SelectOptionType[];
+  name: string;
+  onRemove: () => {};
+}
+
+const PlayerStatForm: React.FC<PlayerStatFormProps> = ({
+  aggregationTypesOptions,
+  name,
+  onRemove
+}) => {
+  return (
+    <tr>
+      <td
+        style={{
+          paddingLeft: '0'
+        }}
+      >
+        <Field
+          name={`${name}.title`}
+          component={StringInput}
+          type="text"
+          validate={required}
+        />
+      </td>
+
+      <td>
+        <Field
+          name={`${name}.aggregationType`}
+          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            <SelectInput {...props} options={aggregationTypesOptions} />
+          )}
+          validate={required}
+        />
+      </td>
+
+      <td
+        style={{
+          textAlign: 'center',
+          verticalAlign: 'middle'
+        }}
+      >
+        <DoubleClickButton className="button" onClick={onRemove}>
+          <i className="fas fa-trash" />
+        </DoubleClickButton>
+      </td>
+    </tr>
+  );
+};
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -50,6 +128,7 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   backUrl: string;
   isLoading: boolean;
   organizationSlug: string;
+  push: (fieldName: string, stat: PlayerStatEntity) => {};
 }
 
 const Form: React.FC<FormProps> = ({
@@ -60,9 +139,15 @@ const Form: React.FC<FormProps> = ({
   pristine,
   values,
   organizationSlug,
-  valid
+  valid,
+  push
 }) => {
   const { t } = useTranslation();
+  const aggregationTypesOptions = generateAggregationTypes(
+    t('average'),
+    t('fixed'),
+    t('sum')
+  );
 
   return (
     <div>
@@ -169,6 +254,59 @@ const Form: React.FC<FormProps> = ({
                   placeholder="www.your-site.com"
                 />
               </div>
+            </div>
+          </CollapsibleCard>
+          <CollapsibleCard titleElement={t('playerStats')}>
+            <div className="field">
+              <table className="table is-fullwidth is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th
+                      style={{
+                        paddingLeft: '0'
+                      }}
+                    >
+                      <Trans>name</Trans>
+                    </th>
+
+                    <th>
+                      <Trans>aggregationType</Trans>
+                    </th>
+
+                    <th
+                      style={{
+                        textAlign: 'center',
+                        width: '80px'
+                      }}
+                    >
+                      <Trans>actions</Trans>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <FieldArray name="playerStats">
+                    {({ fields }) =>
+                      fields.map((name, index) => (
+                        <PlayerStatForm
+                          key={name}
+                          name={name}
+                          onRemove={() => fields.remove(index)}
+                          aggregationTypesOptions={aggregationTypesOptions}
+                        />
+                      ))
+                    }
+                  </FieldArray>
+                </tbody>
+              </table>
+
+              <button
+                className="button is-fullwidth  is-medium"
+                type="button"
+                onClick={() => push('playerStats', DEFAULT_PLAYER_STAT)}
+              >
+                <Trans>addPlayerStat</Trans>
+              </button>
             </div>
           </CollapsibleCard>
         </div>
