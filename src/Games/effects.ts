@@ -62,9 +62,7 @@ export const postGame = (game: GameEntity, phaseId: string) => async (
   }
 };
 
-export const getGame = (phaseId: string, gameId: string) => async (
-  dispatch: Dispatch
-) => {
+export const getGame = (gameId: string) => async (dispatch: Dispatch) => {
   dispatch(getGameStart());
 
   try {
