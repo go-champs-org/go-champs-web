@@ -25,7 +25,13 @@ const withGame = <T extends object>(
       }
 
       return () => undefined;
-    }, [organizationSlug, tournamentSlug, getTournamentBySlug]);
+    }, [
+      organizationSlug,
+      tournamentSlug,
+      gameId,
+      getGame,
+      getTournamentBySlug
+    ]);
 
     return <WrappedComponent {...props} />;
   };
