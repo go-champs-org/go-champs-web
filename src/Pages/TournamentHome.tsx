@@ -24,6 +24,7 @@ import { organizationBySlug } from '../Organizations/selectors';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
+import GameView from './GameView';
 
 const mapStateToProps = (
   state: StoreState,
@@ -116,6 +117,12 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
             <AuthenticatedRoute>
               <TeamEdit {...props} />
             </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/GameView/:gameId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <GameView {...props} />
           )}
         />
         <Route
