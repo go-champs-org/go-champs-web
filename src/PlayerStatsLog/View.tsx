@@ -22,7 +22,8 @@ function PlayerStatLogRow({
           width: '225px'
         }}
       >
-        {players[playerStatLog.playerId].name}
+        {players[playerStatLog.playerId] &&
+          players[playerStatLog.playerId].name}
       </td>
 
       {playersStats.map((playerStat: PlayerStatEntity) => (
