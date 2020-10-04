@@ -37,24 +37,48 @@ function GameView({ game }: GameViewProps): React.ReactElement {
   return (
     <div className="column">
       <div className="columns is-vcentered is-mobile is-multiline">
-        <div className="column is-12 has-text-centered">
-          <p>Date: 20/10/2020 | Location: Petrópolis</p>
+        <div className="column is-12">
+          <div className="tile is-child box">
+            <div className="columns is-vcentered is-mobile is-multiline">
+              <div className="column is-6 has-text-left">
+                <small>20/10/2020 10:30:00</small>
+              </div>
+
+              <div className="column is-6 has-text-right">
+                <small>Petrópolis</small>
+              </div>
+
+              <div className="column is-5 has-text-right">
+                <h2 className="title">Panteras</h2>
+              </div>
+
+              <div className="column is-2 has-text-centered">
+                <div className="columns is-vcentered is-gapless">
+                  <div className="column is-5">
+                    <span className="title">200</span>
+                  </div>
+
+                  <div className="column is-2">x</div>
+
+                  <div className="column is-5">
+                    <span className="title">200</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="column is-5 has-text-left">
+                <h2 className="title">Titios</h2>
+              </div>
+
+              <div className="column is-12 has-text-centered">
+                <small>Information</small>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="column is-5">HOME TEAM</div>
-
-        <div className="column is-2 has-text-centered">Score</div>
-
-        <div className="column is-5 has-text-right">AWAY TEAM</div>
-
-        <div className="column is-12 has-text-centered">Info: Information</div>
 
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
-            <ul>
-              <li className="is-active">Player stats</li>
-            </ul>
-
             <div className="columns is-multiline has-text-left">
               <div className="column is-12">
                 <h2 className="subtitle">Panteras</h2>
