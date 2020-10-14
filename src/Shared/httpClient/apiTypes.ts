@@ -412,3 +412,29 @@ export interface ApiAccountResponse {
     organizations: ApiOrganization[];
   };
 }
+
+export interface ApiPlayerStatsLog {
+  id: string;
+  game_id: string;
+  phase_id: string;
+  player_id: string;
+  stats: { [id: string]: string },
+  team_id: string;
+  tournament_id: string;
+}
+
+export interface ApiPlayerStatsLogRequest {
+  player_stats_logs: ApiPlayerStatsLog[];
+}
+
+export interface ApiPlayerStatsLogPatchPostResponse {
+  [ id: string ]: ApiPlayerStatsLog;
+}
+
+export interface PlayerStatsLogsResponse {
+  data: ApiPlayerStatsLog[];
+}
+
+export interface PlayerStatsLogResponse {
+  data: ApiPlayerStatsLog;
+}
