@@ -418,7 +418,7 @@ export interface ApiPlayerStatsLog {
   game_id: string;
   phase_id: string;
   player_id: string;
-  stats: { [id: string]: string },
+  stats: { [id: string]: string };
   team_id: string;
   tournament_id: string;
 }
@@ -428,13 +428,13 @@ export interface ApiPlayerStatsLogRequest {
 }
 
 export interface ApiPlayerStatsLogPatchPostResponse {
-  [ id: string ]: ApiPlayerStatsLog;
+  [id: string]: ApiPlayerStatsLog;
 }
 
-export interface PlayerStatsLogsResponse {
+export interface ApiPlayerStatsLogsResponse {
   data: ApiPlayerStatsLog[];
 }
 
-export interface PlayerStatsLogResponse {
+export interface ApiPlayerStatsLogResponse {
   data: ApiPlayerStatsLog;
 }

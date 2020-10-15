@@ -46,7 +46,7 @@ const patch = async <T, R>(url: string, data: T): Promise<R> => {
     body: JSON.stringify(data)
   });
 
-  const jsonData = await response.json();
+  const jsonData = (await response.json()) as R;
 
   if (!response.ok) {
     throw new ApiError({
@@ -66,7 +66,7 @@ const post = async <T, R>(url: string, data: T): Promise<R> => {
   });
 
   const jsonText = await response.text();
-  const jsonData = jsonText ? JSON.parse(jsonText) : {};
+  const jsonData = jsonText ? (JSON.parse(jsonText) as R) : ({} as R);
 
   if (!response.ok) {
     throw new ApiError({
