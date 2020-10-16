@@ -12,7 +12,7 @@ export interface PlayerStatsLogState {
   isLoadingDeletePlayerStatsLog: boolean;
   isLoadingPatchPlayerStatsLog: boolean;
   isLoadingPostPlayerStatsLog: boolean;
-  isLoadingRequestTournament: boolean;
+  isLoadingRequestPlayerStatsLogs: boolean;
   playerStatsLogs: { [key: string]: PlayerStatsLogEntity };
 }
 
@@ -20,7 +20,7 @@ export const initialState: PlayerStatsLogState = {
   isLoadingDeletePlayerStatsLog: false,
   isLoadingPatchPlayerStatsLog: false,
   isLoadingPostPlayerStatsLog: false,
-  isLoadingRequestTournament: false,
+  isLoadingRequestPlayerStatsLogs: false,
   playerStatsLogs: {}
 };
 
