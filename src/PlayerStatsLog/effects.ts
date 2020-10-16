@@ -8,12 +8,16 @@ import {
   patchPlayerStatsLogsSuccess,
   postPlayerStatsLogsFailure,
   postPlayerStatsLogsStart,
-  postPlayerStatsLogsSuccess
+  postPlayerStatsLogsSuccess,
+  getPlayerStatsLogsByFilterStart,
+  getPlayerStatsLogsByFilterSuccess,
+  getPlayerStatsLogsByFilterFailure
 } from './actions';
 import { PlayerStatsLogEntity } from './state';
 import playerStatsLogHttpClient from './playerStatsLogHttpClient';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 
 export const deletePlayerStatsLog = (
   playerStatsLog: PlayerStatsLogEntity
@@ -27,6 +31,20 @@ export const deletePlayerStatsLog = (
     displayToast(`Player stats log deleted!`, 'is-success');
   } catch (err) {
     dispatch(deletePlayerStatsLogFailure(err));
+  }
+};
+
+export const getPlayerStatsLogsByFilter = (where: RequestFilter) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(getPlayerStatsLogsByFilterStart());
+
+  try {
+    const response = await playerStatsLogHttpClient.getByFilter(where);
+
+    dispatch(getPlayerStatsLogsByFilterSuccess(response));
+  } catch (err) {
+    dispatch(getPlayerStatsLogsByFilterFailure(err));
   }
 };
 

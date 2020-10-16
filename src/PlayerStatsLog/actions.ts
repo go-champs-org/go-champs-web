@@ -7,6 +7,12 @@ export const DELETE_PLAYER_STATS_LOG_SUCCESS =
   'API_DELETE_PLAYER_STATS_LOG_SUCCESS';
 export const DELETE_PLAYER_STATS_LOG_FAILURE =
   'API_DELETE_PLAYER_STATS_LOG_FAILURE';
+export const GET_PLAYER_STATS_LOGS_BY_FILTER =
+  'API_GET_PLAYER_STATS_LOGS_BY_FILTER';
+export const GET_PLAYER_STATS_LOGS_BY_FILTER_SUCCESS =
+  'API_GET_PLAYER_STATS_LOGS_BY_FILTER_SUCCESS';
+export const GET_PLAYER_STATS_LOGS_BY_FILTER_FAILURE =
+  'API_GET_PLAYER_STATS_LOGS_BY_FILTER_FAILURE';
 export const PATCH_PLAYER_STATS_LOG = 'API_PATCH_PLAYER_STATS_LOG';
 export const PATCH_PLAYER_STATS_LOG_SUCCESS =
   'API_PATCH_PLAYER_STATS_LOG_SUCCESS';
@@ -33,6 +39,24 @@ export const deletePlayerStatsLogFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: DELETE_PLAYER_STATS_LOG_FAILURE,
+  payload
+});
+
+export const getPlayerStatsLogsByFilterStart = (): HttpAction<ActionTypes> => ({
+  type: GET_PLAYER_STATS_LOGS_BY_FILTER
+});
+
+export const getPlayerStatsLogsByFilterSuccess = (
+  payload: PlayerStatsLogEntity[]
+): HttpAction<ActionTypes, PlayerStatsLogEntity[]> => ({
+  type: GET_PLAYER_STATS_LOGS_BY_FILTER_SUCCESS,
+  payload
+});
+
+export const getPlayerStatsLogsByFilterFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: GET_PLAYER_STATS_LOGS_BY_FILTER_FAILURE,
   payload
 });
 
@@ -76,11 +100,13 @@ export type ActionTypes =
   | typeof DELETE_PLAYER_STATS_LOG
   | typeof DELETE_PLAYER_STATS_LOG_SUCCESS
   | typeof DELETE_PLAYER_STATS_LOG_FAILURE
+  | typeof GET_PLAYER_STATS_LOGS_BY_FILTER
+  | typeof GET_PLAYER_STATS_LOGS_BY_FILTER_FAILURE
+  | typeof GET_PLAYER_STATS_LOGS_BY_FILTER_SUCCESS
   | typeof PATCH_PLAYER_STATS_LOG
   | typeof PATCH_PLAYER_STATS_LOG_SUCCESS
   | typeof PATCH_PLAYER_STATS_LOG_FAILURE
   | typeof POST_PLAYER_STATS_LOG
   | typeof POST_PLAYER_STATS_LOG_SUCCESS
-  | typeof POST_PLAYER_STATS_LOG_FAILURE
-  | typeof GET_TOURNAMENT_SUCCESS;
+  | typeof POST_PLAYER_STATS_LOG_FAILURE;
 export type Actions = HttpAction<ActionTypes>;

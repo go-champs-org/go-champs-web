@@ -43,3 +43,8 @@ export const mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs = (
   Object.keys(apiPlayerStatsLogs).map((key: string) =>
     mapApiPlayerStatsLogToPlayerStatsLog(apiPlayerStatsLogs[key])
   );
+
+export const mapApiPlayerStatsLogsToPlayerStatsLogs = (
+  apiPlayerStatsLogs: ApiPlayerStatsLog[]
+): PlayerStatsLogEntity[] =>
+  apiPlayerStatsLogs.map(mapApiPlayerStatsLogToPlayerStatsLog);

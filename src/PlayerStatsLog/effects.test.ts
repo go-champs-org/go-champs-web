@@ -1,10 +1,14 @@
 import {
   patchPlayerStatsLogs,
   deletePlayerStatsLog,
-  postPlayerStatsLogs
+  postPlayerStatsLogs,
+  getPlayerStatsLogsByFilter
 } from './effects';
 import { DEFAULT_PLAYER_STATS_LOG } from './state';
 import {
+  getPlayerStatsLogsByFilterFailure,
+  getPlayerStatsLogsByFilterStart,
+  getPlayerStatsLogsByFilterSuccess,
   postPlayerStatsLogsStart,
   postPlayerStatsLogsSuccess,
   postPlayerStatsLogsFailure,
@@ -68,6 +72,75 @@ describe('deletePlayerStatsLog', () => {
 
       expect(dispatch).toHaveBeenCalledWith(
         deletePlayerStatsLogFailure(apiError)
+      );
+    });
+  });
+});
+
+describe('getPlayerStatsLogsByFilter', () => {
+  const requestFilter = { ['some-key']: 'some value' };
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start get action', () => {
+    getPlayerStatsLogsByFilter(requestFilter)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(getPlayerStatsLogsByFilterStart());
+  });
+
+  describe('on success', () => {
+    beforeEach(() => {
+      jest.spyOn(playerStatsLogHttpClient, 'getByFilter').mockResolvedValue([
+        {
+          gameId: 'game-id',
+          id: 'id',
+          phaseId: 'phase-id',
+          playerId: 'player-id',
+          stats: {},
+          teamId: 'team-id',
+          tournamentId: 'tournament-id'
+        }
+      ]);
+
+      getPlayerStatsLogsByFilter(requestFilter)(dispatch);
+    });
+
+    it('dispatches get success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        getPlayerStatsLogsByFilterSuccess([
+          {
+            gameId: 'game-id',
+            id: 'id',
+            phaseId: 'phase-id',
+            playerId: 'player-id',
+            stats: {},
+            teamId: 'team-id',
+            tournamentId: 'tournament-id'
+          }
+        ])
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new Error('some-error');
+
+    beforeEach(() => {
+      dispatch.mockReset();
+
+      jest
+        .spyOn(playerStatsLogHttpClient, 'getByFilter')
+        .mockRejectedValue(apiError);
+
+      getPlayerStatsLogsByFilter(requestFilter)(dispatch);
+    });
+
+    it('dispatches get failure action', async () => {
+      await getPlayerStatsLogsByFilter(requestFilter)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        getPlayerStatsLogsByFilterFailure(apiError)
       );
     });
   });
