@@ -11,6 +11,8 @@ import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import { getGame } from '../Games/effects';
 import { default as GameCard } from '../Games/Card';
 import withPlayerStatsLogs from './support/withPlayerStatsLogs';
+import { default as PlayerStatLogForm } from '../PlayerStatsLog/Form';
+import { playerStatLogBy } from '../PlayerStatsLog/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -22,6 +24,8 @@ const mapStateToProps = (
   return {
     game,
     phase: phaseByIdOrDefault(state.phases, 'phase-id'),
+    playerStatLogs: playerStatLogBy(),
+    players: state.players.players,
     tournament: tournamentBySlug(state.tournaments, tournamentSlug)
   };
 };
@@ -40,12 +44,43 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type GameEditAdvancedProps = ConnectedProps<typeof connector>;
 
-function GameEditAdvanced({ game }: GameEditAdvancedProps): React.ReactElement {
+function GameEditAdvanced({
+  game,
+  playerStatLogs,
+  players,
+  tournament
+}: GameEditAdvancedProps): React.ReactElement {
   return (
     <div className="column">
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
           <GameCard game={game} />
+        </div>
+
+        <div className="column is-12 has-text-centered">
+          <div className="tabs is-centered">
+            <div className="columns is-multiline has-text-left">
+              <div className="column is-12">
+                <h2 className="subtitle">{game.homeTeam.name}</h2>
+
+                <PlayerStatLogForm
+                  playerStatLogs={playerStatLogs}
+                  players={players}
+                  playersStats={tournament.playerStats}
+                />
+              </div>
+
+              <div className="column is-12">
+                <h2 className="subtitle">{game.awayTeam.name}</h2>
+
+                <PlayerStatLogForm
+                  playerStatLogs={playerStatLogs}
+                  players={players}
+                  playersStats={tournament.playerStats}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
