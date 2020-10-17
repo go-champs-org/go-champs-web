@@ -8,6 +8,8 @@ import { gameById } from '../Games/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
+import { getGame } from '../Games/effects';
+import { default as GameCard } from '../Games/Card';
 import withPlayerStatsLogs from './support/withPlayerStatsLogs';
 
 const mapStateToProps = (
@@ -27,6 +29,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
+      getGame,
       getPlayerStatsLogsByFilter
     },
     dispatch
@@ -37,8 +40,16 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type GameEditAdvancedProps = ConnectedProps<typeof connector>;
 
-function GameEditAdvanced(props: GameEditAdvancedProps): React.ReactElement {
-  return <div>{JSON.stringify(props)}</div>;
+function GameEditAdvanced({ game }: GameEditAdvancedProps): React.ReactElement {
+  return (
+    <div className="column">
+      <div className="columns is-vcentered is-mobile is-multiline">
+        <div className="column is-12">
+          <GameCard game={game} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default connector(
