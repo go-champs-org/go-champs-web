@@ -1,7 +1,6 @@
 import {
   ApiPlayerStatsLogRequest,
   ApiPlayerStatsLogPatchPostResponse,
-  ApiPlayerStatsLogResponse,
   ApiPlayerStatsLogsResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
@@ -16,7 +15,7 @@ import {
   mapRequestFilterToQueryString
 } from '../Shared/httpClient/requestFilter';
 
-const PLAYER_STATS_LOGS_API = `${process.env.REACT_APP_API_HOST}v1/playerStatsLog-stats-log`;
+const PLAYER_STATS_LOGS_API = `${process.env.REACT_APP_API_HOST}v1/player-stats-logs`;
 
 const deleteRequest = (playerStatsLogId: string): Promise<string> => {
   const url = `${PLAYER_STATS_LOGS_API}/${playerStatsLogId}`;

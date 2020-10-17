@@ -6,7 +6,7 @@ import { PhaseEntity } from '../../Phases/state';
 import { TournamentEntity } from '../../Tournaments/state';
 
 interface WithPlayerStatsLogsProps {
-  getPlayerStatsLogs: (
+  getPlayerStatsLogsByFilter: (
     where: RequestFilter
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   phase: PhaseEntity;
@@ -17,14 +17,14 @@ const withPlayerStatsLogs = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
   const WithPlayerStatsLogs: React.FC<T & WithPlayerStatsLogsProps> = props => {
-    const { getPlayerStatsLogs, phase, tournament } = props;
+    const { getPlayerStatsLogsByFilter, phase, tournament } = props;
     const {
       params: { gameId }
     } = useRouteMatch();
 
     useEffect(() => {
-      if (phase && tournament && gameId) {
-        getPlayerStatsLogs({
+      if (phase.id && tournament.id && gameId) {
+        getPlayerStatsLogsByFilter({
           game_id: gameId,
           phase_id: phase.id,
           tournament_id: tournament.id
@@ -32,7 +32,7 @@ const withPlayerStatsLogs = <T extends object>(
       }
 
       return () => undefined;
-    }, [getPlayerStatsLogs]);
+    }, [gameId, getPlayerStatsLogsByFilter, phase, tournament]);
 
     return <WrappedComponent {...props} />;
   };

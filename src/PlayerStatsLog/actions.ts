@@ -1,4 +1,3 @@
-import { ApiPlayerStatsLog } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { PlayerStatsLogEntity } from './state';
 
