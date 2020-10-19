@@ -1,3 +1,7 @@
+export interface PlayerStatsLogsForm {
+  playerStatsLogs: PlayerStatsLogEntity[];
+}
+
 export interface PlayerStatsLogEntity {
   id: string;
   gameId: string;

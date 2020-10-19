@@ -12,7 +12,13 @@ import { getGame } from '../Games/effects';
 import { default as GameCard } from '../Games/Card';
 import withPlayerStatsLogs from './support/withPlayerStatsLogs';
 import { default as PlayerStatLogForm } from '../PlayerStatsLog/Form';
-import { playerStatLogBy } from '../PlayerStatsLog/selectors';
+import { playerStatLogsFormByPlayers } from '../PlayerStatsLog/selectors';
+import arrayMutators from 'final-form-arrays';
+import { teamById } from '../Teams/selectors';
+import { Form, FormRenderProps } from 'react-final-form';
+import { PlayerStatsLogsForm } from '../PlayerStatsLog/state';
+import { Mutator } from 'final-form';
+import { playersByTeamId } from '../Players/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -21,10 +27,34 @@ const mapStateToProps = (
   const { gameId = '', tournamentSlug = '' } = props.match.params;
 
   const game = gameById(state.games, gameId);
+  const awayTeam = teamById(state.teams, game.awayTeam.id);
+  const awayPlayers = playersByTeamId(
+    state.players,
+    state.teams,
+    game.awayTeam.id
+  );
+  const awayTeamPlayerStatLogsFormData = playerStatLogsFormByPlayers(
+    state.playerStatsLogs,
+    awayPlayers
+  );
+  const homeTeam = teamById(state.teams, game.homeTeam.id);
+  const homePlayers = playersByTeamId(
+    state.players,
+    state.teams,
+    game.homeTeam.id
+  );
+  const homeTeamPlayerStatLogsFormData = playerStatLogsFormByPlayers(
+    state.playerStatsLogs,
+    homePlayers
+  );
+
   return {
+    awayTeam,
+    awayTeamPlayerStatLogsFormData,
     game,
+    homeTeam,
+    homeTeamPlayerStatLogsFormData,
     phase: phaseByIdOrDefault(state.phases, 'phase-id'),
-    playerStatLogs: playerStatLogBy(),
     players: state.players.players,
     tournament: tournamentBySlug(state.tournaments, tournamentSlug)
   };
@@ -45,8 +75,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameEditAdvancedProps = ConnectedProps<typeof connector>;
 
 function GameEditAdvanced({
+  awayTeam,
+  awayTeamPlayerStatLogsFormData,
   game,
-  playerStatLogs,
+  homeTeam,
+  homeTeamPlayerStatLogsFormData,
   players,
   tournament
 }: GameEditAdvancedProps): React.ReactElement {
@@ -60,25 +93,43 @@ function GameEditAdvanced({
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
             <div className="columns is-multiline has-text-left">
-              <div className="column is-12">
-                <h2 className="subtitle">{game.homeTeam.name}</h2>
+              <Form
+                onSubmit={(da: any) => console.log(da)}
+                initialValues={homeTeamPlayerStatLogsFormData}
+                mutators={
+                  (arrayMutators as unknown) as {
+                    [key: string]: Mutator<PlayerStatsLogsForm>;
+                  }
+                }
+                render={(props: FormRenderProps<PlayerStatsLogsForm>) => (
+                  <PlayerStatLogForm
+                    {...props}
+                    game={game}
+                    players={players}
+                    playersStats={tournament.playerStats}
+                    team={homeTeam}
+                  />
+                )}
+              />
 
-                <PlayerStatLogForm
-                  playerStatLogs={playerStatLogs}
-                  players={players}
-                  playersStats={tournament.playerStats}
-                />
-              </div>
-
-              <div className="column is-12">
-                <h2 className="subtitle">{game.awayTeam.name}</h2>
-
-                <PlayerStatLogForm
-                  playerStatLogs={playerStatLogs}
-                  players={players}
-                  playersStats={tournament.playerStats}
-                />
-              </div>
+              <Form
+                onSubmit={(da: any) => console.log(da)}
+                initialValues={awayTeamPlayerStatLogsFormData}
+                mutators={
+                  (arrayMutators as unknown) as {
+                    [key: string]: Mutator<PlayerStatsLogsForm>;
+                  }
+                }
+                render={(props: FormRenderProps<PlayerStatsLogsForm>) => (
+                  <PlayerStatLogForm
+                    {...props}
+                    game={game}
+                    players={players}
+                    playersStats={tournament.playerStats}
+                    team={awayTeam}
+                  />
+                )}
+              />
             </div>
           </div>
         </div>

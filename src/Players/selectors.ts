@@ -32,6 +32,12 @@ export const players = (
   });
 };
 
+export const playersByTeamId = (
+  state: PlayerState,
+  teamState: TeamState,
+  teamId: string
+) => players(state, teamState).filter(player => player.teamId === teamId);
+
 export const playersForSelectInput = (
   state: PlayerState,
   teamState: TeamState

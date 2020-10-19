@@ -1,15 +1,15 @@
 import React from 'react';
 import { PlayerEntity } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
-import { PlayerStatLog } from './selectors';
+import { PlayerStatsLogEntity } from './state';
 
 interface PlayerStatLogRowProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
-  playerStatLog: PlayerStatLog;
+  playerStatLog: PlayerStatsLogEntity;
 }
 
-function PlayerStatLogRow({
+function PlayerStatsLogEntityRow({
   players,
   playersStats,
   playerStatLog
@@ -48,7 +48,7 @@ const PlayerStatLogHeader: React.FC<{
 interface ViewProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
-  playerStatLogs: PlayerStatLog[];
+  playerStatLogs: PlayerStatsLogEntity[];
 }
 
 function View({
@@ -70,14 +70,14 @@ function View({
         </thead>
 
         <tbody>
-          {playerStatLogs.map((playerStatLog: PlayerStatLog) => (
+          {/* {playerStatLogs.map((playerStatLog: PlayerStatsLogEntity) => (
             <PlayerStatLogRow
               playerStatLog={playerStatLog}
               players={players}
               playersStats={playersStats}
               key={playerStatLog.id}
             />
-          ))}
+          ))} */}
         </tbody>
       </table>
     </div>
