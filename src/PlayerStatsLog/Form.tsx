@@ -36,14 +36,11 @@ function PlayerStatLogFormRow({
       </td>
 
       {playersStats.map((playerStat: PlayerStatEntity) => (
-        <td
-          key={playerStat.id}
-          className="has-text-centered"
-          style={{ minWidth: '90px' }}
-        >
+        <td key={playerStat.id} style={{ minWidth: '90px' }}>
           <Field
             name={`${name}.stats.${playerStat.id}`}
             component={StringInput}
+            className="has-text-centered"
             type="text"
           />
         </td>
@@ -66,6 +63,7 @@ interface FormProps extends FormRenderProps<PlayerStatsLogsForm> {
 }
 
 function Form({
+  handleSubmit,
   players,
   playersStats,
   pristine,
@@ -73,25 +71,25 @@ function Form({
   team
 }: FormProps): React.ReactElement {
   return (
-    <div className="column is-12">
-      <div className="columns is-gapless">
-        <div className="column is-8">
-          <h2 className="subtitle">{team.name}</h2>
+    <form onSubmit={handleSubmit} className="form">
+      <div className="column is-12">
+        <div className="columns is-gapless">
+          <div className="column is-8">
+            <h2 className="subtitle">{team.name}</h2>
+          </div>
+
+          <div className="column is-4 has-text-right">
+            <LoadingButton
+              isLoading={false}
+              className="button is-primary"
+              type="submit"
+              disabled={submitting || pristine}
+            >
+              <Trans>save</Trans>
+            </LoadingButton>
+          </div>
         </div>
 
-        <div className="column is-4 has-text-right">
-          <LoadingButton
-            isLoading={false}
-            className="button is-primary"
-            type="submit"
-            disabled={submitting || pristine}
-          >
-            <Trans>save</Trans>
-          </LoadingButton>
-        </div>
-      </div>
-
-      <form className="form">
         <FieldArray name="playerStatsLogs">
           {({ fields }) => (
             <div className="table-container">
@@ -121,8 +119,8 @@ function Form({
             </div>
           )}
         </FieldArray>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
 

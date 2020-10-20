@@ -26,6 +26,7 @@ const mapStateToProps = (
 ) => {
   const { gameId = '', tournamentSlug = '' } = props.match.params;
 
+  const tournament = tournamentBySlug(state.tournaments, tournamentSlug);
   const game = gameById(state.games, gameId);
   const awayTeam = teamById(state.teams, game.awayTeam.id);
   const awayPlayers = playersByTeamId(
@@ -35,7 +36,11 @@ const mapStateToProps = (
   );
   const awayTeamPlayerStatLogsFormData = playerStatLogsFormByPlayers(
     state.playerStatsLogs,
-    awayPlayers
+    game.id,
+    'phase-id',
+    awayPlayers,
+    awayTeam.id,
+    tournament.id
   );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
   const homePlayers = playersByTeamId(
@@ -45,7 +50,11 @@ const mapStateToProps = (
   );
   const homeTeamPlayerStatLogsFormData = playerStatLogsFormByPlayers(
     state.playerStatsLogs,
-    homePlayers
+    game.id,
+    'phase-id',
+    homePlayers,
+    homeTeam.id,
+    tournament.id
   );
 
   return {
@@ -56,7 +65,7 @@ const mapStateToProps = (
     homeTeamPlayerStatLogsFormData,
     phase: phaseByIdOrDefault(state.phases, 'phase-id'),
     players: state.players.players,
-    tournament: tournamentBySlug(state.tournaments, tournamentSlug)
+    tournament
   };
 };
 

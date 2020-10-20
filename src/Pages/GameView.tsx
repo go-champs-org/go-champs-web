@@ -9,7 +9,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import withGame from './support/withGame';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
-import { playerStatLogBy } from '../PlayerStatsLog/selectors';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
 
@@ -20,7 +19,6 @@ const mapStateToProps = (
   const { gameId = '' } = props.match.params;
   return {
     game: gameById(state.games, gameId),
-    playerStatLogs: playerStatLogBy(),
     players: state.players.players,
     tournament: tournamentBySlug(
       state.tournaments,
@@ -45,7 +43,6 @@ type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
   game,
-  playerStatLogs,
   players,
   tournament
 }: GameViewProps): React.ReactElement {
@@ -62,21 +59,21 @@ function GameView({
               <div className="column is-12">
                 <h2 className="subtitle">{game.homeTeam.name}</h2>
 
-                <PlayerStatLogView
+                {/* <PlayerStatLogView
                   playerStatLogs={playerStatLogs}
                   players={players}
                   playersStats={tournament.playerStats}
-                />
+                /> */}
               </div>
 
               <div className="column is-12">
                 <h2 className="subtitle">{game.awayTeam.name}</h2>
 
-                <PlayerStatLogView
+                {/* <PlayerStatLogView
                   playerStatLogs={playerStatLogs}
                   players={players}
                   playersStats={tournament.playerStats}
-                />
+                /> */}
               </div>
             </div>
           </div>
