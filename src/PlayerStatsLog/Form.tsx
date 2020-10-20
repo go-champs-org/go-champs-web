@@ -71,55 +71,53 @@ function Form({
   team
 }: FormProps): React.ReactElement {
   return (
-    <form onSubmit={handleSubmit} className="form">
-      <div className="column is-12">
-        <div className="columns is-gapless">
-          <div className="column is-8">
-            <h2 className="subtitle">{team.name}</h2>
-          </div>
-
-          <div className="column is-4 has-text-right">
-            <LoadingButton
-              isLoading={false}
-              className="button is-primary"
-              type="submit"
-              disabled={submitting || pristine}
-            >
-              <Trans>save</Trans>
-            </LoadingButton>
-          </div>
+    <form onSubmit={handleSubmit} className="form column is-12">
+      <div className="columns is-gapless is-mobile">
+        <div className="column is-8">
+          <h2 className="subtitle">{team.name}</h2>
         </div>
 
-        <FieldArray name="playerStatsLogs">
-          {({ fields }) => (
-            <div className="table-container">
-              <table className="table is-fullwidth is-striped is-hoverable">
-                <thead>
-                  <tr>
-                    <th style={{ paddingLeft: '0' }}>Player</th>
-
-                    {playersStats.map((stat: PlayerStatEntity) => (
-                      <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {fields.map((name, index) => (
-                    <PlayerStatLogFormRow
-                      key={name}
-                      name={name}
-                      playerStatLog={fields.value[index]}
-                      players={players}
-                      playersStats={playersStats}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </FieldArray>
+        <div className="column is-4 has-text-right">
+          <LoadingButton
+            isLoading={false}
+            className="button is-primary"
+            type="submit"
+            disabled={submitting || pristine}
+          >
+            <Trans>save</Trans>
+          </LoadingButton>
+        </div>
       </div>
+
+      <FieldArray name="playerStatsLogs">
+        {({ fields }) => (
+          <div className="table-container">
+            <table className="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th style={{ paddingLeft: '0' }}>Player</th>
+
+                  {playersStats.map((stat: PlayerStatEntity) => (
+                    <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
+                  ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {fields.map((name, index) => (
+                  <PlayerStatLogFormRow
+                    key={name}
+                    name={name}
+                    playerStatLog={fields.value[index]}
+                    players={players}
+                    playersStats={playersStats}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </FieldArray>
     </form>
   );
 }
