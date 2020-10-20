@@ -2,9 +2,10 @@ import {
   patchPlayerStatsLogs,
   deletePlayerStatsLog,
   postPlayerStatsLogs,
-  getPlayerStatsLogsByFilter
+  getPlayerStatsLogsByFilter,
+  patchAndPostPlayerStatsLogs
 } from './effects';
-import { DEFAULT_PLAYER_STATS_LOG } from './state';
+import { DEFAULT_PLAYER_STATS_LOG, PlayerStatsLogsForm } from './state';
 import {
   getPlayerStatsLogsByFilterFailure,
   getPlayerStatsLogsByFilterStart,
@@ -231,6 +232,42 @@ describe('patchPlayerStatsLogs', () => {
         name: ['has invalid format']
       });
     });
+  });
+});
+
+describe('patchAndPostPlayerStatsLogs', () => {
+  const patchPlayerStatsLog = {
+    ...DEFAULT_PLAYER_STATS_LOG,
+    id: 'some-id'
+  };
+  const postPlayerStatsLog = {
+    ...DEFAULT_PLAYER_STATS_LOG,
+    id: ''
+  };
+  const playerStatsLogsForm: PlayerStatsLogsForm = {
+    playerStatsLogs: [patchPlayerStatsLog, postPlayerStatsLog]
+  };
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+    jest.spyOn(playerStatsLogHttpClient, 'patch');
+    jest.spyOn(playerStatsLogHttpClient, 'post');
+  });
+
+  it('dispatches patch player stats log for entities that have id', () => {
+    patchAndPostPlayerStatsLogs(playerStatsLogsForm)(dispatch);
+
+    expect(playerStatsLogHttpClient.patch).toHaveBeenCalledWith([
+      patchPlayerStatsLog
+    ]);
+  });
+
+  it('dispatches post player stats log for entities that does not have id', () => {
+    patchAndPostPlayerStatsLogs(playerStatsLogsForm)(dispatch);
+
+    expect(playerStatsLogHttpClient.post).toHaveBeenCalledWith([
+      postPlayerStatsLog
+    ]);
   });
 });
 

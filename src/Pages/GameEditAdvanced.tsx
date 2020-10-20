@@ -7,7 +7,10 @@ import { phaseByIdOrDefault } from '../Phases/selectors';
 import { gameById } from '../Games/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
+import {
+  getPlayerStatsLogsByFilter,
+  patchAndPostPlayerStatsLogs
+} from '../PlayerStatsLog/effects';
 import { getGame } from '../Games/effects';
 import { default as GameCard } from '../Games/Card';
 import withPlayerStatsLogs from './support/withPlayerStatsLogs';
@@ -37,7 +40,7 @@ const mapStateToProps = (
   const awayTeamPlayerStatLogsFormData = playerStatLogsFormByPlayers(
     state.playerStatsLogs,
     game.id,
-    'phase-id',
+    game.phaseId,
     awayPlayers,
     awayTeam.id,
     tournament.id
@@ -51,7 +54,7 @@ const mapStateToProps = (
   const homeTeamPlayerStatLogsFormData = playerStatLogsFormByPlayers(
     state.playerStatsLogs,
     game.id,
-    'phase-id',
+    game.phaseId,
     homePlayers,
     homeTeam.id,
     tournament.id
@@ -63,7 +66,7 @@ const mapStateToProps = (
     game,
     homeTeam,
     homeTeamPlayerStatLogsFormData,
-    phase: phaseByIdOrDefault(state.phases, 'phase-id'),
+    phase: phaseByIdOrDefault(state.phases, game.phaseId),
     players: state.players.players,
     tournament
   };
@@ -73,7 +76,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getGame,
-      getPlayerStatsLogsByFilter
+      getPlayerStatsLogsByFilter,
+      patchAndPostPlayerStatsLogs
     },
     dispatch
   );
@@ -89,6 +93,7 @@ function GameEditAdvanced({
   game,
   homeTeam,
   homeTeamPlayerStatLogsFormData,
+  patchAndPostPlayerStatsLogs,
   players,
   tournament
 }: GameEditAdvancedProps): React.ReactElement {
@@ -103,7 +108,7 @@ function GameEditAdvanced({
           <div className="tabs is-centered">
             <div className="columns is-multiline has-text-left">
               <Form
-                onSubmit={(da: any) => console.log(da)}
+                onSubmit={patchAndPostPlayerStatsLogs}
                 initialValues={homeTeamPlayerStatLogsFormData}
                 mutators={
                   (arrayMutators as unknown) as {
@@ -122,7 +127,7 @@ function GameEditAdvanced({
               />
 
               <Form
-                onSubmit={(da: any) => console.log(da)}
+                onSubmit={patchAndPostPlayerStatsLogs}
                 initialValues={awayTeamPlayerStatLogsFormData}
                 mutators={
                   (arrayMutators as unknown) as {

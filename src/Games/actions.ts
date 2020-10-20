@@ -72,7 +72,9 @@ export const getGameStart = (): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT_GAME
 });
 
-export const getGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const getGameSuccess = (
+  payload: GameEntity
+): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT_GAME_SUCCESS,
   payload
 });

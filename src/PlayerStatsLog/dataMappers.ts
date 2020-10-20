@@ -1,8 +1,7 @@
 import { PlayerStatsLogEntity } from './state';
 import {
   ApiPlayerStatsLog,
-  ApiPlayerStatsLogRequest,
-  ApiPlayerStatsLogPatchPostResponse
+  ApiPlayerStatsLogRequest
 } from '../Shared/httpClient/apiTypes';
 
 export const mapPlayerStatsLogEntityToApiPlayerStatsLog = (
@@ -37,9 +36,9 @@ export const mapApiPlayerStatsLogToPlayerStatsLog = (
   tournamentId: apiPlayerStatsLog.tournament_id
 });
 
-export const mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs = (
-  apiPlayerStatsLogs: ApiPlayerStatsLogPatchPostResponse
-): PlayerStatsLogEntity[] =>
+export const mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs = (apiPlayerStatsLogs: {
+  [id: string]: ApiPlayerStatsLog;
+}): PlayerStatsLogEntity[] =>
   Object.keys(apiPlayerStatsLogs).map((key: string) =>
     mapApiPlayerStatsLogToPlayerStatsLog(apiPlayerStatsLogs[key])
   );

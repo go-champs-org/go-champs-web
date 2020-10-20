@@ -9,6 +9,7 @@ export interface GameEntity {
   homeTeam: TeamEntity;
   info: string;
   location: string;
+  phaseId: string;
 }
 
 export interface GameState {
@@ -37,5 +38,6 @@ export const DEFAULT_GAME: GameEntity = {
   homeScore: 0,
   homeTeam: DEFAULT_TEAM,
   info: '',
-  location: ''
+  location: '',
+  phaseId: ''
 };

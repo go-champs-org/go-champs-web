@@ -42,11 +42,11 @@ const patch = async (
     playerStatsLogs
   );
 
-  const response = await httpClient.patch<
+  const { data } = await httpClient.patch<
     ApiPlayerStatsLogRequest,
     ApiPlayerStatsLogPatchPostResponse
   >(url, body);
-  return mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs(response);
+  return mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs(data);
 };
 
 const post = async (
@@ -57,11 +57,11 @@ const post = async (
     playerStatsLogs
   );
 
-  const response = await httpClient.post<
+  const { data } = await httpClient.post<
     ApiPlayerStatsLogRequest,
     ApiPlayerStatsLogPatchPostResponse
   >(url, body);
-  return mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs(response);
+  return mapApiPlayerStatsLogPatchPostResponseToPlayerStatsLogs(data);
 };
 
 export default {

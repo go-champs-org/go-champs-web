@@ -12,6 +12,7 @@ interface ApiGame {
 export interface ApiGameWithDepedencies extends ApiGame {
   away_team?: ApiTeam;
   home_team?: ApiTeam;
+  phase_id: string;
 }
 
 export interface ApiGameWithDepedenciesIds extends ApiGame {
@@ -428,7 +429,9 @@ export interface ApiPlayerStatsLogRequest {
 }
 
 export interface ApiPlayerStatsLogPatchPostResponse {
-  [id: string]: ApiPlayerStatsLog;
+  data: {
+    [id: string]: ApiPlayerStatsLog;
+  };
 }
 
 export interface ApiPlayerStatsLogsResponse {

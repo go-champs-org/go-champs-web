@@ -21,7 +21,8 @@ export const mapApiGameToGameEntity = (
     ? mapApiTeamToTeamEntity(apiGame.home_team)
     : DEFAULT_TEAM,
   info: apiGame.info ? apiGame.info : '',
-  location: apiGame.location
+  location: apiGame.location,
+  phaseId: apiGame.phase_id
 });
 
 export const mapGameEntityToApiGamePostRequest = (

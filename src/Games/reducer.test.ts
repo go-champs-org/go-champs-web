@@ -354,6 +354,7 @@ describe('getGameSuccess', () => {
       id: 'first-home-team-id',
       name: 'first-home-team'
     },
+    phaseId: 'phase-id',
     location: 'first location'
   });
 
@@ -377,6 +378,7 @@ describe('getGameSuccess', () => {
         id: 'first-home-team-id',
         name: 'first-home-team'
       },
+      phaseId: 'phase-id',
       location: 'first location'
     });
   });
@@ -408,6 +410,7 @@ describe('getGamesByFilterSuccess', () => {
         name: 'first-away-team'
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      phaseId: 'phase-id',
       homeScore: 20,
       homeTeam: {
         id: 'first-home-team-id',
@@ -423,6 +426,7 @@ describe('getGamesByFilterSuccess', () => {
         name: 'second-away-team'
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      phaseId: 'phase-id',
       homeScore: 40,
       homeTeam: {
         id: 'second-home-team-id',
@@ -456,6 +460,7 @@ describe('getGamesByFilterSuccess', () => {
         name: 'first-away-team'
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      phaseId: 'phase-id',
       homeScore: 20,
       homeTeam: {
         id: 'first-home-team-id',
@@ -471,6 +476,7 @@ describe('getGamesByFilterSuccess', () => {
         name: 'second-away-team'
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      phaseId: 'phase-id',
       homeScore: 40,
       homeTeam: {
         id: 'second-home-team-id',

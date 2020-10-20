@@ -13,7 +13,7 @@ import {
   getPlayerStatsLogsByFilterSuccess,
   getPlayerStatsLogsByFilterFailure
 } from './actions';
-import { PlayerStatsLogEntity } from './state';
+import { PlayerStatsLogEntity, PlayerStatsLogsForm } from './state';
 import playerStatsLogHttpClient from './playerStatsLogHttpClient';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
@@ -46,6 +46,29 @@ export const getPlayerStatsLogsByFilter = (where: RequestFilter) => async (
   } catch (err) {
     dispatch(getPlayerStatsLogsByFilterFailure(err));
   }
+};
+
+export const patchAndPostPlayerStatsLogs = (
+  playerStatsLogsForm: PlayerStatsLogsForm
+) => async (dispatch: Dispatch) => {
+  const playerStatsLogsToBePatched = playerStatsLogsForm.playerStatsLogs.filter(
+    (playerStatsLog: PlayerStatsLogEntity) => playerStatsLog.id
+  );
+  const playerStatsLogsToBePosted = playerStatsLogsForm.playerStatsLogs.filter(
+    (playerStatsLog: PlayerStatsLogEntity) => !playerStatsLog.id
+  );
+
+  const promises = [];
+
+  if (playerStatsLogsToBePatched.length > 0) {
+    promises.push(patchPlayerStatsLogs(playerStatsLogsToBePatched)(dispatch));
+  }
+
+  if (playerStatsLogsToBePosted.length > 0) {
+    promises.push(postPlayerStatsLogs(playerStatsLogsToBePosted)(dispatch));
+  }
+
+  return Promise.all(promises);
 };
 
 export const patchPlayerStatsLogs = (
