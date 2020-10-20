@@ -34,7 +34,7 @@ const withPlayerStatsLogs = <T extends object>(
       }
 
       return () => undefined;
-    }, [gameId, getPlayerStatsLogsByFilter, phase, tournament]);
+    }, [gameId, getGame, getPlayerStatsLogsByFilter, phase, tournament]);
 
     return <WrappedComponent {...props} />;
   };

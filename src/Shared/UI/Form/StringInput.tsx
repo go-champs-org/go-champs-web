@@ -2,11 +2,11 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import MetaInput from './MetaInput';
 
-interface StringInputProps extends FieldRenderProps<string, HTMLInputElement> {
+interface StringInputProps extends FieldRenderProps<string, HTMLElement> {
   className?: string;
 }
 
-const StringInput: React.FC<StringInputProps> = ({
+const StringInput: React.FunctionComponent<StringInputProps> = ({
   input,
   meta,
   className
