@@ -86,6 +86,7 @@ export default {
     socialNetworks: 'Social networks',
     sort: 'Sort',
     startTyping: 'Type something to begin search',
+    statistics: 'Statistics',
     sum: 'Sum',
     username: 'Username',
     useAsAnApp: 'Install on your phone',

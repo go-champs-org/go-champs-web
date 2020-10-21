@@ -86,6 +86,7 @@ export default {
     socialNetworks: 'Redes sociais',
     sort: 'Ordenar',
     startTyping: 'Digite para pesquisar',
+    statistics: 'Estatísticas',
     sum: 'Soma',
     username: 'Usuário',
     useAsAnApp: 'Use no celular',

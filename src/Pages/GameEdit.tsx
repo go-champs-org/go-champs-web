@@ -10,7 +10,7 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { gameById, patchingGame } from '../Games/selectors';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { Trans } from 'react-i18next';
@@ -59,10 +59,24 @@ const GameNew: React.FC<GameNewProps> = ({
     <Fragment>
       <div className="column">
         <div className="columns is-multiline">
-          <div className="column is-12">
+          <div className="column is-8">
             <h2 className="subtitle">
               <Trans>editGame</Trans>
             </h2>
+          </div>
+
+          <div className="column is-4 has-text-right">
+            <Link to={`${basePhaseManageUrl}/EditGameAdvanced/${game.id}`}>
+              <button className="button is-info is-outlined">
+                <span className="icon">
+                  <i className="fas fa-table"></i>
+                </span>
+
+                <span>
+                  <Trans>statistics</Trans>
+                </span>
+              </button>
+            </Link>
           </div>
 
           <div className="column is-12">

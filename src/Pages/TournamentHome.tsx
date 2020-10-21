@@ -25,7 +25,6 @@ import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
 import GameView from './GameView';
-import GameEditAdvanced from './GameEditAdvanced';
 
 const mapStateToProps = (
   state: StoreState,
@@ -117,14 +116,6 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <TeamEdit {...props} />
-            </AuthenticatedRoute>
-          )}
-        />
-        <Route
-          path={`/:organizationSlug/:tournamentSlug/GameEditAdvanced/:gameId`}
-          render={(props: RouteComponentProps<RouteProps>) => (
-            <AuthenticatedRoute>
-              <GameEditAdvanced {...props} />
             </AuthenticatedRoute>
           )}
         />

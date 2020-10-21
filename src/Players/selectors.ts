@@ -1,7 +1,6 @@
 import { PlayerEntity, PlayerState, DEFAULT_PLAYER } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { TeamState, DEFAULT_TEAM, TeamEntity } from '../Teams/state';
-import { teamById } from '../Teams/selectors';
 
 const mergeTeam = (player: PlayerEntity, team?: TeamEntity) => ({
   ...player,

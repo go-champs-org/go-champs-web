@@ -22,6 +22,7 @@ import EliminationList from './EliminationList';
 import EliminationNew from './EliminationNew';
 import EliminationEdit from './EliminationEdit';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
+import GameEditAdvanced from './GameEditAdvanced';
 
 export const PhaseHomeLoading: React.FC = () => (
   <Fragment>
@@ -166,6 +167,14 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
                 getPhase={getPhase}
                 tournamentSlug={tournamentSlug}
               />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Manage/:phaseId/EditGameAdvanced/:gameId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <GameEditAdvanced {...props} />
             </AuthenticatedRoute>
           )}
         />
