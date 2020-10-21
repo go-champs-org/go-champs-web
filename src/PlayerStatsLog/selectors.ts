@@ -14,20 +14,26 @@ export const playerStatLogs = (state: PlayerStatsLogState) =>
 export const playerStatLogsByGameIdAndTeamId = (
   state: PlayerStatsLogState,
   gameId: string,
-  teamId: string
+  players: PlayerEntity[]
 ) =>
-  playerStatLogs(state).filter(
-    (playerStatsLog: PlayerStatsLogEntity) =>
-      playerStatsLog.gameId === gameId && playerStatsLog.teamId === teamId
-  );
+  players.map((player: PlayerEntity) => {
+    const playerStatsLog =
+      playerStatLogsByPlayerId(state, gameId, player.id) ||
+      DEFAULT_PLAYER_STATS_LOG;
+    return {
+      ...playerStatsLog,
+      playerId: player.id
+    };
+  });
 
 export const playerStatLogsByPlayerId = (
   state: PlayerStatsLogState,
+  gameId: string,
   playerId: string
 ) =>
   playerStatLogs(state).find(
     (playerStatsLog: PlayerStatsLogEntity) =>
-      playerStatsLog.playerId === playerId
+      playerStatsLog.gameId === gameId && playerStatsLog.playerId === playerId
   );
 
 export const playerStatLogsFormByPlayers = (
@@ -41,7 +47,8 @@ export const playerStatLogsFormByPlayers = (
   return {
     playerStatsLogs: players.map((player: PlayerEntity) => {
       const playerStatsLog =
-        playerStatLogsByPlayerId(state, player.id) || DEFAULT_PLAYER_STATS_LOG;
+        playerStatLogsByPlayerId(state, gameId, player.id) ||
+        DEFAULT_PLAYER_STATS_LOG;
 
       return {
         ...playerStatsLog,

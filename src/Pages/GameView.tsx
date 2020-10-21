@@ -15,7 +15,7 @@ import { teamById } from '../Teams/selectors';
 import { playerStatLogsByGameIdAndTeamId } from '../PlayerStatsLog/selectors';
 import withPlayerStatsLogs from './support/withPlayerStatsLogs';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { playersByTeamIdMap } from '../Players/selectors';
+import { playersByTeamIdMap, playersByTeamId } from '../Players/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -23,7 +23,12 @@ const mapStateToProps = (
 ) => {
   const { gameId = '' } = props.match.params;
   const game = gameById(state.games, gameId);
-  const awayPlayers = playersByTeamIdMap(
+  const awayPlayers = playersByTeamId(
+    state.players,
+    state.teams,
+    game.awayTeam.id
+  );
+  const awayPlayersMap = playersByTeamIdMap(
     state.players,
     state.teams,
     game.awayTeam.id
@@ -32,25 +37,30 @@ const mapStateToProps = (
   const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
-    game.awayTeam.id
+    awayPlayers
   );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
+  const homePlayers = playersByTeamId(
+    state.players,
+    state.teams,
+    game.homeTeam.id
+  );
   const homePlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
-    game.homeTeam.id
+    homePlayers
   );
-  const homePlayers = playersByTeamIdMap(
+  const homePlayersMap = playersByTeamIdMap(
     state.players,
     state.teams,
     game.homeTeam.id
   );
   return {
-    awayPlayers,
+    awayPlayersMap,
     awayPlayerStatsLogs,
     awayTeam,
     game,
-    homePlayers,
+    homePlayersMap,
     homePlayerStatsLogs,
     homeTeam,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
@@ -77,11 +87,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
-  awayPlayers,
+  awayPlayersMap,
   awayPlayerStatsLogs,
   awayTeam,
   game,
-  homePlayers,
+  homePlayersMap,
   homePlayerStatsLogs,
   homeTeam,
   tournament
@@ -98,14 +108,14 @@ function GameView({
             <div className="columns is-multiline has-text-left">
               <PlayerStatLogView
                 playerStatLogs={homePlayerStatsLogs}
-                players={homePlayers}
+                players={homePlayersMap}
                 playersStats={tournament.playerStats}
                 team={homeTeam}
               />
 
               <PlayerStatLogView
                 playerStatLogs={awayPlayerStatsLogs}
-                players={awayPlayers}
+                players={awayPlayersMap}
                 playersStats={tournament.playerStats}
                 team={awayTeam}
               />
