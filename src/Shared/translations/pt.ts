@@ -9,7 +9,6 @@ export default {
     addPlayerStat: 'Adicionar estatística',
     addMember: 'Adicionar membro',
     addMatch: 'Adicionar confronto',
-    aggregationType: 'Tipo de agregamento',
     average: 'Média',
     awayTeam: 'Equipe visitante',
     awayScore: 'Pontuacao visitante',

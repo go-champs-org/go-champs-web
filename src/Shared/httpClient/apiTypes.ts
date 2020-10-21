@@ -316,7 +316,6 @@ export interface ApiPlayersResponse {
 export interface ApiPlayerStat {
   id: string;
   title: string;
-  aggregation_type: 'average' | 'fixed' | 'sum';
 }
 
 export interface ApiTournament {

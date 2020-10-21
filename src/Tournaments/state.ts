@@ -12,7 +12,6 @@ export interface TournamentEntity {
 export interface PlayerStatEntity {
   id: string;
   title: string;
-  aggregationType: 'average' | 'fixed' | 'sum';
 }
 
 export interface TournamentState {
@@ -46,6 +45,5 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
 
 export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {
   id: '',
-  title: '',
-  aggregationType: 'fixed'
+  title: ''
 };

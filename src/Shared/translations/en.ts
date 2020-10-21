@@ -9,7 +9,6 @@ export default {
     addPlayerStat: 'Add player stat',
     addMember: 'Add member',
     addMatch: 'Add match',
-    aggregationType: 'Aggregation type',
     average: 'Average',
     awayTeam: 'Away team',
     awayScore: 'Away score',

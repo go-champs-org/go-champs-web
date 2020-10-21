@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
+import { Field, FormRenderProps } from 'react-final-form';
 import {
   TournamentEntity,
   PlayerStatEntity,
@@ -18,40 +18,13 @@ import { Trans, useTranslation } from 'react-i18next';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
-import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
-
-const generateAggregationTypes = (
-  averageLabel: string,
-  fixedLabel: string,
-  sumLabel: string
-): SelectOptionType[] => {
-  return [
-    {
-      label: fixedLabel,
-      value: 'fixed'
-    },
-    {
-      label: averageLabel,
-      value: 'average'
-    },
-    {
-      label: sumLabel,
-      value: 'sum'
-    }
-  ];
-};
 
 interface PlayerStatFormProps {
-  aggregationTypesOptions: SelectOptionType[];
   name: string;
   onRemove: () => {};
 }
 
-const PlayerStatForm: React.FC<PlayerStatFormProps> = ({
-  aggregationTypesOptions,
-  name,
-  onRemove
-}) => {
+const PlayerStatForm: React.FC<PlayerStatFormProps> = ({ name, onRemove }) => {
   return (
     <tr>
       <td
@@ -63,16 +36,6 @@ const PlayerStatForm: React.FC<PlayerStatFormProps> = ({
           name={`${name}.title`}
           component={StringInput}
           type="text"
-          validate={required}
-        />
-      </td>
-
-      <td>
-        <Field
-          name={`${name}.aggregationType`}
-          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-            <SelectInput {...props} options={aggregationTypesOptions} />
-          )}
           validate={required}
         />
       </td>
@@ -143,12 +106,6 @@ const Form: React.FC<FormProps> = ({
   push
 }) => {
   const { t } = useTranslation();
-  const aggregationTypesOptions = generateAggregationTypes(
-    t('average'),
-    t('fixed'),
-    t('sum')
-  );
-
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -269,10 +226,6 @@ const Form: React.FC<FormProps> = ({
                       <Trans>name</Trans>
                     </th>
 
-                    <th>
-                      <Trans>aggregationType</Trans>
-                    </th>
-
                     <th
                       style={{
                         textAlign: 'center',
@@ -292,7 +245,6 @@ const Form: React.FC<FormProps> = ({
                           key={name}
                           name={name}
                           onRemove={() => fields.remove(index)}
-                          aggregationTypesOptions={aggregationTypesOptions}
                         />
                       ))
                     }

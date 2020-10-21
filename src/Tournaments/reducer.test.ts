@@ -127,8 +127,7 @@ describe('patchTournamentSuccess', () => {
     player_stats: [
       {
         id: 'some-stat-id',
-        title: 'some-updated-stat-title',
-        aggregation_type: 'average'
+        title: 'some-updated-stat-title'
       }
     ],
     phases: [],
@@ -150,8 +149,7 @@ describe('patchTournamentSuccess', () => {
         playerStats: [
           {
             id: 'some-stat-id',
-            title: 'some-stat-title',
-            aggregationType: 'fixed'
+            title: 'some-stat-title'
           }
         ]
       }
@@ -185,8 +183,7 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].playerStats).toEqual([
       {
         id: 'some-stat-id',
-        title: 'some-updated-stat-title',
-        aggregationType: 'average'
+        title: 'some-updated-stat-title'
       }
     ]);
   });

@@ -11,16 +11,14 @@ export const mapPlayerStatEntityToApiPlayerStat = (
   apiPlayerStat: PlayerStatEntity
 ): ApiPlayerStat => ({
   id: apiPlayerStat.id,
-  title: apiPlayerStat.title,
-  aggregation_type: apiPlayerStat.aggregationType
+  title: apiPlayerStat.title
 });
 
 export const mapApiPlayerStatToPlayerStatEntity = (
   apiPlayerStat: ApiPlayerStat
 ): PlayerStatEntity => ({
   id: apiPlayerStat.id,
-  title: apiPlayerStat.title,
-  aggregationType: apiPlayerStat.aggregation_type
+  title: apiPlayerStat.title
 });
 
 export const mapApiTournamentToTournamentEntity = (
