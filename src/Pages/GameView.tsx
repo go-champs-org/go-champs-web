@@ -6,20 +6,54 @@ import { gameById } from '../Games/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
 import { getGame } from '../Games/effects';
 import { connect, ConnectedProps } from 'react-redux';
-import withGame from './support/withGame';
 import { getTournamentBySlug } from '../Tournaments/effects';
+import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
+import { teamById } from '../Teams/selectors';
+import { playerStatLogsByGameIdAndTeamId } from '../PlayerStatsLog/selectors';
+import withPlayerStatsLogs from './support/withPlayerStatsLogs';
+import { phaseByIdOrDefault } from '../Phases/selectors';
+import { playersByTeamIdMap } from '../Players/selectors';
 
 const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => {
   const { gameId = '' } = props.match.params;
+  const game = gameById(state.games, gameId);
+  const awayPlayers = playersByTeamIdMap(
+    state.players,
+    state.teams,
+    game.awayTeam.id
+  );
+  const awayTeam = teamById(state.teams, game.awayTeam.id);
+  const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
+    state.playerStatsLogs,
+    game.id,
+    game.awayTeam.id
+  );
+  const homeTeam = teamById(state.teams, game.homeTeam.id);
+  const homePlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
+    state.playerStatsLogs,
+    game.id,
+    game.homeTeam.id
+  );
+  const homePlayers = playersByTeamIdMap(
+    state.players,
+    state.teams,
+    game.homeTeam.id
+  );
   return {
-    game: gameById(state.games, gameId),
-    players: state.players.players,
+    awayPlayers,
+    awayPlayerStatsLogs,
+    awayTeam,
+    game,
+    homePlayers,
+    homePlayerStatsLogs,
+    homeTeam,
+    phase: phaseByIdOrDefault(state.phases, game.phaseId),
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
@@ -31,6 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getGame,
+      getPlayerStatsLogsByFilter,
       getTournamentBySlug
     },
     dispatch
@@ -42,8 +77,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
+  awayPlayers,
+  awayPlayerStatsLogs,
+  awayTeam,
   game,
-  players,
+  homePlayers,
+  homePlayerStatsLogs,
+  homeTeam,
   tournament
 }: GameViewProps): React.ReactElement {
   return (
@@ -56,25 +96,19 @@ function GameView({
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
             <div className="columns is-multiline has-text-left">
-              <div className="column is-12">
-                <h2 className="subtitle">{game.homeTeam.name}</h2>
+              <PlayerStatLogView
+                playerStatLogs={homePlayerStatsLogs}
+                players={homePlayers}
+                playersStats={tournament.playerStats}
+                team={homeTeam}
+              />
 
-                {/* <PlayerStatLogView
-                  playerStatLogs={playerStatLogs}
-                  players={players}
-                  playersStats={tournament.playerStats}
-                /> */}
-              </div>
-
-              <div className="column is-12">
-                <h2 className="subtitle">{game.awayTeam.name}</h2>
-
-                {/* <PlayerStatLogView
-                  playerStatLogs={playerStatLogs}
-                  players={players}
-                  playersStats={tournament.playerStats}
-                /> */}
-              </div>
+              <PlayerStatLogView
+                playerStatLogs={awayPlayerStatsLogs}
+                players={awayPlayers}
+                playersStats={tournament.playerStats}
+                team={awayTeam}
+              />
             </div>
           </div>
         </div>
@@ -83,4 +117,4 @@ function GameView({
   );
 }
 
-export default connector(withGame<GameViewProps>(GameView));
+export default connector(withPlayerStatsLogs<GameViewProps>(GameView));

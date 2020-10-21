@@ -2,18 +2,19 @@ import React from 'react';
 import { PlayerEntity } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import { PlayerStatsLogEntity } from './state';
+import { TeamEntity } from '../Teams/state';
 
-interface PlayerStatLogRowProps {
+interface PlayerStatsLogRowProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
   playerStatLog: PlayerStatsLogEntity;
 }
 
-function PlayerStatsLogEntityRow({
+function PlayerStatsLogRow({
   players,
   playersStats,
   playerStatLog
-}: PlayerStatLogRowProps): React.ReactElement {
+}: PlayerStatsLogRowProps): React.ReactElement {
   return (
     <tr>
       <td
@@ -49,37 +50,43 @@ interface ViewProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogEntity[];
+  team: TeamEntity;
 }
 
 function View({
   players,
   playersStats,
-  playerStatLogs
+  playerStatLogs,
+  team
 }: ViewProps): React.ReactElement {
   return (
-    <div className="table-container">
-      <table className="table is-fullwidth is-striped is-hoverable">
-        <thead>
-          <tr>
-            <th style={{ paddingLeft: '0' }}>Player</th>
+    <div className="column is-12">
+      <h2 className="subtitle">{team.name}</h2>
 
-            {playersStats.map((stat: PlayerStatEntity) => (
-              <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
+      <div className="table-container">
+        <table className="table is-fullwidth is-striped is-hoverable">
+          <thead>
+            <tr>
+              <th style={{ paddingLeft: '0' }}>Player</th>
+
+              {playersStats.map((stat: PlayerStatEntity) => (
+                <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {playerStatLogs.map((playerStatLog: PlayerStatsLogEntity) => (
+              <PlayerStatsLogRow
+                playerStatLog={playerStatLog}
+                players={players}
+                playersStats={playersStats}
+                key={playerStatLog.id}
+              />
             ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {/* {playerStatLogs.map((playerStatLog: PlayerStatsLogEntity) => (
-            <PlayerStatLogRow
-              playerStatLog={playerStatLog}
-              players={players}
-              playersStats={playersStats}
-              key={playerStatLog.id}
-            />
-          ))} */}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
