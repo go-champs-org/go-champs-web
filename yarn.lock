@@ -2972,10 +2972,10 @@ bulma-divider@^0.2.0:
   resolved "https://registry.yarnpkg.com/bulma-divider/-/bulma-divider-0.2.0.tgz#a9b4d9fe8b270c7cb7573023c575062bc62616f3"
   integrity sha512-REe3k56GECRfDaqFjC8cwLhV4RxXmV0RubuzDJqwior9wlJcdHlN0qfW0tvUX+qphikaTQegIeRuhjRIAqkjkw==
 
-bulma-toast@^1.5.1:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-1.6.0.tgz#50a442dfbc0bfcd1df69fa3f69cc874fa6d183de"
-  integrity sha512-QiNqVeXC5C9BAXbvXFhBEpeH+FsMdBNfCG/Dpz6w7F5du9S705E09vVt0jZGkUXEFddOYEOlUzOR3zzbE7rBmg==
+bulma-toast@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-2.0.3.tgz#925e8d35af9829eed8b8b5d64a57cf6164bba06b"
+  integrity sha512-zGsu+ObMXSky7+e+OZACJiNznhRHm87He430M2cFQtWE+dsJcBJWMD22twIlVTl7G8ySMLcsUh1A908eaxDk/Q==
 
 bulma-tooltip@^3.0.2:
   version "3.0.2"

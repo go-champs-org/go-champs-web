@@ -8,8 +8,7 @@ export const displayToast = (message: string, type: ToastTypes) => {
     type: type,
     closeOnClick: true,
     duration: 1000,
-    pauseOnHover: true,
     position: 'bottom-right',
-    animate: { in: 'fadeIn', out: 'fadeOut' }
+    animate: { in: "fadeIn", out: "fadeOut" }
   });
 };
