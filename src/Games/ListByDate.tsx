@@ -3,6 +3,7 @@ import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import classNames from 'classnames';
 import { GameEntity } from './state';
 import { Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const basicTeamClasses = {
   column: true,
@@ -15,7 +16,10 @@ const basicScoreClasses = {
   'has-text-right': true
 };
 
-const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
+const MiniGameCard: React.FC<{ baseUrl: string; game: GameEntity }> = ({
+  baseUrl,
+  game
+}) => {
   const awayTeamClasses = classNames(
     {
       'has-text-weight-semibold': game.awayScore > game.homeScore
@@ -42,62 +46,67 @@ const MiniGameCard: React.FC<{ game: GameEntity }> = ({ game }) => {
   );
 
   return (
-    <div className="card">
-      <div className="card-content">
-        <div className="columns is-multiline is-mobile">
-          <div className="column is-12 is-size-7 has-text-weight-bold">
-            <div className="columns is-mobile">
-              <div className="column is-8" style={{ padding: '.3rem' }}>
-                {game.datetime && timeFromDate(game.datetime)}
-              </div>
+    <div className="card item">
+      <Link to={`${baseUrl}/GameView/${game.id}`} className="has-text-dark">
+        <div className="card-content">
+          <div className="columns is-multiline is-mobile">
+            <div className="column is-12 is-size-7 has-text-weight-bold">
+              <div className="columns is-mobile">
+                <div className="column is-8" style={{ padding: '.3rem' }}>
+                  {game.datetime && timeFromDate(game.datetime)}
+                </div>
 
-              <div
-                className="column is-4 has-text-right"
-                style={{ padding: '.3rem' }}
-              >
-                {game.location}
-              </div>
-            </div>
-          </div>
-
-          <div className="column is-12">
-            <div className="columns is-mobile">
-              <div className={awayTeamClasses} style={{ padding: '.3rem' }}>
-                {game.awayTeam.name}
-              </div>
-
-              <div className={awayScoreClasses} style={{ padding: '.3rem' }}>
-                {game.awayScore}
+                <div
+                  className="column is-4 has-text-right"
+                  style={{ padding: '.3rem' }}
+                >
+                  {game.location}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="column is-12">
-            <div className="columns is-mobile">
-              <div className={homeTeamClasses} style={{ padding: '.3rem' }}>
-                {game.homeTeam.name}
+            <div className="column is-12">
+              <div className="columns is-mobile">
+                <div className={awayTeamClasses} style={{ padding: '.3rem' }}>
+                  {game.awayTeam.name}
+                </div>
+
+                <div className={awayScoreClasses} style={{ padding: '.3rem' }}>
+                  {game.awayScore}
+                </div>
               </div>
+            </div>
 
-              <div className={homeScoreClasses} style={{ padding: '.3rem' }}>
-                {game.homeScore}
+            <div className="column is-12">
+              <div className="columns is-mobile">
+                <div className={homeTeamClasses} style={{ padding: '.3rem' }}>
+                  {game.homeTeam.name}
+                </div>
+
+                <div className={homeScoreClasses} style={{ padding: '.3rem' }}>
+                  {game.homeScore}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {game.info && (
-        <footer className="card-footer has-text-centered">
-          <span className="card-footer-item has-text-centered is-paddingless is-size-7">
-            {game.info}
-          </span>
-        </footer>
-      )}
+        {game.info && (
+          <footer className="card-footer has-text-centered">
+            <span className="card-footer-item has-text-centered is-paddingless is-size-7">
+              {game.info}
+            </span>
+          </footer>
+        )}
+      </Link>
     </div>
   );
 };
 
-const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
+const List: React.FC<{ baseUrl: string; games: GameEntity[] }> = ({
+  baseUrl,
+  games
+}) => {
   if (games.length === 0) {
     return (
       <div className="hero">
@@ -116,7 +125,7 @@ const List: React.FC<{ games: GameEntity[] }> = ({ games }) => {
   return (
     <div>
       {games.map((game: GameEntity) => (
-        <MiniGameCard key={game.id} game={game} />
+        <MiniGameCard key={game.id} baseUrl={baseUrl} game={game} />
       ))}
     </div>
   );
@@ -129,6 +138,7 @@ const getNavDates = (dates: string[], selectedDatePosition: number) => ({
 });
 
 interface ListByDateProps {
+  baseUrl: string;
   dates: string[];
   gamesByDate: { [date: string]: GameEntity[] };
   initialDatePosition: number;
@@ -151,7 +161,7 @@ class ListByDate extends React.Component<ListByDateProps> {
   }
 
   render() {
-    const { dates, gamesByDate } = this.props;
+    const { baseUrl, dates, gamesByDate } = this.props;
 
     const { previousDate, selectedDate, nextDate } = getNavDates(
       dates,
@@ -195,7 +205,7 @@ class ListByDate extends React.Component<ListByDateProps> {
             </button>
           </div>
         </nav>
-        <List games={gamesByDate[selectedDate] || []} />
+        <List baseUrl={baseUrl} games={gamesByDate[selectedDate] || []} />
       </Fragment>
     );
   }

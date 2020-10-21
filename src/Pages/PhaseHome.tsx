@@ -17,6 +17,7 @@ import { default as EliminationView } from '../Eliminations/View';
 import { PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
+import { useRouteMatch } from 'react-router-dom';
 
 interface OwnProps {
   organizationSlug: string;
@@ -55,6 +56,9 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   teams,
   tournamentSlug
 }) => {
+  const route = useRouteMatch();
+  const baseUrl = route.url;
+
   const MainContent =
     phase!.type === PhaseTypes.elimination ? (
       <EliminationView
@@ -87,6 +91,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
           <aside className="column is-4-desktop is-12-tablet">
             <ComponentLoader canRender={!gamesLoading} loader={'Loading'}>
               <GameListByDate
+                baseUrl={baseUrl}
                 dates={gameDates}
                 gamesByDate={gamesByDate}
                 initialDatePosition={gamesInitialDatePosition}
