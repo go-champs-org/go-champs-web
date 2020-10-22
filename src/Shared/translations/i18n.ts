@@ -4,6 +4,38 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './en';
 import pt from './pt';
 
+const formatDate = (value: string, lng: string) => {
+  switch (lng) {
+    case 'pt':
+      return `${value.substr(8, 2)}/${value.substr(5, 2)}/${value.substr(
+        0,
+        4
+      )}`;
+    case 'en':
+    default:
+      return `${value.substr(5, 2)}/${value.substr(8, 2)}/${value.substr(
+        0,
+        4
+      )}`;
+  }
+};
+
+const formatDateTime = (value: string, lng: string) => {
+  switch (lng) {
+    case 'pt':
+      return `${value.substr(8, 2)}/${value.substr(5, 2)}/${value.substr(
+        0,
+        4
+      )} ${value.substr(11, 8)}`;
+    case 'en':
+    default:
+      return `${value.substr(5, 2)}/${value.substr(8, 2)}/${value.substr(
+        0,
+        4
+      )} ${value.substr(11, 8)}`;
+  }
+};
+
 const resources = {
   en,
   pt
@@ -18,7 +50,17 @@ i18n
     supportedLngs: ['en', 'pt'],
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
-      escapeValue: false // react already safes from xss
+      escapeValue: false, // react already safes from xss
+      format: (value, format, lng) => {
+        switch (format) {
+          case 'date':
+            return formatDate(value, lng!);
+          case 'datetime':
+            return formatDateTime(value, lng!);
+          default:
+            return value;
+        }
+      }
     }
   });
 

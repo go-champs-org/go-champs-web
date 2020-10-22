@@ -77,7 +77,7 @@ const Form: React.FC<FromProps> = ({
 
         <div className="field">
           <label className="label">
-            <Trans>dateTime</Trans>
+            <Trans>dateTimeText</Trans>
           </label>
 
           <Field

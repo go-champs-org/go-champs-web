@@ -1,12 +1,14 @@
 import React from 'react';
 import { GameEntity } from './state';
+import { useTranslation } from 'react-i18next';
 
 function Card({ game }: { game: GameEntity }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="tile is-child box">
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-6 has-text-left">
-          <small>{game.datetime}</small>
+          <small>{t('dateTime', { date: game.datetime })}</small>
         </div>
 
         <div className="column is-6 has-text-right">
