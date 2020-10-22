@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
 import classNames from 'classnames';
 import { GameEntity } from './state';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 const basicTeamClasses = {
@@ -189,7 +189,9 @@ class ListByDate extends React.Component<ListByDateProps> {
 
           <div className="column has-text-centered">
             <h2 className="title is-5 notranslate">
-              {selectedDate && dateFromDate(selectedDate)}
+              {selectedDate && (
+                <Trans values={{ date: selectedDate }}>date</Trans>
+              )}
             </h2>
           </div>
 

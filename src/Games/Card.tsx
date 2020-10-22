@@ -7,7 +7,7 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
   return (
     <div className="tile is-child box">
       <div className="columns is-vcentered is-mobile is-multiline">
-        <div className="column is-6 has-text-left">
+        <div className="column is-6 has-text-left notranslate">
           <small>{t('dateTime', { date: game.datetime })}</small>
         </div>
 
