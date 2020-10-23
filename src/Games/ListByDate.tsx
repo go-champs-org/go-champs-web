@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { dateFromDate, timeFromDate } from '../Shared/datetime/format';
+import { timeFromDate } from '../Shared/datetime/format';
 import classNames from 'classnames';
 import { GameEntity } from './state';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 const basicTeamClasses = {

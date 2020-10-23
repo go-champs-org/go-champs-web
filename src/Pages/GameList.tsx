@@ -12,8 +12,7 @@ import List, { ListLoading } from '../Games/List';
 import { bindActionCreators, Dispatch } from 'redux';
 import ListHeader from '../Shared/UI/ListHeader';
 import useFilteredItemsByDate from '../Shared/hooks/useFilteredItemsByDate';
-import { dateFromDate } from '../Shared/datetime/format';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 const SearchDateInput: React.FC<{
   dates: string[];
@@ -48,7 +47,11 @@ const SearchDateInput: React.FC<{
         </div>
 
         <div className="column is-8 has-text-centered">
-          {value ? dateFromDate(value) : 'Click right to go to the first day'}
+          {value ? (
+            <Trans values={{ date: value }}>date</Trans>
+          ) : (
+            'Click right to go to the first day'
+          )}
         </div>
 
         <div className="column is-2 has-text-right">
