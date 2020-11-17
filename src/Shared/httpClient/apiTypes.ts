@@ -440,3 +440,13 @@ export interface ApiPlayerStatsLogsResponse {
 export interface ApiPlayerStatsLogResponse {
   data: ApiPlayerStatsLog;
 }
+
+export interface ApiAggregatedPlayerStatsLog {
+  id: string;
+  player_id: string;
+  stats: { [id: string]: string };
+}
+
+export interface ApiAggregatedPlayerStatsLogsResponse {
+  data: ApiAggregatedPlayerStatsLog[];
+}
