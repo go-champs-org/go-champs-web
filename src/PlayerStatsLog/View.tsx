@@ -3,6 +3,7 @@ import { PlayerEntity } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import { PlayerStatsLogEntity } from './state';
 import { TeamEntity } from '../Teams/state';
+import { Trans } from 'react-i18next';
 
 interface PlayerStatsLogRowProps {
   players: { [id: string]: PlayerEntity };
@@ -50,43 +51,39 @@ interface ViewProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogEntity[];
-  team: TeamEntity;
 }
 
 function View({
   players,
   playersStats,
-  playerStatLogs,
-  team
+  playerStatLogs
 }: ViewProps): React.ReactElement {
   return (
-    <div className="column is-12">
-      <h2 className="subtitle">{team.name}</h2>
+    <div className="table-container">
+      <table className="table is-fullwidth is-striped is-hoverable">
+        <thead>
+          <tr>
+            <th style={{ paddingLeft: '0' }}>
+              <Trans>players</Trans>
+            </th>
 
-      <div className="table-container">
-        <table className="table is-fullwidth is-striped is-hoverable">
-          <thead>
-            <tr>
-              <th style={{ paddingLeft: '0' }}>Player</th>
-
-              {playersStats.map((stat: PlayerStatEntity) => (
-                <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {playerStatLogs.map((playerStatLog: PlayerStatsLogEntity) => (
-              <PlayerStatsLogRow
-                playerStatLog={playerStatLog}
-                players={players}
-                playersStats={playersStats}
-                key={playerStatLog.id}
-              />
+            {playersStats.map((stat: PlayerStatEntity) => (
+              <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
             ))}
-          </tbody>
-        </table>
-      </div>
+          </tr>
+        </thead>
+
+        <tbody>
+          {playerStatLogs.map((playerStatLog: PlayerStatsLogEntity) => (
+            <PlayerStatsLogRow
+              playerStatLog={playerStatLog}
+              players={players}
+              playersStats={playersStats}
+              key={playerStatLog.id}
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

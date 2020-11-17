@@ -106,19 +106,25 @@ function GameView({
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
             <div className="columns is-multiline has-text-left">
-              <PlayerStatLogView
-                playerStatLogs={homePlayerStatsLogs}
-                players={homePlayersMap}
-                playersStats={tournament.playerStats}
-                team={homeTeam}
-              />
+              <div className="column is-12">
+                <h2 className="subtitle">{homeTeam.name}</h2>
 
-              <PlayerStatLogView
-                playerStatLogs={awayPlayerStatsLogs}
-                players={awayPlayersMap}
-                playersStats={tournament.playerStats}
-                team={awayTeam}
-              />
+                <PlayerStatLogView
+                  playerStatLogs={homePlayerStatsLogs}
+                  players={homePlayersMap}
+                  playersStats={tournament.playerStats}
+                />
+              </div>
+
+              <div className="column is-12">
+                <h2 className="subtitle">{awayTeam.name}</h2>
+
+                <PlayerStatLogView
+                  playerStatLogs={awayPlayerStatsLogs}
+                  players={awayPlayersMap}
+                  playersStats={tournament.playerStats}
+                />
+              </div>
             </div>
           </div>
         </div>
