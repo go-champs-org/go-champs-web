@@ -10,6 +10,7 @@ import { playersMap } from '../Players/selectors';
 import withAggregatedPlayerStatsLogs from './support/withAggregatedPlayerStatsLog';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 import { aggregatedPlayerStatLogs } from '../AggregatedPlayerStats/selectors';
+import { Trans } from 'react-i18next';
 
 const mapStateToProps = (
   state: StoreState,
@@ -46,11 +47,16 @@ function PlayerStatsView({
   players,
   tournament
 }: PlayerStatsViewProps) {
-  console.log(aggregatedPlayerStatLogs);
   return (
     <div className="column">
       <div className="columns is-multiline">
-        <div className="column is-12">Player stats view</div>
+        <div className="column is-12">
+          <span className="subtitle">
+            <Trans>
+              playerStats
+            </Trans>
+          </span>
+        </div>
 
         <div className="column is-12">
           <PlayerStatLogView
