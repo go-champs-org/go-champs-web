@@ -2,7 +2,6 @@ import React from 'react';
 import { PlayerEntity } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import { PlayerStatsLogEntity } from './state';
-import { TeamEntity } from '../Teams/state';
 import { Trans } from 'react-i18next';
 
 interface PlayerStatsLogRowProps {

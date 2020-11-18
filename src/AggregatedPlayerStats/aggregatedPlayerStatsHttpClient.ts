@@ -5,6 +5,7 @@ import {
   mapRequestFilterToQueryString
 } from '../Shared/httpClient/requestFilter';
 import { AggregatedPlayerStatsLogEntity } from './state';
+import { mapApiAggregatedPlayerStatsLogsToAggregatedPlayerStatsLogs } from './dataMappers';
 
 const AGGREGATED_PLAYER_STATS_LOGS_API = `${process.env.REACT_APP_API_HOST}v1/aggregated-player-stats-by-tournament`;
 
@@ -18,7 +19,7 @@ const getByFilter = async (
   const { data } = await httpClient.get<ApiAggregatedPlayerStatsLogsResponse>(
     url
   );
-  return mapApiPlayerStatsLogsToPlayerStatsLogs(data);
+  return mapApiAggregatedPlayerStatsLogsToAggregatedPlayerStatsLogs(data);
 };
 
 export default {

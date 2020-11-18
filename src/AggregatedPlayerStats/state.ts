@@ -4,17 +4,17 @@ export interface AggregatedPlayerStatsLogEntity {
   stats: { [id: string]: string };
 }
 
-export interface PlayerStatsLogState {
+export interface AggregatedPlayerStatsLogState {
   isLoadingRequestPlayerStatsLogs: boolean;
   aggregatedPlayerStatsLogs: { [key: string]: AggregatedPlayerStatsLogEntity };
 }
 
-export const initialState: PlayerStatsLogState = {
+export const initialState: AggregatedPlayerStatsLogState = {
   isLoadingRequestPlayerStatsLogs: false,
   aggregatedPlayerStatsLogs: {}
 };
 
-export const DEFAULT_PLAYER_STATS_LOG: AggregatedPlayerStatsLogEntity = {
+export const DEFAULT_AGGREGATED_PLAYER_STATS_LOG: AggregatedPlayerStatsLogEntity = {
   id: '',
   playerId: '',
   stats: {}
