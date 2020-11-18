@@ -32,6 +32,20 @@ export const players = (
   });
 };
 
+export const playersMap = (
+  state: PlayerState,
+  teamState: TeamState
+): { [id: string]: PlayerEntity } => {
+  return Object.keys(state.players).reduce((map, key: string) => {
+    const currentPlayer = state.players[key];
+
+    return {
+      ...map,
+      [key]: mergeTeam(currentPlayer, teamState.teams[currentPlayer.teamId])
+    };
+  }, {});
+};
+
 export const playersByTeamId = (
   state: PlayerState,
   teamState: TeamState,

@@ -1,13 +1,20 @@
 import React from 'react';
 import { PlayerEntity } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
-import { PlayerStatsLogEntity } from './state';
 import { Trans } from 'react-i18next';
+
+interface PlayerStatsLogRenderEntity {
+  id: string;
+  playerId: string;
+  stats: {
+    [id: string]: string;
+  };
+}
 
 interface PlayerStatsLogRowProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
-  playerStatLog: PlayerStatsLogEntity;
+  playerStatLog: PlayerStatsLogRenderEntity;
 }
 
 function PlayerStatsLogRow({
@@ -49,7 +56,7 @@ const PlayerStatLogHeader: React.FC<{
 interface ViewProps {
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
-  playerStatLogs: PlayerStatsLogEntity[];
+  playerStatLogs: PlayerStatsLogRenderEntity[];
 }
 
 function View({
@@ -73,7 +80,7 @@ function View({
         </thead>
 
         <tbody>
-          {playerStatLogs.map((playerStatLog: PlayerStatsLogEntity) => (
+          {playerStatLogs.map((playerStatLog: PlayerStatsLogRenderEntity) => (
             <PlayerStatsLogRow
               playerStatLog={playerStatLog}
               players={players}

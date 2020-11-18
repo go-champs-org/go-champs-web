@@ -26,7 +26,7 @@ import { default as aggregatedPlayerStatsLogsReducer } from './AggregatedPlayerS
 
 export interface StoreState {
   account: AccountState;
-  aggregatedPlayerStatsLog: AggregatedPlayerStatsLogState;
+  aggregatedPlayerStatsLogs: AggregatedPlayerStatsLogState;
   draws: DrawState;
   eliminations: EliminationState;
   games: GameState;
