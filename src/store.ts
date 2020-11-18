@@ -21,9 +21,12 @@ import { default as playerReducer } from './Players/reducer';
 import { default as playerStatsLogReducer } from './PlayerStatsLog/reducer';
 import { PlayerState } from './Players/state';
 import { PlayerStatsLogState } from './PlayerStatsLog/state';
+import { AggregatedPlayerStatsLogState } from './AggregatedPlayerStats/state';
+import { default as aggregatedPlayerStatsLogsReducer } from './AggregatedPlayerStats/reducer';
 
 export interface StoreState {
   account: AccountState;
+  aggregatedPlayerStatsLog: AggregatedPlayerStatsLogState;
   draws: DrawState;
   eliminations: EliminationState;
   games: GameState;
@@ -38,6 +41,7 @@ export interface StoreState {
 export default createStore(
   combineReducers({
     account: accountReducer,
+    aggregatedPlayerStatsLogs: aggregatedPlayerStatsLogsReducer,
     draws: drawsReducer,
     eliminations: eliminationsReducer,
     games: tournamentGameReducer,

@@ -169,7 +169,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/PlayerStats`}
           render={(props: RouteComponentProps<RouteProps>) => (
-            <PlayerStatsView />
+            <PlayerStatsView {...props} />
           )}
         />
         <Route
