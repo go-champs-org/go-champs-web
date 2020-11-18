@@ -70,7 +70,7 @@ function View({
         <thead>
           <tr>
             <th style={{ paddingLeft: '0' }}>
-              <Trans>players</Trans>
+              <Trans>player</Trans>
             </th>
 
             {playersStats.map((stat: PlayerStatEntity) => (

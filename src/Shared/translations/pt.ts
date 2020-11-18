@@ -66,6 +66,7 @@ export default {
     orSignUp: 'Ou crie uma conta',
     password: 'Senha',
     phases: 'Fases',
+    player: 'Jogador',
     players: 'Jogadores',
     playerStats: 'Estatísticas de jogadores',
     placeholder: 'Temporário',

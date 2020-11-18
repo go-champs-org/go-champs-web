@@ -66,6 +66,7 @@ export default {
     orSignUp: 'Or sign up',
     password: 'Password',
     phases: 'Phases',
+    player: 'Player',
     players: 'Players',
     playerStats: 'Player stats',
     placeholder: 'Placeholder',

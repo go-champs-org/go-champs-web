@@ -111,10 +111,24 @@ const TopLevel: React.FC<{
           </div>
         )}
 
+        <div className="level-item">
+          <Link to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}>
+            <button className="button is-rounded">
+              <span className="icon">
+                <i className="fas fa-table"></i>
+              </span>
+
+              <span>
+                <Trans>statistics</Trans>
+              </span>
+            </button>
+          </Link>
+        </div>
+
         <AuthenticatedWrapper>
           <div className="level-item">
             <Link to={`/${organizationSlug}/${tournamentSlug}/Manage`}>
-              <button className="button is-large">
+              <button className="button is-rounded">
                 <span className="icon is-medium">
                   <i className="fas fa-cog"></i>
                 </span>
