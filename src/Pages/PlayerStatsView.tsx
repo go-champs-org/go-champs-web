@@ -11,6 +11,7 @@ import withAggregatedPlayerStatsLogs from './support/withAggregatedPlayerStatsLo
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 import { aggregatedPlayerStatLogs } from '../AggregatedPlayerStats/selectors';
 import { Trans } from 'react-i18next';
+import { PlayerStatEntity } from '../Tournaments/state';
 
 const mapStateToProps = (
   state: StoreState,
@@ -47,19 +48,20 @@ function PlayerStatsView({
   players,
   tournament
 }: PlayerStatsViewProps) {
+  const onHeaderClick = (playerStat: PlayerStatEntity) =>
+    console.log(playerStat);
   return (
     <div className="column">
       <div className="columns is-multiline">
         <div className="column is-12">
           <span className="subtitle">
-            <Trans>
-              playerStats
-            </Trans>
+            <Trans>playerStats</Trans>
           </span>
         </div>
 
         <div className="column is-12">
           <PlayerStatLogView
+            onHeaderClick={onHeaderClick}
             players={players}
             playersStats={tournament.playerStats}
             playerStatLogs={aggregatedPlayerStatLogs}

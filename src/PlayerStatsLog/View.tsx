@@ -2,6 +2,7 @@ import React from 'react';
 import { PlayerEntity } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import { Trans } from 'react-i18next';
+import './View.scss';
 
 interface PlayerStatsLogRenderEntity {
   id: string;
@@ -48,18 +49,35 @@ function PlayerStatsLogRow({
 }
 
 const PlayerStatLogHeader: React.FC<{
+  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
   playetStatLog: PlayerStatEntity;
-}> = ({ playetStatLog }) => (
-  <th className="has-text-centered">{playetStatLog.title}</th>
+}> = ({ onHeaderClick, playetStatLog }) => (
+  <th className="has-text-centered">
+    {onHeaderClick ? (
+      <a
+        className="has-text-info clickable-header"
+        onClick={(event: React.MouseEvent) => {
+          event.preventDefault();
+          onHeaderClick(playetStatLog);
+        }}
+      >
+        {playetStatLog.title}
+      </a>
+    ) : (
+      playetStatLog.title
+    )}
+  </th>
 );
 
 interface ViewProps {
+  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
   players: { [id: string]: PlayerEntity };
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogRenderEntity[];
 }
 
 function View({
+  onHeaderClick,
   players,
   playersStats,
   playerStatLogs
@@ -74,7 +92,11 @@ function View({
             </th>
 
             {playersStats.map((stat: PlayerStatEntity) => (
-              <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
+              <PlayerStatLogHeader
+                key={stat.id}
+                playetStatLog={stat}
+                onHeaderClick={onHeaderClick}
+              />
             ))}
           </tr>
         </thead>
