@@ -4,9 +4,10 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { PlayerEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
+import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 
 export function FormLoading(): React.ReactElement {
   return (
@@ -77,6 +78,7 @@ function Form({
   selectInputTeams,
   values
 }: FromProps): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -110,58 +112,6 @@ function Form({
         </div>
 
         <div className="field">
-          <label className="label">Facebook</label>
-          <div className="control">
-            <Field
-              name="facebook"
-              component={StringInput}
-              type="text"
-              placeholder="www.facebook.com/your-tournament"
-            />
-          </div>
-
-          <p className="help is-info">
-            {`https://www.facebook.com/${
-              values.facebook ? values.facebook : ''
-            }`}
-          </p>
-        </div>
-
-        <div className="field">
-          <label className="label">Instagram</label>
-          <div className="control">
-            <Field
-              name="instagram"
-              component={StringInput}
-              type="text"
-              placeholder="www.instagram.com/your-tournament"
-            />
-          </div>
-
-          <p className="help is-info">
-            {`https://www.instagram.com/${
-              values.instagram ? values.instagram : ''
-            }`}
-          </p>
-        </div>
-
-        <div className="field">
-          <label className="label">Twitter</label>
-          <div className="control">
-            <Field
-              name="twitter"
-              component={StringInput}
-              type="text"
-              placeholder="www.twitter.com/your-tournament"
-            />
-          </div>
-
-          <p className="help is-info">
-            {`https://www.twitter.com/${values.twitter ? values.twitter : ''}`}
-          </p>
-        </div>
-
-        <div className="field">
           <label className="label">Username</label>
 
           <div className="control">
@@ -169,6 +119,64 @@ function Form({
           </div>
 
           <p className="help is-info">Go Champs Username</p>
+        </div>
+
+        <div className="field">
+          <CollapsibleCard titleElement={t('socialNetworks')}>
+            <div className="field">
+              <label className="label">Facebook</label>
+              <div className="control">
+                <Field
+                  name="facebook"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.facebook.com/your-tournament"
+                />
+              </div>
+
+              <p className="help is-info">
+                {`https://www.facebook.com/${
+                  values.facebook ? values.facebook : ''
+                }`}
+              </p>
+            </div>
+
+            <div className="field">
+              <label className="label">Instagram</label>
+              <div className="control">
+                <Field
+                  name="instagram"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.instagram.com/your-tournament"
+                />
+              </div>
+
+              <p className="help is-info">
+                {`https://www.instagram.com/${
+                  values.instagram ? values.instagram : ''
+                }`}
+              </p>
+            </div>
+
+            <div className="field">
+              <label className="label">Twitter</label>
+              <div className="control">
+                <Field
+                  name="twitter"
+                  component={StringInput}
+                  type="text"
+                  placeholder="www.twitter.com/your-tournament"
+                />
+              </div>
+
+              <p className="help is-info">
+                {`https://www.twitter.com/${
+                  values.twitter ? values.twitter : ''
+                }`}
+              </p>
+            </div>
+          </CollapsibleCard>
         </div>
 
         <LoadingButton
