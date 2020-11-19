@@ -8,14 +8,16 @@ import { Dispatch } from 'redux';
 import aggregatedPlayerStatsLogHttpClient from './aggregatedPlayerStatsHttpClient';
 
 export const getAggregatedPlayerStatsLogsByFilter = (
-  where: RequestFilter
+  where: RequestFilter,
+  sort?: string
 ) => async (dispatch: Dispatch) => {
   dispatch(getAggregatedPlayerStatsLogsByFilterStart());
 
   try {
-    const response = await aggregatedPlayerStatsLogHttpClient.getByFilter(
-      where
-    );
+    const request = sort
+      ? aggregatedPlayerStatsLogHttpClient.getByFilterAndSort(where, sort)
+      : aggregatedPlayerStatsLogHttpClient.getByFilter(where);
+    const response = await request;
 
     dispatch(getAggregatedPlayerStatsLogsByFilterSuccess(response));
   } catch (err) {

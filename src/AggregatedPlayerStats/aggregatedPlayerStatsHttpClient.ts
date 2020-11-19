@@ -22,6 +22,21 @@ const getByFilter = async (
   return mapApiAggregatedPlayerStatsLogsToAggregatedPlayerStatsLogs(data);
 };
 
+const getByFilterAndSort = async (
+  where: RequestFilter,
+  sort: string
+): Promise<AggregatedPlayerStatsLogEntity[]> => {
+  const url = `${AGGREGATED_PLAYER_STATS_LOGS_API}?${mapRequestFilterToQueryString(
+    where
+  )}&sort=${sort}`;
+
+  const { data } = await httpClient.get<ApiAggregatedPlayerStatsLogsResponse>(
+    url
+  );
+  return mapApiAggregatedPlayerStatsLogsToAggregatedPlayerStatsLogs(data);
+};
+
 export default {
-  getByFilter
+  getByFilter,
+  getByFilterAndSort
 };

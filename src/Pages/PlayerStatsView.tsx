@@ -7,13 +7,13 @@ import { connect, ConnectedProps } from 'react-redux';
 import { getAggregatedPlayerStatsLogsByFilter } from '../AggregatedPlayerStats/effects';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { playersMap } from '../Players/selectors';
-import withAggregatedPlayerStatsLogs from './support/withAggregatedPlayerStatsLog';
+import withAggregatedPlayerStatsLogs, {
+  SORT_URL_QUERY_PARAM
+} from './support/withAggregatedPlayerStatsLog';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 import { aggregatedPlayerStatLogs } from '../AggregatedPlayerStats/selectors';
 import { Trans } from 'react-i18next';
 import { PlayerStatEntity } from '../Tournaments/state';
-
-const SORT_URL_QUERY_PARAM = 'sort';
 
 const mapStateToProps = (
   state: StoreState,
