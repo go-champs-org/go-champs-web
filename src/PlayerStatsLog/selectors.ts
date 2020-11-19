@@ -61,3 +61,6 @@ export const playerStatLogsFormByPlayers = (
     })
   };
 };
+
+export const playerStatLogsLoading = (state: PlayerStatsLogState) =>
+  state.isLoadingRequestPlayerStatsLogs;

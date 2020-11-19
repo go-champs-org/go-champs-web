@@ -8,11 +8,17 @@ import { getGame } from '../Games/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
-import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
+import {
+  default as PlayerStatLogView,
+  ViewLoading as PlayerStatLogLoading
+} from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
 import { teamById } from '../Teams/selectors';
-import { playerStatLogsByGameIdAndTeamId } from '../PlayerStatsLog/selectors';
+import {
+  playerStatLogsByGameIdAndTeamId,
+  playerStatLogsLoading
+} from '../PlayerStatsLog/selectors';
 import withPlayerStatsLogs from './support/withPlayerStatsLogs';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { playersByTeamIdMap, playersByTeamId } from '../Players/selectors';
@@ -60,6 +66,7 @@ const mapStateToProps = (
     awayPlayerStatsLogs,
     awayTeam,
     game,
+    isLoadingPlayerStatsLogs: playerStatLogsLoading(state.playerStatsLogs),
     homePlayersMap,
     homePlayerStatsLogs,
     homeTeam,
@@ -90,6 +97,7 @@ function GameView({
   awayPlayersMap,
   awayPlayerStatsLogs,
   awayTeam,
+  isLoadingPlayerStatsLogs,
   game,
   homePlayersMap,
   homePlayerStatsLogs,
@@ -109,21 +117,29 @@ function GameView({
               <div className="column is-12">
                 <h2 className="subtitle">{homeTeam.name}</h2>
 
-                <PlayerStatLogView
-                  playerStatLogs={homePlayerStatsLogs}
-                  players={homePlayersMap}
-                  playersStats={tournament.playerStats}
-                />
+                {isLoadingPlayerStatsLogs ? (
+                  <PlayerStatLogLoading />
+                ) : (
+                  <PlayerStatLogView
+                    playerStatLogs={homePlayerStatsLogs}
+                    players={homePlayersMap}
+                    playersStats={tournament.playerStats}
+                  />
+                )}
               </div>
 
               <div className="column is-12">
                 <h2 className="subtitle">{awayTeam.name}</h2>
 
-                <PlayerStatLogView
-                  playerStatLogs={awayPlayerStatsLogs}
-                  players={awayPlayersMap}
-                  playersStats={tournament.playerStats}
-                />
+                {isLoadingPlayerStatsLogs ? (
+                  <PlayerStatLogLoading />
+                ) : (
+                  <PlayerStatLogView
+                    playerStatLogs={awayPlayerStatsLogs}
+                    players={awayPlayersMap}
+                    playersStats={tournament.playerStats}
+                  />
+                )}
               </div>
             </div>
           </div>
