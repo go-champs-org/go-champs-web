@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useLocation, useHistory } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -12,6 +12,8 @@ import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 import { aggregatedPlayerStatLogs } from '../AggregatedPlayerStats/selectors';
 import { Trans } from 'react-i18next';
 import { PlayerStatEntity } from '../Tournaments/state';
+
+const SORT_URL_QUERY_PARAM = 'sort';
 
 const mapStateToProps = (
   state: StoreState,
@@ -48,8 +50,17 @@ function PlayerStatsView({
   players,
   tournament
 }: PlayerStatsViewProps) {
-  const onHeaderClick = (playerStat: PlayerStatEntity) =>
-    console.log(playerStat);
+  const location = useLocation();
+  const history = useHistory();
+
+  const onHeaderClick = (playerStat: PlayerStatEntity) => {
+    const urlSearch = new URLSearchParams(location.search);
+    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.id);
+    history.push({
+      search: urlSearch.toString()
+    });
+  };
+
   return (
     <div className="column">
       <div className="columns is-multiline">
