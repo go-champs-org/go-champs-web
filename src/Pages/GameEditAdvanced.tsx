@@ -13,7 +13,7 @@ import {
 } from '../PlayerStatsLog/effects';
 import { getGame } from '../Games/effects';
 import { default as GameCard } from '../Games/Card';
-import withPlayerStatsLogs from './support/withPlayerStatsLogs';
+import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
 import { default as PlayerStatLogForm } from '../PlayerStatsLog/Form';
 import { playerStatLogsFormByPlayers } from '../PlayerStatsLog/selectors';
 import arrayMutators from 'final-form-arrays';
@@ -153,5 +153,5 @@ function GameEditAdvanced({
 }
 
 export default connector(
-  withPlayerStatsLogs<GameEditAdvancedProps>(GameEditAdvanced)
+  withPlayerStatsLogsForGame<GameEditAdvancedProps>(GameEditAdvanced)
 );

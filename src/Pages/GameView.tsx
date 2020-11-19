@@ -19,7 +19,7 @@ import {
   playerStatLogsByGameIdAndTeamId,
   playerStatLogsLoading
 } from '../PlayerStatsLog/selectors';
-import withPlayerStatsLogs from './support/withPlayerStatsLogs';
+import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { playersByTeamIdMap, playersByTeamId } from '../Players/selectors';
 
@@ -149,4 +149,4 @@ function GameView({
   );
 }
 
-export default connector(withPlayerStatsLogs<GameViewProps>(GameView));
+export default connector(withPlayerStatsLogsForGame<GameViewProps>(GameView));

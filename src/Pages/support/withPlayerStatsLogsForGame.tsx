@@ -14,10 +14,11 @@ interface WithPlayerStatsLogsProps {
   tournament: TournamentEntity;
 }
 
-const withPlayerStatsLogs = <T extends object>(
+const withPlayerStatsLogsForGame = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
-  const WithPlayerStatsLogs: React.FC<T & WithPlayerStatsLogsProps> = props => {
+  const WithPlayerStatsLogsForGame: React.FC<T &
+    WithPlayerStatsLogsProps> = props => {
     const { getGame, getPlayerStatsLogsByFilter, phase, tournament } = props;
     const {
       params: { gameId }
@@ -39,7 +40,7 @@ const withPlayerStatsLogs = <T extends object>(
     return <WrappedComponent {...props} />;
   };
 
-  return WithPlayerStatsLogs;
+  return WithPlayerStatsLogsForGame;
 };
 
-export default withPlayerStatsLogs;
+export default withPlayerStatsLogsForGame;
