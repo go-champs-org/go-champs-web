@@ -10,8 +10,14 @@ import { playersMap } from '../Players/selectors';
 import withAggregatedPlayerStatsLogs, {
   SORT_URL_QUERY_PARAM
 } from './support/withAggregatedPlayerStatsLog';
-import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
-import { aggregatedPlayerStatLogs } from '../AggregatedPlayerStats/selectors';
+import {
+  default as PlayerStatLogView,
+  ViewLoading as PlayerStatLogLoading
+} from '../PlayerStatsLog/View';
+import {
+  aggregatedPlayerStatLogs,
+  aggregatedPlayerStatLogsLoading
+} from '../AggregatedPlayerStats/selectors';
 import { Trans } from 'react-i18next';
 import { PlayerStatEntity } from '../Tournaments/state';
 
@@ -21,6 +27,9 @@ const mapStateToProps = (
 ) => {
   return {
     aggregatedPlayerStatLogs: aggregatedPlayerStatLogs(
+      state.aggregatedPlayerStatsLogs
+    ),
+    isLoadingAggregatedPlayerStatsLogs: aggregatedPlayerStatLogsLoading(
       state.aggregatedPlayerStatsLogs
     ),
     players: playersMap(state.players, state.teams),
@@ -47,6 +56,7 @@ type PlayerStatsViewProps = ConnectedProps<typeof connector> &
 
 function PlayerStatsView({
   aggregatedPlayerStatLogs,
+  isLoadingAggregatedPlayerStatsLogs,
   players,
   tournament
 }: PlayerStatsViewProps) {
@@ -71,12 +81,16 @@ function PlayerStatsView({
         </div>
 
         <div className="column is-12">
-          <PlayerStatLogView
-            onHeaderClick={onHeaderClick}
-            players={players}
-            playersStats={tournament.playerStats}
-            playerStatLogs={aggregatedPlayerStatLogs}
-          />
+          {isLoadingAggregatedPlayerStatsLogs ? (
+            <PlayerStatLogLoading />
+          ) : (
+            <PlayerStatLogView
+              onHeaderClick={onHeaderClick}
+              players={players}
+              playersStats={tournament.playerStats}
+              playerStatLogs={aggregatedPlayerStatLogs}
+            />
+          )}
         </div>
       </div>
     </div>

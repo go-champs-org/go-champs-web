@@ -6,3 +6,7 @@ export const aggregatedPlayerStatLogs = (
   Object.keys(state.aggregatedPlayerStatsLogs).map(
     (key: string) => state.aggregatedPlayerStatsLogs[key]
   );
+
+export const aggregatedPlayerStatLogsLoading = (
+  state: AggregatedPlayerStatsLogState
+) => state.isLoadingRequestPlayerStatsLogs;
