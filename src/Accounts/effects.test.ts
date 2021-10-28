@@ -268,17 +268,17 @@ describe('accountEffects', () => {
     });
 
     describe('on failure', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         dispatch.mockReset();
 
         jest
           .spyOn(accountHttpClient, 'signUp')
           .mockRejectedValue(new Error('some error'));
+
+        await signUp(SIGN_UP, mockHistory)(dispatch);
       });
 
-      it('dispatches post failure action', async () => {
-        await signUp(SIGN_UP, mockHistory)(dispatch);
-
+      it('dispatches post failure action', () => {
         expect(dispatch).toHaveBeenCalledWith(
           signUpFailure(new Error('some error'))
         );
@@ -332,17 +332,17 @@ describe('accountEffects', () => {
     });
 
     describe('on failure', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         dispatch.mockReset();
 
         jest
           .spyOn(accountHttpClient, 'facebookSignUp')
           .mockRejectedValue(new Error('some error'));
+
+        await facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
       });
 
-      it('dispatches post failure action', async () => {
-        await facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
-
+      it('dispatches post failure action', () => {
         expect(dispatch).toHaveBeenCalledWith(
           signUpFailure(new Error('some error'))
         );
@@ -394,17 +394,17 @@ describe('accountEffects', () => {
     });
 
     describe('on failure', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         dispatch.mockReset();
 
         jest
           .spyOn(accountHttpClient, 'reset')
           .mockRejectedValue(new Error('some error'));
+
+        await accountReset(ACCOUNT_RESET, mockHistory)(dispatch);
       });
 
       it('dispatches post failure action', async () => {
-        await accountReset(ACCOUNT_RESET, mockHistory)(dispatch);
-
         expect(dispatch).toHaveBeenCalledWith(
           accountResetFailure(new Error('some error'))
         );
@@ -456,17 +456,17 @@ describe('accountEffects', () => {
     });
 
     describe('on failure', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         dispatch.mockReset();
 
         jest
           .spyOn(accountHttpClient, 'recovery')
           .mockRejectedValue(new Error('some error'));
+
+        await accountRecovery(ACCOUNT_RECOVERY, mockHistory)(dispatch);
       });
 
-      it('dispatches post failure action', async () => {
-        await accountRecovery(ACCOUNT_RECOVERY, mockHistory)(dispatch);
-
+      it('dispatches post failure action', () => {
         expect(dispatch).toHaveBeenCalledWith(
           accountRecoveryFailure(new Error('some error'))
         );
