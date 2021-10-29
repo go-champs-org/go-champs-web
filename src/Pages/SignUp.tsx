@@ -10,6 +10,7 @@ import { SignUpEntity } from '../Accounts/entity';
 import { RouteComponentProps } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import FacebookLogin from 'react-facebook-login';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 const mapStateToProps = (state: StoreState, props: RouteComponentProps) => ({
   isSigingUp: isSigingUp(state.account),
@@ -65,17 +66,19 @@ function SignUp({
               />
             </div>
 
-            <div className="column is-12" style={{ paddingTop: 0 }}>
-              <FacebookLogin
-                appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
-                fields="id,email"
-                isDisabled={false}
-                callback={redirectToFacebookSignUp(history)}
-                cssClass="button facebook"
-                textButton={t('signUpWithFacebook')}
-                icon="fab fa-facebook"
-              />
-            </div>
+            <BehindFeatureFlag>
+              <div className="column is-12" style={{ paddingTop: 0 }}>
+                <FacebookLogin
+                  appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+                  fields="id,email"
+                  isDisabled={false}
+                  callback={redirectToFacebookSignUp(history)}
+                  cssClass="button facebook"
+                  textButton={t('signUpWithFacebook')}
+                  icon="fab fa-facebook"
+                />
+              </div>
+            </BehindFeatureFlag>
           </div>
         </div>
       </div>
