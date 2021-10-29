@@ -65,26 +65,10 @@ function PlayerEdit({
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-8">
+          <div className="column is-12">
             <h2 className="subtitle">
               <Trans>editPlayer</Trans>
             </h2>
-          </div>
-
-          <div className="column is-4 has-text-right">
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/EditPlayerAdvanced/${player.id}`}
-            >
-              <button className="button is-info is-outlined">
-                <span className="icon">
-                  <i className="fas fa-table"></i>
-                </span>
-
-                <span>
-                  <Trans>statistics</Trans>
-                </span>
-              </button>
-            </Link>
           </div>
 
           <div className="column is-12">

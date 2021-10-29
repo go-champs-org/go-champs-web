@@ -114,14 +114,6 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
-          path={`/:organizationSlug/:tournamentSlug/EditPlayerAdvanced/:playerId`}
-          render={(props: RouteComponentProps<RouteProps>) => (
-            <AuthenticatedRoute>
-              <PlayerEditAdvanced {...props} />
-            </AuthenticatedRoute>
-          )}
-        />
-        <Route
           path={`/:organizationSlug/:tournamentSlug/EditTeam/:teamId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
