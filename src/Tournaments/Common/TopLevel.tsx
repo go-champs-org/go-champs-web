@@ -6,6 +6,7 @@ import './TopLevel.scss';
 import { OrganizationEntity } from '../../Organizations/state';
 import AuthenticatedWrapper from '../../Shared/UI/AdminWrapper';
 import { Trans } from 'react-i18next';
+import BehindFeatureFlag from '../../Shared/UI/BehindFeatureFlag';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -111,19 +112,21 @@ const TopLevel: React.FC<{
           </div>
         )}
 
-        <div className="level-item">
-          <Link to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}>
-            <button className="button is-rounded">
-              <span className="icon">
-                <i className="fas fa-table"></i>
-              </span>
+        <BehindFeatureFlag>
+          <div className="level-item">
+            <Link to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}>
+              <button className="button is-rounded">
+                <span className="icon">
+                  <i className="fas fa-table"></i>
+                </span>
 
-              <span>
-                <Trans>statistics</Trans>
-              </span>
-            </button>
-          </Link>
-        </div>
+                <span>
+                  <Trans>statistics</Trans>
+                </span>
+              </button>
+            </Link>
+          </div>
+        </BehindFeatureFlag>
 
         <AuthenticatedWrapper>
           <div className="level-item">
