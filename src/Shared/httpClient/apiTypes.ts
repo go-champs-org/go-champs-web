@@ -450,3 +450,28 @@ export interface ApiAggregatedPlayerStatsLog {
 export interface ApiAggregatedPlayerStatsLogsResponse {
   data: ApiAggregatedPlayerStatsLog[];
 }
+
+export interface ApiFixedPlayerStatsTableRecord {
+  id: string;
+  player_id: string;
+  value: string;
+}
+
+export interface ApiFixedPlayerStatsTable {
+  id: string;
+  stat_id: string;
+  player_stats: ApiFixedPlayerStatsTableRecord[];
+  tournament_id: string;
+}
+
+export interface ApiFixedPlayerStatsTableRequest {
+  fixed_player_stats_table: ApiFixedPlayerStatsTable;
+}
+
+export interface ApiFixedPlayerStatsTableResponse {
+  data: ApiFixedPlayerStatsTable;
+}
+
+export interface ApiFixedPlayerStatsTablesResponse {
+  data: ApiFixedPlayerStatsTable[];
+}
