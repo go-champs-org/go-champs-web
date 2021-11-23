@@ -109,9 +109,8 @@ describe('patchFixedPlayerStatsTableFailure', () => {
 describe('patchFixedPlayerStatsTableSuccess', () => {
   const action = patchFixedPlayerStatsTableSuccess({
     id: 'first-id',
-    player_stats: [],
-    stat_id: 'some-stat-id',
-    tournament_id: 'some-tournament-id'
+    playerStats: [],
+    statId: 'some-stat-id'
   });
 
   const updateState: FixedPlayerStatsTableState = {
@@ -189,9 +188,8 @@ describe('postFixedPlayerStatsTableFailure', () => {
 describe('postFixedPlayerStatsTableSuccess', () => {
   const action = postFixedPlayerStatsTableSuccess({
     id: 'first-id',
-    player_stats: [],
-    stat_id: 'first-stat-id',
-    tournament_id: 'tournament-id'
+    playerStats: [],
+    statId: 'first-stat-id'
   });
 
   it('sets isLoadingPostFixedPlayerStatsTable to false', () => {

@@ -3,7 +3,7 @@ import {
   entityById,
   mapEntitiesByKey,
   returnProperty,
-  apiDataToEntitiesOverride
+  mapEntities
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import {
@@ -23,16 +23,10 @@ import {
   FixedPlayerStatsTableState,
   initialState
 } from './state';
-import { mapApiFixedPlayerStatsTableToFixedPlayerStatsTableEntity } from './dataMappers';
-import { ApiFixedPlayerStatsTable } from '../Shared/httpClient/apiTypes';
 
-const apiFixedPlayerStatsTableToEntities = apiDataToEntitiesOverride<
-  ApiFixedPlayerStatsTable,
+const fixedPlayerStatsTableMapEntities = mapEntities<
   FixedPlayerStatsTableEntity
->(
-  mapApiFixedPlayerStatsTableToFixedPlayerStatsTableEntity,
-  returnProperty('id')
-);
+>(returnProperty('id'));
 
 const deleteFixedPlayerStatsTable = (
   state: FixedPlayerStatsTableState,
@@ -82,12 +76,12 @@ const patchFixedPlayerStatsTableFailure = (
 
 const patchFixedPlayerStatsTableSuccess = (
   state: FixedPlayerStatsTableState,
-  action: HttpAction<ActionTypes, ApiFixedPlayerStatsTable>
+  action: HttpAction<ActionTypes, FixedPlayerStatsTableEntity>
 ) => ({
   ...state,
   isLoadingPatchFixedPlayerStatsTable: false,
   fixedPlayerStatsTables: [action.payload!].reduce(
-    apiFixedPlayerStatsTableToEntities,
+    fixedPlayerStatsTableMapEntities,
     state.fixedPlayerStatsTables
   )
 });
@@ -110,12 +104,12 @@ const postFixedPlayerStatsTableFailure = (
 
 const postFixedPlayerStatsTableSuccess = (
   state: FixedPlayerStatsTableState,
-  action: HttpAction<ActionTypes, ApiFixedPlayerStatsTable>
+  action: HttpAction<ActionTypes, FixedPlayerStatsTableEntity>
 ) => ({
   ...state,
   isLoadingPostFixedPlayerStatsTable: false,
   fixedPlayerStatsTables: [action.payload!].reduce(
-    apiFixedPlayerStatsTableToEntities,
+    fixedPlayerStatsTableMapEntities,
     state.fixedPlayerStatsTables
   )
 });

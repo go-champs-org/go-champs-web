@@ -1,6 +1,7 @@
 import { ApiFixedPlayerStatsTable } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { FixedPlayerStatsTableEntity } from './state';
 
 export const DELETE_FIXED_PLAYER_STATS_TABLE =
   'API_DELETE_FIXED_PLAYER_STATS_TABLE';
@@ -44,8 +45,8 @@ export const patchFixedPlayerStatsTableStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const patchFixedPlayerStatsTableSuccess = (
-  payload: ApiFixedPlayerStatsTable
-): HttpAction<ActionTypes, ApiFixedPlayerStatsTable> => ({
+  payload: FixedPlayerStatsTableEntity
+): HttpAction<ActionTypes, FixedPlayerStatsTableEntity> => ({
   type: PATCH_FIXED_PLAYER_STATS_TABLE_SUCCESS,
   payload
 });
@@ -62,8 +63,8 @@ export const postFixedPlayerStatsTableStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const postFixedPlayerStatsTableSuccess = (
-  payload: ApiFixedPlayerStatsTable
-): HttpAction<ActionTypes, ApiFixedPlayerStatsTable> => ({
+  payload: FixedPlayerStatsTableEntity
+): HttpAction<ActionTypes, FixedPlayerStatsTableEntity> => ({
   type: POST_FIXED_PLAYER_STATS_TABLE_SUCCESS,
   payload
 });
