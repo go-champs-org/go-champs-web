@@ -12,6 +12,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import TopLevel, { LoadingTopLevel } from '../Tournaments/Common/TopLevel';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TournamentEdit from './TournamentEdit';
+import FixedPlayerStatsTableList from './FixedPlayerStatsTableList';
 import PhaseList from './PhaseList';
 import PlayerList from './PlayerList';
 import PhaseNew from './PhaseNew';
@@ -26,7 +27,6 @@ import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
 import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
-import PlayerEditAdvanced from './PlayerEditAdvanced';
 
 const mapStateToProps = (
   state: StoreState,
@@ -148,6 +148,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <TeamNew {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/FixedPlayerStatsTables`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <FixedPlayerStatsTableList {...props} />
             </AuthenticatedRoute>
           )}
         />

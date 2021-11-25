@@ -21,6 +21,7 @@ import { TournamentEntity } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
+import { getFixedPlayerStatsTablesByFilter } from '../FixedPlayerStatsTables/effects';
 
 export const deleteTournament = (tournament: TournamentEntity) => async (
   dispatch: Dispatch
@@ -128,6 +129,9 @@ export const getTournamentBySlug = (
     const response = await tournamentHttpClient.get(tournamentId);
 
     dispatch(getTournamentSuccess(response));
+    getFixedPlayerStatsTablesByFilter({ tournament_id: tournamentId })(
+      dispatch
+    );
   } catch (err) {
     dispatch(getTournamentFailure(err));
   }

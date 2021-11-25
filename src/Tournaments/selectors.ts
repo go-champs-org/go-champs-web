@@ -1,4 +1,9 @@
-import { TournamentEntity, TournamentState, DEFAULT_TOURNAMENT } from './state';
+import {
+  TournamentEntity,
+  TournamentState,
+  DEFAULT_TOURNAMENT,
+  PlayerStatMap
+} from './state';
 
 export const tournamentBySlug = (
   state: TournamentState,
@@ -8,6 +13,20 @@ export const tournamentBySlug = (
     return DEFAULT_TOURNAMENT;
   }
   return state.tournaments[slug];
+};
+
+export const tournamentPlayerStatsBySlug = (
+  state: TournamentState,
+  slug?: string
+): PlayerStatMap => {
+  const tournament = tournamentBySlug(state, slug);
+
+  return tournament.playerStats.reduce((playerStatsMap, playerStat) => {
+    return {
+      ...playerStatsMap,
+      [playerStat.id]: playerStat
+    };
+  }, {});
 };
 
 export const tournaments = (state: TournamentState) =>

@@ -26,7 +26,7 @@ export const fixedPlayerStatsTableById = (
 
 export const fixedPlayerStatsTablesLoading = (
   state: FixedPlayerStatsTableState
-): boolean => state.isLoadingRequestTournament;
+): boolean => state.isLoadingRequestFixedPlayerStatsTables;
 export const patchingFixedPlayerStatsTable = (
   state: FixedPlayerStatsTableState
 ): boolean => state.isLoadingPatchFixedPlayerStatsTable;

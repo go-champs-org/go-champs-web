@@ -14,6 +14,10 @@ export interface PlayerStatEntity {
   title: string;
 }
 
+export interface PlayerStatMap {
+  [id: string]: PlayerStatEntity;
+}
+
 export interface TournamentState {
   isLoadingDeleteTournament: boolean;
   isLoadingPatchTournament: boolean;

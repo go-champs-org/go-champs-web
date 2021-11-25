@@ -35,6 +35,7 @@ export default {
     firstTeam: 'First team',
     firstTeamScore: 'First team score',
     fixed: 'Manual',
+    fixedPlayerStatsTables: 'Player Stats Tables',
     forgotYourPassword: 'Dig you forget your password?',
     here: 'here',
     homeTeam: 'Home team',

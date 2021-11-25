@@ -114,6 +114,13 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
               <Trans>players</Trans>
             </Link>
           </li>
+          <li>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/FixedPlayerStatsTables`}
+            >
+              <Trans>fixedPlayerStatsTables</Trans>
+            </Link>
+          </li>
         </BehindFeatureFlag>
         <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>

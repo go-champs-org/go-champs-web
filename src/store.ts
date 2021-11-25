@@ -23,12 +23,15 @@ import { PlayerState } from './Players/state';
 import { PlayerStatsLogState } from './PlayerStatsLog/state';
 import { AggregatedPlayerStatsLogState } from './AggregatedPlayerStats/state';
 import { default as aggregatedPlayerStatsLogsReducer } from './AggregatedPlayerStats/reducer';
+import { default as fixedPlayerStatsTablesReducer } from './FixedPlayerStatsTables/reducer';
+import { FixedPlayerStatsTableState } from './FixedPlayerStatsTables/state';
 
 export interface StoreState {
   account: AccountState;
   aggregatedPlayerStatsLogs: AggregatedPlayerStatsLogState;
   draws: DrawState;
   eliminations: EliminationState;
+  fixedPlayerStatsTables: FixedPlayerStatsTableState;
   games: GameState;
   organizations: OrganizationState;
   phases: PhaseState;
@@ -44,6 +47,7 @@ export default createStore(
     aggregatedPlayerStatsLogs: aggregatedPlayerStatsLogsReducer,
     draws: drawsReducer,
     eliminations: eliminationsReducer,
+    fixedPlayerStatsTables: fixedPlayerStatsTablesReducer,
     games: tournamentGameReducer,
     organizations: organizationReducer,
     phases: tournamentPhaseReducer,

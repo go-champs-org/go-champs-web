@@ -35,6 +35,7 @@ export default {
     firstTeam: 'Primeira equipe',
     firstTeamScore: 'Pontuacao primeira equipe',
     fixed: 'Manual',
+    fixedPlayerStatsTables: 'Tabelas de Estatísticas',
     forgotYourPassword: 'Esqueceu sua senha?',
     here: 'aqui',
     homeTeam: 'Equipe casa',
