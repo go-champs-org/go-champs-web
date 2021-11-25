@@ -16,7 +16,10 @@ import {
   PATCH_FIXED_PLAYER_STATS_TABLE_SUCCESS,
   POST_FIXED_PLAYER_STATS_TABLE,
   POST_FIXED_PLAYER_STATS_TABLE_FAILURE,
-  POST_FIXED_PLAYER_STATS_TABLE_SUCCESS
+  POST_FIXED_PLAYER_STATS_TABLE_SUCCESS,
+  GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER_SUCCESS,
+  GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER_FAILURE,
+  GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER
 } from './actions';
 import {
   FixedPlayerStatsTableEntity,
@@ -114,10 +117,41 @@ const postFixedPlayerStatsTableSuccess = (
   )
 });
 
+const getFixedPlayerStatsTablesByFilter = (
+  state: FixedPlayerStatsTableState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestFixedPlayerStatsTables: true
+});
+
+const getFixedPlayerStatsTablesByFilterSuccess = (
+  state: FixedPlayerStatsTableState,
+  action: HttpAction<ActionTypes, FixedPlayerStatsTableEntity[]>
+) => ({
+  ...state,
+  isLoadingRequestFixedPlayerStatsTables: false,
+  fixedPlayerStatsTables: action.payload!.reduce(
+    fixedPlayerStatsTableMapEntities,
+    state.fixedPlayerStatsTables
+  )
+});
+
+const getFixedPlayerStatsTablesByFilterFailure = (
+  state: FixedPlayerStatsTableState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestFixedPlayerStatsTables: false
+});
+
 export default createReducer<FixedPlayerStatsTableState>(initialState, {
   [DELETE_FIXED_PLAYER_STATS_TABLE]: deleteFixedPlayerStatsTable,
   [DELETE_FIXED_PLAYER_STATS_TABLE_FAILURE]: deleteFixedPlayerStatsTableFailure,
   [DELETE_FIXED_PLAYER_STATS_TABLE_SUCCESS]: deleteFixedPlayerStatsTableSuccess,
+  [GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER]: getFixedPlayerStatsTablesByFilter,
+  [GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER_SUCCESS]: getFixedPlayerStatsTablesByFilterSuccess,
+  [GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER_FAILURE]: getFixedPlayerStatsTablesByFilterFailure,
   [PATCH_FIXED_PLAYER_STATS_TABLE]: patchFixedPlayerStatsTable,
   [PATCH_FIXED_PLAYER_STATS_TABLE_FAILURE]: patchFixedPlayerStatsTableFailure,
   [PATCH_FIXED_PLAYER_STATS_TABLE_SUCCESS]: patchFixedPlayerStatsTableSuccess,

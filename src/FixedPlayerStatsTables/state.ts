@@ -14,7 +14,7 @@ export interface FixedPlayerStatsTableState {
   isLoadingDeleteFixedPlayerStatsTable: boolean;
   isLoadingPatchFixedPlayerStatsTable: boolean;
   isLoadingPostFixedPlayerStatsTable: boolean;
-  isLoadingRequestTournament: boolean;
+  isLoadingRequestFixedPlayerStatsTables: boolean;
   fixedPlayerStatsTables: { [key: string]: FixedPlayerStatsTableEntity };
 }
 
@@ -22,7 +22,7 @@ export const initialState: FixedPlayerStatsTableState = {
   isLoadingDeleteFixedPlayerStatsTable: false,
   isLoadingPatchFixedPlayerStatsTable: false,
   isLoadingPostFixedPlayerStatsTable: false,
-  isLoadingRequestTournament: false,
+  isLoadingRequestFixedPlayerStatsTables: false,
   fixedPlayerStatsTables: {}
 };
 

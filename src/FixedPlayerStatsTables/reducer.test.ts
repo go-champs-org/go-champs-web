@@ -7,7 +7,10 @@ import {
   patchFixedPlayerStatsTableSuccess,
   postFixedPlayerStatsTableFailure,
   postFixedPlayerStatsTableStart,
-  postFixedPlayerStatsTableSuccess
+  postFixedPlayerStatsTableSuccess,
+  getFixedPlayerStatsTablesByFilterStart,
+  getFixedPlayerStatsTablesByFilterFailure,
+  getFixedPlayerStatsTablesByFilterSuccess
 } from './actions';
 import fixedPlayerStatsTableReducer from './reducer';
 import { initialState, FixedPlayerStatsTableState } from './state';
@@ -227,6 +230,77 @@ describe('postFixedPlayerStatsTableSuccess', () => {
       id: 'some-id',
       statId: 'some-stat-id',
       playerStats: []
+    });
+  });
+});
+
+describe('getGamesByFilter', () => {
+  const action = getFixedPlayerStatsTablesByFilterStart();
+
+  it('sets isLoadingRequestFixedPlayerStatsTables to true', () => {
+    expect(
+      fixedPlayerStatsTableReducer(initialState, action)
+        .isLoadingRequestFixedPlayerStatsTables
+    ).toBe(true);
+  });
+});
+
+describe('getFixedPlayerStatsTablesByFilterFailure', () => {
+  const action = getFixedPlayerStatsTablesByFilterFailure('error');
+
+  it('sets isLoadingRequestFixedPlayerStatsTables to false', () => {
+    expect(
+      fixedPlayerStatsTableReducer(initialState, action)
+        .isLoadingRequestFixedPlayerStatsTables
+    ).toBe(false);
+  });
+});
+
+describe('getFixedPlayerStatsTablesByFilterSuccess', () => {
+  const action = getFixedPlayerStatsTablesByFilterSuccess([
+    {
+      id: 'first-id',
+      statId: 'first-stat-id',
+      playerStats: []
+    },
+    {
+      id: 'second-id',
+      statId: 'second-stat-id',
+      playerStats: [
+        {
+          id: 'player-stat-id',
+          playerId: 'player-id',
+          value: 'value'
+        }
+      ]
+    }
+  ]);
+
+  it('sets isLoadingRequestFixedPlayerStatsTables to false', () => {
+    expect(
+      fixedPlayerStatsTableReducer(initialState, action)
+        .isLoadingRequestFixedPlayerStatsTables
+    ).toBe(false);
+  });
+
+  it('sets entities', () => {
+    const newState = fixedPlayerStatsTableReducer(initialState, action);
+
+    expect(newState.fixedPlayerStatsTables['first-id']).toEqual({
+      id: 'first-id',
+      statId: 'first-stat-id',
+      playerStats: []
+    });
+    expect(newState.fixedPlayerStatsTables['second-id']).toEqual({
+      id: 'second-id',
+      statId: 'second-stat-id',
+      playerStats: [
+        {
+          id: 'player-stat-id',
+          playerId: 'player-id',
+          value: 'value'
+        }
+      ]
     });
   });
 });

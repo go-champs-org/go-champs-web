@@ -1,7 +1,8 @@
 import {
   postFixedPlayerStatsTable,
   patchFixedPlayerStatsTable,
-  deleteFixedPlayerStatsTable
+  deleteFixedPlayerStatsTable,
+  getFixedPlayerStatsTablesByFilter
 } from './effects';
 import { DEFAULT_FIXED_PLAYER_STATS_TABLE } from './state';
 import {
@@ -13,7 +14,10 @@ import {
   patchFixedPlayerStatsTableFailure,
   deleteFixedPlayerStatsTableStart,
   deleteFixedPlayerStatsTableSuccess,
-  deleteFixedPlayerStatsTableFailure
+  deleteFixedPlayerStatsTableFailure,
+  getFixedPlayerStatsTablesByFilterFailure,
+  getFixedPlayerStatsTablesByFilterSuccess,
+  getFixedPlayerStatsTablesByFilterStart
 } from './actions';
 import fixedPlayerStatsTableHttpClient from './fixedPlayerStatsTableHttpClient';
 import * as toast from '../Shared/bulma/toast';
@@ -245,6 +249,71 @@ describe('postFixedPlayerStatsTable', () => {
       expect(result).toEqual({
         tournamentId: ['has invalid format']
       });
+    });
+  });
+});
+
+describe('getFixedPlayerStatsTablesByFilter', () => {
+  const requestFilter = { ['some-key']: 'some value' };
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start get action', () => {
+    getFixedPlayerStatsTablesByFilter(requestFilter)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      getFixedPlayerStatsTablesByFilterStart()
+    );
+  });
+
+  describe('on success', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(fixedPlayerStatsTableHttpClient, 'getByFilter')
+        .mockResolvedValue([
+          {
+            id: 'get-id',
+            statId: 'get-stat-id',
+            playerStats: []
+          }
+        ]);
+
+      getFixedPlayerStatsTablesByFilter(requestFilter)(dispatch);
+    });
+
+    it('dispatches get success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        getFixedPlayerStatsTablesByFilterSuccess([
+          {
+            id: 'get-id',
+            statId: 'get-stat-id',
+            playerStats: []
+          }
+        ])
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new Error('some-error');
+
+    beforeEach(() => {
+      dispatch.mockReset();
+
+      jest
+        .spyOn(fixedPlayerStatsTableHttpClient, 'getByFilter')
+        .mockRejectedValue(apiError);
+
+      getFixedPlayerStatsTablesByFilter(requestFilter)(dispatch);
+    });
+
+    it('dispatches get failure action', async () => {
+      await getFixedPlayerStatsTablesByFilter(requestFilter)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        getFixedPlayerStatsTablesByFilterFailure(apiError)
+      );
     });
   });
 });

@@ -3,20 +3,21 @@ import {
   deleteFixedPlayerStatsTableFailure,
   deleteFixedPlayerStatsTableStart,
   deleteFixedPlayerStatsTableSuccess,
-  // getFixedPlayerStatsTableFailure,
-  // getFixedPlayerStatsTableStart,
-  // getFixedPlayerStatsTableSuccess,
   patchFixedPlayerStatsTableFailure,
   patchFixedPlayerStatsTableStart,
   patchFixedPlayerStatsTableSuccess,
   postFixedPlayerStatsTableFailure,
   postFixedPlayerStatsTableStart,
-  postFixedPlayerStatsTableSuccess
+  postFixedPlayerStatsTableSuccess,
+  getFixedPlayerStatsTablesByFilterStart,
+  getFixedPlayerStatsTablesByFilterSuccess,
+  getFixedPlayerStatsTablesByFilterFailure
 } from './actions';
 import fixedPlayerStatsTableHttpClient from './fixedPlayerStatsTableHttpClient';
 import { FixedPlayerStatsTableEntity } from './state';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 
 export const deleteFixedPlayerStatsTable = (
   fixedPlayerStatsTable: FixedPlayerStatsTableEntity
@@ -81,28 +82,16 @@ export const postFixedPlayerStatsTable = (
   }
 };
 
-// export const getFixedPlayerStatsTable = (fixedPlayerStatsTableId: string) => async (dispatch: Dispatch) => {
-//   dispatch(getFixedPlayerStatsTableStart());
+export const getFixedPlayerStatsTablesByFilter = (
+  where: RequestFilter
+) => async (dispatch: Dispatch) => {
+  dispatch(getFixedPlayerStatsTablesByFilterStart());
 
-//   try {
-//     const response = await fixedPlayerStatsTableHttpClient.get(fixedPlayerStatsTableId);
+  try {
+    const response = await fixedPlayerStatsTableHttpClient.getByFilter(where);
 
-//     dispatch(getFixedPlayerStatsTableSuccess(response));
-//   } catch (err) {
-//     dispatch(getFixedPlayerStatsTableFailure(err));
-//   }
-// };
-
-// export const getFixedPlayerStatsTablesByFilter = (where: RequestFilter) => async (
-//   dispatch: Dispatch
-// ) => {
-//   dispatch(getFixedPlayerStatsTablesByFilterStart());
-
-//   try {
-//     const response = await fixedPlayerStatsTableHttpClient.getByFilter(where);
-
-//     dispatch(getFixedPlayerStatsTablesByFilterSuccess(response));
-//   } catch (err) {
-//     dispatch(getFixedPlayerStatsTablesByFilterFailure(err));
-//   }
-// };
+    dispatch(getFixedPlayerStatsTablesByFilterSuccess(response));
+  } catch (err) {
+    dispatch(getFixedPlayerStatsTablesByFilterFailure(err));
+  }
+};
