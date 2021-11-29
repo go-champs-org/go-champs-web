@@ -2,8 +2,10 @@ import {
   TournamentEntity,
   TournamentState,
   DEFAULT_TOURNAMENT,
-  PlayerStatMap
+  PlayerStatMap,
+  PlayerStatEntity
 } from './state';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 export const tournamentBySlug = (
   state: TournamentState,
@@ -18,6 +20,15 @@ export const tournamentBySlug = (
 export const tournamentPlayerStatsBySlug = (
   state: TournamentState,
   slug?: string
+): PlayerStatEntity[] => {
+  const tournament = tournamentBySlug(state, slug);
+
+  return tournament.playerStats;
+};
+
+export const tournamentPlayerStatsMapBySlug = (
+  state: TournamentState,
+  slug?: string
 ): PlayerStatMap => {
   const tournament = tournamentBySlug(state, slug);
 
@@ -27,6 +38,17 @@ export const tournamentPlayerStatsBySlug = (
       [playerStat.id]: playerStat
     };
   }, {});
+};
+
+export const tournamentPlayerStatsForSelectInput = (
+  state: TournamentState,
+  slug?: string
+): SelectOptionType[] => {
+  const allPlayerStatsLog = tournamentPlayerStatsBySlug(state, slug);
+  return allPlayerStatsLog.map((playerStats: PlayerStatEntity) => ({
+    value: playerStats.id,
+    label: playerStats.title
+  }));
 };
 
 export const tournaments = (state: TournamentState) =>

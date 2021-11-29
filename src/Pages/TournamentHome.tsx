@@ -27,6 +27,7 @@ import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
 import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
+import FixedPlayerStatsTableNew from './FixedPlayerStatsTableNew';
 
 const mapStateToProps = (
   state: StoreState,
@@ -125,6 +126,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           path={`/:organizationSlug/:tournamentSlug/GameView/:gameId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <GameView {...props} />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/NewFixedPlayerStatsTable`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <FixedPlayerStatsTableNew {...props} />
+            </AuthenticatedRoute>
           )}
         />
         <Route
