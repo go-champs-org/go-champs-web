@@ -22,6 +22,7 @@ export default {
     draws: 'Draws',
     editDraw: 'Edit draw',
     editElimination: 'Edit elimination',
+    editFixedPlayerStatsTable: 'Edit fixed player stats table',
     editGame: 'Edit game',
     editOrganization: 'Edit organization',
     editPhase: 'Edit phase',

@@ -22,6 +22,7 @@ export default {
     draws: 'Chaveamentos',
     editDraw: 'Editar chaveamento',
     editElimination: 'Editar eliminacoes',
+    editFixedPlayerStatsTable: 'Editar tabelas de estatísticas',
     editGame: 'Editar jogo',
     editOrganization: 'Editar organizacão',
     editPhase: 'Editar fase',
