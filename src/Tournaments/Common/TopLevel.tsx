@@ -114,7 +114,9 @@ const TopLevel: React.FC<{
 
         <BehindFeatureFlag>
           <div className="level-item">
-            <Link to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}>
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/PlayerStatsSummary`}
+            >
               <button className="button is-rounded">
                 <span className="icon">
                   <i className="fas fa-table"></i>

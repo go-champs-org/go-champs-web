@@ -29,6 +29,7 @@ import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
 import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
+import PlayerStatsSummaryView from './PlayerStatsSummaryView';
 
 const mapStateToProps = (
   state: StoreState,
@@ -197,6 +198,12 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           path={`/:organizationSlug/:tournamentSlug/PlayerStats`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <PlayerStatsView {...props} />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/PlayerStatsSummary`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <PlayerStatsSummaryView {...props} />
           )}
         />
         <Route
