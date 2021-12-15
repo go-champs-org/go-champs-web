@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react';
 import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
-import { FixedPlayerStatsTableEntity } from './state';
+import {
+  FixedPlayerStatsTableEntity,
+  DEFAULT_FIXED_PLAYER_STATS_ROW,
+  FixedPlayerStatsRecordEntity
+} from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
@@ -116,6 +120,7 @@ const onMoveDownPlayerStat = (items: FieldArrayActions, index: number) => (
 interface FromProps extends FormRenderProps<FixedPlayerStatsTableEntity> {
   backUrl: string;
   isLoading: boolean;
+  push: (fieldName: string, playerStat: FixedPlayerStatsRecordEntity) => {};
   selectInputPlayerStats: SelectOptionType[];
   selectInputPlayers: SelectOptionType[];
 }
@@ -126,6 +131,7 @@ const Form: React.FC<FromProps> = ({
   handleSubmit,
   submitting,
   pristine,
+  push,
   selectInputPlayerStats,
   selectInputPlayers
 }) => {
@@ -181,6 +187,14 @@ const Form: React.FC<FromProps> = ({
               </div>
             )}
           </FieldArray>
+
+          <button
+            className="button is-fullwidth  is-medium"
+            type="button"
+            onClick={() => push('playerStats', DEFAULT_FIXED_PLAYER_STATS_ROW)}
+          >
+            <Trans>addPlayerStat</Trans>
+          </button>
         </div>
 
         <LoadingButton

@@ -124,6 +124,7 @@ const FixedPlayerStatsTableNew: React.FC<FixedPlayerStatsTableNewProps> = ({
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPostingFixedPlayerStatsTable}
+                  push={props.form.mutators.push}
                   selectInputPlayerStats={selectInputPlayerStats}
                   selectInputPlayers={selectInputPlayers}
                 />

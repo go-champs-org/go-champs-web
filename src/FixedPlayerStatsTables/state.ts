@@ -31,3 +31,9 @@ export const DEFAULT_FIXED_PLAYER_STATS_TABLE: FixedPlayerStatsTableEntity = {
   statId: '',
   playerStats: []
 };
+
+export const DEFAULT_FIXED_PLAYER_STATS_ROW: FixedPlayerStatsRecordEntity = {
+  id: '',
+  playerId: '',
+  value: ''
+};
