@@ -12,17 +12,28 @@ import { fixedPlayerStatsTables } from '../FixedPlayerStatsTables/selectors';
 import { StoreState } from '../store';
 import {
   tournamentLoading,
-  tournamentPlayerStatsBySlug
+  tournamentPlayerStatsMapBySlug
 } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import ListHeader from '../Shared/UI/ListHeader';
 import { useTranslation } from 'react-i18next';
 
-const mapStateToProps = (state: StoreState) => ({
-  fixedPlayerStatsTables: fixedPlayerStatsTables(state.fixedPlayerStatsTables),
-  playerStatsMap: tournamentPlayerStatsBySlug(state.tournaments),
-  tournamentLoading: tournamentLoading(state.tournaments)
-});
+const mapStateToProps = (
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
+) => {
+  const { tournamentSlug } = props.match.params;
+  return {
+    fixedPlayerStatsTables: fixedPlayerStatsTables(
+      state.fixedPlayerStatsTables
+    ),
+    playerStatsMap: tournamentPlayerStatsMapBySlug(
+      state.tournaments,
+      tournamentSlug
+    ),
+    tournamentLoading: tournamentLoading(state.tournaments)
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
