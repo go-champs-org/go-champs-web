@@ -11,6 +11,8 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import StringInput from '../Shared/UI/Form/StringInput';
+import { required } from '../Shared/UI/Form/Validators/commonValidators';
 
 interface FixedPlayerStatsRowProps {
   name: string;
@@ -21,6 +23,7 @@ interface FixedPlayerStatsRowProps {
 }
 
 const FixedPlayerStatsRow: React.FC<FixedPlayerStatsRowProps> = ({
+  name,
   onMoveDown,
   onMoveUp,
   onRemove,
@@ -36,10 +39,17 @@ const FixedPlayerStatsRow: React.FC<FixedPlayerStatsRowProps> = ({
             width: '250px'
           }}
         >
-          Player
+          <Field
+            name={`${name}.playerId`}
+            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+              <SelectInput {...props} options={selectInputPlayers} />
+            )}
+          />
         </td>
 
-        <td>value</td>
+        <td>
+          <Field name={`${name}.value`} component={StringInput} type="text" />
+        </td>
       </tr>
 
       <tr>
@@ -149,6 +159,7 @@ const Form: React.FC<FromProps> = ({
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
                 <SelectInput {...props} options={selectInputPlayerStats} />
               )}
+              validate={required}
             ></Field>
           </div>
         </div>

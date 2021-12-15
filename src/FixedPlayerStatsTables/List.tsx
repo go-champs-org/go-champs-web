@@ -54,8 +54,9 @@ const FixedPlayerStatsTableCard: React.FC<{
         to={`/${organizationSlug}/${tournamentSlug}/EditFixedPlayerStatsTable/${fixedPlayerStatsTable.id}`}
       >
         <span className="title is-6">
-          {playerStatsMap[fixedPlayerStatsTable.statId] ||
-            playerStatsMap[fixedPlayerStatsTable.statId].title}
+          {playerStatsMap[fixedPlayerStatsTable.statId]
+            ? playerStatsMap[fixedPlayerStatsTable.statId].title
+            : ''}
         </span>
       </Link>
 

@@ -1,7 +1,8 @@
 import {
   ApiFixedPlayerStatsTable,
   ApiFixedPlayerStatsTableRequest,
-  ApiFixedPlayerStatsTableRecord
+  ApiFixedPlayerStatsTableRecord,
+  ApiFixedPlayerStatsTableRecordPatchAndPost
 } from '../Shared/httpClient/apiTypes';
 import {
   FixedPlayerStatsTableEntity,
@@ -34,6 +35,13 @@ export const mapFixedPlayerStatsEntityToApiFixedPlayerStatsRecord = (
   value: fixedPlayerStatsTableRecord.value
 });
 
+export const mapFixedPlayerStatsEntityToApiFixedPlayerStatsRecordPatchAndPost = (
+  fixedPlayerStatsTableRecord: FixedPlayerStatsRecordEntity
+): ApiFixedPlayerStatsTableRecordPatchAndPost => ({
+  player_id: fixedPlayerStatsTableRecord.playerId,
+  value: fixedPlayerStatsTableRecord.value
+});
+
 export const mapFixedPlayerStatsTableEntityToApiFixedPlayerStatsTableRequest = (
   fixedPlayerStatsTable: FixedPlayerStatsTableEntity,
   tournamentId: string
@@ -41,7 +49,7 @@ export const mapFixedPlayerStatsTableEntityToApiFixedPlayerStatsTableRequest = (
   fixed_player_stats_table: {
     id: fixedPlayerStatsTable.id,
     player_stats: fixedPlayerStatsTable.playerStats.map(
-      mapFixedPlayerStatsEntityToApiFixedPlayerStatsRecord
+      mapFixedPlayerStatsEntityToApiFixedPlayerStatsRecordPatchAndPost
     ),
     stat_id: fixedPlayerStatsTable.statId,
     tournament_id: tournamentId
