@@ -117,6 +117,7 @@ export default {
       'All information is available for anyone to access and can follow your tournament.',
     whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking',
     youNeedCreateTeams: 'You need to create teams.',
-    youNeedCreatePhases: 'You need to create phases.'
+    youNeedCreatePhases: 'You need to create phases.',
+    value: 'Value'
   }
 };

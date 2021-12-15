@@ -54,7 +54,9 @@ const FixedPlayerStatsRow: React.FC<FixedPlayerStatsRowProps> = ({
 
       <tr>
         <td style={{ verticalAlign: 'middle' }}>
-          <span className="is-italic">Actions</span>
+          <span className="is-italic">
+            <Trans>actions</Trans>
+          </span>
         </td>
 
         <td className="has-text-right">
@@ -176,9 +178,11 @@ const Form: React.FC<FromProps> = ({
                   <thead>
                     <tr>
                       <th style={{ paddingLeft: '0', width: '225px' }}>
-                        Player
+                        <Trans>player</Trans>
                       </th>
-                      <th>Value</th>
+                      <th>
+                        <Trans>value</Trans>
+                      </th>
                     </tr>
                   </thead>
 

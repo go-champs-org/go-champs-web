@@ -117,6 +117,7 @@ export default {
       'As informacões ficam disponibilizadas para qualquer pessoa acessar e pode acompanhar seu torneio.',
     whatIsGoChampsLine3: 'Acesse nosso torneio exemplo clicando',
     youNeedCreateTeams: 'Você precisa criar times.',
-    youNeedCreatePhases: 'Você precisa criar fases.'
+    youNeedCreatePhases: 'Você precisa criar fases.',
+    value: 'Valor'
   }
 };
