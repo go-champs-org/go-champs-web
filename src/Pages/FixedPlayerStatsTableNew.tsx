@@ -99,7 +99,7 @@ const FixedPlayerStatsTableNew: React.FC<FixedPlayerStatsTableNewProps> = ({
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/FixedPlayerStatsTables`;
-  console.log(selectInputPlayerStats);
+
   return (
     <Fragment>
       <div className="column">

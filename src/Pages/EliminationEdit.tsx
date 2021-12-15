@@ -48,9 +48,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type EliminationNewProps = ConnectedProps<typeof connector> & OwnProps;
+type EliminationEditProps = ConnectedProps<typeof connector> & OwnProps;
 
-const EliminationNew: React.FC<EliminationNewProps> = ({
+const EliminationEdit: React.FC<EliminationEditProps> = ({
   basePhaseManageUrl,
   isPacthingElimination,
   elimination,
@@ -107,4 +107,4 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
   );
 };
 
-export default connector(withPhase<EliminationNewProps>(EliminationNew));
+export default connector(withPhase<EliminationEditProps>(EliminationEdit));
