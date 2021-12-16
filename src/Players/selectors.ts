@@ -1,4 +1,4 @@
-import { PlayerEntity, PlayerState, DEFAULT_PLAYER } from './state';
+import { PlayerEntity, PlayerState, DEFAULT_PLAYER, PlayersMap } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { TeamState, DEFAULT_TEAM, TeamEntity } from '../Teams/state';
 
@@ -35,7 +35,7 @@ export const players = (
 export const playersMap = (
   state: PlayerState,
   teamState: TeamState
-): { [id: string]: PlayerEntity } => {
+): PlayersMap => {
   return Object.keys(state.players).reduce((map, key: string) => {
     const currentPlayer = state.players[key];
 

@@ -19,6 +19,10 @@ export interface PlayerState {
   players: { [key: string]: PlayerEntity };
 }
 
+export interface PlayersMap {
+  [id: string]: PlayerEntity;
+}
+
 export const initialState: PlayerState = {
   isLoadingDeletePlayer: false,
   isLoadingPatchPlayer: false,

@@ -11,7 +11,11 @@ import {
   tournamentLoading,
   tournamentPlayerStatsMapBySlug
 } from '../Tournaments/selectors';
-import { Trans } from 'react-i18next';
+import {
+  default as FixedPlayerStatsView,
+  ViewLoading as FixedPlayerStatsLoading
+} from '../FixedPlayerStatsTables/View';
+import { playersMap } from '../Players/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -22,6 +26,7 @@ const mapStateToProps = (
     fixedPlayerStatsTables: fixedPlayerStatsTables(
       state.fixedPlayerStatsTables
     ),
+    playersMap: playersMap(state.players, state.teams),
     playerStatsMap: tournamentPlayerStatsMapBySlug(
       state.tournaments,
       tournamentSlug
@@ -44,19 +49,24 @@ type PlayerStatsSummaryViewProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
 const PlayerStatsSummaryView: React.FC<PlayerStatsSummaryViewProps> = ({
-  match,
   fixedPlayerStatsTables,
   playerStatsMap,
+  playersMap,
   tournamentLoading
 }) => {
   return (
     <div className="column">
       <div className="columns is-multiline">
         <div className="column is-12">
-          <span className="subtitle">
-            <Trans>playerStats</Trans>
-          </span>
-          Summary
+          {tournamentLoading ? (
+            <FixedPlayerStatsLoading />
+          ) : (
+            <FixedPlayerStatsView
+              fixedPlayerStatsTables={fixedPlayerStatsTables}
+              playerStatsMap={playerStatsMap}
+              playersMap={playersMap}
+            />
+          )}
         </div>
       </div>
     </div>
