@@ -108,20 +108,18 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
             <Trans>phases</Trans>
           </Link>
         </li>
-        <BehindFeatureFlag>
-          <li>
-            <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
-              <Trans>players</Trans>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/FixedPlayerStatsTables`}
-            >
-              <Trans>fixedPlayerStatsTables</Trans>
-            </Link>
-          </li>
-        </BehindFeatureFlag>
+        <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
+            <Trans>players</Trans>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/FixedPlayerStatsTables`}
+          >
+            <Trans>fixedPlayerStatsTables</Trans>
+          </Link>
+        </li>
         <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>
             <Trans>teams</Trans>
