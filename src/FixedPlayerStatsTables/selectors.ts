@@ -24,6 +24,9 @@ export const fixedPlayerStatsTableById = (
   return state.fixedPlayerStatsTables[fixedPlayerStatsTableId];
 };
 
+export const hasSummaryStatistics = (state: FixedPlayerStatsTableState) =>
+  fixedPlayerStatsTables(state).length > 0;
+
 export const fixedPlayerStatsTablesLoading = (
   state: FixedPlayerStatsTableState
 ): boolean => state.isLoadingRequestFixedPlayerStatsTables;

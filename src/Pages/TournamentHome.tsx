@@ -30,6 +30,7 @@ import PlayerEdit from './PlayerEdit';
 import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
 import PlayerStatsSummaryView from './PlayerStatsSummaryView';
+import { hasSummaryStatistics } from '../FixedPlayerStatsTables/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -37,6 +38,7 @@ const mapStateToProps = (
 ) => {
   const organizationSlug = props.match.params.organizationSlug || '';
   return {
+    hasSummaryStatistics: hasSummaryStatistics(state.fixedPlayerStatsTables),
     organization: organizationBySlug(state.organizations, organizationSlug),
     organizationSlug: organizationSlug,
     tournament: tournamentBySlug(
@@ -61,6 +63,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type TournamentHomeProps = ConnectedProps<typeof connector>;
 
 const TournamentHome: React.FC<TournamentHomeProps> = ({
+  hasSummaryStatistics,
   organization,
   organizationSlug,
   tournament,
@@ -75,6 +78,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           loader={<LoadingTopLevel />}
         >
           <TopLevel
+            hasSummaryStatistics={hasSummaryStatistics}
             organization={organization}
             organizationSlug={organizationSlug}
             tournamentSlug={tournamentSlug}

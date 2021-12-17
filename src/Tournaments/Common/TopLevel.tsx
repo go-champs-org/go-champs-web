@@ -27,11 +27,18 @@ export const LoadingTopLevel: React.FC = () => (
 );
 
 const TopLevel: React.FC<{
+  hasSummaryStatistics: boolean;
   organization: OrganizationEntity;
   organizationSlug: string;
   tournament: TournamentEntity;
   tournamentSlug: string;
-}> = ({ organization, organizationSlug, tournament, tournamentSlug }) => {
+}> = ({
+  hasSummaryStatistics,
+  organization,
+  organizationSlug,
+  tournament,
+  tournamentSlug
+}) => {
   const hasAnySocialNetword =
     tournament.facebook || tournament.instagram || tournament.siteUrl;
   return (
@@ -112,7 +119,7 @@ const TopLevel: React.FC<{
           </div>
         )}
 
-        <BehindFeatureFlag>
+        {hasSummaryStatistics && (
           <div className="level-item">
             <Link
               to={`/${organizationSlug}/${tournamentSlug}/PlayerStatsSummary`}
@@ -128,7 +135,7 @@ const TopLevel: React.FC<{
               </button>
             </Link>
           </div>
-        </BehindFeatureFlag>
+        )}
 
         <AuthenticatedWrapper>
           <div className="level-item">
