@@ -10,7 +10,8 @@ import { getTournamentBySlug } from '../Tournaments/effects';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import {
   default as PlayerStatLogView,
-  ViewLoading as PlayerStatLogLoading
+  ViewLoading as PlayerStatLogLoading,
+  PlayerStatsLogRenderEntity
 } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
@@ -22,6 +23,92 @@ import {
 import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { playersByTeamIdMap, playersByTeamId } from '../Players/selectors';
+import { TeamEntity } from '../Teams/state';
+import { PlayersMap } from '../Players/state';
+import { PlayerStatEntity } from '../Tournaments/state';
+import Shimmer from '../Shared/UI/Shimmer';
+
+function BoxScoreLoading() {
+  return (
+    <div className="columns is-multiline">
+      <div className="column is-12 has-text left">
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+
+      <div className="column is-12">
+        <PlayerStatLogLoading />
+      </div>
+
+      <div className="column is-12">
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+
+      <div className="column is-12">
+        <PlayerStatLogLoading />
+      </div>
+    </div>
+  );
+}
+
+interface BoxScoreProps {
+  awayTeam: TeamEntity;
+  awayPlayersMap: PlayersMap;
+  awayPlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  homeTeam: TeamEntity;
+  homePlayersMap: PlayersMap;
+  homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  playerStats: PlayerStatEntity[];
+}
+
+function BoxScore({
+  awayTeam,
+  awayPlayersMap,
+  awayPlayerStatsLogs,
+  homeTeam,
+  homePlayersMap,
+  homePlayerStatsLogs,
+  playerStats
+}: BoxScoreProps) {
+  return (
+    <div className="columns is-multiline has-text-left">
+      <div className="column is-12">
+        <h2 className="subtitle">{homeTeam.name}</h2>
+
+        <PlayerStatLogView
+          playerStatLogs={homePlayerStatsLogs}
+          players={homePlayersMap}
+          playersStats={playerStats}
+        />
+      </div>
+
+      <div className="column is-12">
+        <h2 className="subtitle">{awayTeam.name}</h2>
+
+        <PlayerStatLogView
+          playerStatLogs={awayPlayerStatsLogs}
+          players={awayPlayersMap}
+          playersStats={playerStats}
+        />
+      </div>
+    </div>
+  );
+}
 
 const mapStateToProps = (
   state: StoreState,
@@ -113,35 +200,19 @@ function GameView({
 
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
-            <div className="columns is-multiline has-text-left">
-              <div className="column is-12">
-                <h2 className="subtitle">{homeTeam.name}</h2>
-
-                {isLoadingPlayerStatsLogs ? (
-                  <PlayerStatLogLoading />
-                ) : (
-                  <PlayerStatLogView
-                    playerStatLogs={homePlayerStatsLogs}
-                    players={homePlayersMap}
-                    playersStats={tournament.playerStats}
-                  />
-                )}
-              </div>
-
-              <div className="column is-12">
-                <h2 className="subtitle">{awayTeam.name}</h2>
-
-                {isLoadingPlayerStatsLogs ? (
-                  <PlayerStatLogLoading />
-                ) : (
-                  <PlayerStatLogView
-                    playerStatLogs={awayPlayerStatsLogs}
-                    players={awayPlayersMap}
-                    playersStats={tournament.playerStats}
-                  />
-                )}
-              </div>
-            </div>
+            {isLoadingPlayerStatsLogs ? (
+              <BoxScoreLoading />
+            ) : (
+              <BoxScore
+                awayPlayerStatsLogs={awayPlayerStatsLogs}
+                awayPlayersMap={awayPlayersMap}
+                awayTeam={awayTeam}
+                homePlayerStatsLogs={homePlayerStatsLogs}
+                homePlayersMap={homePlayersMap}
+                homeTeam={homeTeam}
+                playerStats={tournament.playerStats}
+              />
+            )}
           </div>
         </div>
       </div>
