@@ -94,7 +94,7 @@ export function ViewLoading() {
   );
 }
 
-interface PlayerStatsLogRenderEntity {
+export interface PlayerStatsLogRenderEntity {
   id: string;
   playerId: string;
   stats: {

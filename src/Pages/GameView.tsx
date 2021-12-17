@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
@@ -191,6 +191,23 @@ function GameView({
   homeTeam,
   tournament
 }: GameViewProps): React.ReactElement {
+  const hasPlayerStatsLogs =
+    awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
+
+  const boxScore = hasPlayerStatsLogs ? (
+    <BoxScore
+      awayPlayerStatsLogs={awayPlayerStatsLogs}
+      awayPlayersMap={awayPlayersMap}
+      awayTeam={awayTeam}
+      homePlayerStatsLogs={homePlayerStatsLogs}
+      homePlayersMap={homePlayersMap}
+      homeTeam={homeTeam}
+      playerStats={tournament.playerStats}
+    />
+  ) : (
+    <Fragment />
+  );
+
   return (
     <div className="column">
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -200,19 +217,7 @@ function GameView({
 
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
-            {isLoadingPlayerStatsLogs ? (
-              <BoxScoreLoading />
-            ) : (
-              <BoxScore
-                awayPlayerStatsLogs={awayPlayerStatsLogs}
-                awayPlayersMap={awayPlayersMap}
-                awayTeam={awayTeam}
-                homePlayerStatsLogs={homePlayerStatsLogs}
-                homePlayersMap={homePlayersMap}
-                homeTeam={homeTeam}
-                playerStats={tournament.playerStats}
-              />
-            )}
+            {isLoadingPlayerStatsLogs ? <BoxScoreLoading /> : boxScore}
           </div>
         </div>
       </div>
