@@ -18,6 +18,7 @@ import { PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
 import { useRouteMatch } from 'react-router-dom';
+import { organizationBySlug } from '../Organizations/selectors';
 
 interface OwnProps {
   organizationSlug: string;
@@ -31,6 +32,10 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     gamesInitialDatePosition: gamesCloserGameDatePosition(state.games),
     gamesLoading: gamesLoading(state.games),
     gameDates: gameDates(state.games),
+    organization: organizationBySlug(
+      state.organizations,
+      props.organizationSlug
+    ),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
     draws: draws(state.draws),
@@ -44,15 +49,16 @@ const connector = connect(mapStateToProps);
 type PhaseHomeProps = ConnectedProps<typeof connector> & OwnProps;
 
 const PhaseHome: React.FC<PhaseHomeProps> = ({
+  draws,
+  eliminations,
   gameDates,
   gamesByDate,
   gamesInitialDatePosition,
   gamesLoading,
+  organization,
   organizationSlug,
   phase,
   phases,
-  draws,
-  eliminations,
   teams,
   tournamentSlug
 }) => {
@@ -76,6 +82,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
     <Fragment>
       <div className="column is-12">
         <TopBreadcrumbs
+          organization={organization}
           organizationSlug={organizationSlug}
           phases={phases}
           tournamentSlug={tournamentSlug}

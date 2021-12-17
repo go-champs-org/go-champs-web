@@ -23,6 +23,7 @@ import useSortedItems from '../Shared/hooks/useSortedItems';
 import { EliminationEntity } from '../Eliminations/state';
 import { mapEliminationsOrderByIndex } from '../Eliminations/dataMappers';
 import { useTranslation } from 'react-i18next';
+import { organizationBySlug } from '../Organizations/selectors';
 
 interface OwnProps {
   organizationSlug: string;
@@ -34,6 +35,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => ({
   eliminations: sortedEliminations(state.eliminations),
   eliminationsLoading: eliminationsLoading(state.eliminations),
   isPatchingElimination: patchingElimination(state.eliminations),
+  organization: organizationBySlug(state.organizations, props.organizationSlug),
   phase: phaseByIdOrDefault(state.phases, props.phaseId),
   phases: sortedPhases(state.phases)
 });
@@ -61,6 +63,7 @@ const EliminationList: React.FC<EliminationListProps> = ({
   phase,
   phaseId,
   phases,
+  organization,
   organizationSlug,
   tournamentSlug
 }) => {
@@ -82,6 +85,7 @@ const EliminationList: React.FC<EliminationListProps> = ({
     <Fragment>
       <div className="column is-12">
         <TopBreadcrumbs
+          organization={organization}
           organizationSlug={organizationSlug}
           phases={phases}
           tournamentSlug={tournamentSlug}

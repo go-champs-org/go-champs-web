@@ -10,6 +10,7 @@ import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { default as DrawView } from '../Draws/View';
 import { default as EliminationView } from '../Eliminations/View';
+import { organizationBySlug } from '../Organizations/selectors';
 
 interface OwnProps {
   organizationSlug: string;
@@ -19,10 +20,14 @@ interface OwnProps {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   return {
-    phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    phases: sortedPhases(state.phases),
     draws: draws(state.draws),
     eliminations: sortedEliminations(state.eliminations),
+    organization: organizationBySlug(
+      state.organizations,
+      props.organizationSlug
+    ),
+    phase: phaseByIdOrDefault(state.phases, props.phaseId),
+    phases: sortedPhases(state.phases),
     teams: state.teams.teams
   };
 };
@@ -32,11 +37,12 @@ const connector = connect(mapStateToProps);
 type PhaseManageProps = ConnectedProps<typeof connector> & OwnProps;
 
 const PhaseManage: React.FC<PhaseManageProps> = ({
+  draws,
+  eliminations,
+  organization,
   organizationSlug,
   phase,
   phases,
-  draws,
-  eliminations,
   teams,
   tournamentSlug
 }) => {
@@ -57,6 +63,7 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
     <Fragment>
       <div className="column is-12">
         <TopBreadcrumbs
+          organization={organization}
           organizationSlug={organizationSlug}
           phases={phases}
           tournamentSlug={tournamentSlug}

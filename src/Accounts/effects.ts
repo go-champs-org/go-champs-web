@@ -27,6 +27,8 @@ import accountHttpClient from './accountHttpClient';
 import { History, Location } from 'history';
 import ApiError from '../Shared/httpClient/ApiError';
 import { displayToast } from '../Shared/bulma/toast';
+import { OrganizationEntity } from '../Organizations/state';
+import { ApiOrganization } from '../Shared/httpClient/apiTypes';
 
 export const signIn = (
   user: SignInEntity,
@@ -169,6 +171,10 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
   try {
     const response = await accountHttpClient.getAccount(username);
 
+    const organizationIds = response.data.organizations.map(
+      (organization: ApiOrganization) => organization.id
+    );
+    localStorage.setItem('organizations', organizationIds.toString());
     dispatch(getAccountSuccess(response));
   } catch (err) {
     dispatch(getAccountFailure(err));

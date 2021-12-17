@@ -503,12 +503,24 @@ describe('accountEffects', () => {
                 id: 'some-org-id',
                 name: 'some org name',
                 slug: 'some-org-slug'
+              },
+              {
+                id: 'another-org-id',
+                name: 'another org name',
+                slug: 'another-org-slug'
               }
             ]
           }
         });
 
         getAccount('someusername')(dispatch);
+      });
+
+      it('sets the organization ids on local storage', () => {
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          'organizations',
+          'some-org-id,another-org-id'
+        );
       });
 
       it('dispatches get success action', () => {
@@ -522,6 +534,11 @@ describe('accountEffects', () => {
                   id: 'some-org-id',
                   name: 'some org name',
                   slug: 'some-org-slug'
+                },
+                {
+                  id: 'another-org-id',
+                  name: 'another org name',
+                  slug: 'another-org-slug'
                 }
               ]
             }

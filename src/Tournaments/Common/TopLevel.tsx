@@ -4,9 +4,8 @@ import { TournamentEntity } from '../state';
 import Shimmer from '../../Shared/UI/Shimmer';
 import './TopLevel.scss';
 import { OrganizationEntity } from '../../Organizations/state';
-import AuthenticatedWrapper from '../../Shared/UI/AdminWrapper';
+import { AuthenticatedAndMemberWrapper } from '../../Shared/UI/AdminWrapper';
 import { Trans } from 'react-i18next';
-import BehindFeatureFlag from '../../Shared/UI/BehindFeatureFlag';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -137,7 +136,7 @@ const TopLevel: React.FC<{
           </div>
         )}
 
-        <AuthenticatedWrapper>
+        <AuthenticatedAndMemberWrapper organization={organization}>
           <div className="level-item">
             <Link to={`/${organizationSlug}/${tournamentSlug}/Manage`}>
               <button className="button is-rounded">
@@ -151,7 +150,7 @@ const TopLevel: React.FC<{
               </button>
             </Link>
           </div>
-        </AuthenticatedWrapper>
+        </AuthenticatedAndMemberWrapper>
       </div>
     </nav>
   );
