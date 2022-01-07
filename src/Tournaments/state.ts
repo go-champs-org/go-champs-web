@@ -2,6 +2,7 @@ export interface TournamentEntity {
   id: string;
   name: string;
   slug: string;
+  hasAggregatedPlayerStats?: boolean;
   facebook: string;
   instagram: string;
   siteUrl: string;

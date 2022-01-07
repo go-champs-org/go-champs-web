@@ -29,6 +29,7 @@ export const mapApiTournamentToTournamentEntity = (
   slug: apiTournament.slug,
   facebook: apiTournament.facebook ? apiTournament.facebook : '',
   instagram: apiTournament.instagram ? apiTournament.instagram : '',
+  hasAggregatedPlayerStats: apiTournament.has_aggregated_player_stats,
   siteUrl: apiTournament.site_url ? apiTournament.site_url : '',
   twitter: apiTournament.twitter ? apiTournament.twitter : '',
   playerStats: apiTournament.player_stats

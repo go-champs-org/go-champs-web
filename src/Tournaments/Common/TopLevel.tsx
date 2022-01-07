@@ -6,6 +6,7 @@ import './TopLevel.scss';
 import { OrganizationEntity } from '../../Organizations/state';
 import { AuthenticatedAndMemberWrapper } from '../../Shared/UI/AdminWrapper';
 import { Trans } from 'react-i18next';
+import StatisticsDropdown from './StatisticsDropdown';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -40,6 +41,8 @@ const TopLevel: React.FC<{
 }) => {
   const hasAnySocialNetword =
     tournament.facebook || tournament.instagram || tournament.siteUrl;
+  const shouldShowStatistics =
+    tournament.hasAggregatedPlayerStats || hasSummaryStatistics;
   return (
     <nav className="level">
       <div className="level-left">
@@ -118,21 +121,14 @@ const TopLevel: React.FC<{
           </div>
         )}
 
-        {hasSummaryStatistics && (
+        {shouldShowStatistics && (
           <div className="level-item">
-            <Link
-              to={`/${organizationSlug}/${tournamentSlug}/PlayerStatsSummary`}
-            >
-              <button className="button is-rounded">
-                <span className="icon">
-                  <i className="fas fa-table"></i>
-                </span>
-
-                <span>
-                  <Trans>statistics</Trans>
-                </span>
-              </button>
-            </Link>
+            <StatisticsDropdown
+              hasSummaryStatistics={hasSummaryStatistics}
+              organizationSlug={organizationSlug}
+              tournamentSlug={tournamentSlug}
+              tournament={tournament}
+            />
           </div>
         )}
 

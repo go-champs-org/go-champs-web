@@ -323,6 +323,7 @@ export interface ApiTournament {
   name: string;
   slug: string;
   facebook?: string;
+  has_aggregated_player_stats?: boolean;
   instagram?: string;
   site_url?: string;
   twitter?: string;
