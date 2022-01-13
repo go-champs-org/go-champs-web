@@ -111,6 +111,10 @@ function FixedPlayerStatsView({
   playersMap,
   playerStatsMap
 }: FixedPlayerStatsViewProps): React.ReactElement {
+  const doesPlayersHaveTeams = Object.keys(playersMap).some(
+    (playerId: string) => playersMap[playerId].team
+  );
+
   return (
     <div className="column">
       <div className="columns is-multiline">
@@ -131,6 +135,12 @@ function FixedPlayerStatsView({
                     <Trans>player</Trans>
                   </th>
 
+                  {doesPlayersHaveTeams && (
+                    <th className="has-text-centered">
+                      <Trans>team</Trans>
+                    </th>
+                  )}
+
                   <th className="has-text-centered">
                     <Trans>value</Trans>
                   </th>
@@ -139,17 +149,27 @@ function FixedPlayerStatsView({
 
               <tbody>
                 {fixedPlayerStatsTable.playerStats.map(
-                  (playerStat: FixedPlayerStatsRecordEntity) => (
-                    <tr>
-                      <td style={{ paddingLeft: '0' }}>
-                        {playersMap[playerStat.playerId]
-                          ? playersMap[playerStat.playerId].name
-                          : ''}
-                      </td>
+                  (playerStat: FixedPlayerStatsRecordEntity) => {
+                    const player = playersMap[playerStat.playerId];
 
-                      <td className="has-text-centered">{playerStat.value}</td>
-                    </tr>
-                  )
+                    return (
+                      <tr>
+                        <td style={{ paddingLeft: '0' }}>
+                          {player ? player.name : ''}
+                        </td>
+
+                        {doesPlayersHaveTeams && (
+                          <td className="has-text-centered">
+                            {player ? player.team.name : ''}
+                          </td>
+                        )}
+
+                        <td className="has-text-centered">
+                          {playerStat.value}
+                        </td>
+                      </tr>
+                    );
+                  }
                 )}
               </tbody>
             </table>
