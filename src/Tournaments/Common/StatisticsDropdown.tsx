@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Trans } from 'react-i18next';
 import { TournamentEntity } from '../state';
+import './StatisticsDropdown.scss';
 
 interface StatisticsDropdownProps {
   hasSummaryStatistics: boolean;
@@ -17,7 +18,7 @@ function StatisticsDropdown({
   tournament
 }: StatisticsDropdownProps) {
   return (
-    <div className="dropdown is-right is-hoverable">
+    <div className="stats-dropdown dropdown is-right is-hoverable">
       <div className="dropdown-trigger">
         <button
           className="button is-rounded"
@@ -42,6 +43,7 @@ function StatisticsDropdown({
         <div className="dropdown-content">
           {hasSummaryStatistics && (
             <Link
+              className="dropdown-item"
               to={`/${organizationSlug}/${tournamentSlug}/PlayerStatsSummary`}
             >
               <Trans>summary</Trans>
@@ -53,7 +55,10 @@ function StatisticsDropdown({
           )}
 
           {tournament.hasAggregatedPlayerStats && (
-            <Link to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}>
+            <Link
+              className="dropdown-item"
+              to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}
+            >
               <Trans>advanced</Trans>
             </Link>
           )}
