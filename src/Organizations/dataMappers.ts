@@ -7,6 +7,7 @@ import {
   MemberEntity,
   DEFAULT_ORGANIZATION
 } from './state';
+import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
 
 export const mapApiOrganizationToOrganizationEntity = (
   apiOrganization: ApiOrganization
@@ -38,7 +39,8 @@ export const mapOrganizationEntityToApiOrganizationRequest = (
 });
 
 export const buildNewOrganizationWithMember = () => {
-  const currentUsername = localStorage.getItem('username') || '';
+  const currentUsername =
+    localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
   return {
     ...DEFAULT_ORGANIZATION,
     members: [{ username: currentUsername }]
