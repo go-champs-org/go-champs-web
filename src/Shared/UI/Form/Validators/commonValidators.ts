@@ -2,7 +2,8 @@ const SLUG_REGEX = RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const EMAIL_REGEX = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
-const PASSWORD_REGEX = RegExp(
+const SIMPLE_PASSWORD_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){6,}$/);
+const STRONG_PASSWORD_REGEX = RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
 );
 const USERNAME_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){4,20}$/);
@@ -32,15 +33,20 @@ export const mustBeSlug = (value: string) =>
 export const mustBeUsername = (value: string) =>
   USERNAME_REGEX.test(value)
     ? undefined
-    : 'Must be between 8 and 20 characters';
+    : 'Must be between 4 and 20 characters';
 
 export const mustBeEmail = (value: string) =>
   EMAIL_REGEX.test(value) ? undefined : 'Must be an email';
 
 export const mustBeStrongPassword = (value: string) =>
-  PASSWORD_REGEX.test(value)
+  STRONG_PASSWORD_REGEX.test(value)
     ? undefined
     : 'Use at least one: special, lower, upper, numeric character';
+
+export const mustBeSimplePassword = (value: string) =>
+  SIMPLE_PASSWORD_REGEX.test(value)
+    ? undefined
+    : 'Password must be at least 6 characters long';
 
 export const composeValidators = (
   validators: ValidatorFunction[],
