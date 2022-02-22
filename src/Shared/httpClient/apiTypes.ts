@@ -2,9 +2,12 @@ import { PhaseTypes } from '../../Phases/state';
 
 interface ApiGame {
   id: string;
+  away_placeholder?: string;
   away_score: number;
   datetime?: string;
+  home_placeholder?: string;
   home_score: number;
+  is_finished: boolean;
   info?: string;
   location: string;
 }
