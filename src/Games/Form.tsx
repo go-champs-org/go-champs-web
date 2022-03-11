@@ -71,7 +71,13 @@ const Form: React.FC<FromProps> = ({
                     name="awayTeam.id"
                     render={(
                       props: FieldRenderProps<string, HTMLSelectElement>
-                    ) => <SelectInput {...props} options={selectInputTeams} />}
+                    ) => (
+                      <SelectInput
+                        {...props}
+                        options={selectInputTeams}
+                        isClearable
+                      />
+                    )}
                   ></Field>
                 )}
               </div>
@@ -119,7 +125,13 @@ const Form: React.FC<FromProps> = ({
                     name="homeTeam.id"
                     render={(
                       props: FieldRenderProps<string, HTMLSelectElement>
-                    ) => <SelectInput {...props} options={selectInputTeams} />}
+                    ) => (
+                      <SelectInput
+                        {...props}
+                        options={selectInputTeams}
+                        isClearable
+                      />
+                    )}
                   ></Field>
                 )}
               </div>
