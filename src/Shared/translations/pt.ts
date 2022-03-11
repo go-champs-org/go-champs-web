@@ -43,6 +43,7 @@ export default {
     homeTeam: 'Equipe casa',
     homeScore: 'Pontuacao casa',
     informations: 'Informacões',
+    isGameFinished: 'Jogo encerrado',
     isInProgress: 'Em progresso',
     games: 'Partidas',
     general: 'Gerais',

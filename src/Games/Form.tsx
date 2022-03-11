@@ -7,6 +7,7 @@ import { GameEntity } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
+import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 
 interface FromProps extends FormRenderProps<GameEntity> {
   backUrl: string;
@@ -186,6 +187,22 @@ const Form: React.FC<FromProps> = ({
               type="text"
               placeholder="Location"
             />
+          </div>
+        </div>
+
+        <div className="field">
+          <div className="control" style={{ paddingTop: '.5rem' }}>
+            <Field
+              name="isFinished"
+              type="checkbox"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <CheckboxInput {...props} id="isFinished" />
+              )}
+            />
+
+            <label className="label" htmlFor="isFinished">
+              <Trans>isGameFinished</Trans>
+            </label>
           </div>
         </div>
 
