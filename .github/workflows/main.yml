@@ -19,3 +19,32 @@ jobs:
         run: yarn install
       - name: Running test
         run: yarn test
+
+  deploy_staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build Staging
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+        run: yarn build:staging
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
+        timeout-minutes: 1
