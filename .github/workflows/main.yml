@@ -61,7 +61,7 @@ jobs:
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 961656
+          chrome-version: stable
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
@@ -114,7 +114,7 @@ jobs:
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 961656
+          chrome-version: stable
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
