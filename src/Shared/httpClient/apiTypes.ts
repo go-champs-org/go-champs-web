@@ -321,6 +321,33 @@ export interface ApiPlayerStat {
   title: string;
 }
 
+export interface ApiRecentlyView {
+  id: string;
+  tournament: ApiTournamentWithDependecies;
+  tournament_id: string;
+  views: number;
+}
+
+export interface ApiRecentlyViewRequest {
+  recently_view: {
+    tournament_id: string;
+  };
+}
+
+export interface ApiRecentlyViewPostResponse {
+  data: ApiRecentlyView;
+}
+
+export interface ApiRecentlyViewResponse {
+  data: ApiRecentlyView[];
+}
+
+export interface ApiRecentlyView {
+  tournament: ApiTournamentWithDependecies;
+  tournament_id: string;
+  views: number;
+}
+
 export interface ApiTournament {
   id: string;
   name: string;

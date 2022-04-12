@@ -75,7 +75,7 @@ describe('accountEffects', () => {
     } as unknown) as History;
 
     jest.spyOn(toast, 'displayToast');
-    jest.spyOn(Storage.prototype, 'setItem');
+    jest.spyOn(Storage.prototype, 'setItem').mockImplementation();
   });
 
   describe('signIn', () => {
