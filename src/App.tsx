@@ -9,7 +9,7 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 import AccountHome from './Pages/AccountHome';
-import Home from './Pages/Home';
+import About from './Pages/About';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
 import NavTopToolbar from './Shared/UI/NavTopToolbar';
@@ -39,7 +39,8 @@ const App: React.FC = () => {
             <section className="section">
               <div className="container">
                 <Switch>
-                  <Route exact path="/" component={Home} />
+                  <Route exact path="/" component={About} />
+                  <Route exact path="/About" component={About} />
                   <Route
                     exact
                     sensitive

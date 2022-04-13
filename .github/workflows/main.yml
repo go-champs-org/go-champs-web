@@ -82,7 +82,7 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
-      - name: Build Staging
+      - name: Build Prod
         env:
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
@@ -135,7 +135,7 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
-      - name: Build Staging
+      - name: Build Prod
         env:
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
