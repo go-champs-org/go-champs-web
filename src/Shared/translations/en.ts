@@ -81,6 +81,7 @@ export default {
     rows: 'Rows',
     save: 'Save',
     saveOrder: 'Save order',
+    search: 'Search',
     searchTournaments: 'Search tournaments',
     secondTeam: 'Second team',
     secondTeamScore: 'Second team score',

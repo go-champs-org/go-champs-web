@@ -1,0 +1,16 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  .card-content {
+    flex: 1;
+    padding-bottom: 0;
+  }
+
+  .card-info {
+    align-items: center;
+    display: flex;
+    padding: 1rem 1.5rem;
+  }
+}

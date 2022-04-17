@@ -81,6 +81,7 @@ export default {
     rows: 'Linhas',
     save: 'Salvar',
     saveOrder: 'Salvar ordem',
+    search: 'Pesquisar',
     searchTournaments: 'Busca de torneios',
     secondTeam: 'Segunda equipe',
     secondTeamScore: 'Pontuacao segunda equipe',
