@@ -23,7 +23,10 @@ const List: React.FC = () => {
       // Set back to false since request finished
       setIsLoading(false);
       // Set results state
-      setTournaments(results);
+      const resultsWithNoTests = results.filter(
+        (result: ApiRecentlyView) => !result.tournament.slug.includes('test')
+      );
+      setTournaments(resultsWithNoTests);
     });
 
     return () => undefined;
