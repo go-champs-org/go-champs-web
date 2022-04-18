@@ -40,7 +40,7 @@ const Result: React.FC<{
 }> = ({ tournament, views }) => (
   <div className="column is-4-desktop is-6-tablet is-12-mobile">
     <Link to={`/${tournament.organization.slug}/${tournament.slug}`}>
-      <div className="card">
+      <div className="result card">
         <div className="card-content">
           <p className="title is-4">{tournament.name}</p>
 
