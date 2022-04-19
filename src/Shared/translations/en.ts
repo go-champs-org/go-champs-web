@@ -48,6 +48,7 @@ export default {
     games: 'Games',
     general: 'General',
     groupStats: 'Group stats',
+    language: 'Language',
     location: 'Location',
     match: 'Match',
     matches: 'Matches',

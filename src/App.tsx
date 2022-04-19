@@ -27,6 +27,7 @@ import './Shared/translations/i18n';
 import { useTranslation } from 'react-i18next';
 import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
+import LanguageDropdown from './Shared/UI/LanguageDropdown';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -136,6 +137,10 @@ const App: React.FC = () => {
             <div className="hero-foot">
               <footer className="footer">
                 <div className="content has-text-centered">
+                  <p>
+                    <LanguageDropdown />
+                  </p>
+
                   <p>
                     <strong>Go Champs!</strong>
                     <span>{` ${t('with')} 🖤 `}</span>
