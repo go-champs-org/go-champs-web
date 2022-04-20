@@ -19,7 +19,7 @@ const List: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    recentlyViewsHttpClient.get().then(results => {
+    recentlyViewsHttpClient.get().then((results) => {
       // Set back to false since request finished
       setIsLoading(false);
       // Set results state
@@ -30,7 +30,7 @@ const List: React.FC = () => {
     });
 
     return () => undefined;
-  });
+  }, []);
 
   return (
     <section className="container">
