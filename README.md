@@ -1,4 +1,4 @@
-# Go Champs Front-End [![Build Status](https://travis-ci.com/lairjr/go-champs-web.svg?branch=master)](https://travis-ci.com/lairjr/go-champs-web)
+# Go Champs Front-End ![build status](https://github.com/lairjr/go-champs-web/actions/workflows/main.yml/badge.svg)
 
 *This is the Go Champs Front-End repository.*
 
