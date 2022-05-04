@@ -12,5 +12,11 @@
     align-items: center;
     display: flex;
     padding: 1rem 1.5rem;
+    justify-content: space-between;
+
+    div {
+      align-items: center;
+      display: flex;
+    }
   }
 }

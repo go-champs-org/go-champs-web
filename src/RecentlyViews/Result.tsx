@@ -47,13 +47,25 @@ const Result: React.FC<{
           <p className="subtitle is-6">{tournament.organization.name}</p>
         </div>
 
-        <p className="card-info is-size-7">
-          <span className="icon">
-            <i className="fas fa-eye"></i>
-          </span>
+        <div className="card-info is-size-7">
+          <div>
+            <span className="icon">
+              <i className="fas fa-eye"></i>
+            </span>
 
-          {views}
-        </p>
+            {views}
+          </div>
+
+          <div>
+            <button className="button is-small is-info is-outlined">
+              <span className="icon">
+                <i className="fas fa-thumbtack"></i>
+              </span>
+
+              <span>Fixar</span>
+            </button>
+          </div>
+        </div>
       </div>
     </Link>
   </div>
