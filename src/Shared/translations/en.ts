@@ -72,6 +72,7 @@ export default {
     orSignUp: 'Or sign up',
     password: 'Password',
     phases: 'Phases',
+    pin: 'Pin',
     player: 'Player',
     players: 'Players',
     playerStats: 'Player stats',
@@ -104,6 +105,7 @@ export default {
     useAsAnAppLine1: 'Open your browser menu.',
     useAsAnAppLine2: 'Click on "Add to the desktop".',
     useAsAnAppLine3: 'Click on "Add" to confirm the option.',
+    unpin: 'Unpin',
     team: 'Team',
     teams: 'Teams',
     theBestAppToManageTournaments:

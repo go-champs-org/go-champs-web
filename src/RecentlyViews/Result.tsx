@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import Shimmer from '../Shared/UI/Shimmer';
@@ -66,7 +67,9 @@ export const PinnedResult: React.FC<{
                 <i className="fas fa-thumbtack"></i>
               </span>
 
-              <span>Fixar</span>
+              <span>
+                <Trans>unpin</Trans>
+              </span>
             </button>
           </div>
         </div>
@@ -107,7 +110,9 @@ const Result: React.FC<{
                 <i className="fas fa-thumbtack"></i>
               </span>
 
-              <span>Fixar</span>
+              <span>
+                <Trans>pin</Trans>
+              </span>
             </button>
           </div>
         </div>

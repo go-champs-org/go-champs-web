@@ -72,6 +72,7 @@ export default {
     orSignUp: 'Ou crie uma conta',
     password: 'Senha',
     phases: 'Fases',
+    pin: 'Fixar',
     player: 'Jogador',
     players: 'Jogadores',
     playerStats: 'Estatísticas de jogadores',
@@ -104,6 +105,7 @@ export default {
     useAsAnAppLine1: 'Abra o menu do seu navegador de internet.',
     useAsAnAppLine2: 'Clique em "Adicionar na Área de Trabalho".',
     useAsAnAppLine3: 'Confirme opção clicando em "Adicionar".',
+    unpin: 'Desfixar',
     team: 'Equipe',
     teams: 'Equipes',
     theBestAppToManageTournaments:
