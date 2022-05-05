@@ -3,8 +3,21 @@ import { ApiRecentlyView } from '../httpClient/apiTypes';
 
 const PINNED_TOURNAMENTS_KEY = 'pinnedRecentlyViews';
 
+export interface PINNED_RECENTLY_VIEWS_MAP {
+  [id: string]: ApiRecentlyView;
+};
+
+const toMap = (apiRecentlyViews: ApiRecentlyView[]): PINNED_RECENTLY_VIEWS_MAP => {
+  return apiRecentlyViews.reduce((map, recentlyView) => {
+    return {
+      ...map,
+      [recentlyView.tournament.id]: recentlyView,
+    }
+  }, {});
+};
+
 const usePinnedRecentlyViews = () => {
-  const [recentlyViews, setRecentlyViews] = useState<ApiRecentlyView[]>([]);
+  const [recentlyViews, setRecentlyViews] = useState<PINNED_RECENTLY_VIEWS_MAP>({});
 
   const pinnedRecentlyViewsString =
     localStorage.getItem(PINNED_TOURNAMENTS_KEY) || '[]';
@@ -13,7 +26,8 @@ const usePinnedRecentlyViews = () => {
   ) as ApiRecentlyView[];
 
   useEffect(() => {
-    setRecentlyViews(pinnedRecentlyViews);
+    const pinnedRecentlyViewMap = toMap(pinnedRecentlyViews);
+    setRecentlyViews(pinnedRecentlyViewMap);
 
     return () => undefined;
   }, []);
@@ -26,7 +40,8 @@ const usePinnedRecentlyViews = () => {
       JSON.stringify(newPinnedRecentlyViews)
     );
 
-    setRecentlyViews(newPinnedRecentlyViews);
+    const newPinnedRecentlyViewMap = toMap(newPinnedRecentlyViews);
+    setRecentlyViews(newPinnedRecentlyViewMap);
   };
 
   const removeRecentlyView = (recentlyView: ApiRecentlyView) => {
@@ -40,7 +55,8 @@ const usePinnedRecentlyViews = () => {
       JSON.stringify(newPinnedRecentlyViews)
     );
 
-    setRecentlyViews(newPinnedRecentlyViews);
+    const newPinnedRecentlyViewMap = toMap(newPinnedRecentlyViews);
+    setRecentlyViews(newPinnedRecentlyViewMap);
   };
 
   return {

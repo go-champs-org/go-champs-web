@@ -27,17 +27,20 @@ const List: React.FC = () => {
   const pinRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
     event: React.MouseEvent
   ) => {
+    event.preventDefault();
+
     pinRecentlyView(recentlyView);
 
-    event.preventDefault();
+    const newRecentlyViews = recentlyViews.filter((apiRecentlyView) => apiRecentlyView.tournament.id !== recentlyView.tournament.id);
+    setTournaments(newRecentlyViews);
   };
 
   const removeRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
     event: React.MouseEvent
   ) => {
-    removeRecentlyView(recentlyView);
-
     event.preventDefault();
+
+    removeRecentlyView(recentlyView);
   };
 
   useEffect(() => {
@@ -46,13 +49,13 @@ const List: React.FC = () => {
       setIsLoading(false);
       // Set results state
       const resultsWithNoTests = results.filter(
-        (result: ApiRecentlyView) => !result.tournament.slug.includes('test')
+        (result: ApiRecentlyView) => !result.tournament.slug.includes('test') && !pinnedRecentlyViews[result.tournament.id]
       );
       setTournaments(resultsWithNoTests);
     });
 
     return () => undefined;
-  }, []);
+  }, [pinnedRecentlyViews]);
 
   return (
     <section className="container">
@@ -90,8 +93,10 @@ const List: React.FC = () => {
         <div className="hero-body">
           <div className="container">
             <div className="columns is-multiline">
-              {pinnedRecentlyViews.length > 0 &&
-                pinnedRecentlyViews.map((recentlyView: ApiRecentlyView) => (
+              {Object.keys(pinnedRecentlyViews).length > 0 &&
+                Object.keys(pinnedRecentlyViews).map((id: string) => {
+                  const recentlyView = pinnedRecentlyViews[id];
+                  return (
                   <PinnedResult
                     removeRecentlyView={removeRecentlyViewClickHandler(
                       recentlyView
@@ -100,7 +105,7 @@ const List: React.FC = () => {
                     key={recentlyView.tournament.id}
                     views={recentlyView.views}
                   />
-                ))}
+                )})}
 
               <ComponentLoader canRender={!isLoading} loader={ListShimmer}>
                 {recentlyViews.length > 0 ? (
