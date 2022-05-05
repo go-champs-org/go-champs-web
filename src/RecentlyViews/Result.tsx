@@ -34,10 +34,11 @@ export const ResultShimmer: React.FC = () => (
   </div>
 );
 
-const Result: React.FC<{
+export const PinnedResult: React.FC<{
+  removeRecentlyView: (event: React.MouseEvent) => void;
   tournament: ApiTournamentWithDependecies;
   views: number;
-}> = ({ tournament, views }) => (
+}> = ({ removeRecentlyView, tournament, views }) => (
   <div className="column is-4-desktop is-6-tablet is-12-mobile">
     <Link to={`/${tournament.organization.slug}/${tournament.slug}`}>
       <div className="result card">
@@ -57,7 +58,51 @@ const Result: React.FC<{
           </div>
 
           <div>
-            <button className="button is-small is-info is-outlined">
+            <button
+              className="button is-small is-danger"
+              onClick={removeRecentlyView}
+            >
+              <span className="icon">
+                <i className="fas fa-thumbtack"></i>
+              </span>
+
+              <span>Fixar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </Link>
+  </div>
+);
+
+const Result: React.FC<{
+  pinRecentlyView: (event: React.MouseEvent) => void;
+  tournament: ApiTournamentWithDependecies;
+  views: number;
+}> = ({ pinRecentlyView, tournament, views }) => (
+  <div className="column is-4-desktop is-6-tablet is-12-mobile">
+    <Link to={`/${tournament.organization.slug}/${tournament.slug}`}>
+      <div className="result card">
+        <div className="card-content">
+          <p className="title is-4">{tournament.name}</p>
+
+          <p className="subtitle is-6">{tournament.organization.name}</p>
+        </div>
+
+        <div className="card-info is-size-7">
+          <div>
+            <span className="icon">
+              <i className="fas fa-eye"></i>
+            </span>
+
+            {views}
+          </div>
+
+          <div>
+            <button
+              className="button is-small is-info is-outlined"
+              onClick={pinRecentlyView}
+            >
               <span className="icon">
                 <i className="fas fa-thumbtack"></i>
               </span>

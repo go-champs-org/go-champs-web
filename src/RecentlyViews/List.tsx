@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import recentlyViewsHttpClient from '../RecentlyViews/recentlyViewsHttpClient';
-import Result, { ResultShimmer } from './Result';
+import Result, { PinnedResult, ResultShimmer } from './Result';
 import { ApiRecentlyView } from '../Shared/httpClient/apiTypes';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { Link } from 'react-router-dom';
+import usePinnedRecentlyViews from '../Shared/hooks/usePinnedRecentlyViews';
 
 const ListShimmer = (
   <div className="columns is-multiline">
@@ -15,8 +16,29 @@ const ListShimmer = (
 );
 
 const List: React.FC = () => {
-  const [tournaments, setTournaments] = useState<ApiRecentlyView[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const {
+    recentlyViews: pinnedRecentlyViews,
+    pinRecentlyView,
+    removeRecentlyView
+  } = usePinnedRecentlyViews();
+  const [recentlyViews, setTournaments] = useState<ApiRecentlyView[]>([]);
+
+  const pinRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
+    event: React.MouseEvent
+  ) => {
+    pinRecentlyView(recentlyView);
+
+    event.preventDefault();
+  };
+
+  const removeRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
+    event: React.MouseEvent
+  ) => {
+    removeRecentlyView(recentlyView);
+
+    event.preventDefault();
+  };
 
   useEffect(() => {
     recentlyViewsHttpClient.get().then(results => {
@@ -67,21 +89,36 @@ const List: React.FC = () => {
 
         <div className="hero-body">
           <div className="container">
-            <ComponentLoader canRender={!isLoading} loader={ListShimmer}>
-              {tournaments.length > 0 ? (
-                <div className="columns is-multiline">
-                  {tournaments.map((recentlyView: ApiRecentlyView) => (
+            <div className="columns is-multiline">
+              {pinnedRecentlyViews.length > 0 &&
+                pinnedRecentlyViews.map((recentlyView: ApiRecentlyView) => (
+                  <PinnedResult
+                    removeRecentlyView={removeRecentlyViewClickHandler(
+                      recentlyView
+                    )}
+                    tournament={recentlyView.tournament}
+                    key={recentlyView.tournament.id}
+                    views={recentlyView.views}
+                  />
+                ))}
+
+              <ComponentLoader canRender={!isLoading} loader={ListShimmer}>
+                {recentlyViews.length > 0 ? (
+                  recentlyViews.map((recentlyView: ApiRecentlyView) => (
                     <Result
+                      pinRecentlyView={pinRecentlyViewClickHandler(
+                        recentlyView
+                      )}
                       tournament={recentlyView.tournament}
                       key={recentlyView.tournament.id}
                       views={recentlyView.views}
                     />
-                  ))}
-                </div>
-              ) : (
-                <div className="columns"></div>
-              )}
-            </ComponentLoader>
+                  ))
+                ) : (
+                  <div></div>
+                )}
+              </ComponentLoader>
+            </div>
           </div>
         </div>
       </div>
