@@ -17,12 +17,12 @@ const ListShimmer = (
 
 const List: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [recentlyViews, setTournaments] = useState<ApiRecentlyView[]>([]);
   const {
     recentlyViews: pinnedRecentlyViews,
     pinRecentlyView,
     removeRecentlyView
-  } = usePinnedRecentlyViews();
-  const [recentlyViews, setTournaments] = useState<ApiRecentlyView[]>([]);
+  } = usePinnedRecentlyViews(recentlyViews);
 
   const pinRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
     event: React.MouseEvent
@@ -31,7 +31,10 @@ const List: React.FC = () => {
 
     pinRecentlyView(recentlyView);
 
-    const newRecentlyViews = recentlyViews.filter((apiRecentlyView) => apiRecentlyView.tournament.id !== recentlyView.tournament.id);
+    const newRecentlyViews = recentlyViews.filter(
+      apiRecentlyView =>
+        apiRecentlyView.tournament.id !== recentlyView.tournament.id
+    );
     setTournaments(newRecentlyViews);
   };
 
@@ -49,7 +52,9 @@ const List: React.FC = () => {
       setIsLoading(false);
       // Set results state
       const resultsWithNoTests = results.filter(
-        (result: ApiRecentlyView) => !result.tournament.slug.includes('test') && !pinnedRecentlyViews[result.tournament.id]
+        (result: ApiRecentlyView) =>
+          !result.tournament.slug.includes('test') &&
+          !pinnedRecentlyViews[result.tournament.id]
       );
       setTournaments(resultsWithNoTests);
     });
@@ -97,15 +102,16 @@ const List: React.FC = () => {
                 Object.keys(pinnedRecentlyViews).map((id: string) => {
                   const recentlyView = pinnedRecentlyViews[id];
                   return (
-                  <PinnedResult
-                    removeRecentlyView={removeRecentlyViewClickHandler(
-                      recentlyView
-                    )}
-                    tournament={recentlyView.tournament}
-                    key={recentlyView.tournament.id}
-                    views={recentlyView.views}
-                  />
-                )})}
+                    <PinnedResult
+                      removeRecentlyView={removeRecentlyViewClickHandler(
+                        recentlyView
+                      )}
+                      tournament={recentlyView.tournament}
+                      key={recentlyView.tournament.id}
+                      views={recentlyView.views}
+                    />
+                  );
+                })}
 
               <ComponentLoader canRender={!isLoading} loader={ListShimmer}>
                 {recentlyViews.length > 0 ? (
