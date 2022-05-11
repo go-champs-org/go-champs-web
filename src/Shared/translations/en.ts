@@ -7,6 +7,7 @@ export default {
     actions: 'Actions',
     addGroupStat: 'Add group stat',
     addPlayerStat: 'Add player stat',
+    addTeamStat: 'Add team stat',
     addMember: 'Add member',
     addMatch: 'Add match',
     advanced: 'Advanced',
@@ -96,6 +97,7 @@ export default {
     signOut: 'Sign out',
     socialNetworks: 'Social networks',
     sort: 'Sort',
+    source: 'Source',
     startTyping: 'Type something to begin search',
     statistics: 'Statistics',
     sum: 'Sum',
@@ -108,6 +110,7 @@ export default {
     unpin: 'Unpin',
     team: 'Team',
     teams: 'Teams',
+    teamStats: 'Team stats',
     theBestAppToManageTournaments:
       'The coolest web app to manage your tournaments',
     theSourceCodeIsLicensed: 'The source code is licensed',
