@@ -8,6 +8,7 @@ export interface TournamentEntity {
   siteUrl: string;
   twitter: string;
   playerStats: PlayerStatEntity[];
+  teamStats: TeamStatEntity[];
 }
 
 export interface PlayerStatEntity {
@@ -17,6 +18,12 @@ export interface PlayerStatEntity {
 
 export interface PlayerStatMap {
   [id: string]: PlayerStatEntity;
+}
+
+export interface TeamStatEntity {
+  id: string;
+  title: string;
+  source: string;
 }
 
 export interface TournamentState {
@@ -45,10 +52,17 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   instagram: '',
   siteUrl: '',
   twitter: '',
-  playerStats: []
+  playerStats: [],
+  teamStats: []
 };
 
 export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {
   id: '',
   title: ''
+};
+
+export const DEFAULT_TEAM_STAT: TeamStatEntity = {
+  id: '',
+  title: '',
+  source: ''
 };

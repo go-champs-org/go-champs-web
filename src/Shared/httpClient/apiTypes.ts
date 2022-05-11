@@ -321,6 +321,12 @@ export interface ApiPlayerStat {
   title: string;
 }
 
+export interface ApiTeamStat {
+  id: string;
+  title: string;
+  source: string;
+}
+
 export interface ApiRecentlyView {
   id: string;
   tournament: ApiTournamentWithDependecies;
@@ -358,6 +364,7 @@ export interface ApiTournament {
   site_url?: string;
   twitter?: string;
   player_stats?: ApiPlayerStat[];
+  team_stats?: ApiTeamStat[];
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {

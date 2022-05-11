@@ -3,9 +3,10 @@ import {
   ApiTournamentRequest,
   ApiTournamentWithDependecies,
   ApiPhase,
-  ApiPlayerStat
+  ApiPlayerStat,
+  ApiTeamStat
 } from '../Shared/httpClient/apiTypes';
-import { TournamentEntity, PlayerStatEntity } from './state';
+import { TournamentEntity, PlayerStatEntity, TeamStatEntity } from './state';
 
 export const mapPlayerStatEntityToApiPlayerStat = (
   apiPlayerStat: PlayerStatEntity
@@ -14,11 +15,27 @@ export const mapPlayerStatEntityToApiPlayerStat = (
   title: apiPlayerStat.title
 });
 
+export const mapTeamStatEntityToApiTeamStat = (
+  apiTeamStat: TeamStatEntity
+): ApiTeamStat => ({
+  id: apiTeamStat.id,
+  title: apiTeamStat.title,
+  source: apiTeamStat.source
+});
+
 export const mapApiPlayerStatToPlayerStatEntity = (
   apiPlayerStat: ApiPlayerStat
 ): PlayerStatEntity => ({
   id: apiPlayerStat.id,
   title: apiPlayerStat.title
+});
+
+export const mapApiTeamStatToTeamStatEntity = (
+  apiTeamStat: ApiTeamStat
+): TeamStatEntity => ({
+  id: apiTeamStat.id,
+  title: apiTeamStat.title,
+  source: apiTeamStat.source
 });
 
 export const mapApiTournamentToTournamentEntity = (
@@ -34,6 +51,9 @@ export const mapApiTournamentToTournamentEntity = (
   twitter: apiTournament.twitter ? apiTournament.twitter : '',
   playerStats: apiTournament.player_stats
     ? apiTournament.player_stats.map(mapApiPlayerStatToPlayerStatEntity)
+    : [],
+  teamStats: apiTournament.team_stats
+    ? apiTournament.team_stats.map(mapApiTeamStatToTeamStatEntity)
     : []
 });
 
@@ -53,6 +73,10 @@ export const mapTournamentEntityToApiTournamentRequest = (
     player_stats:
       tournament.playerStats.length > 0
         ? tournament.playerStats.map(mapPlayerStatEntityToApiPlayerStat)
+        : undefined,
+    team_stats:
+      tournament.teamStats.length > 0
+        ? tournament.teamStats.map(mapTeamStatEntityToApiTeamStat)
         : undefined
   }
 });
