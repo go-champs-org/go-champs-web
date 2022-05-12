@@ -137,9 +137,9 @@ const App: React.FC = () => {
             <div className="hero-foot">
               <footer className="footer">
                 <div className="content has-text-centered">
-                  <p>
+                  <div>
                     <LanguageDropdown />
-                  </p>
+                  </div>
 
                   <p>
                     <strong>Go Champs!</strong>
