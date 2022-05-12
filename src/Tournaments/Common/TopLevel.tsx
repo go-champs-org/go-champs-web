@@ -40,8 +40,6 @@ const TopLevel: React.FC<{
   tournament,
   tournamentSlug
 }) => {
-  const hasAnySocialNetword =
-    tournament.facebook || tournament.instagram || tournament.siteUrl;
   const shouldShowStatistics =
     tournament.hasAggregatedPlayerStats || hasSummaryStatistics;
   return (
@@ -63,66 +61,62 @@ const TopLevel: React.FC<{
       </div>
 
       <div className="level-right">
-        {hasAnySocialNetword && (
-          <div className="level-item">
-            {tournament.siteUrl && (
-              <a
-                href={tournament.siteUrl}
-                className="has-text-dark"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span
-                  className="icon is-medium social-icon"
-                  style={{ cursor: 'pointer' }}
-                >
-                  <i className="fas fa-external-link-alt fa-lg"></i>
-                </span>
-              </a>
-            )}
-
-            {tournament.instagram && (
-              <a
-                href={`https://www.instagram.com/${tournament.instagram}`}
-                className="has-text-dark"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="icon is-medium social-icon">
-                  <i className="fab fa-instagram fa-lg"></i>
-                </span>
-              </a>
-            )}
-
-            {tournament.facebook && (
-              <a
-                href={`https://www.facebook.com/${tournament.facebook}`}
-                className="has-text-dark"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="icon is-medium social-icon">
-                  <i className="fab fa-facebook fa-lg"></i>
-                </span>
-              </a>
-            )}
-
-            {tournament.twitter && (
-              <a
-                href={`https://twitter.com/${tournament.twitter}`}
-                className="has-text-dark"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="icon is-medium social-icon">
-                  <i className="fab fa-twitter fa-lg"></i>
-                </span>
-              </a>
-            )}
-          </div>
-        )}
-
         <div className="level-item">
+          {tournament.siteUrl && (
+            <a
+              href={tournament.siteUrl}
+              className="has-text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span
+                className="icon is-medium social-icon"
+                style={{ cursor: 'pointer' }}
+              >
+                <i className="fas fa-external-link-alt fa-lg"></i>
+              </span>
+            </a>
+          )}
+
+          {tournament.instagram && (
+            <a
+              href={`https://www.instagram.com/${tournament.instagram}`}
+              className="has-text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="icon is-medium social-icon">
+                <i className="fab fa-instagram fa-lg"></i>
+              </span>
+            </a>
+          )}
+
+          {tournament.facebook && (
+            <a
+              href={`https://www.facebook.com/${tournament.facebook}`}
+              className="has-text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="icon is-medium social-icon">
+                <i className="fab fa-facebook fa-lg"></i>
+              </span>
+            </a>
+          )}
+
+          {tournament.twitter && (
+            <a
+              href={`https://twitter.com/${tournament.twitter}`}
+              className="has-text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="icon is-medium social-icon">
+                <i className="fab fa-twitter fa-lg"></i>
+              </span>
+            </a>
+          )}
+
           <QRCode
             organizationSlug={organizationSlug}
             tournamentName={tournament.name}
