@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { Fragment, ReactNode, useState } from 'react';
+import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 
 interface ModalProps {
   content: ReactNode;
@@ -14,6 +14,7 @@ const Modal: React.FC<ModalProps> = ({
   isOpenFromOutside = false,
   triggerClasses = ''
 }) => {
+  const ref = useRef<HTMLSpanElement>(null);
   const [isOpen, setIsOpen] = useState(isOpenFromOutside);
 
   const openModal = (event: React.MouseEvent) => {
@@ -22,13 +23,40 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(true);
   };
 
+  const closeModal = (event: UIEvent) => {
+    event.preventDefault();
+
+    const isTriggerClick = event
+      .composedPath()
+      .includes(ref.current as HTMLSpanElement);
+    if (!isTriggerClick) {
+      setIsOpen(false);
+    }
+  };
+
+  const closeModalByKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', closeModal);
+    document.addEventListener('keydown', closeModalByKey);
+
+    return () => {
+      document.removeEventListener('click', closeModal);
+      document.removeEventListener('keydown', closeModalByKey);
+    };
+  }, []);
+
   const modalClasses = classNames('modal', {
     'is-active': isOpen
   });
 
   return (
     <Fragment>
-      <span className={triggerClasses} onClick={openModal}>
+      <span className={triggerClasses} onClick={openModal} ref={ref}>
         {trigger}
       </span>
       <div className={modalClasses}>

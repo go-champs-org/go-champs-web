@@ -125,7 +125,11 @@ const TopLevel: React.FC<{
 
         <BehindFeatureFlag>
           <div className="level-item">
-            <QRCode url={`/${organizationSlug}/${tournamentSlug}`}></QRCode>
+            <QRCode
+              organizationSlug={organizationSlug}
+              tournamentName={tournament.name}
+              tournamentSlug={tournamentSlug}
+            ></QRCode>
           </div>
         </BehindFeatureFlag>
 

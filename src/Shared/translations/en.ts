@@ -84,6 +84,7 @@ export default {
     rows: 'Rows',
     save: 'Save',
     saveOrder: 'Save order',
+    scanCodeToAccessIt: 'Scan code',
     search: 'Search',
     searchTournaments: 'Search tournaments',
     secondTeam: 'Second team',
