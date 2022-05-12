@@ -84,7 +84,8 @@ export default {
     rows: 'Linhas',
     save: 'Salvar',
     saveOrder: 'Salvar ordem',
-    scanCodeToAccessIt: 'Leia o código para accessar',
+    scanCodeToAccessIt:
+      'Acesse jogos, classificação, estatísticas e muito mais sobre o torneio.',
     search: 'Pesquisar',
     searchTournaments: 'Busca de torneios',
     secondTeam: 'Segunda equipe',

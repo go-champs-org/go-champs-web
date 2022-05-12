@@ -84,7 +84,7 @@ export default {
     rows: 'Rows',
     save: 'Save',
     saveOrder: 'Save order',
-    scanCodeToAccessIt: 'Scan code',
+    scanCodeToAccessIt: 'Access games, standings, players stats and much more.',
     search: 'Search',
     searchTournaments: 'Search tournaments',
     secondTeam: 'Second team',

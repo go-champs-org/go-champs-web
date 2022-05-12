@@ -29,19 +29,21 @@ const QRCode: React.FC<QRCodeProps> = ({
 
   const modalContent = (
     <div className="box has-text-centered qr-code">
-      <h2 className="title">{tournamentName}</h2>
+      <div className="content">
+        <h2 className="title">{tournamentName}</h2>
 
-      <ReactQRCode value={qrCodeUrl} size={180} />
+        <ReactQRCode value={qrCodeUrl} size={180} />
 
-      <p className="content">
-        <Trans>scanCodeToAccessIt</Trans>
-      </p>
+        <p>
+          <Trans>scanCodeToAccessIt</Trans>
+        </p>
 
-      <span className="logo-container">
-        <img src={logo} alt="Go Champs" className="logo" />
+        <span className="logo-container">
+          <img src={logo} alt="Go Champs" className="logo" />
 
-        <h1 className="title">GoChamps!</h1>
-      </span>
+          <h1 className="title is-size-4">GoChamps!</h1>
+        </span>
+      </div>
     </div>
   );
 
