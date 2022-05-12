@@ -7,6 +7,8 @@ import { OrganizationEntity } from '../../Organizations/state';
 import { AuthenticatedAndMemberWrapper } from '../../Shared/UI/AdminWrapper';
 import { Trans } from 'react-i18next';
 import StatisticsDropdown from './StatisticsDropdown';
+import QRCode from './QRCode';
+import BehindFeatureFlag from '../../Shared/UI/BehindFeatureFlag';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -120,6 +122,12 @@ const TopLevel: React.FC<{
             )}
           </div>
         )}
+
+        <BehindFeatureFlag>
+          <div className="level-item">
+            <QRCode url={`/${organizationSlug}/${tournamentSlug}`}></QRCode>
+          </div>
+        </BehindFeatureFlag>
 
         {shouldShowStatistics && (
           <div className="level-item">
