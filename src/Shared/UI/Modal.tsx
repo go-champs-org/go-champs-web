@@ -24,8 +24,6 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   const closeModal = (event: UIEvent) => {
-    event.preventDefault();
-
     const isTriggerClick = event
       .composedPath()
       .includes(ref.current as HTMLSpanElement);
