@@ -74,7 +74,7 @@ const usePinnedRecentlyViews = (apiRecentlyViews: ApiRecentlyView[]) => {
     savePinnedRecentlyView(newPinnedRecentlyViews);
 
     return () => undefined;
-  }, [apiRecentlyViews]);
+  }, []);
 
   const pinRecentlyView = (recentlyView: ApiRecentlyView) => {
     const pinnedRecentlyViews = retrievePinnedRecentlyView();

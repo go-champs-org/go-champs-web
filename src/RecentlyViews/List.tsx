@@ -52,15 +52,17 @@ const List: React.FC = () => {
       setIsLoading(false);
       // Set results state
       const resultsWithNoTests = results.filter(
-        (result: ApiRecentlyView) =>
-          !result.tournament.slug.includes('test') &&
-          !pinnedRecentlyViews[result.tournament.id]
+        (result: ApiRecentlyView) => !result.tournament.slug.includes('test')
       );
       setTournaments(resultsWithNoTests);
     });
 
     return () => undefined;
   }, [pinnedRecentlyViews]);
+
+  const recentlyViewsWithNoPinned = recentlyViews.filter(
+    result => !pinnedRecentlyViews[result.tournament.id]
+  );
 
   return (
     <section className="container">
@@ -114,17 +116,19 @@ const List: React.FC = () => {
                 })}
 
               <ComponentLoader canRender={!isLoading} loader={ListShimmer}>
-                {recentlyViews.length > 0 ? (
-                  recentlyViews.map((recentlyView: ApiRecentlyView) => (
-                    <Result
-                      pinRecentlyView={pinRecentlyViewClickHandler(
-                        recentlyView
-                      )}
-                      tournament={recentlyView.tournament}
-                      key={recentlyView.tournament.id}
-                      views={recentlyView.views}
-                    />
-                  ))
+                {recentlyViewsWithNoPinned.length > 0 ? (
+                  recentlyViewsWithNoPinned.map(
+                    (recentlyView: ApiRecentlyView) => (
+                      <Result
+                        pinRecentlyView={pinRecentlyViewClickHandler(
+                          recentlyView
+                        )}
+                        tournament={recentlyView.tournament}
+                        key={recentlyView.tournament.id}
+                        views={recentlyView.views}
+                      />
+                    )
+                  )
                 ) : (
                   <div></div>
                 )}
