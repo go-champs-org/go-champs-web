@@ -15,6 +15,7 @@ import {
 } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
+import BoxScore from '../Games/BoxScore';
 import { teamById } from '../Teams/selectors';
 import {
   playerStatLogsByGameIdAndTeamId,
@@ -66,7 +67,7 @@ function BoxScoreLoading() {
   );
 }
 
-interface BoxScoreProps {
+interface BoxScoreViewerProps {
   awayTeam: TeamEntity;
   awayPlayersMap: PlayersMap;
   awayPlayerStatsLogs: PlayerStatsLogRenderEntity[];
@@ -76,7 +77,7 @@ interface BoxScoreProps {
   playerStats: PlayerStatEntity[];
 }
 
-function BoxScore({
+function BoxScoreViewer({
   awayTeam,
   awayPlayersMap,
   awayPlayerStatsLogs,
@@ -84,28 +85,21 @@ function BoxScore({
   homePlayersMap,
   homePlayerStatsLogs,
   playerStats
-}: BoxScoreProps) {
+}: BoxScoreViewerProps) {
   return (
     <div className="columns is-multiline has-text-left">
-      <div className="column is-12">
-        <h2 className="subtitle">{homeTeam.name}</h2>
-
-        <PlayerStatLogView
-          playerStatLogs={homePlayerStatsLogs}
-          players={homePlayersMap}
-          playersStats={playerStats}
-        />
-      </div>
-
-      <div className="column is-12">
-        <h2 className="subtitle">{awayTeam.name}</h2>
-
-        <PlayerStatLogView
-          playerStatLogs={awayPlayerStatsLogs}
-          players={awayPlayersMap}
-          playersStats={playerStats}
-        />
-      </div>
+      <BoxScore
+        teamName={homeTeam.name}
+        playerStats={playerStats}
+        playerStatsLogs={homePlayerStatsLogs}
+        playersMap={homePlayersMap}
+      />
+      <BoxScore
+        teamName={awayTeam.name}
+        playerStats={playerStats}
+        playerStatsLogs={awayPlayerStatsLogs}
+        playersMap={awayPlayersMap}
+      />
     </div>
   );
 }
@@ -195,7 +189,7 @@ function GameView({
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
 
   const boxScore = hasPlayerStatsLogs ? (
-    <BoxScore
+    <BoxScoreViewer
       awayPlayerStatsLogs={awayPlayerStatsLogs}
       awayPlayersMap={awayPlayersMap}
       awayTeam={awayTeam}
