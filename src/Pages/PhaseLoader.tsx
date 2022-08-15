@@ -15,6 +15,7 @@ import PhaseManage from './PhaseManage';
 import GameList from './GameList';
 import GameNew from './GameNew';
 import GameEdit from './GameEdit';
+import GameView from './GameView';
 import DrawList from './DrawList';
 import DrawNew from './DrawNew';
 import DrawEdit from './DrawEdit';
@@ -307,6 +308,12 @@ const PhaseLoader: React.FC<PhaseLoaderProps> = ({
                 tournamentSlug={tournamentSlug}
               />
             </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Phase/:phaseId/GameView/:gameId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <GameView {...props} />
           )}
         />
         <Route
