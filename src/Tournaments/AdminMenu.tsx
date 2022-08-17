@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseTypes } from '../Phases/state';
 import { Trans } from 'react-i18next';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface AdminMenuProps {
   organizationSlug: string;

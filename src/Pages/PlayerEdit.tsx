@@ -20,7 +20,6 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { PlayerEntity } from '../Players/state';
 import { Trans } from 'react-i18next';
 import { teamsForSelectInput } from '../Teams/selectors';
-import { Link } from 'react-router-dom';
 
 const mapStateToProps = (
   state: StoreState,

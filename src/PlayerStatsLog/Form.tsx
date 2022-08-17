@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayerEntity, PlayersMap } from '../Players/state';
+import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { Field, FormRenderProps } from 'react-final-form';

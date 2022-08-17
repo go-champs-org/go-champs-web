@@ -22,7 +22,7 @@ import {
 } from '../PlayerStatsLog/selectors';
 import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { playersMap, playersByTeamId } from '../Players/selectors';
+import { playersMap } from '../Players/selectors';
 import { TeamEntity } from '../Teams/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
