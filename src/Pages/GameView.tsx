@@ -107,27 +107,17 @@ const mapStateToProps = (
 ) => {
   const { gameId = '' } = props.match.params;
   const game = gameById(state.games, gameId);
-  const awayPlayers = playersByTeamId(
-    state.players,
-    state.teams,
-    game.awayTeam.id
-  );
   const awayTeam = teamById(state.teams, game.awayTeam.id);
   const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
-    awayPlayers
+    game.awayTeam.id
   );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
-  const homePlayers = playersByTeamId(
-    state.players,
-    state.teams,
-    game.homeTeam.id
-  );
   const homePlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
-    homePlayers
+    game.homeTeam.id
   );
   const allPlayersMap = playersMap(state.players, state.teams);
   return {
