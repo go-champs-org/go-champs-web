@@ -9,7 +9,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import {
-  default as PlayerStatLogView,
   ViewLoading as PlayerStatLogLoading,
   PlayerStatsLogRenderEntity
 } from '../PlayerStatsLog/View';
@@ -23,7 +22,7 @@ import {
 } from '../PlayerStatsLog/selectors';
 import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { playersByTeamIdMap, playersByTeamId } from '../Players/selectors';
+import { playersMap, playersByTeamId } from '../Players/selectors';
 import { TeamEntity } from '../Teams/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
@@ -69,22 +68,20 @@ function BoxScoreLoading() {
 
 interface BoxScoreViewerProps {
   awayTeam: TeamEntity;
-  awayPlayersMap: PlayersMap;
   awayPlayerStatsLogs: PlayerStatsLogRenderEntity[];
   homeTeam: TeamEntity;
-  homePlayersMap: PlayersMap;
   homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
 }
 
 function BoxScoreViewer({
   awayTeam,
-  awayPlayersMap,
   awayPlayerStatsLogs,
   homeTeam,
-  homePlayersMap,
   homePlayerStatsLogs,
-  playerStats
+  playerStats,
+  playersMap
 }: BoxScoreViewerProps) {
   return (
     <div className="columns is-multiline has-text-left">
@@ -92,13 +89,13 @@ function BoxScoreViewer({
         teamName={homeTeam.name}
         playerStats={playerStats}
         playerStatsLogs={homePlayerStatsLogs}
-        playersMap={homePlayersMap}
+        playersMap={playersMap}
       />
       <BoxScore
         teamName={awayTeam.name}
         playerStats={playerStats}
         playerStatsLogs={awayPlayerStatsLogs}
-        playersMap={awayPlayersMap}
+        playersMap={playersMap}
       />
     </div>
   );
@@ -111,11 +108,6 @@ const mapStateToProps = (
   const { gameId = '' } = props.match.params;
   const game = gameById(state.games, gameId);
   const awayPlayers = playersByTeamId(
-    state.players,
-    state.teams,
-    game.awayTeam.id
-  );
-  const awayPlayersMap = playersByTeamIdMap(
     state.players,
     state.teams,
     game.awayTeam.id
@@ -137,21 +129,16 @@ const mapStateToProps = (
     game.id,
     homePlayers
   );
-  const homePlayersMap = playersByTeamIdMap(
-    state.players,
-    state.teams,
-    game.homeTeam.id
-  );
+  const allPlayersMap = playersMap(state.players, state.teams);
   return {
-    awayPlayersMap,
     awayPlayerStatsLogs,
     awayTeam,
     game,
     isLoadingPlayerStatsLogs: playerStatLogsLoading(state.playerStatsLogs),
-    homePlayersMap,
     homePlayerStatsLogs,
     homeTeam,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
+    playersMap: allPlayersMap,
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
@@ -175,15 +162,14 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
-  awayPlayersMap,
   awayPlayerStatsLogs,
   awayTeam,
   isLoadingPlayerStatsLogs,
   game,
-  homePlayersMap,
   homePlayerStatsLogs,
   homeTeam,
-  tournament
+  tournament,
+  playersMap
 }: GameViewProps): React.ReactElement {
   const hasPlayerStatsLogs =
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
@@ -191,11 +177,10 @@ function GameView({
   const boxScore = hasPlayerStatsLogs ? (
     <BoxScoreViewer
       awayPlayerStatsLogs={awayPlayerStatsLogs}
-      awayPlayersMap={awayPlayersMap}
       awayTeam={awayTeam}
       homePlayerStatsLogs={homePlayerStatsLogs}
-      homePlayersMap={homePlayersMap}
       homeTeam={homeTeam}
+      playersMap={playersMap}
       playerStats={tournament.playerStats}
     />
   ) : (
