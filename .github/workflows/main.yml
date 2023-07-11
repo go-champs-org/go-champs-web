@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18.11.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18.11.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18.11.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@latest
       - name: Install dependencies
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18.11.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -108,7 +108,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18.11.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@latest
       - name: Install dependencies
@@ -127,7 +127,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18.11.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install

@@ -40,10 +40,10 @@
     "typescript": "3.4.5"
   },
   "scripts": {
-    "start": "env-cmd -f env.local.js react-scripts start",
-    "build": "env-cmd -f env.prod.js react-scripts build",
-    "build:adm": "env-cmd -f env.prod.js react-scripts build",
-    "build:staging": "env-cmd -f env.staging.js react-scripts build",
+    "start": "env-cmd -f env.local.js react-scripts --openssl-legacy-provider start",
+    "build": "env-cmd -f env.prod.js react-scripts --openssl-legacy-provider build",
+    "build:adm": "env-cmd -f env.prod.js react-scripts --openssl-legacy-provider build",
+    "build:staging": "env-cmd -f env.staging.js react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "test:e2e": "nightwatch",
     "eject": "react-scripts eject",
@@ -75,7 +75,7 @@
     "@types/react-redux": "^7.0.8",
     "@types/react-router-dom": "5.1.2",
     "@types/react-select": "^2.0.19",
-    "chromedriver": "^103.0.0",
+    "chromedriver": "^114.0.0",
     "env-cmd": "^10.1.0",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.7",
