@@ -1,10 +1,9 @@
-name: CI
+name: CI Pull Request
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches:    
+      - master
   workflow_dispatch:
 jobs:
   unit_test:
@@ -68,87 +67,3 @@ jobs:
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
         run: yarn run test:e2e --env=ci:staging
-
-  deploy_admin:
-    needs: staging_e2e_test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18.11.0'
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install
-      - name: Build Prod
-        env:
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
-          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
-        run: yarn build
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: './build'
-          production-branch: master
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
-          NETLIFY_SITE_ID: ${{ secrets.ADMIN_SITE_ID }}
-        timeout-minutes: 1
-
-  prod_e2e_test:
-    needs: deploy_admin
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18.11.0'
-          cache: 'yarn'
-      - uses: browser-actions/setup-chrome@latest
-      - name: Install dependencies
-        run: yarn install
-      - name: Running e2e tests
-        env:
-          PROD_APP_HOST: ${{ secrets.PROD_APP_HOST }}
-          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-        run: yarn run test:e2e --env=ci:prod
-
-  deploy_prod:
-    needs: prod_e2e_test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18.11.0'
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install
-      - name: Build Prod
-        env:
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
-          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
-        run: yarn build
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: './build'
-          production-branch: master
-          production-deploy: false
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
-          NETLIFY_SITE_ID: ${{ secrets.PROD_SITE_ID }}
-        timeout-minutes: 1
