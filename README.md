@@ -1,4 +1,4 @@
-# Go Champs Front-End ![build status](https://github.com/lairjr/go-champs-web/actions/workflows/main.yml/badge.svg)
+# Go Champs Front-End ![build status](https://github.com/lairjr/go-champs-web/actions/workflows/master-ci.yml/badge.svg)
 
 *This is the Go Champs Front-End repository.*
 
