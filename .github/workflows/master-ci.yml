@@ -62,6 +62,7 @@ jobs:
       - uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: 114
+      - run: chrome --version
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
