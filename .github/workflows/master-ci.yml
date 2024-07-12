@@ -47,6 +47,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
           NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
+          STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
         timeout-minutes: 1
 
   staging_e2e_test:
