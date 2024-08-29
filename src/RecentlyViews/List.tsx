@@ -67,7 +67,7 @@ const List: React.FC = () => {
   return (
     <section className="container">
       <div className="hero">
-        <div className="hero-head">
+        <div data-testid='hero-head' className="hero-head">
           <div className="container">
             <nav className="level">
               <div className="level-left">
