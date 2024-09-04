@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.11.1",
     "@emailjs/browser": "^4.4.1",
     "@types/react-facebook-login": "^4.1.2",
     "animate.css": "^3.7.1",
