@@ -93,6 +93,8 @@ export default {
     sendYourFeedback: 'Send us your feedback',
     signIn: 'Sign in',
     signInWithFacebook: 'Sign in with Facebook',
+    sendYourFeedbackFailMsg: 'Something went wrong, please try again later!',
+    sendYourFeedbackSuccessMsg: 'Thank you for your message!',
     signUp: 'Sign up',
     signUpWithFacebook: 'Sign up with Facebook',
     signOut: 'Sign out',
