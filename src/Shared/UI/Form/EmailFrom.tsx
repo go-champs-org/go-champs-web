@@ -10,13 +10,13 @@ const EmailForm: React.FC = () => {
     event.preventDefault();
 
     emailjs.init({
-      publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+      publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY
     });
 
     const result = await emailjs.sendForm(
       'gmail',
       process.env.REACT_APP_EMAILJS_TEMPLATE_ID as string,
-      event.target as HTMLFormElement,
+      event.target as HTMLFormElement
     );
 
     if (result.status === 200) {
