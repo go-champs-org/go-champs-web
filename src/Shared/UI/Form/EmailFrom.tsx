@@ -1,23 +1,28 @@
 import React from 'react';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import { displayToast } from '../../bulma/toast';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 const EmailForm: React.FC = () => {
+  const { t } = useTranslation();
+
   const sendEmail = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    emailjs.init({
+      publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+    });
 
     const result = await emailjs.sendForm(
       'gmail',
       process.env.REACT_APP_EMAILJS_TEMPLATE_ID as string,
       event.target as HTMLFormElement,
-      process.env.REACT_APP_EMAILJS_USER_ID
     );
 
     if (result.status === 200) {
-      displayToast('Mensagem enviada com sucesso!', 'is-success');
+      displayToast(t('sendYourFeedbackSuccessMsg'), 'is-success');
     } else {
-      displayToast('Problema ao enviar, tente mais tarde!', 'is-danger');
+      displayToast(t('sendYourFeedbackFailMsg'), 'is-danger');
     }
   };
 

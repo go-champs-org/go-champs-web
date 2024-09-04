@@ -92,6 +92,8 @@ export default {
     secondTeamScore: 'Pontuacao segunda equipe',
     send: 'Enviar',
     sendYourFeedback: 'Mande seu feedback',
+    sendYourFeedbackFailMsg: 'Problema ao enviar, tente mais tarde!',
+    sendYourFeedbackSuccessMsg: 'Mensagem enviada com sucesso!',
     signIn: 'Entrar',
     signInWithFacebook: 'Entre com Facebook',
     signUp: 'Novo usuário',
