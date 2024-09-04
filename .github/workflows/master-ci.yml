@@ -32,6 +32,8 @@ jobs:
         run: yarn install
       - name: Build Staging
         env:
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
           STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
         run: yarn build:staging
       - name: Deploy to Netlify
@@ -84,6 +86,8 @@ jobs:
         run: yarn install
       - name: Build Prod
         env:
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
@@ -137,6 +141,8 @@ jobs:
         run: yarn install
       - name: Build Prod
         env:
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
