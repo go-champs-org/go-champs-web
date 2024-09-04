@@ -1,5 +1,6 @@
 module.exports = {
   "CI": false,
+  "REACT_APP_AMPLITUDE_API_KEY": process.env.AMPLITUDE_API_KEY,
   "REACT_APP_API_HOST": process.env.PROD_API_HOST,
   "REACT_APP_BUILD_NUMBER": process.env.GITHUB_RUN_NUMBER,
   "REACT_APP_ENV": "prod",
