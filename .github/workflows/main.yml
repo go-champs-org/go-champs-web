@@ -33,6 +33,7 @@ jobs:
       - name: Build Staging
         env:
           STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+          STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: yarn build:staging
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
