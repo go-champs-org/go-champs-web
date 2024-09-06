@@ -6,6 +6,19 @@ on:
       - master
   workflow_dispatch:
 jobs:
+  lint_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Running lint
+        run: yarn run lint:check
+
   unit_test:
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +33,9 @@ jobs:
         run: yarn test
 
   deploy_staging:
-    needs: unit_test
+    needs:
+      - unit_test
+      - lint_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,6 +50,7 @@ jobs:
           EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
           EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
           STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+          STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: yarn build:staging
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
@@ -91,6 +107,7 @@ jobs:
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
+          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
         run: yarn build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
@@ -147,6 +164,7 @@ jobs:
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
+          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
         run: yarn build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2

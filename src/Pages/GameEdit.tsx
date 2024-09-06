@@ -14,6 +14,8 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { Trans } from 'react-i18next';
+import { REACT_APP_SCOREBOARD_APP_URL } from '../Shared/env';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   basePhaseManageUrl: string;
@@ -55,17 +57,36 @@ const GameNew: React.FC<GameNewProps> = ({
   selectInputTeams,
   tournamentSlug
 }) => {
+  const scoreboardUrl = REACT_APP_SCOREBOARD_APP_URL;
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-multiline">
-          <div className="column is-8">
+          <div className="column is-6">
             <h2 className="subtitle">
               <Trans>editGame</Trans>
             </h2>
           </div>
 
-          <div className="column is-4 has-text-right">
+          <div className="column is-6 has-text-right">
+            <BehindFeatureFlag>
+              <a
+                href={`${scoreboardUrl}scoreboard/control/${game.id}`}
+                target="_blank"
+                style={{ paddingRight: '1rem' }}
+              >
+                <button className="button is-info is-outlined">
+                  <span className="icon">
+                    <i className="fas fa-clock"></i>
+                  </span>
+
+                  <span>
+                    <Trans>Scoreboard</Trans>
+                  </span>
+                </button>
+              </a>
+            </BehindFeatureFlag>
+
             <Link to={`${basePhaseManageUrl}/EditGameAdvanced/${game.id}`}>
               <button className="button is-info is-outlined">
                 <span className="icon">

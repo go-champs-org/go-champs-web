@@ -2,6 +2,10 @@ import React from 'react';
 import emailjs from '@emailjs/browser';
 import { displayToast } from '../../bulma/toast';
 import { Trans, useTranslation } from 'react-i18next';
+import {
+  REACT_APP_EMAILJS_PUBLIC_KEY,
+  REACT_APP_EMAILJS_TEMPLATE_ID
+} from '../../env';
 
 const EmailForm: React.FC = () => {
   const { t } = useTranslation();
@@ -10,12 +14,12 @@ const EmailForm: React.FC = () => {
     event.preventDefault();
 
     emailjs.init({
-      publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+      publicKey: REACT_APP_EMAILJS_PUBLIC_KEY
     });
 
     const result = await emailjs.sendForm(
       'gmail',
-      process.env.REACT_APP_EMAILJS_TEMPLATE_ID as string,
+      REACT_APP_EMAILJS_TEMPLATE_ID as string,
       event.target as HTMLFormElement
     );
 
