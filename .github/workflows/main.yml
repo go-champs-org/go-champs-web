@@ -6,6 +6,19 @@ on:
       - master
   workflow_dispatch:
 jobs:
+  lint_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Running lint
+        run: yarn run lint:check
+
   unit_test:
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +33,9 @@ jobs:
         run: yarn test
 
   deploy_staging:
-    needs: unit_test
+    needs:
+      - unit_test
+      - lint_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
