@@ -132,6 +132,13 @@ describe('patchTournamentSuccess', () => {
     ],
     phases: [],
     teams: [],
+    team_stats: [
+      {
+        id: 'some-team-stat-id',
+        source: 'some-updated-source-id',
+        title: 'some-updated-team-stat-title'
+      }
+    ],
     players: []
   });
 
@@ -150,6 +157,13 @@ describe('patchTournamentSuccess', () => {
           {
             id: 'some-stat-id',
             title: 'some-stat-title'
+          }
+        ],
+        teamStats: [
+          {
+            id: 'some-team-stat-id',
+            source: 'some-source-id',
+            title: 'some-team-stat-title'
           }
         ]
       }
@@ -186,6 +200,13 @@ describe('patchTournamentSuccess', () => {
         title: 'some-updated-stat-title'
       }
     ]);
+    expect(newState.tournaments['first-slug'].teamStats).toEqual([
+      {
+        id: 'some-team-stat-id',
+        source: 'some-updated-source-id',
+        title: 'some-updated-team-stat-title'
+      }
+    ]);
   });
 
   it('keeps others entities in other', () => {
@@ -200,7 +221,8 @@ describe('patchTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
-          playerStats: []
+          playerStats: [],
+          teamStats: []
         }
       }
     };
@@ -216,7 +238,8 @@ describe('patchTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
-      playerStats: []
+      playerStats: [],
+      teamStats: []
     });
   });
 });
@@ -257,7 +280,8 @@ describe('postTournamentSuccess', () => {
       slug: 'some-org-slug'
     },
     phases: [],
-    teams: []
+    teams: [],
+    players: []
   });
 
   it('sets isLoadingPostTournament to false', () => {
@@ -295,7 +319,9 @@ describe('postTournamentSuccess', () => {
           facebook: 'some facebook',
           instagram: 'some instagram',
           siteUrl: 'some site',
-          twitter: 'some twitter'
+          twitter: 'some twitter',
+          playerStats: [],
+          teamStats: []
         }
       }
     };
@@ -309,7 +335,9 @@ describe('postTournamentSuccess', () => {
       facebook: 'some facebook',
       instagram: 'some instagram',
       siteUrl: 'some site',
-      twitter: 'some twitter'
+      twitter: 'some twitter',
+      playerStats: [],
+      teamStats: []
     });
   });
 });
@@ -401,7 +429,15 @@ describe('getTournamentSuccess', () => {
       slug: 'some-org-slug'
     },
     phases: [],
-    teams: []
+    teams: [],
+    players: [],
+    team_stats: [
+      {
+        id: 'first-team-stat-id',
+        source: 'first-source',
+        title: 'first-title'
+      }
+    ]
   });
 
   it('sets isLoadingRequestTournament to false', () => {
@@ -426,6 +462,13 @@ describe('getTournamentSuccess', () => {
       'first site url'
     );
     expect(newState.tournaments['first-slug'].twitter).toEqual('first twitter');
+    expect(newState.tournaments['first-slug'].teamStats).toEqual([
+      {
+        id: 'first-team-stat-id',
+        source: 'first-source',
+        title: 'first-title'
+      }
+    ]);
   });
 
   it('keeps others entities in other', () => {

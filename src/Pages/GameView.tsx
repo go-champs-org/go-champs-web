@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
@@ -9,11 +9,12 @@ import { connect, ConnectedProps } from 'react-redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import {
-  default as PlayerStatLogView,
-  ViewLoading as PlayerStatLogLoading
+  ViewLoading as PlayerStatLogLoading,
+  PlayerStatsLogRenderEntity
 } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
+import BoxScore from '../Games/BoxScore';
 import { teamById } from '../Teams/selectors';
 import {
   playerStatLogsByGameIdAndTeamId,
@@ -21,7 +22,84 @@ import {
 } from '../PlayerStatsLog/selectors';
 import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
 import { phaseByIdOrDefault } from '../Phases/selectors';
-import { playersByTeamIdMap, playersByTeamId } from '../Players/selectors';
+import { playersMap } from '../Players/selectors';
+import { TeamEntity } from '../Teams/state';
+import { PlayersMap } from '../Players/state';
+import { PlayerStatEntity } from '../Tournaments/state';
+import Shimmer from '../Shared/UI/Shimmer';
+
+function BoxScoreLoading() {
+  return (
+    <div className="columns is-multiline">
+      <div className="column is-12 has-text left">
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+
+      <div className="column is-12">
+        <PlayerStatLogLoading />
+      </div>
+
+      <div className="column is-12">
+        <Shimmer>
+          <div
+            style={{
+              height: '13px',
+              marginTop: '13px',
+              width: '250px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+
+      <div className="column is-12">
+        <PlayerStatLogLoading />
+      </div>
+    </div>
+  );
+}
+
+interface BoxScoreViewerProps {
+  awayTeam: TeamEntity;
+  awayPlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  homeTeam: TeamEntity;
+  homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  playersMap: PlayersMap;
+  playerStats: PlayerStatEntity[];
+}
+
+function BoxScoreViewer({
+  awayTeam,
+  awayPlayerStatsLogs,
+  homeTeam,
+  homePlayerStatsLogs,
+  playerStats,
+  playersMap
+}: BoxScoreViewerProps) {
+  return (
+    <div className="columns is-multiline has-text-left">
+      <BoxScore
+        teamName={homeTeam.name}
+        playerStats={playerStats}
+        playerStatsLogs={homePlayerStatsLogs}
+        playersMap={playersMap}
+      />
+      <BoxScore
+        teamName={awayTeam.name}
+        playerStats={playerStats}
+        playerStatsLogs={awayPlayerStatsLogs}
+        playersMap={playersMap}
+      />
+    </div>
+  );
+}
 
 const mapStateToProps = (
   state: StoreState,
@@ -29,48 +107,28 @@ const mapStateToProps = (
 ) => {
   const { gameId = '' } = props.match.params;
   const game = gameById(state.games, gameId);
-  const awayPlayers = playersByTeamId(
-    state.players,
-    state.teams,
-    game.awayTeam.id
-  );
-  const awayPlayersMap = playersByTeamIdMap(
-    state.players,
-    state.teams,
-    game.awayTeam.id
-  );
   const awayTeam = teamById(state.teams, game.awayTeam.id);
   const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
-    awayPlayers
+    game.awayTeam.id
   );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
-  const homePlayers = playersByTeamId(
-    state.players,
-    state.teams,
-    game.homeTeam.id
-  );
   const homePlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
-    homePlayers
-  );
-  const homePlayersMap = playersByTeamIdMap(
-    state.players,
-    state.teams,
     game.homeTeam.id
   );
+  const allPlayersMap = playersMap(state.players, state.teams);
   return {
-    awayPlayersMap,
     awayPlayerStatsLogs,
     awayTeam,
     game,
     isLoadingPlayerStatsLogs: playerStatLogsLoading(state.playerStatsLogs),
-    homePlayersMap,
     homePlayerStatsLogs,
     homeTeam,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
+    playersMap: allPlayersMap,
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
@@ -94,16 +152,31 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
-  awayPlayersMap,
   awayPlayerStatsLogs,
   awayTeam,
   isLoadingPlayerStatsLogs,
   game,
-  homePlayersMap,
   homePlayerStatsLogs,
   homeTeam,
-  tournament
+  tournament,
+  playersMap
 }: GameViewProps): React.ReactElement {
+  const hasPlayerStatsLogs =
+    awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
+
+  const boxScore = hasPlayerStatsLogs ? (
+    <BoxScoreViewer
+      awayPlayerStatsLogs={awayPlayerStatsLogs}
+      awayTeam={awayTeam}
+      homePlayerStatsLogs={homePlayerStatsLogs}
+      homeTeam={homeTeam}
+      playersMap={playersMap}
+      playerStats={tournament.playerStats}
+    />
+  ) : (
+    <Fragment />
+  );
+
   return (
     <div className="column">
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -113,35 +186,7 @@ function GameView({
 
         <div className="column is-12 has-text-centered">
           <div className="tabs is-centered">
-            <div className="columns is-multiline has-text-left">
-              <div className="column is-12">
-                <h2 className="subtitle">{homeTeam.name}</h2>
-
-                {isLoadingPlayerStatsLogs ? (
-                  <PlayerStatLogLoading />
-                ) : (
-                  <PlayerStatLogView
-                    playerStatLogs={homePlayerStatsLogs}
-                    players={homePlayersMap}
-                    playersStats={tournament.playerStats}
-                  />
-                )}
-              </div>
-
-              <div className="column is-12">
-                <h2 className="subtitle">{awayTeam.name}</h2>
-
-                {isLoadingPlayerStatsLogs ? (
-                  <PlayerStatLogLoading />
-                ) : (
-                  <PlayerStatLogView
-                    playerStatLogs={awayPlayerStatsLogs}
-                    players={awayPlayersMap}
-                    playersStats={tournament.playerStats}
-                  />
-                )}
-              </div>
-            </div>
+            {isLoadingPlayerStatsLogs ? <BoxScoreLoading /> : boxScore}
           </div>
         </div>
       </div>

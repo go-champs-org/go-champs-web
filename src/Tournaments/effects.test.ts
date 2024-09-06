@@ -6,6 +6,8 @@ import {
   deleteTournament,
   getTournamentBySlug
 } from './effects';
+import * as fixedPlayerStatsTablesEffects from '../FixedPlayerStatsTables/effects';
+import * as recentlyViewsEffects from '../RecentlyViews/effects';
 import { DEFAULT_TOURNAMENT } from './state';
 import {
   postTournamentStart,
@@ -28,6 +30,8 @@ import tournamentHttpClient from './tournamentHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
 
+jest.spyOn(fixedPlayerStatsTablesEffects, 'getFixedPlayerStatsTablesByFilter');
+jest.spyOn(recentlyViewsEffects, 'postRecentlyView');
 jest.spyOn(toast, 'displayToast');
 
 let dispatch: jest.Mock;
@@ -178,10 +182,18 @@ describe('getTournamentBySlug', () => {
         teams: []
       });
 
+      dispatch = jest.fn();
+
       await getTournamentBySlug(
         'some-organization-slug',
         'some-tournament-slug'
       )(dispatch);
+    });
+
+    it('dispatches get fixed player stats tables action', () => {
+      expect(
+        fixedPlayerStatsTablesEffects.getFixedPlayerStatsTablesByFilter
+      ).toHaveBeenCalledWith({ tournament_id: 'get-id' });
     });
 
     it('dispatches get success action', () => {
@@ -198,6 +210,12 @@ describe('getTournamentBySlug', () => {
           phases: [],
           teams: []
         })
+      );
+    });
+
+    it('dispatches post recently view action', () => {
+      expect(recentlyViewsEffects.postRecentlyView).toHaveBeenCalledWith(
+        'get-id'
       );
     });
   });

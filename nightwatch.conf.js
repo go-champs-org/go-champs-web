@@ -1,10 +1,11 @@
-module.exports = {
+const config = {
   "src_folders": ["e2e"],
   "output_folder": "reports",
 
   "webdriver": {
     "start_process": true,
-    "server_path": "node_modules/.bin/chromedriver",
+    "server_path": "./node_modules/.bin/chromedriver",
+    "cli_args": ["--verbose"],
     "port": 9515
   },
 
@@ -32,7 +33,8 @@ module.exports = {
         "chromeOptions": {
           "args": [
               "--headless",
-              "window-size=1600,900",
+              "--no-sandbox",
+              "window-size=1600,900"
           ]
         }
       }
@@ -45,6 +47,7 @@ module.exports = {
         "chromeOptions": {
           "args": [
               "--headless",
+              "--no-sandbox",
               "window-size=1600,900"
           ]
         }
@@ -52,3 +55,7 @@ module.exports = {
     }
   }
 }
+
+console.log(config);
+
+module.exports = config;

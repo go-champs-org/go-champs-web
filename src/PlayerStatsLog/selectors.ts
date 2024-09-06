@@ -22,17 +22,12 @@ export const playerStatLogsByPlayerId = (
 export const playerStatLogsByGameIdAndTeamId = (
   state: PlayerStatsLogState,
   gameId: string,
-  players: PlayerEntity[]
+  teamId: string
 ) =>
-  players.map((player: PlayerEntity) => {
-    const playerStatsLog =
-      playerStatLogsByGameIdAndPlayerId(state, gameId, player.id) ||
-      DEFAULT_PLAYER_STATS_LOG;
-    return {
-      ...playerStatsLog,
-      playerId: player.id
-    };
-  });
+  playerStatLogs(state).filter(
+    (playerStatsLog: PlayerStatsLogEntity) =>
+      playerStatsLog.gameId === gameId && playerStatsLog.teamId === teamId
+  );
 
 export const playerStatLogsByGameIdAndPlayerId = (
   state: PlayerStatsLogState,

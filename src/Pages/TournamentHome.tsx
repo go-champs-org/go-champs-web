@@ -12,6 +12,9 @@ import { Dispatch, bindActionCreators } from 'redux';
 import TopLevel, { LoadingTopLevel } from '../Tournaments/Common/TopLevel';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TournamentEdit from './TournamentEdit';
+import FixedPlayerStatsTableEdit from './FixedPlayerStatsTableEdit';
+import FixedPlayerStatsTableList from './FixedPlayerStatsTableList';
+import FixedPlayerStatsTableNew from './FixedPlayerStatsTableNew';
 import PhaseList from './PhaseList';
 import PlayerList from './PlayerList';
 import PhaseNew from './PhaseNew';
@@ -26,7 +29,8 @@ import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
 import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
-import PlayerEditAdvanced from './PlayerEditAdvanced';
+import PlayerStatsSummaryView from './PlayerStatsSummaryView';
+import { hasSummaryStatistics } from '../FixedPlayerStatsTables/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -34,6 +38,7 @@ const mapStateToProps = (
 ) => {
   const organizationSlug = props.match.params.organizationSlug || '';
   return {
+    hasSummaryStatistics: hasSummaryStatistics(state.fixedPlayerStatsTables),
     organization: organizationBySlug(state.organizations, organizationSlug),
     organizationSlug: organizationSlug,
     tournament: tournamentBySlug(
@@ -58,6 +63,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type TournamentHomeProps = ConnectedProps<typeof connector>;
 
 const TournamentHome: React.FC<TournamentHomeProps> = ({
+  hasSummaryStatistics,
   organization,
   organizationSlug,
   tournament,
@@ -72,6 +78,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           loader={<LoadingTopLevel />}
         >
           <TopLevel
+            hasSummaryStatistics={hasSummaryStatistics}
             organization={organization}
             organizationSlug={organizationSlug}
             tournamentSlug={tournamentSlug}
@@ -98,6 +105,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
+          path={`/:organizationSlug/:tournamentSlug/EditFixedPlayerStatsTable/:fixedPlayerStatsTableId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <FixedPlayerStatsTableEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
           path={`/:organizationSlug/:tournamentSlug/EditPhase/:phaseId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
@@ -114,14 +129,6 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
-          path={`/:organizationSlug/:tournamentSlug/EditPlayerAdvanced/:playerId`}
-          render={(props: RouteComponentProps<RouteProps>) => (
-            <AuthenticatedRoute>
-              <PlayerEditAdvanced {...props} />
-            </AuthenticatedRoute>
-          )}
-        />
-        <Route
           path={`/:organizationSlug/:tournamentSlug/EditTeam/:teamId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
@@ -133,6 +140,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           path={`/:organizationSlug/:tournamentSlug/GameView/:gameId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <GameView {...props} />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/NewFixedPlayerStatsTable`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <FixedPlayerStatsTableNew {...props} />
+            </AuthenticatedRoute>
           )}
         />
         <Route
@@ -160,6 +175,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
+          path={`/:organizationSlug/:tournamentSlug/FixedPlayerStatsTables`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <FixedPlayerStatsTableList {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
           path={`/:organizationSlug/:tournamentSlug/Phases`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
@@ -179,6 +202,12 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           path={`/:organizationSlug/:tournamentSlug/PlayerStats`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <PlayerStatsView {...props} />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/PlayerStatsSummary`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <PlayerStatsSummaryView {...props} />
           )}
         />
         <Route

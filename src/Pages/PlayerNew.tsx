@@ -71,12 +71,12 @@ type PlayerNewProps = ConnectedProps<typeof connector>;
 
 function PlayerNew({
   isPostingPlayer,
-  organizationSlug,
+  match,
   phase,
   postPlayer,
-  selectInputTeams,
-  tournamentSlug
+  selectInputTeams
 }: PlayerNewProps): React.ReactElement {
+  const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Players`;
   return (
     <Fragment>

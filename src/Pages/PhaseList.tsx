@@ -16,6 +16,7 @@ import ListHeader from '../Shared/UI/ListHeader';
 import { PhaseEntity } from '../Phases/state';
 import useSortedItems from '../Shared/hooks/useSortedItems';
 import { mapPhasesOrderByIndex } from '../Phases/dataMappers';
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = (state: StoreState) => ({
   isPatchingPhase: patchingPhase(state.phases),
@@ -59,13 +60,15 @@ const PhaseList: React.FC<PhaseListProps> = ({
     toggleShouldDisplaySortButtons
   } = useSortedItems<PhaseEntity>(phases);
 
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
           <ListHeader
             newUrl={newUrl}
-            title="Phases"
+            title={t('phases')}
             onSaveOrder={() =>
               patchBatchPhase(mapPhasesOrderByIndex(sortedPhases))
             }

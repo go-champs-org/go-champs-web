@@ -2,9 +2,12 @@ import { PhaseTypes } from '../../Phases/state';
 
 interface ApiGame {
   id: string;
+  away_placeholder?: string;
   away_score: number;
   datetime?: string;
+  home_placeholder?: string;
   home_score: number;
+  is_finished: boolean;
   info?: string;
   location: string;
 }
@@ -318,15 +321,50 @@ export interface ApiPlayerStat {
   title: string;
 }
 
+export interface ApiTeamStat {
+  id: string;
+  title: string;
+  source: string;
+}
+
+export interface ApiRecentlyView {
+  id: string;
+  tournament: ApiTournamentWithDependecies;
+  tournament_id: string;
+  views: number;
+}
+
+export interface ApiRecentlyViewRequest {
+  recently_view: {
+    tournament_id: string;
+  };
+}
+
+export interface ApiRecentlyViewPostResponse {
+  data: ApiRecentlyView;
+}
+
+export interface ApiRecentlyViewResponse {
+  data: ApiRecentlyView[];
+}
+
+export interface ApiRecentlyView {
+  tournament: ApiTournamentWithDependecies;
+  tournament_id: string;
+  views: number;
+}
+
 export interface ApiTournament {
   id: string;
   name: string;
   slug: string;
   facebook?: string;
+  has_aggregated_player_stats?: boolean;
   instagram?: string;
   site_url?: string;
   twitter?: string;
   player_stats?: ApiPlayerStat[];
+  team_stats?: ApiTeamStat[];
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {
@@ -449,4 +487,41 @@ export interface ApiAggregatedPlayerStatsLog {
 
 export interface ApiAggregatedPlayerStatsLogsResponse {
   data: ApiAggregatedPlayerStatsLog[];
+}
+
+export interface ApiFixedPlayerStatsTableRecordPatchAndPost {
+  player_id: string;
+  value: string;
+}
+
+export interface ApiFixedPlayerStatsTableRecord {
+  id: string;
+  player_id: string;
+  value: string;
+}
+
+export interface ApiFixedPlayerStatsTable {
+  id: string;
+  stat_id: string;
+  player_stats: ApiFixedPlayerStatsTableRecord[];
+  tournament_id: string;
+}
+
+export interface ApiFixedPlayerStatsTablePatchAndPost {
+  id: string;
+  stat_id: string;
+  player_stats: ApiFixedPlayerStatsTableRecordPatchAndPost[];
+  tournament_id: string;
+}
+
+export interface ApiFixedPlayerStatsTableRequest {
+  fixed_player_stats_table: ApiFixedPlayerStatsTablePatchAndPost;
+}
+
+export interface ApiFixedPlayerStatsTableResponse {
+  data: ApiFixedPlayerStatsTable;
+}
+
+export interface ApiFixedPlayerStatsTablesResponse {
+  data: ApiFixedPlayerStatsTable[];
 }

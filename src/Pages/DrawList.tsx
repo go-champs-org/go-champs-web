@@ -15,6 +15,7 @@ import { DrawEntity } from '../Draws/state';
 import useSortedItems from '../Shared/hooks/useSortedItems';
 import { mapDrawsOrderByIndex } from '../Draws/dataMappers';
 import { useTranslation } from 'react-i18next';
+import { organizationBySlug } from '../Organizations/selectors';
 
 interface OwnProps {
   organizationSlug: string;
@@ -26,6 +27,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => ({
   draws: draws(state.draws),
   drawsLoading: drawsLoading(state.draws),
   isPatchingDraw: patchingDraw(state.draws),
+  organization: organizationBySlug(state.organizations, props.organizationSlug),
   phase: phaseByIdOrDefault(state.phases, props.phaseId),
   phases: sortedPhases(state.phases)
 });
@@ -53,6 +55,7 @@ const DrawList: React.FC<DrawListProps> = ({
   phase,
   phaseId,
   phases,
+  organization,
   organizationSlug,
   tournamentSlug
 }) => {
@@ -74,6 +77,7 @@ const DrawList: React.FC<DrawListProps> = ({
     <Fragment>
       <div className="column is-12">
         <TopBreadcrumbs
+          organization={organization}
           organizationSlug={organizationSlug}
           phases={phases}
           tournamentSlug={tournamentSlug}

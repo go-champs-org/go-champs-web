@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { AnyAction, Dispatch } from 'redux';
+import { LOCAL_STORAGE_USERNAME_KEY } from '../../Accounts/constants';
 
 interface WithAccountProps {
   getAccount: (
@@ -12,7 +13,7 @@ const withAccount = <T extends object>(
 ) => {
   const WithAccount: React.FC<T & WithAccountProps> = props => {
     const { getAccount } = props;
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY);
 
     useEffect(() => {
       if (username) {

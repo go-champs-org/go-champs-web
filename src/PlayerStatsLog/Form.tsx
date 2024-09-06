@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayerEntity } from '../Players/state';
+import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { Field, FormRenderProps } from 'react-final-form';
@@ -12,7 +12,7 @@ import { Trans } from 'react-i18next';
 
 interface PlayerStatLogFormRowProps {
   name: string;
-  players: { [id: string]: PlayerEntity };
+  players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLog: PlayerStatsLogEntity;
 }
@@ -57,7 +57,7 @@ const PlayerStatLogHeader: React.FC<{
 
 interface FormProps extends FormRenderProps<PlayerStatsLogsForm> {
   game: GameEntity;
-  players: { [id: string]: PlayerEntity };
+  players: PlayersMap;
   playersStats: PlayerStatEntity[];
   team: TeamEntity;
 }

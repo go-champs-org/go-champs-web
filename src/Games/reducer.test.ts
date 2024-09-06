@@ -110,18 +110,21 @@ describe('patchGameFailure', () => {
 describe('patchGameSuccess', () => {
   const action = patchGameSuccess({
     id: 'first-id',
+    awayPlaceholder: 'updated away placeholder',
     awayScore: 30,
     awayTeam: {
       id: 'updated-away-team-id',
       name: 'updated-away-team'
     },
     datetime: '2019-05-22T03:21:21.248Z',
+    homePlaceholder: 'updated home placeholder',
     homeScore: 40,
     homeTeam: {
       id: 'updated-home-team-id',
       name: 'updated-home-team'
     },
     info: 'updated info',
+    isFinished: true,
     location: 'updated location'
   });
 
@@ -130,18 +133,21 @@ describe('patchGameSuccess', () => {
     games: {
       'first-id': {
         id: 'first-id',
+        awayPlaceholder: 'first home placeholder',
         awayScore: 10,
         awayTeam: {
           id: 'first-away-team-id',
           name: 'first-away-team'
         },
         datetime: '2019-05-22T03:21:21.248Z',
+        homePlaceholder: 'first home placeholder',
         homeScore: 20,
         homeTeam: {
           id: 'first-home-team-id',
           name: 'first-home-team'
         },
         info: 'first info',
+        isFinished: false,
         location: 'first location'
       }
     }
@@ -157,18 +163,21 @@ describe('patchGameSuccess', () => {
 
     expect(newState.games['first-id']).toEqual({
       id: 'first-id',
+      awayPlaceholder: 'updated away placeholder',
       awayScore: 30,
       awayTeam: {
         id: 'updated-away-team-id',
         name: 'updated-away-team'
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      homePlaceholder: 'updated home placeholder',
       homeScore: 40,
       homeTeam: {
         id: 'updated-home-team-id',
         name: 'updated-home-team'
       },
       info: 'updated info',
+      isFinished: true,
       location: 'updated location'
     });
   });
@@ -236,6 +245,7 @@ describe('postGameFailure', () => {
 describe('postGameSuccess', () => {
   const action = postGameSuccess({
     id: 'first-id',
+    awayPlaceholder: 'first away placeholder',
     awayScore: 10,
     awayTeam: {
       id: 'first-away-team-id',
@@ -243,13 +253,15 @@ describe('postGameSuccess', () => {
       stats: {}
     },
     datetime: '2019-05-22T03:21:21.248Z',
+    homePlaceholder: 'first home placeholder',
     homeScore: 20,
     homeTeam: {
       id: 'first-home-team-id',
       name: 'first-home-team',
       stats: {}
     },
-    location: 'first location'
+    location: 'first location',
+    isFinished: true
   });
 
   it('sets isLoadingPostGame to false', () => {
@@ -261,6 +273,7 @@ describe('postGameSuccess', () => {
 
     expect(newState.games['first-id']).toEqual({
       id: 'first-id',
+      awayPlaceholder: 'first away placeholder',
       awayScore: 10,
       awayTeam: {
         id: 'first-away-team-id',
@@ -268,13 +281,15 @@ describe('postGameSuccess', () => {
         stats: {}
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      homePlaceholder: 'first home placeholder',
       homeScore: 20,
       homeTeam: {
         id: 'first-home-team-id',
         name: 'first-home-team',
         stats: {}
       },
-      location: 'first location'
+      location: 'first location',
+      isFinished: true
     });
   });
 
@@ -343,19 +358,22 @@ describe('getGameFailure', () => {
 describe('getGameSuccess', () => {
   const action = getGameSuccess({
     id: 'first-id',
+    awayPlaceholder: 'first away placeholder',
     awayScore: 10,
     awayTeam: {
       id: 'first-away-team-id',
       name: 'first-away-team'
     },
     datetime: '2019-05-22T03:21:21.248Z',
+    homePlaceholder: 'first home placeholder',
     homeScore: 20,
     homeTeam: {
       id: 'first-home-team-id',
       name: 'first-home-team'
     },
     phaseId: 'phase-id',
-    location: 'first location'
+    location: 'first location',
+    isFinished: true
   });
 
   it('sets isLoadingRequestGame to false', () => {
@@ -367,19 +385,22 @@ describe('getGameSuccess', () => {
 
     expect(newState.games['first-id']).toEqual({
       id: 'first-id',
+      awayPlaceholder: 'first away placeholder',
       awayScore: 10,
       awayTeam: {
         id: 'first-away-team-id',
         name: 'first-away-team'
       },
       datetime: '2019-05-22T03:21:21.248Z',
+      homePlaceholder: 'first home placeholder',
       homeScore: 20,
       homeTeam: {
         id: 'first-home-team-id',
         name: 'first-home-team'
       },
       phaseId: 'phase-id',
-      location: 'first location'
+      location: 'first location',
+      isFinished: true
     });
   });
 });

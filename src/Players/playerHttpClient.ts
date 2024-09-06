@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiPlayerPatchRequest,
   ApiPlayerPostRequest,
@@ -11,7 +12,7 @@ import {
 } from './dataMappers';
 import { PlayerEntity } from './state';
 
-const PLAYERS_API = `${process.env.REACT_APP_API_HOST}v1/players`;
+const PLAYERS_API = `${REACT_APP_API_HOST}v1/players`;
 
 const deleteRequest = (playerId: string): Promise<string> => {
   const url = `${PLAYERS_API}/${playerId}`;

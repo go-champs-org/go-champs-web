@@ -1,10 +1,11 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiSearchTournamentsResponse,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 
-const SEARCH_API = `${process.env.REACT_APP_API_HOST}v1/search`;
+const SEARCH_API = `${REACT_APP_API_HOST}v1/search`;
 
 const getAll = async (
   searchTerm: string

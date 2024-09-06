@@ -23,12 +23,16 @@ import { PlayerState } from './Players/state';
 import { PlayerStatsLogState } from './PlayerStatsLog/state';
 import { AggregatedPlayerStatsLogState } from './AggregatedPlayerStats/state';
 import { default as aggregatedPlayerStatsLogsReducer } from './AggregatedPlayerStats/reducer';
+import { default as fixedPlayerStatsTablesReducer } from './FixedPlayerStatsTables/reducer';
+import { FixedPlayerStatsTableState } from './FixedPlayerStatsTables/state';
+import { NODE_ENV } from './Shared/env';
 
 export interface StoreState {
   account: AccountState;
   aggregatedPlayerStatsLogs: AggregatedPlayerStatsLogState;
   draws: DrawState;
   eliminations: EliminationState;
+  fixedPlayerStatsTables: FixedPlayerStatsTableState;
   games: GameState;
   organizations: OrganizationState;
   phases: PhaseState;
@@ -44,6 +48,7 @@ export default createStore(
     aggregatedPlayerStatsLogs: aggregatedPlayerStatsLogsReducer,
     draws: drawsReducer,
     eliminations: eliminationsReducer,
+    fixedPlayerStatsTables: fixedPlayerStatsTablesReducer,
     games: tournamentGameReducer,
     organizations: organizationReducer,
     phases: tournamentPhaseReducer,
@@ -52,7 +57,7 @@ export default createStore(
     teams: teamReducer,
     tournaments: tournamentReducer
   }),
-  process.env.NODE_ENV === 'production'
+  NODE_ENV === 'production'
     ? applyMiddleware(thunk)
     : composeWithDevTools(applyMiddleware(thunk))
 );

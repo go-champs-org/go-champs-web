@@ -27,6 +27,12 @@ import accountHttpClient from './accountHttpClient';
 import { History, Location } from 'history';
 import ApiError from '../Shared/httpClient/ApiError';
 import { displayToast } from '../Shared/bulma/toast';
+import { ApiOrganization } from '../Shared/httpClient/apiTypes';
+import {
+  LOCAL_STORAGE_ORGANIZATIONS_KEY,
+  LOCAL_STORAGE_TOKEN_KEY,
+  LOCAL_STORAGE_USERNAME_KEY
+} from './constants';
 
 export const signIn = (
   user: SignInEntity,
@@ -38,8 +44,8 @@ export const signIn = (
     const response = await accountHttpClient.signIn(user);
 
     dispatch(signInSuccess(response));
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('username', response.data.username);
+    localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, response.data.token);
+    localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, response.data.username);
     const search = new URLSearchParams(location.search);
     if (search.get('redirectTo')) {
       history.push(search.get('redirectTo')!);
@@ -114,8 +120,8 @@ export const redirectToFacebookSignUp = (history: History) => async (
       facebookId
     });
 
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('username', response.data.username);
+    localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, response.data.token);
+    localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, response.data.username);
     history.push('/Account');
   } catch {
     history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
@@ -123,8 +129,9 @@ export const redirectToFacebookSignUp = (history: History) => async (
 };
 
 export const signOut = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
+  localStorage.removeItem(LOCAL_STORAGE_ORGANIZATIONS_KEY);
+  localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+  localStorage.removeItem(LOCAL_STORAGE_USERNAME_KEY);
 };
 
 export const accountReset = (
@@ -169,10 +176,18 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
   try {
     const response = await accountHttpClient.getAccount(username);
 
+    const organizationIds = response.data.organizations.map(
+      (organization: ApiOrganization) => organization.id
+    );
+    localStorage.setItem(
+      LOCAL_STORAGE_ORGANIZATIONS_KEY,
+      organizationIds.toString()
+    );
     dispatch(getAccountSuccess(response));
   } catch (err) {
     dispatch(getAccountFailure(err));
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    localStorage.removeItem(LOCAL_STORAGE_ORGANIZATIONS_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_USERNAME_KEY);
   }
 };

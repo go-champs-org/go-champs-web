@@ -86,7 +86,7 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
               <Trans>useAsAnApp</Trans>
             </a>
 
-            <a href="/" className="navbar-item has-text-centered-touch">
+            <a href="/About" className="navbar-item has-text-centered-touch">
               <Trans>aboutUs</Trans>
             </a>
           </div>

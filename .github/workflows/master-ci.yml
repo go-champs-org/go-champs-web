@@ -1,0 +1,183 @@
+name: Main CI
+
+on:
+  push:
+    branches:    
+      - master
+  workflow_dispatch:
+jobs:
+  lint_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Running lint
+        run: yarn run lint:check
+
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Running test
+        run: yarn test
+
+  deploy_staging:
+    needs:
+      - unit_test
+      - lint_check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build Staging
+        env:
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+          STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
+        run: yarn build:staging
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
+          STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
+        timeout-minutes: 1
+
+  staging_e2e_test:
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 128
+      - name: Install dependencies
+        run: yarn install
+      - name: Running e2e tests
+        env:
+          STAGING_APP_HOST: ${{ secrets.STAGING_APP_HOST }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: yarn run test:e2e --env=ci:staging
+
+  deploy_admin:
+    needs: staging_e2e_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build Prod
+        env:
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
+          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
+        run: yarn build
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.ADMIN_SITE_ID }}
+        timeout-minutes: 1
+
+  prod_e2e_test:
+    needs: deploy_admin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 128
+      - name: Install dependencies
+        run: yarn install
+      - name: Running e2e tests
+        env:
+          PROD_APP_HOST: ${{ secrets.PROD_APP_HOST }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: yarn run test:e2e --env=ci:prod
+
+  deploy_prod:
+    needs: prod_e2e_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build Prod
+        env:
+          AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
+          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
+        run: yarn build
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          production-branch: master
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.PROD_SITE_ID }}
+        timeout-minutes: 1

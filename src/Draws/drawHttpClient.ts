@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiDrawResponse,
   ApiDrawPostRequest,
@@ -19,7 +20,7 @@ export interface ApiDrawBatchResponseData {
   [id: string]: ApiDraw;
 }
 
-const DRAW_API = `${process.env.REACT_APP_API_HOST}v1/draws`;
+const DRAW_API = `${REACT_APP_API_HOST}v1/draws`;
 
 const deleteRequest = (drawId: string): Promise<string> => {
   const url = `${DRAW_API}/${drawId}`;

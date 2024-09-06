@@ -9,6 +9,7 @@ import {
   mustBeStrongPassword
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
 
 export const accountResetValidor = (formValues: AccountResetEntity) => {
   if (
@@ -92,7 +93,7 @@ const AccountResetForm: React.FC<FormProps> = ({
 
       <div className="field" style={{ marginLeft: '1rem' }}>
         <ReCAPTCHA
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''}
+          sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
           onChange={recaptchaField.input.onChange}
         />
       </div>

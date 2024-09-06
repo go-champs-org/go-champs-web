@@ -9,6 +9,7 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 import AccountHome from './Pages/AccountHome';
+import About from './Pages/About';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -26,6 +27,8 @@ import './Shared/translations/i18n';
 import { useTranslation } from 'react-i18next';
 import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
+import LanguageDropdown from './Shared/UI/LanguageDropdown';
+import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -40,6 +43,7 @@ const App: React.FC = () => {
               <div className="container">
                 <Switch>
                   <Route exact path="/" component={Home} />
+                  <Route path="/About" component={About} />
                   <Route
                     exact
                     sensitive
@@ -134,6 +138,10 @@ const App: React.FC = () => {
             <div className="hero-foot">
               <footer className="footer">
                 <div className="content has-text-centered">
+                  <div>
+                    <LanguageDropdown />
+                  </div>
+
                   <p>
                     <strong>Go Champs!</strong>
                     <span>{` ${t('with')} 🖤 `}</span>
@@ -159,7 +167,7 @@ const App: React.FC = () => {
                   </p>
 
                   <p>
-                    Build: <em>0.0.{process.env.REACT_APP_BUILD_NUMBER}</em>
+                    Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
                   </p>
                 </div>
               </footer>

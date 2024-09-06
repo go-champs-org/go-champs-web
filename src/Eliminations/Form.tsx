@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import './View.scss';
+import { Trans } from 'react-i18next';
 
 interface TeamStatFormProps {
   currentTeamStatValue: EliminationTeamStatEntity;
@@ -89,7 +90,9 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
 
       <tr>
         <td style={{ verticalAlign: 'middle' }}>
-          <span className="is-italic">Actions</span>
+          <span className="is-italic">
+            <Trans>actions</Trans>
+          </span>
         </td>
 
         <td className="has-text-right" colSpan={stats.length}>
