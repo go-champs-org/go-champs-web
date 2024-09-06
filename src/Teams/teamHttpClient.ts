@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiTeamPatchRequest,
   ApiTeamPostRequest,
@@ -11,7 +12,7 @@ import {
 } from './dataMappers';
 import { TeamEntity } from './state';
 
-const TEAMS_API = `${process.env.REACT_APP_API_HOST}v1/teams`;
+const TEAMS_API = `${REACT_APP_API_HOST}v1/teams`;
 
 const deleteRequest = (teamId: string): Promise<string> => {
   const url = `${TEAMS_API}/${teamId}`;

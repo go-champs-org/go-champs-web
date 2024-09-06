@@ -13,8 +13,9 @@ import {
   mapRequestFilterToQueryString,
   RequestFilter
 } from '../Shared/httpClient/requestFilter';
+import { REACT_APP_API_HOST } from '../Shared/env';
 
-const FIXED_PLAYER_STATS_TABLE_API = `${process.env.REACT_APP_API_HOST}v1/fixed-player-stats-tables`;
+const FIXED_PLAYER_STATS_TABLE_API = `${REACT_APP_API_HOST}v1/fixed-player-stats-tables`;
 
 const deleteRequest = (fixedPlayerStatsTableId: string): Promise<string> => {
   const url = `${FIXED_PLAYER_STATS_TABLE_API}/${fixedPlayerStatsTableId}`;

@@ -6,8 +6,9 @@ import {
 } from '../Shared/httpClient/requestFilter';
 import { AggregatedPlayerStatsLogEntity } from './state';
 import { mapApiAggregatedPlayerStatsLogsToAggregatedPlayerStatsLogs } from './dataMappers';
+import { REACT_APP_API_HOST } from '../Shared/env';
 
-const AGGREGATED_PLAYER_STATS_LOGS_API = `${process.env.REACT_APP_API_HOST}v1/aggregated-player-stats-by-tournament`;
+const AGGREGATED_PLAYER_STATS_LOGS_API = `${REACT_APP_API_HOST}v1/aggregated-player-stats-by-tournament`;
 
 const getByFilter = async (
   where: RequestFilter

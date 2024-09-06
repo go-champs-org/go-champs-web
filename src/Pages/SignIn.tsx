@@ -11,6 +11,7 @@ import { isSigingIn } from '../Accounts/selectors';
 import { Trans, useTranslation } from 'react-i18next';
 import FacebookLogin from 'react-facebook-login';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+import { REACT_APP_FACEBOOK_APP_ID } from '../Shared/env';
 
 const mapStateToProps = (state: StoreState, props: RouteComponentProps) => ({
   isSigingIn: isSigingIn(state.account),
@@ -63,7 +64,7 @@ function SignIn({
             <BehindFeatureFlag>
               <div className="column is-12" style={{ paddingTop: 0 }}>
                 <FacebookLogin
-                  appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+                  appId={REACT_APP_FACEBOOK_APP_ID || ''}
                   fields="id,email"
                   isDisabled={false}
                   callback={redirectToFacebookSignUp(history)}

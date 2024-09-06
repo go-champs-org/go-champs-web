@@ -14,8 +14,9 @@ import {
   RequestFilter,
   mapRequestFilterToQueryString
 } from '../Shared/httpClient/requestFilter';
+import { REACT_APP_API_HOST } from '../Shared/env';
 
-const PLAYER_STATS_LOGS_API = `${process.env.REACT_APP_API_HOST}v1/player-stats-logs`;
+const PLAYER_STATS_LOGS_API = `${REACT_APP_API_HOST}v1/player-stats-logs`;
 
 const deleteRequest = (playerStatsLogId: string): Promise<string> => {
   const url = `${PLAYER_STATS_LOGS_API}/${playerStatsLogId}`;

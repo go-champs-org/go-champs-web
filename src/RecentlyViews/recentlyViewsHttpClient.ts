@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiRecentlyView,
   ApiRecentlyViewPostResponse,
@@ -11,7 +12,7 @@ import {
 } from './dataMapper';
 import { RecentlyViewEntity } from './state';
 
-const RECENTLY_VIEWS_API = `${process.env.REACT_APP_API_HOST}v1/recently-view`;
+const RECENTLY_VIEWS_API = `${REACT_APP_API_HOST}v1/recently-view`;
 
 const get = async (): Promise<ApiRecentlyView[]> => {
   const url = RECENTLY_VIEWS_API;

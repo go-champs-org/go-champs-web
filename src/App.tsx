@@ -28,6 +28,7 @@ import { useTranslation } from 'react-i18next';
 import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import LanguageDropdown from './Shared/UI/LanguageDropdown';
+import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -166,7 +167,7 @@ const App: React.FC = () => {
                   </p>
 
                   <p>
-                    Build: <em>0.0.{process.env.REACT_APP_BUILD_NUMBER}</em>
+                    Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
                   </p>
                 </div>
               </footer>

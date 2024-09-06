@@ -25,6 +25,7 @@ import { AggregatedPlayerStatsLogState } from './AggregatedPlayerStats/state';
 import { default as aggregatedPlayerStatsLogsReducer } from './AggregatedPlayerStats/reducer';
 import { default as fixedPlayerStatsTablesReducer } from './FixedPlayerStatsTables/reducer';
 import { FixedPlayerStatsTableState } from './FixedPlayerStatsTables/state';
+import { NODE_ENV } from './Shared/env';
 
 export interface StoreState {
   account: AccountState;
@@ -56,7 +57,7 @@ export default createStore(
     teams: teamReducer,
     tournaments: tournamentReducer
   }),
-  process.env.NODE_ENV === 'production'
+  NODE_ENV === 'production'
     ? applyMiddleware(thunk)
     : composeWithDevTools(applyMiddleware(thunk))
 );

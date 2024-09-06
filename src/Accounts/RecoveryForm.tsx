@@ -9,6 +9,7 @@ import {
   mustBeEmail
 } from '../Shared/UI/Form/Validators/commonValidators';
 import { AccountRecoveryEntity } from './entity';
+import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
 
 export const accountRecoveryValidor = (formValues: AccountRecoveryEntity) => {
   if (formValues.email && formValues.recaptcha) {
@@ -53,7 +54,7 @@ const RecoveryForm: React.FC<FormProps> = ({
 
       <div className="field" style={{ marginLeft: '1rem' }}>
         <ReCAPTCHA
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''}
+          sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
           onChange={recaptchaField.input.onChange}
         />
       </div>
