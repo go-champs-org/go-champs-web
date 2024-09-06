@@ -1,11 +1,12 @@
 import ApiError from './ApiError';
+import { LOCAL_STORAGE_TOKEN_KEY } from '../../Accounts/constants';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 };
 
 const buildAuthenticationHeader = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
   return {
     ...DEFAULT_HEADERS,
     Authorization: `Bearer ${token}`

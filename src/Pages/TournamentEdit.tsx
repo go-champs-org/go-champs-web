@@ -9,7 +9,8 @@ import { RouteProps } from './support/routerInterfaces';
 import {
   tournamentBySlug,
   tournamentLoading,
-  patchingTournament
+  patchingTournament,
+  tournamentPlayerStatsForSelectInput
 } from '../Tournaments/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
@@ -22,10 +23,12 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
 import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
   organization: OrganizationEntity;
+  selectInputPlayerStats: SelectOptionType[];
   tournament: TournamentEntity;
   tournamentLoading: boolean;
 }
@@ -45,15 +48,16 @@ const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => {
-  const { organizationSlug } = props.match.params;
+  const { organizationSlug, tournamentSlug } = props.match.params;
   return {
     ...props,
     isPatchingTournament: patchingTournament(state.tournaments),
     organization: organizationBySlug(state.organizations, organizationSlug),
-    tournament: tournamentBySlug(
+    selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
-      props.match.params.tournamentSlug
+      tournamentSlug
     ),
+    tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
 };
@@ -85,6 +89,7 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
   match,
   tournament,
   tournamentLoading,
+  selectInputPlayerStats,
   patchTournament
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
@@ -119,6 +124,7 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                     isLoading={isPatchingTournament}
                     organizationSlug={organizationSlug}
                     push={props.form.mutators.push}
+                    selectInputPlayerStats={selectInputPlayerStats}
                   />
                 )}
               />

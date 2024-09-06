@@ -68,11 +68,11 @@ const MiniGameCard: React.FC<{ baseUrl: string; game: GameEntity }> = ({
             <div className="column is-12">
               <div className="columns is-mobile">
                 <div className={awayTeamClasses} style={{ padding: '.3rem' }}>
-                  {game.awayTeam.name}
+                  {game.awayTeam.id ? game.awayTeam.name : game.awayPlaceholder}
                 </div>
 
                 <div className={awayScoreClasses} style={{ padding: '.3rem' }}>
-                  {game.awayScore}
+                  {game.isFinished && game.awayScore}
                 </div>
               </div>
             </div>
@@ -80,11 +80,11 @@ const MiniGameCard: React.FC<{ baseUrl: string; game: GameEntity }> = ({
             <div className="column is-12">
               <div className="columns is-mobile">
                 <div className={homeTeamClasses} style={{ padding: '.3rem' }}>
-                  {game.homeTeam.name}
+                  {game.homeTeam.id ? game.homeTeam.name : game.homePlaceholder}
                 </div>
 
                 <div className={homeScoreClasses} style={{ padding: '.3rem' }}>
-                  {game.homeScore}
+                  {game.isFinished && game.homeScore}
                 </div>
               </div>
             </div>

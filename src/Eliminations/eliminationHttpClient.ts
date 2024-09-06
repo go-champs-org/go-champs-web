@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiEliminationResponse,
   ApiEliminationPostRequest,
@@ -19,7 +20,7 @@ export interface ApiEliminationBatchResponseData {
   [id: string]: ApiElimination;
 }
 
-const ELIMINATION_API = `${process.env.REACT_APP_API_HOST}v1/eliminations`;
+const ELIMINATION_API = `${REACT_APP_API_HOST}v1/eliminations`;
 
 const deleteRequest = (eliminationId: string): Promise<string> => {
   const url = `${ELIMINATION_API}/${eliminationId}`;

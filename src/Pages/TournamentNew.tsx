@@ -16,14 +16,19 @@ import {
 import { OrganizationEntity } from '../Organizations/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
-import { postingTournament } from '../Tournaments/selectors';
+import {
+  postingTournament,
+  tournamentPlayerStatsForSelectInput
+} from '../Tournaments/selectors';
 import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
   organization: OrganizationEntity;
   organizationsLoading: boolean;
+  selectInputPlayerStats: SelectOptionType[];
 }
 
 type DispatchProps = {
@@ -42,7 +47,11 @@ const mapStateToProps = (
     ...props,
     organization: organizationBySlug(state.organizations, organizationSlug),
     isPostingTournament: postingTournament(state.tournaments),
-    organizationsLoading: organizationsLoading(state.organizations)
+    organizationsLoading: organizationsLoading(state.organizations),
+    selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
+      state.tournaments,
+      ''
+    )
   };
 };
 
@@ -72,7 +81,8 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
   isPostingTournament,
   match,
   organizationsLoading,
-  postTournament
+  postTournament,
+  selectInputPlayerStats
 }) => {
   const { organizationSlug = '' } = match.params;
   const backUrl = `/Organization/${organizationSlug}`;
@@ -105,6 +115,7 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
                   isLoading={isPostingTournament}
                   organizationSlug={organizationSlug}
                   push={props.form.mutators.push}
+                  selectInputPlayerStats={selectInputPlayerStats}
                 />
               )}
             />

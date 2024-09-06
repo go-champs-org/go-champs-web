@@ -19,6 +19,7 @@ import { teamsForSelectInput } from '../Teams/selectors';
 import { default as ReactSelect } from 'react-select';
 import { ValueType } from 'react-select/lib/types';
 import './PlayerList.scss';
+import { useTranslation } from 'react-i18next';
 
 const SearchTeamInput: React.FC<{
   value: string | null;
@@ -88,13 +89,15 @@ function PlayerList({
     searchValue: teamNameFilterValue
   } = useFilteredItemsByString(players, 'teamId');
 
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
           <ListHeader
             newUrl={newUrl}
-            title="Players"
+            title={t('players')}
             isSavingOrder={isPatchingPlayer}
             filters={[
               <SearchTeamInput

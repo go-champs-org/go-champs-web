@@ -2,12 +2,15 @@ import { DEFAULT_TEAM, TeamEntity } from '../Teams/state';
 
 export interface GameEntity {
   id: string;
+  awayPlaceholder: string;
   awayScore: number;
   awayTeam: TeamEntity;
   datetime: string;
+  homePlaceholder: string;
   homeScore: number;
   homeTeam: TeamEntity;
   info: string;
+  isFinished: boolean;
   location: string;
   phaseId: string;
 }
@@ -32,12 +35,15 @@ export const initialState: GameState = {
 
 export const DEFAULT_GAME: GameEntity = {
   id: '',
+  awayPlaceholder: '',
   awayScore: 0,
   awayTeam: DEFAULT_TEAM,
   datetime: '',
+  homePlaceholder: '',
   homeScore: 0,
   homeTeam: DEFAULT_TEAM,
   info: '',
+  isFinished: false,
   location: '',
   phaseId: ''
 };

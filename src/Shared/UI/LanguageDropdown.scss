@@ -1,0 +1,16 @@
+@import '../../Shared/styles/colors.scss';
+
+.language-dropdown {
+  .dropdown-content {
+    background-color: $white;
+  }
+
+  .dropdown-menu {
+    min-width: unset;
+    width: 100%;
+
+    .dropdown-item {
+      cursor: pointer;
+    }
+  }
+}

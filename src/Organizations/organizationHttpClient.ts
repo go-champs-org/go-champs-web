@@ -14,8 +14,9 @@ import {
   RequestFilter,
   mapRequestFilterToQueryString
 } from '../Shared/httpClient/requestFilter';
+import { REACT_APP_API_HOST } from '../Shared/env';
 
-const ORGANIZATION_API = `${process.env.REACT_APP_API_HOST}v1/organizations`;
+const ORGANIZATION_API = `${REACT_APP_API_HOST}v1/organizations`;
 
 const deleteRequest = (organizationId: string): Promise<string> => {
   const url = `${ORGANIZATION_API}/${organizationId}`;

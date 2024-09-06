@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiTournament,
   ApiTournamentRequest,
@@ -13,7 +14,7 @@ import {
 import { mapTournamentEntityToApiTournamentRequest } from './dataMappers';
 import { TournamentEntity } from './state';
 
-const TOURNAMENT_API = `${process.env.REACT_APP_API_HOST}v1/tournaments`;
+const TOURNAMENT_API = `${REACT_APP_API_HOST}v1/tournaments`;
 
 const deleteRequest = (tournamentId: string): Promise<string> => {
   const url = `${TOURNAMENT_API}/${tournamentId}`;

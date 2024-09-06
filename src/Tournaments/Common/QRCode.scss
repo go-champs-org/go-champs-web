@@ -1,0 +1,32 @@
+@import '../../Shared/styles/colors.scss';
+
+.qr-code {
+  margin: 1rem;
+
+  .content {
+    padding: 1rem 0;
+
+    > .title {
+      padding-bottom: 1.5rem;
+    }
+
+    .logo-container {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-top: 0.5rem;
+
+      .logo {
+        height: 42px;
+        width: 42px;
+      }
+
+      .title {
+        margin: 0 0 0 0.5rem;
+        text-shadow: -1px 1px 0 $beige-light, 1px 1px 0 $beige-light,
+          1px -1px 0 $beige-light;
+      }
+    }
+  }
+}

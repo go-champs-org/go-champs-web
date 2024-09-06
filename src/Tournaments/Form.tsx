@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import {
   TournamentEntity,
   PlayerStatEntity,
@@ -18,6 +18,61 @@ import { Trans, useTranslation } from 'react-i18next';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+
+interface TeamStatFormProps {
+  name: string;
+  onRemove: () => {};
+  selectInputPlayerStats: SelectOptionType[];
+}
+
+const TeamStatForm: React.FC<TeamStatFormProps> = ({
+  name,
+  onRemove,
+  selectInputPlayerStats
+}) => {
+  return (
+    <tr>
+      <td
+        style={{
+          paddingLeft: '0'
+        }}
+      >
+        <Field
+          name={`${name}.title`}
+          component={StringInput}
+          type="text"
+          validate={required}
+        />
+      </td>
+
+      <td>
+        <Field
+          name={`${name}.source`}
+          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            <SelectInput
+              {...props}
+              options={selectInputPlayerStats}
+              isClearable
+            />
+          )}
+        ></Field>
+      </td>
+
+      <td
+        style={{
+          textAlign: 'center',
+          verticalAlign: 'middle'
+        }}
+      >
+        <DoubleClickButton className="button" onClick={onRemove}>
+          <i className="fas fa-trash" />
+        </DoubleClickButton>
+      </td>
+    </tr>
+  );
+};
 
 interface PlayerStatFormProps {
   name: string;
@@ -92,6 +147,7 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   isLoading: boolean;
   organizationSlug: string;
   push: (fieldName: string, stat: PlayerStatEntity) => {};
+  selectInputPlayerStats: SelectOptionType[];
 }
 
 const Form: React.FC<FormProps> = ({
@@ -102,6 +158,7 @@ const Form: React.FC<FormProps> = ({
   pristine,
   values,
   organizationSlug,
+  selectInputPlayerStats,
   valid,
   push
 }) => {
@@ -213,6 +270,7 @@ const Form: React.FC<FormProps> = ({
               </div>
             </div>
           </CollapsibleCard>
+
           <CollapsibleCard titleElement={t('playerStats')}>
             <div className="field">
               <table className="table is-fullwidth is-striped is-hoverable">
@@ -261,6 +319,66 @@ const Form: React.FC<FormProps> = ({
               </button>
             </div>
           </CollapsibleCard>
+
+          <BehindFeatureFlag>
+            <CollapsibleCard titleElement={t('teamStats')}>
+              <div className="field">
+                <table className="table is-fullwidth is-striped is-hoverable">
+                  <thead>
+                    <tr>
+                      <th
+                        style={{
+                          paddingLeft: '0'
+                        }}
+                      >
+                        <Trans>name</Trans>
+                      </th>
+
+                      <th
+                        style={{
+                          paddingLeft: '0'
+                        }}
+                      >
+                        <Trans>source</Trans>
+                      </th>
+
+                      <th
+                        style={{
+                          textAlign: 'center',
+                          width: '80px'
+                        }}
+                      >
+                        <Trans>actions</Trans>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <FieldArray name="teamStats">
+                      {({ fields }) =>
+                        fields.map((name, index) => (
+                          <TeamStatForm
+                            key={name}
+                            name={name}
+                            onRemove={() => fields.remove(index)}
+                            selectInputPlayerStats={selectInputPlayerStats}
+                          />
+                        ))
+                      }
+                    </FieldArray>
+                  </tbody>
+                </table>
+
+                <button
+                  className="button is-fullwidth  is-medium"
+                  type="button"
+                  onClick={() => push('teamStats', DEFAULT_PLAYER_STAT)}
+                >
+                  <Trans>addTeamStat</Trans>
+                </button>
+              </div>
+            </CollapsibleCard>
+          </BehindFeatureFlag>
         </div>
 
         <LoadingButton

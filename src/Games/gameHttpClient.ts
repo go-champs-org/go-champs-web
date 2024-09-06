@@ -1,3 +1,4 @@
+import { REACT_APP_API_HOST } from '../Shared/env';
 import {
   ApiGameResponse,
   ApiGamesResponse,
@@ -16,7 +17,7 @@ import {
 } from './dataMappers';
 import { GameEntity } from './state';
 
-const GAMES_API = `${process.env.REACT_APP_API_HOST}v1/games`;
+const GAMES_API = `${REACT_APP_API_HOST}v1/games`;
 
 const deleteRequest = (gameId: string): Promise<string> => {
   const url = `${GAMES_API}/${gameId}`;

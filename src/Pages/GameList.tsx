@@ -13,6 +13,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import ListHeader from '../Shared/UI/ListHeader';
 import useFilteredItemsByDate from '../Shared/hooks/useFilteredItemsByDate';
 import { useTranslation, Trans } from 'react-i18next';
+import { organizationBySlug } from '../Organizations/selectors';
 
 const SearchDateInput: React.FC<{
   dates: string[];
@@ -81,6 +82,10 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     games: games(state.games),
     gameDates: gameDates(state.games),
     gamesLoading: gamesLoading(state.games),
+    organization: organizationBySlug(
+      state.organizations,
+      props.organizationSlug
+    ),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases)
   };
@@ -104,10 +109,11 @@ const GameList: React.FC<GameListProps> = ({
   gameDates,
   games,
   gamesLoading,
+  organization,
+  organizationSlug,
   phase,
   phaseId,
   phases,
-  organizationSlug,
   tournamentSlug
 }) => {
   const baseUrl = `/${organizationSlug}/${tournamentSlug}/Manage/${phaseId}`;
@@ -123,6 +129,7 @@ const GameList: React.FC<GameListProps> = ({
     <Fragment>
       <div className="column is-12">
         <TopBreadcrumbs
+          organization={organization}
           organizationSlug={organizationSlug}
           phases={phases}
           tournamentSlug={tournamentSlug}

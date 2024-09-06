@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayerEntity } from '../Players/state';
+import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import { Trans } from 'react-i18next';
 import './View.scss';
@@ -94,7 +94,7 @@ export function ViewLoading() {
   );
 }
 
-interface PlayerStatsLogRenderEntity {
+export interface PlayerStatsLogRenderEntity {
   id: string;
   playerId: string;
   stats: {
@@ -103,7 +103,7 @@ interface PlayerStatsLogRenderEntity {
 }
 
 interface PlayerStatsLogRowProps {
-  players: { [id: string]: PlayerEntity };
+  players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLog: PlayerStatsLogRenderEntity;
 }
@@ -161,7 +161,7 @@ const PlayerStatLogHeader: React.FC<{
 
 interface ViewProps {
   onHeaderClick?: (playerStat: PlayerStatEntity) => void;
-  players: { [id: string]: PlayerEntity };
+  players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogRenderEntity[];
 }

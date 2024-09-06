@@ -1,0 +1,85 @@
+name: CI Pull Request
+
+on:
+  pull_request:
+    branches:    
+      - master
+  workflow_dispatch:
+jobs:
+  lint_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Running lint
+        run: yarn run lint:check
+
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Running test
+        run: yarn test
+
+  deploy_staging:
+    needs:
+      - unit_test
+      - lint_check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build Staging
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+          STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
+        run: yarn build:staging
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
+        timeout-minutes: 1
+
+  staging_e2e_test:
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - uses: browser-actions/setup-chrome@latest
+      - name: Install dependencies
+        run: yarn install
+      - name: Running e2e tests
+        env:
+          STAGING_APP_HOST: ${{ secrets.STAGING_APP_HOST }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: yarn run test:e2e --env=ci:staging

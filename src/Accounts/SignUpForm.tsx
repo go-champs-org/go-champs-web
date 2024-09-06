@@ -7,11 +7,12 @@ import {
   composeValidators,
   required,
   mustBeEmail,
-  mustBeStrongPassword,
-  mustBeUsername
+  mustBeUsername,
+  mustBeSimplePassword
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
+import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
 
 export const signUpValidor = (formValues: SignUpEntity) => {
   if (
@@ -99,7 +100,7 @@ const SignUpForm: React.FC<FormProps> = ({
             component={StringInput}
             type="password"
             className="has-text-centered"
-            validate={composeValidators([required, mustBeStrongPassword])}
+            validate={composeValidators([required, mustBeSimplePassword])}
           />
         </div>
       </div>
@@ -122,7 +123,7 @@ const SignUpForm: React.FC<FormProps> = ({
 
       <div className="field" style={{ marginLeft: '1rem' }}>
         <ReCAPTCHA
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY || ''}
+          sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
           onChange={recaptchaField.input.onChange}
         />
       </div>

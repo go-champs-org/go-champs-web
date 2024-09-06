@@ -44,7 +44,7 @@ const GameCard: React.FC<{
           <div className="columns" style={{ flex: '1' }}>
             <div className="column is-4 has-text-centered">
               <span className="title is-6">
-                {game.awayTeam && game.awayTeam.name}
+                {game.awayTeam.id ? game.awayTeam.name : game.awayPlaceholder}
               </span>
             </div>
             <div className="column is-2 has-text-centered">
@@ -55,7 +55,7 @@ const GameCard: React.FC<{
             </div>
             <div className="column is-4 has-text-centered">
               <span className="title is-6">
-                {game.homeTeam && game.homeTeam.name}
+                {game.homeTeam.id ? game.homeTeam.name : game.homePlaceholder}
               </span>
             </div>
           </div>
