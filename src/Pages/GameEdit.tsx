@@ -70,7 +70,11 @@ const GameNew: React.FC<GameNewProps> = ({
 
           <div className="column is-6 has-text-right">
             <BehindFeatureFlag>
-              <a href={`${scoreboardUrl}scoreboard/control/${game.id}`} target='_blank' style={{paddingRight: '1rem'}}>
+              <a
+                href={`${scoreboardUrl}scoreboard/control/${game.id}`}
+                target="_blank"
+                style={{ paddingRight: '1rem' }}
+              >
                 <button className="button is-info is-outlined">
                   <span className="icon">
                     <i className="fas fa-clock"></i>
