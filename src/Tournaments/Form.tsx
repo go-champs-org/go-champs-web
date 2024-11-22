@@ -20,6 +20,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+import Autocomplete from '../Shared/UI/Form/Autocomplete';
 
 interface TeamStatFormProps {
   name: string;
@@ -163,6 +164,10 @@ const Form: React.FC<FormProps> = ({
   push
 }) => {
   const { t } = useTranslation();
+  const sports = [
+    { text: 'Basketball 5x5', value: 'b5-slug' },
+    { text: 'Basketball 3x3', value: 'b3-slug' }
+  ];
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -200,6 +205,24 @@ const Form: React.FC<FormProps> = ({
               values.slug ? values.slug : ''
             }`}
           </p>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>sport</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="sport"
+              id="sport"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <Autocomplete {...props} id="sport" options={sports} />
+              )}
+              placeholder="Sport"
+              validate={required}
+            />
+          </div>
         </div>
 
         <div className="field">

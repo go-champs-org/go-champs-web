@@ -67,16 +67,18 @@ const post = async (
   tournament: TournamentEntity
 ): Promise<ApiTournamentWithDependecies> => {
   const url = TOURNAMENT_API;
+  debugger;
   const body = mapTournamentEntityToApiTournamentRequest(
     tournament,
     organizationId
   );
 
-  const { data } = await httpClient.post<
-    ApiTournamentRequest,
-    ApiTournamentResponse
-  >(url, body);
-  return data;
+  return;
+  // const { data } = await httpClient.post<
+  //   ApiTournamentRequest,
+  //   ApiTournamentResponse
+  // >(url, body);
+  // return data;
 };
 
 export default {
