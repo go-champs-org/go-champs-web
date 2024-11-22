@@ -9,6 +9,7 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import HighlightedAction from '../Shared/UI/HighlightedAction';
 import {
   required,
   composeValidators,
@@ -20,7 +21,6 @@ import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
-import Autocomplete from '../Shared/UI/Form/Autocomplete';
 
 interface TeamStatFormProps {
   name: string;
@@ -207,6 +207,14 @@ const Form: React.FC<FormProps> = ({
           <label className="label">
             <Trans>sport</Trans>
           </label>
+
+          <div style={{ display: 'flex', paddingBottom: '1rem' }}>
+            <HighlightedAction
+              title="Use basketball package"
+              description="Basketball description"
+              onClick={() => {}}
+            />
+          </div>
 
           <div className="control">
             <Field
