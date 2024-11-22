@@ -9,6 +9,8 @@ export interface TournamentEntity {
   twitter: string;
   playerStats: PlayerStatEntity[];
   teamStats: TeamStatEntity[];
+  sportName: string;
+  sportSlug: string;
 }
 
 export interface PlayerStatEntity {

@@ -164,10 +164,6 @@ const Form: React.FC<FormProps> = ({
   push
 }) => {
   const { t } = useTranslation();
-  const sports = [
-    { text: 'Basketball 5x5', value: 'b5-slug' },
-    { text: 'Basketball 3x3', value: 'b3-slug' }
-  ];
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -214,13 +210,10 @@ const Form: React.FC<FormProps> = ({
 
           <div className="control">
             <Field
-              name="sport"
-              id="sport"
-              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
-                <Autocomplete {...props} id="sport" options={sports} />
-              )}
-              placeholder="Sport"
-              validate={required}
+              name="sportName"
+              component={StringInput}
+              type="text"
+              placeholder="Basketball"
             />
           </div>
         </div>

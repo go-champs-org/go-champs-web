@@ -10,6 +10,9 @@ interface ApiGame {
   is_finished: boolean;
   info?: string;
   location: string;
+  live_state: 'not_started' | 'in_progress' | 'ended';
+  live_started_at?: string;
+  live_ended_at?: string;
 }
 
 export interface ApiGameWithDepedencies extends ApiGame {
@@ -365,6 +368,8 @@ export interface ApiTournament {
   twitter?: string;
   player_stats?: ApiPlayerStat[];
   team_stats?: ApiTeamStat[];
+  sport_slug?: string;
+  sport_name?: string;
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {

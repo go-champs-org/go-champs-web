@@ -281,7 +281,9 @@ describe('postTournamentSuccess', () => {
     },
     phases: [],
     teams: [],
-    players: []
+    players: [],
+    sport_name: 'some-sport-name',
+    sport_slug: 'some-sport-slug'
   });
 
   it('sets isLoadingPostTournament to false', () => {
@@ -306,6 +308,12 @@ describe('postTournamentSuccess', () => {
       'first site url'
     );
     expect(newState.tournaments['first-slug'].twitter).toEqual('first twitter');
+    expect(newState.tournaments['first-slug'].sportName).toEqual(
+      'some-sport-name'
+    );
+    expect(newState.tournaments['first-slug'].sportSlug).toEqual(
+      'some-sport-slug'
+    );
   });
 
   it('keeps others entities in other', () => {
@@ -437,7 +445,9 @@ describe('getTournamentSuccess', () => {
         source: 'first-source',
         title: 'first-title'
       }
-    ]
+    ],
+    sport_name: 'some-sport-name',
+    sport_slug: 'some-sport-slug'
   });
 
   it('sets isLoadingRequestTournament to false', () => {
@@ -469,6 +479,12 @@ describe('getTournamentSuccess', () => {
         title: 'first-title'
       }
     ]);
+    expect(newState.tournaments['first-slug'].sportName).toEqual(
+      'some-sport-name'
+    );
+    expect(newState.tournaments['first-slug'].sportSlug).toEqual(
+      'some-sport-slug'
+    );
   });
 
   it('keeps others entities in other', () => {
