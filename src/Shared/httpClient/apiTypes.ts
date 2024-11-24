@@ -319,9 +319,17 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
-export interface ApiPlayerStat {
-  id: string;
+interface ApiPlayerStat {
   title: string;
+  slug?: string;
+}
+
+export interface ApiPlayerStatResponse extends ApiPlayerStat {
+  id: string;
+}
+
+export interface ApiPlayerStatRequest extends ApiPlayerStat {
+  id?: string;
 }
 
 export interface ApiTeamStat {
@@ -366,7 +374,7 @@ export interface ApiTournament {
   instagram?: string;
   site_url?: string;
   twitter?: string;
-  player_stats?: ApiPlayerStat[];
+  player_stats?: ApiPlayerStatRequest[];
   team_stats?: ApiTeamStat[];
   sport_slug?: string;
   sport_name?: string;

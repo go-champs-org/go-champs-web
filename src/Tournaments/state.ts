@@ -16,6 +16,7 @@ export interface TournamentEntity {
 export interface PlayerStatEntity {
   id: string;
   title: string;
+  slug: string;
 }
 
 export interface PlayerStatMap {

@@ -104,9 +104,9 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
               onSubmit={postTournament}
               initialValues={DEFAULT_TOURNAMENT}
               mutators={
-                (arrayMutators as unknown) as {
-                  [key: string]: Mutator<TournamentEntity>;
-                }
+                {
+                  ...arrayMutators
+                } as { [key: string]: Mutator<TournamentEntity> }
               }
               render={(props: FormRenderProps<TournamentEntity>) => (
                 <TournamentForm

@@ -161,9 +161,19 @@ const Form: React.FC<FormProps> = ({
   organizationSlug,
   selectInputPlayerStats,
   valid,
-  push
+  push,
+  form: { change }
 }) => {
   const { t } = useTranslation();
+  const loadPackage = (sportSlug: string) => {
+    change('sportName', 'Basketball');
+    change('sportSlug', sportSlug);
+    change('playerStats', [
+      { id: '', title: 'Points', slug: 'points' },
+      { id: '', title: 'Assists', slug: 'assists' }
+    ]);
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -212,7 +222,7 @@ const Form: React.FC<FormProps> = ({
             <HighlightedAction
               title="Use basketball package"
               description="Basketball description"
-              onClick={() => {}}
+              onClick={() => loadPackage('basketball_5x5')}
             />
           </div>
 
