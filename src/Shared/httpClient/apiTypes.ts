@@ -538,3 +538,22 @@ export interface ApiFixedPlayerStatsTableResponse {
 export interface ApiFixedPlayerStatsTablesResponse {
   data: ApiFixedPlayerStatsTable[];
 }
+
+export interface ApiStatistic {
+  name: string;
+  slug: string;
+}
+
+export interface ApiSport {
+  name: string;
+  slug: string;
+  player_statistics?: ApiStatistic[];
+}
+
+export interface ApiSportsResponse {
+  data: ApiSport[];
+}
+
+export interface ApiSportResponse {
+  data: ApiSport;
+}
