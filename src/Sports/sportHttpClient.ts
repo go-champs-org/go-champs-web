@@ -14,13 +14,6 @@ export const getAll = async (): Promise<SportEntity[]> => {
   return data.map(mapApiSportToSportEntity);
 };
 
-export const get = async (sportSlug: string): Promise<SportEntity> => {
-  const url = `${SPORTS_API}/${sportSlug}`;
-  const { data } = await httpClient.get<ApiSportResponse>(url);
-  return mapApiSportToSportEntity(data);
-};
-
 export default {
-  getAll,
-  get
+  getAll
 };

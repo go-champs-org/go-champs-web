@@ -21,6 +21,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+import withSports from '../Pages/support/withSports';
 
 interface TeamStatFormProps {
   name: string;
@@ -440,4 +441,4 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-export default Form;
+export default withSports(Form);

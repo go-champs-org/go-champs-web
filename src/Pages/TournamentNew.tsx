@@ -23,6 +23,7 @@ import {
 import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { getSports } from '../Sports/effects';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
@@ -32,6 +33,7 @@ interface StateProps extends RouteComponentProps<RouteProps> {
 }
 
 type DispatchProps = {
+  getSports: () => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postTournament: (
     organizationId: string,
     tournament: TournamentEntity
@@ -58,6 +60,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
+      getSports,
       postTournament
     },
     dispatch
@@ -80,6 +83,7 @@ type TournamentNewProps = ConnectedProps<typeof connector>;
 const TournamentNew: React.FC<TournamentNewProps> = ({
   isPostingTournament,
   match,
+  getSports,
   organizationsLoading,
   postTournament,
   selectInputPlayerStats
@@ -113,6 +117,7 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPostingTournament}
+                  getSports={getSports}
                   organizationSlug={organizationSlug}
                   push={props.form.mutators.push}
                   selectInputPlayerStats={selectInputPlayerStats}

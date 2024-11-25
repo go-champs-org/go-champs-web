@@ -24,6 +24,7 @@ import Helmet from 'react-helmet';
 import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { getSports } from '../Sports/effects';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
@@ -38,6 +39,7 @@ type DispatchProps = {
     organizationSlug: string,
     tournamentSlug: string
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getSports: () => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   patchTournament: (
     organizationId: string,
     tournament: TournamentEntity
@@ -66,6 +68,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getTournamentBySlug,
+      getSports,
       patchTournament
     },
     dispatch
@@ -87,6 +90,7 @@ type TournamentEditProps = ConnectedProps<typeof connector>;
 const TournamentEdit: React.FC<TournamentEditProps> = ({
   isPatchingTournament,
   match,
+  getSports,
   tournament,
   tournamentLoading,
   selectInputPlayerStats,
@@ -121,6 +125,7 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                   <TournamentForm
                     {...props}
                     backUrl={backUrl}
+                    getSports={getSports}
                     isLoading={isPatchingTournament}
                     organizationSlug={organizationSlug}
                     push={props.form.mutators.push}
