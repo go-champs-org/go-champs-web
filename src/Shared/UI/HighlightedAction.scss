@@ -1,0 +1,33 @@
+@import '../../Shared/styles/colors.scss';
+
+.highlighted-action {
+  background-color: $green-light;
+  color: $white-dark;
+  padding: 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  animation: lighting-border 1.5s infinite;
+
+  &:hover {
+    background-color: #509187;
+  }
+}
+
+@keyframes lighting-border {
+  0% {
+    box-shadow: 0 0 0.84px $green-light, 0 0 1.66px $green-light,
+      0 0 2.5px $green-light, 0 0 3.34px $green-light, 0 0 4.16px $green-light,
+      0 0 5px $green-light, 0 0 5.84px $green-light;
+  }
+  50% {
+    box-shadow: 0 0 1.66px $green-light, 0 0 3.34px $green-light,
+      0 0 5px $green-light, 0 0 6.66px $green-light, 0 0 8.34px $green-light,
+      0 0 10px $green-light, 0 0 11.66px $green-light;
+  }
+  100% {
+    box-shadow: 0 0 0.84px $green-light, 0 0 1.66px $green-light,
+      0 0 2.5px $green-light, 0 0 3.34px $green-light, 0 0 4.16px $green-light,
+      0 0 5px $green-light, 0 0 5.84px $green-light;
+  }
+}

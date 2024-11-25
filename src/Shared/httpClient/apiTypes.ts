@@ -10,6 +10,9 @@ interface ApiGame {
   is_finished: boolean;
   info?: string;
   location: string;
+  live_state: 'not_started' | 'in_progress' | 'ended';
+  live_started_at?: string;
+  live_ended_at?: string;
 }
 
 export interface ApiGameWithDepedencies extends ApiGame {
@@ -316,9 +319,17 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
-export interface ApiPlayerStat {
-  id: string;
+interface ApiPlayerStat {
   title: string;
+  slug?: string;
+}
+
+export interface ApiPlayerStatResponse extends ApiPlayerStat {
+  id: string;
+}
+
+export interface ApiPlayerStatRequest extends ApiPlayerStat {
+  id?: string;
 }
 
 export interface ApiTeamStat {
@@ -363,8 +374,10 @@ export interface ApiTournament {
   instagram?: string;
   site_url?: string;
   twitter?: string;
-  player_stats?: ApiPlayerStat[];
+  player_stats?: ApiPlayerStatRequest[];
   team_stats?: ApiTeamStat[];
+  sport_slug?: string;
+  sport_name?: string;
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {
@@ -524,4 +537,23 @@ export interface ApiFixedPlayerStatsTableResponse {
 
 export interface ApiFixedPlayerStatsTablesResponse {
   data: ApiFixedPlayerStatsTable[];
+}
+
+export interface ApiStatistic {
+  name: string;
+  slug: string;
+}
+
+export interface ApiSport {
+  name: string;
+  slug: string;
+  player_statistics?: ApiStatistic[];
+}
+
+export interface ApiSportsResponse {
+  data: ApiSport[];
+}
+
+export interface ApiSportResponse {
+  data: ApiSport;
 }

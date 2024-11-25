@@ -24,11 +24,15 @@ import Helmet from 'react-helmet';
 import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { getSports } from '../Sports/effects';
+import { SportEntity } from '../Sports/state';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
+  isSportsLoading: boolean;
   organization: OrganizationEntity;
   selectInputPlayerStats: SelectOptionType[];
+  sports: SportEntity[];
   tournament: TournamentEntity;
   tournamentLoading: boolean;
 }
@@ -38,6 +42,7 @@ type DispatchProps = {
     organizationSlug: string,
     tournamentSlug: string
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getSports: () => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   patchTournament: (
     organizationId: string,
     tournament: TournamentEntity
@@ -52,11 +57,13 @@ const mapStateToProps = (
   return {
     ...props,
     isPatchingTournament: patchingTournament(state.tournaments),
+    isSportsLoading: false,
     organization: organizationBySlug(state.organizations, organizationSlug),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
       tournamentSlug
     ),
+    sports: [],
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -66,6 +73,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getTournamentBySlug,
+      getSports,
       patchTournament
     },
     dispatch
@@ -86,10 +94,13 @@ type TournamentEditProps = ConnectedProps<typeof connector>;
 
 const TournamentEdit: React.FC<TournamentEditProps> = ({
   isPatchingTournament,
+  isSportsLoading,
   match,
+  getSports,
   tournament,
   tournamentLoading,
   selectInputPlayerStats,
+  sports,
   patchTournament
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
@@ -121,10 +132,13 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                   <TournamentForm
                     {...props}
                     backUrl={backUrl}
+                    getSports={getSports}
                     isLoading={isPatchingTournament}
                     organizationSlug={organizationSlug}
                     push={props.form.mutators.push}
                     selectInputPlayerStats={selectInputPlayerStats}
+                    sports={sports}
+                    isSportsLoading={isSportsLoading}
                   />
                 )}
               />

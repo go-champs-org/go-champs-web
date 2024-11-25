@@ -20,6 +20,9 @@ import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+import withSports from '../Pages/support/withSports';
+import { SportEntity } from '../Sports/state';
+import Package, { LoadingPackage } from '../Sports/Package';
 
 interface TeamStatFormProps {
   name: string;
@@ -148,6 +151,8 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   organizationSlug: string;
   push: (fieldName: string, stat: PlayerStatEntity) => {};
   selectInputPlayerStats: SelectOptionType[];
+  sports: SportEntity[];
+  isSportsLoading: boolean;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -159,10 +164,24 @@ const Form: React.FC<FormProps> = ({
   values,
   organizationSlug,
   selectInputPlayerStats,
+  sports,
+  isSportsLoading,
   valid,
-  push
+  push,
+  form: { change }
 }) => {
   const { t } = useTranslation();
+  const updateFormWithPackageInfo = (sport: SportEntity) => {
+    change('sportName', sport.name);
+    change('sportSlug', sport.slug);
+    const playerStats = sport.playerStatistics.map(stat => ({
+      id: '',
+      title: stat.name,
+      slug: stat.slug
+    }));
+    change('playerStats', playerStats);
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -200,6 +219,33 @@ const Form: React.FC<FormProps> = ({
               values.slug ? values.slug : ''
             }`}
           </p>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>sport</Trans>
+          </label>
+
+          <BehindFeatureFlag>
+            <div style={{ display: 'flex', paddingBottom: '1rem' }}>
+              {isSportsLoading ? (
+                <LoadingPackage />
+              ) : (
+                sports.map(sport => (
+                  <Package sport={sport} onClick={updateFormWithPackageInfo} />
+                ))
+              )}
+            </div>
+          </BehindFeatureFlag>
+
+          <div className="control">
+            <Field
+              name="sportName"
+              component={StringInput}
+              type="text"
+              placeholder="Basketball"
+            />
+          </div>
         </div>
 
         <div className="field">
@@ -406,4 +452,4 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-export default Form;
+export default withSports(Form);
