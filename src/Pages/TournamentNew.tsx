@@ -24,12 +24,16 @@ import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
+import { SportEntity } from '../Sports/state';
+import { sportsLoading, sports } from '../Sports/selectors';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
   organization: OrganizationEntity;
   organizationsLoading: boolean;
   selectInputPlayerStats: SelectOptionType[];
+  sports: SportEntity[];
+  isSportsLoading: boolean;
 }
 
 type DispatchProps = {
@@ -49,11 +53,13 @@ const mapStateToProps = (
     ...props,
     organization: organizationBySlug(state.organizations, organizationSlug),
     isPostingTournament: postingTournament(state.tournaments),
+    isSportsLoading: sportsLoading(state.sports),
     organizationsLoading: organizationsLoading(state.organizations),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
       ''
-    )
+    ),
+    sports: sports(state.sports)
   };
 };
 
@@ -82,11 +88,13 @@ type TournamentNewProps = ConnectedProps<typeof connector>;
 
 const TournamentNew: React.FC<TournamentNewProps> = ({
   isPostingTournament,
+  isSportsLoading,
   match,
   getSports,
   organizationsLoading,
   postTournament,
-  selectInputPlayerStats
+  selectInputPlayerStats,
+  sports
 }) => {
   const { organizationSlug = '' } = match.params;
   const backUrl = `/Organization/${organizationSlug}`;
@@ -121,6 +129,8 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
                   organizationSlug={organizationSlug}
                   push={props.form.mutators.push}
                   selectInputPlayerStats={selectInputPlayerStats}
+                  sports={sports}
+                  isSportsLoading={isSportsLoading}
                 />
               )}
             />

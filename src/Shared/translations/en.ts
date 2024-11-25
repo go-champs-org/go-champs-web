@@ -101,6 +101,13 @@ export default {
     socialNetworks: 'Social networks',
     sort: 'Sort',
     source: 'Source',
+    sport: 'Sport',
+    sportsPackages: {
+      basketball_5x5: {
+        title: 'Use basketball package',
+        description: 'Full stats for basketball 5x5'
+      }
+    },
     startTyping: 'Type something to begin search',
     statistics: 'Statistics',
     sum: 'Sum',

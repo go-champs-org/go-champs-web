@@ -25,11 +25,15 @@ import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
+import { sportsLoading, sports } from '../Sports/selectors';
+import { SportEntity } from '../Sports/state';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
+  isSportsLoading: boolean;
   organization: OrganizationEntity;
   selectInputPlayerStats: SelectOptionType[];
+  sports: SportEntity[];
   tournament: TournamentEntity;
   tournamentLoading: boolean;
 }
@@ -54,11 +58,13 @@ const mapStateToProps = (
   return {
     ...props,
     isPatchingTournament: patchingTournament(state.tournaments),
+    isSportsLoading: sportsLoading(state.sports),
     organization: organizationBySlug(state.organizations, organizationSlug),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
       tournamentSlug
     ),
+    sports: sports(state.sports),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -89,11 +95,13 @@ type TournamentEditProps = ConnectedProps<typeof connector>;
 
 const TournamentEdit: React.FC<TournamentEditProps> = ({
   isPatchingTournament,
+  isSportsLoading,
   match,
   getSports,
   tournament,
   tournamentLoading,
   selectInputPlayerStats,
+  sports,
   patchTournament
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
@@ -130,6 +138,8 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                     organizationSlug={organizationSlug}
                     push={props.form.mutators.push}
                     selectInputPlayerStats={selectInputPlayerStats}
+                    sports={sports}
+                    isSportsLoading={isSportsLoading}
                   />
                 )}
               />

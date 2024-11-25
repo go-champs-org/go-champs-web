@@ -25,5 +25,6 @@ export const initialState: SportState = {
 
 export const DEFAULT_SPORT: SportEntity = {
   name: '',
-  slug: ''
+  slug: '',
+  playerStatistics: []
 };

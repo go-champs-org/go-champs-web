@@ -9,7 +9,6 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import HighlightedAction from '../Shared/UI/HighlightedAction';
 import {
   required,
   composeValidators,
@@ -22,6 +21,8 @@ import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import withSports from '../Pages/support/withSports';
+import { SportEntity } from '../Sports/state';
+import Package, { LoadingPackage } from '../Sports/Package';
 
 interface TeamStatFormProps {
   name: string;
@@ -150,6 +151,8 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   organizationSlug: string;
   push: (fieldName: string, stat: PlayerStatEntity) => {};
   selectInputPlayerStats: SelectOptionType[];
+  sports: SportEntity[];
+  isSportsLoading: boolean;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -161,18 +164,22 @@ const Form: React.FC<FormProps> = ({
   values,
   organizationSlug,
   selectInputPlayerStats,
+  sports,
+  isSportsLoading,
   valid,
   push,
   form: { change }
 }) => {
   const { t } = useTranslation();
-  const loadPackage = (sportSlug: string) => {
-    change('sportName', 'Basketball');
-    change('sportSlug', sportSlug);
-    change('playerStats', [
-      { id: '', title: 'Points', slug: 'points' },
-      { id: '', title: 'Assists', slug: 'assists' }
-    ]);
+  const updateFormWithPackageInfo = (sport: SportEntity) => {
+    change('sportName', sport.name);
+    change('sportSlug', sport.slug);
+    const playerStats = sport.playerStatistics.map(stat => ({
+      id: '',
+      title: stat.name,
+      slug: stat.slug
+    }));
+    change('playerStats', playerStats);
   };
 
   return (
@@ -220,11 +227,13 @@ const Form: React.FC<FormProps> = ({
           </label>
 
           <div style={{ display: 'flex', paddingBottom: '1rem' }}>
-            <HighlightedAction
-              title="Use basketball package"
-              description="Basketball description"
-              onClick={() => loadPackage('basketball_5x5')}
-            />
+            {isSportsLoading ? (
+              <LoadingPackage />
+            ) : (
+              sports.map(sport => (
+                <Package sport={sport} onClick={updateFormWithPackageInfo} />
+              ))
+            )}
           </div>
 
           <div className="control">
