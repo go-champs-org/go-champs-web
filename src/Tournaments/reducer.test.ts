@@ -156,6 +156,7 @@ describe('patchTournamentSuccess', () => {
         playerStats: [
           {
             id: 'some-stat-id',
+            slug: '',
             title: 'some-stat-title'
           }
         ],
@@ -197,6 +198,7 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].playerStats).toEqual([
       {
         id: 'some-stat-id',
+        slug: '',
         title: 'some-updated-stat-title'
       }
     ]);
