@@ -19,3 +19,8 @@ export const get = async (sportSlug: string): Promise<SportEntity> => {
   const { data } = await httpClient.get<ApiSportResponse>(url);
   return mapApiSportToSportEntity(data);
 };
+
+export default {
+  getAll,
+  get
+};
