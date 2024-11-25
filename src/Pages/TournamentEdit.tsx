@@ -25,7 +25,6 @@ import { Trans } from 'react-i18next';
 import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
-import { sportsLoading, sports } from '../Sports/selectors';
 import { SportEntity } from '../Sports/state';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
@@ -58,13 +57,13 @@ const mapStateToProps = (
   return {
     ...props,
     isPatchingTournament: patchingTournament(state.tournaments),
-    isSportsLoading: sportsLoading(state.sports),
+    isSportsLoading: false,
     organization: organizationBySlug(state.organizations, organizationSlug),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
       tournamentSlug
     ),
-    sports: sports(state.sports),
+    sports: [],
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
