@@ -2,9 +2,32 @@ import React from 'react';
 import { SportEntity } from './state';
 import HighlightedAction from '../Shared/UI/HighlightedAction';
 import { useTranslation } from 'react-i18next';
+import Shimmer from '../Shared/UI/Shimmer';
 
-export const LoadingPackage = () => {
-  return <div>Loading...</div>;
+const LoadingPackage = () => {
+  return (
+    <div style={{ paddingRight: '10px' }}>
+      <Shimmer>
+        <div
+          style={{
+            height: '50px',
+            marginTop: '0',
+            width: '200px'
+          }}
+        ></div>
+      </Shimmer>
+    </div>
+  );
+};
+
+export const LoadingPackages = () => {
+  return (
+    <>
+      <LoadingPackage />
+      <LoadingPackage />
+      <LoadingPackage />
+    </>
+  );
 };
 
 export interface PackageProps {

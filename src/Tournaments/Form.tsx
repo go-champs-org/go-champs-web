@@ -22,7 +22,7 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import withSports from '../Pages/support/withSports';
 import { SportEntity } from '../Sports/state';
-import Package, { LoadingPackage } from '../Sports/Package';
+import Package, { LoadingPackages } from '../Sports/Package';
 
 interface TeamStatFormProps {
   name: string;
@@ -229,7 +229,7 @@ const Form: React.FC<FormProps> = ({
           <BehindFeatureFlag>
             <div style={{ display: 'flex', paddingBottom: '1rem' }}>
               {isSportsLoading ? (
-                <LoadingPackage />
+                <LoadingPackages />
               ) : (
                 sports.map(sport => (
                   <Package sport={sport} onClick={updateFormWithPackageInfo} />
