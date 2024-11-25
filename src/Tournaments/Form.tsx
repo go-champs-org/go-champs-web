@@ -79,10 +79,15 @@ const TeamStatForm: React.FC<TeamStatFormProps> = ({
 
 interface PlayerStatFormProps {
   name: string;
+  disabled: boolean;
   onRemove: () => {};
 }
 
-const PlayerStatForm: React.FC<PlayerStatFormProps> = ({ name, onRemove }) => {
+const PlayerStatForm: React.FC<PlayerStatFormProps> = ({
+  name,
+  disabled,
+  onRemove
+}) => {
   return (
     <tr>
       <td
@@ -95,6 +100,7 @@ const PlayerStatForm: React.FC<PlayerStatFormProps> = ({ name, onRemove }) => {
           component={StringInput}
           type="text"
           validate={required}
+          disabled={disabled}
         />
       </td>
 
@@ -181,6 +187,7 @@ const Form: React.FC<FormProps> = ({
     }));
     change('playerStats', playerStats);
   };
+  const hasSportSlug = !!values.sportSlug;
 
   return (
     <div>
@@ -232,7 +239,11 @@ const Form: React.FC<FormProps> = ({
                 <LoadingPackages />
               ) : (
                 sports.map(sport => (
-                  <Package sport={sport} onClick={updateFormWithPackageInfo} />
+                  <Package
+                    key={sport.slug}
+                    sport={sport}
+                    onClick={updateFormWithPackageInfo}
+                  />
                 ))
               )}
             </div>
@@ -244,6 +255,7 @@ const Form: React.FC<FormProps> = ({
               component={StringInput}
               type="text"
               placeholder="Basketball"
+              disabled={hasSportSlug}
             />
           </div>
         </div>
@@ -349,6 +361,7 @@ const Form: React.FC<FormProps> = ({
                           key={name}
                           name={name}
                           onRemove={() => fields.remove(index)}
+                          disabled={hasSportSlug}
                         />
                       ))
                     }
