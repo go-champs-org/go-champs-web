@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   translation: {
     aboutUs: 'Sobre nós',
@@ -102,6 +103,13 @@ export default {
     socialNetworks: 'Redes sociais',
     sort: 'Ordenar',
     source: 'Fonte',
+    sport: 'Esporte',
+    sportsPackages: {
+      basketball_5x5: {
+        title: 'Use pacote de basquete 5x5',
+        description: 'Pacote com estatísticas de basquete 5x5'
+      }
+    },
     startTyping: 'Digite para pesquisar',
     statistics: 'Estatísticas',
     sum: 'Soma',

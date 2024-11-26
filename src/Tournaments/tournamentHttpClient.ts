@@ -72,6 +72,7 @@ const post = async (
     organizationId
   );
 
+  // return;
   const { data } = await httpClient.post<
     ApiTournamentRequest,
     ApiTournamentResponse

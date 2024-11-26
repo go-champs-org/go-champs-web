@@ -9,11 +9,14 @@ export interface TournamentEntity {
   twitter: string;
   playerStats: PlayerStatEntity[];
   teamStats: TeamStatEntity[];
+  sportName: string;
+  sportSlug: string;
 }
 
 export interface PlayerStatEntity {
   id: string;
   title: string;
+  slug: string;
 }
 
 export interface PlayerStatMap {

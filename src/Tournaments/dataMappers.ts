@@ -3,16 +3,17 @@ import {
   ApiTournamentRequest,
   ApiTournamentWithDependecies,
   ApiPhase,
-  ApiPlayerStat,
+  ApiPlayerStatRequest,
   ApiTeamStat
 } from '../Shared/httpClient/apiTypes';
 import { TournamentEntity, PlayerStatEntity, TeamStatEntity } from './state';
 
-export const mapPlayerStatEntityToApiPlayerStat = (
-  apiPlayerStat: PlayerStatEntity
-): ApiPlayerStat => ({
-  id: apiPlayerStat.id,
-  title: apiPlayerStat.title
+export const mapPlayerStatEntityToApiPlayerStatRequest = (
+  playerStat: PlayerStatEntity
+): ApiPlayerStatRequest => ({
+  id: playerStat.id ? playerStat.id : undefined,
+  title: playerStat.title,
+  slug: playerStat.slug ? playerStat.slug : undefined
 });
 
 export const mapTeamStatEntityToApiTeamStat = (
@@ -23,11 +24,12 @@ export const mapTeamStatEntityToApiTeamStat = (
   source: apiTeamStat.source
 });
 
-export const mapApiPlayerStatToPlayerStatEntity = (
-  apiPlayerStat: ApiPlayerStat
+export const mapApiPlayerStatResponseToPlayerStatEntity = (
+  apiPlayerStatRequest: ApiPlayerStatRequest
 ): PlayerStatEntity => ({
-  id: apiPlayerStat.id,
-  title: apiPlayerStat.title
+  id: apiPlayerStatRequest.id ? apiPlayerStatRequest.id : '',
+  title: apiPlayerStatRequest.title,
+  slug: apiPlayerStatRequest.slug ? apiPlayerStatRequest.slug : ''
 });
 
 export const mapApiTeamStatToTeamStatEntity = (
@@ -50,11 +52,13 @@ export const mapApiTournamentToTournamentEntity = (
   siteUrl: apiTournament.site_url ? apiTournament.site_url : '',
   twitter: apiTournament.twitter ? apiTournament.twitter : '',
   playerStats: apiTournament.player_stats
-    ? apiTournament.player_stats.map(mapApiPlayerStatToPlayerStatEntity)
+    ? apiTournament.player_stats.map(mapApiPlayerStatResponseToPlayerStatEntity)
     : [],
   teamStats: apiTournament.team_stats
     ? apiTournament.team_stats.map(mapApiTeamStatToTeamStatEntity)
-    : []
+    : [],
+  sportName: apiTournament.sport_name ? apiTournament.sport_name : '',
+  sportSlug: apiTournament.sport_slug ? apiTournament.sport_slug : ''
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
@@ -72,12 +76,14 @@ export const mapTournamentEntityToApiTournamentRequest = (
     twitter: tournament.twitter ? tournament.twitter : '',
     player_stats:
       tournament.playerStats.length > 0
-        ? tournament.playerStats.map(mapPlayerStatEntityToApiPlayerStat)
+        ? tournament.playerStats.map(mapPlayerStatEntityToApiPlayerStatRequest)
         : undefined,
     team_stats:
       tournament.teamStats.length > 0
         ? tournament.teamStats.map(mapTeamStatEntityToApiTeamStat)
-        : undefined
+        : undefined,
+    sport_name: tournament.sportName,
+    sport_slug: tournament.sportSlug
   }
 });
 
