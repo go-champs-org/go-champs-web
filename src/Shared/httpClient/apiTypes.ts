@@ -542,7 +542,9 @@ export interface ApiFixedPlayerStatsTablesResponse {
 export interface ApiStatistic {
   name: string;
   slug: string;
-  type: string;
+  value_type: string;
+  level: string;
+  scope: string;
 }
 
 export interface ApiSport {

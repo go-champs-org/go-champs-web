@@ -1,7 +1,13 @@
+export type ValueType = 'manual' | 'calculated';
+export type Level = 'game' | 'tournament';
+export type Scope = 'aggregate' | 'per_game';
+
 export interface Statistic {
   name: string;
   slug: string;
-  type: 'logged' | 'calculated';
+  valueType: ValueType;
+  level: Level;
+  scope: Scope;
 }
 
 export interface SportEntity {

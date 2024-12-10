@@ -27,7 +27,7 @@ import { TeamEntity } from '../Teams/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import Shimmer from '../Shared/UI/Shimmer';
-import { selectPlayerStatisticsByType } from '../Sports/selectors';
+import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
 import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
 
 function BoxScoreLoading() {
@@ -139,10 +139,10 @@ const mapStateToProps = (
       state.tournaments,
       props.match.params.tournamentSlug
     ),
-    statistics: selectPlayerStatisticsByType(
+    statistics: selectPlayerStatisticsByLevel(
       state.sports,
       tournament.sportSlug,
-      'logged'
+      'game'
     )
   };
 };

@@ -1,8 +1,8 @@
-import { selectPlayerStatisticsByType } from './selectors';
-import { initialState, SportEntity, SportState } from './state';
+import { selectPlayerStatisticsByLevel } from './selectors';
+import { initialState, SportEntity } from './state';
 
-describe('selectPlayerStatisticsByType', () => {
-  it('returns all player statistics for a given sport and type', () => {
+describe('selectPlayerStatisticsByLevel', () => {
+  it('returns all player statistics for a given sport and level', () => {
     const state = {
       ...initialState,
       sports: {
@@ -10,18 +10,18 @@ describe('selectPlayerStatisticsByType', () => {
           name: 'Football',
           slug: 'football',
           playerStatistics: [
-            { name: 'Goals', type: 'logged' },
-            { name: 'Assists', type: 'logged' },
-            { name: 'Passes', type: 'calculated' }
+            { name: 'Goals', level: 'game' },
+            { name: 'Assists', level: 'game' },
+            { name: 'Passes', level: 'tournament' }
           ]
         } as SportEntity
       }
     };
     const sportSlug = 'football';
-    const result = selectPlayerStatisticsByType(state, sportSlug, 'logged');
+    const result = selectPlayerStatisticsByLevel(state, sportSlug, 'game');
     expect(result).toEqual([
-      { name: 'Goals', type: 'logged' },
-      { name: 'Assists', type: 'logged' }
+      { name: 'Goals', level: 'game' },
+      { name: 'Assists', level: 'game' }
     ]);
   });
 });

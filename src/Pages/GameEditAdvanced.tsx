@@ -22,7 +22,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { PlayerStatsLogsForm } from '../PlayerStatsLog/state';
 import { Mutator } from 'final-form';
 import { playersByTeamId } from '../Players/selectors';
-import { selectPlayerStatisticsByType } from '../Sports/selectors';
+import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
 import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
 
 const mapStateToProps = (
@@ -71,10 +71,10 @@ const mapStateToProps = (
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     players: state.players.players,
     tournament,
-    statistics: selectPlayerStatisticsByType(
+    statistics: selectPlayerStatisticsByLevel(
       state.sports,
       tournament.sportSlug,
-      'logged'
+      'game'
     )
   };
 };
