@@ -1,11 +1,26 @@
 import { ApiSport, ApiStatistic } from '../Shared/httpClient/apiTypes';
-import { SportEntity, Statistic } from './state';
+import { Level, Scope, SportEntity, Statistic, ValueType } from './state';
+
+const mapApiStatisticTypeToStatisticType = (
+  apiStatisticType: string
+): ValueType => (apiStatisticType === 'manual' ? 'manual' : 'calculated');
+
+const mapApiStatisticLevelToStatisticLevel = (
+  apiStatisticLevel: string
+): Level => (apiStatisticLevel === 'game' ? 'game' : 'tournament');
+
+const mapApiStatisticScopeToStatisticScope = (
+  apiStatisticScope: string
+): Scope => (apiStatisticScope === 'aggregate' ? 'aggregate' : 'per_game');
 
 const mapApiStatisticToStatisticEntity = (
   apiStatistic: ApiStatistic
 ): Statistic => ({
   name: apiStatistic.name,
-  slug: apiStatistic.slug
+  slug: apiStatistic.slug,
+  valueType: mapApiStatisticTypeToStatisticType(apiStatistic.value_type),
+  level: mapApiStatisticLevelToStatisticLevel(apiStatistic.level),
+  scope: mapApiStatisticScopeToStatisticScope(apiStatistic.scope)
 });
 
 export const mapApiSportToSportEntity = (apiSport: ApiSport): SportEntity => ({

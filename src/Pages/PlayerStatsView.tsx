@@ -20,6 +20,7 @@ import {
 } from '../AggregatedPlayerStats/selectors';
 import { Trans } from 'react-i18next';
 import { PlayerStatEntity } from '../Tournaments/state';
+import Filters from '../AggregatedPlayerStats/Filters';
 
 const mapStateToProps = (
   state: StoreState,
@@ -65,7 +66,7 @@ function PlayerStatsView({
 
   const onHeaderClick = (playerStat: PlayerStatEntity) => {
     const urlSearch = new URLSearchParams(location.search);
-    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.id);
+    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.slug || playerStat.id);
     history.push({
       search: urlSearch.toString()
     });
@@ -78,6 +79,13 @@ function PlayerStatsView({
           <span className="subtitle">
             <Trans>playerStats</Trans>
           </span>
+        </div>
+
+        <div className="column is-12">
+          <Filters
+            tournament={tournament}
+            onStatisticsFilterChange={() => {}}
+          />
         </div>
 
         <div className="column is-12">

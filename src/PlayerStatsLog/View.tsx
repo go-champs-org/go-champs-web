@@ -131,7 +131,7 @@ function PlayerStatsLogRow({
           className="has-text-centered"
           style={{ minWidth: '90px' }}
         >
-          {playerStatLog.stats[playerStat.id]}
+          {playerStatLog.stats[playerStat.slug || playerStat.id]}
         </td>
       ))}
     </tr>
