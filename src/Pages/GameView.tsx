@@ -27,6 +27,8 @@ import { TeamEntity } from '../Teams/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity } from '../Tournaments/state';
 import Shimmer from '../Shared/UI/Shimmer';
+import { selectPlayerStatisticsByType } from '../Sports/selectors';
+import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
 
 function BoxScoreLoading() {
   return (
@@ -106,6 +108,10 @@ const mapStateToProps = (
   props: RouteComponentProps<RouteProps>
 ) => {
   const { gameId = '' } = props.match.params;
+  const tournament = tournamentBySlug(
+    state.tournaments,
+    props.match.params.tournamentSlug
+  );
   const game = gameById(state.games, gameId);
   const awayTeam = teamById(state.teams, game.awayTeam.id);
   const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
@@ -132,6 +138,11 @@ const mapStateToProps = (
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
+    ),
+    statistics: selectPlayerStatisticsByType(
+      state.sports,
+      tournament.sportSlug,
+      'logged'
     )
   };
 };
@@ -159,10 +170,16 @@ function GameView({
   homePlayerStatsLogs,
   homeTeam,
   tournament,
-  playersMap
+  playersMap,
+  statistics
 }: GameViewProps): React.ReactElement {
   const hasPlayerStatsLogs =
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
+  const playerStats = statistics.length
+    ? tournament.playerStats.filter(
+        playerStatThatContainsInStatistic(statistics)
+      )
+    : tournament.playerStats;
 
   const boxScore = hasPlayerStatsLogs ? (
     <BoxScoreViewer
@@ -171,7 +188,7 @@ function GameView({
       homePlayerStatsLogs={homePlayerStatsLogs}
       homeTeam={homeTeam}
       playersMap={playersMap}
-      playerStats={tournament.playerStats}
+      playerStats={playerStats}
     />
   ) : (
     <Fragment />

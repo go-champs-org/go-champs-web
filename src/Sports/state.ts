@@ -1,6 +1,7 @@
 export interface Statistic {
   name: string;
   slug: string;
+  type: 'logged' | 'calculated';
 }
 
 export interface SportEntity {
