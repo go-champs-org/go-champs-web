@@ -25,7 +25,7 @@ import { phaseByIdOrDefault } from '../Phases/selectors';
 import { playersMap } from '../Players/selectors';
 import { TeamEntity } from '../Teams/state';
 import { PlayersMap } from '../Players/state';
-import { PlayerStatEntity } from '../Tournaments/state';
+import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import Shimmer from '../Shared/UI/Shimmer';
 import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
 import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
@@ -75,6 +75,7 @@ interface BoxScoreViewerProps {
   homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
+  tournament: TournamentEntity;
 }
 
 function BoxScoreViewer({
@@ -83,7 +84,8 @@ function BoxScoreViewer({
   homeTeam,
   homePlayerStatsLogs,
   playerStats,
-  playersMap
+  playersMap,
+  tournament
 }: BoxScoreViewerProps) {
   return (
     <div className="columns is-multiline has-text-left">
@@ -92,12 +94,14 @@ function BoxScoreViewer({
         playerStats={playerStats}
         playerStatsLogs={homePlayerStatsLogs}
         playersMap={playersMap}
+        tournament={tournament}
       />
       <BoxScore
         teamName={awayTeam.name}
         playerStats={playerStats}
         playerStatsLogs={awayPlayerStatsLogs}
         playersMap={playersMap}
+        tournament={tournament}
       />
     </div>
   );
@@ -189,6 +193,7 @@ function GameView({
       homeTeam={homeTeam}
       playersMap={playersMap}
       playerStats={playerStats}
+      tournament={tournament}
     />
   ) : (
     <Fragment />

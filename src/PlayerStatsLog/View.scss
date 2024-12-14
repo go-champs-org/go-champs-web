@@ -1,3 +1,40 @@
+@import '../Shared/styles/colors.scss';
+
 .clickable-header {
   text-decoration: underline;
+}
+
+.table.is-custom-striped {
+  .player {
+    padding-left: 0;
+    min-width: 150px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: $white;
+    position: absolute;
+    box-shadow: 6px 0 5px -4px rgba(0, 0, 0, 0.3);
+  }
+
+  tbody {
+    tr td {
+      height: 40px;
+    }
+
+    tr:not(.is-selected):nth-child(even) {
+      background-color: $white;
+      .player {
+        background-color: $white;
+      }
+    }
+
+    tr:not(.is-selected):nth-child(odd) {
+      background-color: $white-dark;
+
+      .player {
+        background-color: $white-dark;
+      }
+    }
+  }
 }

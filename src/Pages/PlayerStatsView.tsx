@@ -124,6 +124,7 @@ function PlayerStatsView({
               players={players}
               playersStats={playerStats}
               playerStatLogs={aggregatedPlayerStatLogs}
+              tournament={tournament}
             />
           )}
         </div>

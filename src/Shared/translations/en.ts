@@ -35,6 +35,7 @@ export default {
     eliminations: 'Eliminations',
     email: 'Email',
     filter: 'Filter',
+    filters: 'Filters',
     firstTeam: 'First team',
     firstTeamScore: 'First team score',
     fixed: 'Manual',
@@ -78,6 +79,8 @@ export default {
     players: 'Players',
     playerStats: 'Player stats',
     placeholder: 'Placeholder',
+    perGame: 'Per game',
+    perAggregation: 'Per total',
     repeatPassword: 'Repeat password',
     rounds: 'Rounds',
     roundsMenuTitle: 'Rounds menu',
@@ -85,6 +88,7 @@ export default {
     save: 'Save',
     saveOrder: 'Save order',
     scanCodeToAccessIt: 'Access games, standings, players stats and much more.',
+    scope: 'Scope',
     search: 'Search',
     searchTournaments: 'Search tournaments',
     secondTeam: 'Second team',
@@ -102,6 +106,136 @@ export default {
     sort: 'Sort',
     source: 'Source',
     sport: 'Sport',
+    sports: {
+      basketball_5x5: {
+        statistics: {
+          assists: {
+            abbreviation: 'AST',
+            title: 'Assists'
+          },
+          blocks: {
+            abbreviation: 'BLK',
+            title: 'Blocks'
+          },
+          disqualifications: {
+            abbreviation: 'DISQ',
+            title: 'Disqualifications'
+          },
+          efficiency: {
+            abbreviation: 'EFF',
+            title: 'Efficiency'
+          },
+          ejections: {
+            abbreviation: 'EJ',
+            title: 'Ejections'
+          },
+          field_goals_missed: {
+            abbreviation: 'FGM',
+            title: 'Field goals missed'
+          },
+          field_goals_made: {
+            abbreviation: 'FGM',
+            title: 'Field goals made'
+          },
+          field_goal_percentage: {
+            abbreviation: 'FG%',
+            title: 'Field goals percentage'
+          },
+          field_goals_attempted: {
+            abbreviation: 'FGA',
+            title: 'Field goals attempted'
+          },
+          fouls: {
+            abbreviation: 'FLS',
+            title: 'Fouls'
+          },
+          fouls_flagrant: {
+            abbreviation: 'FLS',
+            title: 'Fouls flagrant'
+          },
+          fouls_technical: {
+            abbreviation: 'FLS',
+            title: 'Fouls technical'
+          },
+          fouls_personal: {
+            abbreviation: 'FLS',
+            title: 'Fouls personal'
+          },
+          free_throws_missed: {
+            abbreviation: 'FTM',
+            title: 'Free throws missed'
+          },
+          free_throws_made: {
+            abbreviation: 'FTM',
+            title: 'Free throws made'
+          },
+          free_throw_percentage: {
+            abbreviation: 'FT%',
+            title: 'Free throws percentage'
+          },
+          free_throws_attempted: {
+            abbreviation: 'FTA',
+            title: 'Free throws attempted'
+          },
+          game_played: {
+            abbreviation: 'GP',
+            title: 'Games played'
+          },
+          game_started: {
+            abbreviation: 'GS',
+            title: 'Games started'
+          },
+          minutes_played: {
+            abbreviation: 'MIN',
+            title: 'Minutes'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Points'
+          },
+          plus_minus: {
+            abbreviation: '+/-',
+            title: 'Plus minus'
+          },
+          rebounds_defensive: {
+            abbreviation: 'REB',
+            title: 'Rebounds defensive'
+          },
+          rebounds_offensive: {
+            abbreviation: 'REB',
+            title: 'Rebounds offensive'
+          },
+          rebounds: {
+            abbreviation: 'REB',
+            title: 'Rebounds'
+          },
+          steals: {
+            abbreviation: 'STL',
+            title: 'Steals'
+          },
+          three_point_field_goal_percentage: {
+            abbreviation: '3P%',
+            title: 'Three points percentage'
+          },
+          three_point_field_goals_missed: {
+            abbreviation: '3PM',
+            title: 'Three points missed'
+          },
+          three_point_field_goals_made: {
+            abbreviation: '3PM',
+            title: 'Three points made'
+          },
+          three_point_field_goals_attempted: {
+            abbreviation: '3PA',
+            title: 'Three points attempted'
+          },
+          turnovers: {
+            abbreviation: 'TO',
+            title: 'Turnovers'
+          }
+        }
+      }
+    },
     sportsPackages: {
       basketball_5x5: {
         title: 'Use basketball package',
