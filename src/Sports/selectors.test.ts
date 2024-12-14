@@ -46,7 +46,7 @@ describe('selectPlayerStatisticsByScope', () => {
       }
     };
     const sportSlug = 'football';
-    const result = selectPlayerStatisticsByScope(state, sportSlug, 'game');
+    const result = selectPlayerStatisticsByScope(state, sportSlug, 'per_game');
     expect(result).toEqual([
       { name: 'Goals', scope: 'per_game' },
       { name: 'Assists', scope: 'per_game' }
