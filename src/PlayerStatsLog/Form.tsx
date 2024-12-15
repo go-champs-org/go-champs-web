@@ -35,21 +35,16 @@ function PlayerStatLogFormRow({
           players[playerStatLog.playerId].name}
       </td>
 
-      {playersStats.map((playerStat: PlayerStatEntity) => {
-        const fieldName = playerStat.slug
-          ? `${name}.stats.${playerStat.slug}`
-          : `${name}.stats.${playerStat.id}`;
-        return (
-          <td key={playerStat.id} style={{ minWidth: '90px' }}>
-            <Field
-              name={fieldName}
-              component={StringInput}
-              className="has-text-centered"
-              type="text"
-            />
-          </td>
-        );
-      })}
+      {playersStats.map((playerStat: PlayerStatEntity) => (
+        <td key={playerStat.id} style={{ minWidth: '90px' }}>
+          <Field
+            name={`${name}.stats.${playerStat.id}`}
+            component={StringInput}
+            className="has-text-centered"
+            type="text"
+          />
+        </td>
+      ))}
     </tr>
   );
 }
