@@ -16,7 +16,6 @@ import { teamsForSelectInput } from '../Teams/selectors';
 import { Trans } from 'react-i18next';
 import { REACT_APP_SCOREBOARD_APP_URL } from '../Shared/env';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
-import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   basePhaseManageUrl: string;
@@ -59,7 +58,6 @@ const GameNew: React.FC<GameNewProps> = ({
   tournamentSlug
 }) => {
   const scoreboardUrl = REACT_APP_SCOREBOARD_APP_URL;
-  const userToken = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
   return (
     <Fragment>
       <div className="column">
@@ -73,7 +71,7 @@ const GameNew: React.FC<GameNewProps> = ({
           <div className="column is-6 has-text-right">
             <BehindFeatureFlag>
               <a
-                href={`${scoreboardUrl}scoreboard/load/${game.id}?token=${userToken}`}
+                href={`${scoreboardUrl}scoreboard/control/${game.id}`}
                 target="_blank"
                 style={{ paddingRight: '1rem' }}
               >

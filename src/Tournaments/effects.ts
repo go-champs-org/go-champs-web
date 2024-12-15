@@ -23,7 +23,6 @@ import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
 import { getFixedPlayerStatsTablesByFilter } from '../FixedPlayerStatsTables/effects';
 import { postRecentlyView } from '../RecentlyViews/effects';
-import { getSport } from '../Sports/effects';
 
 export const deleteTournament = (tournament: TournamentEntity) => async (
   dispatch: Dispatch
@@ -132,12 +131,9 @@ export const getTournamentBySlug = (
 
     dispatch(getTournamentSuccess(response));
     postRecentlyView(tournamentId);
-    await getFixedPlayerStatsTablesByFilter({ tournament_id: tournamentId })(
+    getFixedPlayerStatsTablesByFilter({ tournament_id: tournamentId })(
       dispatch
     );
-    if (response.sport_slug) {
-      await getSport(response.sport_slug)(dispatch);
-    }
   } catch (err) {
     dispatch(getTournamentFailure(err));
   }

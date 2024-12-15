@@ -25,10 +25,8 @@ import { phaseByIdOrDefault } from '../Phases/selectors';
 import { playersMap } from '../Players/selectors';
 import { TeamEntity } from '../Teams/state';
 import { PlayersMap } from '../Players/state';
-import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
+import { PlayerStatEntity } from '../Tournaments/state';
 import Shimmer from '../Shared/UI/Shimmer';
-import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
-import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
 
 function BoxScoreLoading() {
   return (
@@ -75,7 +73,6 @@ interface BoxScoreViewerProps {
   homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
-  tournament: TournamentEntity;
 }
 
 function BoxScoreViewer({
@@ -84,8 +81,7 @@ function BoxScoreViewer({
   homeTeam,
   homePlayerStatsLogs,
   playerStats,
-  playersMap,
-  tournament
+  playersMap
 }: BoxScoreViewerProps) {
   return (
     <div className="columns is-multiline has-text-left">
@@ -94,14 +90,12 @@ function BoxScoreViewer({
         playerStats={playerStats}
         playerStatsLogs={homePlayerStatsLogs}
         playersMap={playersMap}
-        tournament={tournament}
       />
       <BoxScore
         teamName={awayTeam.name}
         playerStats={playerStats}
         playerStatsLogs={awayPlayerStatsLogs}
         playersMap={playersMap}
-        tournament={tournament}
       />
     </div>
   );
@@ -112,10 +106,6 @@ const mapStateToProps = (
   props: RouteComponentProps<RouteProps>
 ) => {
   const { gameId = '' } = props.match.params;
-  const tournament = tournamentBySlug(
-    state.tournaments,
-    props.match.params.tournamentSlug
-  );
   const game = gameById(state.games, gameId);
   const awayTeam = teamById(state.teams, game.awayTeam.id);
   const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
@@ -142,11 +132,6 @@ const mapStateToProps = (
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
-    ),
-    statistics: selectPlayerStatisticsByLevel(
-      state.sports,
-      tournament.sportSlug,
-      'game'
     )
   };
 };
@@ -174,16 +159,10 @@ function GameView({
   homePlayerStatsLogs,
   homeTeam,
   tournament,
-  playersMap,
-  statistics
+  playersMap
 }: GameViewProps): React.ReactElement {
   const hasPlayerStatsLogs =
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
-  const playerStats = statistics.length
-    ? tournament.playerStats.filter(
-        playerStatThatContainsInStatistic(statistics)
-      )
-    : tournament.playerStats;
 
   const boxScore = hasPlayerStatsLogs ? (
     <BoxScoreViewer
@@ -192,8 +171,7 @@ function GameView({
       homePlayerStatsLogs={homePlayerStatsLogs}
       homeTeam={homeTeam}
       playersMap={playersMap}
-      playerStats={playerStats}
-      tournament={tournament}
+      playerStats={tournament.playerStats}
     />
   ) : (
     <Fragment />

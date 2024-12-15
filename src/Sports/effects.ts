@@ -1,25 +1,6 @@
-import {
-  getSportSuccess,
-  getSportFailure,
-  getSportStart,
-  getSportsFailure,
-  getSportsStart,
-  getSportsSuccess
-} from './actions';
+import { getSportsFailure, getSportsStart, getSportsSuccess } from './actions';
 import sportHttpClient from './sportHttpClient';
 import { Dispatch } from 'redux';
-
-export const getSport = (slug: string) => async (dispatch: Dispatch) => {
-  dispatch(getSportStart());
-
-  try {
-    const response = await sportHttpClient.get(slug);
-
-    dispatch(getSportSuccess(response));
-  } catch (err) {
-    dispatch(getSportFailure(err));
-  }
-};
 
 export const getSports = () => async (dispatch: Dispatch) => {
   dispatch(getSportsStart());
