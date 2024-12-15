@@ -20,11 +20,22 @@ import {
 } from '../AggregatedPlayerStats/selectors';
 import { Trans } from 'react-i18next';
 import { PlayerStatEntity } from '../Tournaments/state';
+import Filters from '../AggregatedPlayerStats/Filters';
+import useStatistics from '../Sports/useStatistics';
+import { selectSport } from '../Sports/selectors';
+import { Scope } from '../Sports/state';
+
+const SCOPE_URL_QUERY_PARAM = 'scope';
 
 const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => {
+  const tournament = tournamentBySlug(
+    state.tournaments,
+    props.match.params.tournamentSlug
+  );
+
   return {
     aggregatedPlayerStatLogs: aggregatedPlayerStatLogs(
       state.aggregatedPlayerStatsLogs
@@ -33,10 +44,8 @@ const mapStateToProps = (
       state.aggregatedPlayerStatsLogs
     ),
     players: playersMap(state.players, state.teams),
-    tournament: tournamentBySlug(
-      state.tournaments,
-      props.match.params.tournamentSlug
-    )
+    tournament,
+    sport: selectSport(state.sports, tournament.sportSlug)
   };
 };
 
@@ -58,18 +67,37 @@ function PlayerStatsView({
   aggregatedPlayerStatLogs,
   isLoadingAggregatedPlayerStatsLogs,
   players,
+  sport,
   tournament
 }: PlayerStatsViewProps) {
   const location = useLocation();
   const history = useHistory();
 
+  const scope =
+    (new URLSearchParams(location.search).get(
+      SCOPE_URL_QUERY_PARAM
+    ) as Scope) || ('aggregate' as Scope);
+
   const onHeaderClick = (playerStat: PlayerStatEntity) => {
     const urlSearch = new URLSearchParams(location.search);
-    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.id);
+    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.slug || playerStat.id);
     history.push({
       search: urlSearch.toString()
     });
   };
+
+  const onFilterChange = (scope: Scope) => {
+    const urlSearch = new URLSearchParams(location.search);
+    urlSearch.set(SCOPE_URL_QUERY_PARAM, scope);
+    history.push({
+      search: urlSearch.toString()
+    });
+  };
+
+  const statistics = useStatistics(sport.playerStatistics, scope);
+  const playerStats = tournament.playerStats.filter((stat: PlayerStatEntity) =>
+    statistics.includes(stat.slug)
+  );
 
   return (
     <div className="column">
@@ -81,14 +109,22 @@ function PlayerStatsView({
         </div>
 
         <div className="column is-12">
+          <Filters
+            tournament={tournament}
+            onStatisticsScopeFilterChange={onFilterChange}
+          />
+        </div>
+
+        <div className="column is-12">
           {isLoadingAggregatedPlayerStatsLogs ? (
             <PlayerStatLogLoading />
           ) : (
             <PlayerStatLogView
               onHeaderClick={onHeaderClick}
               players={players}
-              playersStats={tournament.playerStats}
+              playersStats={playerStats}
               playerStatLogs={aggregatedPlayerStatLogs}
+              tournament={tournament}
             />
           )}
         </div>
