@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { Trans, useTranslation } from 'react-i18next';
@@ -120,7 +120,7 @@ function PlayerStatsLogRow({
           players[playerStatLog.playerId].name}
       </td>
 
-      <td style={{ minWidth: '150px' }}></td>
+      <td className="player-span"></td>
 
       {playersStats.map((playerStat: PlayerStatEntity) => (
         <td
@@ -183,9 +183,34 @@ function View({
   playerStatLogs,
   tournament
 }: ViewProps): React.ReactElement {
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (tableContainerRef.current) {
+        if (tableContainerRef.current.scrollLeft > 0) {
+          tableContainerRef.current.classList.add('is-scrolling');
+        } else {
+          tableContainerRef.current.classList.remove('is-scrolling');
+        }
+      }
+    };
+
+    const tableContainerElem = tableContainerRef.current;
+    if (tableContainerElem) {
+      tableContainerElem.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (tableContainerElem) {
+        tableContainerElem.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
   return (
     <div className="container">
-      <div className="table-container">
+      <div className="table-container" ref={tableContainerRef}>
         <table className="table is-fullwidth is-custom-striped is-hoverable">
           <thead>
             <tr>
@@ -193,7 +218,7 @@ function View({
                 <Trans>player</Trans>
               </th>
 
-              <th style={{ minWidth: '150px' }}></th>
+              <th className="player-span"></th>
 
               {playersStats.map((stat: PlayerStatEntity) => (
                 <PlayerStatLogHeader

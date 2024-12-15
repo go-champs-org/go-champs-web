@@ -95,9 +95,12 @@ function PlayerStatsView({
   };
 
   const statistics = useStatistics(sport.playerStatistics, scope);
-  const playerStats = tournament.playerStats.filter((stat: PlayerStatEntity) =>
-    statistics.includes(stat.slug)
-  );
+  const playerStats =
+    statistics.length > 0
+      ? tournament.playerStats.filter((stat: PlayerStatEntity) =>
+          statistics.includes(stat.slug)
+        )
+      : tournament.playerStats;
 
   return (
     <div className="column">

@@ -4,17 +4,36 @@
   text-decoration: underline;
 }
 
+.table-container.is-scrolling {
+  .table {
+    .player {
+      box-shadow: 8px 0 6px -6px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
 .table.is-custom-striped {
   .player {
     padding-left: 0;
-    min-width: 150px;
-    max-width: 150px;
+    margin-top: 1px;
+    min-width: 225px;
+    max-width: 225px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     background-color: $white;
     position: absolute;
-    box-shadow: 6px 0 5px -4px rgba(0, 0, 0, 0.3);
+  }
+
+  .player-span {
+    min-width: 225px;
+    max-width: 225px;
+  }
+
+  thead {
+    tr th {
+      white-space: nowrap;
+    }
   }
 
   tbody {
@@ -35,6 +54,20 @@
       .player {
         background-color: $white-dark;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .table.is-custom-striped {
+    .player {
+      min-width: 150px;
+      max-width: 150px;
+    }
+
+    .player-span {
+      min-width: 150px;
+      max-width: 150px;
     }
   }
 }
