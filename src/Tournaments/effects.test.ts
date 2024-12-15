@@ -8,6 +8,7 @@ import {
 } from './effects';
 import * as fixedPlayerStatsTablesEffects from '../FixedPlayerStatsTables/effects';
 import * as recentlyViewsEffects from '../RecentlyViews/effects';
+import * as sportEffects from '../Sports/effects';
 import { DEFAULT_TOURNAMENT } from './state';
 import {
   postTournamentStart,
@@ -32,6 +33,7 @@ import ApiError from '../Shared/httpClient/ApiError';
 
 jest.spyOn(fixedPlayerStatsTablesEffects, 'getFixedPlayerStatsTablesByFilter');
 jest.spyOn(recentlyViewsEffects, 'postRecentlyView');
+jest.spyOn(sportEffects, 'getSport');
 jest.spyOn(toast, 'displayToast');
 
 let dispatch: jest.Mock;
@@ -179,7 +181,8 @@ describe('getTournamentBySlug', () => {
           slug: 'organization-slug'
         },
         phases: [],
-        teams: []
+        teams: [],
+        sport_slug: 'some-sport-slug'
       });
 
       dispatch = jest.fn();
@@ -188,12 +191,6 @@ describe('getTournamentBySlug', () => {
         'some-organization-slug',
         'some-tournament-slug'
       )(dispatch);
-    });
-
-    it('dispatches get fixed player stats tables action', () => {
-      expect(
-        fixedPlayerStatsTablesEffects.getFixedPlayerStatsTablesByFilter
-      ).toHaveBeenCalledWith({ tournament_id: 'get-id' });
     });
 
     it('dispatches get success action', () => {
@@ -208,7 +205,8 @@ describe('getTournamentBySlug', () => {
             slug: 'organization-slug'
           },
           phases: [],
-          teams: []
+          teams: [],
+          sport_slug: 'some-sport-slug'
         })
       );
     });
@@ -217,6 +215,12 @@ describe('getTournamentBySlug', () => {
       expect(recentlyViewsEffects.postRecentlyView).toHaveBeenCalledWith(
         'get-id'
       );
+    });
+
+    it('dispatches get fixed player stats tables action', () => {
+      expect(
+        fixedPlayerStatsTablesEffects.getFixedPlayerStatsTablesByFilter
+      ).toHaveBeenCalledWith({ tournament_id: 'get-id' });
     });
   });
 

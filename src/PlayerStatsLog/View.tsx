@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PlayersMap } from '../Players/state';
-import { PlayerStatEntity } from '../Tournaments/state';
-import { Trans } from 'react-i18next';
+import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
+import { Trans, useTranslation } from 'react-i18next';
 import './View.scss';
 import Shimmer from '../Shared/UI/Shimmer';
 
@@ -115,23 +115,20 @@ function PlayerStatsLogRow({
 }: PlayerStatsLogRowProps): React.ReactElement {
   return (
     <tr>
-      <td
-        style={{
-          paddingLeft: '0',
-          width: '225px'
-        }}
-      >
+      <td className="player">
         {players[playerStatLog.playerId] &&
           players[playerStatLog.playerId].name}
       </td>
+
+      <td className="player-span"></td>
 
       {playersStats.map((playerStat: PlayerStatEntity) => (
         <td
           key={playerStat.id}
           className="has-text-centered"
-          style={{ minWidth: '90px' }}
+          style={{ minWidth: '50px' }}
         >
-          {playerStatLog.stats[playerStat.id]}
+          {playerStatLog.stats[playerStat.slug || playerStat.id]}
         </td>
       ))}
     </tr>
@@ -141,67 +138,111 @@ function PlayerStatsLogRow({
 const PlayerStatLogHeader: React.FC<{
   onHeaderClick?: (playerStat: PlayerStatEntity) => void;
   playetStatLog: PlayerStatEntity;
-}> = ({ onHeaderClick, playetStatLog }) => (
-  <th className="has-text-centered">
-    {onHeaderClick ? (
-      <a
-        className="has-text-info clickable-header"
-        onClick={(event: React.MouseEvent) => {
-          event.preventDefault();
-          onHeaderClick(playetStatLog);
-        }}
-      >
-        {playetStatLog.title}
-      </a>
-    ) : (
-      playetStatLog.title
-    )}
-  </th>
-);
+  tournament: TournamentEntity;
+}> = ({ onHeaderClick, playetStatLog, tournament }) => {
+  const { t } = useTranslation();
+  const headerContent = t(
+    `sports.${tournament.sportSlug}.statistics.${playetStatLog.slug}.abbreviation`,
+    {
+      keySeparator: '.',
+      defaultValue: playetStatLog.title
+    }
+  );
+
+  return (
+    <th className="has-text-centered">
+      {onHeaderClick ? (
+        <a
+          className="has-text-info clickable-header"
+          onClick={(event: React.MouseEvent) => {
+            event.preventDefault();
+            onHeaderClick(playetStatLog);
+          }}
+        >
+          {headerContent}
+        </a>
+      ) : (
+        headerContent
+      )}
+    </th>
+  );
+};
 
 interface ViewProps {
   onHeaderClick?: (playerStat: PlayerStatEntity) => void;
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogRenderEntity[];
+  tournament: TournamentEntity;
 }
 
 function View({
   onHeaderClick,
   players,
   playersStats,
-  playerStatLogs
+  playerStatLogs,
+  tournament
 }: ViewProps): React.ReactElement {
-  return (
-    <div className="table-container">
-      <table className="table is-fullwidth is-striped is-hoverable">
-        <thead>
-          <tr>
-            <th style={{ paddingLeft: '0' }}>
-              <Trans>player</Trans>
-            </th>
+  const tableContainerRef = useRef<HTMLDivElement>(null);
 
-            {playersStats.map((stat: PlayerStatEntity) => (
-              <PlayerStatLogHeader
-                key={stat.id}
-                playetStatLog={stat}
-                onHeaderClick={onHeaderClick}
+  useEffect(() => {
+    const handleScroll = () => {
+      if (tableContainerRef.current) {
+        if (tableContainerRef.current.scrollLeft > 0) {
+          tableContainerRef.current.classList.add('is-scrolling');
+        } else {
+          tableContainerRef.current.classList.remove('is-scrolling');
+        }
+      }
+    };
+
+    const tableContainerElem = tableContainerRef.current;
+    if (tableContainerElem) {
+      tableContainerElem.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (tableContainerElem) {
+        tableContainerElem.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="container">
+      <div className="table-container" ref={tableContainerRef}>
+        <table className="table is-fullwidth is-custom-striped is-hoverable">
+          <thead>
+            <tr>
+              <th className="player">
+                <Trans>player</Trans>
+              </th>
+
+              <th className="player-span"></th>
+
+              {playersStats.map((stat: PlayerStatEntity) => (
+                <PlayerStatLogHeader
+                  key={stat.id}
+                  playetStatLog={stat}
+                  onHeaderClick={onHeaderClick}
+                  tournament={tournament}
+                />
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {playerStatLogs.map((playerStatLog: PlayerStatsLogRenderEntity) => (
+              <PlayerStatsLogRow
+                playerStatLog={playerStatLog}
+                players={players}
+                playersStats={playersStats}
+                key={playerStatLog.id}
               />
             ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {playerStatLogs.map((playerStatLog: PlayerStatsLogRenderEntity) => (
-            <PlayerStatsLogRow
-              playerStatLog={playerStatLog}
-              players={players}
-              playersStats={playersStats}
-              key={playerStatLog.id}
-            />
-          ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
