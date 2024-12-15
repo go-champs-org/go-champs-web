@@ -22,6 +22,8 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { PlayerStatsLogsForm } from '../PlayerStatsLog/state';
 import { Mutator } from 'final-form';
 import { playersByTeamId } from '../Players/selectors';
+import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
+import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -68,7 +70,12 @@ const mapStateToProps = (
     homeTeamPlayerStatLogsFormData,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     players: state.players.players,
-    tournament
+    tournament,
+    statistics: selectPlayerStatisticsByLevel(
+      state.sports,
+      tournament.sportSlug,
+      'game'
+    )
   };
 };
 
@@ -95,8 +102,15 @@ function GameEditAdvanced({
   homeTeamPlayerStatLogsFormData,
   patchAndPostPlayerStatsLogs,
   players,
-  tournament
+  tournament,
+  statistics
 }: GameEditAdvancedProps): React.ReactElement {
+  const playerStats = statistics.length
+    ? tournament.playerStats.filter(
+        playerStatThatContainsInStatistic(statistics)
+      )
+    : tournament.playerStats;
+
   return (
     <div className="column">
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -120,7 +134,7 @@ function GameEditAdvanced({
                     {...props}
                     game={game}
                     players={players}
-                    playersStats={tournament.playerStats}
+                    playersStats={playerStats}
                     team={homeTeam}
                   />
                 )}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
-import { PlayerStatEntity } from '../Tournaments/state';
+import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 
 interface BoxScoreProps {
@@ -9,6 +9,7 @@ interface BoxScoreProps {
   playerStats: PlayerStatEntity[];
   playerStatsLogs: PlayerStatsLogRenderEntity[];
   teamName: string;
+  tournament: TournamentEntity;
 }
 
 const byStatValue = (statId: string) => (
@@ -21,7 +22,8 @@ function BoxScore({
   playerStats,
   playerStatsLogs,
   playersMap,
-  teamName
+  teamName,
+  tournament
 }: BoxScoreProps): React.ReactElement {
   const firstStatId = playerStats[0].id;
   const [statIdOrder, setStatIdOrder] = useState(firstStatId);
@@ -49,6 +51,7 @@ function BoxScore({
         playerStatLogs={sortedPlayerStatLogs}
         players={playersMap}
         playersStats={playerStats}
+        tournament={tournament}
       />
     </div>
   );
