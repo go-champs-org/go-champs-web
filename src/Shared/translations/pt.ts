@@ -104,6 +104,8 @@ export default {
     signUp: 'Novo usuário',
     signUpWithFacebook: 'Acesse com Facebook',
     signOut: 'Sair',
+    shirtName: 'Nome na camiseta',
+    shirtNumber: 'Numero na camiseta',
     socialNetworks: 'Redes sociais',
     sort: 'Ordenar',
     source: 'Fonte',

@@ -47,6 +47,8 @@ describe('deletePlayerSuccess', () => {
       'first-id': {
         id: 'first-id',
         name: 'first-name',
+        shirtName: 'first-shirt-name',
+        shirtNumber: '1',
         facebook: 'first-facebook',
         instagram: 'first-instagram',
         twitter: 'first-twitter',
@@ -74,6 +76,8 @@ describe('deletePlayerSuccess', () => {
         'some-id': {
           id: 'some-id',
           name: 'some-name',
+          shirtName: 'some-shirt-name',
+          shirtNumber: '1',
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
@@ -88,6 +92,8 @@ describe('deletePlayerSuccess', () => {
     expect(newState.players['some-id']).toEqual({
       id: 'some-id',
       name: 'some-name',
+      shirtName: 'some-shirt-name',
+      shirtNumber: '1',
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
@@ -118,6 +124,8 @@ describe('patchPlayerSuccess', () => {
   const action = patchPlayerSuccess({
     id: 'first-id',
     name: 'first-name',
+    shirt_name: 'first-shirt-name',
+    shirt_number: '1',
     facebook: 'first-facebook',
     instagram: 'first-instagram',
     twitter: 'first-twitter',
@@ -130,10 +138,14 @@ describe('patchPlayerSuccess', () => {
       'first-id': {
         id: 'first-id',
         name: 'first-name',
+        shirtName: 'first-shirt-name',
+        shirtNumber: '1',
         facebook: 'first-facebook',
         instagram: 'first-instagram',
         twitter: 'first-twitter',
-        username: 'first-username'
+        username: 'first-username',
+        team: DEFAULT_TEAM,
+        teamId: ''
       }
     }
   };
@@ -148,10 +160,14 @@ describe('patchPlayerSuccess', () => {
     expect(newState.players['first-id']).toEqual({
       id: 'first-id',
       name: 'first-name',
+      shirtName: 'first-shirt-name',
+      shirtNumber: '1',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
       twitter: 'first-twitter',
-      username: 'first-username'
+      username: 'first-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 
@@ -162,10 +178,14 @@ describe('patchPlayerSuccess', () => {
         'some-id': {
           id: 'some-id',
           name: 'some-name',
+          shirtName: 'some-shirt-name',
+          shirtNumber: '1',
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
-          username: 'some-username'
+          username: 'some-username',
+          team: DEFAULT_TEAM,
+          teamId: ''
         }
       }
     };
@@ -175,10 +195,14 @@ describe('patchPlayerSuccess', () => {
     expect(newState.players['some-id']).toEqual({
       id: 'some-id',
       name: 'some-name',
+      shirtName: 'some-shirt-name',
+      shirtNumber: '1',
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
-      username: 'some-username'
+      username: 'some-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 });
@@ -203,6 +227,8 @@ describe('postPlayerSuccess', () => {
   const action = postPlayerSuccess({
     id: 'first-id',
     name: 'first-name',
+    shirt_name: 'first-shirt-name',
+    shirt_number: '1',
     facebook: 'first-facebook',
     instagram: 'first-instagram',
     twitter: 'first-twitter',
@@ -219,10 +245,14 @@ describe('postPlayerSuccess', () => {
     expect(newState.players['first-id']).toEqual({
       id: 'first-id',
       name: 'first-name',
+      shirtName: 'first-shirt-name',
+      shirtNumber: '1',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
       twitter: 'first-twitter',
-      username: 'first-username'
+      username: 'first-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 
@@ -233,10 +263,14 @@ describe('postPlayerSuccess', () => {
         'some-id': {
           id: 'some-id',
           name: 'some-name',
+          shirtName: 'some-shirt-name',
+          shirtNumber: '1',
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
-          username: 'some-username'
+          username: 'some-username',
+          team: DEFAULT_TEAM,
+          teamId: ''
         }
       }
     };
@@ -246,10 +280,14 @@ describe('postPlayerSuccess', () => {
     expect(newState.players['some-id']).toEqual({
       id: 'some-id',
       name: 'some-name',
+      shirtName: 'some-shirt-name',
+      shirtNumber: '1',
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
-      username: 'some-username'
+      username: 'some-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 });
@@ -267,6 +305,8 @@ describe('getTournamentSuccess', () => {
         {
           id: 'first-player-id',
           name: 'first player name',
+          shirt_name: 'first-shirt-name',
+          shirt_number: '1',
           facebook: 'first-facebook',
           instagram: 'first-instagram',
           twitter: 'first-twitter',
@@ -275,6 +315,8 @@ describe('getTournamentSuccess', () => {
         {
           id: 'second-player-id',
           name: 'second player name',
+          shirt_name: 'second-shirt-name',
+          shirt_number: '2',
           facebook: 'second-facebook',
           instagram: 'second-instagram',
           twitter: 'second-twitter',
@@ -296,6 +338,8 @@ describe('getTournamentSuccess', () => {
     expect(newState.players['first-player-id']).toEqual({
       id: 'first-player-id',
       name: 'first player name',
+      shirtName: 'first-shirt-name',
+      shirtNumber: '1',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
       team: DEFAULT_TEAM,
@@ -306,6 +350,8 @@ describe('getTournamentSuccess', () => {
     expect(newState.players['second-player-id']).toEqual({
       id: 'second-player-id',
       name: 'second player name',
+      shirtName: 'second-shirt-name',
+      shirtNumber: '2',
       facebook: 'second-facebook',
       instagram: 'second-instagram',
       team: DEFAULT_TEAM,

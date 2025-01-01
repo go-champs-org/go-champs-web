@@ -23,6 +23,10 @@ function PlayerStatLogFormRow({
   playersStats,
   playerStatLog
 }: PlayerStatLogFormRowProps): React.ReactElement {
+  const playerName = players[playerStatLog.playerId]
+    ? players[playerStatLog.playerId].shirtName ||
+      players[playerStatLog.playerId].name
+    : '';
   return (
     <tr>
       <td
@@ -31,8 +35,7 @@ function PlayerStatLogFormRow({
           width: '225px'
         }}
       >
-        {players[playerStatLog.playerId] &&
-          players[playerStatLog.playerId].name}
+        {playerName}
       </td>
 
       {playersStats.map((playerStat: PlayerStatEntity) => {

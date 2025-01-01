@@ -5,6 +5,8 @@ export interface PlayerEntity {
   id: string;
   instagram: string;
   name: string;
+  shirtName: string;
+  shirtNumber: string;
   username: string;
   twitter: string;
   team: TeamEntity;
@@ -36,6 +38,8 @@ export const DEFAULT_PLAYER: PlayerEntity = {
   id: '',
   instagram: '',
   name: '',
+  shirtName: '',
+  shirtNumber: '',
   username: '',
   twitter: '',
   team: DEFAULT_TEAM,
