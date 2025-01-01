@@ -12,7 +12,7 @@ export const mapApiPlayerToPlayerEntity = (
   id: apiPlayer.id,
   name: apiPlayer.name,
   shirtName: apiPlayer.shirt_name || '',
-  shirtNumber: apiPlayer.shirt_number || 0,
+  shirtNumber: apiPlayer.shirt_number || '',
   instagram: apiPlayer.instagram,
   facebook: apiPlayer.facebook,
   twitter: apiPlayer.twitter,

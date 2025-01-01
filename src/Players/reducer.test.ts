@@ -48,7 +48,7 @@ describe('deletePlayerSuccess', () => {
         id: 'first-id',
         name: 'first-name',
         shirtName: 'first-shirt-name',
-        shirtNumber: 1,
+        shirtNumber: '1',
         facebook: 'first-facebook',
         instagram: 'first-instagram',
         twitter: 'first-twitter',
@@ -77,7 +77,7 @@ describe('deletePlayerSuccess', () => {
           id: 'some-id',
           name: 'some-name',
           shirtName: 'some-shirt-name',
-          shirtNumber: 1,
+          shirtNumber: '1',
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
@@ -93,7 +93,7 @@ describe('deletePlayerSuccess', () => {
       id: 'some-id',
       name: 'some-name',
       shirtName: 'some-shirt-name',
-      shirtNumber: 1,
+      shirtNumber: '1',
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
@@ -124,8 +124,8 @@ describe('patchPlayerSuccess', () => {
   const action = patchPlayerSuccess({
     id: 'first-id',
     name: 'first-name',
-    shirtName: 'first-shirt-name',
-    shirtNumber: 1,
+    shirt_name: 'first-shirt-name',
+    shirt_number: '1',
     facebook: 'first-facebook',
     instagram: 'first-instagram',
     twitter: 'first-twitter',
@@ -139,11 +139,13 @@ describe('patchPlayerSuccess', () => {
         id: 'first-id',
         name: 'first-name',
         shirtName: 'first-shirt-name',
-        shirtNumber: 1,
+        shirtNumber: '1',
         facebook: 'first-facebook',
         instagram: 'first-instagram',
         twitter: 'first-twitter',
-        username: 'first-username'
+        username: 'first-username',
+        team: DEFAULT_TEAM,
+        teamId: ''
       }
     }
   };
@@ -159,11 +161,13 @@ describe('patchPlayerSuccess', () => {
       id: 'first-id',
       name: 'first-name',
       shirtName: 'first-shirt-name',
-      shirtNumber: 1,
+      shirtNumber: '1',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
       twitter: 'first-twitter',
-      username: 'first-username'
+      username: 'first-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 
@@ -175,11 +179,13 @@ describe('patchPlayerSuccess', () => {
           id: 'some-id',
           name: 'some-name',
           shirtName: 'some-shirt-name',
-          shirtNumber: 1,
+          shirtNumber: '1',
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
-          username: 'some-username'
+          username: 'some-username',
+          team: DEFAULT_TEAM,
+          teamId: ''
         }
       }
     };
@@ -190,11 +196,13 @@ describe('patchPlayerSuccess', () => {
       id: 'some-id',
       name: 'some-name',
       shirtName: 'some-shirt-name',
-      shirtNumber: 1,
+      shirtNumber: '1',
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
-      username: 'some-username'
+      username: 'some-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 });
@@ -220,7 +228,7 @@ describe('postPlayerSuccess', () => {
     id: 'first-id',
     name: 'first-name',
     shirt_name: 'first-shirt-name',
-    shirt_number: 1,
+    shirt_number: '1',
     facebook: 'first-facebook',
     instagram: 'first-instagram',
     twitter: 'first-twitter',
@@ -238,11 +246,13 @@ describe('postPlayerSuccess', () => {
       id: 'first-id',
       name: 'first-name',
       shirtName: 'first-shirt-name',
-      shirtNumber: 1,
+      shirtNumber: '1',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
       twitter: 'first-twitter',
-      username: 'first-username'
+      username: 'first-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 
@@ -254,11 +264,13 @@ describe('postPlayerSuccess', () => {
           id: 'some-id',
           name: 'some-name',
           shirtName: 'some-shirt-name',
-          shirtNumber: 1,
+          shirtNumber: '1',
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
-          username: 'some-username'
+          username: 'some-username',
+          team: DEFAULT_TEAM,
+          teamId: ''
         }
       }
     };
@@ -269,11 +281,13 @@ describe('postPlayerSuccess', () => {
       id: 'some-id',
       name: 'some-name',
       shirtName: 'some-shirt-name',
-      shirtNumber: 1,
+      shirtNumber: '1',
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
-      username: 'some-username'
+      username: 'some-username',
+      team: DEFAULT_TEAM,
+      teamId: ''
     });
   });
 });
@@ -292,7 +306,7 @@ describe('getTournamentSuccess', () => {
           id: 'first-player-id',
           name: 'first player name',
           shirt_name: 'first-shirt-name',
-          shirt_number: 1,
+          shirt_number: '1',
           facebook: 'first-facebook',
           instagram: 'first-instagram',
           twitter: 'first-twitter',
@@ -302,7 +316,7 @@ describe('getTournamentSuccess', () => {
           id: 'second-player-id',
           name: 'second player name',
           shirt_name: 'second-shirt-name',
-          shirt_number: 2,
+          shirt_number: '2',
           facebook: 'second-facebook',
           instagram: 'second-instagram',
           twitter: 'second-twitter',
@@ -325,7 +339,7 @@ describe('getTournamentSuccess', () => {
       id: 'first-player-id',
       name: 'first player name',
       shirtName: 'first-shirt-name',
-      shirtNumber: 1,
+      shirtNumber: '1',
       facebook: 'first-facebook',
       instagram: 'first-instagram',
       team: DEFAULT_TEAM,
@@ -337,7 +351,7 @@ describe('getTournamentSuccess', () => {
       id: 'second-player-id',
       name: 'second player name',
       shirtName: 'second-shirt-name',
-      shirtNumber: 2,
+      shirtNumber: '2',
       facebook: 'second-facebook',
       instagram: 'second-instagram',
       team: DEFAULT_TEAM,

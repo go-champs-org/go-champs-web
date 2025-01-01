@@ -27,8 +27,6 @@ import {
 import { mapApiPlayerToPlayerEntity } from './dataMappers';
 import { initialState, PlayerEntity, PlayerState } from './state';
 
-const teamMapEntities = mapEntities<PlayerEntity>(returnProperty('id'));
-
 const apiPlayerToEntities = apiDataToEntitiesOverride<ApiPlayer, PlayerEntity>(
   mapApiPlayerToPlayerEntity,
   returnProperty('id')
@@ -80,7 +78,7 @@ const patchPlayerSuccess = (
 ) => ({
   ...state,
   isLoadingPatchPlayer: false,
-  players: [action.payload].reduce(teamMapEntities, state.players)
+  players: [action.payload!].reduce(apiPlayerToEntities, state.players)
 });
 
 const postPlayer = (state: PlayerState, action: HttpAction<ActionTypes>) => ({
@@ -98,11 +96,11 @@ const postPlayerFailure = (
 
 const postPlayerSuccess = (
   state: PlayerState,
-  action: HttpAction<ActionTypes, PlayerEntity>
+  action: HttpAction<ActionTypes, ApiPlayer>
 ) => ({
   ...state,
   isLoadingPostPlayer: false,
-  players: [action.payload].reduce(teamMapEntities, state.players)
+  players: [action.payload!].reduce(apiPlayerToEntities, state.players)
 });
 
 const getTournamentSuccess = (
