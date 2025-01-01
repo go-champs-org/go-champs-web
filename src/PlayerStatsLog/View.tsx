@@ -113,12 +113,13 @@ function PlayerStatsLogRow({
   playersStats,
   playerStatLog
 }: PlayerStatsLogRowProps): React.ReactElement {
+  const playerName = players[playerStatLog.playerId]
+    ? players[playerStatLog.playerId].shirtName ||
+      players[playerStatLog.playerId].name
+    : '';
   return (
     <tr>
-      <td className="player">
-        {players[playerStatLog.playerId] &&
-          players[playerStatLog.playerId].name}
-      </td>
+      <td className="player">{playerName}</td>
 
       <td className="player-span"></td>
 

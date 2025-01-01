@@ -155,7 +155,7 @@ function FixedPlayerStatsView({
                     return (
                       <tr>
                         <td style={{ paddingLeft: '0' }}>
-                          {player ? player.name : ''}
+                          {player ? player.shirtName || player.name : ''}
                         </td>
 
                         {doesPlayersHaveTeams && (

@@ -102,6 +102,8 @@ export default {
     signUp: 'Sign up',
     signUpWithFacebook: 'Sign up with Facebook',
     signOut: 'Sign out',
+    shirtName: 'Shirt name',
+    shirtNumber: 'Shirt number',
     socialNetworks: 'Social networks',
     sort: 'Sort',
     source: 'Source',

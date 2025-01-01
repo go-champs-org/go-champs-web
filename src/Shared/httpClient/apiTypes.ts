@@ -293,6 +293,8 @@ export interface ApiPlayer {
   id: string;
   instagram: string;
   name: string;
+  shirt_name?: string;
+  shirt_number?: string;
   username: string;
   twitter: string;
   team_id?: string;
