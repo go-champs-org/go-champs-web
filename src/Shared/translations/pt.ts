@@ -11,6 +11,7 @@ export default {
     addTeamStat: 'Adicionar estatística de time',
     addMember: 'Adicionar membro',
     addMatch: 'Adicionar confronto',
+    addRow: 'Adicionar linha',
     advanced: 'Avancadas',
     average: 'Média',
     awayTeam: 'Equipe visitante',

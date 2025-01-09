@@ -30,7 +30,7 @@ module.exports = {
     client
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete)')]")
-      .click("//*[contains(text(), 'Informations')]")
+      .click("//*[contains(text(), 'Informacões')]")
       .assert.title('Go Champs! | Edit Organization')
       .useCss()
       .pause(1000)
@@ -38,7 +38,7 @@ module.exports = {
       .pause(1000)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .refresh()
       .assert.visible("//*[contains(text(), 'Test organization (can delete) edited') and contains(@class, 'title')]")

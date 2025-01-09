@@ -201,7 +201,9 @@ const Form: React.FC<FormProps> = ({
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
-          <label className="label">Title</label>
+          <label className="label">
+            <Trans>name</Trans>
+          </label>
 
           <div className="control">
             <Field name="title" component={StringInput} type="text" />
@@ -209,7 +211,9 @@ const Form: React.FC<FormProps> = ({
         </div>
 
         <div className="field">
-          <label className="label">Info</label>
+          <label className="label">
+            <Trans>informations</Trans>
+          </label>
 
           <div className="control">
             <Field name="info" component={StringInput} type="text" />
@@ -222,7 +226,9 @@ const Form: React.FC<FormProps> = ({
               <table className="table is-fullwidth is-striped is-hoverable">
                 <thead>
                   <tr>
-                    <th style={{ paddingLeft: '0', width: '225px' }}>Team</th>
+                    <th style={{ paddingLeft: '0', width: '225px' }}>
+                      <Trans>team</Trans>
+                    </th>
 
                     {stats.map((stat: StatEntity) => (
                       <StatHeader key={stat.id} stat={stat} />
@@ -256,7 +262,7 @@ const Form: React.FC<FormProps> = ({
               type="button"
               onClick={() => push('teamStats', DEFAULT_ELIMINATION_TEAM_STAT)}
             >
-              Add row
+              <Trans>addRow</Trans>
             </button>
           </div>
 
@@ -267,7 +273,7 @@ const Form: React.FC<FormProps> = ({
               type="submit"
               disabled={submitting || pristine}
             >
-              Save
+              <Trans>save</Trans>
             </LoadingButton>
           </div>
         </div>
@@ -279,7 +285,9 @@ const Form: React.FC<FormProps> = ({
             <i className="fas fa-caret-left"></i>
           </span>
 
-          <span>Back</span>
+          <span>
+            <Trans>back</Trans>
+          </span>
         </button>
       </Link>
     </div>

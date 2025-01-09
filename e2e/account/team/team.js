@@ -11,8 +11,8 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
-      .click("//*[contains(text(), 'Manage')]")
-      .click("//*[contains(text(), 'Teams')]")
+      .click("//*[contains(text(), 'Gerenciar')]")
+      .click("//*[contains(text(), 'Equipes')]")
   },
 
   'Add new team': function (client) {
@@ -25,7 +25,7 @@ module.exports = {
       .pause(500)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test team (can delete)') and contains(@class, 'title')]")
       .end();
@@ -40,7 +40,7 @@ module.exports = {
       .pause(500)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test team (can delete) edited') and contains(@class, 'title')]")
       .end();

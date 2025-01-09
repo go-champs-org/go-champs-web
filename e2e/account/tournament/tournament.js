@@ -23,7 +23,7 @@ module.exports = {
       .pause(500)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test tournament (can delete)') and contains(@class, 'title')]")
       .end();
@@ -32,8 +32,8 @@ module.exports = {
   'Edit tournament': function (client) {
     client
       .click("//*[contains(text(), 'Test tournament (can delete)')]")
-      .click("//*[contains(text(), 'Manage')]")
-      .click("//*[contains(text(), 'Informations')]")
+      .click("//*[contains(text(), 'Gerenciar')]")
+      .click("//*[contains(text(), 'Informacões')]")
       .assert.title('Go Champs! | Edit Tournament')
       .useCss()
       .pause(1000)
@@ -41,7 +41,7 @@ module.exports = {
       .pause(500)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//h1[contains(text(), 'Test tournament (can delete) edited') and contains(@class, 'title')]")
       .end();

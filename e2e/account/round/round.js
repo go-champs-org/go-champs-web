@@ -12,18 +12,18 @@ module.exports = {
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
       .click("//*[contains(text(), 'Test draw phase (cannot delete)')]")
-      .click("//a[contains(text(), 'Rounds')]")
+      .click("//a[contains(text(), 'Chaveamentos')]")
   },
 
   'Add new draw': function (client) {
     client
       .assert.title('Go Champs! | Test tournament (cannot delete)')
-      .click("//*[contains(text(), 'New')]/../a")
+      .click("//*[contains(text(), 'Novo')]/../a")
       .useCss()
       .pause(1000)
       .setValue('input[name="title"]', 'Test round (can delete)')
       .useXpath()
-      .click("//*[contains(text(), 'Add match')]")
+      .click("//*[contains(text(), 'Adicionar confronto')]")
       .pause(1000)
       .click("(//*[contains(@class, 'fa-history')])[1]")
       .click("(//*[contains(@class, 'fa-history')])[2]")
@@ -33,7 +33,7 @@ module.exports = {
       .pause(1000)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test round (can delete)') and contains(@class, 'title')]")
       .end();
@@ -49,7 +49,7 @@ module.exports = {
       .pause(1000)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test round (can delete) edited') and contains(@class, 'title')]")
       .end();

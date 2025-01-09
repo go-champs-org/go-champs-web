@@ -11,14 +11,14 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
-      .click("//*[contains(text(), 'Manage')]")
-      .click("//*[contains(text(), 'Eliminations')]")
+      .click("//*[contains(text(), 'Gerenciar')]")
+      .click("//*[contains(text(), 'Eliminacoes')]")
   },
 
   'Add new elimination': function (client) {
     client
       .assert.title('Go Champs! | Test tournament (cannot delete)')
-      .click("//*[contains(text(), 'New')]/../a")
+      .click("//*[contains(text(), 'Novo')]/../a")
       .pause(1000)
       .useCss()
       .setValue('input[name="title"]', 'Test elimination (can delete)')
@@ -26,7 +26,7 @@ module.exports = {
       .pause(1000)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test elimination (can delete)') and contains(@class, 'title')]")
       .end();
@@ -42,7 +42,7 @@ module.exports = {
       .pause(1000)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test elimination (can delete) edited') and contains(@class, 'title')]")
       .end();

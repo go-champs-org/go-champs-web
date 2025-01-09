@@ -11,8 +11,8 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
-      .click("//*[contains(text(), 'Manage')]")
-      .click("//*[contains(text(), 'Players')]")
+      .click("//*[contains(text(), 'Gerenciar')]")
+      .click("//*[contains(text(), 'Atletas')]")
   },
 
   'Add new player': function (client) {
@@ -23,12 +23,12 @@ module.exports = {
       .pause(1000)
       .setValue('input[name="name"]', 'Test player (can delete)')
       .useXpath()
-      .setValue("//*[contains(text(), 'Team')]/../div/div/div/div/div/div[1]/input", ['Test team (cannot delete) A', client.Keys.ENTER])
+      .setValue("//*[contains(text(), 'Equipe')]/../div/div/div/div/div/div[1]/input", ['Test team (cannot delete) A', client.Keys.ENTER])
       .useCss()
       .pause(500)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test player (can delete)') and contains(@class, 'title')]")
       .end();
@@ -43,7 +43,7 @@ module.exports = {
       .pause(500)
       .click('button[type=submit]')
       .useXpath()
-      .click("//*[contains(text(), 'Back')]")
+      .click("//*[contains(text(), 'Voltar')]")
       .pause(1000)
       .assert.visible("//*[contains(text(), 'Test player (can delete) edited') and contains(@class, 'title')]")
       .end();

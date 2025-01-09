@@ -10,6 +10,7 @@ export default {
     addTeamStat: 'Add team stat',
     addMember: 'Add member',
     addMatch: 'Add match',
+    addRow: 'Add row',
     advanced: 'Advanced',
     average: 'Average',
     awayTeam: 'Away team',
