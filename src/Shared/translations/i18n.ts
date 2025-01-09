@@ -46,7 +46,8 @@ i18n
   .use(LanguageDetector) // passes down language detector
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'pt',
+    lng: 'pt',
     supportedLngs: ['en', 'pt'],
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {

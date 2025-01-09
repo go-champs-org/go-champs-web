@@ -233,21 +233,19 @@ const Form: React.FC<FormProps> = ({
             <Trans>sport</Trans>
           </label>
 
-          <BehindFeatureFlag>
-            <div style={{ display: 'flex', paddingBottom: '1rem' }}>
-              {isSportsLoading ? (
-                <LoadingPackages />
-              ) : (
-                sports.map(sport => (
-                  <Package
-                    key={sport.slug}
-                    sport={sport}
-                    onClick={updateFormWithPackageInfo}
-                  />
-                ))
-              )}
-            </div>
-          </BehindFeatureFlag>
+          <div style={{ display: 'flex', paddingBottom: '1rem' }}>
+            {isSportsLoading ? (
+              <LoadingPackages />
+            ) : (
+              sports.map(sport => (
+                <Package
+                  key={sport.slug}
+                  sport={sport}
+                  onClick={updateFormWithPackageInfo}
+                />
+              ))
+            )}
+          </div>
 
           <div className="control">
             <Field
