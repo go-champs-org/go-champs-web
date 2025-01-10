@@ -24,6 +24,17 @@ import withSports from '../Pages/support/withSports';
 import { SportEntity } from '../Sports/state';
 import Package, { LoadingPackages } from '../Sports/Package';
 
+const VISIBILITY_OPTIONS: SelectOptionType[] = [
+  {
+    value: 'public',
+    label: 'Public'
+  },
+  {
+    value: 'private',
+    label: 'Private'
+  }
+];
+
 interface TeamStatFormProps {
   name: string;
   onRemove: () => {};
@@ -226,6 +237,21 @@ const Form: React.FC<FormProps> = ({
               values.slug ? values.slug : ''
             }`}
           </p>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>visibility</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="visibility"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={VISIBILITY_OPTIONS} />
+              )}
+            />
+          </div>
         </div>
 
         <div className="field">

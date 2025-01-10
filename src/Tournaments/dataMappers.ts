@@ -58,7 +58,8 @@ export const mapApiTournamentToTournamentEntity = (
     ? apiTournament.team_stats.map(mapApiTeamStatToTeamStatEntity)
     : [],
   sportName: apiTournament.sport_name ? apiTournament.sport_name : '',
-  sportSlug: apiTournament.sport_slug ? apiTournament.sport_slug : ''
+  sportSlug: apiTournament.sport_slug ? apiTournament.sport_slug : '',
+  visibility: apiTournament.visibility
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
@@ -83,7 +84,8 @@ export const mapTournamentEntityToApiTournamentRequest = (
         ? tournament.teamStats.map(mapTeamStatEntityToApiTeamStat)
         : undefined,
     sport_name: tournament.sportName,
-    sport_slug: tournament.sportSlug
+    sport_slug: tournament.sportSlug,
+    visibility: tournament.visibility
   }
 });
 

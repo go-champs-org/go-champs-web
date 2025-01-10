@@ -139,7 +139,8 @@ describe('patchTournamentSuccess', () => {
         title: 'some-updated-team-stat-title'
       }
     ],
-    players: []
+    players: [],
+    visibility: 'public'
   });
 
   const updateState: TournamentState = {
@@ -166,7 +167,8 @@ describe('patchTournamentSuccess', () => {
             source: 'some-source-id',
             title: 'some-team-stat-title'
           }
-        ]
+        ],
+        visibility: 'public'
       }
     }
   };
@@ -209,6 +211,7 @@ describe('patchTournamentSuccess', () => {
         title: 'some-updated-team-stat-title'
       }
     ]);
+    expect(newState.tournaments['first-slug'].visibility).toEqual('public');
   });
 
   it('keeps others entities in other', () => {
@@ -224,7 +227,10 @@ describe('patchTournamentSuccess', () => {
           siteUrl: 'some site',
           twitter: 'some twitter',
           playerStats: [],
-          teamStats: []
+          teamStats: [],
+          sportName: '',
+          sportSlug: '',
+          visibility: 'public'
         }
       }
     };
@@ -241,7 +247,10 @@ describe('patchTournamentSuccess', () => {
       siteUrl: 'some site',
       twitter: 'some twitter',
       playerStats: [],
-      teamStats: []
+      teamStats: [],
+      sportName: '',
+      sportSlug: '',
+      visibility: 'public'
     });
   });
 });
@@ -285,7 +294,8 @@ describe('postTournamentSuccess', () => {
     teams: [],
     players: [],
     sport_name: 'some-sport-name',
-    sport_slug: 'some-sport-slug'
+    sport_slug: 'some-sport-slug',
+    visibility: 'public'
   });
 
   it('sets isLoadingPostTournament to false', () => {
@@ -316,6 +326,7 @@ describe('postTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].sportSlug).toEqual(
       'some-sport-slug'
     );
+    expect(newState.tournaments['first-slug'].visibility).toEqual('public');
   });
 
   it('keeps others entities in other', () => {
@@ -331,7 +342,8 @@ describe('postTournamentSuccess', () => {
           siteUrl: 'some site',
           twitter: 'some twitter',
           playerStats: [],
-          teamStats: []
+          teamStats: [],
+          visibility: 'public'
         }
       }
     };
@@ -347,7 +359,8 @@ describe('postTournamentSuccess', () => {
       siteUrl: 'some site',
       twitter: 'some twitter',
       playerStats: [],
-      teamStats: []
+      teamStats: [],
+      visibility: 'public'
     });
   });
 });
@@ -449,7 +462,8 @@ describe('getTournamentSuccess', () => {
       }
     ],
     sport_name: 'some-sport-name',
-    sport_slug: 'some-sport-slug'
+    sport_slug: 'some-sport-slug',
+    visibility: 'public'
   });
 
   it('sets isLoadingRequestTournament to false', () => {
@@ -487,6 +501,7 @@ describe('getTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].sportSlug).toEqual(
       'some-sport-slug'
     );
+    expect(newState.tournaments['first-slug'].visibility).toEqual('public');
   });
 
   it('keeps others entities in other', () => {
@@ -500,7 +515,8 @@ describe('getTournamentSuccess', () => {
           facebook: 'some facebook',
           instagram: 'some instagram',
           siteUrl: 'some site',
-          twitter: 'some twitter'
+          twitter: 'some twitter',
+          visibility: 'public'
         }
       }
     };
@@ -514,7 +530,8 @@ describe('getTournamentSuccess', () => {
       facebook: 'some facebook',
       instagram: 'some instagram',
       siteUrl: 'some site',
-      twitter: 'some twitter'
+      twitter: 'some twitter',
+      visibility: 'public'
     });
   });
 });

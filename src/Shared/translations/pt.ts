@@ -394,6 +394,7 @@ export default {
     whatIsGoChampsLine3: 'Acesse nosso torneio exemplo clicando',
     youNeedCreateTeams: 'Você precisa criar times.',
     youNeedCreatePhases: 'Você precisa criar fases.',
-    value: 'Valor'
+    value: 'Valor',
+    visibility: 'Visibilidade'
   }
 };

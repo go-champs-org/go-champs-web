@@ -11,6 +11,7 @@ export interface TournamentEntity {
   teamStats: TeamStatEntity[];
   sportName: string;
   sportSlug: string;
+  visibility: 'public' | 'private';
 }
 
 export interface PlayerStatEntity {
@@ -56,12 +57,16 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   siteUrl: '',
   twitter: '',
   playerStats: [],
-  teamStats: []
+  teamStats: [],
+  sportName: '',
+  sportSlug: '',
+  visibility: 'public'
 };
 
 export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {
   id: '',
-  title: ''
+  title: '',
+  slug: ''
 };
 
 export const DEFAULT_TEAM_STAT: TeamStatEntity = {

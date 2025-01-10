@@ -380,6 +380,7 @@ export interface ApiTournament {
   team_stats?: ApiTeamStat[];
   sport_slug?: string;
   sport_name?: string;
+  visibility: 'public' | 'private';
 }
 
 export interface ApiTournamentWithDependecies extends ApiTournament {

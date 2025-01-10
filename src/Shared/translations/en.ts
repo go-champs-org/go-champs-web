@@ -392,6 +392,7 @@ export default {
     whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking',
     youNeedCreateTeams: 'You need to create teams.',
     youNeedCreatePhases: 'You need to create phases.',
-    value: 'Value'
+    value: 'Value',
+    visibility: 'Visibility'
   }
 };
