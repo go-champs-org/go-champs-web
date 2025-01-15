@@ -28,7 +28,10 @@ import { PlayersMap } from '../Players/state';
 import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import Shimmer from '../Shared/UI/Shimmer';
 import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
-import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
+import {
+  playerStatThatContainsInStatistic,
+  playerStatThatIsVisible
+} from '../Tournaments/dataSelectors';
 
 function BoxScoreLoading() {
   return (
@@ -184,6 +187,7 @@ function GameView({
         playerStatThatContainsInStatistic(statistics)
       )
     : tournament.playerStats;
+  const visiblePlayerStats = playerStats.filter(playerStatThatIsVisible);
 
   const boxScore = hasPlayerStatsLogs ? (
     <BoxScoreViewer
@@ -192,7 +196,7 @@ function GameView({
       homePlayerStatsLogs={homePlayerStatsLogs}
       homeTeam={homeTeam}
       playersMap={playersMap}
-      playerStats={playerStats}
+      playerStats={visiblePlayerStats}
       tournament={tournament}
     />
   ) : (

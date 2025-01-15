@@ -4,9 +4,42 @@ import {
   ApiTournamentWithDependecies,
   ApiPhase,
   ApiPlayerStatRequest,
-  ApiTeamStat
+  ApiTeamStat,
+  ApiPlayerStatResponse
 } from '../Shared/httpClient/apiTypes';
-import { TournamentEntity, PlayerStatEntity, TeamStatEntity } from './state';
+import {
+  TournamentEntity,
+  PlayerStatEntity,
+  TeamStatEntity,
+  PlayerStatVisibility
+} from './state';
+
+export const PRIVATE_STAT_SLUGS = [
+  'disqualifications',
+  'ejections',
+  'efficiency',
+  'field_goals_attempted',
+  'field_goals_missed',
+  'fouls_flagrant',
+  'fouls_personal',
+  'fouls_technical',
+  'free_throws_attempted',
+  'free_throws_missed',
+  'game_played',
+  'game_started',
+  'minutes_played',
+  'plus_minus',
+  'three_point_field_goals_attempted',
+  'three_point_field_goals_missed'
+];
+
+const mapApiPlayerStatVisibilityResponseToVisibility = (
+  apiPlayerStatResponse: ApiPlayerStatResponse
+): PlayerStatVisibility => {
+  return PRIVATE_STAT_SLUGS.includes(apiPlayerStatResponse.slug || '')
+    ? 'private'
+    : 'public';
+};
 
 export const mapPlayerStatEntityToApiPlayerStatRequest = (
   playerStat: PlayerStatEntity
@@ -25,11 +58,14 @@ export const mapTeamStatEntityToApiTeamStat = (
 });
 
 export const mapApiPlayerStatResponseToPlayerStatEntity = (
-  apiPlayerStatRequest: ApiPlayerStatRequest
+  apiPlayerStatRequest: ApiPlayerStatResponse
 ): PlayerStatEntity => ({
   id: apiPlayerStatRequest.id ? apiPlayerStatRequest.id : '',
   title: apiPlayerStatRequest.title,
-  slug: apiPlayerStatRequest.slug ? apiPlayerStatRequest.slug : ''
+  slug: apiPlayerStatRequest.slug ? apiPlayerStatRequest.slug : '',
+  visibility: mapApiPlayerStatVisibilityResponseToVisibility(
+    apiPlayerStatRequest
+  )
 });
 
 export const mapApiTeamStatToTeamStatEntity = (

@@ -1,3 +1,5 @@
+export type PlayerStatVisibility = 'public' | 'private';
+
 export interface TournamentEntity {
   id: string;
   name: string;
@@ -18,6 +20,7 @@ export interface PlayerStatEntity {
   id: string;
   title: string;
   slug: string;
+  visibility: PlayerStatVisibility;
 }
 
 export interface PlayerStatMap {
@@ -66,7 +69,8 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
 export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {
   id: '',
   title: '',
-  slug: ''
+  slug: '',
+  visibility: 'public'
 };
 
 export const DEFAULT_TEAM_STAT: TeamStatEntity = {

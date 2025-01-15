@@ -27,6 +27,8 @@ import {
 import { mapApiPlayerToPlayerEntity } from './dataMappers';
 import { initialState, PlayerEntity, PlayerState } from './state';
 
+const playerMapEntities = mapEntities<PlayerEntity>(returnProperty('id'));
+
 const apiPlayerToEntities = apiDataToEntitiesOverride<ApiPlayer, PlayerEntity>(
   mapApiPlayerToPlayerEntity,
   returnProperty('id')
@@ -78,7 +80,7 @@ const patchPlayerSuccess = (
 ) => ({
   ...state,
   isLoadingPatchPlayer: false,
-  players: [action.payload!].reduce(apiPlayerToEntities, state.players)
+  players: [action.payload].reduce(playerMapEntities, state.players)
 });
 
 const postPlayer = (state: PlayerState, action: HttpAction<ActionTypes>) => ({

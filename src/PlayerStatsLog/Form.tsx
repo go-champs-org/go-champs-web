@@ -99,30 +99,32 @@ function Form({
 
       <FieldArray name="playerStatsLogs">
         {({ fields }) => (
-          <div className="table-container">
-            <table className="table is-fullwidth is-striped is-hoverable">
-              <thead>
-                <tr>
-                  <th style={{ paddingLeft: '0' }}>Player</th>
+          <div className="container">
+            <div className="table-container">
+              <table className="table is-fullwidth is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: '0' }}>Player</th>
 
-                  {playersStats.map((stat: PlayerStatEntity) => (
-                    <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
+                    {playersStats.map((stat: PlayerStatEntity) => (
+                      <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
+                    ))}
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {fields.map((name, index) => (
+                    <PlayerStatLogFormRow
+                      key={name}
+                      name={name}
+                      playerStatLog={fields.value[index]}
+                      players={players}
+                      playersStats={playersStats}
+                    />
                   ))}
-                </tr>
-              </thead>
-
-              <tbody>
-                {fields.map((name, index) => (
-                  <PlayerStatLogFormRow
-                    key={name}
-                    name={name}
-                    playerStatLog={fields.value[index]}
-                    players={players}
-                    playersStats={playersStats}
-                  />
-                ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </FieldArray>

@@ -24,6 +24,7 @@ import Filters from '../AggregatedPlayerStats/Filters';
 import useStatistics from '../Sports/useStatistics';
 import { selectSport } from '../Sports/selectors';
 import { Scope } from '../Sports/state';
+import { playerStatThatIsVisible } from '../Tournaments/dataSelectors';
 
 const SCOPE_URL_QUERY_PARAM = 'scope';
 
@@ -101,6 +102,7 @@ function PlayerStatsView({
           statistics.includes(stat.slug)
         )
       : tournament.playerStats;
+  const visiblePlayerStats = playerStats.filter(playerStatThatIsVisible);
 
   return (
     <div className="column">
@@ -125,7 +127,7 @@ function PlayerStatsView({
             <PlayerStatLogView
               onHeaderClick={onHeaderClick}
               players={players}
-              playersStats={playerStats}
+              playersStats={visiblePlayerStats}
               playerStatLogs={aggregatedPlayerStatLogs}
               tournament={tournament}
             />

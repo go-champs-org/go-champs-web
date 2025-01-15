@@ -376,7 +376,7 @@ export interface ApiTournament {
   instagram?: string;
   site_url?: string;
   twitter?: string;
-  player_stats?: ApiPlayerStatRequest[];
+  player_stats?: ApiPlayerStatResponse[];
   team_stats?: ApiTeamStat[];
   sport_slug?: string;
   sport_name?: string;

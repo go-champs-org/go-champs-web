@@ -123,13 +123,15 @@ describe('patchPlayerFailure', () => {
 describe('patchPlayerSuccess', () => {
   const action = patchPlayerSuccess({
     id: 'first-id',
-    name: 'first-name',
-    shirt_name: 'first-shirt-name',
-    shirt_number: '1',
-    facebook: 'first-facebook',
-    instagram: 'first-instagram',
-    twitter: 'first-twitter',
-    username: 'first-username'
+    name: 'first-updeted-name',
+    shirtName: 'first-updeted-shirt-name',
+    shirtNumber: '2',
+    facebook: 'first-updeted-facebook',
+    instagram: 'first-updeted-instagram',
+    twitter: 'first-updeted-twitter',
+    username: 'first-updeted-username',
+    team: DEFAULT_TEAM,
+    teamId: DEFAULT_TEAM.id
   });
 
   const updateState: PlayerState = {
@@ -159,15 +161,15 @@ describe('patchPlayerSuccess', () => {
 
     expect(newState.players['first-id']).toEqual({
       id: 'first-id',
-      name: 'first-name',
-      shirtName: 'first-shirt-name',
-      shirtNumber: '1',
-      facebook: 'first-facebook',
-      instagram: 'first-instagram',
-      twitter: 'first-twitter',
-      username: 'first-username',
+      name: 'first-updeted-name',
+      shirtName: 'first-updeted-shirt-name',
+      shirtNumber: '2',
+      facebook: 'first-updeted-facebook',
+      instagram: 'first-updeted-instagram',
+      twitter: 'first-updeted-twitter',
+      username: 'first-updeted-username',
       team: DEFAULT_TEAM,
-      teamId: ''
+      teamId: DEFAULT_TEAM.id
     });
   });
 

@@ -1,6 +1,7 @@
 import { ApiPlayer } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { PlayerEntity } from './state';
 
 export const DELETE_PLAYER = 'API_DELETE_PLAYER';
 export const DELETE_PLAYER_SUCCESS = 'API_DELETE_PLAYER_SUCCESS';
@@ -33,7 +34,7 @@ export const patchPlayerStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const patchPlayerSuccess = (
-  payload: ApiPlayer
+  payload: PlayerEntity
 ): HttpAction<ActionTypes, ApiPlayer> => ({
   type: PATCH_PLAYER_SUCCESS,
   payload
