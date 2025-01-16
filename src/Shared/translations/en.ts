@@ -393,6 +393,7 @@ export default {
     youNeedCreateTeams: 'You need to create teams.',
     youNeedCreatePhases: 'You need to create phases.',
     value: 'Value',
-    visibility: 'Visibility'
+    visibility: 'Visibility',
+    youTubeCode: 'YouTube code'
   }
 };

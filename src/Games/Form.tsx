@@ -203,6 +203,21 @@ const Form: React.FC<FromProps> = ({
         </div>
 
         <div className="field">
+          <label className="label">
+            <Trans>youTubeCode</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="youTubeCode"
+              component={StringInput}
+              type="text"
+              placeholder="B28HavKyGIE"
+            />
+          </div>
+        </div>
+
+        <div className="field">
           <div className="control" style={{ paddingTop: '.5rem' }}>
             <Field
               name="isFinished"

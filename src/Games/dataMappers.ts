@@ -25,7 +25,8 @@ export const mapApiGameToGameEntity = (
   info: apiGame.info ? apiGame.info : '',
   isFinished: apiGame.is_finished,
   location: apiGame.location,
-  phaseId: apiGame.phase_id
+  phaseId: apiGame.phase_id,
+  youTubeCode: apiGame.youtube_code ? apiGame.youtube_code : ''
 });
 
 export const mapGameEntityToApiGamePostRequest = (
@@ -44,7 +45,8 @@ export const mapGameEntityToApiGamePostRequest = (
     info: game.info ? game.info : '',
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
-    phase_id: phaseId
+    phase_id: phaseId,
+    youtube_code: game.youTubeCode && game.youTubeCode
   }
 });
 
@@ -62,6 +64,7 @@ export const mapGameEntityToApiGamePatchRequest = (
     home_team_id: game.homeTeam.id && game.homeTeam.id,
     info: game.info ? game.info : '',
     is_finished: game.isFinished,
-    location: game.location ? game.location : ''
+    location: game.location ? game.location : '',
+    youtube_code: game.youTubeCode && game.youTubeCode
   }
 });

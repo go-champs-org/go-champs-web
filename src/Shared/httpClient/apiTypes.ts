@@ -13,6 +13,7 @@ interface ApiGame {
   live_state: 'not_started' | 'in_progress' | 'ended';
   live_started_at?: string;
   live_ended_at?: string;
+  youtube_code?: string;
 }
 
 export interface ApiGameWithDepedencies extends ApiGame {

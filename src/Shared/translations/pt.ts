@@ -395,6 +395,7 @@ export default {
     youNeedCreateTeams: 'Você precisa criar times.',
     youNeedCreatePhases: 'Você precisa criar fases.',
     value: 'Valor',
-    visibility: 'Visibilidade'
+    visibility: 'Visibilidade',
+    youTubeCode: 'Código YouTube'
   }
 };

@@ -13,6 +13,7 @@ export interface GameEntity {
   isFinished: boolean;
   location: string;
   phaseId: string;
+  youTubeCode: string;
 }
 
 export interface GameState {
@@ -45,5 +46,6 @@ export const DEFAULT_GAME: GameEntity = {
   info: '',
   isFinished: false,
   location: '',
-  phaseId: ''
+  phaseId: '',
+  youTubeCode: ''
 };
