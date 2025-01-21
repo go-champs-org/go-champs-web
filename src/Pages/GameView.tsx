@@ -14,7 +14,7 @@ import {
 } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
-import BoxScore from '../Games/BoxScore';
+import GeneralBoxScore from '../Games/GeneralBoxScore';
 import { teamById } from '../Teams/selectors';
 import {
   playerStatLogsByGameIdAndTeamId,
@@ -113,14 +113,14 @@ function BoxScoreViewer({
 }: BoxScoreViewerProps) {
   return (
     <div className="columns is-multiline has-text-left">
-      <BoxScore
+      <GeneralBoxScore
         teamName={homeTeam.name}
         playerStats={playerStats}
         playerStatsLogs={homePlayerStatsLogs}
         playersMap={playersMap}
         tournament={tournament}
       />
-      <BoxScore
+      <GeneralBoxScore
         teamName={awayTeam.name}
         playerStats={playerStats}
         playerStatsLogs={awayPlayerStatsLogs}

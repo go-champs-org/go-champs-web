@@ -4,7 +4,7 @@ import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 
-interface BoxScoreProps {
+interface GeneralBoxScoreProps {
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
   playerStatsLogs: PlayerStatsLogRenderEntity[];
@@ -18,13 +18,13 @@ const byStatValue = (statId: string) => (
 ) =>
   Number(playerStatsLogB.stats[statId]) - Number(playerStatsLogA.stats[statId]);
 
-function BoxScore({
+function GeneralBoxScore({
   playerStats,
   playerStatsLogs,
   playersMap,
   teamName,
   tournament
-}: BoxScoreProps): React.ReactElement {
+}: GeneralBoxScoreProps): React.ReactElement {
   const firstStatId = playerStats[0].id;
   const [statIdOrder, setStatIdOrder] = useState(firstStatId);
   const [isReverse, setIsReverse] = useState(false);
@@ -57,4 +57,4 @@ function BoxScore({
   );
 }
 
-export default BoxScore;
+export default GeneralBoxScore;
