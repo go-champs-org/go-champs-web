@@ -111,6 +111,74 @@ export default {
     sport: 'Sport',
     sports: {
       basketball_5x5: {
+        boxScoreViewer: {
+          playerStatColumns: {
+            points: {
+              abbreviation: 'PTS',
+              legend: 'Player total points'
+            },
+            rebounds: {
+              abbreviation: 'REB',
+              legend: 'Player total rebounds'
+            },
+            assists: {
+              abbreviation: 'AST',
+              legend: 'Player assists'
+            },
+            blocks: {
+              abbreviation: 'BLK',
+              legend: 'Player blocks'
+            },
+            steals: {
+              abbreviation: 'STL',
+              legend: 'Player steals'
+            },
+            turnovers: {
+              abbreviation: 'TO',
+              legend: 'Player turnovers'
+            },
+            onePointers: {
+              abbreviation: 'FT',
+              legend: 'Player one pointers made / attempted'
+            },
+            onePointersPercentage: {
+              abbreviation: 'FT%',
+              legend: 'Player one pointers percentage'
+            },
+            twoPointers: {
+              abbreviation: 'FG',
+              legend: 'Player two pointers made / attempted'
+            },
+            twoPointersPercentage: {
+              abbreviation: 'FG%',
+              legend: 'Player two pointers percentage'
+            },
+            threePointers: {
+              abbreviation: '3Ps',
+              legend: 'Player three pointers made / attempted'
+            },
+            threePointersPercentage: {
+              abbreviation: '3P%',
+              legend: 'Player three pointers percentage'
+            },
+            reboundsOffensive: {
+              abbreviation: 'OREB',
+              legend: 'Player offensive rebounds'
+            },
+            reboundsDefensive: {
+              abbreviation: 'DREB',
+              legend: 'Player defensive rebounds'
+            },
+            foulsPersonal: {
+              abbreviation: 'PF',
+              legend: 'Player personal fouls'
+            },
+            foulsTechnical: {
+              abbreviation: 'TF',
+              legend: 'Player technical fouls'
+            }
+          }
+        },
         statistics: {
           assists: {
             abbreviation: 'AST',

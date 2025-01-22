@@ -33,12 +33,21 @@
   thead {
     tr th {
       white-space: nowrap;
+
+      &.sortable {
+        cursor: pointer;
+        text-underline-offset: 4px;
+        text-decoration: dotted underline;
+      }
     }
   }
 
   tbody {
     tr td {
       height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     tr:not(.is-selected):nth-child(even) {
@@ -60,6 +69,12 @@
 
 @media screen and (max-width: 768px) {
   .table.is-custom-striped {
+    tbody {
+      tr td {
+        height: 32px;
+      }
+    }
+
     .player {
       min-width: 150px;
       max-width: 150px;
