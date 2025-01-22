@@ -53,6 +53,7 @@ export default {
     general: 'Gerais',
     groupStats: 'Estatísticas de grupo',
     language: 'Linguagem',
+    legend: 'Legenda',
     location: 'Local',
     match: 'Confronto',
     matches: 'Confrontos',

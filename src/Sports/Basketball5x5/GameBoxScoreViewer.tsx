@@ -6,7 +6,7 @@ import { PlayerStatEntity, TournamentEntity } from '../../Tournaments/state';
 import { PlayersMap } from '../../Players/state';
 import { teamById } from '../../Teams/selectors';
 import GameBoxScoreTable, { StatColumn } from '../../Shared/GameBoxScoreTable';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 
 function PercetualCell({ value }: { value: string }): React.ReactElement {
@@ -227,7 +227,9 @@ function Legend(): React.ReactElement {
   return (
     <>
       <div className="column is-12">
-        <span className="title is-6">Legenda</span>
+        <span className="title is-6">
+          <Trans>legend</Trans>
+        </span>
       </div>
       <div className="column is-12">
         <ul>

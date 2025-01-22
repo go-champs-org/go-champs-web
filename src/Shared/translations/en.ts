@@ -52,6 +52,7 @@ export default {
     general: 'General',
     groupStats: 'Group stats',
     language: 'Language',
+    legend: 'Legend',
     location: 'Location',
     match: 'Match',
     matches: 'Matches',
