@@ -14,7 +14,7 @@ import {
 } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
-import BoxScore from '../Games/BoxScore';
+import GeneralBoxScore from '../Games/GeneralBoxScore';
 import { teamById } from '../Teams/selectors';
 import {
   playerStatLogsByGameIdAndTeamId,
@@ -92,7 +92,15 @@ function BoxScoreLoading() {
   );
 }
 
-interface BoxScoreViewerProps {
+const BOX_SCORE_VIEWERS: {
+  [key: string]: React.ComponentType<BoxScoreViewerProps>;
+} = {
+  basketball_5x5: React.lazy(() =>
+    import('../Sports/Basketball5x5/GameBoxScoreViewer')
+  )
+};
+
+export interface BoxScoreViewerProps {
   awayTeam: TeamEntity;
   awayPlayerStatsLogs: PlayerStatsLogRenderEntity[];
   homeTeam: TeamEntity;
@@ -111,16 +119,33 @@ function BoxScoreViewer({
   playersMap,
   tournament
 }: BoxScoreViewerProps) {
+  if (BOX_SCORE_VIEWERS[tournament.sportSlug]) {
+    const BoxScoreViewer = BOX_SCORE_VIEWERS[tournament.sportSlug];
+    return (
+      <React.Suspense fallback={<BoxScoreLoading />}>
+        <BoxScoreViewer
+          awayPlayerStatsLogs={awayPlayerStatsLogs}
+          awayTeam={awayTeam}
+          homePlayerStatsLogs={homePlayerStatsLogs}
+          homeTeam={homeTeam}
+          playersMap={playersMap}
+          playerStats={playerStats}
+          tournament={tournament}
+        />
+      </React.Suspense>
+    );
+  }
+
   return (
     <div className="columns is-multiline has-text-left">
-      <BoxScore
+      <GeneralBoxScore
         teamName={homeTeam.name}
         playerStats={playerStats}
         playerStatsLogs={homePlayerStatsLogs}
         playersMap={playersMap}
         tournament={tournament}
       />
-      <BoxScore
+      <GeneralBoxScore
         teamName={awayTeam.name}
         playerStats={playerStats}
         playerStatsLogs={awayPlayerStatsLogs}

@@ -113,6 +113,77 @@ export default {
     sport: 'Esporte',
     sports: {
       basketball_5x5: {
+        boxScoreViewer: {
+          playerStatColumns: {
+            points: {
+              abbreviation: 'PTS',
+              legend: 'Total de pontos da pessoa atleta'
+            },
+            rebounds: {
+              abbreviation: 'REB',
+              legend: 'Total de rebotes da pessoa atleta'
+            },
+            assists: {
+              abbreviation: 'ASS',
+              legend: 'Assistências da pessoa atleta'
+            },
+            blocks: {
+              abbreviation: 'TOC',
+              legend: 'Tocos da pessoa atleta'
+            },
+            steals: {
+              abbreviation: 'ROU',
+              legend: 'Roubadas da pessoa atleta'
+            },
+            turnovers: {
+              abbreviation: 'ERR',
+              legend: 'Erros da pessoa atleta'
+            },
+            onePointers: {
+              abbreviation: 'LL',
+              legend:
+                'Lances livres convertidos / lances livres tentados da pessoa atleta'
+            },
+            onePointersPercentage: {
+              abbreviation: 'LL%',
+              legend: 'Lances livres percentual de acerto da pessoa atleta'
+            },
+            twoPointers: {
+              abbreviation: '2PT',
+              legend:
+                'Dois pontos convertidos / dois pontos tentados da pessoa atleta'
+            },
+            twoPointersPercentage: {
+              abbreviation: '2PT%',
+              legend: 'Dois pontos percentual de acerto da pessoa atleta'
+            },
+            threePointers: {
+              abbreviation: '3PTs',
+              legend:
+                'Três pontos convertidos / três pontos tentados da pessoa atleta'
+            },
+            threePointersPercentage: {
+              abbreviation: '3PT%',
+              legend: 'Três pontos percentual de acerto da pessoa atleta'
+            },
+            reboundsOffensive: {
+              abbreviation: 'REO',
+              legend: 'Rebotes ofensivos da pessoa atleta'
+            },
+            reboundsDefensive: {
+              abbreviation: 'RED',
+              legend: 'Rebotes defensivos da pessoa atleta'
+            },
+            foulsPersonal: {
+              abbreviation: 'FLP',
+              legend: 'Faltas pessoais da pessoa atleta'
+            },
+            foulsTechnical: {
+              abbreviation: 'FLT',
+              legend: 'Faltas técnicas da pessoa atleta'
+            }
+          }
+        },
         statistics: {
           assists: {
             abbreviation: 'AST',
