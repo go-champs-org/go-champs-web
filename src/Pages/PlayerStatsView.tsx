@@ -10,10 +10,7 @@ import { playersMap } from '../Players/selectors';
 import withAggregatedPlayerStatsLogs, {
   SORT_URL_QUERY_PARAM
 } from './support/withAggregatedPlayerStatsLog';
-import {
-  default as PlayerStatLogView,
-  ViewLoading as PlayerStatLogLoading
-} from '../PlayerStatsLog/View';
+import { ViewLoading as PlayerStatLogLoading } from '../PlayerStatsLog/View';
 import {
   aggregatedPlayerStatLogs,
   aggregatedPlayerStatLogsLoading
@@ -25,6 +22,7 @@ import useStatistics from '../Sports/useStatistics';
 import { selectSport } from '../Sports/selectors';
 import { Scope } from '../Sports/state';
 import { playerStatThatIsVisible } from '../Tournaments/dataSelectors';
+import AggregatedPlayerStatsTable from '../AggregatedPlayerStats/AggregatedPlayerStatsTable';
 
 const SCOPE_URL_QUERY_PARAM = 'scope';
 
@@ -124,7 +122,7 @@ function PlayerStatsView({
           {isLoadingAggregatedPlayerStatsLogs ? (
             <PlayerStatLogLoading />
           ) : (
-            <PlayerStatLogView
+            <AggregatedPlayerStatsTable
               onHeaderClick={onHeaderClick}
               players={players}
               playersStats={visiblePlayerStats}
