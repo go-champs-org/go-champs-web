@@ -22,7 +22,7 @@ import useStatistics from '../Sports/useStatistics';
 import { selectSport } from '../Sports/selectors';
 import { Scope } from '../Sports/state';
 import { playerStatThatIsVisible } from '../Tournaments/dataSelectors';
-import AggregatedPlayerStatsTable from '../AggregatedPlayerStats/AggregatedPlayerStatsTable';
+import AggregatedPlayerStatsTableViewer from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
 
 const SCOPE_URL_QUERY_PARAM = 'scope';
 
@@ -122,7 +122,7 @@ function PlayerStatsView({
           {isLoadingAggregatedPlayerStatsLogs ? (
             <PlayerStatLogLoading />
           ) : (
-            <AggregatedPlayerStatsTable
+            <AggregatedPlayerStatsTableViewer
               onHeaderClick={onHeaderClick}
               players={players}
               playersStats={visiblePlayerStats}

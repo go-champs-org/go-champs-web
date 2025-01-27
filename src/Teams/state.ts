@@ -11,6 +11,10 @@ export interface TeamState {
   teams: { [key: string]: TeamEntity };
 }
 
+export interface TeamsMap {
+  [id: string]: TeamEntity;
+}
+
 export const initialState: TeamState = {
   isLoadingDeleteTeam: false,
   isLoadingPatchTeam: false,

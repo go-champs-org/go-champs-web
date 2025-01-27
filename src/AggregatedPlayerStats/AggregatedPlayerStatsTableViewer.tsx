@@ -3,16 +3,17 @@ import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import PlayerStatLogView, { ViewLoading } from '../PlayerStatsLog/View';
+import { TeamsMap } from '../Teams/state';
 
 const AGGREGATED_PLAYER_STATS_TABLES: {
-  [key: string]: React.ComponentType<AggregatedPlayerStatsTableProps>;
+  [key: string]: React.ComponentType<AggregatedPlayerStatsTableViewerProps>;
 } = {
   basketball_5x5: React.lazy(() =>
-    import('../Sports/Basketball5x5/AggregatedPlayerStatsTable')
+    import('../Sports/Basketball5x5/AggregatedPlayerStatsTableViewer')
   )
 };
 
-interface AggregatedPlayerStatsTableProps {
+export interface AggregatedPlayerStatsTableViewerProps {
   onHeaderClick?: (playerStat: PlayerStatEntity) => void;
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
@@ -20,20 +21,19 @@ interface AggregatedPlayerStatsTableProps {
   tournament: TournamentEntity;
 }
 
-function AggregatedPlayerStatsTable({
+function AggregatedPlayerStatsTableViewer({
   onHeaderClick,
   players,
   playersStats,
   playerStatLogs,
   tournament
-}: AggregatedPlayerStatsTableProps): React.ReactElement {
+}: AggregatedPlayerStatsTableViewerProps): React.ReactElement {
   if (AGGREGATED_PLAYER_STATS_TABLES[tournament.sportSlug]) {
-    const AggregatedPlayerStatsTable = AGGREGATED_PLAYER_STATS_TABLES[
-      tournament.sportSlug
-    ];
+    const AggregatedPlayerStatsTableViewer =
+      AGGREGATED_PLAYER_STATS_TABLES[tournament.sportSlug];
     return (
       <React.Suspense fallback={<ViewLoading />}>
-        <AggregatedPlayerStatsTable
+        <AggregatedPlayerStatsTableViewer
           onHeaderClick={onHeaderClick}
           players={players}
           playersStats={playersStats}
@@ -55,4 +55,4 @@ function AggregatedPlayerStatsTable({
   );
 }
 
-export default AggregatedPlayerStatsTable;
+export default AggregatedPlayerStatsTableViewer;
