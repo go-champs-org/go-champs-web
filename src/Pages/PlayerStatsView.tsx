@@ -10,10 +10,7 @@ import { playersMap } from '../Players/selectors';
 import withAggregatedPlayerStatsLogs, {
   SORT_URL_QUERY_PARAM
 } from './support/withAggregatedPlayerStatsLog';
-import {
-  default as PlayerStatLogView,
-  ViewLoading as PlayerStatLogLoading
-} from '../PlayerStatsLog/View';
+import { ViewLoading as PlayerStatLogLoading } from '../PlayerStatsLog/View';
 import {
   aggregatedPlayerStatLogs,
   aggregatedPlayerStatLogsLoading
@@ -25,6 +22,7 @@ import useStatistics from '../Sports/useStatistics';
 import { selectSport } from '../Sports/selectors';
 import { Scope } from '../Sports/state';
 import { playerStatThatIsVisible } from '../Tournaments/dataSelectors';
+import AggregatedPlayerStatsTableViewer from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
 
 const SCOPE_URL_QUERY_PARAM = 'scope';
 
@@ -79,9 +77,9 @@ function PlayerStatsView({
       SCOPE_URL_QUERY_PARAM
     ) as Scope) || ('aggregate' as Scope);
 
-  const onHeaderClick = (playerStat: PlayerStatEntity) => {
+  const onHeaderClick = (sportKey: string) => {
     const urlSearch = new URLSearchParams(location.search);
-    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.slug || playerStat.id);
+    urlSearch.set(SORT_URL_QUERY_PARAM, sportKey);
     history.push({
       search: urlSearch.toString()
     });
@@ -124,11 +122,12 @@ function PlayerStatsView({
           {isLoadingAggregatedPlayerStatsLogs ? (
             <PlayerStatLogLoading />
           ) : (
-            <PlayerStatLogView
+            <AggregatedPlayerStatsTableViewer
               onHeaderClick={onHeaderClick}
               players={players}
               playersStats={visiblePlayerStats}
               playerStatLogs={aggregatedPlayerStatLogs}
+              scope={scope}
               tournament={tournament}
             />
           )}

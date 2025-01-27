@@ -33,13 +33,13 @@ function GeneralBoxScore({
     ? playerStatsLogs.sort(sortByStatId).reverse()
     : playerStatsLogs.sort(sortByStatId);
 
-  const onHeaderClick = (playerStat: PlayerStatEntity) => {
-    if (statIdOrder === playerStat.id) {
+  const onHeaderClick = (sortKey: string) => {
+    if (statIdOrder === sortKey) {
       setIsReverse(!isReverse);
     } else {
       setIsReverse(false);
     }
-    setStatIdOrder(playerStat.id);
+    setStatIdOrder(sortKey);
   };
 
   return (
@@ -52,6 +52,7 @@ function GeneralBoxScore({
         players={playersMap}
         playersStats={playerStats}
         tournament={tournament}
+        scope="aggregate"
       />
     </div>
   );

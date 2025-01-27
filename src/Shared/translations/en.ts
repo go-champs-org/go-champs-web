@@ -112,6 +112,70 @@ export default {
     sport: 'Sport',
     sports: {
       basketball_5x5: {
+        aggregatedStatsViewer: {
+          playerStatColumns: {
+            gamesPlayed: {
+              abbreviation: 'GP',
+              title: 'Games played'
+            },
+            gamesStarted: {
+              abbreviation: 'GS',
+              title: 'Games started'
+            },
+            points: {
+              abbreviation: 'PTS',
+              title: 'Points'
+            },
+            rebounds: {
+              abbreviation: 'REB',
+              title: 'Rebounds'
+            },
+            assists: {
+              abbreviation: 'AST',
+              title: 'Assists'
+            },
+            blocks: {
+              abbreviation: 'BLK',
+              title: 'Blocks'
+            },
+            steals: {
+              abbreviation: 'STL',
+              title: 'Steals'
+            },
+            turnovers: {
+              abbreviation: 'TO',
+              title: 'Turnovers'
+            },
+            onePointersMade: {
+              abbreviation: 'FTM',
+              title: 'Free throws made'
+            },
+            onePointersAttempted: {
+              abbreviation: 'FTA',
+              title: 'Free throws attempted'
+            },
+            onePointerPercentage: {
+              abbreviation: 'FT%',
+              title: 'Free throws percentage'
+            },
+            reboundsOffensive: {
+              abbreviation: 'OREB',
+              title: 'Offensive rebounds'
+            },
+            reboundsDefensive: {
+              abbreviation: 'DREB',
+              title: 'Defensive rebounds'
+            },
+            foulsPersonal: {
+              abbreviation: 'FL',
+              title: 'Personal fouls'
+            },
+            foulsTechnical: {
+              abbreviation: 'FLT',
+              title: 'Technical fouls'
+            }
+          }
+        },
         boxScoreViewer: {
           playerStatColumns: {
             points: {

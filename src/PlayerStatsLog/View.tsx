@@ -4,6 +4,7 @@ import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { Trans, useTranslation } from 'react-i18next';
 import './View.scss';
 import Shimmer from '../Shared/UI/Shimmer';
+import { AggregatedPlayerStatsTableViewerProps } from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
 
 function LoadingCell({
   className,
@@ -97,6 +98,7 @@ export function ViewLoading() {
 export interface PlayerStatsLogRenderEntity {
   id: string;
   playerId: string;
+  teamId?: string;
   stats: {
     [id: string]: string;
   };
@@ -137,7 +139,7 @@ function PlayerStatsLogRow({
 }
 
 const PlayerStatLogHeader: React.FC<{
-  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
+  onHeaderClick?: (sortKey: string) => void;
   playetStatLog: PlayerStatEntity;
   tournament: TournamentEntity;
 }> = ({ onHeaderClick, playetStatLog, tournament }) => {
@@ -157,7 +159,7 @@ const PlayerStatLogHeader: React.FC<{
           className="has-text-info clickable-header"
           onClick={(event: React.MouseEvent) => {
             event.preventDefault();
-            onHeaderClick(playetStatLog);
+            onHeaderClick(playetStatLog.slug || playetStatLog.id);
           }}
         >
           {headerContent}
@@ -169,21 +171,13 @@ const PlayerStatLogHeader: React.FC<{
   );
 };
 
-interface ViewProps {
-  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
-  players: PlayersMap;
-  playersStats: PlayerStatEntity[];
-  playerStatLogs: PlayerStatsLogRenderEntity[];
-  tournament: TournamentEntity;
-}
-
 function View({
   onHeaderClick,
   players,
   playersStats,
   playerStatLogs,
   tournament
-}: ViewProps): React.ReactElement {
+}: AggregatedPlayerStatsTableViewerProps): React.ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

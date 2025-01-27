@@ -2,27 +2,11 @@ import React, { useState } from 'react';
 import { BoxScoreViewerProps } from '../../Pages/GameView';
 import { PlayerStatsLogRenderEntity } from '../../PlayerStatsLog/View';
 import { TeamEntity } from '../../Teams/state';
-import { PlayerStatEntity, TournamentEntity } from '../../Tournaments/state';
 import { PlayersMap } from '../../Players/state';
-import { teamById } from '../../Teams/selectors';
 import GameBoxScoreTable, { StatColumn } from '../../Shared/GameBoxScoreTable';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-
-function PercetualCell({ value }: { value: string }): React.ReactElement {
-  if (!value) {
-    return <>-</>;
-  }
-  const number = Number(value);
-  if (isNaN(number)) {
-    return <>-</>;
-  }
-  return <>{number.toFixed(0)}%</>;
-}
-
-function ValueOrEmptyCell({ value }: { value: string }): React.ReactElement {
-  return <>{value || '-'}</>;
-}
+import { PercetualCell, ValueOrEmptyCell } from './TableCells';
 
 function byStatValue(key: string) {
   return (

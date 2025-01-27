@@ -1,3 +1,5 @@
+import { games } from '../../Games/selectors';
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   translation: {
@@ -114,6 +116,94 @@ export default {
     sport: 'Esporte',
     sports: {
       basketball_5x5: {
+        aggregatedStatsViewer: {
+          playerStatColumns: {
+            gamesPlayed: {
+              abbreviation: 'JOG',
+              title: 'Jogos'
+            },
+            gamesStarted: {
+              abbreviation: 'TIT',
+              title: 'Jogos de titular'
+            },
+            points: {
+              abbreviation: 'PTS',
+              title: 'Pontos'
+            },
+            rebounds: {
+              abbreviation: 'REB',
+              title: 'Rebotes'
+            },
+            assists: {
+              abbreviation: 'AST',
+              title: 'Assistências'
+            },
+            blocks: {
+              abbreviation: 'TOC',
+              title: 'Tocos'
+            },
+            steals: {
+              abbreviation: 'ROU',
+              title: 'Roubadas'
+            },
+            turnovers: {
+              abbreviation: 'ERR',
+              title: 'Erros'
+            },
+            onePointersMade: {
+              abbreviation: 'LLC',
+              title: 'Lances livres convertidos'
+            },
+            onePointersAttempted: {
+              abbreviation: 'LLT',
+              title: 'Lances livres tentados'
+            },
+            onePointerPercentage: {
+              abbreviation: 'LL%',
+              title: 'Porcentagem de lances livres'
+            },
+            twoPointersMade: {
+              abbreviation: '2PC',
+              title: 'Dois pontos convertidos'
+            },
+            twoPointersAttempted: {
+              abbreviation: '2PT',
+              title: 'Dois pontos tentados'
+            },
+            twoPointerPercentage: {
+              abbreviation: '2P%',
+              title: 'Porcentagem de dois pontos'
+            },
+            threePointersMade: {
+              abbreviation: '3PC',
+              title: 'Três pontos convertidos'
+            },
+            threePointersAttempted: {
+              abbreviation: '3PT',
+              title: 'Três pontos tentados'
+            },
+            threePointPercentage: {
+              abbreviation: '3P%',
+              title: 'Porcentagem de três pontos'
+            },
+            reboundsOffensive: {
+              abbreviation: 'REO',
+              title: 'Rebotes ofensivo'
+            },
+            reboundsDefensive: {
+              abbreviation: 'RED',
+              title: 'Rebotes defensivo'
+            },
+            foulsPersonal: {
+              abbreviation: 'FL',
+              title: 'Faltas pessoais'
+            },
+            foulsTechnical: {
+              abbreviation: 'FLT',
+              title: 'Faltas técnicas'
+            }
+          }
+        },
         boxScoreViewer: {
           playerStatColumns: {
             points: {
