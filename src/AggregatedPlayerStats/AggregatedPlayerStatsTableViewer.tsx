@@ -4,6 +4,7 @@ import { PlayersMap } from '../Players/state';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import PlayerStatLogView, { ViewLoading } from '../PlayerStatsLog/View';
 import { TeamsMap } from '../Teams/state';
+import { Scope } from '../Sports/state';
 
 const AGGREGATED_PLAYER_STATS_TABLES: {
   [key: string]: React.ComponentType<AggregatedPlayerStatsTableViewerProps>;
@@ -18,6 +19,7 @@ export interface AggregatedPlayerStatsTableViewerProps {
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogRenderEntity[];
+  scope: Scope;
   tournament: TournamentEntity;
 }
 
@@ -26,6 +28,7 @@ function AggregatedPlayerStatsTableViewer({
   players,
   playersStats,
   playerStatLogs,
+  scope,
   tournament
 }: AggregatedPlayerStatsTableViewerProps): React.ReactElement {
   if (AGGREGATED_PLAYER_STATS_TABLES[tournament.sportSlug]) {
@@ -38,6 +41,7 @@ function AggregatedPlayerStatsTableViewer({
           players={players}
           playersStats={playersStats}
           playerStatLogs={playerStatLogs}
+          scope={scope}
           tournament={tournament}
         />
       </React.Suspense>
@@ -50,6 +54,7 @@ function AggregatedPlayerStatsTableViewer({
       players={players}
       playersStats={playersStats}
       playerStatLogs={playerStatLogs}
+      scope={scope}
       tournament={tournament}
     />
   );

@@ -4,6 +4,7 @@ import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { Trans, useTranslation } from 'react-i18next';
 import './View.scss';
 import Shimmer from '../Shared/UI/Shimmer';
+import { AggregatedPlayerStatsTableViewerProps } from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
 
 function LoadingCell({
   className,
@@ -170,21 +171,13 @@ const PlayerStatLogHeader: React.FC<{
   );
 };
 
-interface ViewProps {
-  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
-  players: PlayersMap;
-  playersStats: PlayerStatEntity[];
-  playerStatLogs: PlayerStatsLogRenderEntity[];
-  tournament: TournamentEntity;
-}
-
 function View({
   onHeaderClick,
   players,
   playersStats,
   playerStatLogs,
   tournament
-}: ViewProps): React.ReactElement {
+}: AggregatedPlayerStatsTableViewerProps): React.ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -1,3 +1,5 @@
+import { games } from '../../Games/selectors';
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   translation: {
@@ -119,6 +121,10 @@ export default {
             gamesPlayed: {
               abbreviation: 'JOG',
               title: 'Jogos'
+            },
+            gamesStarted: {
+              abbreviation: 'TIT',
+              title: 'Jogos de titular'
             },
             points: {
               abbreviation: 'PTS',

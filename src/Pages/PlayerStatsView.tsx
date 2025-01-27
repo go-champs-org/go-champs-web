@@ -127,6 +127,7 @@ function PlayerStatsView({
               players={players}
               playersStats={visiblePlayerStats}
               playerStatLogs={aggregatedPlayerStatLogs}
+              scope={scope}
               tournament={tournament}
             />
           )}

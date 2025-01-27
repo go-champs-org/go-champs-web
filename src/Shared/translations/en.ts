@@ -118,6 +118,10 @@ export default {
               abbreviation: 'GP',
               title: 'Games played'
             },
+            gamesStarted: {
+              abbreviation: 'GS',
+              title: 'Games started'
+            },
             points: {
               abbreviation: 'PTS',
               title: 'Points'
