@@ -3,7 +3,6 @@ import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import PlayerStatLogView, { ViewLoading } from '../PlayerStatsLog/View';
-import { TeamsMap } from '../Teams/state';
 import { Scope } from '../Sports/state';
 
 const AGGREGATED_PLAYER_STATS_TABLES: {
@@ -15,7 +14,7 @@ const AGGREGATED_PLAYER_STATS_TABLES: {
 };
 
 export interface AggregatedPlayerStatsTableViewerProps {
-  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
+  onHeaderClick?: (sortKey: string) => void;
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogRenderEntity[];

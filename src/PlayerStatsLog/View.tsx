@@ -139,7 +139,7 @@ function PlayerStatsLogRow({
 }
 
 const PlayerStatLogHeader: React.FC<{
-  onHeaderClick?: (playerStat: PlayerStatEntity) => void;
+  onHeaderClick?: (sortKey: string) => void;
   playetStatLog: PlayerStatEntity;
   tournament: TournamentEntity;
 }> = ({ onHeaderClick, playetStatLog, tournament }) => {
@@ -159,7 +159,7 @@ const PlayerStatLogHeader: React.FC<{
           className="has-text-info clickable-header"
           onClick={(event: React.MouseEvent) => {
             event.preventDefault();
-            onHeaderClick(playetStatLog);
+            onHeaderClick(playetStatLog.slug || playetStatLog.id);
           }}
         >
           {headerContent}

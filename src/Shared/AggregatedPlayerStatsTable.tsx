@@ -56,12 +56,12 @@ export interface StatColumn {
   header: string;
   cell: (playerStatLog: PlayerStatsLogRenderEntity) => React.ReactElement;
   cellStyle?: React.CSSProperties;
-  sortData?: any;
+  sortKey?: string;
   legend?: string;
 }
 
 interface AggregatePlayerStatsTableProps {
-  onHeaderClick?: (column: StatColumn) => void;
+  onHeaderClick?: (sportKey: string) => void;
   statColumns: StatColumn[];
   players: PlayersMap;
   playerStatLogs: PlayerStatsLogRenderEntity[];
@@ -122,7 +122,9 @@ function AggregatePlayerStatsTable({
                 <th
                   key={column.id}
                   className="has-text-centered sortable"
-                  onClick={() => onHeaderClick && onHeaderClick(column)}
+                  onClick={() =>
+                    onHeaderClick && onHeaderClick(column.sortKey || '')
+                  }
                 >
                   {column.header}
                 </th>

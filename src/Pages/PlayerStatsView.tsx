@@ -77,9 +77,9 @@ function PlayerStatsView({
       SCOPE_URL_QUERY_PARAM
     ) as Scope) || ('aggregate' as Scope);
 
-  const onHeaderClick = (playerStat: PlayerStatEntity) => {
+  const onHeaderClick = (sportKey: string) => {
     const urlSearch = new URLSearchParams(location.search);
-    urlSearch.set(SORT_URL_QUERY_PARAM, playerStat.slug || playerStat.id);
+    urlSearch.set(SORT_URL_QUERY_PARAM, sportKey);
     history.push({
       search: urlSearch.toString()
     });

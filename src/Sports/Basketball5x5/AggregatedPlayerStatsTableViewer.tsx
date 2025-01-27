@@ -5,7 +5,7 @@ import AggregatePlayerStatsTable, {
   StatColumn
 } from '../../Shared/AggregatedPlayerStatsTable';
 import { AggregatedPlayerStatsTableViewerProps } from '../../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
-import { PercetualCell, ValueOrEmptyCell } from './TableCells';
+import { PercetualCell, RateCell, ValueOrEmptyCell } from './TableCells';
 
 interface BaseAggregatedStatColumn {
   id: string;
@@ -181,58 +181,56 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
   {
     id: 'points',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.points_per_game} />
+      <RateCell value={playerStatLog.stats.points_per_game} />
     ),
     sortKey: 'points_per_game'
   },
   {
     id: 'rebounds',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.rebounds_per_game} />
+      <RateCell value={playerStatLog.stats.rebounds_per_game} />
     ),
     sortKey: 'rebounds_per_game'
   },
   {
     id: 'assists',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.assists_per_game} />
+      <RateCell value={playerStatLog.stats.assists_per_game} />
     ),
     sortKey: 'assists_per_game'
   },
   {
     id: 'blocks',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.blocks_per_game} />
+      <RateCell value={playerStatLog.stats.blocks_per_game} />
     ),
     sortKey: 'blocks_per_game'
   },
   {
     id: 'steals',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.steals_per_game} />
+      <RateCell value={playerStatLog.stats.steals_per_game} />
     ),
     sortKey: 'steals_per_game'
   },
   {
     id: 'turnovers',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.turnovers_per_game} />
+      <RateCell value={playerStatLog.stats.turnovers_per_game} />
     ),
     sortKey: 'turnovers_per_game'
   },
   {
     id: 'onePointersMade',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.free_throws_made_per_game} />
+      <RateCell value={playerStatLog.stats.free_throws_made_per_game} />
     ),
     sortKey: 'free_throws_made_per_game'
   },
   {
     id: 'onePointersAttempted',
     cell: playerStatLog => (
-      <ValueOrEmptyCell
-        value={playerStatLog.stats.free_throws_attempted_per_game}
-      />
+      <RateCell value={playerStatLog.stats.free_throws_attempted_per_game} />
     ),
     sortKey: 'free_throws_attempted_per_game'
   },
@@ -248,16 +246,14 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
   {
     id: 'twoPointersMade',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.field_goals_made_per_game} />
+      <RateCell value={playerStatLog.stats.field_goals_made_per_game} />
     ),
     sortKey: 'field_goals_made_per_game'
   },
   {
     id: 'twoPointersAttempted',
     cell: playerStatLog => (
-      <ValueOrEmptyCell
-        value={playerStatLog.stats.field_goals_attempted_per_game}
-      />
+      <RateCell value={playerStatLog.stats.field_goals_attempted_per_game} />
     ),
     sortKey: 'field_goals_attempted_per_game'
   },
@@ -273,7 +269,7 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
   {
     id: 'threePointersMade',
     cell: playerStatLog => (
-      <ValueOrEmptyCell
+      <RateCell
         value={playerStatLog.stats.three_point_field_goals_made_per_game}
       />
     ),
@@ -282,7 +278,7 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
   {
     id: 'threePointersAttempted',
     cell: playerStatLog => (
-      <ValueOrEmptyCell
+      <RateCell
         value={playerStatLog.stats.three_point_field_goals_attempted_per_game}
       />
     ),
@@ -300,32 +296,28 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
   {
     id: 'reboundsOffensive',
     cell: playerStatLog => (
-      <ValueOrEmptyCell
-        value={playerStatLog.stats.rebounds_offensive_per_game}
-      />
+      <RateCell value={playerStatLog.stats.rebounds_offensive_per_game} />
     ),
     sortKey: 'rebounds_offensive_per_game'
   },
   {
     id: 'reboundsDefensive',
     cell: playerStatLog => (
-      <ValueOrEmptyCell
-        value={playerStatLog.stats.rebounds_defensive_per_game}
-      />
+      <RateCell value={playerStatLog.stats.rebounds_defensive_per_game} />
     ),
     sortKey: 'rebounds_defensive_per_game'
   },
   {
     id: 'foulsPersonal',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.fouls_personal_per_game} />
+      <RateCell value={playerStatLog.stats.fouls_personal_per_game} />
     ),
     sortKey: 'fouls_personal_per_game'
   },
   {
     id: 'foulsTechnical',
     cell: playerStatLog => (
-      <ValueOrEmptyCell value={playerStatLog.stats.fouls_technical_per_game} />
+      <RateCell value={playerStatLog.stats.fouls_technical_per_game} />
     ),
     sortKey: 'fouls_technical_per_game'
   }
@@ -351,6 +343,7 @@ function generateStatColumns(
 }
 
 function AggregatedPlayerStatsTableViewer({
+  onHeaderClick,
   playerStatLogs,
   players,
   scope
@@ -366,6 +359,7 @@ function AggregatedPlayerStatsTableViewer({
       players={players}
       playerStatLogs={playerStatLogs}
       statColumns={statColumns}
+      onHeaderClick={onHeaderClick}
     />
   );
 }
