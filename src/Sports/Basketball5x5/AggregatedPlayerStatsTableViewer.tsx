@@ -1,5 +1,5 @@
 import React from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { TFunction, Trans, useTranslation } from 'react-i18next';
 import { PlayerStatsLogRenderEntity } from '../../PlayerStatsLog/View';
 import AggregatePlayerStatsTable, {
   StatColumn
@@ -338,8 +338,41 @@ function generateStatColumns(
         defaultValue: baseStatColumn.id
       }
     ),
+    legend: t(
+      `sports.basketball_5x5.aggregatedStatsViewer.playerStatColumns.${baseStatColumn.id}.legend`,
+      {
+        keySeparator: '.',
+        defaultValue: ''
+      }
+    ),
     sortKey: baseStatColumn.sortKey
   }));
+}
+
+function Legend({
+  statColumns
+}: {
+  statColumns: StatColumn[];
+}): React.ReactElement {
+  return (
+    <>
+      <div className="column is-12">
+        <span className="title is-6">
+          <Trans>legend</Trans>
+        </span>
+      </div>
+      <div className="column is-12">
+        <ul>
+          {statColumns.map(statColumn => (
+            <li key={statColumn.id} className="is-size-7">
+              <span className="has-text-weight-bold">{statColumn.header}</span>{' '}
+              - {statColumn.legend}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 }
 
 function AggregatedPlayerStatsTableViewer({
@@ -355,12 +388,19 @@ function AggregatedPlayerStatsTableViewer({
       : PERGAME_STAT_COLUMNS;
   const statColumns = generateStatColumns(t, baseStats);
   return (
-    <AggregatePlayerStatsTable
-      players={players}
-      playerStatLogs={playerStatLogs}
-      statColumns={statColumns}
-      onHeaderClick={onHeaderClick}
-    />
+    <div className="columns is-multiline">
+      <div className="column is-12">
+        <AggregatePlayerStatsTable
+          players={players}
+          playerStatLogs={playerStatLogs}
+          statColumns={statColumns}
+          onHeaderClick={onHeaderClick}
+        />
+      </div>
+      <div className="column is-12">
+        <Legend statColumns={statColumns} />
+      </div>
+    </div>
   );
 }
 

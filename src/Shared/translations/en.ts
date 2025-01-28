@@ -116,63 +116,63 @@ export default {
           playerStatColumns: {
             gamesPlayed: {
               abbreviation: 'GP',
-              title: 'Games played'
+              legend: 'Games played'
             },
             gamesStarted: {
               abbreviation: 'GS',
-              title: 'Games started'
+              legend: 'Games started'
             },
             points: {
               abbreviation: 'PTS',
-              title: 'Points'
+              legend: 'Points'
             },
             rebounds: {
               abbreviation: 'REB',
-              title: 'Rebounds'
+              legend: 'Rebounds'
             },
             assists: {
               abbreviation: 'AST',
-              title: 'Assists'
+              legend: 'Assists'
             },
             blocks: {
               abbreviation: 'BLK',
-              title: 'Blocks'
+              legend: 'Blocks'
             },
             steals: {
               abbreviation: 'STL',
-              title: 'Steals'
+              legend: 'Steals'
             },
             turnovers: {
               abbreviation: 'TO',
-              title: 'Turnovers'
+              legend: 'Turnovers'
             },
             onePointersMade: {
               abbreviation: 'FTM',
-              title: 'Free throws made'
+              legend: 'Free throws made'
             },
             onePointersAttempted: {
               abbreviation: 'FTA',
-              title: 'Free throws attempted'
+              legend: 'Free throws attempted'
             },
             onePointerPercentage: {
               abbreviation: 'FT%',
-              title: 'Free throws percentage'
+              legend: 'Free throws percentage'
             },
             reboundsOffensive: {
               abbreviation: 'OREB',
-              title: 'Offensive rebounds'
+              legend: 'Offensive rebounds'
             },
             reboundsDefensive: {
               abbreviation: 'DREB',
-              title: 'Defensive rebounds'
+              legend: 'Defensive rebounds'
             },
             foulsPersonal: {
               abbreviation: 'FL',
-              title: 'Personal fouls'
+              legend: 'Personal fouls'
             },
             foulsTechnical: {
               abbreviation: 'FLT',
-              title: 'Technical fouls'
+              legend: 'Technical fouls'
             }
           }
         },

@@ -120,87 +120,87 @@ export default {
           playerStatColumns: {
             gamesPlayed: {
               abbreviation: 'JOG',
-              title: 'Jogos'
+              legend: 'Total de jogos'
             },
             gamesStarted: {
               abbreviation: 'TIT',
-              title: 'Jogos de titular'
+              legend: 'Percentual de jogos de titular'
             },
             points: {
               abbreviation: 'PTS',
-              title: 'Pontos'
+              legend: 'Pontos totais/média'
             },
             rebounds: {
               abbreviation: 'REB',
-              title: 'Rebotes'
+              legend: 'Rebotes totais/média'
             },
             assists: {
               abbreviation: 'AST',
-              title: 'Assistências'
+              legend: 'Assistências totais/média'
             },
             blocks: {
               abbreviation: 'TOC',
-              title: 'Tocos'
+              legend: 'Tocos totais/média'
             },
             steals: {
               abbreviation: 'ROU',
-              title: 'Roubadas'
+              legend: 'Roubadas totais/média'
             },
             turnovers: {
               abbreviation: 'ERR',
-              title: 'Erros'
+              legend: 'Erros totais/média'
             },
             onePointersMade: {
               abbreviation: 'LLC',
-              title: 'Lances livres convertidos'
+              legend: 'Total de lances livres convertidos'
             },
             onePointersAttempted: {
               abbreviation: 'LLT',
-              title: 'Lances livres tentados'
+              legend: 'Total de lances livres tentados'
             },
             onePointerPercentage: {
               abbreviation: 'LL%',
-              title: 'Porcentagem de lances livres'
+              legend: 'Porcentagem de lances livres convertidos'
             },
             twoPointersMade: {
               abbreviation: '2PC',
-              title: 'Dois pontos convertidos'
+              legend: 'Total dois pontos convertidos'
             },
             twoPointersAttempted: {
               abbreviation: '2PT',
-              title: 'Dois pontos tentados'
+              legend: 'Total dois pontos tentados'
             },
             twoPointerPercentage: {
               abbreviation: '2P%',
-              title: 'Porcentagem de dois pontos'
+              legend: 'Porcentagem de dois pontos convertidos'
             },
             threePointersMade: {
               abbreviation: '3PC',
-              title: 'Três pontos convertidos'
+              legend: 'Total três pontos convertidos'
             },
             threePointersAttempted: {
               abbreviation: '3PT',
-              title: 'Três pontos tentados'
+              legend: 'Total três pontos tentados'
             },
             threePointPercentage: {
               abbreviation: '3P%',
-              title: 'Porcentagem de três pontos'
+              legend: 'Porcentagem de três pontos convertidos'
             },
             reboundsOffensive: {
               abbreviation: 'REO',
-              title: 'Rebotes ofensivo'
+              legend: 'Rebotes ofensivo totais/média'
             },
             reboundsDefensive: {
               abbreviation: 'RED',
-              title: 'Rebotes defensivo'
+              legend: 'Rebotes defensivo totais/média'
             },
             foulsPersonal: {
               abbreviation: 'FL',
-              title: 'Faltas pessoais'
+              legend: 'Faltas pessoais totais/média'
             },
             foulsTechnical: {
               abbreviation: 'FLT',
-              title: 'Faltas técnicas'
+              legend: 'Faltas técnicas totais/média'
             }
           }
         },
