@@ -20,7 +20,7 @@ const AGGREGATED_TOTAL_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
     cell: playerStatLog => (
       <ValueOrEmptyCell value={playerStatLog.stats.game_played} />
     ),
-    sortKey: 'games_played'
+    sortKey: 'game_played'
   },
   {
     id: 'points',
@@ -169,7 +169,7 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
     cell: playerStatLog => (
       <ValueOrEmptyCell value={playerStatLog.stats.game_played} />
     ),
-    sortKey: 'games_played'
+    sortKey: 'game_played'
   },
   {
     id: 'gamesStarted',
