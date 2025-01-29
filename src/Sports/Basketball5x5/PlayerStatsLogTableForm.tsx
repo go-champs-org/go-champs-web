@@ -1,21 +1,12 @@
-// import React from 'react';
-// import { FieldArrayRenderProps } from 'react-final-form-arrays';
+import React from 'react';
+import { GeneralPlayerStatsLogTableFormProps } from '../../PlayerStatsLog/GeneralPlayerStatsLogTableForm';
 
-// interface FormProps extends FieldArrayRenderProps {
-//     game: GameEntity;
-//     players: PlayersMap;
-//     playersStats: PlayerStatEntity[];
-//     team: TeamEntity;
-//     tournament: TournamentEntity;
-//     FieldArrayRenderProps:
-// }
+function PlayerStatsLogTableForm({}: GeneralPlayerStatsLogTableFormProps) {
+  return (
+    <div>
+      <h1>Basketball</h1>
+    </div>
+  );
+}
 
-// function PlayerStatsLogTableForm() {
-//     return (
-//         <div>
-//             <h1>PlayerStatsLogTableForm</h1>
-//         </div>
-//     );
-// }
-
-// export default PlayerStatsLogTableForm;
+export default PlayerStatsLogTableForm;

@@ -8,7 +8,17 @@ import { FieldArray } from 'react-final-form-arrays';
 import { PlayerStatsLogsForm } from './state';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
-import GeneralPlayerStatsLogTableForm from './GeneralPlayerStatsLogTableForm';
+import GeneralPlayerStatsLogTableForm, {
+  GeneralPlayerStatsLogTableFormProps
+} from './GeneralPlayerStatsLogTableForm';
+
+const PLAYER_STATS_LOG_TABLE_FORMS: {
+  [key: string]: React.ComponentType<GeneralPlayerStatsLogTableFormProps>;
+} = {
+  basketball_5x5: React.lazy(() =>
+    import('../Sports/Basketball5x5/PlayerStatsLogTableForm')
+  )
+};
 
 interface FormProps extends FormRenderProps<PlayerStatsLogsForm> {
   game: GameEntity;
@@ -27,6 +37,11 @@ function Form({
   team,
   tournament
 }: FormProps): React.ReactElement {
+  const PlayerStatsLogTableForm = PLAYER_STATS_LOG_TABLE_FORMS[
+    tournament.sportSlug
+  ]
+    ? PLAYER_STATS_LOG_TABLE_FORMS[tournament.sportSlug]
+    : GeneralPlayerStatsLogTableForm;
   return (
     <form onSubmit={handleSubmit} className="form column is-12">
       <div className="columns is-gapless is-mobile">
@@ -48,12 +63,14 @@ function Form({
 
       <FieldArray name="playerStatsLogs">
         {({ fields }) => (
-          <GeneralPlayerStatsLogTableForm
-            players={players}
-            fields={fields}
-            playersStats={playersStats}
-            meta={{}}
-          />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <PlayerStatsLogTableForm
+              fields={fields}
+              players={players}
+              playersStats={playersStats}
+              meta={{}}
+            />
+          </React.Suspense>
         )}
       </FieldArray>
     </form>

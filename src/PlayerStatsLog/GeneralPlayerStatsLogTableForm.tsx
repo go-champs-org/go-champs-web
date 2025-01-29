@@ -62,7 +62,7 @@ function PlayerStatLogHeader({
   return <th className="has-text-centered">{playetStatLog.title}</th>;
 }
 
-interface GeneralPlayerStatsLogTableFormProps
+export interface GeneralPlayerStatsLogTableFormProps
   extends FieldArrayRenderProps<PlayerStatsLogEntity, HTMLElement> {
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
