@@ -3,6 +3,7 @@ import { Trans } from 'react-i18next';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayersMap } from '../Players/state';
 import './AggregatedPlayerStatsTable.scss';
+import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
 
 interface AggregatePlayerStatsRowProps {
   number: number;
@@ -17,10 +18,10 @@ function AggregatePlayerStatsRow({
   players,
   statColumns
 }: AggregatePlayerStatsRowProps): React.ReactElement {
-  const playerName = players[playerStatLog.playerId]
-    ? players[playerStatLog.playerId].shirtName ||
-      players[playerStatLog.playerId].name
-    : '';
+  const playerName = mapPlayerMapToPlayerDisplayName(
+    players,
+    playerStatLog.playerId
+  );
   const teamName = players[playerStatLog.playerId]
     ? players[playerStatLog.playerId].team.name
     : '';

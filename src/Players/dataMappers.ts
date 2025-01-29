@@ -3,8 +3,9 @@ import {
   ApiPlayerPatchRequest,
   ApiPlayerPostRequest
 } from '../Shared/httpClient/apiTypes';
-import { PlayerEntity } from './state';
+import { PlayerEntity, PlayersMap } from './state';
 import { DEFAULT_TEAM } from '../Teams/state';
+import { playersMap } from './selectors';
 
 export const mapApiPlayerToPlayerEntity = (
   apiPlayer: ApiPlayer
@@ -54,3 +55,11 @@ export const mapPlayerEntityToApiPlayerPatchRequest = (
     team_id: player.team.id && player.team.id
   }
 });
+
+export const mapPlayerMapToPlayerDisplayName = (
+  playersMap: PlayersMap,
+  playerId: string
+) =>
+  playersMap[playerId]
+    ? playersMap[playerId].shirtName || playersMap[playerId].name
+    : '';

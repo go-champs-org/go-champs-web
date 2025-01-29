@@ -6,6 +6,7 @@ import { PlayerStatEntity } from '../Tournaments/state';
 import { Field } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import { PlayerStatsLogEntity } from './state';
+import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
 
 interface PlayerStatLogFormRowProps {
   name: string;
@@ -20,10 +21,10 @@ function PlayerStatLogFormRow({
   playersStats,
   playerStatLog
 }: PlayerStatLogFormRowProps): React.ReactElement {
-  const playerName = players[playerStatLog.playerId]
-    ? players[playerStatLog.playerId].shirtName ||
-      players[playerStatLog.playerId].name
-    : '';
+  const playerName = mapPlayerMapToPlayerDisplayName(
+    players,
+    playerStatLog.playerId
+  );
   return (
     <tr>
       <td
@@ -76,7 +77,7 @@ function GeneralPlayerStatsLogTableForm({
   return (
     <div className="container">
       <div className="table-container">
-        <table className="table is-fullwidth is-striped is-hoverable">
+        <table className="table is-fullwidth is-striped">
           <thead>
             <tr>
               <th style={{ paddingLeft: '0' }}>Player</th>
