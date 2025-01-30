@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { GeneralPlayerStatsLogTableFormProps } from '../../PlayerStatsLog/GeneralPlayerStatsLogTableForm';
 import { PlayerStatEntity } from '../../Tournaments/state';
-import { TFunction, useTranslation } from 'react-i18next';
+import { TFunction, Trans, useTranslation } from 'react-i18next';
 import { mapPlayerMapToPlayerDisplayName } from '../../Players/dataMappers';
 import { PlayerStatsLogEntity } from '../../PlayerStatsLog/state';
 import { PlayersMap } from '../../Players/state';
@@ -374,7 +374,9 @@ function PlayerStatsLogTableForm({
         <table className="table is-fullwidth is-custom-striped">
           <thead>
             <tr>
-              <th className="player">Player</th>
+              <th className="player">
+                <Trans>player</Trans>
+              </th>
 
               <th className="player-span"></th>
 

@@ -122,39 +122,39 @@ export default {
             },
             gamesStarted: {
               abbreviation: 'TIT',
-              legend: 'Percentual de jogos de titular'
+              legend: 'Percentual de titularidade'
             },
             points: {
               abbreviation: 'PTS',
-              legend: 'Pontos totais/média'
+              legend: 'Total/Média de pontos'
             },
             rebounds: {
               abbreviation: 'REB',
-              legend: 'Rebotes totais/média'
+              legend: 'Total/Média de rebotes'
             },
             assists: {
               abbreviation: 'AST',
-              legend: 'Assistências totais/média'
+              legend: 'Total/Média de assistências'
             },
             blocks: {
               abbreviation: 'TOC',
-              legend: 'Tocos totais/média'
+              legend: 'Total/Média de tocos'
             },
             steals: {
               abbreviation: 'ROU',
-              legend: 'Roubadas totais/média'
+              legend: 'Total/Média de roubadas'
             },
             turnovers: {
               abbreviation: 'ERR',
-              legend: 'Erros totais/média'
+              legend: 'Total/Média de erros'
             },
             onePointersMade: {
               abbreviation: 'LLC',
-              legend: 'Total de lances livres convertidos'
+              legend: 'Total/Média de lances livres convertidos'
             },
             onePointersAttempted: {
               abbreviation: 'LLT',
-              legend: 'Total de lances livres tentados'
+              legend: 'Total/Média de lances livres tentados'
             },
             onePointerPercentage: {
               abbreviation: 'LL%',
@@ -162,43 +162,43 @@ export default {
             },
             twoPointersMade: {
               abbreviation: '2PC',
-              legend: 'Total dois pontos convertidos'
+              legend: 'Total/média de 2 pontos convertidos'
             },
             twoPointersAttempted: {
               abbreviation: '2PT',
-              legend: 'Total dois pontos tentados'
+              legend: 'Total/média de 2 pontos tentados'
             },
             twoPointerPercentage: {
               abbreviation: '2P%',
-              legend: 'Porcentagem de dois pontos convertidos'
+              legend: 'Porcentagem de 2 pontos convertidos'
             },
             threePointersMade: {
               abbreviation: '3PC',
-              legend: 'Total três pontos convertidos'
+              legend: 'Total/Média de 3 pontos convertidos'
             },
             threePointersAttempted: {
               abbreviation: '3PT',
-              legend: 'Total três pontos tentados'
+              legend: 'Total/Média de 3 pontos tentados'
             },
             threePointPercentage: {
               abbreviation: '3P%',
-              legend: 'Porcentagem de três pontos convertidos'
+              legend: 'Porcentagem de 3 pontos convertidos'
             },
             reboundsOffensive: {
               abbreviation: 'REO',
-              legend: 'Rebotes ofensivo totais/média'
+              legend: 'Total/Média de rebotes ofensivo'
             },
             reboundsDefensive: {
               abbreviation: 'RED',
-              legend: 'Rebotes defensivo totais/média'
+              legend: 'Total/Média de rebotes defensivo'
             },
             foulsPersonal: {
-              abbreviation: 'FL',
-              legend: 'Faltas pessoais totais/média'
+              abbreviation: 'FLP',
+              legend: 'Total/Média de faltas pessoais'
             },
             foulsTechnical: {
               abbreviation: 'FLT',
-              legend: 'Faltas técnicas totais/média'
+              legend: 'Total/Média de faltas técnicas'
             }
           }
         },
@@ -206,70 +206,67 @@ export default {
           playerStatColumns: {
             points: {
               abbreviation: 'PTS',
-              legend: 'Total de pontos da pessoa atleta'
+              legend: 'Pontos'
             },
             rebounds: {
               abbreviation: 'REB',
-              legend: 'Total de rebotes da pessoa atleta'
+              legend: 'Rebotes'
             },
             assists: {
               abbreviation: 'ASS',
-              legend: 'Assistências da pessoa atleta'
+              legend: 'Assistências'
             },
             blocks: {
               abbreviation: 'TOC',
-              legend: 'Tocos da pessoa atleta'
+              legend: 'Tocos'
             },
             steals: {
               abbreviation: 'ROU',
-              legend: 'Roubadas da pessoa atleta'
+              legend: 'Roubadas'
             },
             turnovers: {
               abbreviation: 'ERR',
-              legend: 'Erros da pessoa atleta'
+              legend: 'Erros'
             },
             onePointers: {
               abbreviation: 'LL',
-              legend:
-                'Lances livres convertidos / lances livres tentados da pessoa atleta'
+              legend: 'Lances livres convertidos / lances livres tentados'
             },
             onePointersPercentage: {
               abbreviation: 'LL%',
-              legend: 'Lances livres percentual de acerto da pessoa atleta'
+              legend: 'Lances livres percentual de acerto'
             },
             twoPointers: {
               abbreviation: '2PT',
-              legend:
-                'Dois pontos convertidos / dois pontos tentados da pessoa atleta'
+              legend: '2 pontos convertidos / 2 pontos tentados'
             },
             twoPointersPercentage: {
               abbreviation: '2PT%',
-              legend: 'Dois pontos percentual de acerto da pessoa atleta'
+              legend: '2 pontos percentual de acerto'
             },
             threePointers: {
               abbreviation: '3PTs',
-              legend:
-                'Três pontos convertidos / três pontos tentados da pessoa atleta'
+              legend: '3 pontos convertidos / 3 pontos tentados'
             },
             threePointersPercentage: {
               abbreviation: '3PT%',
-              legend: 'Três pontos percentual de acerto da pessoa atleta'
+              legend: '3 pontos percentual de acerto'
             },
             reboundsOffensive: {
               abbreviation: 'REO',
-              legend: 'Rebotes ofensivos da pessoa atleta'
+              legend: 'Rebotes ofensivos'
             },
             reboundsDefensive: {
               abbreviation: 'RED',
-              legend: 'Rebotes defensivos da pessoa atleta'
+              legend: 'Rebotes defensivos'
             },
             foulsPersonal: {
               abbreviation: 'FLP',
-              legend: 'Faltas pessoais da pessoa atleta'
+              legend: 'Faltas pessoais'
             },
             foulsTechnical: {
               abbreviation: 'FLT',
-              legend: 'Faltas técnicas da pessoa atleta'
+              legend: 'Faltas técnicas'
             }
           }
         },
