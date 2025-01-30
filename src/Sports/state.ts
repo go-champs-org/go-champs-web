@@ -21,7 +21,7 @@ export interface SportState {
   sports: { [key: string]: SportEntity };
 }
 
-export interface PlayersMap {
+export interface SportsMap {
   [id: string]: SportEntity;
 }
 

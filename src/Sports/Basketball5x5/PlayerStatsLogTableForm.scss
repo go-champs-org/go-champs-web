@@ -1,0 +1,90 @@
+@import '../../Shared/styles/colors.scss';
+
+.basketball-5x5-stats-table-form {
+  .table-container.is-scrolling {
+    .table {
+      .player {
+        box-shadow: 8px 0 6px -6px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  .table {
+    td {
+      vertical-align: middle;
+    }
+
+    &.is-custom-striped {
+      tr:not(.is-selected):nth-child(even) {
+        background-color: $white-dark;
+        .player {
+          background-color: $white-dark;
+        }
+      }
+
+      tr:not(.is-selected):nth-child(odd) {
+        background-color: $white;
+
+        .player {
+          background-color: $white;
+        }
+      }
+    }
+
+    .player {
+      padding-left: 0;
+      margin-top: 1px;
+      min-width: 175px;
+      max-width: 175px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background-color: $white;
+      position: absolute;
+      z-index: 1;
+    }
+
+    th {
+      &.player {
+        height: 41px;
+      }
+    }
+
+    td {
+      &.player {
+        display: flex;
+        align-items: center;
+        height: 59px;
+      }
+    }
+
+    .player-span {
+      width: 175px;
+      min-width: 175px;
+    }
+
+    .stat-control {
+      min-width: 80px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .table {
+      tbody {
+        tr td {
+          height: 32px;
+        }
+      }
+
+      .player {
+        min-width: 125px;
+        max-width: 125px;
+      }
+
+      .player-span {
+        width: 125px;
+        min-width: 125px;
+      }
+    }
+  }
+}

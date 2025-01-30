@@ -1,73 +1,31 @@
 import React from 'react';
 import { PlayersMap } from '../Players/state';
-import { PlayerStatEntity } from '../Tournaments/state';
-import StringInput from '../Shared/UI/Form/StringInput';
-import { Field, FormRenderProps } from 'react-final-form';
+import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
+import { FormRenderProps } from 'react-final-form';
 import { GameEntity } from '../Games/state';
 import { TeamEntity } from '../Teams/state';
 import { FieldArray } from 'react-final-form-arrays';
-import { PlayerStatsLogEntity, PlayerStatsLogsForm } from './state';
+import { PlayerStatsLogsForm } from './state';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
+import GeneralPlayerStatsLogTableForm, {
+  GeneralPlayerStatsLogTableFormProps
+} from './GeneralPlayerStatsLogTableForm';
 
-interface PlayerStatLogFormRowProps {
-  name: string;
-  players: PlayersMap;
-  playersStats: PlayerStatEntity[];
-  playerStatLog: PlayerStatsLogEntity;
-}
-
-function PlayerStatLogFormRow({
-  name,
-  players,
-  playersStats,
-  playerStatLog
-}: PlayerStatLogFormRowProps): React.ReactElement {
-  const playerName = players[playerStatLog.playerId]
-    ? players[playerStatLog.playerId].shirtName ||
-      players[playerStatLog.playerId].name
-    : '';
-  return (
-    <tr>
-      <td
-        style={{
-          paddingLeft: '0',
-          width: '225px'
-        }}
-      >
-        {playerName}
-      </td>
-
-      {playersStats.map((playerStat: PlayerStatEntity) => {
-        const fieldName = playerStat.slug
-          ? `${name}.stats.${playerStat.slug}`
-          : `${name}.stats.${playerStat.id}`;
-        return (
-          <td key={playerStat.id} style={{ minWidth: '90px' }}>
-            <Field
-              name={fieldName}
-              component={StringInput}
-              className="has-text-centered"
-              type="text"
-            />
-          </td>
-        );
-      })}
-    </tr>
-  );
-}
-
-const PlayerStatLogHeader: React.FC<{
-  playetStatLog: PlayerStatEntity;
-}> = ({ playetStatLog }) => (
-  <th className="has-text-centered">{playetStatLog.title}</th>
-);
+const PLAYER_STATS_LOG_TABLE_FORMS: {
+  [key: string]: React.ComponentType<GeneralPlayerStatsLogTableFormProps>;
+} = {
+  basketball_5x5: React.lazy(() =>
+    import('../Sports/Basketball5x5/PlayerStatsLogTableForm')
+  )
+};
 
 interface FormProps extends FormRenderProps<PlayerStatsLogsForm> {
   game: GameEntity;
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
   team: TeamEntity;
+  tournament: TournamentEntity;
 }
 
 function Form({
@@ -76,8 +34,14 @@ function Form({
   playersStats,
   pristine,
   submitting,
-  team
+  team,
+  tournament
 }: FormProps): React.ReactElement {
+  const PlayerStatsLogTableForm = PLAYER_STATS_LOG_TABLE_FORMS[
+    tournament.sportSlug
+  ]
+    ? PLAYER_STATS_LOG_TABLE_FORMS[tournament.sportSlug]
+    : GeneralPlayerStatsLogTableForm;
   return (
     <form onSubmit={handleSubmit} className="form column is-12">
       <div className="columns is-gapless is-mobile">
@@ -99,33 +63,14 @@ function Form({
 
       <FieldArray name="playerStatsLogs">
         {({ fields }) => (
-          <div className="container">
-            <div className="table-container">
-              <table className="table is-fullwidth is-striped is-hoverable">
-                <thead>
-                  <tr>
-                    <th style={{ paddingLeft: '0' }}>Player</th>
-
-                    {playersStats.map((stat: PlayerStatEntity) => (
-                      <PlayerStatLogHeader key={stat.id} playetStatLog={stat} />
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {fields.map((name, index) => (
-                    <PlayerStatLogFormRow
-                      key={name}
-                      name={name}
-                      playerStatLog={fields.value[index]}
-                      players={players}
-                      playersStats={playersStats}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <PlayerStatsLogTableForm
+              fields={fields}
+              players={players}
+              playersStats={playersStats}
+              meta={{}}
+            />
+          </React.Suspense>
         )}
       </FieldArray>
     </form>
