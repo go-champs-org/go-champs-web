@@ -1,5 +1,3 @@
-import { games } from '../../Games/selectors';
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   translation: {
@@ -272,6 +270,82 @@ export default {
             foulsTechnical: {
               abbreviation: 'FLT',
               legend: 'Faltas técnicas da pessoa atleta'
+            }
+          }
+        },
+        playerStatFormTable: {
+          statColums: {
+            gamePlayed: {
+              abbreviation: 'JOG',
+              legend: 'Jogou'
+            },
+            gameStarted: {
+              abbreviation: 'TIT',
+              legend: 'Titular'
+            },
+            points: {
+              abbreviation: 'PTS',
+              legend: 'Pontos marcados'
+            },
+            freeThrowsMade: {
+              abbreviation: 'LLC',
+              legend: 'Lances livres convertidos'
+            },
+            freeThrowsMissed: {
+              abbreviation: 'LLP',
+              legend: 'Lances livres perdidos'
+            },
+            fieldGoalsMade: {
+              abbreviation: '2PTC',
+              legend: '2 pontos convertidos'
+            },
+            fieldGoalsMissed: {
+              abbreviation: '2PTP',
+              legend: '2 pontos perdidos'
+            },
+            threePointFieldGoalsMade: {
+              abbreviation: '3PTC',
+              legend: '3 pontos convertidos'
+            },
+            threePointFieldGoalsMissed: {
+              abbreviation: '3PTP',
+              legend: '3 pontos perdidos'
+            },
+            reboundsDefensive: {
+              abbreviation: 'REBD',
+              legend: 'Rebotes defensivos'
+            },
+            reboundsOffensive: {
+              abbreviation: 'REBO',
+              legend: 'Rebotes ofensivos'
+            },
+            assists: {
+              abbreviation: 'AST',
+              legend: 'Assistências'
+            },
+            blocks: {
+              abbreviation: 'TOC',
+              legend: 'Tocos'
+            },
+            steals: {
+              abbreviation: 'ROU',
+              legend: 'Roubadas'
+            },
+            turnovers: {
+              abbreviation: 'ERR',
+              legend: 'Erros'
+            },
+            foulsPersonal: {
+              abbreviation: 'FTP',
+              legend: 'Faltas pessoais'
+            },
+            foulsFlagrant: {
+              abbreviation: 'FLA',
+              legend: 'Faltas anti-desportivas'
+            },
+            foulsTechnical: {
+              abbreviation: 'FLT',
+              legend: 'Faltas técnicas'
             }
           }
         },
