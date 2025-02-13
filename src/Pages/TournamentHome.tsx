@@ -31,6 +31,8 @@ import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
 import PlayerStatsSummaryView from './PlayerStatsSummaryView';
 import { hasSummaryStatistics } from '../FixedPlayerStatsTables/selectors';
+import RegistrationDashboard from './RegistrationDashboard';
+import RegistrationNew from './RegistrationNew';
 
 const mapStateToProps = (
   state: StoreState,
@@ -167,6 +169,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
+          path={`/:organizationSlug/:tournamentSlug/NewRegistration`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <RegistrationNew {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
           path={`/:organizationSlug/:tournamentSlug/NewTeam`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
@@ -227,6 +237,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PhaseLoader {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Registrations`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <RegistrationDashboard {...props} />
             </AuthenticatedRoute>
           )}
         />
