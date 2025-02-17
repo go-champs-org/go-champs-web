@@ -6,6 +6,8 @@ export enum PhaseTypes {
 export interface StatEntity {
   id: string;
   title: string;
+  teamStatSource: string;
+  rankingOrder: number;
 }
 
 export interface PhaseEntity {
@@ -46,5 +48,7 @@ export const DEFAULT_PHASE: PhaseEntity = {
 
 export const DEFAULT_ELIMINATION_STAT: StatEntity = {
   id: '',
-  title: ''
+  title: '',
+  teamStatSource: '',
+  rankingOrder: 0
 };

@@ -84,6 +84,7 @@ export default {
     placeholder: 'Temporário',
     perAggregation: 'Por total',
     perGame: 'Por jogo',
+    rankingOrder: 'Ordem de rankemento',
     repeatPassword: 'Senha novamente',
     rounds: 'Chaveamentos',
     roundsMenuTitle: 'Menu chaveamentos',
@@ -609,6 +610,7 @@ export default {
     team: 'Equipe',
     teams: 'Equipes',
     teamStats: 'Estatísticas de equipes',
+    teamStatSource: 'Fonte de estatísticas de equipes',
     theBestAppToManageTournaments:
       'A web app mais maneira para gerenciar torneios',
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',

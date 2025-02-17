@@ -54,6 +54,7 @@ export const mapTeamStatEntityToApiTeamStat = (
 ): ApiTeamStat => ({
   id: apiTeamStat.id,
   title: apiTeamStat.title,
+  slug: apiTeamStat.slug,
   source: apiTeamStat.source
 });
 
@@ -73,6 +74,7 @@ export const mapApiTeamStatToTeamStatEntity = (
 ): TeamStatEntity => ({
   id: apiTeamStat.id,
   title: apiTeamStat.title,
+  slug: apiTeamStat.slug,
   source: apiTeamStat.source
 });
 

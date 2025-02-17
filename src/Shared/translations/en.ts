@@ -81,8 +81,9 @@ export default {
     players: 'Players',
     playerStats: 'Player stats',
     placeholder: 'Placeholder',
-    perGame: 'Per game',
     perAggregation: 'Per total',
+    perGame: 'Per game',
+    rankingOrder: 'Ranking order',
     repeatPassword: 'Repeat password',
     rounds: 'Rounds',
     roundsMenuTitle: 'Rounds menu',
@@ -583,6 +584,7 @@ export default {
     team: 'Team',
     teams: 'Teams',
     teamStats: 'Team stats',
+    teamStatSource: 'Team stat source',
     theBestAppToManageTournaments:
       'The coolest web app to manage your tournaments',
     theSourceCodeIsLicensed: 'The source code is licensed',

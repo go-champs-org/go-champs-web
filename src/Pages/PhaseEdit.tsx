@@ -15,6 +15,7 @@ import arrayMutators from 'final-form-arrays';
 import { phaseByIdOrDefault, patchingPhase } from '../Phases/selectors';
 import { Mutator } from 'final-form';
 import { Trans } from 'react-i18next';
+import { tournamentTeamStatsForSelectInput } from '../Tournaments/selectors';
 
 type StateProps = {
   isPatchingPhase: boolean;
@@ -31,10 +32,14 @@ const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => {
-  const { phaseId } = props.match.params;
+  const { tournamentSlug, phaseId } = props.match.params;
   return {
     isPatchingPhase: patchingPhase(state.phases),
-    phase: phaseByIdOrDefault(state.phases, phaseId)
+    phase: phaseByIdOrDefault(state.phases, phaseId),
+    teamStatOptions: tournamentTeamStatsForSelectInput(
+      state.tournaments,
+      tournamentSlug
+    )
   };
 };
 
@@ -71,7 +76,8 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
   isPatchingPhase,
   match,
   patchPhase,
-  phase
+  phase,
+  teamStatOptions
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Phases`;
@@ -100,6 +106,7 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
                   backUrl={backUrl}
                   isLoading={isPatchingPhase}
                   push={props.form.mutators.push}
+                  teamStatOptions={teamStatOptions}
                 />
               )}
             />

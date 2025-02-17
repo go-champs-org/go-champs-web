@@ -257,11 +257,15 @@ export interface ApiOrganizationsResponse {
 export interface ApiPatchAndPostStat {
   id?: string;
   title: string;
+  team_stat_source?: string;
+  ranking_order?: number;
 }
 
 export interface ApiStat {
   id: string;
   title: string;
+  team_stat_source?: string;
+  ranking_order?: number;
 }
 
 export interface ApiTeam {
@@ -338,6 +342,7 @@ export interface ApiPlayerStatRequest extends ApiPlayerStat {
 export interface ApiTeamStat {
   id: string;
   title: string;
+  slug: string;
   source: string;
 }
 
