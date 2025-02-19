@@ -2,7 +2,8 @@ import {
   postRegistration,
   patchRegistration,
   deleteRegistration,
-  putRegistrationGenerateInvites
+  putRegistrationGenerateInvites,
+  getRegistration
 } from './effects';
 import { DEFAULT_REGISTRATION } from './state';
 import {
@@ -17,7 +18,10 @@ import {
   deleteRegistrationFailure,
   putRegistrationGenerateInvitesFailure,
   putRegistrationGenerateInvitesSuccess,
-  putRegistrationGenerateInvitesStart
+  putRegistrationGenerateInvitesStart,
+  getRegistrationStart,
+  getRegistrationSuccess,
+  getRegistrationFailure
 } from './actions';
 import registrationHttpClient from './registrationHttpClient';
 import * as toast from '../Shared/bulma/toast';
@@ -71,6 +75,55 @@ describe('deleteRegistration', () => {
       expect(dispatch).toHaveBeenCalledWith(
         deleteRegistrationFailure(apiError)
       );
+    });
+  });
+});
+
+describe('getRegistration', () => {
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start get action', () => {
+    getRegistration('some-registration-id')(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(getRegistrationStart());
+  });
+
+  describe('on success', () => {
+    beforeEach(() => {
+      dispatch.mockReset();
+
+      jest
+        .spyOn(registrationHttpClient, 'get')
+        .mockResolvedValue(DEFAULT_REGISTRATION);
+
+      getRegistration('some-registration-id')(dispatch);
+    });
+
+    it('dispatches get success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        getRegistrationSuccess(DEFAULT_REGISTRATION)
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new ApiError({
+      status: 422,
+      data: { errors: { name: ['has invalid format'] } }
+    });
+
+    beforeEach(() => {
+      dispatch.mockReset();
+
+      jest.spyOn(registrationHttpClient, 'get').mockRejectedValue(apiError);
+    });
+
+    it('dispatches get failure action', async () => {
+      await getRegistration('some-registration-id')(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(getRegistrationFailure(apiError));
     });
   });
 });

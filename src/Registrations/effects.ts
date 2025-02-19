@@ -11,7 +11,10 @@ import {
   putRegistrationGenerateInvitesFailure,
   postRegistrationFailure,
   postRegistrationStart,
-  postRegistrationSuccess
+  postRegistrationSuccess,
+  getRegistrationStart,
+  getRegistrationSuccess,
+  getRegistrationFailure
 } from './actions';
 import { RegistrationEntity } from './state';
 import registrationHttpClient from './registrationHttpClient';
@@ -30,6 +33,20 @@ export const deleteRegistration = (registration: RegistrationEntity) => async (
     displayToast(`${registration.title} deleted!`, 'is-success');
   } catch (err) {
     dispatch(deleteRegistrationFailure(err));
+  }
+};
+
+export const getRegistration = (registrationId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(getRegistrationStart());
+
+  try {
+    const response = await registrationHttpClient.get(registrationId);
+
+    dispatch(getRegistrationSuccess(response));
+  } catch (err) {
+    dispatch(getRegistrationFailure(err));
   }
 };
 

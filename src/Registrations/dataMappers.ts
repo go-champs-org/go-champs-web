@@ -1,9 +1,20 @@
 import {
   ApiRegistrationPatchRequest,
   ApiRegistrationPostRequest,
-  ApiRegistration
+  ApiRegistration,
+  ApiRegistrationInvite
 } from '../Shared/httpClient/apiTypes';
 import { RegistrationEntity } from './state';
+
+export const mapApiRegistrationInviteToRegistrationInviteEntity = (
+  apiRegistrationInvite: ApiRegistrationInvite
+) => {
+  return {
+    id: apiRegistrationInvite.id,
+    inviteeId: apiRegistrationInvite.invitee_id,
+    inviteeType: apiRegistrationInvite.invitee_type
+  };
+};
 
 export const mapApiRegistrationToRegistrationEntity = (
   apiRegistration: ApiRegistration
@@ -19,6 +30,11 @@ export const mapApiRegistrationToRegistrationEntity = (
       : false,
     customFields: apiRegistration.custom_fields
       ? apiRegistration.custom_fields
+      : [],
+    registrationInvites: apiRegistration.registration_invites
+      ? apiRegistration.registration_invites.map(
+          mapApiRegistrationInviteToRegistrationInviteEntity
+        )
       : []
   };
 };

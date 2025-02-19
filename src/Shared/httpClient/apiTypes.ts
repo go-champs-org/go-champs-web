@@ -580,12 +580,12 @@ export interface ApiRegistrationCustomField {
   description?: string;
 }
 
-type ApiRegistrationInviteType = 'team';
+export type ApiRegistrationInviteeType = 'team';
 
 export interface ApiRegistrationInvite {
   id: string;
   invitee_id: string;
-  invitee_type: ApiRegistrationInviteType;
+  invitee_type: ApiRegistrationInviteeType;
 }
 
 export interface ApiRegistration {

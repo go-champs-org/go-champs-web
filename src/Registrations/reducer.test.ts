@@ -245,7 +245,8 @@ describe('postRegistrationSuccess', () => {
       endDate: 'first-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
   });
 
@@ -260,7 +261,8 @@ describe('postRegistrationSuccess', () => {
           endDate: 'some-end-date',
           type: 'team_roster_invites' as ApiRegistrationType,
           autoApprove: false,
-          customFields: []
+          customFields: [],
+          registrationInvites: []
         }
       }
     };
@@ -274,7 +276,8 @@ describe('postRegistrationSuccess', () => {
       endDate: 'some-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
   });
 });
@@ -329,7 +332,8 @@ describe('getTournamentSuccess', () => {
       endDate: 'first-registration-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
     expect(newState.registrations['second-registration-id']).toEqual({
       id: 'second-registration-id',
@@ -338,7 +342,8 @@ describe('getTournamentSuccess', () => {
       endDate: 'second-registration-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
   });
 
