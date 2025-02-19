@@ -31,6 +31,9 @@ import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
 import PlayerStatsSummaryView from './PlayerStatsSummaryView';
 import { hasSummaryStatistics } from '../FixedPlayerStatsTables/selectors';
+import RegistrationDashboard from './RegistrationDashboard';
+import RegistrationNew from './RegistrationNew';
+import RegistrationEdit from './RegistrationEdit';
 
 const mapStateToProps = (
   state: StoreState,
@@ -129,6 +132,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
+          path={`/:organizationSlug/:tournamentSlug/EditRegistration/:registrationId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <RegistrationEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
           path={`/:organizationSlug/:tournamentSlug/EditTeam/:teamId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
@@ -163,6 +174,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PlayerNew {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/NewRegistration`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <RegistrationNew {...props} />
             </AuthenticatedRoute>
           )}
         />
@@ -227,6 +246,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PhaseLoader {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Registrations`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <RegistrationDashboard {...props} />
             </AuthenticatedRoute>
           )}
         />
