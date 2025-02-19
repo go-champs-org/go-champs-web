@@ -27,6 +27,8 @@ import { default as fixedPlayerStatsTablesReducer } from './FixedPlayerStatsTabl
 import { FixedPlayerStatsTableState } from './FixedPlayerStatsTables/state';
 import { SportState } from './Sports/state';
 import { default as sportReducer } from './Sports/reducer';
+import { RegistrationState } from './Registrations/state';
+import { default as registrationReducer } from './Registrations/reducer';
 import { NODE_ENV } from './Shared/env';
 
 export interface StoreState {
@@ -40,6 +42,7 @@ export interface StoreState {
   phases: PhaseState;
   players: PlayerState;
   playerStatsLogs: PlayerStatsLogState;
+  registrations: RegistrationState;
   sports: SportState;
   teams: TeamState;
   tournaments: TournamentState;
@@ -57,6 +60,7 @@ export default createStore(
     phases: tournamentPhaseReducer,
     players: playerReducer,
     playerStatsLogs: playerStatsLogReducer,
+    registrations: registrationReducer,
     sports: sportReducer,
     teams: teamReducer,
     tournaments: tournamentReducer

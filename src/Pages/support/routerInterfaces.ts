@@ -6,6 +6,7 @@ export interface RouteProps {
   organizationSlug?: string;
   phaseId?: string;
   playerId?: string;
+  registrationId?: string;
   teamId?: string;
   tournamentSlug?: string;
 }

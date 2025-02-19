@@ -8,16 +8,26 @@ import { RouteComponentProps } from 'react-router-dom';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import List, { ListLoading } from '../Registrations/List';
-import { MOCK_REGISTRATIONS } from '../Registrations/state';
 import { useTranslation } from 'react-i18next';
 import ListHeader from '../Shared/UI/ListHeader';
+import { registrations } from '../Registrations/selectors';
+import { deleteRegistration } from '../Registrations/effects';
+import withTournament from './support/withTournament';
+import { getTournamentBySlug } from '../Tournaments/effects';
 
 const mapStateToProps = (state: StoreState) => ({
+  registrations: registrations(state.registrations),
   tournamentLoading: tournamentLoading(state.tournaments)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({}, dispatch);
+  bindActionCreators(
+    {
+      deleteRegistration,
+      getTournamentBySlug
+    },
+    dispatch
+  );
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -25,11 +35,12 @@ type RegistrationDashboardProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
 function RegistrationDashboard({
+  deleteRegistration,
+  registrations,
   tournamentLoading,
   match
 }: RegistrationDashboardProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
-  const registrations = MOCK_REGISTRATIONS;
   const { t } = useTranslation();
   const newUrl = `/${organizationSlug}/${tournamentSlug}/NewRegistration`;
   return (
@@ -44,7 +55,7 @@ function RegistrationDashboard({
               loader={<ListLoading />}
             >
               <List
-                // deleteTeam={deleteTeam}
+                deleteRegistration={deleteRegistration}
                 organizationSlug={organizationSlug}
                 registrations={registrations}
                 tournamentSlug={tournamentSlug}
@@ -65,4 +76,6 @@ function RegistrationDashboard({
   );
 }
 
-export default connector(RegistrationDashboard);
+export default connector(
+  withTournament<RegistrationDashboardProps>(RegistrationDashboard)
+);

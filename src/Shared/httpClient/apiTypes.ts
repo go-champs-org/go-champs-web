@@ -394,6 +394,7 @@ export interface ApiTournamentWithDependecies extends ApiTournament {
   phases: ApiPhase[];
   players: ApiPlayer[];
   teams: ApiTeam[];
+  registrations: ApiRegistration[];
 }
 
 export interface ApiTournamentWithDependeciesIds extends ApiTournament {
@@ -568,4 +569,48 @@ export interface ApiSportsResponse {
 
 export interface ApiSportResponse {
   data: ApiSport;
+}
+
+export type ApiRegistrationType = 'team_roster_invites';
+
+export interface ApiRegistrationCustomField {
+  id: string;
+  label: string;
+  type: string;
+  description?: string;
+}
+
+type ApiRegistrationInviteType = 'team';
+
+export interface ApiRegistrationInvite {
+  id: string;
+  invitee_id: string;
+  invitee_type: ApiRegistrationInviteType;
+}
+
+export interface ApiRegistration {
+  id: string;
+  title: string;
+  start_date?: string;
+  end_date?: string;
+  type: ApiRegistrationType;
+  auto_approve?: boolean;
+  custom_fields?: ApiRegistrationCustomField[];
+  registration_invites?: ApiRegistrationInvite[];
+}
+
+export interface ApiRegistrationWithDependencies extends ApiRegistration {
+  tournament_id: string;
+}
+
+export interface ApiRegistrationPatchRequest {
+  registration: ApiRegistration;
+}
+
+export interface ApiRegistrationPostRequest {
+  registration: ApiRegistrationWithDependencies;
+}
+
+export interface ApiRegistrationResponse {
+  data: ApiRegistration;
 }

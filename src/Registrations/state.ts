@@ -1,3 +1,5 @@
+import { ApiRegistrationType } from '../Shared/httpClient/apiTypes';
+
 export interface CustomFieldEntity {
   id: string;
   label: string;
@@ -6,22 +8,36 @@ export interface CustomFieldEntity {
 
 export interface RegistrationEntity {
   id: string;
-  name: string;
+  title: string;
   startDate: string;
   endDate: string;
-  type: 'team_athlete';
-  approvalType: 'automatic' | 'manual';
+  type: ApiRegistrationType;
+  autoApprove: boolean;
   customFields: CustomFieldEntity[];
 }
 
-export const MOCK_REGISTRATIONS: RegistrationEntity[] = [
-  {
-    id: '1',
-    name: 'Inscrição de atletas geral',
-    startDate: '2020-01-01',
-    endDate: '2020-01-01',
-    type: 'team_athlete',
-    approvalType: 'automatic',
-    customFields: []
-  }
-];
+export interface RegistrationState {
+  isLoadingDeleteRegistration: boolean;
+  isLoadingPatchRegistration: boolean;
+  isLoadingPostRegistration: boolean;
+  isLoadingRequestTournament: boolean;
+  registrations: { [key: string]: RegistrationEntity };
+}
+
+export const initialState: RegistrationState = {
+  isLoadingDeleteRegistration: false,
+  isLoadingPatchRegistration: false,
+  isLoadingPostRegistration: false,
+  isLoadingRequestTournament: false,
+  registrations: {}
+};
+
+export const DEFAULT_REGISTRATION: RegistrationEntity = {
+  id: '',
+  title: '',
+  startDate: '',
+  endDate: '',
+  type: 'team_roster_invites',
+  autoApprove: false,
+  customFields: []
+};
