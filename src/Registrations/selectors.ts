@@ -29,6 +29,8 @@ export const registrationsLoading = (state: RegistrationState) =>
   state.isLoadingRequestTournament;
 export const patchingRegistration = (state: RegistrationState): boolean =>
   state.isLoadingPatchRegistration;
+export const puttingRegistrationGenerateInvites = (state: RegistrationState) =>
+  state.isLoadingPutRegistrationGenerateInvites;
 export const postingRegistration = (state: RegistrationState): boolean =>
   state.isLoadingPostRegistration;
 export const deletingRegistration = (state: RegistrationState): boolean =>

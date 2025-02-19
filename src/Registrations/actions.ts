@@ -6,6 +6,12 @@ import { RegistrationEntity } from './state';
 export const DELETE_REGISTRATION = 'API_DELETE_REGISTRATION';
 export const DELETE_REGISTRATION_SUCCESS = 'API_DELETE_REGISTRATION_SUCCESS';
 export const DELETE_REGISTRATION_FAILURE = 'API_DELETE_REGISTRATION_FAILURE';
+export const PUT_REGISTRATION_GENERATE_INVITES =
+  'API_PUT_REGISTRATION_GENERATE_INVITES';
+export const PUT_REGISTRATION_GENERATE_INVITES_SUCCESS =
+  'API_PUT_REGISTRATION_GENERATE_INVITES_SUCCESS';
+export const PUT_REGISTRATION_GENERATE_INVITES_FAILURE =
+  'API_PUT_REGISTRATION_GENERATE_INVITES_FAILURE';
 export const PATCH_REGISTRATION = 'API_PATCH_REGISTRATION';
 export const PATCH_REGISTRATION_SUCCESS = 'API_PATCH_REGISTRATION_SUCCESS';
 export const PATCH_REGISTRATION_FAILURE = 'API_PATCH_REGISTRATION_FAILURE';
@@ -49,6 +55,24 @@ export const patchRegistrationFailure = (
   payload
 });
 
+export const putRegistrationGenerateInvitesStart = (): HttpAction<ActionTypes> => ({
+  type: PUT_REGISTRATION_GENERATE_INVITES
+});
+
+export const putRegistrationGenerateInvitesSuccess = (
+  payload: RegistrationEntity
+): HttpAction<ActionTypes, ApiRegistration> => ({
+  type: PUT_REGISTRATION_GENERATE_INVITES_SUCCESS,
+  payload
+});
+
+export const putRegistrationGenerateInvitesFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: PUT_REGISTRATION_GENERATE_INVITES_FAILURE,
+  payload
+});
+
 export const postRegistrationStart = (): HttpAction<ActionTypes> => ({
   type: POST_REGISTRATION
 });
@@ -74,6 +98,9 @@ export type ActionTypes =
   | typeof PATCH_REGISTRATION
   | typeof PATCH_REGISTRATION_SUCCESS
   | typeof PATCH_REGISTRATION_FAILURE
+  | typeof PUT_REGISTRATION_GENERATE_INVITES
+  | typeof PUT_REGISTRATION_GENERATE_INVITES_SUCCESS
+  | typeof PUT_REGISTRATION_GENERATE_INVITES_FAILURE
   | typeof POST_REGISTRATION
   | typeof POST_REGISTRATION_SUCCESS
   | typeof POST_REGISTRATION_FAILURE

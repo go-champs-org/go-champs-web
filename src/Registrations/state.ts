@@ -19,6 +19,7 @@ export interface RegistrationEntity {
 export interface RegistrationState {
   isLoadingDeleteRegistration: boolean;
   isLoadingPatchRegistration: boolean;
+  isLoadingPutRegistrationGenerateInvites: boolean;
   isLoadingPostRegistration: boolean;
   isLoadingRequestTournament: boolean;
   registrations: { [key: string]: RegistrationEntity };
@@ -27,6 +28,7 @@ export interface RegistrationState {
 export const initialState: RegistrationState = {
   isLoadingDeleteRegistration: false,
   isLoadingPatchRegistration: false,
+  isLoadingPutRegistrationGenerateInvites: false,
   isLoadingPostRegistration: false,
   isLoadingRequestTournament: false,
   registrations: {}

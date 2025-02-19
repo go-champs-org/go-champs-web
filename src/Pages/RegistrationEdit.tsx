@@ -3,13 +3,17 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import { patchRegistration } from '../Registrations/effects';
+import {
+  patchRegistration,
+  putRegistrationGenerateInvites
+} from '../Registrations/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import {
   registrationsLoading,
   registrationById,
-  patchingRegistration
+  patchingRegistration,
+  puttingRegistrationGenerateInvites
 } from '../Registrations/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import {
@@ -23,6 +27,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { RegistrationEntity } from '../Registrations/state';
 import { Trans } from 'react-i18next';
 import { teamsForSelectInput } from '../Teams/selectors';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 const mapStateToProps = (
   state: StoreState,
@@ -33,6 +38,9 @@ const mapStateToProps = (
     ...props,
     isPatchingRegistration: patchingRegistration(state.registrations),
     organization: organizationBySlug(state.organizations, organizationSlug),
+    puttingRegistrationGenerateInvites: puttingRegistrationGenerateInvites(
+      state.registrations
+    ),
     registrationsLoading: registrationsLoading(state.registrations),
     registration: registrationById(
       state.registrations,
@@ -46,7 +54,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getTournamentBySlug,
-      patchRegistration
+      patchRegistration,
+      putRegistrationGenerateInvites
     },
     dispatch
   );
@@ -61,7 +70,9 @@ function RegistrationEdit({
   match,
   registration,
   registrationsLoading,
-  patchRegistration
+  patchRegistration,
+  putRegistrationGenerateInvites,
+  puttingRegistrationGenerateInvites
 }: RegistrationEditProps): React.ReactElement {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Registrations`;
@@ -69,10 +80,26 @@ function RegistrationEdit({
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-12">
+          <div className="column is-6">
             <h2 className="subtitle">
               <Trans>editRegistration</Trans>
             </h2>
+          </div>
+
+          <div className="column is-6 has-text-right">
+            <LoadingButton
+              className="button is-outlined"
+              isLoading={puttingRegistrationGenerateInvites}
+              onClick={() => putRegistrationGenerateInvites(registration.id)}
+            >
+              <span className="icon">
+                <i className="fas fa-envelope"></i>
+              </span>
+
+              <span>
+                <Trans>generateInvites</Trans>
+              </span>
+            </LoadingButton>
           </div>
 
           <div className="column is-12">

@@ -128,7 +128,7 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
         <BehindFeatureFlag>
           <li>
             <Link to={`/${organizationSlug}/${tournamentSlug}/Registrations`}>
-              Registrations
+              <Trans>registrations</Trans>
             </Link>
           </li>
         </BehindFeatureFlag>

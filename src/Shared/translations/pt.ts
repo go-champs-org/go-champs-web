@@ -54,6 +54,7 @@ export default {
     isInProgress: 'Em progresso',
     games: 'Partidas',
     general: 'Gerais',
+    generateInvites: 'Gerar convites',
     groupStats: 'Estatísticas de grupo',
     language: 'Linguagem',
     legend: 'Legenda',

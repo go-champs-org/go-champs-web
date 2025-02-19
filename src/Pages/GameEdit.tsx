@@ -15,7 +15,6 @@ import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { Trans } from 'react-i18next';
 import { REACT_APP_SCOREBOARD_APP_URL } from '../Shared/env';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {

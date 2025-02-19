@@ -1,7 +1,8 @@
 import {
   postRegistration,
   patchRegistration,
-  deleteRegistration
+  deleteRegistration,
+  putRegistrationGenerateInvites
 } from './effects';
 import { DEFAULT_REGISTRATION } from './state';
 import {
@@ -13,7 +14,10 @@ import {
   patchRegistrationFailure,
   deleteRegistrationStart,
   deleteRegistrationSuccess,
-  deleteRegistrationFailure
+  deleteRegistrationFailure,
+  putRegistrationGenerateInvitesFailure,
+  putRegistrationGenerateInvitesSuccess,
+  putRegistrationGenerateInvitesStart
 } from './actions';
 import registrationHttpClient from './registrationHttpClient';
 import * as toast from '../Shared/bulma/toast';
@@ -143,6 +147,94 @@ describe('patchRegistration', () => {
 
     it('returns formatted errors', async () => {
       const result = await patchRegistration(DEFAULT_REGISTRATION)(dispatch);
+
+      expect(result).toEqual({
+        name: ['has invalid format']
+      });
+    });
+  });
+});
+
+describe('putRegistrationGenerateInvites', () => {
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start patch action', () => {
+    putRegistrationGenerateInvites('some-registration-id')(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      putRegistrationGenerateInvitesStart()
+    );
+  });
+
+  describe('on success', () => {
+    beforeEach(() => {
+      dispatch.mockReset();
+      displayToastSpy.mockReset();
+
+      jest.spyOn(registrationHttpClient, 'generateInvites').mockResolvedValue({
+        id: 'patched-id',
+        title: 'patched registration',
+        startDate: 'patched-start-date',
+        endDate: 'patched-end-date',
+        autoApprove: false,
+        customFields: [],
+        type: 'team_roster_invites'
+      });
+
+      putRegistrationGenerateInvites('some-registration-id')(dispatch);
+    });
+
+    it('dispatches generate invites success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        putRegistrationGenerateInvitesSuccess({
+          id: 'patched-id',
+          title: 'patched registration',
+          startDate: 'patched-start-date',
+          endDate: 'patched-end-date',
+          autoApprove: false,
+          customFields: [],
+          type: 'team_roster_invites'
+        })
+      );
+    });
+
+    it('dispatches display toast', () => {
+      expect(displayToastSpy).toHaveBeenCalledWith(
+        'patched registration invites generated!',
+        'is-success'
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new ApiError({
+      status: 422,
+      data: { errors: { name: ['has invalid format'] } }
+    });
+
+    beforeEach(() => {
+      dispatch.mockReset();
+      displayToastSpy.mockReset();
+
+      jest
+        .spyOn(registrationHttpClient, 'generateInvites')
+        .mockRejectedValue(apiError);
+    });
+
+    it('dispatches patch failure action', async () => {
+      await putRegistrationGenerateInvites('some-registration-id')(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        putRegistrationGenerateInvitesFailure(apiError)
+      );
+    });
+
+    it('returns formatted errors', async () => {
+      const result = await putRegistrationGenerateInvites(
+        'some-registration-id'
+      )(dispatch);
 
       expect(result).toEqual({
         name: ['has invalid format']

@@ -20,6 +20,9 @@ import {
   PATCH_REGISTRATION,
   PATCH_REGISTRATION_FAILURE,
   PATCH_REGISTRATION_SUCCESS,
+  PUT_REGISTRATION_GENERATE_INVITES,
+  PUT_REGISTRATION_GENERATE_INVITES_FAILURE,
+  PUT_REGISTRATION_GENERATE_INVITES_SUCCESS,
   POST_REGISTRATION,
   POST_REGISTRATION_FAILURE,
   POST_REGISTRATION_SUCCESS
@@ -94,6 +97,34 @@ const patchRegistrationSuccess = (
   )
 });
 
+const putRegistrationGenerateInvites = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingPutRegistrationGenerateInvites: true
+});
+
+const putRegistrationGenerateInvitesFailure = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingPutRegistrationGenerateInvites: false
+});
+
+const putRegistrationGenerateInvitesSuccess = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes, RegistrationEntity>
+) => ({
+  ...state,
+  isLoadingPutRegistrationGenerateInvites: false,
+  registrations: [action.payload!].reduce(
+    registrationMapEntities,
+    state.registrations
+  )
+});
+
 const postRegistration = (
   state: RegistrationState,
   action: HttpAction<ActionTypes>
@@ -140,6 +171,9 @@ export default createReducer(initialState, {
   [PATCH_REGISTRATION]: patchRegistration,
   [PATCH_REGISTRATION_FAILURE]: patchRegistrationFailure,
   [PATCH_REGISTRATION_SUCCESS]: patchRegistrationSuccess,
+  [PUT_REGISTRATION_GENERATE_INVITES]: putRegistrationGenerateInvites,
+  [PUT_REGISTRATION_GENERATE_INVITES_FAILURE]: putRegistrationGenerateInvitesFailure,
+  [PUT_REGISTRATION_GENERATE_INVITES_SUCCESS]: putRegistrationGenerateInvitesSuccess,
   [POST_REGISTRATION]: postRegistration,
   [POST_REGISTRATION_FAILURE]: postRegistrationFailure,
   [POST_REGISTRATION_SUCCESS]: postRegistrationSuccess,

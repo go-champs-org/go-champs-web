@@ -53,6 +53,7 @@ export default {
     isInProgress: 'Is in progress',
     games: 'Games',
     general: 'General',
+    generateInvites: 'Generate invites',
     groupStats: 'Group stats',
     language: 'Language',
     legend: 'Legend',
