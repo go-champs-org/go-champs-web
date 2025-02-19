@@ -82,9 +82,10 @@ export default {
     players: 'Players',
     playerStats: 'Player stats',
     placeholder: 'Placeholder',
-    perGame: 'Per game',
     perAggregation: 'Per total',
     registrations: 'Registrations',
+    perGame: 'Per game',
+    rankingOrder: 'Ranking order',
     repeatPassword: 'Repeat password',
     rounds: 'Rounds',
     roundsMenuTitle: 'Rounds menu',
@@ -243,6 +244,82 @@ export default {
             foulsTechnical: {
               abbreviation: 'TF',
               legend: 'Player technical fouls'
+            }
+          }
+        },
+        playerStatFormTable: {
+          statColums: {
+            gamePlayed: {
+              abbreviation: 'GP',
+              legend: 'Game played'
+            },
+            gameStarted: {
+              abbreviation: 'GS',
+              legend: 'Game started'
+            },
+            points: {
+              abbreviation: 'PTS',
+              legend: 'Points'
+            },
+            freeThrowsMade: {
+              abbreviation: 'FTMA',
+              legend: 'Free throws made'
+            },
+            freeThrowsMissed: {
+              abbreviation: 'FTMI',
+              legend: 'Free throws missed'
+            },
+            fieldGoalsMade: {
+              abbreviation: 'FGMA',
+              legend: 'Field goals made'
+            },
+            fieldGoalsMissed: {
+              abbreviation: 'FGMI',
+              legend: 'Field goals missed'
+            },
+            threePointFieldGoalsMade: {
+              abbreviation: '3PMA',
+              legend: 'Three points made'
+            },
+            threePointFieldGoalsMissed: {
+              abbreviation: '3PMI',
+              legend: 'Three points missed'
+            },
+            reboundsDefensive: {
+              abbreviation: 'DREB',
+              legend: 'Defensive rebounds'
+            },
+            reboundsOffensive: {
+              abbreviation: 'OREB',
+              legend: 'Offensive rebounds'
+            },
+            assists: {
+              abbreviation: 'AST',
+              legend: 'Assists'
+            },
+            blocks: {
+              abbreviation: 'BLK',
+              legend: 'Blocks'
+            },
+            steals: {
+              abbreviation: 'STL',
+              legend: 'Steals'
+            },
+            turnovers: {
+              abbreviation: 'TO',
+              legend: 'Turnovers'
+            },
+            foulsPersonal: {
+              abbreviation: 'PFLS',
+              legend: 'Personal fouls'
+            },
+            foulsFlagrant: {
+              abbreviation: 'FFLS',
+              legend: 'Flagrant fouls'
+            },
+            foulsTechnical: {
+              abbreviation: 'TFLS',
+              legend: 'Technical fouls'
             }
           }
         },
@@ -509,6 +586,7 @@ export default {
     team: 'Team',
     teams: 'Teams',
     teamStats: 'Team stats',
+    teamStatSource: 'Team stat source',
     theBestAppToManageTournaments:
       'The coolest web app to manage your tournaments',
     theSourceCodeIsLicensed: 'The source code is licensed',

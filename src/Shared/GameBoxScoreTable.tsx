@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Trans } from 'react-i18next';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayersMap } from '../Players/state';
+import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
 
 interface GameBoxScoreRowProps {
   playerStatLog: PlayerStatsLogRenderEntity;
@@ -14,10 +15,10 @@ function GameBoxScoreRow({
   players,
   statColumns
 }: GameBoxScoreRowProps): React.ReactElement {
-  const playerName = players[playerStatLog.playerId]
-    ? players[playerStatLog.playerId].shirtName ||
-      players[playerStatLog.playerId].name
-    : '';
+  const playerName = mapPlayerMapToPlayerDisplayName(
+    players,
+    playerStatLog.playerId
+  );
   return (
     <tr>
       <td className="player">{playerName}</td>

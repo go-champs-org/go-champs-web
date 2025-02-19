@@ -13,16 +13,22 @@ import { StoreState } from '../store';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import withTournament from './support/withTournament';
 import { TournamentEntity } from '../Tournaments/state';
-import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
+import {
+  tournamentBySlug,
+  tournamentLoading,
+  tournamentTeamStatsForSelectInput
+} from '../Tournaments/selectors';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { postingPhase } from '../Phases/selectors';
 import { Trans } from 'react-i18next';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {}
 
 type StateProps = {
   isPostingPhase: boolean;
   tournament: TournamentEntity;
+  teamStatOptions: SelectOptionType[];
 };
 
 type DispatchProps = {
@@ -36,6 +42,10 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { tournamentSlug } = props.match.params;
   return {
     isPostingPhase: postingPhase(state.phases),
+    teamStatOptions: tournamentTeamStatsForSelectInput(
+      state.tournaments,
+      tournamentSlug
+    ),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -72,7 +82,8 @@ type PhaseNewProps = ConnectedProps<typeof connector>;
 const PhaseNew: React.FC<PhaseNewProps> = ({
   isPostingPhase,
   match,
-  postPhase
+  postPhase,
+  teamStatOptions
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Phases`;
@@ -101,6 +112,7 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
                   isLoading={isPostingPhase}
                   backUrl={backUrl}
                   push={props.form.mutators.push}
+                  teamStatOptions={teamStatOptions}
                 />
               )}
             />

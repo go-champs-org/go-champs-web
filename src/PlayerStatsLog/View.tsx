@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import './View.scss';
 import Shimmer from '../Shared/UI/Shimmer';
 import { AggregatedPlayerStatsTableViewerProps } from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
+import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
 
 function LoadingCell({
   className,
@@ -115,10 +116,10 @@ function PlayerStatsLogRow({
   playersStats,
   playerStatLog
 }: PlayerStatsLogRowProps): React.ReactElement {
-  const playerName = players[playerStatLog.playerId]
-    ? players[playerStatLog.playerId].shirtName ||
-      players[playerStatLog.playerId].name
-    : '';
+  const playerName = mapPlayerMapToPlayerDisplayName(
+    players,
+    playerStatLog.playerId
+  );
   return (
     <tr>
       <td className="player">{playerName}</td>

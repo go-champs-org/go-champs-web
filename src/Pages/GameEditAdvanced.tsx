@@ -136,6 +136,7 @@ function GameEditAdvanced({
                     players={players}
                     playersStats={playerStats}
                     team={homeTeam}
+                    tournament={tournament}
                   />
                 )}
               />
@@ -155,6 +156,7 @@ function GameEditAdvanced({
                     players={players}
                     playersStats={tournament.playerStats}
                     team={awayTeam}
+                    tournament={tournament}
                   />
                 )}
               />

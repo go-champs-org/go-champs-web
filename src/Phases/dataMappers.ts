@@ -12,7 +12,11 @@ export const mapApiEliminationStatToStatEntity = (
   apiStatEntity: ApiStat
 ): StatEntity => ({
   id: apiStatEntity.id,
-  title: apiStatEntity.title
+  title: apiStatEntity.title,
+  teamStatSource: apiStatEntity.team_stat_source
+    ? apiStatEntity.team_stat_source
+    : '',
+  rankingOrder: apiStatEntity.ranking_order ? apiStatEntity.ranking_order : 0
 });
 
 export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
@@ -30,7 +34,9 @@ export const mapStatEntityToApiEliminationStat = (
   stat: StatEntity
 ): ApiPatchAndPostStat => ({
   id: stat.id ? stat.id : undefined,
-  title: stat.title
+  title: stat.title,
+  team_stat_source: stat.teamStatSource && stat.teamStatSource,
+  ranking_order: stat.rankingOrder ? stat.rankingOrder : 0
 });
 
 export const mapPhaseEntityToApiPhasePostRequest = (

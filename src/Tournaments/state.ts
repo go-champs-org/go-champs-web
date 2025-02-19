@@ -30,6 +30,7 @@ export interface PlayerStatMap {
 export interface TeamStatEntity {
   id: string;
   title: string;
+  slug: string;
   source: string;
 }
 
@@ -76,5 +77,6 @@ export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {
 export const DEFAULT_TEAM_STAT: TeamStatEntity = {
   id: '',
   title: '',
+  slug: '',
   source: ''
 };

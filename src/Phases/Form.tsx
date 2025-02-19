@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
-import SelectInput from '../Shared/UI/Form/Select';
+import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
   PhaseTypes,
@@ -20,9 +20,14 @@ import { Trans } from 'react-i18next';
 interface StatFormProps {
   name: string;
   onRemove: () => {};
+  teamStatOptions: SelectOptionType[];
 }
 
-const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
+const StatForm: React.FC<StatFormProps> = ({
+  name,
+  onRemove,
+  teamStatOptions
+}) => {
   return (
     <tr>
       <td
@@ -35,6 +40,23 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
           component={StringInput}
           type="text"
           validate={required}
+        />
+      </td>
+
+      <td>
+        <Field
+          name={`${name}.teamStatSource`}
+          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            <SelectInput {...props} options={teamStatOptions} />
+          )}
+        />
+      </td>
+
+      <td>
+        <Field
+          name={`${name}.rankingOrder`}
+          component={StringInput}
+          type="number"
         />
       </td>
 
@@ -55,6 +77,7 @@ const StatForm: React.FC<StatFormProps> = ({ name, onRemove }) => {
 interface FormProps extends FormRenderProps<PhaseEntity> {
   backUrl: string;
   isLoading: boolean;
+  teamStatOptions: SelectOptionType[];
   push: (fieldName: string, stat: StatEntity) => {};
 }
 
@@ -66,7 +89,8 @@ const Form: React.FC<FormProps> = ({
   pristine,
   values,
   valid,
-  push
+  push,
+  teamStatOptions
 }) => {
   return (
     <div>
@@ -135,6 +159,12 @@ const Form: React.FC<FormProps> = ({
                   >
                     <Trans>name</Trans>
                   </th>
+                  <th>
+                    <Trans>teamStatSource</Trans>
+                  </th>
+                  <th>
+                    <Trans>rankingOrder</Trans>
+                  </th>
                   <th
                     style={{
                       textAlign: 'center',
@@ -153,6 +183,7 @@ const Form: React.FC<FormProps> = ({
                       <StatForm
                         key={name}
                         name={name}
+                        teamStatOptions={teamStatOptions}
                         onRemove={() => fields.remove(index)}
                       />
                     ))
