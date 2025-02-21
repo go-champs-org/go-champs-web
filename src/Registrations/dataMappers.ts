@@ -4,7 +4,7 @@ import {
   ApiRegistration,
   ApiRegistrationInvite
 } from '../Shared/httpClient/apiTypes';
-import { RegistrationEntity } from './state';
+import { RegistrationEntity, RegistrationInvityEntity } from './state';
 
 export const mapApiRegistrationInviteToRegistrationInviteEntity = (
   apiRegistrationInvite: ApiRegistrationInvite
@@ -73,4 +73,11 @@ export const mapRegistrationEntityToApiRegistrationPatchRequest = (
         registration.customFields.length > 0 ? registration.customFields : []
     }
   };
+};
+
+export const mapRegistrationInviteUrl = (
+  registrationInvite: RegistrationInvityEntity
+) => {
+  const goChampsHost = window.location.origin;
+  return `${goChampsHost}/Invite/${registrationInvite.id}`;
 };

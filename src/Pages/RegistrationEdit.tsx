@@ -27,7 +27,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { RegistrationEntity } from '../Registrations/state';
 import { Trans } from 'react-i18next';
 import { teamsForSelectInput } from '../Teams/selectors';
-import LoadingButton from '../Shared/UI/LoadingButton';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = (
   state: StoreState,
@@ -38,9 +38,6 @@ const mapStateToProps = (
     ...props,
     isPatchingRegistration: patchingRegistration(state.registrations),
     organization: organizationBySlug(state.organizations, organizationSlug),
-    puttingRegistrationGenerateInvites: puttingRegistrationGenerateInvites(
-      state.registrations
-    ),
     registrationsLoading: registrationsLoading(state.registrations),
     registration: registrationById(
       state.registrations,
@@ -54,8 +51,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
       getTournamentBySlug,
-      patchRegistration,
-      putRegistrationGenerateInvites
+      patchRegistration
     },
     dispatch
   );
@@ -70,11 +66,10 @@ function RegistrationEdit({
   match,
   registration,
   registrationsLoading,
-  patchRegistration,
-  putRegistrationGenerateInvites,
-  puttingRegistrationGenerateInvites
+  patchRegistration
 }: RegistrationEditProps): React.ReactElement {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const registrationInviterUrl = `/${organizationSlug}/${tournamentSlug}/RegistrationInvites/${registration.id}`;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Registrations`;
   return (
     <Fragment>
@@ -87,19 +82,15 @@ function RegistrationEdit({
           </div>
 
           <div className="column is-6 has-text-right">
-            <LoadingButton
-              className="button is-outlined"
-              isLoading={puttingRegistrationGenerateInvites}
-              onClick={() => putRegistrationGenerateInvites(registration.id)}
-            >
+            <Link to={registrationInviterUrl} className="button is-outlined">
               <span className="icon">
                 <i className="fas fa-envelope"></i>
               </span>
 
               <span>
-                <Trans>generateInvites</Trans>
+                <Trans>invites</Trans>
               </span>
-            </LoadingButton>
+            </Link>
           </div>
 
           <div className="column is-12">

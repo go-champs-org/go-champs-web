@@ -19,6 +19,7 @@ export default {
     back: 'Back',
     by: 'by',
     cancel: 'Cancel',
+    copyLink: 'Copy link',
     date: '{{date, date}}',
     dateTime: '{{date, datetime}}',
     dateTimeText: 'Date | Time',
@@ -49,6 +50,7 @@ export default {
     homeTeam: 'Home team',
     homeScore: 'Home score',
     informations: 'Informations',
+    invites: 'Invites',
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
     games: 'Games',
@@ -610,6 +612,7 @@ export default {
     whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking',
     youNeedCreateTeams: 'You need to create teams.',
     youNeedCreatePhases: 'You need to create phases.',
+    url: 'URL',
     value: 'Value',
     visibility: 'Visibility',
     youTubeCode: 'YouTube code'

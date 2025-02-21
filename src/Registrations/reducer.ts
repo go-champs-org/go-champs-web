@@ -3,6 +3,7 @@ import {
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import {
+  apiDataToEntities,
   apiDataToEntitiesOverride,
   createReducer,
   entityById,
@@ -25,7 +26,10 @@ import {
   PUT_REGISTRATION_GENERATE_INVITES_SUCCESS,
   POST_REGISTRATION,
   POST_REGISTRATION_FAILURE,
-  POST_REGISTRATION_SUCCESS
+  POST_REGISTRATION_SUCCESS,
+  GET_REGISTRATION,
+  GET_REGISTRATION_FAILURE,
+  GET_REGISTRATION_SUCCESS
 } from './actions';
 import { mapApiRegistrationToRegistrationEntity } from './dataMappers';
 import { initialState, RegistrationEntity, RegistrationState } from './state';
@@ -33,6 +37,11 @@ import { initialState, RegistrationEntity, RegistrationState } from './state';
 const registrationMapEntities = mapEntities<RegistrationEntity>(
   returnProperty('id')
 );
+
+const apiPhaseToEntities = apiDataToEntities<
+  ApiRegistration,
+  RegistrationEntity
+>(mapApiRegistrationToRegistrationEntity, returnProperty('id'));
 
 const apiRegistrationToEntities = apiDataToEntitiesOverride<
   ApiRegistration,
@@ -68,6 +77,34 @@ const deleteRegistrationSuccess = (
     isLoadingDeleteRegistration: false
   };
 };
+
+const getRegistration = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isGetLoadingRegistration: true
+});
+
+const getRegistrationSuccess = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes, RegistrationEntity>
+) => ({
+  ...state,
+  isGetLoadingRegistration: false,
+  registrations: [action.payload!].reduce(
+    registrationMapEntities,
+    state.registrations
+  )
+});
+
+const getRegistrationFailure = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isGetLoadingRegistration: false
+});
 
 const patchRegistration = (
   state: RegistrationState,
@@ -160,7 +197,10 @@ const getTournamentSuccess = (
   ...state,
   isLoadingRequestTournament: false,
   registrations: action.payload!.registrations
-    ? action.payload!.registrations.reduce(apiRegistrationToEntities, {})
+    ? action.payload!.registrations.reduce(
+        apiPhaseToEntities(state.registrations),
+        {}
+      )
     : {}
 });
 
@@ -168,6 +208,9 @@ export default createReducer(initialState, {
   [DELETE_REGISTRATION]: deleteRegistration,
   [DELETE_REGISTRATION_FAILURE]: deleteRegistrationFailure,
   [DELETE_REGISTRATION_SUCCESS]: deleteRegistrationSuccess,
+  [GET_REGISTRATION]: getRegistration,
+  [GET_REGISTRATION_FAILURE]: getRegistrationFailure,
+  [GET_REGISTRATION_SUCCESS]: getRegistrationSuccess,
   [PATCH_REGISTRATION]: patchRegistration,
   [PATCH_REGISTRATION_FAILURE]: patchRegistrationFailure,
   [PATCH_REGISTRATION_SUCCESS]: patchRegistrationSuccess,
