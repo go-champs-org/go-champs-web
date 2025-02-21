@@ -3,13 +3,17 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import { patchRegistration } from '../Registrations/effects';
+import {
+  patchRegistration,
+  putRegistrationGenerateInvites
+} from '../Registrations/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import {
   registrationsLoading,
   registrationById,
-  patchingRegistration
+  patchingRegistration,
+  puttingRegistrationGenerateInvites
 } from '../Registrations/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import {
@@ -23,6 +27,7 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { RegistrationEntity } from '../Registrations/state';
 import { Trans } from 'react-i18next';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = (
   state: StoreState,
@@ -64,15 +69,28 @@ function RegistrationEdit({
   patchRegistration
 }: RegistrationEditProps): React.ReactElement {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const registrationInviterUrl = `/${organizationSlug}/${tournamentSlug}/RegistrationInvites/${registration.id}`;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Registrations`;
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-12">
+          <div className="column is-6">
             <h2 className="subtitle">
               <Trans>editRegistration</Trans>
             </h2>
+          </div>
+
+          <div className="column is-6 has-text-right">
+            <Link to={registrationInviterUrl} className="button is-outlined">
+              <span className="icon">
+                <i className="fas fa-envelope"></i>
+              </span>
+
+              <span>
+                <Trans>invites</Trans>
+              </span>
+            </Link>
           </div>
 
           <div className="column is-12">

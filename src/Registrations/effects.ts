@@ -6,9 +6,15 @@ import {
   patchRegistrationFailure,
   patchRegistrationStart,
   patchRegistrationSuccess,
+  putRegistrationGenerateInvitesStart,
+  putRegistrationGenerateInvitesSuccess,
+  putRegistrationGenerateInvitesFailure,
   postRegistrationFailure,
   postRegistrationStart,
-  postRegistrationSuccess
+  postRegistrationSuccess,
+  getRegistrationStart,
+  getRegistrationSuccess,
+  getRegistrationFailure
 } from './actions';
 import { RegistrationEntity } from './state';
 import registrationHttpClient from './registrationHttpClient';
@@ -30,6 +36,20 @@ export const deleteRegistration = (registration: RegistrationEntity) => async (
   }
 };
 
+export const getRegistration = (registrationId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(getRegistrationStart());
+
+  try {
+    const response = await registrationHttpClient.get(registrationId);
+
+    dispatch(getRegistrationSuccess(response));
+  } catch (err) {
+    dispatch(getRegistrationFailure(err));
+  }
+};
+
 export const patchRegistration = (registration: RegistrationEntity) => async (
   dispatch: Dispatch
 ) => {
@@ -42,6 +62,27 @@ export const patchRegistration = (registration: RegistrationEntity) => async (
     displayToast(`${response.title} updated!`, 'is-success');
   } catch (err) {
     dispatch(patchRegistrationFailure(err));
+
+    if (err instanceof ApiError) {
+      return err.payload.data.errors ? err.payload.data.errors : {};
+    }
+  }
+};
+
+export const putRegistrationGenerateInvites = (
+  registrationId: string
+) => async (dispatch: Dispatch) => {
+  dispatch(putRegistrationGenerateInvitesStart());
+
+  try {
+    const response = await registrationHttpClient.generateInvites(
+      registrationId
+    );
+
+    dispatch(putRegistrationGenerateInvitesSuccess(response));
+    displayToast(`${response.title} invites generated!`, 'is-success');
+  } catch (err) {
+    dispatch(putRegistrationGenerateInvitesFailure(err));
 
     if (err instanceof ApiError) {
       return err.payload.data.errors ? err.payload.data.errors : {};

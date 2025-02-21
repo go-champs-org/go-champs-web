@@ -59,6 +59,25 @@ const patch = async <T, R>(url: string, data: T): Promise<R> => {
   return jsonData;
 };
 
+const put = async <T, R>(url: string, data?: T): Promise<R> => {
+  const response = await fetch(url, {
+    headers: buildAuthenticationHeader(),
+    method: 'PUT',
+    body: data && JSON.stringify(data)
+  });
+
+  const jsonData = (await response.json()) as R;
+
+  if (!response.ok) {
+    throw new ApiError({
+      status: response.status,
+      data: jsonData
+    });
+  }
+
+  return jsonData;
+};
+
 const post = async <T, R>(url: string, data: T): Promise<R> => {
   const response = await fetch(url, {
     headers: buildAuthenticationHeader(),
@@ -83,5 +102,6 @@ export default {
   delete: deleteRequest,
   get,
   patch,
+  put,
   post
 };

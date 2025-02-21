@@ -17,7 +17,6 @@ import {
 } from './actions';
 import phaseReducer from './reducer';
 import { initialState, PhaseState, PhaseTypes } from './state';
-import { HttpAction } from '../Shared/store/interfaces';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 
 describe('deletePhase', () => {
@@ -42,7 +41,7 @@ describe('deletePhaseSuccess', () => {
   const deleteState = {
     ...initialState,
     phases: {
-      ['first-id']: {
+      'first-id': {
         id: 'first-id',
         title: 'first-title',
         type: PhaseTypes.elimination,
@@ -315,7 +314,7 @@ describe('postPhaseSuccess', () => {
     const someState: PhaseState = {
       ...initialState,
       phases: {
-        ['some-id']: {
+        'some-id': {
           id: 'some-id',
           title: 'some-title',
           type: PhaseTypes.elimination,
@@ -496,7 +495,7 @@ describe('getTournamentSuccess', () => {
     const someState = {
       ...initialState,
       phases: {
-        ['some-other-phase-id']: {
+        'some-other-phase-id': {
           id: 'some-other-phase-id',
           title: 'some other phase title',
           type: PhaseTypes.draw,
@@ -515,7 +514,7 @@ describe('getTournamentSuccess', () => {
     const someState = {
       ...initialState,
       phases: {
-        ['first-phase-id']: {
+        'first-phase-id': {
           id: 'first-phase-id',
           title: 'some phase title',
           type: PhaseTypes.draw,

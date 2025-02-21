@@ -28,6 +28,18 @@ const get = async (registrationId: string): Promise<RegistrationEntity> => {
   return mapApiRegistrationToRegistrationEntity(data);
 };
 
+const generateInvites = async (
+  registrationId: string
+): Promise<RegistrationEntity> => {
+  const url = `${REGISTRATIONS_API}/${registrationId}/generate-invites`;
+
+  const { data } = await httpClient.put<
+    ApiRegistrationPatchRequest,
+    ApiRegistrationResponse
+  >(url);
+  return mapApiRegistrationToRegistrationEntity(data);
+};
+
 const patch = async (
   registration: RegistrationEntity
 ): Promise<RegistrationEntity> => {
@@ -60,6 +72,7 @@ const post = async (
 
 export default {
   delete: deleteRequest,
+  generateInvites,
   get,
   patch,
   post

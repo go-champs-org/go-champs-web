@@ -1,5 +1,4 @@
 import {
-  ApiRegistration,
   ApiRegistrationType,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
@@ -11,6 +10,9 @@ import {
   deleteRegistrationFailure,
   deleteRegistrationStart,
   deleteRegistrationSuccess,
+  getRegistrationFailure,
+  getRegistrationStart,
+  getRegistrationSuccess,
   patchRegistrationFailure,
   patchRegistrationStart,
   patchRegistrationSuccess,
@@ -99,6 +101,60 @@ describe('deleteRegistrationSuccess', () => {
       autoApprove: false,
       customFields: []
     });
+  });
+});
+
+describe('getRegistration', () => {
+  const action = getRegistrationStart();
+
+  it('sets isLoadingGetRegistration to true', () => {
+    expect(
+      registrationReducer(initialState, action).isGetLoadingRegistration
+    ).toBe(true);
+  });
+});
+
+describe('getRegistrationSuccess', () => {
+  const action = getRegistrationSuccess({
+    id: 'first-id',
+    title: 'first-title',
+    startDate: 'first-start-date',
+    endDate: 'first-end-date',
+    type: 'team_roster_invites' as ApiRegistrationType,
+    autoApprove: false,
+    customFields: [],
+    registrationInvites: []
+  });
+
+  it('sets isLoadingGetRegistration to false', () => {
+    expect(
+      registrationReducer(initialState, action).isGetLoadingRegistration
+    ).toBe(false);
+  });
+
+  it('set entity', () => {
+    const newState = registrationReducer(initialState, action);
+
+    expect(newState.registrations['first-id']).toEqual({
+      id: 'first-id',
+      title: 'first-title',
+      startDate: 'first-start-date',
+      endDate: 'first-end-date',
+      type: 'team_roster_invites' as ApiRegistrationType,
+      autoApprove: false,
+      customFields: [],
+      registrationInvites: []
+    });
+  });
+});
+
+describe('getRegistrationFailure', () => {
+  const action = getRegistrationFailure('error');
+
+  it('sets isLoadingGetRegistration to false', () => {
+    expect(
+      registrationReducer(initialState, action).isGetLoadingRegistration
+    ).toBe(false);
   });
 });
 
@@ -245,7 +301,8 @@ describe('postRegistrationSuccess', () => {
       endDate: 'first-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
   });
 
@@ -260,7 +317,8 @@ describe('postRegistrationSuccess', () => {
           endDate: 'some-end-date',
           type: 'team_roster_invites' as ApiRegistrationType,
           autoApprove: false,
-          customFields: []
+          customFields: [],
+          registrationInvites: []
         }
       }
     };
@@ -274,7 +332,8 @@ describe('postRegistrationSuccess', () => {
       endDate: 'some-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
   });
 });
@@ -329,7 +388,8 @@ describe('getTournamentSuccess', () => {
       endDate: 'first-registration-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
     });
     expect(newState.registrations['second-registration-id']).toEqual({
       id: 'second-registration-id',
@@ -338,7 +398,38 @@ describe('getTournamentSuccess', () => {
       endDate: 'second-registration-end-date',
       type: 'team_roster_invites' as ApiRegistrationType,
       autoApprove: false,
-      customFields: []
+      customFields: [],
+      registrationInvites: []
+    });
+  });
+
+  it('does not set entity if state already has it', () => {
+    const someState = {
+      ...initialState,
+      registrations: {
+        'first-registration-id': {
+          id: 'first-registration-id',
+          title: 'some registration title',
+          startDate: 'some first registration start date',
+          endDate: 'end first registration end date',
+          type: 'team_roster_invites' as ApiRegistrationType,
+          autoApprove: true,
+          customFields: [],
+          registrationInvites: []
+        }
+      }
+    };
+    const newState = registrationReducer(someState, action);
+
+    expect(newState.registrations['first-registration-id']).toEqual({
+      id: 'first-registration-id',
+      title: 'some registration title',
+      startDate: 'some first registration start date',
+      endDate: 'end first registration end date',
+      type: 'team_roster_invites' as ApiRegistrationType,
+      autoApprove: true,
+      customFields: [],
+      registrationInvites: []
     });
   });
 

@@ -8,6 +8,17 @@ export const teamById = (state: TeamState, teamId?: string): TeamEntity => {
   return state.teams[teamId];
 };
 
+export const teamsMap = (state: TeamState): { [key: string]: TeamEntity } => {
+  const allTeams = teams(state);
+
+  return allTeams.reduce((acc, team) => {
+    return {
+      ...acc,
+      [team.id]: team
+    };
+  }, {});
+};
+
 export const teams = (state: TeamState): TeamEntity[] =>
   Object.keys(state.teams).map((key: string) => state.teams[key]);
 
