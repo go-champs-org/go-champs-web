@@ -56,3 +56,9 @@ export const DEFAULT_REGISTRATION: RegistrationEntity = {
   customFields: [],
   registrationInvites: []
 };
+
+export const DEFAULT_REGISTRATION_INVITE: RegistrationInvityEntity = {
+  id: '',
+  inviteeId: '',
+  inviteeType: 'team'
+};

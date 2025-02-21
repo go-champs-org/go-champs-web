@@ -2,6 +2,7 @@ export interface RouteProps {
   drawId?: string;
   eliminationId?: string;
   fixedPlayerStatsTableId?: string;
+  inviteId?: string;
   gameId?: string;
   organizationSlug?: string;
   phaseId?: string;
