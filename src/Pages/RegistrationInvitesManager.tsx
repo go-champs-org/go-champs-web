@@ -13,8 +13,7 @@ import {
 } from '../Registrations/effects';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
-import { Trans, useTranslation } from 'react-i18next';
-import ListHeader from '../Shared/UI/ListHeader';
+import { Trans } from 'react-i18next';
 import {
   gettingRegistration,
   puttingRegistrationGenerateInvites,

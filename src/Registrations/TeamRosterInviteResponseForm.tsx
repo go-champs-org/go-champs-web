@@ -1,9 +1,15 @@
 import React from 'react';
-import { Field } from 'react-final-form';
+import { Field, FormRenderProps } from 'react-final-form';
 import { Trans } from 'react-i18next';
 import StringInput from '../Shared/UI/Form/StringInput';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import Shimmer from '../Shared/UI/Shimmer';
+import { RegistrationResponseEntity } from './state';
+import {
+  composeValidators,
+  mustBeEmail,
+  required
+} from '../Shared/UI/Form/Validators/commonValidators';
 
 export function LoadingForm() {
   return (
@@ -80,19 +86,29 @@ export function LoadingForm() {
   );
 }
 
-function TeamRosterInviteResponseForm() {
+function TeamRosterInviteResponseForm({
+  handleSubmit,
+  submitting,
+  pristine,
+  valid
+}: FormRenderProps<RegistrationResponseEntity>) {
   return (
     <div className="container has-text-centered">
       <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
         <div className="card-content">
-          <form className="form">
+          <form className="form" onSubmit={handleSubmit}>
             <div className="field">
               <label className="label">
                 <Trans>name</Trans>
               </label>
 
               <div className="control">
-                <Field name="name" component={StringInput} />
+                <Field
+                  name="response.name"
+                  className="has-text-centered"
+                  component={StringInput}
+                  validate={composeValidators([required])}
+                />
               </div>
             </div>
 
@@ -102,7 +118,12 @@ function TeamRosterInviteResponseForm() {
               </label>
 
               <div className="control">
-                <Field name="email" component={StringInput} />
+                <Field
+                  name="response.email"
+                  className="has-text-centered"
+                  component={StringInput}
+                  validate={composeValidators([required, mustBeEmail])}
+                />
               </div>
             </div>
 
@@ -112,7 +133,11 @@ function TeamRosterInviteResponseForm() {
               </label>
 
               <div className="control">
-                <Field name="shirtName" component={StringInput} />
+                <Field
+                  name="response.shirt_name"
+                  className="has-text-centered"
+                  component={StringInput}
+                />
               </div>
             </div>
 
@@ -122,7 +147,11 @@ function TeamRosterInviteResponseForm() {
               </label>
 
               <div className="control">
-                <Field name="shirtNumber" component={StringInput} />
+                <Field
+                  name="response.shirt_number"
+                  className="has-text-centered"
+                  component={StringInput}
+                />
               </div>
             </div>
 
@@ -130,8 +159,9 @@ function TeamRosterInviteResponseForm() {
               <label className="label">Instagram</label>
               <div className="control">
                 <Field
-                  name="instagram"
+                  name="response.instagram"
                   component={StringInput}
+                  className="has-text-centered"
                   type="text"
                   placeholder="www.instagram.com/your-tournament"
                 />
@@ -144,11 +174,11 @@ function TeamRosterInviteResponseForm() {
             </div>
 
             <LoadingButton
-              isLoading={false}
+              isLoading={submitting}
               className="button is-primary is-fullwidth"
               type="submit"
               style={{ marginBottom: '1rem', marginTop: '2rem' }}
-              //   disabled={submitting || pristine}
+              disabled={submitting || pristine || !valid}
             >
               <Trans>send</Trans>
             </LoadingButton>

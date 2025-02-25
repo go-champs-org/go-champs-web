@@ -8,6 +8,7 @@ export interface RouteProps {
   phaseId?: string;
   playerId?: string;
   registrationId?: string;
+  registrationInviteId?: string;
   teamId?: string;
   tournamentSlug?: string;
 }

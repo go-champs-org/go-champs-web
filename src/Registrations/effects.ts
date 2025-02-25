@@ -44,6 +44,7 @@ export const getRegistration = (registrationId: string) => async (
   try {
     const response = await registrationHttpClient.get(registrationId);
 
+    console.log(response);
     dispatch(getRegistrationSuccess(response));
   } catch (err) {
     dispatch(getRegistrationFailure(err));

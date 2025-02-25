@@ -626,13 +626,19 @@ export interface ApiRegistrationResponse {
 }
 
 export interface ApiRegistrationResponseResource {
+  registration_invite_id: string;
   response: object;
 }
 
-export interface ApiRegistrationResponseResourceRequest {
+export interface ApiRegistrationResponseResourceWithDependencies
+  extends ApiRegistrationResponseResource {
+  id: string;
+}
+
+export interface ApiRegistrationResponseResourcePostRequest {
   registration_response: ApiRegistrationResponseResource;
 }
 
 export interface ApiRegistrationResponseResourceResponse {
-  data: ApiRegistrationResponseResource;
+  data: ApiRegistrationResponseResourceWithDependencies;
 }

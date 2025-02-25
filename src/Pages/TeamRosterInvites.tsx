@@ -3,21 +3,24 @@ import { RouteProps } from './support/routerInterfaces';
 import { RouteComponentProps } from 'react-router-dom';
 import {
   DEFAULT_REGISTRATION_INVITE,
-  RegistrationInvityEntity
+  DEFAULT_REGISTRATION_RESPONSE,
+  RegistrationInvityEntity,
+  RegistrationResponseEntity
 } from '../Registrations/state';
 import TeamRosterInviteResponseForm, {
   LoadingForm
 } from '../Registrations/TeamRosterInviteResponseForm';
 import { Form, FormRenderProps } from 'react-final-form';
 import * as registrationInviteHttpClient from '../Registrations/registrationInviteHttpClient';
+import * as registrationResponseHttpClient from '../Registrations/registrationResponseHttpClient';
 import { mapApiRegistrationInviteToRegistrationInviteEntity } from '../Registrations/dataMappers';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import { mapApiTournamentToTournamentEntity } from '../Tournaments/dataMappers';
 
-interface TeamRosteInvitesProps extends RouteComponentProps<RouteProps> {}
+interface TeamRosterInvitesProps extends RouteComponentProps<RouteProps> {}
 
-function TeamRosteInvites({ match }: TeamRosteInvitesProps) {
-  const { inviteId } = match.params;
+function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
+  const { registrationInviteId } = match.params;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [invite, setInvite] = useState<RegistrationInvityEntity>(
     DEFAULT_REGISTRATION_INVITE
@@ -28,10 +31,10 @@ function TeamRosteInvites({ match }: TeamRosteInvitesProps) {
 
   useEffect(() => {
     const fetchInvite = async () => {
-      if (!inviteId) return;
+      if (!registrationInviteId) return;
 
       const invite = await registrationInviteHttpClient.getForInvitePage(
-        inviteId
+        registrationInviteId
       );
       setInvite(
         mapApiRegistrationInviteToRegistrationInviteEntity(invite.data)
@@ -47,26 +50,42 @@ function TeamRosteInvites({ match }: TeamRosteInvitesProps) {
 
     setIsLoading(true);
     fetchInvite();
-  }, [inviteId]);
+  }, [registrationInviteId]);
 
-  console.log(invite);
-  console.log(tournament);
+  const onSubmit = async (registrationResponse: RegistrationResponseEntity) => {
+    debugger;
+    console.log(registrationResponse);
+    if (!registrationInviteId) return;
+
+    try {
+      const respost = await registrationResponseHttpClient.post(
+        registrationResponse,
+        registrationInviteId
+      );
+      console.log(respost);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
       {isLoading ? (
         <LoadingForm />
       ) : (
-        <Form
-          onSubmit={() => {}}
-          initialValues={invite}
-          render={(props: FormRenderProps<RegistrationInvityEntity>) => (
-            <TeamRosterInviteResponseForm />
-          )}
-        />
+        <>
+          <h1>Bem-vinda à: {tournament.name}</h1>
+          <Form
+            onSubmit={onSubmit}
+            initialValues={DEFAULT_REGISTRATION_RESPONSE}
+            render={(props: FormRenderProps<RegistrationResponseEntity>) => (
+              <TeamRosterInviteResponseForm {...props} />
+            )}
+          />
+        </>
       )}
     </div>
   );
 }
 
-export default TeamRosteInvites;
+export default TeamRosterInvites;

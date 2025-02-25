@@ -1,7 +1,6 @@
 import { REACT_APP_API_HOST } from '../Shared/env';
 import { ApiRegistrationInviteResponse } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
-import {} from './dataMappers';
 
 const REGISTRATION_INVITE_API = `${REACT_APP_API_HOST}v1/registration-invites`;
 

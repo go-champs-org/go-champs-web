@@ -9,6 +9,12 @@ export interface CustomFieldEntity {
   type: string;
 }
 
+export interface RegistrationResponseEntity {
+  id: string;
+  registrationInviteId: string;
+  response: object;
+}
+
 export interface RegistrationInvityEntity {
   id: string;
   inviteeId: string;
@@ -61,4 +67,10 @@ export const DEFAULT_REGISTRATION_INVITE: RegistrationInvityEntity = {
   id: '',
   inviteeId: '',
   inviteeType: 'team'
+};
+
+export const DEFAULT_REGISTRATION_RESPONSE: RegistrationResponseEntity = {
+  id: '',
+  registrationInviteId: '',
+  response: {}
 };
