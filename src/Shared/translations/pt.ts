@@ -20,6 +20,7 @@ export default {
     back: 'Voltar',
     by: 'por',
     cancel: 'Cancelar',
+    clean: 'Limpar',
     copyLink: 'Copiar',
     date: '{{date, date}}',
     dateTime: '{{date, datetime}}',

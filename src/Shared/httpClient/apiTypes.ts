@@ -588,6 +588,15 @@ export interface ApiRegistrationInvite {
   invitee_type: ApiRegistrationInviteeType;
 }
 
+export interface ApiRegistrationInviteWithDepdenencies
+  extends ApiRegistrationInvite {
+  registration: ApiRegistrationWithDependencies;
+}
+
+export interface ApiRegistrationInviteResponse {
+  data: ApiRegistrationInviteWithDepdenencies;
+}
+
 export interface ApiRegistration {
   id: string;
   title: string;
@@ -601,6 +610,7 @@ export interface ApiRegistration {
 
 export interface ApiRegistrationWithDependencies extends ApiRegistration {
   tournament_id: string;
+  tournament?: ApiTournament;
 }
 
 export interface ApiRegistrationPatchRequest {
@@ -613,4 +623,16 @@ export interface ApiRegistrationPostRequest {
 
 export interface ApiRegistrationResponse {
   data: ApiRegistration;
+}
+
+export interface ApiRegistrationResponseResource {
+  response: object;
+}
+
+export interface ApiRegistrationResponseResourceRequest {
+  registration_response: ApiRegistrationResponseResource;
+}
+
+export interface ApiRegistrationResponseResourceResponse {
+  data: ApiRegistrationResponseResource;
 }

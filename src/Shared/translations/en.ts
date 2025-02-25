@@ -19,6 +19,7 @@ export default {
     back: 'Back',
     by: 'by',
     cancel: 'Cancel',
+    clean: 'Clean',
     copyLink: 'Copy link',
     date: '{{date, date}}',
     dateTime: '{{date, datetime}}',
