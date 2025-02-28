@@ -24,16 +24,6 @@ function TeamRosterInviteRow({
           ? teamsMap[registrationInvite.inviteeId].name
           : ''}
       </td>
-      <td
-        style={{
-          whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis',
-          overflow: 'hidden',
-          verticalAlign: 'middle'
-        }}
-      >
-        {inviteUrl}
-      </td>
       <td className="has-text-centered">
         <button className="button is-small" onClick={handleCopyClick}>
           <span className="icon is-small">
@@ -49,16 +39,13 @@ function TeamRosterInvites({ registration, teamsMap }: InvitationListProps) {
   return (
     <div className="container">
       <div className="table-container">
-        <table className="table is-narrow">
+        <table className="table is-narrow is-fullwidth">
           <thead>
             <tr>
               <th style={{ paddingLeft: 0 }}>
                 <Trans>team</Trans>
               </th>
-              <th style={{ maxWidth: '200px' }}>
-                <Trans>url</Trans>
-              </th>
-              <th>
+              <th className="has-text-centered">
                 <Trans>copyLink</Trans>
               </th>
             </tr>

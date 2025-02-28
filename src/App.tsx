@@ -29,6 +29,7 @@ import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import LanguageDropdown from './Shared/UI/LanguageDropdown';
 import { REACT_APP_BUILD_NUMBER } from './Shared/env';
+import TeamRosterInvites from './Pages/TeamRosterInvites';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -75,6 +76,14 @@ const App: React.FC = () => {
                     sensitive
                     path="/FacebookSignUp*"
                     component={FacebookSignUp}
+                  />
+                  <Route
+                    exact
+                    sensitive
+                    path="/Invite/:registrationInviteId"
+                    render={(props: RouteComponentProps<RouteProps>) => (
+                      <TeamRosterInvites {...props} />
+                    )}
                   />
                   <Route
                     exact

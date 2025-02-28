@@ -2,9 +2,15 @@ import {
   ApiRegistrationPatchRequest,
   ApiRegistrationPostRequest,
   ApiRegistration,
-  ApiRegistrationInvite
+  ApiRegistrationInvite,
+  ApiRegistrationResponseResourceRequest,
+  ApiRegistrationResponseResourcePostRequest
 } from '../Shared/httpClient/apiTypes';
-import { RegistrationEntity, RegistrationInvityEntity } from './state';
+import {
+  RegistrationEntity,
+  RegistrationInvityEntity,
+  RegistrationResponseEntity
+} from './state';
 
 export const mapApiRegistrationInviteToRegistrationInviteEntity = (
   apiRegistrationInvite: ApiRegistrationInvite
@@ -80,4 +86,26 @@ export const mapRegistrationInviteUrl = (
 ) => {
   const goChampsHost = window.location.origin;
   return `${goChampsHost}/Invite/${registrationInvite.id}`;
+};
+
+export const mapRegistrationResponseEntityToApiRegistrationResponseResourceRequest = (
+  registrationResponse: RegistrationResponseEntity,
+  registrationInviteId: string
+): ApiRegistrationResponseResourcePostRequest => {
+  return {
+    registration_response: {
+      registration_invite_id: registrationInviteId,
+      response: registrationResponse.response
+    }
+  };
+};
+
+export const mapApiRegistrationResponseResourceResponseToRegistrationResponse = (
+  apiRegistrationResponse: ApiRegistrationResponseResourceRequest
+): RegistrationResponseEntity => {
+  return {
+    id: apiRegistrationResponse.id,
+    registrationInviteId: apiRegistrationResponse.registration_invite_id,
+    response: apiRegistrationResponse.response
+  };
 };
