@@ -104,7 +104,7 @@ export default {
     saveOrder: 'Salvar ordem',
     startDate: 'Data de início',
     scanCodeToAccessIt:
-      'Acesse jogos, classificação, estatísticas e muito mais sobre o torneio.',
+      'Acesse jogos, classificação, estatísticas e muito mais.',
     scope: 'Escopo',
     search: 'Pesquisar',
     searchTournaments: 'Busca de torneios',

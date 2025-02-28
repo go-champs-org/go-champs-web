@@ -7,7 +7,7 @@ import { OrganizationEntity } from '../../Organizations/state';
 import { AuthenticatedAndMemberWrapper } from '../../Shared/UI/AdminWrapper';
 import { Trans } from 'react-i18next';
 import StatisticsDropdown from './StatisticsDropdown';
-import QRCode from './QRCode';
+import QRCode from '../../Shared/UI/QRCode';
 
 export const LoadingTopLevel: React.FC = () => (
   <nav className="level">
@@ -42,6 +42,8 @@ const TopLevel: React.FC<{
 }) => {
   const shouldShowStatistics =
     tournament.hasAggregatedPlayerStats || hasSummaryStatistics;
+  const qrCodeUrl = `https://${window.location.host}/${organizationSlug}/${tournamentSlug}`;
+  const qaCodeCaption = tournament.name;
   return (
     <nav className="level">
       <div className="level-left">
@@ -119,11 +121,7 @@ const TopLevel: React.FC<{
             </a>
           )}
 
-          <QRCode
-            organizationSlug={organizationSlug}
-            tournamentName={tournament.name}
-            tournamentSlug={tournamentSlug}
-          ></QRCode>
+          <QRCode url={qrCodeUrl} caption={qaCodeCaption} />
         </div>
 
         {shouldShowStatistics && (

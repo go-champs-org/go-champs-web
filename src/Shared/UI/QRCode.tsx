@@ -1,21 +1,20 @@
 import React from 'react';
-import Modal from '../../Shared/UI/Modal';
+import Modal from './Modal';
 import { default as ReactQRCode } from 'react-qr-code';
 import { Trans } from 'react-i18next';
 import logo from '../../assets/logo-with-background.png';
 import './QRCode.scss';
 
 interface QRCodeProps {
-  organizationSlug: string;
-  tournamentName: string;
-  tournamentSlug: string;
+  url: string;
+  caption: string;
 }
 
-const QRCode: React.FC<QRCodeProps> = ({
-  organizationSlug,
-  tournamentName,
-  tournamentSlug
-}) => {
+const QRCode: React.FC<QRCodeProps> = ({ url, caption }) => {
+  if (!url) {
+    return <></>;
+  }
+
   const modalTrigger = (
     <span
       className="icon has-text-dark is-medium social-icon"
@@ -25,14 +24,12 @@ const QRCode: React.FC<QRCodeProps> = ({
     </span>
   );
 
-  const qrCodeUrl = `https://${window.location.host}/${organizationSlug}/${tournamentSlug}`;
-
   const modalContent = (
     <div className="box has-text-centered qr-code">
       <div className="content">
-        <h2 className="title">{tournamentName}</h2>
+        <h2 className="title">{caption}</h2>
 
-        <ReactQRCode value={qrCodeUrl} size={180} />
+        <ReactQRCode value={url} size={180} />
 
         <p>
           <Trans>scanCodeToAccessIt</Trans>
