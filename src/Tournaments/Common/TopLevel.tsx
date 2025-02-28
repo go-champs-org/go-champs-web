@@ -49,12 +49,14 @@ const TopLevel: React.FC<{
           <div className="columns is-multiline is-gapless">
             <div className="column is-12">
               <Link to={`/${organizationSlug}/${tournamentSlug}`}>
-                <h1 className="title">{tournament.name}</h1>
+                <h1 className="title tournament-link">{tournament.name}</h1>
               </Link>
             </div>
 
             <div className="column is-12">
-              <em>{organization.name}</em>
+              <Link to={`/${organizationSlug}`}>
+                <em className="organization-link">{organization.name}</em>
+              </Link>
             </div>
           </div>
         </div>

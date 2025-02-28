@@ -1,3 +1,23 @@
+@import '../../Shared/styles/colors.scss';
+
+.tournament-link {
+  color: $dark;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $brown;
+  }
+}
+
+.organization-link {
+  color: $red-dark;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $red-light;
+  }
+}
+
 .social-icon:hover {
   background-color: #5e5f5e63;
   border-radius: 100%;

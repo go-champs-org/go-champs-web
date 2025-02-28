@@ -51,10 +51,10 @@ const Match: React.FC<MatchProps> = ({ match, teams }) => {
     basicScoreClasses
   );
 
-  const firstTeamText = match.firstTeamId
+  const firstTeamText = teams[match.firstTeamId]
     ? teams[match.firstTeamId].name
     : match.firstTeamPlaceholder;
-  const secondTeamText = match.secondTeamId
+  const secondTeamText = teams[match.secondTeamId]
     ? teams[match.secondTeamId].name
     : match.secondTeamPlaceholder;
 

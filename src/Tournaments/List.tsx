@@ -24,10 +24,25 @@ const LoadingCard: React.FC = () => (
 );
 
 export const ListLoading: React.FC = () => (
-  <div>
-    <LoadingCard />
-    <LoadingCard />
-    <LoadingCard />
+  <div className="columns is-multiline">
+    <div className="column is-4">
+      <LoadingCard />
+    </div>
+    <div className="column is-4">
+      <LoadingCard />
+    </div>
+    <div className="column is-4">
+      <LoadingCard />
+    </div>
+    <div className="column is-4">
+      <LoadingCard />
+    </div>
+    <div className="column is-4">
+      <LoadingCard />
+    </div>
+    <div className="column is-4">
+      <LoadingCard />
+    </div>
   </div>
 );
 

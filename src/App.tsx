@@ -30,6 +30,7 @@ import PrivacyPolicy from './Pages/PrivacyPolicy';
 import LanguageDropdown from './Shared/UI/LanguageDropdown';
 import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
+import OrganizationView from './Pages/OrganizationView';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -139,6 +140,12 @@ const App: React.FC = () => {
                   <Route
                     path="/:organizationSlug/:tournamentSlug"
                     component={TournamentHome}
+                  />
+                  <Route
+                    path={`/:organizationSlug`}
+                    render={(props: RouteComponentProps<RouteProps>) => (
+                      <OrganizationView {...props} />
+                    )}
                   />
                 </Switch>
               </div>
