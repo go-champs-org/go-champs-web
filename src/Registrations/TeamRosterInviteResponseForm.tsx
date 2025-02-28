@@ -26,7 +26,9 @@ export function Success() {
       <div className="card-content">
         <div className="columns is-multiline">
           <div className="column is-12 has-text-centered">
-            <span className="title is-4">Inscrição enviada com sucesso</span>
+            <span className="title is-4">
+              <Trans>registrationFormSuccessMsg</Trans>
+            </span>
           </div>
           <div className="column is-12 has-text-centered">
             <i className="fas fa-check-circle fa-4x success-icon"></i>

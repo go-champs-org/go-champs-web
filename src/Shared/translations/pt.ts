@@ -95,6 +95,7 @@ export default {
     registrations: 'Inscrições',
     rankingOrder: 'Ordem de rankemento',
     registrationForm: 'Formulário de inscricão',
+    registrationFormSuccessMsg: 'Inscricão realizada com sucesso!',
     repeatPassword: 'Senha novamente',
     rounds: 'Chaveamentos',
     roundsMenuTitle: 'Menu chaveamentos',

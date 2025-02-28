@@ -94,6 +94,7 @@ export default {
     perGame: 'Per game',
     rankingOrder: 'Ranking order',
     registrationForm: 'Registration form',
+    registrationFormSuccessMsg: 'Registration form sent successfully!',
     repeatPassword: 'Repeat password',
     rounds: 'Rounds',
     roundsMenuTitle: 'Rounds menu',
