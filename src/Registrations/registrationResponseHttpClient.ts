@@ -16,7 +16,6 @@ const post = async (
   registrationResponse: RegistrationResponseEntity,
   registrationInviteId: string
 ): Promise<RegistrationResponseEntity> => {
-  debugger;
   const url = `${REGISTRATION_RESPONSE_API}`;
 
   const body = mapRegistrationResponseEntityToApiRegistrationResponseResourceRequest(

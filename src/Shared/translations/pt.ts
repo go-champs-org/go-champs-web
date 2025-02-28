@@ -94,6 +94,7 @@ export default {
     perGame: 'Por jogo',
     registrations: 'Inscrições',
     rankingOrder: 'Ordem de rankemento',
+    registrationForm: 'Formulário de inscricão',
     repeatPassword: 'Senha novamente',
     rounds: 'Chaveamentos',
     roundsMenuTitle: 'Menu chaveamentos',

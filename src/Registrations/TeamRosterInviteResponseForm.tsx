@@ -10,6 +10,32 @@ import {
   mustBeEmail,
   required
 } from '../Shared/UI/Form/Validators/commonValidators';
+import './TeamRosterInviteResponseForm.scss';
+
+export function Success() {
+  return (
+    <div
+      className="card"
+      style={{
+        maxWidth: '380px',
+        margin: 'auto',
+        paddingTop: '80px',
+        paddingBottom: '80px'
+      }}
+    >
+      <div className="card-content">
+        <div className="columns is-multiline">
+          <div className="column is-12 has-text-centered">
+            <span className="title is-4">Inscrição enviada com sucesso</span>
+          </div>
+          <div className="column is-12 has-text-centered">
+            <i className="fas fa-check-circle fa-4x success-icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function LoadingForm() {
   return (
@@ -90,6 +116,7 @@ function TeamRosterInviteResponseForm({
   handleSubmit,
   submitting,
   pristine,
+  form: { reset },
   valid
 }: FormRenderProps<RegistrationResponseEntity>) {
   return (
@@ -155,24 +182,6 @@ function TeamRosterInviteResponseForm({
               </div>
             </div>
 
-            <div className="field">
-              <label className="label">Instagram</label>
-              <div className="control">
-                <Field
-                  name="response.instagram"
-                  component={StringInput}
-                  className="has-text-centered"
-                  type="text"
-                  placeholder="www.instagram.com/your-tournament"
-                />
-              </div>
-
-              {/* <p className="help is-info">
-                        {`https://www.instagram.com/${values.instagram ? values.instagram : ''
-                            }`}
-                    </p> */}
-            </div>
-
             <LoadingButton
               isLoading={submitting}
               className="button is-primary is-fullwidth"
@@ -186,6 +195,7 @@ function TeamRosterInviteResponseForm({
             <button
               className="button is-outlined is-fullwidth"
               style={{ marginTop: '1rem' }}
+              onClick={() => reset()}
             >
               <Trans>clean</Trans>
             </button>
