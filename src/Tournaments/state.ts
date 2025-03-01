@@ -1,5 +1,12 @@
 export type PlayerStatVisibility = 'public' | 'private';
 
+export type TournamentVisibility = 'public' | 'private';
+
+export enum TournamentVisibilityEnum {
+  PUBLIC = 'public',
+  PRIVATE = 'private'
+}
+
 export interface TournamentEntity {
   id: string;
   name: string;
@@ -13,7 +20,7 @@ export interface TournamentEntity {
   teamStats: TeamStatEntity[];
   sportName: string;
   sportSlug: string;
-  visibility: 'public' | 'private';
+  visibility: TournamentVisibility;
 }
 
 export interface PlayerStatEntity {

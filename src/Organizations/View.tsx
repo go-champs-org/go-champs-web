@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { OrganizationEntity } from './state';
-import { TournamentEntity } from '../Tournaments/state';
+import {
+  TournamentEntity,
+  TournamentVisibilityEnum
+} from '../Tournaments/state';
 import tournamentHttpClient from '../Tournaments/tournamentHttpClient';
 import { mapApiTournamentToTournamentEntity } from '../Tournaments/dataMappers';
 import Helmet from 'react-helmet';
@@ -19,7 +22,8 @@ function View({ organization }: ViewProps) {
   useEffect(() => {
     const fetchTournaments = async () => {
       const response = await tournamentHttpClient.getByFilter({
-        organization_slug: organiationSlug
+        organization_slug: organiationSlug,
+        visibility: TournamentVisibilityEnum.PUBLIC
       });
       setTournaments(response.map(mapApiTournamentToTournamentEntity));
       setIsLoadingTournaments(false);
