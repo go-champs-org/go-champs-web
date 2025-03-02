@@ -2,6 +2,7 @@ import {
   ApiRegistrationInviteeType,
   ApiRegistrationType
 } from '../Shared/httpClient/apiTypes';
+import { TeamEntity } from '../Teams/state';
 
 export interface CustomFieldEntity {
   id: string;
@@ -17,6 +18,7 @@ export interface RegistrationResponseEntity {
 
 export interface RegistrationInvityEntity {
   id: string;
+  invitee: TeamEntity | null;
   inviteeId: string;
   inviteeType: ApiRegistrationInviteeType;
 }

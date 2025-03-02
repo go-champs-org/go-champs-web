@@ -584,6 +584,7 @@ export type ApiRegistrationInviteeType = 'team';
 
 export interface ApiRegistrationInvite {
   id: string;
+  invitee?: ApiTeam;
   invitee_id: string;
   invitee_type: ApiRegistrationInviteeType;
 }

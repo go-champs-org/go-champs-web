@@ -3,20 +3,38 @@ import {
   ApiRegistrationPostRequest,
   ApiRegistration,
   ApiRegistrationInvite,
-  ApiRegistrationResponseResourceRequest,
   ApiRegistrationResponseResourcePostRequest
 } from '../Shared/httpClient/apiTypes';
+import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
+import { TeamEntity } from '../Teams/state';
 import {
   RegistrationEntity,
   RegistrationInvityEntity,
   RegistrationResponseEntity
 } from './state';
 
+export const mapApiInviteeToInviteeEntity = (
+  apiRegistrationInvite: ApiRegistrationInvite
+): TeamEntity | null => {
+  switch (apiRegistrationInvite.invitee_type) {
+    case 'team':
+      if (!apiRegistrationInvite.invitee) {
+        return null;
+      }
+
+      return mapApiTeamToTeamEntity(apiRegistrationInvite.invitee);
+    default:
+      return null;
+  }
+};
+
 export const mapApiRegistrationInviteToRegistrationInviteEntity = (
   apiRegistrationInvite: ApiRegistrationInvite
-) => {
+): RegistrationInvityEntity => {
+  const invitee = mapApiInviteeToInviteeEntity(apiRegistrationInvite);
   return {
     id: apiRegistrationInvite.id,
+    invitee,
     inviteeId: apiRegistrationInvite.invitee_id,
     inviteeType: apiRegistrationInvite.invitee_type
   };

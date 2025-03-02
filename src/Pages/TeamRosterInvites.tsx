@@ -92,6 +92,11 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
             <span className="subtitle">
               <Trans>registrationForm</Trans>
             </span>
+            {invite.invitee && (
+              <p>
+                <Trans>team</Trans>: {invite.invitee.name}
+              </p>
+            )}
           </div>
           <div className="column is-12">
             <Form
