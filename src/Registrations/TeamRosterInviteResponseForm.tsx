@@ -1,16 +1,63 @@
-import React from 'react';
-import { Field, FormRenderProps } from 'react-final-form';
+import React, { ReactComponentElement } from 'react';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { Trans } from 'react-i18next';
 import StringInput from '../Shared/UI/Form/StringInput';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import Shimmer from '../Shared/UI/Shimmer';
-import { RegistrationResponseEntity } from './state';
+import {
+  CustomFieldEntity,
+  CustomFieldType,
+  RegistrationEntity,
+  RegistrationInvityEntity,
+  RegistrationResponseEntity
+} from './state';
 import {
   composeValidators,
   mustBeEmail,
   required
 } from '../Shared/UI/Form/Validators/commonValidators';
 import './TeamRosterInviteResponseForm.scss';
+import Datetime from '../Shared/UI/Form/Datetime';
+import DateInput from '../Shared/UI/Form/DateInput';
+
+const FIELD_COMPONENTS: {
+  [key in CustomFieldType]: React.ComponentType<any>;
+} = {
+  date: DateInput,
+  datetime: Datetime,
+  text: StringInput
+};
+
+interface CustomFieldProps {
+  field: CustomFieldEntity;
+}
+
+export function CustomField({ field }: CustomFieldProps) {
+  const fieldType = field.type.toLowerCase() as CustomFieldType;
+  const FieldComponent = FIELD_COMPONENTS[fieldType];
+
+  if (!FieldComponent) {
+    return <></>;
+  }
+
+  return (
+    <div className="field">
+      <label className="label">{field.label}</label>
+
+      <div className="control">
+        <Field
+          name={`response.${field.id}`}
+          className="has-text-centered"
+          render={(props: FieldRenderProps<any, any>) => (
+            <FieldComponent {...props} className="has-text-centered" />
+          )}
+        />
+      </div>
+
+      {field.description && <p className="help is-info">{field.description}</p>}
+    </div>
+  );
+}
 
 export function Success() {
   return (
@@ -114,13 +161,19 @@ export function LoadingForm() {
   );
 }
 
+export interface TeamRosterInviteResponseFormProps
+  extends FormRenderProps<RegistrationResponseEntity> {
+  registration: RegistrationEntity;
+}
+
 function TeamRosterInviteResponseForm({
   handleSubmit,
   submitting,
   pristine,
   form: { reset },
-  valid
-}: FormRenderProps<RegistrationResponseEntity>) {
+  valid,
+  registration
+}: TeamRosterInviteResponseFormProps) {
   return (
     <div className="container has-text-centered">
       <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
@@ -183,6 +236,10 @@ function TeamRosterInviteResponseForm({
                 />
               </div>
             </div>
+
+            {registration.customFields.map((field, index) => (
+              <CustomField key={index} field={field} />
+            ))}
 
             <LoadingButton
               isLoading={submitting}

@@ -4,10 +4,13 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import { TeamEntity } from '../Teams/state';
 
+export type CustomFieldType = 'date' | 'datetime' | 'text';
+
 export interface CustomFieldEntity {
   id: string;
   label: string;
-  type: string;
+  description: string;
+  type: CustomFieldType;
 }
 
 export interface RegistrationResponseEntity {
@@ -54,6 +57,13 @@ export const initialState: RegistrationState = {
   registrations: {}
 };
 
+export const DEFAULT_CUSTOM_FIELD: CustomFieldEntity = {
+  id: '',
+  label: '',
+  type: 'text',
+  description: ''
+};
+
 export const DEFAULT_REGISTRATION: RegistrationEntity = {
   id: '',
   title: '',
@@ -67,6 +77,7 @@ export const DEFAULT_REGISTRATION: RegistrationEntity = {
 
 export const DEFAULT_REGISTRATION_INVITE: RegistrationInvityEntity = {
   id: '',
+  invitee: null,
   inviteeId: '',
   inviteeType: 'team'
 };
@@ -76,3 +87,12 @@ export const DEFAULT_REGISTRATION_RESPONSE: RegistrationResponseEntity = {
   registrationInviteId: '',
   response: {}
 };
+
+export const CUSTOM_FIELDS_TYPE_OPTIONS: {
+  label: string;
+  value: CustomFieldType;
+}[] = [
+  { label: 'Text', value: 'text' },
+  { label: 'Date', value: 'date' },
+  { label: 'Date/time', value: 'datetime' }
+];

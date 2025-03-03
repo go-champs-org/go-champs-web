@@ -1,4 +1,7 @@
 import React, { Fragment } from 'react';
+import arrayMutators from 'final-form-arrays';
+import { Mutator } from 'final-form';
+
 import { TournamentEntity } from '../Tournaments/state';
 import {
   DEFAULT_REGISTRATION,
@@ -91,12 +94,17 @@ function RegistrationNew({
             <Form
               onSubmit={postRegistration}
               initialValues={DEFAULT_REGISTRATION}
+              mutators={
+                (arrayMutators as unknown) as {
+                  [key: string]: Mutator<RegistrationEntity>;
+                }
+              }
               render={(props: FormRenderProps<RegistrationEntity>) => (
                 <RegistrationForm
                   {...props}
+                  push={props.form.mutators.push}
                   backUrl={backUrl}
                   isLoading={isPostingRegistration}
-                  selectRegistrationTypeOption={[]}
                 />
               )}
             />
