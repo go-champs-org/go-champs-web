@@ -4,11 +4,19 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans, useTranslation } from 'react-i18next';
-import { RegistrationEntity } from './state';
+import {
+  CUSTOM_FIELDS_TYPE_OPTIONS,
+  CustomFieldEntity,
+  DEFAULT_CUSTOM_FIELD,
+  RegistrationEntity
+} from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 import Datetime from '../Shared/UI/Form/Datetime';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
-// import CollapsibleCard from '../Shared/UI/CollapsibleCard';
+import CollapsibleCard from '../Shared/UI/CollapsibleCard';
+import { FieldArray } from 'react-final-form-arrays';
+import SelectInput from '../Shared/UI/Form/Select';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 
 export function FormLoading(): React.ReactElement {
   return (
@@ -80,9 +88,78 @@ export function FormLoading(): React.ReactElement {
   );
 }
 
+interface CustomFieldFormProps {
+  name: string;
+  onRemove: () => {};
+}
+
+function CustomFieldForm({
+  name,
+  onRemove
+}: CustomFieldFormProps): React.ReactElement {
+  return (
+    <div className="card" style={{ marginBottom: '1rem' }}>
+      <div className="card-content">
+        <div className="field">
+          <label className="label">
+            <Trans>type</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.type`}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  isClearable
+                  options={CUSTOM_FIELDS_TYPE_OPTIONS}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>name</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.label`}
+              component={StringInput}
+              type="text"
+              placeholder="Data de nascimento"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>description</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.description`}
+              component={StringInput}
+              type="text"
+              placeholder="Data de nascimento da pessoa atleta"
+            />
+          </div>
+        </div>
+
+        <div className="field has-text-right">
+          <DoubleClickButton className="button is-danger" onClick={onRemove}>
+            <Trans>remove</Trans>
+          </DoubleClickButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface FromProps extends FormRenderProps<RegistrationEntity> {
   backUrl: string;
   isLoading: boolean;
+  push: (fieldName: string, customField: CustomFieldEntity) => {};
 }
 
 function Form({
@@ -90,7 +167,8 @@ function Form({
   isLoading,
   handleSubmit,
   submitting,
-  pristine
+  pristine,
+  push
 }: FromProps): React.ReactElement {
   const { t } = useTranslation();
   return (
@@ -143,58 +221,28 @@ function Form({
         </div>
 
         <div className="field">
-          {/* <CollapsibleCard titleElement={t('socialNetworks')}>
-                        <div className="field">
-                            <label className="label">Facebook</label>
-                            <div className="control">
-                                <Field
-                                    name="facebook"
-                                    component={StringInput}
-                                    type="text"
-                                    placeholder="www.facebook.com/your-tournament"
-                                />
-                            </div>
+          <CollapsibleCard titleElement={t('customFields')}>
+            <FieldArray name="customFields">
+              {({ fields }) =>
+                fields.map((name, index) => (
+                  <CustomFieldForm
+                    key={name}
+                    name={name}
+                    onRemove={() => fields.remove(index)}
+                  />
+                ))
+              }
+            </FieldArray>
 
-                            <p className="help is-info">
-                                {`https://www.facebook.com/${values.facebook ? values.facebook : ''
-                                    }`}
-                            </p>
-                        </div>
-
-                        <div className="field">
-                            <label className="label">Instagram</label>
-                            <div className="control">
-                                <Field
-                                    name="instagram"
-                                    component={StringInput}
-                                    type="text"
-                                    placeholder="www.instagram.com/your-tournament"
-                                />
-                            </div>
-
-                            <p className="help is-info">
-                                {`https://www.instagram.com/${values.instagram ? values.instagram : ''
-                                    }`}
-                            </p>
-                        </div>
-
-                        <div className="field">
-                            <label className="label">Twitter</label>
-                            <div className="control">
-                                <Field
-                                    name="twitter"
-                                    component={StringInput}
-                                    type="text"
-                                    placeholder="www.twitter.com/your-tournament"
-                                />
-                            </div>
-
-                            <p className="help is-info">
-                                {`https://www.twitter.com/${values.twitter ? values.twitter : ''
-                                    }`}
-                            </p>
-                        </div>
-                    </CollapsibleCard> */}
+            <button
+              className="button is-fullwidth  is-medium"
+              type="button"
+              onClick={() => push('customFields', DEFAULT_CUSTOM_FIELD)}
+              style={{ marginBottom: '1rem' }}
+            >
+              <Trans>addCustomField</Trans>
+            </button>
+          </CollapsibleCard>
         </div>
 
         <LoadingButton

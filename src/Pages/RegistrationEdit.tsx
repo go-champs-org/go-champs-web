@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import arrayMutators from 'final-form-arrays';
+import { Mutator } from 'final-form';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
@@ -101,9 +103,15 @@ function RegistrationEdit({
               <Form
                 onSubmit={patchRegistration}
                 initialValues={registration}
+                mutators={
+                  (arrayMutators as unknown) as {
+                    [key: string]: Mutator<RegistrationEntity>;
+                  }
+                }
                 render={(props: FormRenderProps<RegistrationEntity>) => (
                   <RegistrationForm
                     {...props}
+                    push={props.form.mutators.push}
                     backUrl={backUrl}
                     isLoading={isPatchingRegistration}
                   />

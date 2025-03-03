@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { RouteProps } from './support/routerInterfaces';
 import { RouteComponentProps } from 'react-router-dom';
 import {
+  DEFAULT_REGISTRATION,
   DEFAULT_REGISTRATION_INVITE,
   DEFAULT_REGISTRATION_RESPONSE,
+  RegistrationEntity,
   RegistrationInvityEntity,
   RegistrationResponseEntity
 } from '../Registrations/state';
@@ -14,7 +16,10 @@ import TeamRosterInviteResponseForm, {
 import { Form, FormRenderProps } from 'react-final-form';
 import * as registrationInviteHttpClient from '../Registrations/registrationInviteHttpClient';
 import * as registrationResponseHttpClient from '../Registrations/registrationResponseHttpClient';
-import { mapApiRegistrationInviteToRegistrationInviteEntity } from '../Registrations/dataMappers';
+import {
+  mapApiRegistrationInviteToRegistrationInviteEntity,
+  mapApiRegistrationToRegistrationEntity
+} from '../Registrations/dataMappers';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
 import { mapApiTournamentToTournamentEntity } from '../Tournaments/dataMappers';
 import { Trans } from 'react-i18next';
@@ -27,6 +32,9 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
   const { registrationInviteId } = match.params;
   const [invite, setInvite] = useState<RegistrationInvityEntity>(
     DEFAULT_REGISTRATION_INVITE
+  );
+  const [registration, setRegistration] = useState<RegistrationEntity>(
+    DEFAULT_REGISTRATION
   );
   const [tournament, setTournament] = useState<TournamentEntity>(
     DEFAULT_TOURNAMENT
@@ -47,6 +55,9 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
         mapApiTournamentToTournamentEntity(
           invite.data.registration.tournament || DEFAULT_TOURNAMENT
         )
+      );
+      setRegistration(
+        mapApiRegistrationToRegistrationEntity(invite.data.registration)
       );
 
       setPage('form');
@@ -103,7 +114,10 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
               onSubmit={onSubmit}
               initialValues={DEFAULT_REGISTRATION_RESPONSE}
               render={(props: FormRenderProps<RegistrationResponseEntity>) => (
-                <TeamRosterInviteResponseForm {...props} />
+                <TeamRosterInviteResponseForm
+                  {...props}
+                  registration={registration}
+                />
               )}
             />
           </div>
