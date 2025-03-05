@@ -5,24 +5,30 @@ import { RegistrationInvityEntity } from './state';
 import { TeamsMap } from '../Teams/state';
 import { mapRegistrationInviteUrl } from './dataMappers';
 import { Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 function TeamRosterInviteRow({
+  registrationInviteManagerBaseUrl,
   registrationInvite,
   teamsMap
 }: {
   registrationInvite: RegistrationInvityEntity;
+  registrationInviteManagerBaseUrl: string;
   teamsMap: TeamsMap;
 }) {
   const inviteUrl = mapRegistrationInviteUrl(registrationInvite);
   const handleCopyClick = () => {
     navigator.clipboard.writeText(inviteUrl);
   };
+  const registrationInviteManagerUrl = `${registrationInviteManagerBaseUrl}/Invite/${registrationInvite.id}`;
   return (
     <tr>
       <td style={{ paddingLeft: 0, verticalAlign: 'middle' }}>
-        {teamsMap[registrationInvite.inviteeId]
-          ? teamsMap[registrationInvite.inviteeId].name
-          : ''}
+        <Link to={registrationInviteManagerUrl} className="has-text-danger">
+          {teamsMap[registrationInvite.inviteeId]
+            ? teamsMap[registrationInvite.inviteeId].name
+            : ''}
+        </Link>
       </td>
       <td className="has-text-centered">
         <button className="button is-small" onClick={handleCopyClick}>
@@ -35,7 +41,13 @@ function TeamRosterInviteRow({
   );
 }
 
-function TeamRosterInvites({ registration, teamsMap }: InvitationListProps) {
+function TeamRosterInvites({
+  registration,
+  teamsMap,
+  organizationSlug,
+  tournamentSlug
+}: InvitationListProps) {
+  const registrationInviteManagerBaseUrl = `/${organizationSlug}/${tournamentSlug}/RegistrationInvites/${registration.id}`;
   return (
     <div className="container">
       <div className="table-container">
@@ -55,6 +67,9 @@ function TeamRosterInvites({ registration, teamsMap }: InvitationListProps) {
               <TeamRosterInviteRow
                 key={invitation.id}
                 registrationInvite={invitation}
+                registrationInviteManagerBaseUrl={
+                  registrationInviteManagerBaseUrl
+                }
                 teamsMap={teamsMap}
               />
             ))}

@@ -1,3 +1,4 @@
+import { RegistrationResponseEntity } from '../Registrations/state';
 import { TeamEntity, DEFAULT_TEAM } from '../Teams/state';
 
 export interface PlayerEntity {
@@ -11,6 +12,7 @@ export interface PlayerEntity {
   twitter: string;
   team: TeamEntity;
   teamId: string;
+  registrationResponse?: RegistrationResponseEntity;
 }
 
 export interface PlayerState {

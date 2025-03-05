@@ -96,6 +96,8 @@ function RegistrationInvitesManager({
                 <InvitationList
                   registration={registration}
                   teamsMap={teamsMap}
+                  organizationSlug={organizationSlug}
+                  tournamentSlug={tournamentSlug}
                 />
               </ComponentLoader>
             </div>

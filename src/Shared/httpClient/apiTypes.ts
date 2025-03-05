@@ -303,6 +303,7 @@ export interface ApiPlayer {
   username: string;
   twitter: string;
   team_id?: string;
+  registration_response?: ApiRegistrationResponseResource;
 }
 
 export interface ApiPlayerWithDependencies extends ApiPlayer {

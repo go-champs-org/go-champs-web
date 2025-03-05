@@ -3,6 +3,8 @@ import { RegistrationEntity } from './state';
 import { TeamsMap } from '../Teams/state';
 
 export interface InvitationListProps {
+  organizationSlug: string;
+  tournamentSlug: string;
   registration: RegistrationEntity;
   teamsMap: TeamsMap;
 }
@@ -13,12 +15,22 @@ const INVITATION_LIST: {
   team_roster_invites: React.lazy(() => import('./TeamRosterInvites'))
 };
 
-function InvitationList({ registration, teamsMap }: InvitationListProps) {
+function InvitationList({
+  organizationSlug,
+  tournamentSlug,
+  registration,
+  teamsMap
+}: InvitationListProps) {
   const Component = INVITATION_LIST[registration.type];
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <Component registration={registration} teamsMap={teamsMap} />
+      <Component
+        organizationSlug={organizationSlug}
+        tournamentSlug={tournamentSlug}
+        registration={registration}
+        teamsMap={teamsMap}
+      />
     </React.Suspense>
   );
 }
