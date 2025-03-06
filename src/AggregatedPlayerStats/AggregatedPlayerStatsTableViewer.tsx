@@ -2,8 +2,9 @@ import React from 'react';
 import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { PlayersMap } from '../Players/state';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
-import PlayerStatLogView, { ViewLoading } from '../PlayerStatsLog/View';
+import PlayerStatLogView from '../PlayerStatsLog/View';
 import { Scope } from '../Sports/state';
+import LoadingTable from '../Shared/LoadingTable';
 
 const AGGREGATED_PLAYER_STATS_TABLES: {
   [key: string]: React.ComponentType<AggregatedPlayerStatsTableViewerProps>;
@@ -34,7 +35,7 @@ function AggregatedPlayerStatsTableViewer({
     const AggregatedPlayerStatsTableViewer =
       AGGREGATED_PLAYER_STATS_TABLES[tournament.sportSlug];
     return (
-      <React.Suspense fallback={<ViewLoading />}>
+      <React.Suspense fallback={<LoadingTable />}>
         <AggregatedPlayerStatsTableViewer
           onHeaderClick={onHeaderClick}
           players={players}

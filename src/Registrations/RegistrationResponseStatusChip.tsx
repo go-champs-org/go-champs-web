@@ -13,7 +13,7 @@ function RegistrationResponseStatusChip({
     keySeparator: '.'
   });
   return (
-    <span className={`tag ${status === 'approved' ? 'is-success' : 'is-link'}`}>
+    <span className={`tag ${status === 'approved' ? 'is-success' : 'is-info'}`}>
       {statusContent}
     </span>
   );

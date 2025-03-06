@@ -8,10 +8,7 @@ import { getGame } from '../Games/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
-import {
-  ViewLoading as PlayerStatLogLoading,
-  PlayerStatsLogRenderEntity
-} from '../PlayerStatsLog/View';
+import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
 import GeneralBoxScore from '../Games/GeneralBoxScore';
@@ -33,6 +30,7 @@ import {
   playerStatThatIsVisible
 } from '../Tournaments/dataSelectors';
 import './GameView.scss';
+import LoadingTable from '../Shared/LoadingTable';
 
 interface ViewPlayerProps {
   youTubeVideoCode: string;
@@ -70,7 +68,7 @@ function BoxScoreLoading() {
       </div>
 
       <div className="column is-12">
-        <PlayerStatLogLoading />
+        <LoadingTable />
       </div>
 
       <div className="column is-12">
@@ -86,7 +84,7 @@ function BoxScoreLoading() {
       </div>
 
       <div className="column is-12">
-        <PlayerStatLogLoading />
+        <LoadingTable />
       </div>
     </div>
   );

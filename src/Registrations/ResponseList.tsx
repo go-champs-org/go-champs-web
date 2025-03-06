@@ -1,5 +1,28 @@
 import React from 'react';
 import { RegistrationEntity, RegistrationInviteEntity } from './state';
+import Shimmer from '../Shared/UI/Shimmer';
+import LoadingTable from '../Shared/LoadingTable';
+
+export function Loading() {
+  return (
+    <div className="columns is-multiline">
+      <div className="column is-12">
+        <Shimmer>
+          <div
+            style={{
+              height: '20px',
+              marginTop: '20px',
+              width: '200px'
+            }}
+          ></div>
+        </Shimmer>
+      </div>
+      <div className="column is-12">
+        <LoadingTable />
+      </div>
+    </div>
+  );
+}
 
 export interface ResponseListProps {
   organizationSlug: string;
@@ -23,7 +46,7 @@ function ResponseList({
   const Component = RESPONSES_LIST[registration.type];
 
   return (
-    <React.Suspense fallback={<div>Loading...</div>}>
+    <React.Suspense fallback={<Loading />}>
       <Component
         organizationSlug={organizationSlug}
         tournamentSlug={tournamentSlug}

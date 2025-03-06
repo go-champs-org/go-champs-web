@@ -13,7 +13,7 @@ import {
   registrationInviteById
 } from '../Registrations/selectors';
 import withRegistrationInvite from './support/withRegistrationInvite';
-import ResponseList from '../Registrations/ResponseList';
+import ResponseList, { Loading } from '../Registrations/ResponseList';
 
 const mapStateToProps = (
   state: StoreState,
@@ -54,7 +54,7 @@ function RegistrationInviteManager({
         <div className="container">
           <div className="columns is-multiline is-mobile is-vcentered">
             {registrationInviteLoading ? (
-              <>Loading</>
+              <Loading />
             ) : (
               <ResponseList
                 registration={registration}
@@ -64,14 +64,6 @@ function RegistrationInviteManager({
               />
             )}
           </div>
-        </div>
-        <div className="is-divider-vertical is-hidden-tablet-only"></div>
-
-        <div className="column is-4-desktop is-12-tablet">
-          <AdminMenu
-            organizationSlug={organizationSlug}
-            tournamentSlug={tournamentSlug}
-          />
         </div>
       </div>
     </Fragment>
