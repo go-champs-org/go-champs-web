@@ -34,7 +34,7 @@ import { hasSummaryStatistics } from '../FixedPlayerStatsTables/selectors';
 import RegistrationDashboard from './RegistrationDashboard';
 import RegistrationNew from './RegistrationNew';
 import RegistrationEdit from './RegistrationEdit';
-import RegistrationInvitesManager from './RegistrationInvitesManager';
+import RegistrationInvitesRoot from './RegistrationInvitesRoot';
 
 const mapStateToProps = (
   state: StoreState,
@@ -232,11 +232,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/RegistrationInvites/:registrationId`}
-          render={(props: RouteComponentProps<RouteProps>) => (
-            <AuthenticatedRoute>
-              <RegistrationInvitesManager {...props} />
-            </AuthenticatedRoute>
-          )}
+          component={RegistrationInvitesRoot}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Teams`}

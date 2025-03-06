@@ -29,12 +29,24 @@ import {
   POST_REGISTRATION_SUCCESS,
   GET_REGISTRATION,
   GET_REGISTRATION_FAILURE,
-  GET_REGISTRATION_SUCCESS
+  GET_REGISTRATION_SUCCESS,
+  GET_REGISTRATION_INVITE,
+  GET_REGISTRATION_INVITE_FAILURE,
+  GET_REGISTRATION_INVITE_SUCCESS
 } from './actions';
 import { mapApiRegistrationToRegistrationEntity } from './dataMappers';
-import { initialState, RegistrationEntity, RegistrationState } from './state';
+import {
+  initialState,
+  RegistrationEntity,
+  RegistrationInviteEntity,
+  RegistrationState
+} from './state';
 
 const registrationMapEntities = mapEntities<RegistrationEntity>(
+  returnProperty('id')
+);
+
+const registrationInviteMapEntities = mapEntities<RegistrationInviteEntity>(
   returnProperty('id')
 );
 
@@ -104,6 +116,34 @@ const getRegistrationFailure = (
 ) => ({
   ...state,
   isGetLoadingRegistration: false
+});
+
+const getRegistrationInvite = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingGetRegistrationInvite: true
+});
+
+const getRegistrationInviteFailure = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingGetRegistrationInvite: false
+});
+
+const getRegistrationInviteSuccess = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes, RegistrationInviteEntity>
+) => ({
+  ...state,
+  isLoadingGetRegistrationInvite: false,
+  registrationsInvites: [action.payload!].reduce(
+    registrationInviteMapEntities,
+    state.registrationsInvites
+  )
 });
 
 const patchRegistration = (
@@ -211,6 +251,9 @@ export default createReducer(initialState, {
   [GET_REGISTRATION]: getRegistration,
   [GET_REGISTRATION_FAILURE]: getRegistrationFailure,
   [GET_REGISTRATION_SUCCESS]: getRegistrationSuccess,
+  [GET_REGISTRATION_INVITE]: getRegistrationInvite,
+  [GET_REGISTRATION_INVITE_FAILURE]: getRegistrationInviteFailure,
+  [GET_REGISTRATION_INVITE_SUCCESS]: getRegistrationInviteSuccess,
   [PATCH_REGISTRATION]: patchRegistration,
   [PATCH_REGISTRATION_FAILURE]: patchRegistrationFailure,
   [PATCH_REGISTRATION_SUCCESS]: patchRegistrationSuccess,

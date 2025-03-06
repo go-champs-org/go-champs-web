@@ -94,6 +94,12 @@ export default {
     placeholder: 'Placeholder',
     perAggregation: 'Per total',
     registrations: 'Registrations',
+    registrationResponse: {
+      statuses: {
+        approved: 'Approved',
+        pending: 'Pending'
+      }
+    },
     remove: 'Remove',
     perGame: 'Per game',
     rankingOrder: 'Ranking order',

@@ -231,6 +231,14 @@ function Form({
           </CollapsibleCard>
         </div>
 
+        {values.registrationResponse && (
+          <div className="field">
+            <CollapsibleCard titleElement={t('registratioResponse')}>
+              Registration response
+            </CollapsibleCard>
+          </div>
+        )}
+
         <LoadingButton
           isLoading={isLoading}
           className="button is-primary"

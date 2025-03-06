@@ -1,29 +1,32 @@
 import {
+  ApiCustomFieldType,
   ApiRegistrationInviteeType,
+  ApiRegistrationResponseResponse,
+  ApiRegistrationResponseStatus,
   ApiRegistrationType
 } from '../Shared/httpClient/apiTypes';
 import { TeamEntity } from '../Teams/state';
-
-export type CustomFieldType = 'date' | 'datetime' | 'text';
 
 export interface CustomFieldEntity {
   id: string;
   label: string;
   description: string;
-  type: CustomFieldType;
+  type: ApiCustomFieldType;
 }
 
 export interface RegistrationResponseEntity {
   id: string;
   registrationInviteId: string;
-  response: object;
+  response: ApiRegistrationResponseResponse;
+  status: ApiRegistrationResponseStatus;
 }
 
-export interface RegistrationInvityEntity {
+export interface RegistrationInviteEntity {
   id: string;
   invitee: TeamEntity | null;
   inviteeId: string;
   inviteeType: ApiRegistrationInviteeType;
+  registrationResponses: RegistrationResponseEntity[];
 }
 
 export interface RegistrationEntity {
@@ -34,27 +37,31 @@ export interface RegistrationEntity {
   type: ApiRegistrationType;
   autoApprove: boolean;
   customFields: CustomFieldEntity[];
-  registrationInvites: RegistrationInvityEntity[];
+  registrationInvites: RegistrationInviteEntity[];
 }
 
 export interface RegistrationState {
   isLoadingDeleteRegistration: boolean;
   isGetLoadingRegistration: boolean;
+  isLoadingGetRegistrationInvite: boolean;
   isLoadingPatchRegistration: boolean;
   isLoadingPutRegistrationGenerateInvites: boolean;
   isLoadingPostRegistration: boolean;
   isLoadingRequestTournament: boolean;
   registrations: { [key: string]: RegistrationEntity };
+  registrationsInvites: { [key: string]: RegistrationInviteEntity };
 }
 
 export const initialState: RegistrationState = {
   isLoadingDeleteRegistration: false,
   isGetLoadingRegistration: false,
+  isLoadingGetRegistrationInvite: false,
   isLoadingPatchRegistration: false,
   isLoadingPutRegistrationGenerateInvites: false,
   isLoadingPostRegistration: false,
   isLoadingRequestTournament: false,
-  registrations: {}
+  registrations: {},
+  registrationsInvites: {}
 };
 
 export const DEFAULT_CUSTOM_FIELD: CustomFieldEntity = {
@@ -75,22 +82,24 @@ export const DEFAULT_REGISTRATION: RegistrationEntity = {
   registrationInvites: []
 };
 
-export const DEFAULT_REGISTRATION_INVITE: RegistrationInvityEntity = {
+export const DEFAULT_REGISTRATION_INVITE: RegistrationInviteEntity = {
   id: '',
   invitee: null,
   inviteeId: '',
-  inviteeType: 'team'
+  inviteeType: 'team',
+  registrationResponses: []
 };
 
 export const DEFAULT_REGISTRATION_RESPONSE: RegistrationResponseEntity = {
   id: '',
   registrationInviteId: '',
-  response: {}
+  response: {},
+  status: 'pending'
 };
 
 export const CUSTOM_FIELDS_TYPE_OPTIONS: {
   label: string;
-  value: CustomFieldType;
+  value: ApiCustomFieldType;
 }[] = [
   { label: 'Text', value: 'text' },
   { label: 'Date', value: 'date' },

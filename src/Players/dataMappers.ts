@@ -5,7 +5,7 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import { PlayerEntity, PlayersMap } from './state';
 import { DEFAULT_TEAM } from '../Teams/state';
-import { playersMap } from './selectors';
+import { mapApiRegistrationResponseResourceResponseToRegistrationResponse } from '../Registrations/dataMappers';
 
 export const mapApiPlayerToPlayerEntity = (
   apiPlayer: ApiPlayer
@@ -19,7 +19,12 @@ export const mapApiPlayerToPlayerEntity = (
   twitter: apiPlayer.twitter,
   username: apiPlayer.username,
   team: DEFAULT_TEAM,
-  teamId: apiPlayer.team_id || ''
+  teamId: apiPlayer.team_id || '',
+  registrationResponse:
+    apiPlayer.registration_response &&
+    mapApiRegistrationResponseResourceResponseToRegistrationResponse(
+      apiPlayer.registration_response
+    )
 });
 
 export const mapPlayerEntityToApiPlayerPostRequest = (

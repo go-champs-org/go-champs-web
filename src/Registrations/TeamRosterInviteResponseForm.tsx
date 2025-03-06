@@ -8,7 +8,7 @@ import {
   CustomFieldEntity,
   CustomFieldType,
   RegistrationEntity,
-  RegistrationInvityEntity,
+  RegistrationInviteEntity,
   RegistrationResponseEntity
 } from './state';
 import {

@@ -10,7 +10,6 @@ import { playersMap } from '../Players/selectors';
 import withAggregatedPlayerStatsLogs, {
   SORT_URL_QUERY_PARAM
 } from './support/withAggregatedPlayerStatsLog';
-import { ViewLoading as PlayerStatLogLoading } from '../PlayerStatsLog/View';
 import {
   aggregatedPlayerStatLogs,
   aggregatedPlayerStatLogsLoading
@@ -23,6 +22,7 @@ import { selectSport } from '../Sports/selectors';
 import { Scope } from '../Sports/state';
 import { playerStatThatIsVisible } from '../Tournaments/dataSelectors';
 import AggregatedPlayerStatsTableViewer from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
+import LoadingTable from '../Shared/LoadingTable';
 
 const SCOPE_URL_QUERY_PARAM = 'scope';
 
@@ -120,7 +120,7 @@ function PlayerStatsView({
 
         <div className="column is-12">
           {isLoadingAggregatedPlayerStatsLogs ? (
-            <PlayerStatLogLoading />
+            <LoadingTable />
           ) : (
             <AggregatedPlayerStatsTableViewer
               onHeaderClick={onHeaderClick}

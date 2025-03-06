@@ -11,6 +11,9 @@ import {
   deleteRegistrationStart,
   deleteRegistrationSuccess,
   getRegistrationFailure,
+  getRegistrationInviteFailure,
+  getRegistrationInviteStart,
+  getRegistrationInviteSuccess,
   getRegistrationStart,
   getRegistrationSuccess,
   patchRegistrationFailure,
@@ -154,6 +157,81 @@ describe('getRegistrationFailure', () => {
   it('sets isLoadingGetRegistration to false', () => {
     expect(
       registrationReducer(initialState, action).isGetLoadingRegistration
+    ).toBe(false);
+  });
+});
+
+describe('getRegistrationInvite', () => {
+  const action = getRegistrationInviteStart();
+
+  it('sets isLoadingGetRegistrationInvite to true', () => {
+    expect(
+      registrationReducer(initialState, action).isLoadingGetRegistrationInvite
+    ).toBe(true);
+  });
+});
+
+describe('getRegistrationInviteSuccess', () => {
+  const action = getRegistrationInviteSuccess({
+    id: 'first-id',
+    inviteeId: 'first-invitee-id',
+    inviteeType: 'team',
+    invitee: null,
+    registrationResponses: [
+      {
+        id: 'first-response-id',
+        registrationInviteId: 'first-id',
+        response: { foo: 'bar' }
+      },
+      {
+        id: 'second-response-id',
+        registrationInviteId: 'first-id',
+        response: { boo: 'bah' }
+      }
+    ]
+  });
+
+  it('sets isLoadingGetRegistrationInvite to false', () => {
+    expect(
+      registrationReducer(initialState, action).isLoadingGetRegistrationInvite
+    ).toBe(false);
+  });
+
+  it('set entity', () => {
+    const newState = registrationReducer(initialState, action);
+
+    expect(newState.registrationsInvites['first-id']).toEqual({
+      id: 'first-id',
+      inviteeId: 'first-invitee-id',
+      inviteeType: 'team',
+      invitee: null,
+      registrationResponses: [
+        {
+          id: 'first-response-id',
+          registrationInviteId: 'first-id',
+          response: { foo: 'bar' }
+        },
+        {
+          id: 'second-response-id',
+          registrationInviteId: 'first-id',
+          response: { boo: 'bah' }
+        }
+      ]
+    });
+  });
+});
+
+describe('getRegistrationInviteFailure', () => {
+  const action = getRegistrationInviteFailure('error');
+
+  const loadingState = {
+    ...initialState,
+    isLoadingGetRegistrationInvite: true
+  };
+
+  it('sets isLoadingGetRegistrationInvite to false', () => {
+    expect(
+      registrationReducer(loadingState, action).isLoadingGetRegistrationInvite
     ).toBe(false);
   });
 });

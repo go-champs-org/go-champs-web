@@ -6,7 +6,7 @@ import {
   DEFAULT_REGISTRATION_INVITE,
   DEFAULT_REGISTRATION_RESPONSE,
   RegistrationEntity,
-  RegistrationInvityEntity,
+  RegistrationInviteEntity,
   RegistrationResponseEntity
 } from '../Registrations/state';
 import TeamRosterInviteResponseForm, {
@@ -14,7 +14,7 @@ import TeamRosterInviteResponseForm, {
   Success
 } from '../Registrations/TeamRosterInviteResponseForm';
 import { Form, FormRenderProps } from 'react-final-form';
-import * as registrationInviteHttpClient from '../Registrations/registrationInviteHttpClient';
+import registrationInviteHttpClient from '../Registrations/registrationInviteHttpClient';
 import * as registrationResponseHttpClient from '../Registrations/registrationResponseHttpClient';
 import {
   mapApiRegistrationInviteToRegistrationInviteEntity,
@@ -30,7 +30,7 @@ interface TeamRosterInvitesProps extends RouteComponentProps<RouteProps> {}
 
 function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
   const { registrationInviteId } = match.params;
-  const [invite, setInvite] = useState<RegistrationInvityEntity>(
+  const [invite, setInvite] = useState<RegistrationInviteEntity>(
     DEFAULT_REGISTRATION_INVITE
   );
   const [registration, setRegistration] = useState<RegistrationEntity>(
