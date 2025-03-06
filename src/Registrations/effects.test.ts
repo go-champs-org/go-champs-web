@@ -3,9 +3,10 @@ import {
   patchRegistration,
   deleteRegistration,
   putRegistrationGenerateInvites,
-  getRegistration
+  getRegistration,
+  getRegistrationInvite
 } from './effects';
-import { DEFAULT_REGISTRATION } from './state';
+import { DEFAULT_REGISTRATION, DEFAULT_REGISTRATION_INVITE } from './state';
 import {
   postRegistrationStart,
   postRegistrationSuccess,
@@ -21,9 +22,13 @@ import {
   putRegistrationGenerateInvitesStart,
   getRegistrationStart,
   getRegistrationSuccess,
-  getRegistrationFailure
+  getRegistrationFailure,
+  getRegistrationInviteFailure,
+  getRegistrationInviteSuccess,
+  getRegistrationInviteStart
 } from './actions';
 import registrationHttpClient from './registrationHttpClient';
+import registrationInviteHttpClient from './registrationInviteHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
 
@@ -124,6 +129,59 @@ describe('getRegistration', () => {
       await getRegistration('some-registration-id')(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(getRegistrationFailure(apiError));
+    });
+  });
+});
+
+describe('getRegistrationInvite', () => {
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start get action', () => {
+    getRegistrationInvite('some-registration-id')(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(getRegistrationInviteStart());
+  });
+
+  describe('on success', () => {
+    beforeEach(() => {
+      dispatch.mockReset();
+
+      jest
+        .spyOn(registrationInviteHttpClient, 'get')
+        .mockResolvedValue(DEFAULT_REGISTRATION_INVITE);
+
+      getRegistrationInvite('some-registration-id')(dispatch);
+    });
+
+    it('dispatches get success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        getRegistrationInviteSuccess(DEFAULT_REGISTRATION_INVITE)
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new ApiError({
+      status: 422,
+      data: { errors: { name: ['has invalid format'] } }
+    });
+
+    beforeEach(() => {
+      dispatch.mockReset();
+
+      jest
+        .spyOn(registrationInviteHttpClient, 'get')
+        .mockRejectedValue(apiError);
+    });
+
+    it('dispatches get failure action', async () => {
+      await getRegistrationInvite('some-registration-id')(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        getRegistrationInviteFailure(apiError)
+      );
     });
   });
 });

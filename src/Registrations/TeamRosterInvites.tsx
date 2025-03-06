@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { InvitationListProps } from './InvitationList';
-import { RegistrationInvityEntity } from './state';
+import { RegistrationInviteEntity } from './state';
 import { TeamsMap } from '../Teams/state';
 import { mapRegistrationInviteUrl } from './dataMappers';
 import { Trans } from 'react-i18next';
@@ -12,7 +12,7 @@ function TeamRosterInviteRow({
   registrationInvite,
   teamsMap
 }: {
-  registrationInvite: RegistrationInvityEntity;
+  registrationInvite: RegistrationInviteEntity;
   registrationInviteManagerBaseUrl: string;
   teamsMap: TeamsMap;
 }) {

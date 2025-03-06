@@ -14,12 +14,16 @@ import {
   postRegistrationSuccess,
   getRegistrationStart,
   getRegistrationSuccess,
-  getRegistrationFailure
+  getRegistrationFailure,
+  getRegistrationInviteFailure,
+  getRegistrationInviteSuccess,
+  getRegistrationInviteStart
 } from './actions';
 import { RegistrationEntity } from './state';
 import registrationHttpClient from './registrationHttpClient';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
+import registrationInviteHttpClient from './registrationInviteHttpClient';
 
 export const deleteRegistration = (registration: RegistrationEntity) => async (
   dispatch: Dispatch
@@ -47,6 +51,22 @@ export const getRegistration = (registrationId: string) => async (
     dispatch(getRegistrationSuccess(response));
   } catch (err) {
     dispatch(getRegistrationFailure(err));
+  }
+};
+
+export const getRegistrationInvite = (registrationInviteId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(getRegistrationInviteStart());
+
+  try {
+    const response = await registrationInviteHttpClient.get(
+      registrationInviteId
+    );
+
+    dispatch(getRegistrationInviteSuccess(response));
+  } catch (err) {
+    dispatch(getRegistrationInviteFailure(err));
   }
 };
 

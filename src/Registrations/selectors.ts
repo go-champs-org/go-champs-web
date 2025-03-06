@@ -25,10 +25,23 @@ export const registrationById = (
   return state.registrations[registrationId];
 };
 
+export const registrationInviteById = (
+  state: RegistrationState,
+  inviteId?: string
+) => {
+  if (!inviteId || !state.registrationsInvites[inviteId]) {
+    return null;
+  }
+
+  return state.registrationsInvites[inviteId];
+};
+
 export const registrationsLoading = (state: RegistrationState) =>
   state.isLoadingRequestTournament;
 export const gettingRegistration = (state: RegistrationState): boolean =>
   state.isGetLoadingRegistration;
+export const gettingRegistrationInvite = (state: RegistrationState): boolean =>
+  state.isLoadingGetRegistrationInvite;
 export const patchingRegistration = (state: RegistrationState): boolean =>
   state.isLoadingPatchRegistration;
 export const puttingRegistrationGenerateInvites = (state: RegistrationState) =>

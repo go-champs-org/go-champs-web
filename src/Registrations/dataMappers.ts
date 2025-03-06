@@ -9,7 +9,7 @@ import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TeamEntity } from '../Teams/state';
 import {
   RegistrationEntity,
-  RegistrationInvityEntity,
+  RegistrationInviteEntity,
   RegistrationResponseEntity
 } from './state';
 
@@ -30,7 +30,7 @@ export const mapApiInviteeToInviteeEntity = (
 
 export const mapApiRegistrationInviteToRegistrationInviteEntity = (
   apiRegistrationInvite: ApiRegistrationInvite
-): RegistrationInvityEntity => {
+): RegistrationInviteEntity => {
   const invitee = mapApiInviteeToInviteeEntity(apiRegistrationInvite);
   return {
     id: apiRegistrationInvite.id,
@@ -100,7 +100,7 @@ export const mapRegistrationEntityToApiRegistrationPatchRequest = (
 };
 
 export const mapRegistrationInviteUrl = (
-  registrationInvite: RegistrationInvityEntity
+  registrationInvite: RegistrationInviteEntity
 ) => {
   const goChampsHost = window.location.origin;
   return `${goChampsHost}/Invite/${registrationInvite.id}`;

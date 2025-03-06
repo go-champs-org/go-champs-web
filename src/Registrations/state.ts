@@ -19,7 +19,7 @@ export interface RegistrationResponseEntity {
   response: object;
 }
 
-export interface RegistrationInvityEntity {
+export interface RegistrationInviteEntity {
   id: string;
   invitee: TeamEntity | null;
   inviteeId: string;
@@ -34,27 +34,31 @@ export interface RegistrationEntity {
   type: ApiRegistrationType;
   autoApprove: boolean;
   customFields: CustomFieldEntity[];
-  registrationInvites: RegistrationInvityEntity[];
+  registrationInvites: RegistrationInviteEntity[];
 }
 
 export interface RegistrationState {
   isLoadingDeleteRegistration: boolean;
   isGetLoadingRegistration: boolean;
+  isLoadingGetRegistrationInvite: boolean;
   isLoadingPatchRegistration: boolean;
   isLoadingPutRegistrationGenerateInvites: boolean;
   isLoadingPostRegistration: boolean;
   isLoadingRequestTournament: boolean;
   registrations: { [key: string]: RegistrationEntity };
+  registrationsInvites: { [key: string]: RegistrationInviteEntity };
 }
 
 export const initialState: RegistrationState = {
   isLoadingDeleteRegistration: false,
   isGetLoadingRegistration: false,
+  isLoadingGetRegistrationInvite: false,
   isLoadingPatchRegistration: false,
   isLoadingPutRegistrationGenerateInvites: false,
   isLoadingPostRegistration: false,
   isLoadingRequestTournament: false,
-  registrations: {}
+  registrations: {},
+  registrationsInvites: {}
 };
 
 export const DEFAULT_CUSTOM_FIELD: CustomFieldEntity = {
@@ -75,7 +79,7 @@ export const DEFAULT_REGISTRATION: RegistrationEntity = {
   registrationInvites: []
 };
 
-export const DEFAULT_REGISTRATION_INVITE: RegistrationInvityEntity = {
+export const DEFAULT_REGISTRATION_INVITE: RegistrationInviteEntity = {
   id: '',
   invitee: null,
   inviteeId: '',

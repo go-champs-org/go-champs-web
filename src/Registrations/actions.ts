@@ -1,7 +1,10 @@
-import { ApiRegistration } from '../Shared/httpClient/apiTypes';
+import {
+  ApiRegistration,
+  ApiRegistrationInvite
+} from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
-import { RegistrationEntity } from './state';
+import { RegistrationEntity, RegistrationInviteEntity } from './state';
 
 export const DELETE_REGISTRATION = 'API_DELETE_REGISTRATION';
 export const DELETE_REGISTRATION_SUCCESS = 'API_DELETE_REGISTRATION_SUCCESS';
@@ -9,6 +12,11 @@ export const DELETE_REGISTRATION_FAILURE = 'API_DELETE_REGISTRATION_FAILURE';
 export const GET_REGISTRATION = 'API_GET_REGISTRATION';
 export const GET_REGISTRATION_SUCCESS = 'API_GET_REGISTRATION_SUCCESS';
 export const GET_REGISTRATION_FAILURE = 'API_GET_REGISTRATION_FAILURE';
+export const GET_REGISTRATION_INVITE = 'API_GET_REGISTRATION_INVITE';
+export const GET_REGISTRATION_INVITE_SUCCESS =
+  'API_GET_REGISTRATION_INVITE_SUCCESS';
+export const GET_REGISTRATION_INVITE_FAILURE =
+  'API_GET_REGISTRATION_INVITE_FAILURE';
 export const PUT_REGISTRATION_GENERATE_INVITES =
   'API_PUT_REGISTRATION_GENERATE_INVITES';
 export const PUT_REGISTRATION_GENERATE_INVITES_SUCCESS =
@@ -55,6 +63,24 @@ export const getRegistrationFailure = (
   payload: any
 ): HttpAction<ActionTypes> => ({
   type: GET_REGISTRATION_FAILURE,
+  payload
+});
+
+export const getRegistrationInviteStart = (): HttpAction<ActionTypes> => ({
+  type: GET_REGISTRATION_INVITE
+});
+
+export const getRegistrationInviteSuccess = (
+  payload: RegistrationInviteEntity
+): HttpAction<ActionTypes, ApiRegistrationInvite> => ({
+  type: GET_REGISTRATION_INVITE_SUCCESS,
+  payload
+});
+
+export const getRegistrationInviteFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: GET_REGISTRATION_INVITE_FAILURE,
   payload
 });
 
@@ -119,6 +145,9 @@ export type ActionTypes =
   | typeof GET_REGISTRATION
   | typeof GET_REGISTRATION_SUCCESS
   | typeof GET_REGISTRATION_FAILURE
+  | typeof GET_REGISTRATION_INVITE
+  | typeof GET_REGISTRATION_INVITE_SUCCESS
+  | typeof GET_REGISTRATION_INVITE_FAILURE
   | typeof PATCH_REGISTRATION
   | typeof PATCH_REGISTRATION_SUCCESS
   | typeof PATCH_REGISTRATION_FAILURE

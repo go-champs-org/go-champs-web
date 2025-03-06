@@ -4,6 +4,27 @@ import { RouteProps } from './support/routerInterfaces';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 import RegistrationInvitesManager from './RegistrationInvitesManager';
 import RegistrationInviteManager from './RegistrationInviteManger';
+import withRegistration from './support/withRegistration';
+import { StoreState } from '../store';
+import { bindActionCreators, Dispatch } from 'redux';
+import { getTournamentBySlug } from '../Tournaments/effects';
+import { getRegistration } from '../Registrations/effects';
+import { connect } from 'react-redux';
+
+const mapStateToProps = (state: StoreState) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getTournamentBySlug,
+      getRegistration
+    },
+    dispatch
+  );
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 function RegistrationInvitesRoot() {
   return (
@@ -28,4 +49,4 @@ function RegistrationInvitesRoot() {
   );
 }
 
-export default RegistrationInvitesRoot;
+export default connector(withRegistration(RegistrationInvitesRoot));

@@ -6,11 +6,7 @@ import { tournaments, tournamentsLoading } from '../Tournaments/selectors';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import { RouteComponentProps } from 'react-router-dom';
-import withRegistration from './support/withRegistration';
-import {
-  getRegistration,
-  putRegistrationGenerateInvites
-} from '../Registrations/effects';
+import { putRegistrationGenerateInvites } from '../Registrations/effects';
 import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { Trans } from 'react-i18next';
@@ -44,7 +40,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       deleteTournament,
       getTournamentBySlug,
-      getRegistration,
       putRegistrationGenerateInvites
     },
     dispatch
@@ -117,4 +112,4 @@ function RegistrationInvitesManager({
   );
 }
 
-export default connector(withRegistration(RegistrationInvitesManager));
+export default connector(RegistrationInvitesManager);
