@@ -3,11 +3,15 @@ import {
   ApiRegistrationPostRequest,
   ApiRegistration,
   ApiRegistrationInvite,
-  ApiRegistrationResponseResourcePostRequest
+  ApiRegistrationResponseResourcePostRequest,
+  ApiRegistrationType,
+  ApiRegistrationResponseResourceWithDependencies,
+  ApiRegistrationCustomField
 } from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TeamEntity } from '../Teams/state';
 import {
+  CustomFieldEntity,
   RegistrationEntity,
   RegistrationInviteEntity,
   RegistrationResponseEntity
@@ -36,7 +40,23 @@ export const mapApiRegistrationInviteToRegistrationInviteEntity = (
     id: apiRegistrationInvite.id,
     invitee,
     inviteeId: apiRegistrationInvite.invitee_id,
-    inviteeType: apiRegistrationInvite.invitee_type
+    inviteeType: apiRegistrationInvite.invitee_type,
+    registrationResponses: apiRegistrationInvite.registration_responses
+      ? apiRegistrationInvite.registration_responses.map(
+          mapApiRegistrationResponseResourceResponseToRegistrationResponse
+        )
+      : []
+  };
+};
+
+export const mapApiCustomFieldToCustomFieldEntity = (
+  apiCustomField: ApiRegistrationCustomField
+): CustomFieldEntity => {
+  return {
+    id: apiCustomField.id,
+    label: apiCustomField.label,
+    description: apiCustomField.description ? apiCustomField.description : '',
+    type: apiCustomField.type
   };
 };
 
@@ -53,7 +73,7 @@ export const mapApiRegistrationToRegistrationEntity = (
       ? apiRegistration.auto_approve
       : false,
     customFields: apiRegistration.custom_fields
-      ? apiRegistration.custom_fields
+      ? apiRegistration.custom_fields.map(mapApiCustomFieldToCustomFieldEntity)
       : [],
     registrationInvites: apiRegistration.registration_invites
       ? apiRegistration.registration_invites.map(
@@ -119,11 +139,34 @@ export const mapRegistrationResponseEntityToApiRegistrationResponseResourceReque
 };
 
 export const mapApiRegistrationResponseResourceResponseToRegistrationResponse = (
-  apiRegistrationResponse: ApiRegistrationResponseResourceRequest
+  apiRegistrationResponse: ApiRegistrationResponseResourceWithDependencies
 ): RegistrationResponseEntity => {
   return {
-    id: apiRegistrationResponse.id,
+    id: apiRegistrationResponse.id ? apiRegistrationResponse.id : '',
     registrationInviteId: apiRegistrationResponse.registration_invite_id,
-    response: apiRegistrationResponse.response
+    response: apiRegistrationResponse.response,
+    status: apiRegistrationResponse.status
   };
+};
+
+export const parseRegistrationResponseFor = (
+  type: ApiRegistrationType,
+  registrationResponse: RegistrationResponseEntity
+) => {
+  switch (type) {
+    case 'team_roster_invites':
+      return {
+        name: registrationResponse.response.name,
+        email: registrationResponse.response.email,
+        shirtName: registrationResponse.response.shirt_name,
+        shirtNumber: registrationResponse.response.shirt_number
+      };
+    default:
+      return {
+        name: '',
+        email: '',
+        shirtName: '',
+        shirtNumber: ''
+      };
+  }
 };

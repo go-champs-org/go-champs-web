@@ -1,22 +1,24 @@
 import {
+  ApiCustomFieldType,
   ApiRegistrationInviteeType,
+  ApiRegistrationResponseResponse,
+  ApiRegistrationResponseStatus,
   ApiRegistrationType
 } from '../Shared/httpClient/apiTypes';
 import { TeamEntity } from '../Teams/state';
-
-export type CustomFieldType = 'date' | 'datetime' | 'text';
 
 export interface CustomFieldEntity {
   id: string;
   label: string;
   description: string;
-  type: CustomFieldType;
+  type: ApiCustomFieldType;
 }
 
 export interface RegistrationResponseEntity {
   id: string;
   registrationInviteId: string;
-  response: object;
+  response: ApiRegistrationResponseResponse;
+  status: ApiRegistrationResponseStatus;
 }
 
 export interface RegistrationInviteEntity {
@@ -24,6 +26,7 @@ export interface RegistrationInviteEntity {
   invitee: TeamEntity | null;
   inviteeId: string;
   inviteeType: ApiRegistrationInviteeType;
+  registrationResponses: RegistrationResponseEntity[];
 }
 
 export interface RegistrationEntity {
@@ -83,18 +86,20 @@ export const DEFAULT_REGISTRATION_INVITE: RegistrationInviteEntity = {
   id: '',
   invitee: null,
   inviteeId: '',
-  inviteeType: 'team'
+  inviteeType: 'team',
+  registrationResponses: []
 };
 
 export const DEFAULT_REGISTRATION_RESPONSE: RegistrationResponseEntity = {
   id: '',
   registrationInviteId: '',
-  response: {}
+  response: {},
+  status: 'pending'
 };
 
 export const CUSTOM_FIELDS_TYPE_OPTIONS: {
   label: string;
-  value: CustomFieldType;
+  value: ApiCustomFieldType;
 }[] = [
   { label: 'Text', value: 'text' },
   { label: 'Date', value: 'date' },

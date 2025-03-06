@@ -1,5 +1,6 @@
 import {
   DEFAULT_REGISTRATION,
+  DEFAULT_REGISTRATION_INVITE,
   RegistrationEntity,
   RegistrationState
 } from './state';
@@ -30,7 +31,7 @@ export const registrationInviteById = (
   inviteId?: string
 ) => {
   if (!inviteId || !state.registrationsInvites[inviteId]) {
-    return null;
+    return DEFAULT_REGISTRATION_INVITE;
   }
 
   return state.registrationsInvites[inviteId];

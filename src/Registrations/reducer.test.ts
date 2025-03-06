@@ -176,7 +176,19 @@ describe('getRegistrationInviteSuccess', () => {
     id: 'first-id',
     inviteeId: 'first-invitee-id',
     inviteeType: 'team',
-    invitee: null
+    invitee: null,
+    registrationResponses: [
+      {
+        id: 'first-response-id',
+        registrationInviteId: 'first-id',
+        response: { foo: 'bar' }
+      },
+      {
+        id: 'second-response-id',
+        registrationInviteId: 'first-id',
+        response: { boo: 'bah' }
+      }
+    ]
   });
 
   it('sets isLoadingGetRegistrationInvite to false', () => {
@@ -192,7 +204,19 @@ describe('getRegistrationInviteSuccess', () => {
       id: 'first-id',
       inviteeId: 'first-invitee-id',
       inviteeType: 'team',
-      invitee: null
+      invitee: null,
+      registrationResponses: [
+        {
+          id: 'first-response-id',
+          registrationInviteId: 'first-id',
+          response: { foo: 'bar' }
+        },
+        {
+          id: 'second-response-id',
+          registrationInviteId: 'first-id',
+          response: { boo: 'bah' }
+        }
+      ]
     });
   });
 });

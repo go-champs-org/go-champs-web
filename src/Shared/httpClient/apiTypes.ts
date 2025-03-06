@@ -574,10 +574,12 @@ export interface ApiSportResponse {
 
 export type ApiRegistrationType = 'team_roster_invites';
 
+export type ApiCustomFieldType = 'date' | 'datetime' | 'text';
+
 export interface ApiRegistrationCustomField {
   id: string;
   label: string;
-  type: string;
+  type: ApiCustomFieldType;
   description?: string;
 }
 
@@ -588,6 +590,7 @@ export interface ApiRegistrationInvite {
   invitee?: ApiTeam;
   invitee_id: string;
   invitee_type: ApiRegistrationInviteeType;
+  registration_responses?: ApiRegistrationResponseResourceWithDependencies[];
 }
 
 export interface ApiRegistrationInviteWithDepdenencies
@@ -627,14 +630,24 @@ export interface ApiRegistrationResponse {
   data: ApiRegistration;
 }
 
+export interface ApiRegistrationResponseResponse extends Object {
+  name?: string;
+  email?: string;
+  shirt_name?: string;
+  shirt_number?: string;
+}
+
+export type ApiRegistrationResponseStatus = 'pending' | 'approved';
+
 export interface ApiRegistrationResponseResource {
   registration_invite_id: string;
-  response: object;
+  response: ApiRegistrationResponseResponse;
 }
 
 export interface ApiRegistrationResponseResourceWithDependencies
   extends ApiRegistrationResponseResource {
   id: string;
+  status: ApiRegistrationResponseStatus;
 }
 
 export interface ApiRegistrationResponseResourcePostRequest {

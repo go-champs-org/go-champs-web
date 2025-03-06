@@ -96,6 +96,12 @@ export default {
     perAggregation: 'Por total',
     perGame: 'Por jogo',
     registrations: 'Inscrições',
+    registrationResponse: {
+      statuses: {
+        approved: 'Aprovado',
+        pending: 'Pendente'
+      }
+    },
     remove: 'Remover',
     rankingOrder: 'Ordem de rankemento',
     registrationForm: 'Formulário de inscricão',

@@ -13,6 +13,7 @@ import {
   registrationInviteById
 } from '../Registrations/selectors';
 import withRegistrationInvite from './support/withRegistrationInvite';
+import ResponseList from '../Registrations/ResponseList';
 
 const mapStateToProps = (
   state: StoreState,
@@ -40,13 +41,29 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type RegistrationInviteManagerProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
-function RegistrationInviteManager({ match }: RegistrationInviteManagerProps) {
+function RegistrationInviteManager({
+  registrationInviteLoading,
+  registration,
+  registrationInvite,
+  match
+}: RegistrationInviteManagerProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   return (
     <Fragment>
       <div className="column">
         <div className="container">
-          <div className="columns is-multiline is-mobile is-vcentered"></div>
+          <div className="columns is-multiline is-mobile is-vcentered">
+            {registrationInviteLoading ? (
+              <>Loading</>
+            ) : (
+              <ResponseList
+                registration={registration}
+                registrationInvite={registrationInvite}
+                organizationSlug={organizationSlug}
+                tournamentSlug={tournamentSlug}
+              />
+            )}
+          </div>
         </div>
         <div className="is-divider-vertical is-hidden-tablet-only"></div>
 
