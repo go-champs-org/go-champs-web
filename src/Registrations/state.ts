@@ -11,6 +11,8 @@ export interface CustomFieldEntity {
   id: string;
   label: string;
   description: string;
+  required: boolean;
+  properties: object;
   type: ApiCustomFieldType;
 }
 
@@ -68,7 +70,9 @@ export const DEFAULT_CUSTOM_FIELD: CustomFieldEntity = {
   id: '',
   label: '',
   type: 'text',
-  description: ''
+  description: '',
+  required: false,
+  properties: {}
 };
 
 export const DEFAULT_REGISTRATION: RegistrationEntity = {
@@ -103,5 +107,6 @@ export const CUSTOM_FIELDS_TYPE_OPTIONS: {
 }[] = [
   { label: 'Text', value: 'text' },
   { label: 'Date', value: 'date' },
-  { label: 'Date/time', value: 'datetime' }
+  { label: 'Date/time', value: 'datetime' },
+  { label: 'Consent', value: 'consent' }
 ];

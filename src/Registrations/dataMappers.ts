@@ -6,8 +6,10 @@ import {
   ApiRegistrationResponseResourcePostRequest,
   ApiRegistrationType,
   ApiRegistrationResponseResourceWithDependencies,
-  ApiRegistrationCustomField
+  ApiRegistrationCustomField,
+  ApiUploadFile
 } from '../Shared/httpClient/apiTypes';
+import { FileReference } from '../Shared/UI/Form/FileUpload';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TeamEntity } from '../Teams/state';
 import {
@@ -56,7 +58,9 @@ export const mapApiCustomFieldToCustomFieldEntity = (
     id: apiCustomField.id,
     label: apiCustomField.label,
     description: apiCustomField.description ? apiCustomField.description : '',
-    type: apiCustomField.type
+    type: apiCustomField.type,
+    required: apiCustomField.required,
+    properties: apiCustomField.properties ? apiCustomField.properties : {}
   };
 };
 
@@ -169,4 +173,24 @@ export const parseRegistrationResponseFor = (
         shirtNumber: ''
       };
   }
+};
+
+export const mapApiFileReferenceToFileReference = (
+  apiFileReference: ApiUploadFile
+): FileReference => {
+  return {
+    filename: apiFileReference.filename,
+    url: apiFileReference.url,
+    publicUrl: apiFileReference.public_url
+  };
+};
+
+export const mapFileReferenceToApiFileReference = (
+  fileReference: FileReference
+): ApiUploadFile => {
+  return {
+    filename: fileReference.filename,
+    public_url: fileReference.publicUrl,
+    url: fileReference.url
+  };
 };

@@ -13,10 +13,11 @@ const buildAuthenticationHeader = () => {
   };
 };
 
-const deleteRequest = async (url: string): Promise<string> => {
+const deleteRequest = async <T>(url: string, data: T): Promise<string> => {
   const response = await fetch(url, {
     headers: buildAuthenticationHeader(),
-    method: 'DELETE'
+    method: 'DELETE',
+    body: data && JSON.stringify(data)
   });
 
   const splittedUrl = response.url.split('/');

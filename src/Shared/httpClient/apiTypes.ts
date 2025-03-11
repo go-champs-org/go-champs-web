@@ -574,12 +574,14 @@ export interface ApiSportResponse {
 
 export type ApiRegistrationType = 'team_roster_invites';
 
-export type ApiCustomFieldType = 'date' | 'datetime' | 'text';
+export type ApiCustomFieldType = 'date' | 'datetime' | 'text' | 'consent';
 
 export interface ApiRegistrationCustomField {
   id: string;
   label: string;
   type: ApiCustomFieldType;
+  required: boolean;
+  properties?: object;
   description?: string;
 }
 
@@ -656,4 +658,24 @@ export interface ApiRegistrationResponseResourcePostRequest {
 
 export interface ApiRegistrationResponseResourceResponse {
   data: ApiRegistrationResponseResourceWithDependencies;
+}
+
+export interface ApiUploadPostRequest {
+  filename: string;
+  content_type: string;
+  size: number;
+}
+
+export interface ApiUploadFile {
+  filename: string;
+  url: string;
+  public_url: string;
+}
+
+export interface ApiUploadPostResponse {
+  data: ApiUploadFile;
+}
+
+export interface ApiUploadDeleteRequest {
+  url: string;
 }

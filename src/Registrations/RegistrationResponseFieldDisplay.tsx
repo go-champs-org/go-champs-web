@@ -27,9 +27,25 @@ function DateTime({ value }: FieldProps) {
   return <Trans values={{ date: value }}>date</Trans>;
 }
 
+function Consent({ value }: FieldProps) {
+  if (!Boolean(value)) {
+    return (
+      <span className="icon">
+        <i className="fas fa-times-circle"></i>
+      </span>
+    );
+  }
+  return (
+    <span className="icon">
+      <i className="fas fa-check-circle"></i>
+    </span>
+  );
+}
+
 const FIELD: {
   [key in ApiCustomFieldType]: React.ComponentType<FieldProps>;
 } = {
+  consent: Consent,
   date: Date,
   datetime: DateTime,
   text: Text

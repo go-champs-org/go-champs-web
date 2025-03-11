@@ -1,4 +1,4 @@
-import React, { ReactComponentElement } from 'react';
+import React from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { Trans } from 'react-i18next';
 import StringInput from '../Shared/UI/Form/StringInput';
@@ -6,9 +6,7 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 import Shimmer from '../Shared/UI/Shimmer';
 import {
   CustomFieldEntity,
-  CustomFieldType,
   RegistrationEntity,
-  RegistrationInviteEntity,
   RegistrationResponseEntity
 } from './state';
 import {
@@ -19,10 +17,13 @@ import {
 import './TeamRosterInviteResponseForm.scss';
 import Datetime from '../Shared/UI/Form/Datetime';
 import DateInput from '../Shared/UI/Form/DateInput';
+import { ApiCustomFieldType } from '../Shared/httpClient/apiTypes';
+import ConsentInput from '../Shared/UI/Form/ConsentInput';
 
 const FIELD_COMPONENTS: {
-  [key in CustomFieldType]: React.ComponentType<any>;
+  [key in ApiCustomFieldType]: React.ComponentType<any>;
 } = {
+  consent: ConsentInput,
   date: DateInput,
   datetime: Datetime,
   text: StringInput
@@ -32,8 +33,24 @@ interface CustomFieldProps {
   field: CustomFieldEntity;
 }
 
+const fieldProps = (field: CustomFieldEntity) => {
+  const commonProps = {
+    required: field.required,
+    id: field.id
+  };
+
+  if (field.type === 'consent') {
+    return {
+      ...commonProps,
+      fileUrl: field.properties.public_url || ''
+    };
+  }
+
+  return commonProps;
+};
+
 export function CustomField({ field }: CustomFieldProps) {
-  const fieldType = field.type.toLowerCase() as CustomFieldType;
+  const fieldType = field.type.toLowerCase() as ApiCustomFieldType;
   const FieldComponent = FIELD_COMPONENTS[fieldType];
 
   if (!FieldComponent) {
@@ -48,9 +65,16 @@ export function CustomField({ field }: CustomFieldProps) {
         <Field
           name={`response.${field.id}`}
           className="has-text-centered"
-          render={(props: FieldRenderProps<any, any>) => (
-            <FieldComponent {...props} className="has-text-centered" />
-          )}
+          render={(props: FieldRenderProps<any, any>) => {
+            const customProps = {
+              ...fieldProps(field),
+              ...props
+            };
+            return (
+              <FieldComponent {...customProps} className="has-text-centered" />
+            );
+          }}
+          validate={field.required ? composeValidators([required]) : undefined}
         />
       </div>
 

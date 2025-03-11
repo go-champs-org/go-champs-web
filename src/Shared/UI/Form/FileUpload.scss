@@ -1,0 +1,34 @@
+@import '../../styles/colors.scss';
+
+.upload-container {
+  max-width: 600px;
+}
+
+.dropzone {
+  border: 2px dashed $brown;
+  border-radius: 4px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.dropzone.active {
+  border-color: $green;
+}
+
+.upload-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+progress {
+  width: 100%;
+  height: 20px;
+}
+
+.error-message {
+  color: $red;
+  margin-top: 1rem;
+}

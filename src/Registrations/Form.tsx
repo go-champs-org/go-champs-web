@@ -17,6 +17,12 @@ import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import { FieldArray } from 'react-final-form-arrays';
 import SelectInput from '../Shared/UI/Form/Select';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import FileUpload, { FileReference } from '../Shared/UI/Form/FileUpload';
+import {
+  mapApiFileReferenceToFileReference,
+  mapFileReferenceToApiFileReference
+} from './dataMappers';
+import { ApiUploadFile } from '../Shared/httpClient/apiTypes';
 
 export function FormLoading(): React.ReactElement {
   return (
@@ -91,11 +97,13 @@ export function FormLoading(): React.ReactElement {
 interface CustomFieldFormProps {
   name: string;
   onRemove: () => {};
+  currentValue: CustomFieldEntity;
 }
 
 function CustomFieldForm({
   name,
-  onRemove
+  onRemove,
+  currentValue
 }: CustomFieldFormProps): React.ReactElement {
   return (
     <div className="card" style={{ marginBottom: '1rem' }}>
@@ -146,8 +154,55 @@ function CustomFieldForm({
           </div>
         </div>
 
+        <div className="field">
+          <div className="control" style={{ paddingTop: '.5rem' }}>
+            <Field
+              name={`${name}.required`}
+              type="checkbox"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <CheckboxInput {...props} id="required" />
+              )}
+            />
+
+            <label className="label" htmlFor="required">
+              <Trans>required</Trans>
+            </label>
+          </div>
+        </div>
+
+        {currentValue.type === 'consent' && (
+          <div className="field">
+            <label className="label">Arquivo</label>
+
+            <Field
+              name={`${name}.properties`}
+              render={(
+                props: FieldRenderProps<FileReference[], HTMLElement>
+              ) => (
+                <FileUpload
+                  {...props}
+                  initialUploadedFiles={
+                    Object.entries(currentValue.properties).length
+                      ? [
+                        mapApiFileReferenceToFileReference(
+                          currentValue.properties as ApiUploadFile
+                        )
+                      ]
+                      : []
+                  }
+                />
+              )}
+              parse={(value: FileReference[]) => {
+                if (!value || value.length === 0) return {};
+
+                return mapFileReferenceToApiFileReference(value[0]);
+              }}
+            />
+          </div>
+        )}
+
         <div className="field has-text-right">
-          <DoubleClickButton className="button is-danger" onClick={onRemove}>
+          <DoubleClickButton className="button is-info" onClick={onRemove}>
             <Trans>remove</Trans>
           </DoubleClickButton>
         </div>
@@ -228,6 +283,7 @@ function Form({
                   <CustomFieldForm
                     key={name}
                     name={name}
+                    currentValue={fields.value[index]}
                     onRemove={() => fields.remove(index)}
                   />
                 ))

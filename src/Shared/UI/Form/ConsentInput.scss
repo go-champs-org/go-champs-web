@@ -1,0 +1,10 @@
+@import '../../styles/colors.scss';
+
+.consent-link {
+  color: $red-dark;
+  text-decoration: underline;
+
+  &:hover {
+    color: $red-light;
+  }
+}
