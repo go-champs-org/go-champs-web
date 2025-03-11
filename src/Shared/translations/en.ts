@@ -21,6 +21,8 @@ export default {
     by: 'by',
     cancel: 'Cancel',
     clean: 'Clean',
+    consentInputViewDocument: 'Click to view terms and conditions',
+    consentInputAgree: 'I agree to the terms and conditions',
     copyLink: 'Copy link',
     customFields: 'Custom fields',
     date: '{{date, date}}',
@@ -93,6 +95,8 @@ export default {
     playerStats: 'Player stats',
     placeholder: 'Placeholder',
     perAggregation: 'Per total',
+    perGame: 'Per game',
+    rankingOrder: 'Ranking order',
     registrations: 'Registrations',
     registrationResponse: {
       statuses: {
@@ -100,12 +104,11 @@ export default {
         pending: 'Pending'
       }
     },
-    remove: 'Remove',
-    perGame: 'Per game',
-    rankingOrder: 'Ranking order',
     registrationForm: 'Registration form',
     registrationFormSuccessMsg: 'Registration form sent successfully!',
+    remove: 'Remove',
     repeatPassword: 'Repeat password',
+    required: 'Required',
     rounds: 'Rounds',
     roundsMenuTitle: 'Rounds menu',
     rows: 'Rows',
@@ -597,6 +600,9 @@ export default {
     statistics: 'Statistics',
     sum: 'Sum',
     summary: 'Summary',
+    uploadDropFiles: 'Drop files here to upload',
+    uploadError: 'Upload error',
+    uploadFiles: 'Uploaded files',
     username: 'Username',
     useAsAnApp: 'Install on your phone',
     useAsAnAppLine1: 'Open your browser menu.',
