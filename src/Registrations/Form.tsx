@@ -184,10 +184,10 @@ function CustomFieldForm({
                   initialUploadedFiles={
                     Object.entries(currentValue.properties).length
                       ? [
-                        mapApiFileReferenceToFileReference(
-                          currentValue.properties as ApiUploadFile
-                        )
-                      ]
+                          mapApiFileReferenceToFileReference(
+                            currentValue.properties as ApiUploadFile
+                          )
+                        ]
                       : []
                   }
                 />
