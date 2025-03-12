@@ -13,7 +13,7 @@ const buildAuthenticationHeader = () => {
   };
 };
 
-const deleteRequest = async <T>(url: string, data: T): Promise<string> => {
+const deleteRequest = async <T>(url: string, data?: T): Promise<string> => {
   const response = await fetch(url, {
     headers: buildAuthenticationHeader(),
     method: 'DELETE',

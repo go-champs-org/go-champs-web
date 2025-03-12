@@ -396,6 +396,7 @@ export interface ApiTournamentWithDependecies extends ApiTournament {
   players: ApiPlayer[];
   teams: ApiTeam[];
   registrations: ApiRegistration[];
+  scoreboard_setting: ApiScoreboardSetting;
 }
 
 export interface ApiTournamentWithDependeciesIds extends ApiTournament {
@@ -678,4 +679,33 @@ export interface ApiUploadPostResponse {
 
 export interface ApiUploadDeleteRequest {
   url: string;
+}
+
+export type ApiScoreboardSettingView = 'basketball-basic' | 'basketball-medium';
+
+export interface ApiScoreboardSetting {
+  id: string;
+  view: ApiScoreboardSettingView;
+  initial_period_time: number;
+}
+
+export interface ApiScoreboardSettingWithDependencies
+  extends ApiScoreboardSetting {
+  tournament_id: string;
+}
+
+export interface ApiScoreboardSettingPatchRequest {
+  scoreboard_setting: ApiScoreboardSetting;
+}
+
+export interface ApiScoreboardSettingPostRequest {
+  scoreboard_setting: ApiScoreboardSettingWithDependencies;
+}
+
+export interface ApiScoreboardSettingResponse {
+  data: ApiScoreboardSetting;
+}
+
+export interface ApiScoreboardSettingsResponse {
+  data: ApiScoreboardSetting[];
 }
