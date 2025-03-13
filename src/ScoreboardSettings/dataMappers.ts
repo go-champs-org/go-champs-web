@@ -3,6 +3,7 @@ import {
   ApiScoreboardSettingPatchRequest,
   ApiScoreboardSettingPostRequest
 } from '../Shared/httpClient/apiTypes';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { ScoreboardSettingEntity } from './state';
 
 export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
@@ -40,3 +41,8 @@ export const mapApiScoreboardSettingToScoreboardSettingEntity = (
     initialPeriodTime: apiScoreboardSetting.initial_period_time
   };
 };
+
+export const SCOREBOARD_VIEW_OPTIONS: SelectOptionType[] = [
+  { value: 'basketball-basic', label: 'Basquete básico' },
+  { value: 'basketball-medium', label: 'Basquete completo' }
+];

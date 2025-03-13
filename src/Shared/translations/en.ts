@@ -39,6 +39,7 @@ export default {
     editPhase: 'Edit phase',
     editPlayer: 'Edit player',
     editRegistration: 'Edit registration',
+    editScoreboardSettings: 'Edit scoreboard settings',
     editTeam: 'Edit team',
     editTournament: 'Edit tournament',
     eliminationMenuTitle: 'Elimination menu',
@@ -56,6 +57,7 @@ export default {
     homeTeam: 'Home team',
     homeScore: 'Home score',
     informations: 'Informations',
+    initialPeriodTime: 'Initial period time (seconds)',
     invites: 'Invites',
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
@@ -117,6 +119,7 @@ export default {
     startDate: 'Start date',
     scanCodeToAccessIt: 'Access games, standings, players stats and much more.',
     scope: 'Scope',
+    scoreboardSettings: 'Scoreboard settings',
     search: 'Search',
     searchTournaments: 'Search tournaments',
     secondTeam: 'Second team',
@@ -633,6 +636,7 @@ export default {
     youNeedCreatePhases: 'You need to create phases.',
     url: 'URL',
     value: 'Value',
+    viewer: 'Viewer',
     visibility: 'Visibility',
     youTubeCode: 'YouTube code'
   }

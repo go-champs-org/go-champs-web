@@ -1,10 +1,12 @@
 import React from 'react';
 import { ScoreboardSettingEntity } from './state';
-import { Field, FormRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { Trans } from 'react-i18next';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Link } from 'react-router-dom';
 import StringInput from '../Shared/UI/Form/StringInput';
+import { SCOREBOARD_VIEW_OPTIONS } from './dataMappers';
+import SelectInput from '../Shared/UI/Form/Select';
 
 interface FromProps extends FormRenderProps<ScoreboardSettingEntity> {
   backUrl: string;
@@ -16,19 +18,23 @@ function Form({
   isLoading,
   handleSubmit,
   submitting,
-  pristine,
-  values
+  pristine
 }: FromProps) {
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
           <label className="label">
-            <Trans>view</Trans>
+            <Trans>viewer</Trans>
           </label>
 
           <div className="control">
-            <Field name="view" component={StringInput} />
+            <Field
+              name="view"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={SCOREBOARD_VIEW_OPTIONS} />
+              )}
+            />
           </div>
         </div>
 
@@ -42,6 +48,7 @@ function Form({
               name="initialPeriodTime"
               component={StringInput}
               type="number"
+              disabled
             />
           </div>
         </div>

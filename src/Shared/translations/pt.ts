@@ -39,6 +39,7 @@ export default {
     editOrganization: 'Editar organizacão',
     editPhase: 'Editar fase',
     editPlayer: 'Editar atleta',
+    editScoreboardSettings: 'Editar configuracões de scoreboard',
     editRegistration: 'Editar inscricão',
     editTeam: 'Editar equipe',
     editTournament: 'Editar torneio',
@@ -57,6 +58,7 @@ export default {
     homeTeam: 'Equipe casa',
     homeScore: 'Pontuacao casa',
     informations: 'Informacões',
+    initialPeriodTime: 'Tempo inicial (em segundos)',
     invites: 'Convites',
     isGameFinished: 'Jogo encerrado',
     isInProgress: 'Em progresso',
@@ -119,6 +121,7 @@ export default {
     scanCodeToAccessIt:
       'Acesse jogos, classificação, estatísticas e muito mais.',
     scope: 'Escopo',
+    scoreboardSettings: 'Configuracões de scoreboard',
     search: 'Pesquisar',
     searchTournaments: 'Busca de torneios',
     secondTeam: 'Segunda equipe',
@@ -659,6 +662,7 @@ export default {
     youNeedCreatePhases: 'Você precisa criar fases.',
     url: 'URL',
     value: 'Valor',
+    viewer: 'Visualizador',
     visibility: 'Visibilidade',
     youTubeCode: 'Código YouTube'
   }
