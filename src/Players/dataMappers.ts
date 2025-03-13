@@ -34,8 +34,8 @@ export const mapPlayerEntityToApiPlayerPostRequest = (
   player: {
     id: player.id,
     name: player.name,
-    shirt_name: player.shirtName && player.shirtName,
-    shirt_number: player.shirtNumber && player.shirtNumber,
+    shirt_name: player.shirtName ? player.shirtName : null,
+    shirt_number: player.shirtNumber ? player.shirtNumber : null,
     instagram: player.instagram,
     facebook: player.facebook,
     twitter: player.twitter,
@@ -51,8 +51,8 @@ export const mapPlayerEntityToApiPlayerPatchRequest = (
   player: {
     id: player.id,
     name: player.name,
-    shirt_name: player.shirtName && player.shirtName,
-    shirt_number: player.shirtNumber && player.shirtNumber,
+    shirt_name: player.shirtName ? player.shirtName : null,
+    shirt_number: player.shirtNumber ? player.shirtNumber : null,
     instagram: player.instagram,
     facebook: player.facebook,
     twitter: player.twitter,
