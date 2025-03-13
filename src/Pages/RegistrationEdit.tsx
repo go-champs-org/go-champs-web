@@ -5,17 +5,13 @@ import { Mutator } from 'final-form';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import {
-  patchRegistration,
-  putRegistrationGenerateInvites
-} from '../Registrations/effects';
+import { patchRegistration } from '../Registrations/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import {
   registrationsLoading,
   registrationById,
-  patchingRegistration,
-  puttingRegistrationGenerateInvites
+  patchingRegistration
 } from '../Registrations/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import {

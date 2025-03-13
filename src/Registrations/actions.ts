@@ -126,7 +126,7 @@ export const postRegistrationStart = (): HttpAction<ActionTypes> => ({
 
 export const postRegistrationSuccess = (
   payload: RegistrationEntity
-): HttpAction<ActionTypes, ApiRegistration> => ({
+): HttpAction<ActionTypes, RegistrationEntity> => ({
   type: POST_REGISTRATION_SUCCESS,
   payload
 });

@@ -220,12 +220,12 @@ const postRegistrationFailure = (
 
 const postRegistrationSuccess = (
   state: RegistrationState,
-  action: HttpAction<ActionTypes, ApiRegistration>
+  action: HttpAction<ActionTypes, RegistrationEntity>
 ) => ({
   ...state,
   isLoadingPostRegistration: false,
   registrations: [action.payload!].reduce(
-    apiRegistrationToEntities,
+    registrationMapEntities,
     state.registrations
   )
 });

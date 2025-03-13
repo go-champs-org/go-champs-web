@@ -356,11 +356,12 @@ describe('postRegistrationSuccess', () => {
   const action = postRegistrationSuccess({
     id: 'first-id',
     title: 'first-title',
-    start_date: 'first-start-date',
-    end_date: 'first-end-date',
+    startDate: 'first-start-date',
+    endDate: 'first-end-date',
     type: 'team_roster_invites' as ApiRegistrationType,
-    auto_approve: false,
-    custom_fields: []
+    autoApprove: false,
+    customFields: [],
+    registrationInvites: []
   });
 
   it('sets isLoadingPostRegistration to false', () => {
