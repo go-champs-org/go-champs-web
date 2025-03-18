@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
+import YouTubeInput from '../Shared/UI/Form/YouTubeInput';
 
 interface FromProps extends FormRenderProps<GameEntity> {
   backUrl: string;
@@ -210,7 +211,7 @@ const Form: React.FC<FromProps> = ({
           <div className="control">
             <Field
               name="youTubeCode"
-              component={StringInput}
+              component={YouTubeInput}
               type="text"
               placeholder="B28HavKyGIE"
             />
