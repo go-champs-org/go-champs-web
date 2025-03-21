@@ -4,7 +4,11 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
-import { RegistrationEntity, RegistrationInviteEntity } from './state';
+import {
+  RegistrationEntity,
+  RegistrationInviteEntity,
+  RegistrationResponseEntity
+} from './state';
 
 export const DELETE_REGISTRATION = 'API_DELETE_REGISTRATION';
 export const DELETE_REGISTRATION_SUCCESS = 'API_DELETE_REGISTRATION_SUCCESS';
@@ -23,6 +27,12 @@ export const PUT_REGISTRATION_GENERATE_INVITES_SUCCESS =
   'API_PUT_REGISTRATION_GENERATE_INVITES_SUCCESS';
 export const PUT_REGISTRATION_GENERATE_INVITES_FAILURE =
   'API_PUT_REGISTRATION_GENERATE_INVITES_FAILURE';
+export const PUT_REGISTRATION_RESPONSE_APPROVE =
+  'API_PUT_REGISTRATION_RESPONSE_APPROVE';
+export const PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS =
+  'API_PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS';
+export const PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE =
+  'API_PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE';
 export const PATCH_REGISTRATION = 'API_PATCH_REGISTRATION';
 export const PATCH_REGISTRATION_SUCCESS = 'API_PATCH_REGISTRATION_SUCCESS';
 export const PATCH_REGISTRATION_FAILURE = 'API_PATCH_REGISTRATION_FAILURE';
@@ -120,6 +130,24 @@ export const putRegistrationGenerateInvitesFailure = (
   payload
 });
 
+export const putRegistrationResponseApproveStart = (): HttpAction<ActionTypes> => ({
+  type: PUT_REGISTRATION_RESPONSE_APPROVE
+});
+
+export const putRegistrationResponseApproveSuccess = (
+  payload: RegistrationResponseEntity[]
+): HttpAction<ActionTypes, RegistrationResponseEntity[]> => ({
+  type: PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS,
+  payload
+});
+
+export const putRegistrationResponseApproveFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE,
+  payload
+});
+
 export const postRegistrationStart = (): HttpAction<ActionTypes> => ({
   type: POST_REGISTRATION
 });
@@ -154,6 +182,9 @@ export type ActionTypes =
   | typeof PUT_REGISTRATION_GENERATE_INVITES
   | typeof PUT_REGISTRATION_GENERATE_INVITES_SUCCESS
   | typeof PUT_REGISTRATION_GENERATE_INVITES_FAILURE
+  | typeof PUT_REGISTRATION_RESPONSE_APPROVE
+  | typeof PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS
+  | typeof PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE
   | typeof POST_REGISTRATION
   | typeof POST_REGISTRATION_SUCCESS
   | typeof POST_REGISTRATION_FAILURE

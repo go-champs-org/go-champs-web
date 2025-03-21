@@ -7,7 +7,8 @@ import {
   ApiRegistrationType,
   ApiRegistrationResponseResourceWithDependencies,
   ApiRegistrationCustomField,
-  ApiUploadFile
+  ApiUploadFile,
+  ApiRegistrationResponseResourcePutApproveRequest
 } from '../Shared/httpClient/apiTypes';
 import { FileReference } from '../Shared/UI/Form/FileUpload';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
@@ -139,6 +140,14 @@ export const mapRegistrationResponseEntityToApiRegistrationResponseResourceReque
       registration_invite_id: registrationInviteId,
       response: registrationResponse.response
     }
+  };
+};
+
+export const mapRegistrationResponseEntitiesToApiRegistrationResponseResourcePutApproveRequest = (
+  registrationResponses: RegistrationResponseEntity[]
+): ApiRegistrationResponseResourcePutApproveRequest => {
+  return {
+    registration_responses: registrationResponses.map(response => response.id)
   };
 };
 

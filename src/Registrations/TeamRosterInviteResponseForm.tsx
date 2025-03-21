@@ -118,7 +118,7 @@ export function LoadingForm() {
           <div className="columns is-multiline">
             <div className="column is-12">
               <label className="label">
-                <Trans>name</Trans>
+                <Trans>fullName</Trans>
               </label>
               <Shimmer>
                 <div
@@ -205,7 +205,7 @@ function TeamRosterInviteResponseForm({
           <form className="form" onSubmit={handleSubmit}>
             <div className="field">
               <label className="label">
-                <Trans>name</Trans>
+                <Trans>fullName</Trans>
               </label>
 
               <div className="control">

@@ -20,6 +20,9 @@ function TeamRosterResponseRow({
   );
   return (
     <tr key={registrationResponse.id}>
+      <td>
+        <input type="checkbox" />
+      </td>
       <td style={{ paddingLeft: 0 }}>
         <RegistrationResponseStatusChip status={registrationResponse.status} />
       </td>
@@ -70,11 +73,21 @@ function TeamRosterResponses({
           </div>
 
           <div className="column is-12">
-            <span className="subtitle">
-              <Trans>team</Trans>
-              {': '}
-              {registrationInvite.invitee && registrationInvite.invitee.name}
-            </span>
+            <div className="columns">
+              <div className="column is-8">
+                <span className="subtitle">
+                  <Trans>team</Trans>
+                  {': '}
+                  {registrationInvite.invitee &&
+                    registrationInvite.invitee.name}
+                </span>
+              </div>
+              <div className="column is-4 has-text-right">
+                <button className="button is-primary is-small">
+                  <Trans>approve</Trans>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="column is-12">
@@ -82,6 +95,7 @@ function TeamRosterResponses({
               <table className="table is-narrow is-fullwidth">
                 <thead>
                   <tr>
+                    <th></th>
                     <th style={{ paddingLeft: 0 }}>Status</th>
                     <th>
                       <Trans>name</Trans>

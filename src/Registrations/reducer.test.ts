@@ -19,6 +19,9 @@ import {
   patchRegistrationFailure,
   patchRegistrationStart,
   patchRegistrationSuccess,
+  putRegistrationResponseApproveStart,
+  putRegistrationResponseApproveSuccess,
+  putRegistrationResponseApproveFailure,
   postRegistrationFailure,
   postRegistrationStart,
   postRegistrationSuccess
@@ -329,6 +332,49 @@ describe('patchRegistrationSuccess', () => {
       autoApprove: false,
       customFields: []
     });
+  });
+});
+
+describe('putRegistrationResponseApprove', () => {
+  const action = putRegistrationResponseApproveStart();
+
+  it('sets isLoadingRegistrationResponseApprove to true', () => {
+    expect(
+      registrationReducer(initialState, action)
+        .isLoadingRegistrationResponseApprove
+    ).toBe(true);
+  });
+});
+
+describe('putRegistrationResponseApproveFailure', () => {
+  const action = putRegistrationResponseApproveFailure('error');
+
+  it('sets isLoadingRegistrationResponseApprove to false', () => {
+    expect(
+      registrationReducer(
+        {
+          ...initialState,
+          isLoadingRegistrationResponseApprove: true
+        },
+        action
+      ).isLoadingRegistrationResponseApprove
+    ).toBe(false);
+  });
+});
+
+describe('putRegistrationResponseApproveSuccess', () => {
+  const action = putRegistrationResponseApproveSuccess([]);
+
+  it('sets isLoadingRegistrationResponseApprove to false', () => {
+    expect(
+      registrationReducer(
+        {
+          ...initialState,
+          isLoadingRegistrationResponseApprove: true
+        },
+        action
+      ).isLoadingRegistrationResponseApprove
+    ).toBe(false);
   });
 });
 

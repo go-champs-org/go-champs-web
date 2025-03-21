@@ -32,13 +32,17 @@ import {
   GET_REGISTRATION_SUCCESS,
   GET_REGISTRATION_INVITE,
   GET_REGISTRATION_INVITE_FAILURE,
-  GET_REGISTRATION_INVITE_SUCCESS
+  GET_REGISTRATION_INVITE_SUCCESS,
+  PUT_REGISTRATION_RESPONSE_APPROVE,
+  PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE,
+  PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS
 } from './actions';
 import { mapApiRegistrationToRegistrationEntity } from './dataMappers';
 import {
   initialState,
   RegistrationEntity,
   RegistrationInviteEntity,
+  RegistrationResponseEntity,
   RegistrationState
 } from './state';
 
@@ -202,6 +206,30 @@ const putRegistrationGenerateInvitesSuccess = (
   )
 });
 
+const putRegistrationResponseApprove = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRegistrationResponseApprove: true
+});
+
+const putRegistrationResponseApproveFailure = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRegistrationResponseApprove: false
+});
+
+const putRegistrationResponseApproveSuccess = (
+  state: RegistrationState,
+  action: HttpAction<ActionTypes, RegistrationResponseEntity[]>
+) => ({
+  ...state,
+  isLoadingRegistrationResponseApprove: false
+});
+
 const postRegistration = (
   state: RegistrationState,
   action: HttpAction<ActionTypes>
@@ -260,6 +288,9 @@ export default createReducer(initialState, {
   [PUT_REGISTRATION_GENERATE_INVITES]: putRegistrationGenerateInvites,
   [PUT_REGISTRATION_GENERATE_INVITES_FAILURE]: putRegistrationGenerateInvitesFailure,
   [PUT_REGISTRATION_GENERATE_INVITES_SUCCESS]: putRegistrationGenerateInvitesSuccess,
+  [PUT_REGISTRATION_RESPONSE_APPROVE]: putRegistrationResponseApprove,
+  [PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE]: putRegistrationResponseApproveFailure,
+  [PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS]: putRegistrationResponseApproveSuccess,
   [POST_REGISTRATION]: postRegistration,
   [POST_REGISTRATION_FAILURE]: postRegistrationFailure,
   [POST_REGISTRATION_SUCCESS]: postRegistrationSuccess,

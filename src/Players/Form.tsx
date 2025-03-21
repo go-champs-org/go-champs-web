@@ -117,7 +117,7 @@ function Form({
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
           <label className="label">
-            <Trans>name</Trans>
+            <Trans>fullName</Trans>
           </label>
 
           <div className="control">

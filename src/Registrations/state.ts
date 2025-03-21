@@ -49,6 +49,7 @@ export interface RegistrationState {
   isLoadingPatchRegistration: boolean;
   isLoadingPutRegistrationGenerateInvites: boolean;
   isLoadingPostRegistration: boolean;
+  isLoadingRegistrationResponseApprove: boolean;
   isLoadingRequestTournament: boolean;
   registrations: { [key: string]: RegistrationEntity };
   registrationsInvites: { [key: string]: RegistrationInviteEntity };

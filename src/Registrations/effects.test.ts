@@ -4,7 +4,8 @@ import {
   deleteRegistration,
   putRegistrationGenerateInvites,
   getRegistration,
-  getRegistrationInvite
+  getRegistrationInvite,
+  putRegistrationResponseApprove
 } from './effects';
 import { DEFAULT_REGISTRATION, DEFAULT_REGISTRATION_INVITE } from './state';
 import {
@@ -25,12 +26,16 @@ import {
   getRegistrationFailure,
   getRegistrationInviteFailure,
   getRegistrationInviteSuccess,
-  getRegistrationInviteStart
+  getRegistrationInviteStart,
+  putRegistrationResponseApproveStart,
+  putRegistrationResponseApproveSuccess,
+  putRegistrationResponseApproveFailure
 } from './actions';
 import registrationHttpClient from './registrationHttpClient';
 import registrationInviteHttpClient from './registrationInviteHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
+import registrationResponseHttpClient from './registrationResponseHttpClient';
 
 const displayToastSpy = jest.spyOn(toast, 'displayToast');
 
@@ -350,6 +355,70 @@ describe('putRegistrationGenerateInvites', () => {
       expect(result).toEqual({
         name: ['has invalid format']
       });
+    });
+  });
+});
+
+describe('putRegistrationResponseApprove', () => {
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start patch action', () => {
+    putRegistrationResponseApprove([])(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(
+      putRegistrationResponseApproveStart()
+    );
+  });
+
+  describe('on success', () => {
+    beforeEach(() => {
+      dispatch.mockReset();
+      displayToastSpy.mockReset();
+
+      jest
+        .spyOn(registrationResponseHttpClient, 'approve')
+        .mockResolvedValue([]);
+
+      putRegistrationResponseApprove([])(dispatch);
+    });
+
+    it('dispatches generate invites success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        putRegistrationResponseApproveSuccess([])
+      );
+    });
+
+    it('dispatches display toast', () => {
+      expect(displayToastSpy).toHaveBeenCalledWith(
+        'Responses were approved!',
+        'is-success'
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new ApiError({
+      status: 422,
+      data: { errors: { name: ['has invalid format'] } }
+    });
+
+    beforeEach(() => {
+      dispatch.mockReset();
+      displayToastSpy.mockReset();
+
+      jest
+        .spyOn(registrationResponseHttpClient, 'approve')
+        .mockRejectedValue(apiError);
+    });
+
+    it('dispatches patch failure action', async () => {
+      await putRegistrationResponseApprove([])(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        putRegistrationResponseApproveFailure(apiError)
+      );
     });
   });
 });
