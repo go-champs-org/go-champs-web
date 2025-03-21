@@ -54,6 +54,7 @@ export default {
     fixed: 'Manual',
     fixedPlayerStatsTables: 'Tabelas de Estatísticas',
     forgotYourPassword: 'Esqueceu sua senha?',
+    fullName: 'Nome completo',
     here: 'aqui',
     homeTeam: 'Equipe casa',
     homeScore: 'Pontuacao casa',

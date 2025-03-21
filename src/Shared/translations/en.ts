@@ -53,6 +53,7 @@ export default {
     fixed: 'Manual',
     fixedPlayerStatsTables: 'Player Stats Tables',
     forgotYourPassword: 'Dig you forget your password?',
+    fullName: 'Full name',
     here: 'here',
     homeTeam: 'Home team',
     homeScore: 'Home score',

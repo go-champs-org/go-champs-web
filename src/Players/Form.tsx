@@ -15,7 +15,7 @@ export function FormLoading(): React.ReactElement {
     <div className="columns is-multiline">
       <div className="column is-12">
         <label className="label">
-          <Trans>name</Trans>
+          <Trans>fullName</Trans>
         </label>
 
         <Shimmer>
@@ -117,7 +117,7 @@ function Form({
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
           <label className="label">
-            <Trans>name</Trans>
+            <Trans>fullName</Trans>
           </label>
 
           <div className="control">
