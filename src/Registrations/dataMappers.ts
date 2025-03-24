@@ -101,7 +101,13 @@ export const mapRegistrationEntityToApiRegistrationPostRequest = (
       type: registration.type,
       auto_approve: registration.autoApprove,
       custom_fields:
-        registration.customFields.length > 0 ? registration.customFields : []
+        registration.customFields.map(customField => ({
+          label: customField.label,
+          description: customField.description,
+          type: customField.type,
+          required: customField.required,
+          properties: customField.properties
+        })) || []
     }
   };
 };
@@ -118,7 +124,14 @@ export const mapRegistrationEntityToApiRegistrationPatchRequest = (
       type: registration.type,
       auto_approve: registration.autoApprove,
       custom_fields:
-        registration.customFields.length > 0 ? registration.customFields : []
+        registration.customFields.map(customField => ({
+          id: customField.id ? customField.id : undefined,
+          label: customField.label,
+          description: customField.description,
+          type: customField.type,
+          required: customField.required,
+          properties: customField.properties
+        })) || []
     }
   };
 };

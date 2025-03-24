@@ -578,7 +578,7 @@ export type ApiRegistrationType = 'team_roster_invites';
 export type ApiCustomFieldType = 'date' | 'datetime' | 'text' | 'consent';
 
 export interface ApiRegistrationCustomField {
-  id: string;
+  id?: string;
   label: string;
   type: ApiCustomFieldType;
   required: boolean;
