@@ -1,12 +1,15 @@
 import React, { Fragment } from 'react';
-import AdminMenu from '../Tournaments/AdminMenu';
 import { StoreState } from '../store';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { getRegistrationInvite } from '../Registrations/effects';
 import {
+  getRegistrationInvite,
+  putRegistrationResponseApprove
+} from '../Registrations/effects';
+import {
+  isApprovingRegistrationResponses,
   gettingRegistration,
   gettingRegistrationInvite,
   registrationById,
@@ -21,6 +24,9 @@ const mapStateToProps = (
 ) => {
   const { registrationId, inviteId } = props.match.params;
   return {
+    isApprovingRegistrationResponses: isApprovingRegistrationResponses(
+      state.registrations
+    ),
     registration: registrationById(state.registrations, registrationId),
     registrationLoading: gettingRegistration(state.registrations),
     registrationInvite: registrationInviteById(state.registrations, inviteId),
@@ -31,7 +37,8 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      getRegistrationInvite
+      getRegistrationInvite,
+      putRegistrationResponseApprove
     },
     dispatch
   );
@@ -42,9 +49,11 @@ type RegistrationInviteManagerProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
 function RegistrationInviteManager({
+  isApprovingRegistrationResponses,
   registrationInviteLoading,
   registration,
   registrationInvite,
+  putRegistrationResponseApprove,
   match
 }: RegistrationInviteManagerProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
@@ -57,9 +66,13 @@ function RegistrationInviteManager({
               <Loading />
             ) : (
               <ResponseList
+                isApprovingRegistrationResponses={
+                  isApprovingRegistrationResponses
+                }
                 registration={registration}
                 registrationInvite={registrationInvite}
                 organizationSlug={organizationSlug}
+                putRegistrationResponseApprove={putRegistrationResponseApprove}
                 tournamentSlug={tournamentSlug}
               />
             )}

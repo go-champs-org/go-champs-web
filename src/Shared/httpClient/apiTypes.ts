@@ -657,6 +657,10 @@ export interface ApiRegistrationResponseResourcePostRequest {
   registration_response: ApiRegistrationResponseResource;
 }
 
+export interface ApiRegistrationResponseResourcePutApproveRequest {
+  registration_responses: string[];
+}
+
 export interface ApiRegistrationResponseResourceResponse {
   data: ApiRegistrationResponseResourceWithDependencies;
 }

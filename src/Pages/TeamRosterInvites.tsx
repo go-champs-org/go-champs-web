@@ -15,7 +15,7 @@ import TeamRosterInviteResponseForm, {
 } from '../Registrations/TeamRosterInviteResponseForm';
 import { Form, FormRenderProps } from 'react-final-form';
 import registrationInviteHttpClient from '../Registrations/registrationInviteHttpClient';
-import * as registrationResponseHttpClient from '../Registrations/registrationResponseHttpClient';
+import registrationResponseHttpClient from '../Registrations/registrationResponseHttpClient';
 import {
   mapApiRegistrationInviteToRegistrationInviteEntity,
   mapApiRegistrationToRegistrationEntity

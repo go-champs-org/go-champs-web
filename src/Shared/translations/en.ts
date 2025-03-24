@@ -13,6 +13,7 @@ export default {
     addMatch: 'Add match',
     addRow: 'Add row',
     advanced: 'Advanced',
+    approve: 'Approve',
     autoApprove: 'Auto approve',
     average: 'Average',
     awayTeam: 'Away team',

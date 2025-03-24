@@ -37,6 +37,8 @@ export const registrationInviteById = (
   return state.registrationsInvites[inviteId];
 };
 
+export const isApprovingRegistrationResponses = (state: RegistrationState) =>
+  state.isLoadingRegistrationResponseApprove;
 export const registrationsLoading = (state: RegistrationState) =>
   state.isLoadingRequestTournament;
 export const gettingRegistration = (state: RegistrationState): boolean =>

@@ -1,4 +1,5 @@
 import {
+  ApiRegistrationResponseStatus,
   ApiRegistrationType,
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
@@ -19,12 +20,21 @@ import {
   patchRegistrationFailure,
   patchRegistrationStart,
   patchRegistrationSuccess,
+  putRegistrationResponseApproveStart,
+  putRegistrationResponseApproveSuccess,
+  putRegistrationResponseApproveFailure,
   postRegistrationFailure,
   postRegistrationStart,
   postRegistrationSuccess
 } from './actions';
 import registrationReducer from './reducer';
-import { initialState, RegistrationState } from './state';
+import {
+  DEFAULT_REGISTRATION,
+  DEFAULT_REGISTRATION_INVITE,
+  DEFAULT_REGISTRATION_RESPONSE,
+  initialState,
+  RegistrationState
+} from './state';
 
 describe('deleteRegistration', () => {
   const action = deleteRegistrationStart();
@@ -81,6 +91,7 @@ describe('deleteRegistrationSuccess', () => {
       ...initialState,
       registrations: {
         'some-id': {
+          ...DEFAULT_REGISTRATION,
           id: 'some-id',
           title: 'some-title',
           startDate: 'some-start-date',
@@ -96,6 +107,7 @@ describe('deleteRegistrationSuccess', () => {
     const newState = registrationReducer(someState, action);
 
     expect(newState.registrations['some-id']).toEqual({
+      ...DEFAULT_REGISTRATION,
       id: 'some-id',
       title: 'some-title',
       startDate: 'some-start-date',
@@ -258,6 +270,7 @@ describe('patchRegistrationFailure', () => {
 
 describe('patchRegistrationSuccess', () => {
   const action = patchRegistrationSuccess({
+    ...DEFAULT_REGISTRATION,
     id: 'first-id',
     title: 'first-updated-title',
     startDate: 'first-updated-start-date',
@@ -271,6 +284,7 @@ describe('patchRegistrationSuccess', () => {
     ...initialState,
     registrations: {
       'first-id': {
+        ...DEFAULT_REGISTRATION,
         id: 'first-id',
         title: 'first-title',
         startDate: 'first-start-date',
@@ -292,6 +306,7 @@ describe('patchRegistrationSuccess', () => {
     const newState = registrationReducer(updateState, action);
 
     expect(newState.registrations['first-id']).toEqual({
+      ...DEFAULT_REGISTRATION,
       id: 'first-id',
       title: 'first-updated-title',
       startDate: 'first-updated-start-date',
@@ -307,6 +322,7 @@ describe('patchRegistrationSuccess', () => {
       ...updateState,
       registrations: {
         'some-id': {
+          ...DEFAULT_REGISTRATION,
           id: 'some-id',
           title: 'some-title',
           startDate: 'some-start-date',
@@ -321,6 +337,7 @@ describe('patchRegistrationSuccess', () => {
     const newState = registrationReducer(someState, action);
 
     expect(newState.registrations['some-id']).toEqual({
+      ...DEFAULT_REGISTRATION,
       id: 'some-id',
       title: 'some-title',
       startDate: 'some-start-date',
@@ -329,6 +346,106 @@ describe('patchRegistrationSuccess', () => {
       autoApprove: false,
       customFields: []
     });
+  });
+});
+
+describe('putRegistrationResponseApprove', () => {
+  const action = putRegistrationResponseApproveStart();
+
+  it('sets isLoadingRegistrationResponseApprove to true', () => {
+    expect(
+      registrationReducer(initialState, action)
+        .isLoadingRegistrationResponseApprove
+    ).toBe(true);
+  });
+});
+
+describe('putRegistrationResponseApproveFailure', () => {
+  const action = putRegistrationResponseApproveFailure('error');
+
+  it('sets isLoadingRegistrationResponseApprove to false', () => {
+    expect(
+      registrationReducer(
+        {
+          ...initialState,
+          isLoadingRegistrationResponseApprove: true
+        },
+        action
+      ).isLoadingRegistrationResponseApprove
+    ).toBe(false);
+  });
+});
+
+describe('putRegistrationResponseApproveSuccess', () => {
+  const registrationInvite = {
+    ...DEFAULT_REGISTRATION_INVITE,
+    id: 'registration-invite-id'
+  };
+
+  const registrationResponses = [
+    {
+      ...DEFAULT_REGISTRATION_RESPONSE,
+      id: 'registration-response-1',
+      status: 'approved' as ApiRegistrationResponseStatus
+    }
+  ];
+
+  const action = putRegistrationResponseApproveSuccess({
+    registrationInvite,
+    registrationResponses
+  });
+
+  const approveState: RegistrationState = {
+    ...initialState,
+    registrationsInvites: {
+      'registration-invite-id': {
+        ...DEFAULT_REGISTRATION_INVITE,
+        id: 'registration-invite-id',
+        registrationResponses: [
+          {
+            ...DEFAULT_REGISTRATION_RESPONSE,
+            id: 'registration-response-1',
+            status: 'pending' as ApiRegistrationResponseStatus
+          },
+          {
+            ...DEFAULT_REGISTRATION_RESPONSE,
+            id: 'registration-response-2'
+          }
+        ]
+      }
+    }
+  };
+
+  it('sets registrationResponses in registrationInvite', () => {
+    const newState = registrationReducer(approveState, action);
+
+    expect(newState.registrationsInvites['registration-invite-id']).toEqual({
+      ...DEFAULT_REGISTRATION_INVITE,
+      id: 'registration-invite-id',
+      registrationResponses: [
+        {
+          ...DEFAULT_REGISTRATION_RESPONSE,
+          id: 'registration-response-1',
+          status: 'approved' as ApiRegistrationResponseStatus
+        },
+        {
+          ...DEFAULT_REGISTRATION_RESPONSE,
+          id: 'registration-response-2'
+        }
+      ]
+    });
+  });
+
+  it('sets isLoadingRegistrationResponseApprove to false', () => {
+    expect(
+      registrationReducer(
+        {
+          ...approveState,
+          isLoadingRegistrationResponseApprove: true
+        },
+        action
+      ).isLoadingRegistrationResponseApprove
+    ).toBe(false);
   });
 });
 
