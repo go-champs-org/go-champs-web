@@ -15,7 +15,7 @@ export function FormLoading(): React.ReactElement {
     <div className="columns is-multiline">
       <div className="column is-12">
         <label className="label">
-          <Trans>name</Trans>
+          <Trans>fullName</Trans>
         </label>
 
         <Shimmer>
