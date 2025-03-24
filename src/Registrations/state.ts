@@ -62,6 +62,7 @@ export const initialState: RegistrationState = {
   isLoadingPatchRegistration: false,
   isLoadingPutRegistrationGenerateInvites: false,
   isLoadingPostRegistration: false,
+  isLoadingRegistrationResponseApprove: false,
   isLoadingRequestTournament: false,
   registrations: {},
   registrationsInvites: {}

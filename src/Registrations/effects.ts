@@ -22,7 +22,11 @@ import {
   putRegistrationResponseApproveSuccess,
   putRegistrationResponseApproveFailure
 } from './actions';
-import { RegistrationEntity, RegistrationResponseEntity } from './state';
+import {
+  RegistrationEntity,
+  RegistrationInviteEntity,
+  RegistrationResponseEntity
+} from './state';
 import registrationHttpClient from './registrationHttpClient';
 import registrationResponseHttpClient from './registrationResponseHttpClient';
 import { Dispatch } from 'redux';
@@ -138,7 +142,8 @@ export const postRegistration = (
 };
 
 export const putRegistrationResponseApprove = (
-  registrationResponses: RegistrationResponseEntity[]
+  registrationResponses: RegistrationResponseEntity[],
+  registrationInvite: RegistrationInviteEntity
 ) => async (dispatch: Dispatch) => {
   dispatch(putRegistrationResponseApproveStart());
 
@@ -147,7 +152,12 @@ export const putRegistrationResponseApprove = (
       registrationResponses
     );
 
-    dispatch(putRegistrationResponseApproveSuccess(response));
+    dispatch(
+      putRegistrationResponseApproveSuccess({
+        registrationInvite,
+        registrationResponses: response
+      })
+    );
     displayToast('Responses were approved!', 'is-success');
   } catch (err) {
     dispatch(putRegistrationResponseApproveFailure(err));

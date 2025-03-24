@@ -4,7 +4,6 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import {
   apiDataToEntities,
-  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntities,
@@ -39,6 +38,7 @@ import {
 } from './actions';
 import { mapApiRegistrationToRegistrationEntity } from './dataMappers';
 import {
+  DEFAULT_REGISTRATION_INVITE,
   initialState,
   RegistrationEntity,
   RegistrationInviteEntity,
@@ -55,11 +55,6 @@ const registrationInviteMapEntities = mapEntities<RegistrationInviteEntity>(
 );
 
 const apiPhaseToEntities = apiDataToEntities<
-  ApiRegistration,
-  RegistrationEntity
->(mapApiRegistrationToRegistrationEntity, returnProperty('id'));
-
-const apiRegistrationToEntities = apiDataToEntitiesOverride<
   ApiRegistration,
   RegistrationEntity
 >(mapApiRegistrationToRegistrationEntity, returnProperty('id'));
@@ -222,12 +217,52 @@ const putRegistrationResponseApproveFailure = (
   isLoadingRegistrationResponseApprove: false
 });
 
+const mapRegistrationInviteResponsesToEntities = (
+  {
+    registrationInvite,
+    registrationResponses
+  }: {
+    registrationInvite: RegistrationInviteEntity;
+    registrationResponses: RegistrationResponseEntity[];
+  },
+  currentRegistrationInvites: { [key: string]: RegistrationInviteEntity }
+) => {
+  const currentRegistrationInvite =
+    currentRegistrationInvites[registrationInvite.id] ||
+    DEFAULT_REGISTRATION_INVITE;
+  const mappedRegistrationResponses = currentRegistrationInvite.registrationResponses.map(
+    (response: RegistrationResponseEntity) => {
+      const registrationResponse = registrationResponses.find(
+        (r: RegistrationResponseEntity) => r.id === response.id
+      );
+      return registrationResponse || response;
+    }
+  );
+  return {
+    ...currentRegistrationInvites,
+    [registrationInvite.id]: {
+      ...currentRegistrationInvite,
+      registrationResponses: mappedRegistrationResponses
+    }
+  };
+};
+
 const putRegistrationResponseApproveSuccess = (
   state: RegistrationState,
-  action: HttpAction<ActionTypes, RegistrationResponseEntity[]>
+  action: HttpAction<
+    ActionTypes,
+    {
+      registrationInvite: RegistrationInviteEntity;
+      registrationResponses: RegistrationResponseEntity[];
+    }
+  >
 ) => ({
   ...state,
-  isLoadingRegistrationResponseApprove: false
+  isLoadingRegistrationResponseApprove: false,
+  registrationsInvites: mapRegistrationInviteResponsesToEntities(
+    action.payload!,
+    state.registrationsInvites
+  )
 });
 
 const postRegistration = (

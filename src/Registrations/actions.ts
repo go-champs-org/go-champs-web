@@ -134,9 +134,16 @@ export const putRegistrationResponseApproveStart = (): HttpAction<ActionTypes> =
   type: PUT_REGISTRATION_RESPONSE_APPROVE
 });
 
-export const putRegistrationResponseApproveSuccess = (
-  payload: RegistrationResponseEntity[]
-): HttpAction<ActionTypes, RegistrationResponseEntity[]> => ({
+export const putRegistrationResponseApproveSuccess = (payload: {
+  registrationInvite: RegistrationInviteEntity;
+  registrationResponses: RegistrationResponseEntity[];
+}): HttpAction<
+  ActionTypes,
+  {
+    registrationInvite: RegistrationInviteEntity;
+    registrationResponses: RegistrationResponseEntity[];
+  }
+> => ({
   type: PUT_REGISTRATION_RESPONSE_APPROVE_SUCCESS,
   payload
 });

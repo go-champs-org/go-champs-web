@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ResponseListProps } from './ResponseList';
 import { RegistrationEntity, RegistrationResponseEntity } from './state';
 import { parseRegistrationResponseFor } from './dataMappers';
@@ -6,13 +6,18 @@ import { Trans } from 'react-i18next';
 import RegistrationResponseFieldDisplay from './RegistrationResponseFieldDisplay';
 import RegistrationResponseStatusChip from './RegistrationResponseStatusChip';
 import { Link } from 'react-router-dom';
+import LoadingButton from '../Shared/UI/LoadingButton';
 
 function TeamRosterResponseRow({
+  onSelect,
   registration,
-  registrationResponse
+  registrationResponse,
+  selected
 }: {
+  onSelect: (response: RegistrationResponseEntity) => void;
   registration: RegistrationEntity;
   registrationResponse: RegistrationResponseEntity;
+  selected: boolean;
 }) {
   const { name, shirtName, shirtNumber } = parseRegistrationResponseFor(
     registration.type,
@@ -20,8 +25,13 @@ function TeamRosterResponseRow({
   );
   return (
     <tr key={registrationResponse.id}>
-      <td>
-        <input type="checkbox" />
+      <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+        <input
+          type="checkbox"
+          disabled={registrationResponse.status !== 'pending'}
+          onClick={() => onSelect(registrationResponse)}
+          value={selected ? 1 : 0}
+        />
       </td>
       <td style={{ paddingLeft: 0 }}>
         <RegistrationResponseStatusChip status={registrationResponse.status} />
@@ -42,11 +52,29 @@ function TeamRosterResponseRow({
 }
 
 function TeamRosterResponses({
+  isApprovingRegistrationResponses,
   organizationSlug,
+  putRegistrationResponseApprove,
   tournamentSlug,
   registration,
   registrationInvite
 }: ResponseListProps) {
+  const [selectedResponses, setSelectedResponses] = useState<
+    RegistrationResponseEntity[]
+  >([]);
+
+  const onSelectResponse = (response: RegistrationResponseEntity) => {
+    if (selectedResponses.includes(response)) {
+      setSelectedResponses(selectedResponses.filter(r => r !== response));
+    } else {
+      setSelectedResponses([...selectedResponses, response]);
+    }
+  };
+
+  const onApprove = () => {
+    putRegistrationResponseApprove(selectedResponses, registrationInvite);
+  };
+
   return (
     <div className="column">
       <div className="container">
@@ -83,9 +111,13 @@ function TeamRosterResponses({
                 </span>
               </div>
               <div className="column is-4 has-text-right">
-                <button className="button is-primary is-small">
+                <LoadingButton
+                  className="button is-primary is-small"
+                  onClick={onApprove}
+                  isLoading={isApprovingRegistrationResponses}
+                >
                   <Trans>approve</Trans>
-                </button>
+                </LoadingButton>
               </div>
             </div>
           </div>
@@ -116,6 +148,8 @@ function TeamRosterResponses({
                 <tbody>
                   {registrationInvite.registrationResponses.map(response => (
                     <TeamRosterResponseRow
+                      onSelect={onSelectResponse}
+                      selected={selectedResponses.includes(response)}
                       key={response.id}
                       registrationResponse={response}
                       registration={registration}

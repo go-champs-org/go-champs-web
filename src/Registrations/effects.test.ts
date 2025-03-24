@@ -365,7 +365,7 @@ describe('putRegistrationResponseApprove', () => {
   });
 
   it('dispatches start patch action', () => {
-    putRegistrationResponseApprove([])(dispatch);
+    putRegistrationResponseApprove([], DEFAULT_REGISTRATION_INVITE)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       putRegistrationResponseApproveStart()
@@ -381,12 +381,15 @@ describe('putRegistrationResponseApprove', () => {
         .spyOn(registrationResponseHttpClient, 'approve')
         .mockResolvedValue([]);
 
-      putRegistrationResponseApprove([])(dispatch);
+      putRegistrationResponseApprove([], DEFAULT_REGISTRATION_INVITE)(dispatch);
     });
 
     it('dispatches generate invites success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        putRegistrationResponseApproveSuccess([])
+        putRegistrationResponseApproveSuccess({
+          registrationResponses: [],
+          registrationInvite: DEFAULT_REGISTRATION_INVITE
+        })
       );
     });
 
@@ -414,7 +417,10 @@ describe('putRegistrationResponseApprove', () => {
     });
 
     it('dispatches patch failure action', async () => {
-      await putRegistrationResponseApprove([])(dispatch);
+      await putRegistrationResponseApprove(
+        [],
+        DEFAULT_REGISTRATION_INVITE
+      )(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(
         putRegistrationResponseApproveFailure(apiError)
