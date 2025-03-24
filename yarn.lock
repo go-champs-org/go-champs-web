@@ -11043,6 +11043,11 @@ react-i18next@^11.7.0:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
 
+react-image-crop@^11.0.7:
+  version "11.0.7"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-11.0.7.tgz#25f3d37ccbb65a05d19d23b4740a5912835c741e"
+  integrity sha512-ZciKWHDYzmm366JDL18CbrVyjnjH0ojufGDmScfS4ZUqLHg4nm6ATY+K62C75W4ZRNt4Ii+tX0bSjNk9LQ2xzQ==
+
 react-input-autosize@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-3.0.0.tgz#6b5898c790d4478d69420b55441fcc31d5c50a85"

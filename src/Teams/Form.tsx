@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { required } from '../Shared/UI/Form/Validators/commonValidators';
 import { Trans } from 'react-i18next';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -58,6 +59,10 @@ const Form: React.FC<FormProps> = ({
               validate={required}
             />
           </div>
+        </div>
+
+        <div className="field">
+          <ImageUpload onImageCropped={image => console.log(image)} />
         </div>
 
         <LoadingButton
