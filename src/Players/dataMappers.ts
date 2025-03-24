@@ -20,6 +20,7 @@ export const mapApiPlayerToPlayerEntity = (
   username: apiPlayer.username,
   team: DEFAULT_TEAM,
   teamId: apiPlayer.team_id || '',
+  state: apiPlayer.state,
   registrationResponse:
     apiPlayer.registration_response &&
     mapApiRegistrationResponseResourceResponseToRegistrationResponse(
@@ -41,7 +42,8 @@ export const mapPlayerEntityToApiPlayerPostRequest = (
     twitter: player.twitter,
     username: player.username,
     tournament_id: tournamentId,
-    team_id: player.team.id && player.team.id
+    team_id: player.team.id && player.team.id,
+    state: player.state
   }
 });
 
@@ -57,7 +59,8 @@ export const mapPlayerEntityToApiPlayerPatchRequest = (
     facebook: player.facebook,
     twitter: player.twitter,
     username: player.username,
-    team_id: player.team.id && player.team.id
+    team_id: player.team.id && player.team.id,
+    state: player.state
   }
 });
 

@@ -98,6 +98,7 @@ export default {
     player: 'Atleta',
     players: 'Atletas',
     playerStats: 'Estatísticas de atletas',
+    playerRosterState: 'Situação do atleta',
     placeholder: 'Temporário',
     perAggregation: 'Por total',
     perGame: 'Por jogo',

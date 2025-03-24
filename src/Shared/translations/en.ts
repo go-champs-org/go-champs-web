@@ -97,6 +97,7 @@ export default {
     player: 'Player',
     players: 'Players',
     playerStats: 'Player stats',
+    playerRosterState: 'Player roster state',
     placeholder: 'Placeholder',
     perAggregation: 'Per total',
     perGame: 'Per game',

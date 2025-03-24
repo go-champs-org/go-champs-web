@@ -9,6 +9,7 @@ import { PlayerEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+import { PLAYER_STATE_OPTIONS } from './selectors';
 
 export function FormLoading(): React.ReactElement {
   return (
@@ -159,6 +160,21 @@ function Form({
                   isClearable
                   options={selectInputTeams}
                 />
+              )}
+            ></Field>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>playerRosterState</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="state"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={PLAYER_STATE_OPTIONS} />
               )}
             ></Field>
           </div>

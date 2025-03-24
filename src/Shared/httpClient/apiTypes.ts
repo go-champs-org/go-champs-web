@@ -293,6 +293,8 @@ export interface ApiTeamsResponse {
   data: ApiTeam[];
 }
 
+export type ApiPlayerState = 'available' | 'not_available';
+
 export interface ApiPlayer {
   facebook: string;
   id: string;
@@ -302,8 +304,9 @@ export interface ApiPlayer {
   shirt_number?: string | null;
   username: string;
   twitter: string;
+  state: ApiPlayerState;
   team_id?: string;
-  registration_response?: ApiRegistrationResponseResource;
+  registration_response?: ApiRegistrationResponseResourceWithDependencies;
 }
 
 export interface ApiPlayerWithDependencies extends ApiPlayer {

@@ -1,4 +1,5 @@
 import { RegistrationResponseEntity } from '../Registrations/state';
+import { ApiPlayerState } from '../Shared/httpClient/apiTypes';
 import { TeamEntity, DEFAULT_TEAM } from '../Teams/state';
 
 export interface PlayerEntity {
@@ -13,6 +14,7 @@ export interface PlayerEntity {
   team: TeamEntity;
   teamId: string;
   registrationResponse?: RegistrationResponseEntity;
+  state: ApiPlayerState;
 }
 
 export interface PlayerState {
@@ -45,5 +47,6 @@ export const DEFAULT_PLAYER: PlayerEntity = {
   username: '',
   twitter: '',
   team: DEFAULT_TEAM,
-  teamId: ''
+  teamId: '',
+  state: 'available'
 };

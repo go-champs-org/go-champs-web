@@ -76,6 +76,17 @@ export const playersForSelectInput = (
   }));
 };
 
+export const PLAYER_STATE_OPTIONS: SelectOptionType[] = [
+  {
+    value: 'available',
+    label: 'Disponível'
+  },
+  {
+    value: 'not_available',
+    label: 'Indisponível'
+  }
+];
+
 export const playersLoading = (state: PlayerState) =>
   state.isLoadingRequestTournament;
 export const patchingPlayer = (state: PlayerState): boolean =>
