@@ -62,7 +62,7 @@ const Form: React.FC<FormProps> = ({
         </div>
 
         <div className="field">
-          <ImageUpload onImageCropped={image => console.log(image)} />
+          <ImageUpload imageType="team-logos" />
         </div>
 
         <LoadingButton

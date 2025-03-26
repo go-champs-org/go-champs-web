@@ -184,6 +184,7 @@ function CustomFieldForm({
               ) => (
                 <FileUpload
                   {...props}
+                  fileType="registration-consents"
                   initialUploadedFiles={
                     Object.entries(currentValue.properties).length
                       ? [
