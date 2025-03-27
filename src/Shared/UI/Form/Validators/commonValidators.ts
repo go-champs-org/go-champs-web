@@ -25,6 +25,13 @@ export const minValue = (min: number) => (value: number) =>
 export const maxValue = (max: number) => (value: number) =>
   isNaN(value) || value <= max ? undefined : `Should be less than ${max}`;
 
+export const maxLength = (max: number) => (value: string) =>
+  value
+    ? value.length <= max
+      ? undefined
+      : `Must be ${max} characters or less`
+    : undefined;
+
 export const mustBeSlug = (value: string) =>
   SLUG_REGEX.test(value)
     ? undefined

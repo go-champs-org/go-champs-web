@@ -1,6 +1,7 @@
 import { ApiTeam } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { TeamEntity } from './state';
 
 export const DELETE_TEAM = 'API_DELETE_TEAM';
 export const DELETE_TEAM_SUCCESS = 'API_DELETE_TEAM_SUCCESS';
@@ -33,8 +34,8 @@ export const patchTeamStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const patchTeamSuccess = (
-  payload: ApiTeam
-): HttpAction<ActionTypes, ApiTeam> => ({
+  payload: TeamEntity
+): HttpAction<ActionTypes, TeamEntity> => ({
   type: PATCH_TEAM_SUCCESS,
   payload
 });
@@ -49,8 +50,8 @@ export const postTeamStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const postTeamSuccess = (
-  payload: ApiTeam
-): HttpAction<ActionTypes, ApiTeam> => ({
+  payload: TeamEntity
+): HttpAction<ActionTypes, TeamEntity> => ({
   type: POST_TEAM_SUCCESS,
   payload
 });

@@ -271,6 +271,8 @@ export interface ApiStat {
 export interface ApiTeam {
   id: string;
   name: string;
+  logo_url?: string;
+  tri_code?: string;
 }
 
 export interface ApiTeamWithDependencies extends ApiTeam {
@@ -668,10 +670,13 @@ export interface ApiRegistrationResponseResourceResponse {
   data: ApiRegistrationResponseResourceWithDependencies;
 }
 
+export type ApiUploadFileType = 'registration-consents' | 'team-logos';
+
 export interface ApiUploadPostRequest {
   filename: string;
   content_type: string;
   size: number;
+  file_type: ApiUploadFileType;
 }
 
 export interface ApiUploadFile {
@@ -686,6 +691,7 @@ export interface ApiUploadPostResponse {
 
 export interface ApiUploadDeleteRequest {
   url: string;
+  file_type: ApiUploadFileType;
 }
 
 export type ApiScoreboardSettingView = 'basketball-basic' | 'basketball-medium';

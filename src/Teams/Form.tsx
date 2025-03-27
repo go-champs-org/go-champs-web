@@ -1,12 +1,22 @@
 import React from 'react';
-import { Field, FormRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { TeamEntity } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { required } from '../Shared/UI/Form/Validators/commonValidators';
+import {
+  maxLength,
+  required
+} from '../Shared/UI/Form/Validators/commonValidators';
 import { Trans } from 'react-i18next';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
+import TriCodeInput from '../Shared/UI/Form/TriCodeInput';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import {
+  mapFileReferenceToApiTeamLogo,
+  mapTeamLogoToApiFileReference
+} from './dataMappers';
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -39,7 +49,8 @@ const Form: React.FC<FormProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  valid
+  valid,
+  values
 }) => {
   return (
     <div>
@@ -56,6 +67,52 @@ const Form: React.FC<FormProps> = ({
               type="text"
               placeholder="Name"
               validate={required}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>triCode</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="triCode"
+              type="text"
+              placeholder="ABC"
+              validate={maxLength(3)}
+              render={props => (
+                <TriCodeInput {...props} numberOfCharacters={3} />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>logo</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="logoUrl"
+              render={(props: FieldRenderProps<FileReference, HTMLElement>) => (
+                <ImageUpload
+                  {...props}
+                  imageType="team-logos"
+                  initialFileReference={
+                    values.logoUrl
+                      ? mapTeamLogoToApiFileReference(values)
+                      : undefined
+                  }
+                />
+              )}
+              parse={(value: FileReference) => {
+                if (!value) return {};
+
+                return mapFileReferenceToApiTeamLogo(value);
+              }}
             />
           </div>
         </div>
