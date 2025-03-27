@@ -271,6 +271,8 @@ export interface ApiStat {
 export interface ApiTeam {
   id: string;
   name: string;
+  logo_url?: string;
+  tri_code?: string;
 }
 
 export interface ApiTeamWithDependencies extends ApiTeam {

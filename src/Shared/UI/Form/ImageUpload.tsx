@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import './ImageUpload.scss';
@@ -9,6 +9,7 @@ import uploadHttpClient, {
 } from '../../httpClient/uploadHttpClient';
 import { ApiUploadFileType } from '../../httpClient/apiTypes';
 import LoadingButton from '../LoadingButton';
+import { FieldRenderProps } from 'react-final-form';
 
 interface CropperModalProps {
   src: string;
@@ -86,11 +87,17 @@ function CropperModal({
   );
 }
 
-interface ImageUploadProps {
+interface ImageUploadProps
+  extends FieldRenderProps<FileReference, HTMLElement> {
   imageType: ApiUploadFileType;
+  initialFileReference?: FileReference;
 }
 
-function ImageUpload({ imageType }: ImageUploadProps) {
+function ImageUpload({
+  imageType,
+  initialFileReference,
+  input
+}: ImageUploadProps) {
   const [src, setSrc] = useState<string | null>(null);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [filename, setFilename] = useState<string | null>(null);
@@ -102,11 +109,15 @@ function ImageUpload({ imageType }: ImageUploadProps) {
     unit: 'px'
   });
   const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
-  const [fileReference, setFileReference] = useState<FileReference | null>(
-    null
-  );
+  const [fileReference, setFileReference] = useState<FileReference | null>();
   const [isUploading, setIsUploading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (initialFileReference) {
+      setFileReference(initialFileReference);
+    }
+  }, [initialFileReference]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -167,6 +178,7 @@ function ImageUpload({ imageType }: ImageUploadProps) {
           setSrc(null);
           setIsUploading(false);
           setFileReference(image);
+          input.onChange(image);
         },
         onError: () => {
           setIsUploading(false);

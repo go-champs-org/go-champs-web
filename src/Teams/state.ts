@@ -1,6 +1,8 @@
 export interface TeamEntity {
   id: string;
   name: string;
+  logoUrl: string;
+  triCode: string;
 }
 
 export interface TeamState {
@@ -25,5 +27,7 @@ export const initialState: TeamState = {
 
 export const DEFAULT_TEAM: TeamEntity = {
   id: '',
-  name: ''
+  name: '',
+  logoUrl: '',
+  triCode: ''
 };

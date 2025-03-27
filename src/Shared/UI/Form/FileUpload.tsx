@@ -5,12 +5,7 @@ import './FileUpload.scss';
 import { Trans, useTranslation } from 'react-i18next';
 import { FieldRenderProps } from 'react-final-form';
 import { ApiUploadFileType } from '../../httpClient/apiTypes';
-
-export interface FileReference {
-  filename: string;
-  publicUrl: string;
-  url: string;
-}
+import { FileReference } from '../../httpClient/uploadHttpClient';
 
 interface FileUploadProps
   extends FieldRenderProps<FileReference[], HTMLElement> {

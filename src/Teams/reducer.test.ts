@@ -44,7 +44,9 @@ describe('deleteTeamSuccess', () => {
     teams: {
       'first-id': {
         id: 'first-id',
-        name: 'first-name'
+        name: 'first-name',
+        logoUrl: '',
+        triCode: ''
       }
     }
   };
@@ -65,7 +67,9 @@ describe('deleteTeamSuccess', () => {
       teams: {
         'some-id': {
           id: 'some-id',
-          name: 'some-name'
+          name: 'some-name',
+          logoUrl: 'some-logo-url',
+          triCode: 'some-tri-code'
         },
         ...deleteState.teams
       }
@@ -75,7 +79,9 @@ describe('deleteTeamSuccess', () => {
 
     expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
-      name: 'some-name'
+      name: 'some-name',
+      logoUrl: 'some-logo-url',
+      triCode: 'some-tri-code'
     });
   });
 });
@@ -99,7 +105,9 @@ describe('patchTeamFailure', () => {
 describe('patchTeamSuccess', () => {
   const action = patchTeamSuccess({
     id: 'first-id',
-    name: 'some-first-name'
+    name: 'some-first-name',
+    logoUrl: 'some-logo-url',
+    triCode: 'some-tri-code'
   });
 
   const updateState: TeamState = {
@@ -107,7 +115,9 @@ describe('patchTeamSuccess', () => {
     teams: {
       'first-id': {
         id: 'first-id',
-        name: 'first-name'
+        name: 'first-name',
+        logoUrl: '',
+        triCode: ''
       }
     }
   };
@@ -121,7 +131,9 @@ describe('patchTeamSuccess', () => {
 
     expect(newState.teams['first-id']).toEqual({
       id: 'first-id',
-      name: 'some-first-name'
+      name: 'some-first-name',
+      logoUrl: 'some-logo-url',
+      triCode: 'some-tri-code'
     });
   });
 
@@ -131,7 +143,9 @@ describe('patchTeamSuccess', () => {
       teams: {
         'some-id': {
           id: 'some-id',
-          name: 'some-name'
+          name: 'some-name',
+          logoUrl: 'some-logo-url',
+          triCode: 'some-tri-code'
         }
       }
     };
@@ -140,7 +154,9 @@ describe('patchTeamSuccess', () => {
 
     expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
-      name: 'some-name'
+      name: 'some-name',
+      logoUrl: 'some-logo-url',
+      triCode: 'some-tri-code'
     });
   });
 });
@@ -164,7 +180,9 @@ describe('postTeamFailure', () => {
 describe('postTeamSuccess', () => {
   const action = postTeamSuccess({
     id: 'first-id',
-    name: 'first-name'
+    name: 'first-name',
+    logoUrl: 'some-logo-url',
+    triCode: 'some-tri-code'
   });
 
   it('sets isLoadingPostTeam to false', () => {
@@ -176,7 +194,9 @@ describe('postTeamSuccess', () => {
 
     expect(newState.teams['first-id']).toEqual({
       id: 'first-id',
-      name: 'first-name'
+      name: 'first-name',
+      logoUrl: 'some-logo-url',
+      triCode: 'some-tri-code'
     });
   });
 
@@ -186,7 +206,9 @@ describe('postTeamSuccess', () => {
       teams: {
         'some-id': {
           id: 'some-id',
-          name: 'some-name'
+          name: 'some-name',
+          logoUrl: 'some-logo-url',
+          triCode: 'some-tri-code'
         }
       }
     };
@@ -195,7 +217,9 @@ describe('postTeamSuccess', () => {
 
     expect(newState.teams['some-id']).toEqual({
       id: 'some-id',
-      name: 'some-name'
+      name: 'some-name',
+      logoUrl: 'some-logo-url',
+      triCode: 'some-tri-code'
     });
   });
 });
@@ -232,11 +256,15 @@ describe('getTournamentSuccess', () => {
 
     expect(newState.teams['first-team-id']).toEqual({
       id: 'first-team-id',
-      name: 'first team name'
+      name: 'first team name',
+      logoUrl: '',
+      triCode: ''
     });
     expect(newState.teams['second-team-id']).toEqual({
       id: 'second-team-id',
-      name: 'second team name'
+      name: 'second team name',
+      logoUrl: '',
+      triCode: ''
     });
   });
 
