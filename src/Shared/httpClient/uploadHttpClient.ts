@@ -40,12 +40,10 @@ const deleteFile = async ({
   url: string;
   fileType: ApiUploadFileType;
 }) => {
-  await httpClient.delete<ApiUploadDeleteRequest>(UPLOAD_API, {
+  return httpClient.delete<ApiUploadDeleteRequest>(UPLOAD_API, {
     url,
     file_type: fileType
   });
-
-  return;
 };
 
 const singAndUpload = async ({

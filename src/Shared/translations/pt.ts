@@ -96,6 +96,7 @@ export default {
     orSignUp: 'Ou crie uma conta',
     password: 'Senha',
     phases: 'Fases',
+    photo: 'Foto',
     pin: 'Fixar',
     player: 'Atleta',
     players: 'Atletas',

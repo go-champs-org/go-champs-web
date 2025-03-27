@@ -10,6 +10,12 @@ import Shimmer from '../Shared/UI/Shimmer';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import { PLAYER_STATE_OPTIONS } from './selectors';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
+import {
+  mapFileReferenceToApiPlayerPhoto,
+  mapPhayerPhotoToApiFileReference
+} from './dataMappers';
 
 export function FormLoading(): React.ReactElement {
   return (
@@ -188,6 +194,34 @@ function Form({
           </div>
 
           <p className="help is-info">Go Champs Username</p>
+        </div>
+
+        <div className="control">
+          <label className="label">
+            <Trans>photo</Trans>
+          </label>
+
+          <Field
+            name="photoUrl"
+            render={(
+              props: FieldRenderProps<FileReference | string, HTMLElement>
+            ) => (
+              <ImageUpload
+                {...props}
+                imageType="player-photos"
+                initialFileReference={
+                  values.photoUrl
+                    ? mapPhayerPhotoToApiFileReference(values)
+                    : undefined
+                }
+              />
+            )}
+            parse={(value: FileReference) => {
+              if (!value) return '';
+
+              return mapFileReferenceToApiPlayerPhoto(value);
+            }}
+          />
         </div>
 
         <div className="field">

@@ -53,7 +53,8 @@ describe('deletePlayerSuccess', () => {
         facebook: 'first-facebook',
         instagram: 'first-instagram',
         twitter: 'first-twitter',
-        username: 'first-username'
+        username: 'first-username',
+        photoUrl: 'first-photo-url'
       }
     }
   };
@@ -83,7 +84,8 @@ describe('deletePlayerSuccess', () => {
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
-          username: 'some-username'
+          username: 'some-username',
+          photoUrl: 'some-photo-url'
         },
         ...deleteState.players
       }
@@ -100,7 +102,8 @@ describe('deletePlayerSuccess', () => {
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
-      username: 'some-username'
+      username: 'some-username',
+      photoUrl: 'some-photo-url'
     });
   });
 });
@@ -135,6 +138,7 @@ describe('patchPlayerSuccess', () => {
     twitter: 'first-updeted-twitter',
     username: 'first-updeted-username',
     state: 'not_available',
+    photoUrl: 'first-updeted-photo-url',
     team: DEFAULT_TEAM,
     teamId: DEFAULT_TEAM.id
   });
@@ -152,6 +156,7 @@ describe('patchPlayerSuccess', () => {
         instagram: 'first-instagram',
         twitter: 'first-twitter',
         username: 'first-username',
+        photoUrl: 'first-photo-url',
         team: DEFAULT_TEAM,
         teamId: ''
       }
@@ -175,6 +180,7 @@ describe('patchPlayerSuccess', () => {
       instagram: 'first-updeted-instagram',
       twitter: 'first-updeted-twitter',
       username: 'first-updeted-username',
+      photoUrl: 'first-updeted-photo-url',
       state: 'not_available',
       team: DEFAULT_TEAM,
       teamId: DEFAULT_TEAM.id
@@ -195,6 +201,7 @@ describe('patchPlayerSuccess', () => {
           instagram: 'some-instagram',
           twitter: 'some-twitter',
           username: 'some-username',
+          photoUrl: 'some-photo-url',
           team: DEFAULT_TEAM,
           teamId: ''
         }
@@ -213,6 +220,7 @@ describe('patchPlayerSuccess', () => {
       instagram: 'some-instagram',
       twitter: 'some-twitter',
       username: 'some-username',
+      photoUrl: 'some-photo-url',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -240,12 +248,13 @@ describe('postPlayerSuccess', () => {
     ...DEFAULT_PLAYER,
     id: 'first-id',
     name: 'first-name',
-    shirt_name: 'first-shirt-name',
-    shirt_number: '1',
+    shirtName: 'first-shirt-name',
+    shirtNumber: '1',
     facebook: 'first-facebook',
     instagram: 'first-instagram',
     twitter: 'first-twitter',
-    username: 'first-username'
+    username: 'first-username',
+    photoUrl: 'first-photo-url'
   });
 
   it('sets isLoadingPostPlayer to false', () => {
@@ -265,6 +274,7 @@ describe('postPlayerSuccess', () => {
       instagram: 'first-instagram',
       twitter: 'first-twitter',
       username: 'first-username',
+      photoUrl: 'first-photo-url',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -284,6 +294,7 @@ describe('postPlayerSuccess', () => {
           instagram: 'some-instagram',
           twitter: 'some-twitter',
           username: 'some-username',
+          photoUrl: 'some-photo-url',
           team: DEFAULT_TEAM,
           teamId: ''
         }
@@ -302,6 +313,7 @@ describe('postPlayerSuccess', () => {
       instagram: 'some-instagram',
       twitter: 'some-twitter',
       username: 'some-username',
+      photoUrl: 'some-photo-url',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -327,7 +339,8 @@ describe('getTournamentSuccess', () => {
           instagram: 'first-instagram',
           twitter: 'first-twitter',
           username: 'first-username',
-          state: 'available'
+          state: 'available',
+          photo_url: 'first-photo-url'
         },
         {
           id: 'second-player-id',
@@ -338,7 +351,8 @@ describe('getTournamentSuccess', () => {
           instagram: 'second-instagram',
           twitter: 'second-twitter',
           username: 'second-username',
-          state: 'available'
+          state: 'available',
+          photo_url: 'second-photo-url'
         }
       ],
       organization: {
@@ -364,7 +378,8 @@ describe('getTournamentSuccess', () => {
       teamId: '',
       twitter: 'first-twitter',
       username: 'first-username',
-      state: 'available'
+      state: 'available',
+      photoUrl: 'first-photo-url'
     });
     expect(newState.players['second-player-id']).toEqual({
       id: 'second-player-id',
@@ -377,7 +392,8 @@ describe('getTournamentSuccess', () => {
       teamId: '',
       twitter: 'second-twitter',
       username: 'second-username',
-      state: 'available'
+      state: 'available',
+      photoUrl: 'second-photo-url'
     });
   });
 

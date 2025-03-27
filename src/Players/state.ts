@@ -14,6 +14,7 @@ export interface PlayerEntity {
   team: TeamEntity;
   teamId: string;
   registrationResponse?: RegistrationResponseEntity;
+  photoUrl: string;
   state: ApiPlayerState;
 }
 
@@ -48,5 +49,6 @@ export const DEFAULT_PLAYER: PlayerEntity = {
   twitter: '',
   team: DEFAULT_TEAM,
   teamId: '',
-  state: 'available'
+  state: 'available',
+  photoUrl: ''
 };

@@ -45,5 +45,5 @@ export const mapTeamLogoToApiFileReference = (
 ): FileReference => ({
   publicUrl: team.logoUrl,
   filename: '',
-  url: ''
+  url: team.logoUrl
 });

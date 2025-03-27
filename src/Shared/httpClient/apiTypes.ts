@@ -308,6 +308,7 @@ export interface ApiPlayer {
   twitter: string;
   state: ApiPlayerState;
   team_id?: string;
+  photo_url?: string;
   registration_response?: ApiRegistrationResponseResourceWithDependencies;
 }
 
@@ -670,7 +671,10 @@ export interface ApiRegistrationResponseResourceResponse {
   data: ApiRegistrationResponseResourceWithDependencies;
 }
 
-export type ApiUploadFileType = 'registration-consents' | 'team-logos';
+export type ApiUploadFileType =
+  | 'player-photos'
+  | 'registration-consents'
+  | 'team-logos';
 
 export interface ApiUploadPostRequest {
   filename: string;

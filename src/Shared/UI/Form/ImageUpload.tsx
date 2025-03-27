@@ -88,7 +88,7 @@ function CropperModal({
 }
 
 interface ImageUploadProps
-  extends FieldRenderProps<FileReference, HTMLElement> {
+  extends FieldRenderProps<FileReference | string, HTMLElement> {
   imageType: ApiUploadFileType;
   initialFileReference?: FileReference;
 }
@@ -117,6 +117,10 @@ function ImageUpload({
     if (initialFileReference) {
       setFileReference(initialFileReference);
     }
+
+    return () => {
+      setFileReference(null);
+    };
   }, [initialFileReference]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -210,6 +214,7 @@ function ImageUpload({
       setFilename(null);
       setCroppedImage(null);
       setSrc(null);
+      input.onChange(null);
     } catch (error) {
       console.error('Error removing image', error);
     }

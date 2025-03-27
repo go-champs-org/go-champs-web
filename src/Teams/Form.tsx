@@ -97,7 +97,9 @@ const Form: React.FC<FormProps> = ({
           <div className="control">
             <Field
               name="logoUrl"
-              render={(props: FieldRenderProps<FileReference, HTMLElement>) => (
+              render={(
+                props: FieldRenderProps<FileReference | string, HTMLElement>
+              ) => (
                 <ImageUpload
                   {...props}
                   imageType="team-logos"
@@ -109,7 +111,7 @@ const Form: React.FC<FormProps> = ({
                 />
               )}
               parse={(value: FileReference) => {
-                if (!value) return {};
+                if (!value) return '';
 
                 return mapFileReferenceToApiTeamLogo(value);
               }}

@@ -95,6 +95,7 @@ export default {
     orSignUp: 'Or sign up',
     password: 'Password',
     phases: 'Phases',
+    photo: 'Photo',
     pin: 'Pin',
     player: 'Player',
     players: 'Players',
