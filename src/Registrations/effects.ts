@@ -17,10 +17,18 @@ import {
   getRegistrationFailure,
   getRegistrationInviteFailure,
   getRegistrationInviteSuccess,
-  getRegistrationInviteStart
+  getRegistrationInviteStart,
+  putRegistrationResponseApproveStart,
+  putRegistrationResponseApproveSuccess,
+  putRegistrationResponseApproveFailure
 } from './actions';
-import { RegistrationEntity } from './state';
+import {
+  RegistrationEntity,
+  RegistrationInviteEntity,
+  RegistrationResponseEntity
+} from './state';
 import registrationHttpClient from './registrationHttpClient';
+import registrationResponseHttpClient from './registrationResponseHttpClient';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
 import registrationInviteHttpClient from './registrationInviteHttpClient';
@@ -129,6 +137,33 @@ export const postRegistration = (
 
     if (err instanceof ApiError) {
       return err.payload.data.errors ? err.payload.data.errors : {};
+    }
+  }
+};
+
+export const putRegistrationResponseApprove = (
+  registrationResponses: RegistrationResponseEntity[],
+  registrationInvite: RegistrationInviteEntity
+) => async (dispatch: Dispatch) => {
+  dispatch(putRegistrationResponseApproveStart());
+
+  try {
+    const response = await registrationResponseHttpClient.approve(
+      registrationResponses
+    );
+
+    dispatch(
+      putRegistrationResponseApproveSuccess({
+        registrationInvite,
+        registrationResponses: response
+      })
+    );
+    displayToast('Responses were approved!', 'is-success');
+  } catch (err) {
+    dispatch(putRegistrationResponseApproveFailure(err));
+
+    if (err instanceof ApiError) {
+      displayToast(err.payload.data.errors, 'is-danger');
     }
   }
 };

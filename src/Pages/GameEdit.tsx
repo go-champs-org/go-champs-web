@@ -16,6 +16,8 @@ import { teamsForSelectInput } from '../Teams/selectors';
 import { Trans } from 'react-i18next';
 import { REACT_APP_SCOREBOARD_APP_URL } from '../Shared/env';
 import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
+import { tournamentBySlug } from '../Tournaments/selectors';
+import { hasSportPackage } from '../Tournaments/dataSelectors';
 
 interface OwnProps extends RouteComponentProps<RouteProps> {
   basePhaseManageUrl: string;
@@ -25,8 +27,9 @@ interface OwnProps extends RouteComponentProps<RouteProps> {
 }
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
-  const { gameId = '' } = props.match.params;
+  const { gameId = '', tournamentSlug = '' } = props.match.params;
   return {
+    tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     isGamePatching: patchingGame(state.games),
     game: gameById(state.games, gameId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
@@ -45,9 +48,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type GameNewProps = ConnectedProps<typeof connector> & OwnProps;
+type GameEditProps = ConnectedProps<typeof connector> & OwnProps;
 
-const GameNew: React.FC<GameNewProps> = ({
+const GameEdit: React.FC<GameEditProps> = ({
   basePhaseManageUrl,
   isGamePatching,
   game,
@@ -55,7 +58,8 @@ const GameNew: React.FC<GameNewProps> = ({
   phase,
   patchGame,
   selectInputTeams,
-  tournamentSlug
+  tournamentSlug,
+  tournament
 }) => {
   const scoreboardUrl = REACT_APP_SCOREBOARD_APP_URL;
   const userToken = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
@@ -70,22 +74,24 @@ const GameNew: React.FC<GameNewProps> = ({
           </div>
 
           <div className="column is-6 has-text-right">
-            <a
-              href={`${scoreboardUrl}scoreboard/load/${game.id}?token=${userToken}`}
-              target="_blank"
-              rel="noreferrer"
-              style={{ paddingRight: '1rem' }}
-            >
-              <button className="button is-info is-outlined">
-                <span className="icon">
-                  <i className="fas fa-clock"></i>
-                </span>
+            {hasSportPackage(tournament) && (
+              <a
+                href={`${scoreboardUrl}scoreboard/load/${game.id}?token=${userToken}`}
+                target="_blank"
+                rel="noreferrer"
+                style={{ paddingRight: '1rem' }}
+              >
+                <button className="button is-info is-outlined">
+                  <span className="icon">
+                    <i className="fas fa-clock"></i>
+                  </span>
 
-                <span>
-                  <Trans>Scoreboard</Trans>
-                </span>
-              </button>
-            </a>
+                  <span>
+                    <Trans>Scoreboard</Trans>
+                  </span>
+                </button>
+              </a>
+            )}
 
             <Link to={`${basePhaseManageUrl}/EditGameAdvanced/${game.id}`}>
               <button className="button is-info is-outlined">
@@ -130,4 +136,4 @@ const GameNew: React.FC<GameNewProps> = ({
   );
 };
 
-export default connector(withPhase<GameNewProps>(GameNew));
+export default connector(withPhase<GameEditProps>(GameEdit));

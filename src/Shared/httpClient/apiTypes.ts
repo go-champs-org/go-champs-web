@@ -271,6 +271,8 @@ export interface ApiStat {
 export interface ApiTeam {
   id: string;
   name: string;
+  logo_url?: string;
+  tri_code?: string;
 }
 
 export interface ApiTeamWithDependencies extends ApiTeam {
@@ -293,17 +295,21 @@ export interface ApiTeamsResponse {
   data: ApiTeam[];
 }
 
+export type ApiPlayerState = 'available' | 'not_available';
+
 export interface ApiPlayer {
   facebook: string;
   id: string;
   instagram: string;
   name: string;
-  shirt_name?: string;
-  shirt_number?: string;
+  shirt_name?: string | null;
+  shirt_number?: string | null;
   username: string;
   twitter: string;
+  state: ApiPlayerState;
   team_id?: string;
-  registration_response?: ApiRegistrationResponseResource;
+  photo_url?: string;
+  registration_response?: ApiRegistrationResponseResourceWithDependencies;
 }
 
 export interface ApiPlayerWithDependencies extends ApiPlayer {
@@ -396,6 +402,7 @@ export interface ApiTournamentWithDependecies extends ApiTournament {
   players: ApiPlayer[];
   teams: ApiTeam[];
   registrations: ApiRegistration[];
+  scoreboard_setting: ApiScoreboardSetting;
 }
 
 export interface ApiTournamentWithDependeciesIds extends ApiTournament {
@@ -577,7 +584,7 @@ export type ApiRegistrationType = 'team_roster_invites';
 export type ApiCustomFieldType = 'date' | 'datetime' | 'text' | 'consent';
 
 export interface ApiRegistrationCustomField {
-  id: string;
+  id?: string;
   label: string;
   type: ApiCustomFieldType;
   required: boolean;
@@ -656,14 +663,24 @@ export interface ApiRegistrationResponseResourcePostRequest {
   registration_response: ApiRegistrationResponseResource;
 }
 
+export interface ApiRegistrationResponseResourcePutApproveRequest {
+  registration_responses: string[];
+}
+
 export interface ApiRegistrationResponseResourceResponse {
   data: ApiRegistrationResponseResourceWithDependencies;
 }
+
+export type ApiUploadFileType =
+  | 'player-photos'
+  | 'registration-consents'
+  | 'team-logos';
 
 export interface ApiUploadPostRequest {
   filename: string;
   content_type: string;
   size: number;
+  file_type: ApiUploadFileType;
 }
 
 export interface ApiUploadFile {
@@ -678,4 +695,34 @@ export interface ApiUploadPostResponse {
 
 export interface ApiUploadDeleteRequest {
   url: string;
+  file_type: ApiUploadFileType;
+}
+
+export type ApiScoreboardSettingView = 'basketball-basic' | 'basketball-medium';
+
+export interface ApiScoreboardSetting {
+  id: string;
+  view: ApiScoreboardSettingView;
+  initial_period_time: number;
+}
+
+export interface ApiScoreboardSettingWithDependencies
+  extends ApiScoreboardSetting {
+  tournament_id: string;
+}
+
+export interface ApiScoreboardSettingPatchRequest {
+  scoreboard_setting: ApiScoreboardSetting;
+}
+
+export interface ApiScoreboardSettingPostRequest {
+  scoreboard_setting: ApiScoreboardSettingWithDependencies;
+}
+
+export interface ApiScoreboardSettingResponse {
+  data: ApiScoreboardSetting;
+}
+
+export interface ApiScoreboardSettingsResponse {
+  data: ApiScoreboardSetting[];
 }

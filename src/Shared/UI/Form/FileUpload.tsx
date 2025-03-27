@@ -4,23 +4,21 @@ import uploadHttpClient from '../../httpClient/uploadHttpClient';
 import './FileUpload.scss';
 import { Trans, useTranslation } from 'react-i18next';
 import { FieldRenderProps } from 'react-final-form';
-
-export interface FileReference {
-  filename: string;
-  publicUrl: string;
-  url: string;
-}
+import { ApiUploadFileType } from '../../httpClient/apiTypes';
+import { FileReference } from '../../httpClient/uploadHttpClient';
 
 interface FileUploadProps
   extends FieldRenderProps<FileReference[], HTMLElement> {
   maxFiles?: number;
   initialUploadedFiles?: FileReference[];
+  fileType: ApiUploadFileType;
 }
 
 function FileUpload({
   maxFiles = 1,
   initialUploadedFiles = [],
-  input
+  input,
+  fileType
 }: FileUploadProps) {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState<null | string>(null);
@@ -38,63 +36,21 @@ function FileUpload({
       setIsUploading(true);
       setError(null);
 
-      // 1. Get presigned URL from Elixir backend
-      const {
-        data: { filename, url, public_url: publicUrl }
-      } = await uploadHttpClient.postUploadPresignedUrl({
-        filename: file.name,
-        content_type: file.type,
-        size: file.size
+      await uploadHttpClient.singAndUpload({
+        file,
+        fileReference: {
+          file_type: fileType,
+          filename: file.name,
+          content_type: file.type,
+          size: file.size
+        },
+        setProgress: setUploadProgress,
+        onSucess: fileReference => {
+          setUploadedFiles(prevFiles => [...prevFiles, fileReference]);
+          input.onChange([...uploadedFiles, fileReference]);
+        },
+        onError: () => setError(t('uploadError'))
       });
-
-      // 2. Upload directly to Cloudflare R2 using XMLHttpRequest to track progress
-      const xhr = new XMLHttpRequest();
-      xhr.open('PUT', url, true);
-      xhr.setRequestHeader('Content-Type', file.type);
-
-      xhr.upload.onprogress = event => {
-        if (event.lengthComputable) {
-          const percentComplete = Math.round(
-            (event.loaded * 100) / event.total
-          );
-          setUploadProgress(percentComplete);
-        }
-      };
-
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const cleanUrl = new URL(url);
-          cleanUrl.search = '';
-          setUploadedFiles(prevFiles => [
-            ...prevFiles,
-            {
-              filename,
-              url: cleanUrl.toString(),
-              publicUrl
-            }
-          ]);
-          input.onChange([
-            ...uploadedFiles,
-            {
-              filename,
-              url: cleanUrl.toString(),
-              publicUrl
-            }
-          ]);
-        } else {
-          setError(t('uploadError'));
-        }
-        setIsUploading(false);
-        setUploadProgress(0);
-      };
-
-      xhr.onerror = () => {
-        setError(t('uploadError'));
-        setIsUploading(false);
-        setUploadProgress(0);
-      };
-
-      xhr.send(file);
     } catch (err) {
       if (
         err &&
@@ -114,7 +70,7 @@ function FileUpload({
 
   const deleteFile = async (file: FileReference, index: number) => {
     try {
-      await uploadHttpClient.deleteFile(file.url);
+      await uploadHttpClient.deleteFile({ url: file.url, fileType });
 
       const newFiles = uploadedFiles.filter((_, i) => i !== index);
       setUploadedFiles(newFiles);

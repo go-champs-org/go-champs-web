@@ -35,7 +35,7 @@ export const patchPlayerStart = (): HttpAction<ActionTypes> => ({
 
 export const patchPlayerSuccess = (
   payload: PlayerEntity
-): HttpAction<ActionTypes, ApiPlayer> => ({
+): HttpAction<ActionTypes, PlayerEntity> => ({
   type: PATCH_PLAYER_SUCCESS,
   payload
 });
@@ -50,8 +50,8 @@ export const postPlayerStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const postPlayerSuccess = (
-  payload: ApiPlayer
-): HttpAction<ActionTypes, ApiPlayer> => ({
+  payload: PlayerEntity
+): HttpAction<ActionTypes, PlayerEntity> => ({
   type: POST_PLAYER_SUCCESS,
   payload
 });

@@ -98,11 +98,11 @@ const postPlayerFailure = (
 
 const postPlayerSuccess = (
   state: PlayerState,
-  action: HttpAction<ActionTypes, ApiPlayer>
+  action: HttpAction<ActionTypes, PlayerEntity>
 ) => ({
   ...state,
   isLoadingPostPlayer: false,
-  players: [action.payload!].reduce(apiPlayerToEntities, state.players)
+  players: [action.payload!].reduce(playerMapEntities, state.players)
 });
 
 const getTournamentSuccess = (

@@ -7,7 +7,8 @@ import {
   ApiRegistrationType,
   ApiRegistrationResponseResourceWithDependencies,
   ApiRegistrationCustomField,
-  ApiUploadFile
+  ApiUploadFile,
+  ApiRegistrationResponseResourcePutApproveRequest
 } from '../Shared/httpClient/apiTypes';
 import { FileReference } from '../Shared/UI/Form/FileUpload';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
@@ -101,7 +102,13 @@ export const mapRegistrationEntityToApiRegistrationPostRequest = (
       type: registration.type,
       auto_approve: registration.autoApprove,
       custom_fields:
-        registration.customFields.length > 0 ? registration.customFields : []
+        registration.customFields.map(customField => ({
+          label: customField.label,
+          description: customField.description,
+          type: customField.type,
+          required: customField.required,
+          properties: customField.properties
+        })) || []
     }
   };
 };
@@ -118,7 +125,14 @@ export const mapRegistrationEntityToApiRegistrationPatchRequest = (
       type: registration.type,
       auto_approve: registration.autoApprove,
       custom_fields:
-        registration.customFields.length > 0 ? registration.customFields : []
+        registration.customFields.map(customField => ({
+          id: customField.id ? customField.id : undefined,
+          label: customField.label,
+          description: customField.description,
+          type: customField.type,
+          required: customField.required,
+          properties: customField.properties
+        })) || []
     }
   };
 };
@@ -139,6 +153,14 @@ export const mapRegistrationResponseEntityToApiRegistrationResponseResourceReque
       registration_invite_id: registrationInviteId,
       response: registrationResponse.response
     }
+  };
+};
+
+export const mapRegistrationResponseEntitiesToApiRegistrationResponseResourcePutApproveRequest = (
+  registrationResponses: RegistrationResponseEntity[]
+): ApiRegistrationResponseResourcePutApproveRequest => {
+  return {
+    registration_responses: registrationResponses.map(response => response.id)
   };
 };
 

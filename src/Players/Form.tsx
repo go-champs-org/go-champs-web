@@ -9,13 +9,20 @@ import { PlayerEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
+import { PLAYER_STATE_OPTIONS } from './selectors';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
+import {
+  mapFileReferenceToApiPlayerPhoto,
+  mapPhayerPhotoToApiFileReference
+} from './dataMappers';
 
 export function FormLoading(): React.ReactElement {
   return (
     <div className="columns is-multiline">
       <div className="column is-12">
         <label className="label">
-          <Trans>name</Trans>
+          <Trans>fullName</Trans>
         </label>
 
         <Shimmer>
@@ -117,7 +124,7 @@ function Form({
       <form onSubmit={handleSubmit} className="form">
         <div className="field">
           <label className="label">
-            <Trans>name</Trans>
+            <Trans>fullName</Trans>
           </label>
 
           <div className="control">
@@ -165,6 +172,21 @@ function Form({
         </div>
 
         <div className="field">
+          <label className="label">
+            <Trans>playerRosterState</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="state"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput {...props} options={PLAYER_STATE_OPTIONS} />
+              )}
+            ></Field>
+          </div>
+        </div>
+
+        <div className="field">
           <label className="label">Username</label>
 
           <div className="control">
@@ -172,6 +194,34 @@ function Form({
           </div>
 
           <p className="help is-info">Go Champs Username</p>
+        </div>
+
+        <div className="control">
+          <label className="label">
+            <Trans>photo</Trans>
+          </label>
+
+          <Field
+            name="photoUrl"
+            render={(
+              props: FieldRenderProps<FileReference | string, HTMLElement>
+            ) => (
+              <ImageUpload
+                {...props}
+                imageType="player-photos"
+                initialFileReference={
+                  values.photoUrl
+                    ? mapPhayerPhotoToApiFileReference(values)
+                    : undefined
+                }
+              />
+            )}
+            parse={(value: FileReference) => {
+              if (!value) return '';
+
+              return mapFileReferenceToApiPlayerPhoto(value);
+            }}
+          />
         </div>
 
         <div className="field">

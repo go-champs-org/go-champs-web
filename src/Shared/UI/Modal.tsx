@@ -4,17 +4,19 @@ import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 interface ModalProps {
   content: ReactNode;
   isOpenFromOutside?: boolean;
-  trigger: ReactNode;
+  trigger?: ReactNode;
   triggerClasses?: string;
+  modalContentClasses?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
   content,
   trigger,
   isOpenFromOutside = false,
-  triggerClasses = ''
+  triggerClasses = '',
+  modalContentClasses = ''
 }) => {
-  const ref = useRef<HTMLSpanElement>(null);
+  const refContent = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(isOpenFromOutside);
 
   const openModal = (event: React.MouseEvent) => {
@@ -26,7 +28,7 @@ const Modal: React.FC<ModalProps> = ({
   const closeModal = (event: UIEvent) => {
     const isTriggerClick = event
       .composedPath()
-      .includes(ref.current as HTMLSpanElement);
+      .includes(refContent.current as HTMLSpanElement);
     if (!isTriggerClick) {
       setIsOpen(false);
     }
@@ -52,14 +54,20 @@ const Modal: React.FC<ModalProps> = ({
     'is-active': isOpen
   });
 
+  const modalContentClass = classNames('modal-content', modalContentClasses);
+
   return (
     <Fragment>
-      <span className={triggerClasses} onClick={openModal} ref={ref}>
-        {trigger}
-      </span>
+      {trigger && (
+        <span className={triggerClasses} onClick={openModal}>
+          {trigger}
+        </span>
+      )}
       <div className={modalClasses}>
         <div className="modal-background"></div>
-        <div className="modal-content">{content}</div>
+        <div className={modalContentClass} ref={refContent}>
+          {content}
+        </div>
         <button className="modal-close is-large" aria-label="close"></button>
       </div>
     </Fragment>

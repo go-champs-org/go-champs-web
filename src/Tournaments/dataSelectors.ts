@@ -1,5 +1,5 @@
 import { Statistic } from '../Sports/state';
-import { PlayerStatEntity } from './state';
+import { PlayerStatEntity, TournamentEntity } from './state';
 
 export const playerStatThatContainsInStatistic = (statistics: Statistic[]) => (
   playerStat: PlayerStatEntity
@@ -7,3 +7,7 @@ export const playerStatThatContainsInStatistic = (statistics: Statistic[]) => (
 
 export const playerStatThatIsVisible = (playerStat: PlayerStatEntity) =>
   playerStat.visibility === 'public';
+
+export const hasSportPackage = (tournament: TournamentEntity) => {
+  return !!tournament.sportSlug;
+};

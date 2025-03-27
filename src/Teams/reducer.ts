@@ -3,6 +3,7 @@ import {
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import {
+  apiDataToEntities,
   apiDataToEntitiesOverride,
   createReducer,
   entityById,
@@ -29,10 +30,10 @@ import { initialState, TeamEntity, TeamState } from './state';
 
 const teamMapEntities = mapEntities<TeamEntity>(returnProperty('id'));
 
-const apiTeamToEntities = apiDataToEntitiesOverride<ApiTeam, TeamEntity>(
-  mapApiTeamToTeamEntity,
-  returnProperty('id')
-);
+const apiTeamToEntitiesOverride = apiDataToEntitiesOverride<
+  ApiTeam,
+  TeamEntity
+>(mapApiTeamToTeamEntity, returnProperty('id'));
 
 const deleteTeam = (state: TeamState, action: HttpAction<ActionTypes>) => ({
   ...state,
@@ -112,7 +113,7 @@ const getTournamentSuccess = (
   ...state,
   isLoadingRequestTournament: false,
   teams: action.payload!.teams
-    ? action.payload!.teams.reduce(apiTeamToEntities, {})
+    ? action.payload!.teams.reduce(apiTeamToEntitiesOverride, {})
     : {}
 });
 

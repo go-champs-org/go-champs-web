@@ -15,7 +15,7 @@ import {
   postPlayerSuccess
 } from './actions';
 import playerReducer from './reducer';
-import { initialState, PlayerState } from './state';
+import { DEFAULT_PLAYER, initialState, PlayerState } from './state';
 import { DEFAULT_TEAM } from '../Teams/state';
 
 describe('deletePlayer', () => {
@@ -45,6 +45,7 @@ describe('deletePlayerSuccess', () => {
     ...initialState,
     players: {
       'first-id': {
+        ...DEFAULT_PLAYER,
         id: 'first-id',
         name: 'first-name',
         shirtName: 'first-shirt-name',
@@ -52,7 +53,8 @@ describe('deletePlayerSuccess', () => {
         facebook: 'first-facebook',
         instagram: 'first-instagram',
         twitter: 'first-twitter',
-        username: 'first-username'
+        username: 'first-username',
+        photoUrl: 'first-photo-url'
       }
     }
   };
@@ -74,6 +76,7 @@ describe('deletePlayerSuccess', () => {
       ...initialState,
       players: {
         'some-id': {
+          ...DEFAULT_PLAYER,
           id: 'some-id',
           name: 'some-name',
           shirtName: 'some-shirt-name',
@@ -81,7 +84,8 @@ describe('deletePlayerSuccess', () => {
           facebook: 'some-facebook',
           instagram: 'some-instagram',
           twitter: 'some-twitter',
-          username: 'some-username'
+          username: 'some-username',
+          photoUrl: 'some-photo-url'
         },
         ...deleteState.players
       }
@@ -90,6 +94,7 @@ describe('deletePlayerSuccess', () => {
     const newState = playerReducer(someState, action);
 
     expect(newState.players['some-id']).toEqual({
+      ...DEFAULT_PLAYER,
       id: 'some-id',
       name: 'some-name',
       shirtName: 'some-shirt-name',
@@ -97,7 +102,8 @@ describe('deletePlayerSuccess', () => {
       facebook: 'some-facebook',
       instagram: 'some-instagram',
       twitter: 'some-twitter',
-      username: 'some-username'
+      username: 'some-username',
+      photoUrl: 'some-photo-url'
     });
   });
 });
@@ -122,6 +128,7 @@ describe('patchPlayerFailure', () => {
 
 describe('patchPlayerSuccess', () => {
   const action = patchPlayerSuccess({
+    ...DEFAULT_PLAYER,
     id: 'first-id',
     name: 'first-updeted-name',
     shirtName: 'first-updeted-shirt-name',
@@ -130,6 +137,8 @@ describe('patchPlayerSuccess', () => {
     instagram: 'first-updeted-instagram',
     twitter: 'first-updeted-twitter',
     username: 'first-updeted-username',
+    state: 'not_available',
+    photoUrl: 'first-updeted-photo-url',
     team: DEFAULT_TEAM,
     teamId: DEFAULT_TEAM.id
   });
@@ -138,6 +147,7 @@ describe('patchPlayerSuccess', () => {
     ...initialState,
     players: {
       'first-id': {
+        ...DEFAULT_PLAYER,
         id: 'first-id',
         name: 'first-name',
         shirtName: 'first-shirt-name',
@@ -146,6 +156,7 @@ describe('patchPlayerSuccess', () => {
         instagram: 'first-instagram',
         twitter: 'first-twitter',
         username: 'first-username',
+        photoUrl: 'first-photo-url',
         team: DEFAULT_TEAM,
         teamId: ''
       }
@@ -160,6 +171,7 @@ describe('patchPlayerSuccess', () => {
     const newState = playerReducer(updateState, action);
 
     expect(newState.players['first-id']).toEqual({
+      ...DEFAULT_PLAYER,
       id: 'first-id',
       name: 'first-updeted-name',
       shirtName: 'first-updeted-shirt-name',
@@ -168,6 +180,8 @@ describe('patchPlayerSuccess', () => {
       instagram: 'first-updeted-instagram',
       twitter: 'first-updeted-twitter',
       username: 'first-updeted-username',
+      photoUrl: 'first-updeted-photo-url',
+      state: 'not_available',
       team: DEFAULT_TEAM,
       teamId: DEFAULT_TEAM.id
     });
@@ -178,6 +192,7 @@ describe('patchPlayerSuccess', () => {
       ...updateState,
       players: {
         'some-id': {
+          ...DEFAULT_PLAYER,
           id: 'some-id',
           name: 'some-name',
           shirtName: 'some-shirt-name',
@@ -186,6 +201,7 @@ describe('patchPlayerSuccess', () => {
           instagram: 'some-instagram',
           twitter: 'some-twitter',
           username: 'some-username',
+          photoUrl: 'some-photo-url',
           team: DEFAULT_TEAM,
           teamId: ''
         }
@@ -195,6 +211,7 @@ describe('patchPlayerSuccess', () => {
     const newState = playerReducer(someState, action);
 
     expect(newState.players['some-id']).toEqual({
+      ...DEFAULT_PLAYER,
       id: 'some-id',
       name: 'some-name',
       shirtName: 'some-shirt-name',
@@ -203,6 +220,7 @@ describe('patchPlayerSuccess', () => {
       instagram: 'some-instagram',
       twitter: 'some-twitter',
       username: 'some-username',
+      photoUrl: 'some-photo-url',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -227,14 +245,16 @@ describe('postPlayerFailure', () => {
 
 describe('postPlayerSuccess', () => {
   const action = postPlayerSuccess({
+    ...DEFAULT_PLAYER,
     id: 'first-id',
     name: 'first-name',
-    shirt_name: 'first-shirt-name',
-    shirt_number: '1',
+    shirtName: 'first-shirt-name',
+    shirtNumber: '1',
     facebook: 'first-facebook',
     instagram: 'first-instagram',
     twitter: 'first-twitter',
-    username: 'first-username'
+    username: 'first-username',
+    photoUrl: 'first-photo-url'
   });
 
   it('sets isLoadingPostPlayer to false', () => {
@@ -245,6 +265,7 @@ describe('postPlayerSuccess', () => {
     const newState = playerReducer(initialState, action);
 
     expect(newState.players['first-id']).toEqual({
+      ...DEFAULT_PLAYER,
       id: 'first-id',
       name: 'first-name',
       shirtName: 'first-shirt-name',
@@ -253,6 +274,7 @@ describe('postPlayerSuccess', () => {
       instagram: 'first-instagram',
       twitter: 'first-twitter',
       username: 'first-username',
+      photoUrl: 'first-photo-url',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -263,6 +285,7 @@ describe('postPlayerSuccess', () => {
       ...initialState,
       players: {
         'some-id': {
+          ...DEFAULT_PLAYER,
           id: 'some-id',
           name: 'some-name',
           shirtName: 'some-shirt-name',
@@ -271,6 +294,7 @@ describe('postPlayerSuccess', () => {
           instagram: 'some-instagram',
           twitter: 'some-twitter',
           username: 'some-username',
+          photoUrl: 'some-photo-url',
           team: DEFAULT_TEAM,
           teamId: ''
         }
@@ -280,6 +304,7 @@ describe('postPlayerSuccess', () => {
     const newState = playerReducer(someState, action);
 
     expect(newState.players['some-id']).toEqual({
+      ...DEFAULT_PLAYER,
       id: 'some-id',
       name: 'some-name',
       shirtName: 'some-shirt-name',
@@ -288,6 +313,7 @@ describe('postPlayerSuccess', () => {
       instagram: 'some-instagram',
       twitter: 'some-twitter',
       username: 'some-username',
+      photoUrl: 'some-photo-url',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -312,7 +338,9 @@ describe('getTournamentSuccess', () => {
           facebook: 'first-facebook',
           instagram: 'first-instagram',
           twitter: 'first-twitter',
-          username: 'first-username'
+          username: 'first-username',
+          state: 'available',
+          photo_url: 'first-photo-url'
         },
         {
           id: 'second-player-id',
@@ -322,7 +350,9 @@ describe('getTournamentSuccess', () => {
           facebook: 'second-facebook',
           instagram: 'second-instagram',
           twitter: 'second-twitter',
-          username: 'second-username'
+          username: 'second-username',
+          state: 'available',
+          photo_url: 'second-photo-url'
         }
       ],
       organization: {
@@ -347,7 +377,9 @@ describe('getTournamentSuccess', () => {
       team: DEFAULT_TEAM,
       teamId: '',
       twitter: 'first-twitter',
-      username: 'first-username'
+      username: 'first-username',
+      state: 'available',
+      photoUrl: 'first-photo-url'
     });
     expect(newState.players['second-player-id']).toEqual({
       id: 'second-player-id',
@@ -359,7 +391,9 @@ describe('getTournamentSuccess', () => {
       team: DEFAULT_TEAM,
       teamId: '',
       twitter: 'second-twitter',
-      username: 'second-username'
+      username: 'second-username',
+      state: 'available',
+      photoUrl: 'second-photo-url'
     });
   });
 

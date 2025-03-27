@@ -105,6 +105,9 @@ function CustomFieldForm({
   onRemove,
   currentValue
 }: CustomFieldFormProps): React.ReactElement {
+  const requiredId = Math.random()
+    .toString(36)
+    .substring(7);
   return (
     <div className="card" style={{ marginBottom: '1rem' }}>
       <div className="card-content">
@@ -160,11 +163,11 @@ function CustomFieldForm({
               name={`${name}.required`}
               type="checkbox"
               render={(props: FieldRenderProps<string, HTMLInputElement>) => (
-                <CheckboxInput {...props} id="required" />
+                <CheckboxInput {...props} id={requiredId} />
               )}
             />
 
-            <label className="label" htmlFor="required">
+            <label className="label" htmlFor={requiredId}>
               <Trans>required</Trans>
             </label>
           </div>
@@ -181,6 +184,7 @@ function CustomFieldForm({
               ) => (
                 <FileUpload
                   {...props}
+                  fileType="registration-consents"
                   initialUploadedFiles={
                     Object.entries(currentValue.properties).length
                       ? [
