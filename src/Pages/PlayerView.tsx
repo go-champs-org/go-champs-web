@@ -10,37 +10,37 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 
 const mapStateToProps = (
-    state: StoreState,
-    props: RouteComponentProps<RouteProps>
+  state: StoreState,
+  props: RouteComponentProps<RouteProps>
 ) => {
-    const { playerId } = props.match.params;
-    const tournament = tournamentBySlug(
-        state.tournaments,
-        props.match.params.tournamentSlug
-    );
+  const { playerId } = props.match.params;
+  const tournament = tournamentBySlug(
+    state.tournaments,
+    props.match.params.tournamentSlug
+  );
 
-    return {
-        player: playerById(state.players, state.teams, playerId),
-        tournament,
-    };
+  return {
+    player: playerById(state.players, state.teams, playerId),
+    tournament
+  };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-    return bindActionCreators(
-        {
-            getPlayerStatsLogsByFilter
-        },
-        dispatch
-    );
+  return bindActionCreators(
+    {
+      getPlayerStatsLogsByFilter
+    },
+    dispatch
+  );
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PlayerViewProps = ConnectedProps<typeof connector> &
-    RouteComponentProps<RouteProps>;
+  RouteComponentProps<RouteProps>;
 
 function PlayerView({ player }: PlayerViewProps) {
-    return <div>Player View: {player.name}</div>;
+  return <div>Player View: {player.name}</div>;
 }
 
 export default connector(withPlayerStatsLogsForPlayer(PlayerView));

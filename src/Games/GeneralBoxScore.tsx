@@ -8,6 +8,7 @@ interface GeneralBoxScoreProps {
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
   playerStatsLogs: PlayerStatsLogRenderEntity[];
+  playerViewBasePath: string;
   teamName: string;
   tournament: TournamentEntity;
 }

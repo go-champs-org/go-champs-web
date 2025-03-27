@@ -105,6 +105,7 @@ export interface BoxScoreViewerProps {
   homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
+  playerViewBasePath: string;
   tournament: TournamentEntity;
 }
 
@@ -115,6 +116,7 @@ function BoxScoreViewer({
   homePlayerStatsLogs,
   playerStats,
   playersMap,
+  playerViewBasePath,
   tournament
 }: BoxScoreViewerProps) {
   if (BOX_SCORE_VIEWERS[tournament.sportSlug]) {
@@ -128,6 +130,7 @@ function BoxScoreViewer({
           homeTeam={homeTeam}
           playersMap={playersMap}
           playerStats={playerStats}
+          playerViewBasePath={playerViewBasePath}
           tournament={tournament}
         />
       </React.Suspense>
@@ -141,6 +144,7 @@ function BoxScoreViewer({
         playerStats={playerStats}
         playerStatsLogs={homePlayerStatsLogs}
         playersMap={playersMap}
+        playerViewBasePath={playerViewBasePath}
         tournament={tournament}
       />
       <GeneralBoxScore
@@ -148,6 +152,7 @@ function BoxScoreViewer({
         playerStats={playerStats}
         playerStatsLogs={awayPlayerStatsLogs}
         playersMap={playersMap}
+        playerViewBasePath={playerViewBasePath}
         tournament={tournament}
       />
     </div>
@@ -158,7 +163,7 @@ const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => {
-  const { gameId = '' } = props.match.params;
+  const { gameId = '', organizationSlug = '' } = props.match.params;
   const tournament = tournamentBySlug(
     state.tournaments,
     props.match.params.tournamentSlug
@@ -186,6 +191,7 @@ const mapStateToProps = (
     homeTeam,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     playersMap: allPlayersMap,
+    organizationSlug,
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
@@ -222,7 +228,8 @@ function GameView({
   homeTeam,
   tournament,
   playersMap,
-  statistics
+  statistics,
+  organizationSlug
 }: GameViewProps): React.ReactElement {
   const hasPlayerStatsLogs =
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
@@ -231,6 +238,7 @@ function GameView({
         playerStatThatContainsInStatistic(statistics)
       )
     : tournament.playerStats;
+  const playerViewBasePath = `/${organizationSlug}/${tournament.slug}/Player/`;
   const visiblePlayerStats = playerStats.filter(playerStatThatIsVisible);
 
   const boxScore = hasPlayerStatsLogs ? (
@@ -239,6 +247,7 @@ function GameView({
       awayTeam={awayTeam}
       homePlayerStatsLogs={homePlayerStatsLogs}
       homeTeam={homeTeam}
+      playerViewBasePath={playerViewBasePath}
       playersMap={playersMap}
       playerStats={visiblePlayerStats}
       tournament={tournament}
