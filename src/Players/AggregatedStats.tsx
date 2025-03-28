@@ -1,8 +1,10 @@
 import React from 'react';
 import { AggregatedPlayerStatsLogEntity } from '../AggregatedPlayerStats/state';
+import { PlayerStatEntity } from '../Tournaments/state';
 
 export interface AggregatedPlayerStatsViewerProps {
   aggregatedPlayerStats: AggregatedPlayerStatsLogEntity;
+  playerStats: PlayerStatEntity[];
 }
 
 export function Loading() {

@@ -67,11 +67,14 @@ function PlayerStatsView({
   isLoadingAggregatedPlayerStatsLogs,
   players,
   sport,
-  tournament
+  tournament,
+  match
 }: PlayerStatsViewProps) {
+  const { organizationSlug, tournamentSlug } = match.params;
   const location = useLocation();
   const history = useHistory();
 
+  const playerViewBasePath = `/${organizationSlug}/${tournamentSlug}/Player/`;
   const scope =
     (new URLSearchParams(location.search).get(
       SCOPE_URL_QUERY_PARAM
@@ -127,6 +130,7 @@ function PlayerStatsView({
               players={players}
               playersStats={visiblePlayerStats}
               playerStatLogs={aggregatedPlayerStatLogs}
+              playerViewBasePath={playerViewBasePath}
               scope={scope}
               tournament={tournament}
             />

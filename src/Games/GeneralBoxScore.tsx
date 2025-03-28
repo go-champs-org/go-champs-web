@@ -23,6 +23,7 @@ function GeneralBoxScore({
   playerStats,
   playerStatsLogs,
   playersMap,
+  playerViewBasePath,
   teamName,
   tournament
 }: GeneralBoxScoreProps): React.ReactElement {
@@ -52,6 +53,7 @@ function GeneralBoxScore({
         playerStatLogs={sortedPlayerStatLogs}
         players={playersMap}
         playersStats={playerStats}
+        playerViewBasePath={playerViewBasePath}
         tournament={tournament}
         scope="aggregate"
       />

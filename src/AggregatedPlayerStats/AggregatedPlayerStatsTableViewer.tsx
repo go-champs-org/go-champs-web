@@ -19,6 +19,7 @@ export interface AggregatedPlayerStatsTableViewerProps {
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLogs: PlayerStatsLogRenderEntity[];
+  playerViewBasePath: string;
   scope: Scope;
   tournament: TournamentEntity;
 }
@@ -28,6 +29,7 @@ function AggregatedPlayerStatsTableViewer({
   players,
   playersStats,
   playerStatLogs,
+  playerViewBasePath,
   scope,
   tournament
 }: AggregatedPlayerStatsTableViewerProps): React.ReactElement {
@@ -41,6 +43,7 @@ function AggregatedPlayerStatsTableViewer({
           players={players}
           playersStats={playersStats}
           playerStatLogs={playerStatLogs}
+          playerViewBasePath={playerViewBasePath}
           scope={scope}
           tournament={tournament}
         />
@@ -54,6 +57,7 @@ function AggregatedPlayerStatsTableViewer({
       players={players}
       playersStats={playersStats}
       playerStatLogs={playerStatLogs}
+      playerViewBasePath={playerViewBasePath}
       scope={scope}
       tournament={tournament}
     />

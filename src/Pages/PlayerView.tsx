@@ -17,6 +17,8 @@ import {
 import PlayerStatsLogHistory from '../Players/PlayerStatsLogHistory';
 import { aggregatedPlayerStatsByPlayerId } from '../AggregatedPlayerStats/selectors';
 import GenericAggregatedPlayerStatsViewer from '../AggregatedPlayerStats/GenericAggregatedPlayerStatsViewer';
+import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
+import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -34,7 +36,12 @@ const mapStateToProps = (
       state.aggregatedPlayerStatsLogs,
       playerId
     ),
-    tournament
+    tournament,
+    statistics: selectPlayerStatisticsByLevel(
+      state.sports,
+      tournament.sportSlug,
+      'game'
+    )
   };
 };
 
@@ -64,11 +71,18 @@ const AGGREGATED_PLAYER_STATS_VIEWERS: {
 function PlayerView({
   aggregatedPlayerStats,
   player,
-  tournament
+  tournament,
+  statistics
 }: PlayerViewProps) {
   const AggregatedPlayerStatsViewer =
     AGGREGATED_PLAYER_STATS_VIEWERS[tournament.sportSlug] ||
     GenericAggregatedPlayerStatsViewer;
+
+  const playerStats = statistics.length
+    ? tournament.playerStats.filter(
+        playerStatThatContainsInStatistic(statistics)
+      )
+    : tournament.playerStats;
 
   return (
     <div className="column is-12">
@@ -81,6 +95,7 @@ function PlayerView({
           <React.Suspense fallback={<Loading />}>
             <AggregatedPlayerStatsViewer
               aggregatedPlayerStats={aggregatedPlayerStats}
+              playerStats={playerStats}
             />
           </React.Suspense>
         </div>
