@@ -96,6 +96,7 @@ function PlayerView({
             <AggregatedPlayerStatsViewer
               aggregatedPlayerStats={aggregatedPlayerStats}
               playerStats={playerStats}
+              tournament={tournament}
             />
           </React.Suspense>
         </div>
