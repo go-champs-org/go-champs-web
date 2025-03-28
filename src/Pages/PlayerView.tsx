@@ -1,5 +1,5 @@
 import React from 'react';
-import withPlayerStatsLogsForPlayer from './support/withPlayerStatsLogsForPlayer';
+import withPlayerStatsForPlayer from './support/withPlayerStatsForPlayer';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteProps } from './support/routerInterfaces';
 import { RouteComponentProps } from 'react-router-dom';
@@ -8,7 +8,15 @@ import { tournamentBySlug } from '../Tournaments/selectors';
 import { playerById } from '../Players/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
+import { getAggregatedPlayerStatsLogsByFilter } from '../AggregatedPlayerStats/effects';
 import Banner from '../Players/Banner';
+import {
+  AggregatedPlayerStatsViewerProps,
+  Loading
+} from '../Players/AggregatedStats';
+import PlayerStatsLogHistory from '../Players/PlayerStatsLogHistory';
+import { aggregatedPlayerStatsByPlayerId } from '../AggregatedPlayerStats/selectors';
+import GenericAggregatedPlayerStatsViewer from '../AggregatedPlayerStats/GenericAggregatedPlayerStatsViewer';
 
 const mapStateToProps = (
   state: StoreState,
@@ -22,6 +30,10 @@ const mapStateToProps = (
 
   return {
     player: playerById(state.players, state.teams, playerId),
+    aggregatedPlayerStats: aggregatedPlayerStatsByPlayerId(
+      state.aggregatedPlayerStatsLogs,
+      playerId
+    ),
     tournament
   };
 };
@@ -29,6 +41,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
+      getAggregatedPlayerStatsLogsByFilter,
       getPlayerStatsLogsByFilter
     },
     dispatch
@@ -40,7 +53,23 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PlayerViewProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
-function PlayerView({ player }: PlayerViewProps) {
+const AGGREGATED_PLAYER_STATS_VIEWERS: {
+  [key: string]: React.ComponentType<AggregatedPlayerStatsViewerProps>;
+} = {
+  basketball_5x5: React.lazy(() =>
+    import('../Sports/Basketball5x5/AggregatedPlayerStatsViewer')
+  )
+};
+
+function PlayerView({
+  aggregatedPlayerStats,
+  player,
+  tournament
+}: PlayerViewProps) {
+  const AggregatedPlayerStatsViewer =
+    AGGREGATED_PLAYER_STATS_VIEWERS[tournament.sportSlug] ||
+    GenericAggregatedPlayerStatsViewer;
+
   return (
     <div className="column is-12">
       <div className="columns is-multiline">
@@ -49,89 +78,19 @@ function PlayerView({ player }: PlayerViewProps) {
         </div>
 
         <div className="column is-12">
-          <div className="card">
-            <div className="card-content">
-              <div className="content">
-                <div className="columns">
-                  <div className="column">
-                    <p className="title is-5">Goals</p>
-                    <p className="subtitle is-5">5</p>
-                  </div>
-                  <div className="column">
-                    <p className="title is-5">Assists</p>
-                    <p className="subtitle is-5">5</p>
-                  </div>
-                  <div className="column">
-                    <p className="title is-5">Yellow cards</p>
-                    <p className="subtitle is-5">5</p>
-                  </div>
-                  <div className="column">
-                    <p className="title is-5">Red cards</p>
-                    <p className="subtitle is-5">5</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <React.Suspense fallback={<Loading />}>
+            <AggregatedPlayerStatsViewer
+              aggregatedPlayerStats={aggregatedPlayerStats}
+            />
+          </React.Suspense>
         </div>
 
         <div className="column is-12">
-          <div className="card">
-            <div className="card-content">
-              <div className="table-container">
-                <table className="table is-fullwidth">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Opponent</th>
-                      <th>Goals</th>
-                      <th>Assists</th>
-                      <th>Yellow cards</th>
-                      <th>Red cards</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>2019-01-01</td>
-                      <td>Opponent</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>2019-01-01</td>
-                      <td>Opponent</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>2019-01-01</td>
-                      <td>Opponent</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>2019-01-01</td>
-                      <td>Opponent</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                      <td>1</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          <PlayerStatsLogHistory />
         </div>
       </div>
     </div>
   );
 }
 
-export default connector(withPlayerStatsLogsForPlayer(PlayerView));
+export default connector(withPlayerStatsForPlayer(PlayerView));

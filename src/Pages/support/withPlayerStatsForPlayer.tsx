@@ -5,19 +5,27 @@ import { RequestFilter } from '../../Shared/httpClient/requestFilter';
 import { TournamentEntity } from '../../Tournaments/state';
 import { RouteProps } from './routerInterfaces';
 
-interface WithPlayerStatsLogsProps {
+interface WithPlayerStatsProps {
   getPlayerStatsLogsByFilter: (
     where: RequestFilter
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getAggregatedPlayerStatsLogsByFilter: (
+    where: RequestFilter,
+    sort?: string
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   tournament: TournamentEntity;
 }
 
-const withPlayerStatsLogsForPlayer = <T extends object>(
+const withPlayerStatsForPlayer = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
-  const WithPlayerStatsLogsForPlayer: React.FC<T &
-    WithPlayerStatsLogsProps> = props => {
-    const { getPlayerStatsLogsByFilter, tournament } = props;
+  const WithPlayerStatsForPlayer: React.FC<T &
+    WithPlayerStatsProps> = props => {
+    const {
+      getPlayerStatsLogsByFilter,
+      getAggregatedPlayerStatsLogsByFilter,
+      tournament
+    } = props;
     const {
       params: { playerId }
     } = useRouteMatch<RouteProps>();
@@ -28,15 +36,24 @@ const withPlayerStatsLogsForPlayer = <T extends object>(
           player_id: playerId,
           tournament_id: tournament.id
         });
+        getAggregatedPlayerStatsLogsByFilter({
+          player_id: playerId,
+          tournament_id: tournament.id
+        });
       }
 
       return () => undefined;
-    }, [getPlayerStatsLogsByFilter, playerId, tournament]);
+    }, [
+      getPlayerStatsLogsByFilter,
+      getAggregatedPlayerStatsLogsByFilter,
+      playerId,
+      tournament
+    ]);
 
     return <WrappedComponent {...props} />;
   };
 
-  return WithPlayerStatsLogsForPlayer;
+  return WithPlayerStatsForPlayer;
 };
 
-export default withPlayerStatsLogsForPlayer;
+export default withPlayerStatsForPlayer;
