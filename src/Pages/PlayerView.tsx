@@ -16,9 +16,10 @@ import {
 } from '../Players/AggregatedStats';
 import PlayerStatsLogHistory from '../Players/PlayerStatsLogHistory';
 import { aggregatedPlayerStatsByPlayerId } from '../AggregatedPlayerStats/selectors';
-import GenericAggregatedPlayerStatsViewer from '../AggregatedPlayerStats/GenericAggregatedPlayerStatsViewer';
+import GeneralAggregatedPlayerStatsViewer from '../AggregatedPlayerStats/GeneralAggregatedPlayerStatsViewer';
 import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
 import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 const mapStateToProps = (
   state: StoreState,
@@ -76,7 +77,7 @@ function PlayerView({
 }: PlayerViewProps) {
   const AggregatedPlayerStatsViewer =
     AGGREGATED_PLAYER_STATS_VIEWERS[tournament.sportSlug] ||
-    GenericAggregatedPlayerStatsViewer;
+    GeneralAggregatedPlayerStatsViewer;
 
   const playerStats = statistics.length
     ? tournament.playerStats.filter(
@@ -101,9 +102,11 @@ function PlayerView({
           </React.Suspense>
         </div>
 
-        <div className="column is-12">
-          <PlayerStatsLogHistory />
-        </div>
+        <BehindFeatureFlag>
+          <div className="column is-12">
+            <PlayerStatsLogHistory />
+          </div>
+        </BehindFeatureFlag>
       </div>
     </div>
   );

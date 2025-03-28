@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { AggregatedPlayerStatsViewerProps } from '../../Players/AggregatedStats';
 import AggregatedStats from '../../Players/AggregatedStats';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 interface Stats {
   labelKey: string;
@@ -10,6 +10,10 @@ interface Stats {
 }
 
 const ABSOLUTE_STATS: Stats[] = [
+  {
+    labelKey: 'gamesPlayed',
+    propertyKey: 'game_played'
+  },
   {
     labelKey: 'points',
     propertyKey: 'points'
@@ -31,12 +35,24 @@ const ABSOLUTE_STATS: Stats[] = [
     propertyKey: 'blocks'
   },
   {
-    labelKey: 'turnovers',
-    propertyKey: 'turnovers'
+    labelKey: 'onePointerPercentage',
+    propertyKey: 'free_throw_percentage'
+  },
+  {
+    labelKey: 'twoPointerPercentage',
+    propertyKey: 'field_goal_percentage'
+  },
+  {
+    labelKey: 'threePointPercentage',
+    propertyKey: 'three_point_field_goal_percentage'
   }
 ];
 
 const PER_GAME_STATS: Stats[] = [
+  {
+    labelKey: 'gamesPlayed',
+    propertyKey: 'game_played'
+  },
   {
     labelKey: 'points',
     propertyKey: 'points_per_game'
@@ -58,8 +74,16 @@ const PER_GAME_STATS: Stats[] = [
     propertyKey: 'blocks_per_game'
   },
   {
-    labelKey: 'turnovers',
-    propertyKey: 'turnovers_per_game'
+    labelKey: 'onePointerPercentage',
+    propertyKey: 'free_throw_percentage'
+  },
+  {
+    labelKey: 'twoPointerPercentage',
+    propertyKey: 'field_goal_percentage'
+  },
+  {
+    labelKey: 'threePointPercentage',
+    propertyKey: 'three_point_field_goal_percentage'
   }
 ];
 
@@ -98,7 +122,7 @@ function AggregatedPlayerStatsViewer({
             }
             onClick={toogleIsPerGame}
           >
-            Absolute
+            <Trans>aggregated</Trans>
           </button>
           <button
             className={
@@ -106,7 +130,7 @@ function AggregatedPlayerStatsViewer({
             }
             onClick={toogleIsPerGame}
           >
-            Per game
+            <Trans>perGame</Trans>
           </button>
         </div>
       </div>

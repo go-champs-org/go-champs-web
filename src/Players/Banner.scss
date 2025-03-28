@@ -3,5 +3,39 @@
 .banner {
   background-color: $red;
   box-shadow: 0 4px 4px 0 rgb(0, 0, 0, 0.8);
-  padding: 2rem 0;
+  padding: 2rem 1rem;
+
+  .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $white;
+  }
+
+  .shirt {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $dark;
+  }
+
+  .photo {
+    width: 125px;
+    height: 125px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .banner {
+    .name {
+      font-size: 2rem;
+    }
+
+    .shirt {
+      font-size: 1.25rem;
+    }
+
+    .photo {
+      width: 150px;
+      height: 150px;
+    }
+  }
 }

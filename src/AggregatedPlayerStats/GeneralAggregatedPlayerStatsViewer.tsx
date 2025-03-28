@@ -5,7 +5,7 @@ import AggregatedStats, {
 } from '../Players/AggregatedStats';
 import { useTranslation } from 'react-i18next';
 
-function GenericAggregatedPlayerStatsViewer({
+function GeneralAggregatedPlayerStatsViewer({
   aggregatedPlayerStats,
   playerStats,
   tournament
@@ -27,4 +27,4 @@ function GenericAggregatedPlayerStatsViewer({
   return <AggregatedStats stats={displayStats} />;
 }
 
-export default GenericAggregatedPlayerStatsViewer;
+export default GeneralAggregatedPlayerStatsViewer;
