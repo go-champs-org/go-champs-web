@@ -8,6 +8,7 @@ interface GeneralBoxScoreProps {
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
   playerStatsLogs: PlayerStatsLogRenderEntity[];
+  playerViewBasePath: string;
   teamName: string;
   tournament: TournamentEntity;
 }
@@ -22,6 +23,7 @@ function GeneralBoxScore({
   playerStats,
   playerStatsLogs,
   playersMap,
+  playerViewBasePath,
   teamName,
   tournament
 }: GeneralBoxScoreProps): React.ReactElement {
@@ -51,6 +53,7 @@ function GeneralBoxScore({
         playerStatLogs={sortedPlayerStatLogs}
         players={playersMap}
         playersStats={playerStats}
+        playerViewBasePath={playerViewBasePath}
         tournament={tournament}
         scope="aggregate"
       />

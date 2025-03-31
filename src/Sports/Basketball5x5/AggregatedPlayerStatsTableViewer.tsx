@@ -379,6 +379,7 @@ function AggregatedPlayerStatsTableViewer({
   onHeaderClick,
   playerStatLogs,
   players,
+  playerViewBasePath,
   scope
 }: AggregatedPlayerStatsTableViewerProps) {
   const { t } = useTranslation();
@@ -393,6 +394,7 @@ function AggregatedPlayerStatsTableViewer({
         <AggregatePlayerStatsTable
           players={players}
           playerStatLogs={playerStatLogs}
+          playerViewBasePath={playerViewBasePath}
           statColumns={statColumns}
           onHeaderClick={onHeaderClick}
         />

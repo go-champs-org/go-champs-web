@@ -230,12 +230,18 @@ function Legend(): React.ReactElement {
 }
 
 interface BoxScoreProps {
-  team: TeamEntity;
   playerStatsLogs: PlayerStatsLogRenderEntity[];
   playersMap: PlayersMap;
+  playerViewBasePath: string;
+  team: TeamEntity;
 }
 
-function BoxScore({ team, playerStatsLogs, playersMap }: BoxScoreProps) {
+function BoxScore({
+  playerStatsLogs,
+  playersMap,
+  playerViewBasePath,
+  team
+}: BoxScoreProps) {
   const { t } = useTranslation();
   const statColumns = generateStatColumns(t);
   const [statIdOrder, setStatIdOrder] = useState('points');
@@ -261,6 +267,7 @@ function BoxScore({ team, playerStatsLogs, playersMap }: BoxScoreProps) {
       <GameBoxScoreTable
         playersMap={playersMap}
         playerStatLogs={sortedPlayerStatLogs}
+        playerViewBasePath={playerViewBasePath}
         statColumns={statColumns}
         onHeaderClick={onHeaderClick}
       />
@@ -273,19 +280,22 @@ function GameBoxScoreViewer({
   awayPlayerStatsLogs,
   homeTeam,
   homePlayerStatsLogs,
-  playersMap
+  playersMap,
+  playerViewBasePath
 }: BoxScoreViewerProps): React.ReactElement {
   return (
     <div className="columns is-multiline has-text-left">
       <BoxScore
-        team={homeTeam}
         playerStatsLogs={homePlayerStatsLogs}
         playersMap={playersMap}
+        playerViewBasePath={playerViewBasePath}
+        team={homeTeam}
       />
       <BoxScore
-        team={awayTeam}
         playerStatsLogs={awayPlayerStatsLogs}
         playersMap={playersMap}
+        playerViewBasePath={playerViewBasePath}
+        team={awayTeam}
       />
       <Legend />
     </div>

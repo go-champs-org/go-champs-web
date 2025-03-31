@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import './View.scss';
 import { AggregatedPlayerStatsTableViewerProps } from '../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
 import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
+import { Link } from 'react-router-dom';
 
 export interface PlayerStatsLogRenderEntity {
   id: string;
@@ -19,12 +20,14 @@ interface PlayerStatsLogRowProps {
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
   playerStatLog: PlayerStatsLogRenderEntity;
+  playerViewBasePath: string;
 }
 
 function PlayerStatsLogRow({
   players,
   playersStats,
-  playerStatLog
+  playerStatLog,
+  playerViewBasePath
 }: PlayerStatsLogRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
     players,
@@ -32,7 +35,11 @@ function PlayerStatsLogRow({
   );
   return (
     <tr>
-      <td className="player">{playerName}</td>
+      <td className="player">
+        <Link to={`${playerViewBasePath}${playerStatLog.playerId}`}>
+          {playerName}
+        </Link>
+      </td>
 
       <td className="player-span"></td>
 
@@ -87,6 +94,7 @@ function View({
   players,
   playersStats,
   playerStatLogs,
+  playerViewBasePath,
   tournament
 }: AggregatedPlayerStatsTableViewerProps): React.ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -144,6 +152,7 @@ function View({
                 players={players}
                 playersStats={playersStats}
                 key={playerStatLog.id}
+                playerViewBasePath={playerViewBasePath}
               />
             ))}
           </tbody>

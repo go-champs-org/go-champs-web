@@ -3,16 +3,19 @@ import { Trans } from 'react-i18next';
 import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayersMap } from '../Players/state';
 import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
+import { Link } from 'react-router-dom';
 
 interface GameBoxScoreRowProps {
   playerStatLog: PlayerStatsLogRenderEntity;
   players: PlayersMap;
+  playerViewBasePath: string;
   statColumns: StatColumn[];
 }
 
 function GameBoxScoreRow({
   playerStatLog,
   players,
+  playerViewBasePath,
   statColumns
 }: GameBoxScoreRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
@@ -21,7 +24,11 @@ function GameBoxScoreRow({
   );
   return (
     <tr>
-      <td className="player">{playerName}</td>
+      <td className="player">
+        <Link to={`${playerViewBasePath}${playerStatLog.playerId}`}>
+          {playerName}
+        </Link>
+      </td>
 
       <td className="player-span"></td>
 
@@ -49,17 +56,19 @@ export interface StatColumn {
 }
 
 interface GameBoxScoreTableProps {
-  onHeaderClick?: (column: StatColumn) => void;
-  statColumns: StatColumn[];
   playersMap: PlayersMap;
   playerStatLogs: PlayerStatsLogRenderEntity[];
+  playerViewBasePath: string;
+  statColumns: StatColumn[];
+  onHeaderClick?: (column: StatColumn) => void;
 }
 
 function GameBoxScoreTable({
-  onHeaderClick,
-  statColumns,
   playerStatLogs,
-  playersMap
+  playersMap,
+  playerViewBasePath,
+  statColumns,
+  onHeaderClick
 }: GameBoxScoreTableProps): React.ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
@@ -116,6 +125,7 @@ function GameBoxScoreTable({
                 playerStatLog={playerStatLog}
                 players={playersMap}
                 statColumns={statColumns}
+                playerViewBasePath={playerViewBasePath}
               />
             ))}
           </tbody>

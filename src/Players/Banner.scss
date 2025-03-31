@@ -1,0 +1,74 @@
+@import '../Shared/styles/colors.scss';
+
+.banner {
+  background-color: $red;
+  box-shadow: 0 4px 4px 0 rgb(0, 0, 0, 0.8);
+  padding: 2rem 1rem;
+
+  .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $white;
+  }
+
+  .shirt {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $dark;
+  }
+
+  .social-networks {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    a {
+      color: $white;
+      font-size: 1.5rem;
+      text-decoration: none;
+
+      &:hover {
+        color: $dark;
+      }
+    }
+  }
+
+  .photo {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+
+    &.custom {
+      border: 3px solid $dark;
+      padding: 3px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .banner {
+    .name {
+      font-size: 2rem;
+    }
+
+    .shirt {
+      font-size: 1.25rem;
+    }
+
+    .social-networks {
+      margin-top: 4rem;
+      justify-content: left;
+    }
+
+    .photo {
+      width: 175px;
+      height: 175px;
+
+      &.custom {
+        border: 5px solid $dark;
+        width: 200px;
+        height: 200px;
+      }
+    }
+  }
+}

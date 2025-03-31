@@ -14,6 +14,7 @@ export default {
     addMatch: 'Adicionar confronto',
     addRow: 'Adicionar linha',
     advanced: 'Avancadas',
+    aggregated: 'Agregadas',
     approve: 'Aprovar',
     autoApprove: 'Aprovar automaticamente',
     average: 'Média',
