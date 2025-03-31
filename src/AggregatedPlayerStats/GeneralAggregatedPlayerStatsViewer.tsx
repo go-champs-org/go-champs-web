@@ -21,7 +21,9 @@ function GeneralAggregatedPlayerStatsViewer({
     );
     return {
       label,
-      value: aggregatedPlayerStats.stats[playerStat.slug || playerStat.id]
+      value: (
+        <>{aggregatedPlayerStats.stats[playerStat.slug || playerStat.id]}</>
+      )
     };
   });
   return <AggregatedStats stats={displayStats} />;

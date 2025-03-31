@@ -1,89 +1,109 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { AggregatedPlayerStatsViewerProps } from '../../Players/AggregatedStats';
 import AggregatedStats from '../../Players/AggregatedStats';
 import { Trans, useTranslation } from 'react-i18next';
+import { PercetualCell } from './TableCells';
 
 interface Stats {
   labelKey: string;
   propertyKey: string;
+  valueFunction: (value: string) => ReactElement;
 }
 
 const ABSOLUTE_STATS: Stats[] = [
   {
     labelKey: 'gamesPlayed',
-    propertyKey: 'game_played'
+    propertyKey: 'game_played',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'points',
-    propertyKey: 'points'
+    propertyKey: 'points',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'rebounds',
-    propertyKey: 'rebounds'
+    propertyKey: 'rebounds',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'assists',
-    propertyKey: 'assists'
+    propertyKey: 'assists',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'steals',
-    propertyKey: 'steals'
+    propertyKey: 'steals',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'blocks',
-    propertyKey: 'blocks'
+    propertyKey: 'blocks',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'onePointerPercentage',
-    propertyKey: 'free_throw_percentage'
+    propertyKey: 'free_throw_percentage',
+    valueFunction: (value: string) => <PercetualCell value={value} />
   },
   {
     labelKey: 'twoPointerPercentage',
-    propertyKey: 'field_goal_percentage'
+    propertyKey: 'field_goal_percentage',
+    valueFunction: (value: string) => <PercetualCell value={value} />
   },
   {
     labelKey: 'threePointPercentage',
-    propertyKey: 'three_point_field_goal_percentage'
+    propertyKey: 'three_point_field_goal_percentage',
+    valueFunction: (value: string) => <PercetualCell value={value} />
   }
 ];
 
 const PER_GAME_STATS: Stats[] = [
   {
     labelKey: 'gamesPlayed',
-    propertyKey: 'game_played'
+    propertyKey: 'game_played',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'points',
-    propertyKey: 'points_per_game'
+    propertyKey: 'points_per_game',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'rebounds',
-    propertyKey: 'rebounds_per_game'
+    propertyKey: 'rebounds_per_game',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'assists',
-    propertyKey: 'assists_per_game'
+    propertyKey: 'assists_per_game',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'steals',
-    propertyKey: 'steals_per_game'
+    propertyKey: 'steals_per_game',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'blocks',
-    propertyKey: 'blocks_per_game'
+    propertyKey: 'blocks_per_game',
+    valueFunction: (value: string) => <>{value}</>
   },
   {
     labelKey: 'onePointerPercentage',
-    propertyKey: 'free_throw_percentage'
+    propertyKey: 'free_throw_percentage',
+    valueFunction: (value: string) => <PercetualCell value={value} />
   },
   {
     labelKey: 'twoPointerPercentage',
-    propertyKey: 'field_goal_percentage'
+    propertyKey: 'field_goal_percentage',
+    valueFunction: (value: string) => <PercetualCell value={value} />
   },
   {
     labelKey: 'threePointPercentage',
-    propertyKey: 'three_point_field_goal_percentage'
+    propertyKey: 'three_point_field_goal_percentage',
+    valueFunction: (value: string) => <PercetualCell value={value} />
   }
 ];
 
@@ -106,7 +126,7 @@ function AggregatedPlayerStatsViewer({
     );
     return {
       label: labelContent,
-      value: aggregatedPlayerStats.stats[stat.propertyKey]
+      value: stat.valueFunction(aggregatedPlayerStats.stats[stat.propertyKey])
     };
   });
   return (

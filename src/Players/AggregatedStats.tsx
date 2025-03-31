@@ -63,7 +63,7 @@ export function Loading() {
 }
 
 interface AggregatedStatsProps {
-  stats: { label: string; value: string }[];
+  stats: { label: string; value: React.ReactElement }[];
 }
 
 function AggregatedStats({ stats }: AggregatedStatsProps) {
@@ -73,8 +73,21 @@ function AggregatedStats({ stats }: AggregatedStatsProps) {
         <div className="content">
           <div className="columns is-mobile is-multiline">
             {stats.map((stat, index) => (
-              <div className="column is-half-mobile" key={index}>
-                <p className="title is-5">{stat.label}</p>
+              <div
+                className="column is-half-mobile"
+                key={index}
+                style={{ overflow: 'hidden' }}
+              >
+                <p
+                  className="title is-5"
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {stat.label}
+                </p>
                 <p className="subtitle is-5">{stat.value}</p>
               </div>
             ))}
