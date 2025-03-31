@@ -4,11 +4,13 @@ import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayersMap } from '../Players/state';
 import './AggregatedPlayerStatsTable.scss';
 import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
+import { Link } from 'react-router-dom';
 
 interface AggregatePlayerStatsRowProps {
   number: number;
   playerStatLog: PlayerStatsLogRenderEntity;
   players: PlayersMap;
+  playerViewBasePath: string;
   statColumns: StatColumn[];
 }
 
@@ -16,6 +18,7 @@ function AggregatePlayerStatsRow({
   number,
   playerStatLog,
   players,
+  playerViewBasePath,
   statColumns
 }: AggregatePlayerStatsRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
@@ -31,7 +34,11 @@ function AggregatePlayerStatsRow({
 
       <td className="position-span"></td>
 
-      <td className="player">{playerName}</td>
+      <td className="player">
+        <Link to={`${playerViewBasePath}${playerStatLog.playerId}`}>
+          {playerName}
+        </Link>
+      </td>
 
       <td className="player-span"></td>
 
@@ -66,12 +73,14 @@ interface AggregatePlayerStatsTableProps {
   statColumns: StatColumn[];
   players: PlayersMap;
   playerStatLogs: PlayerStatsLogRenderEntity[];
+  playerViewBasePath: string;
 }
 
 function AggregatePlayerStatsTable({
   playerStatLogs,
   players,
   statColumns,
+  playerViewBasePath,
   onHeaderClick
 }: AggregatePlayerStatsTableProps): React.ReactElement {
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -140,6 +149,7 @@ function AggregatePlayerStatsTable({
                   key={playerStatLog.playerId}
                   playerStatLog={playerStatLog}
                   players={players}
+                  playerViewBasePath={playerViewBasePath}
                   statColumns={statColumns}
                 />
               )

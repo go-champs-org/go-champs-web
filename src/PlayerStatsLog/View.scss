@@ -23,6 +23,11 @@
     white-space: nowrap;
     background-color: $white;
     position: absolute;
+
+    a {
+      color: $dark-light;
+      text-decoration: underline;
+    }
   }
 
   .player-span {

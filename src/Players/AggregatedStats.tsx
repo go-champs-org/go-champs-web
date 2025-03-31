@@ -71,9 +71,9 @@ function AggregatedStats({ stats }: AggregatedStatsProps) {
     <div className="card">
       <div className="card-content">
         <div className="content">
-          <div className="columns is-multiline">
+          <div className="columns is-mobile is-multiline">
             {stats.map((stat, index) => (
-              <div className="column" key={index}>
+              <div className="column is-half-mobile" key={index}>
                 <p className="title is-5">{stat.label}</p>
                 <p className="subtitle is-5">{stat.value}</p>
               </div>
