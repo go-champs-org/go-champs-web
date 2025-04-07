@@ -16,7 +16,7 @@ function Date({ value }: FieldProps) {
 }
 
 function Text({ value }: FieldProps) {
-  return <>value</>;
+  return <>{value}</>;
 }
 
 function DateTime({ value }: FieldProps) {
