@@ -2,6 +2,16 @@
   padding-bottom: 1rem;
 }
 
+.group {
+  max-width: fit-content;
+}
+
 .group:not(:first-child) {
   padding-top: 1.25rem;
+}
+
+@media screen and (min-width: 1215px) {
+  .group {
+    max-width: 696px;
+  }
 }
