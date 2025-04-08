@@ -17,19 +17,22 @@ const Modal: React.FC<ModalProps> = ({
   modalContentClasses = ''
 }) => {
   const refContent = useRef<HTMLDivElement>(null);
+  const refTrigger = useRef<HTMLSpanElement>(null);
   const [isOpen, setIsOpen] = useState(isOpenFromOutside);
 
   const openModal = (event: React.MouseEvent) => {
     event.preventDefault();
-
     setIsOpen(true);
   };
 
   const closeModal = (event: UIEvent) => {
+    const isContentClick = event
+      .composedPath()
+      .includes(refContent.current as HTMLDivElement);
     const isTriggerClick = event
       .composedPath()
-      .includes(refContent.current as HTMLSpanElement);
-    if (!isTriggerClick) {
+      .includes(refTrigger.current as HTMLSpanElement);
+    if (!isContentClick && !isTriggerClick) {
       setIsOpen(false);
     }
   };
@@ -59,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <Fragment>
       {trigger && (
-        <span className={triggerClasses} onClick={openModal}>
+        <span ref={refTrigger} className={triggerClasses} onClick={openModal}>
           {trigger}
         </span>
       )}
