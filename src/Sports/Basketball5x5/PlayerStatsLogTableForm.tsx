@@ -13,11 +13,15 @@ function PointsCell({
 }: {
   playerStatLog: PlayerStatsLogEntity;
 }) {
-  const onePointMade = Number(playerStatLog.stats.free_throws_made);
-  const twoPointsMade = Number(playerStatLog.stats.field_goals_made);
-  const threePointsMade = Number(
-    playerStatLog.stats.three_point_field_goals_made
-  );
+  const onePointMade = playerStatLog.stats.free_throws_made
+    ? Number(playerStatLog.stats.free_throws_made)
+    : 0;
+  const twoPointsMade = playerStatLog.stats.field_goals_made
+    ? Number(playerStatLog.stats.field_goals_made)
+    : 0;
+  const threePointsMade = playerStatLog.stats.three_point_field_goals_made
+    ? Number(playerStatLog.stats.three_point_field_goals_made)
+    : 0;
   const points = onePointMade + twoPointsMade * 2 + threePointsMade * 3;
   return <>{points}</>;
 }
