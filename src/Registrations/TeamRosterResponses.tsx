@@ -19,7 +19,7 @@ function TeamRosterResponseRow({
   registrationResponse: RegistrationResponseEntity;
   selected: boolean;
 }) {
-  const { name, shirtName, shirtNumber } = parseRegistrationResponseFor(
+  const { name, email, shirtName, shirtNumber } = parseRegistrationResponseFor(
     registration.type,
     registrationResponse
   );
@@ -39,6 +39,7 @@ function TeamRosterResponseRow({
       <td>{name}</td>
       <td className="has-text-centered">{shirtName}</td>
       <td className="has-text-centered">{shirtNumber}</td>
+      <td className="has-text-centered">{email}</td>
       {registration.customFields.map(field => (
         <td key={field.id} className="has-text-centered">
           <RegistrationResponseFieldDisplay
@@ -137,6 +138,9 @@ function TeamRosterResponses({
                     </th>
                     <th className="has-text-centered">
                       <Trans>shirtNumber</Trans>
+                    </th>
+                    <th className="has-text-centered">
+                      <Trans>email</Trans>
                     </th>
                     {registration.customFields.map(field => (
                       <th key={field.id} className="has-text-centered">
