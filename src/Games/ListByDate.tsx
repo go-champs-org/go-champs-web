@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { GameEntity } from './state';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import Identifier from '../Teams/Indentifier';
 
 const basicTeamClasses = {
   column: true,
@@ -68,7 +69,11 @@ const MiniGameCard: React.FC<{ baseUrl: string; game: GameEntity }> = ({
             <div className="column is-12">
               <div className="columns is-mobile">
                 <div className={awayTeamClasses} style={{ padding: '.3rem' }}>
-                  {game.awayTeam.id ? game.awayTeam.name : game.awayPlaceholder}
+                  {game.awayTeam.id ? (
+                    <Identifier team={game.awayTeam} />
+                  ) : (
+                    game.awayPlaceholder
+                  )}
                 </div>
 
                 <div className={awayScoreClasses} style={{ padding: '.3rem' }}>
@@ -80,7 +85,11 @@ const MiniGameCard: React.FC<{ baseUrl: string; game: GameEntity }> = ({
             <div className="column is-12">
               <div className="columns is-mobile">
                 <div className={homeTeamClasses} style={{ padding: '.3rem' }}>
-                  {game.homeTeam.id ? game.homeTeam.name : game.homePlaceholder}
+                  {game.homeTeam.id ? (
+                    <Identifier team={game.homeTeam} />
+                  ) : (
+                    game.homePlaceholder
+                  )}
                 </div>
 
                 <div className={homeScoreClasses} style={{ padding: '.3rem' }}>
