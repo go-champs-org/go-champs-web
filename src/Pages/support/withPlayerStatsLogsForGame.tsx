@@ -10,6 +10,9 @@ interface WithPlayerStatsLogsProps {
   getPlayerStatsLogsByFilter: (
     where: RequestFilter
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getTeamStatsLogsByFilter: (
+    where: RequestFilter
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   phase: PhaseEntity;
   tournament: TournamentEntity;
 }
@@ -19,7 +22,13 @@ const withPlayerStatsLogsForGame = <T extends object>(
 ) => {
   const WithPlayerStatsLogsForGame: React.FC<T &
     WithPlayerStatsLogsProps> = props => {
-    const { getGame, getPlayerStatsLogsByFilter, phase, tournament } = props;
+    const {
+      getGame,
+      getPlayerStatsLogsByFilter,
+      getTeamStatsLogsByFilter,
+      phase,
+      tournament
+    } = props;
     const {
       params: { gameId }
     } = useRouteMatch();
@@ -32,10 +41,22 @@ const withPlayerStatsLogsForGame = <T extends object>(
           phase_id: phase.id,
           tournament_id: tournament.id
         });
+        getTeamStatsLogsByFilter({
+          game_id: gameId,
+          phase_id: phase.id,
+          tournament_id: tournament.id
+        });
       }
 
       return () => undefined;
-    }, [gameId, getGame, getPlayerStatsLogsByFilter, phase, tournament]);
+    }, [
+      gameId,
+      getGame,
+      getPlayerStatsLogsByFilter,
+      getTeamStatsLogsByFilter,
+      phase,
+      tournament
+    ]);
 
     return <WrappedComponent {...props} />;
   };

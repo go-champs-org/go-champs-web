@@ -240,6 +240,10 @@ export default {
         },
         boxScoreViewer: {
           playerStatColumns: {
+            minutesPlayed: {
+              abbreviation: 'MIN',
+              legend: 'Minutos jogados'
+            },
             points: {
               abbreviation: 'PTS',
               legend: 'Pontos'
@@ -303,6 +307,11 @@ export default {
             foulsTechnical: {
               abbreviation: 'FLT',
               legend: 'Faltas técnicas'
+            },
+            efficiency: {
+              abbreviation: 'EFF',
+              legend:
+                'Eficiência básica por Martin Manley (1986) = PTS + REB + AST + ROU + TOC − Arremessos errados - TO'
             }
           }
         },
@@ -657,6 +666,7 @@ export default {
     title: 'Título',
     tournaments: 'Torneios',
     tournamentNotFound: 'Torneio não encontrado',
+    totals: 'Totais',
     triCode: 'Sigla (3 letras)',
     type: 'Tipo',
     with: 'com',

@@ -726,3 +726,17 @@ export interface ApiScoreboardSettingResponse {
 export interface ApiScoreboardSettingsResponse {
   data: ApiScoreboardSetting[];
 }
+
+export interface ApiTeamStatsLog {
+  id: string;
+  game_id: string;
+  phase_id: string;
+  team_id: string;
+  stats: { [id: string]: string };
+  tournament_id: string;
+  against_team_id: string;
+}
+
+export interface ApiTeamStatsLogsResponse {
+  data: ApiTeamStatsLog[];
+}

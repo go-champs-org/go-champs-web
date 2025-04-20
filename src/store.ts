@@ -21,6 +21,8 @@ import { default as playerReducer } from './Players/reducer';
 import { default as playerStatsLogReducer } from './PlayerStatsLog/reducer';
 import { PlayerState } from './Players/state';
 import { PlayerStatsLogState } from './PlayerStatsLog/state';
+import { default as teamStatsLogReducer } from './TeamStatsLog/reducer';
+import { TeamStatsLogState } from './TeamStatsLog/state';
 import { AggregatedPlayerStatsLogState } from './AggregatedPlayerStats/state';
 import { default as aggregatedPlayerStatsLogsReducer } from './AggregatedPlayerStats/reducer';
 import { default as fixedPlayerStatsTablesReducer } from './FixedPlayerStatsTables/reducer';
@@ -48,6 +50,7 @@ export interface StoreState {
   scoreboardSettings: ScoreboardSettingState;
   sports: SportState;
   teams: TeamState;
+  teamStatsLogs: TeamStatsLogState;
   tournaments: TournamentState;
 }
 
@@ -67,6 +70,7 @@ export default createStore(
     scoreboardSettings: scoreboardSettingsReducer,
     sports: sportReducer,
     teams: teamReducer,
+    teamStatsLogs: teamStatsLogReducer,
     tournaments: tournamentReducer
   }),
   NODE_ENV === 'production'

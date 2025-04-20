@@ -8,7 +8,7 @@ import { getGame } from '../Games/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
-import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
 import GeneralBoxScore from '../Games/GeneralBoxScore';
@@ -31,6 +31,8 @@ import {
 } from '../Tournaments/dataSelectors';
 import './GameView.scss';
 import LoadingTable from '../Shared/LoadingTable';
+import { getTeamStatsLogsByFilter } from '../TeamStatsLog/effects';
+import { statLogRendersByGameIdAndTeamId } from '../TeamStatsLog/selectors';
 
 interface ViewPlayerProps {
   youTubeVideoCode: string;
@@ -100,9 +102,11 @@ const BOX_SCORE_VIEWERS: {
 
 export interface BoxScoreViewerProps {
   awayTeam: TeamEntity;
-  awayPlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  awayPlayerStatsLogs: StatsLogRenderEntity[];
+  awayTeamStatsLog: StatsLogRenderEntity;
   homeTeam: TeamEntity;
-  homePlayerStatsLogs: PlayerStatsLogRenderEntity[];
+  homePlayerStatsLogs: StatsLogRenderEntity[];
+  homeTeamStatsLog: StatsLogRenderEntity;
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
   playerViewBasePath: string;
@@ -112,8 +116,10 @@ export interface BoxScoreViewerProps {
 function BoxScoreViewer({
   awayTeam,
   awayPlayerStatsLogs,
+  awayTeamStatsLog,
   homeTeam,
   homePlayerStatsLogs,
+  homeTeamStatsLog,
   playerStats,
   playersMap,
   playerViewBasePath,
@@ -125,8 +131,10 @@ function BoxScoreViewer({
       <React.Suspense fallback={<BoxScoreLoading />}>
         <BoxScoreViewer
           awayPlayerStatsLogs={awayPlayerStatsLogs}
+          awayTeamStatsLog={awayTeamStatsLog}
           awayTeam={awayTeam}
           homePlayerStatsLogs={homePlayerStatsLogs}
+          homeTeamStatsLog={homeTeamStatsLog}
           homeTeam={homeTeam}
           playersMap={playersMap}
           playerStats={playerStats}
@@ -175,19 +183,31 @@ const mapStateToProps = (
     game.id,
     game.awayTeam.id
   );
+  const awayTeamStatsLog = statLogRendersByGameIdAndTeamId(
+    state.teamStatsLogs,
+    game.id,
+    game.awayTeam.id
+  );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
   const homePlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
     state.playerStatsLogs,
     game.id,
     game.homeTeam.id
   );
+  const homeTeamStatsLog = statLogRendersByGameIdAndTeamId(
+    state.teamStatsLogs,
+    game.id,
+    game.homeTeam.id
+  );
   const allPlayersMap = playersMap(state.players, state.teams);
   return {
     awayPlayerStatsLogs,
+    awayTeamStatsLog,
     awayTeam,
     game,
     isLoadingPlayerStatsLogs: playerStatLogsLoading(state.playerStatsLogs),
     homePlayerStatsLogs,
+    homeTeamStatsLog,
     homeTeam,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     playersMap: allPlayersMap,
@@ -209,6 +229,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     {
       getGame,
       getPlayerStatsLogsByFilter,
+      getTeamStatsLogsByFilter,
       getTournamentBySlug
     },
     dispatch
@@ -221,11 +242,13 @@ type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
   awayPlayerStatsLogs,
+  awayTeamStatsLog,
   awayTeam,
   isLoadingPlayerStatsLogs,
   game,
   homePlayerStatsLogs,
   homeTeam,
+  homeTeamStatsLog,
   tournament,
   playersMap,
   statistics,
@@ -244,8 +267,10 @@ function GameView({
   const boxScore = hasPlayerStatsLogs ? (
     <BoxScoreViewer
       awayPlayerStatsLogs={awayPlayerStatsLogs}
+      awayTeamStatsLog={awayTeamStatsLog}
       awayTeam={awayTeam}
       homePlayerStatsLogs={homePlayerStatsLogs}
+      homeTeamStatsLog={homeTeamStatsLog}
       homeTeam={homeTeam}
       playerViewBasePath={playerViewBasePath}
       playersMap={playersMap}

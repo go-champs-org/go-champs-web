@@ -1,23 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { Trans } from 'react-i18next';
-import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayersMap } from '../Players/state';
 import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
 import { Link } from 'react-router-dom';
 
-interface GameBoxScoreRowProps {
-  playerStatLog: PlayerStatsLogRenderEntity;
+interface GameBoxScorePlayerRowProps {
+  playerStatLog: StatsLogRenderEntity;
   players: PlayersMap;
   playerViewBasePath: string;
   statColumns: StatColumn[];
 }
 
-function GameBoxScoreRow({
+function GameBoxScorePlayerRow({
   playerStatLog,
   players,
   playerViewBasePath,
   statColumns
-}: GameBoxScoreRowProps): React.ReactElement {
+}: GameBoxScorePlayerRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
     players,
     playerStatLog.playerId
@@ -47,18 +47,45 @@ function GameBoxScoreRow({
   );
 }
 
+interface GameBoxScoreTeamRowProps {
+  teamStatsLog: StatsLogRenderEntity;
+  statColumns: StatColumn[];
+}
+
+function GameBoxScoreTeamRow({
+  teamStatsLog,
+  statColumns
+}: GameBoxScoreTeamRowProps): React.ReactElement {
+  return (
+    <tr>
+      <td className="player">
+        <Trans>totals</Trans>
+      </td>
+      <td className="player-span"></td>
+      {statColumns.map(column => (
+        <td key={column.id} className="has-text-centered">
+          {column.cell
+            ? column.cell(teamStatsLog)
+            : teamStatsLog.stats[column.id] || '-'}
+        </td>
+      ))}
+    </tr>
+  );
+}
+
 export interface StatColumn {
   id: string;
   header: string;
-  cell: (playerStatLog: PlayerStatsLogRenderEntity) => React.ReactElement;
+  cell: (statLog: StatsLogRenderEntity) => React.ReactElement;
   cellStyle?: React.CSSProperties;
   legend?: string;
 }
 
 interface GameBoxScoreTableProps {
   playersMap: PlayersMap;
-  playerStatLogs: PlayerStatsLogRenderEntity[];
+  playerStatLogs: StatsLogRenderEntity[];
   playerViewBasePath: string;
+  teamStatsLog: StatsLogRenderEntity;
   statColumns: StatColumn[];
   onHeaderClick?: (column: StatColumn) => void;
 }
@@ -67,6 +94,7 @@ function GameBoxScoreTable({
   playerStatLogs,
   playersMap,
   playerViewBasePath,
+  teamStatsLog,
   statColumns,
   onHeaderClick
 }: GameBoxScoreTableProps): React.ReactElement {
@@ -119,8 +147,8 @@ function GameBoxScoreTable({
             </tr>
           </thead>
           <tbody>
-            {playerStatLogs.map((playerStatLog: PlayerStatsLogRenderEntity) => (
-              <GameBoxScoreRow
+            {playerStatLogs.map((playerStatLog: StatsLogRenderEntity) => (
+              <GameBoxScorePlayerRow
                 key={playerStatLog.playerId}
                 playerStatLog={playerStatLog}
                 players={playersMap}
@@ -128,6 +156,13 @@ function GameBoxScoreTable({
                 playerViewBasePath={playerViewBasePath}
               />
             ))}
+            {teamStatsLog.id && (
+              <GameBoxScoreTeamRow
+                key={teamStatsLog.id}
+                teamStatsLog={teamStatsLog}
+                statColumns={statColumns}
+              />
+            )}
           </tbody>
         </table>
       </div>

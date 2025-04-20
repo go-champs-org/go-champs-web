@@ -7,9 +7,9 @@ import { AggregatedPlayerStatsTableViewerProps } from '../AggregatedPlayerStats/
 import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
 import { Link } from 'react-router-dom';
 
-export interface PlayerStatsLogRenderEntity {
+export interface StatsLogRenderEntity {
   id: string;
-  playerId: string;
+  playerId?: string;
   teamId?: string;
   stats: {
     [id: string]: string;
@@ -19,7 +19,7 @@ export interface PlayerStatsLogRenderEntity {
 interface PlayerStatsLogRowProps {
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
-  playerStatLog: PlayerStatsLogRenderEntity;
+  playerStatLog: StatsLogRenderEntity;
   playerViewBasePath: string;
 }
 
@@ -146,7 +146,7 @@ function View({
           </thead>
 
           <tbody>
-            {playerStatLogs.map((playerStatLog: PlayerStatsLogRenderEntity) => (
+            {playerStatLogs.map((playerStatLog: StatsLogRenderEntity) => (
               <PlayerStatsLogRow
                 playerStatLog={playerStatLog}
                 players={players}

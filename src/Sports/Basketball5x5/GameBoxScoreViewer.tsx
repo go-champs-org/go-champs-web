@@ -1,76 +1,83 @@
 import React, { useState } from 'react';
 import { BoxScoreViewerProps } from '../../Pages/GameView';
-import { PlayerStatsLogRenderEntity } from '../../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../../PlayerStatsLog/View';
 import { TeamEntity } from '../../Teams/state';
 import { PlayersMap } from '../../Players/state';
 import GameBoxScoreTable, { StatColumn } from '../../Shared/GameBoxScoreTable';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { PercetualCell, ValueOrEmptyCell } from './TableCells';
+import { MinutesCell, PercetualCell, ValueOrEmptyCell } from './TableCells';
 
 function byStatValue(key: string) {
   return (
-    playerStatLogA: PlayerStatsLogRenderEntity,
-    playerStatLogB: PlayerStatsLogRenderEntity
+    playerStatLogA: StatsLogRenderEntity,
+    playerStatLogB: StatsLogRenderEntity
   ) => Number(playerStatLogB.stats[key]) - Number(playerStatLogA.stats[key]);
 }
 
 interface BaseStatColumn {
   id: string;
-  cell: (playerStatLog: PlayerStatsLogRenderEntity) => React.ReactElement;
+  cell: (playerStatLog: StatsLogRenderEntity) => React.ReactElement;
   cellStyle?: React.CSSProperties;
   sortFunction: (
-    playerStatLogA: PlayerStatsLogRenderEntity,
-    playerStatLogB: PlayerStatsLogRenderEntity
+    playerStatLogA: StatsLogRenderEntity,
+    playerStatLogB: StatsLogRenderEntity
   ) => number;
 }
 
 const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
   {
+    id: 'minutesPlayed',
+    cell: (playerStatLog: StatsLogRenderEntity) => (
+      <MinutesCell value={playerStatLog.stats.minutes_played} />
+    ),
+    sortFunction: byStatValue('minutes_played')
+  },
+  {
     id: 'points',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.points} />
     ),
     sortFunction: byStatValue('points')
   },
   {
     id: 'rebounds',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.rebounds} />
     ),
     sortFunction: byStatValue('rebounds')
   },
   {
     id: 'assists',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.assists} />
     ),
     sortFunction: byStatValue('assists')
   },
   {
     id: 'blocks',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.blocks} />
     ),
     sortFunction: byStatValue('blocks')
   },
   {
     id: 'steals',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.steals} />
     ),
     sortFunction: byStatValue('steals')
   },
   {
     id: 'turnovers',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.turnovers} />
     ),
     sortFunction: byStatValue('turnovers')
   },
   {
     id: 'onePointers',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <>
         <ValueOrEmptyCell value={playerStatLog.stats.free_throws_made} />
         {' / '}
@@ -82,14 +89,14 @@ const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
   },
   {
     id: 'onePointersPercentage',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <PercetualCell value={playerStatLog.stats.free_throw_percentage} />
     ),
     sortFunction: byStatValue('free_throw_percentage')
   },
   {
     id: 'twoPointers',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <>
         <ValueOrEmptyCell value={playerStatLog.stats.field_goals_made} />
         {' / '}
@@ -101,14 +108,14 @@ const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
   },
   {
     id: 'twoPointersPercentage',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <PercetualCell value={playerStatLog.stats.field_goal_percentage} />
     ),
     sortFunction: byStatValue('field_goal_percentage')
   },
   {
     id: 'threePointers',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <>
         <ValueOrEmptyCell
           value={playerStatLog.stats.three_point_field_goals_made}
@@ -124,7 +131,7 @@ const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
   },
   {
     id: 'threePointersPercentage',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <PercetualCell
         value={playerStatLog.stats.three_point_field_goal_percentage}
       />
@@ -133,31 +140,38 @@ const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
   },
   {
     id: 'reboundsOffensive',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.rebounds_offensive} />
     ),
     sortFunction: byStatValue('rebounds_offensive')
   },
   {
     id: 'reboundsDefensive',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.rebounds_defensive} />
     ),
     sortFunction: byStatValue('rebounds_defensive')
   },
   {
     id: 'foulsPersonal',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.fouls_personal} />
     ),
     sortFunction: byStatValue('fouls_personal')
   },
   {
     id: 'foulsTechnical',
-    cell: (playerStatLog: PlayerStatsLogRenderEntity) => (
+    cell: (playerStatLog: StatsLogRenderEntity) => (
       <ValueOrEmptyCell value={playerStatLog.stats.fouls_technical} />
     ),
     sortFunction: byStatValue('fouls_technical')
+  },
+  {
+    id: 'efficiency',
+    cell: (playerStatLog: StatsLogRenderEntity) => (
+      <ValueOrEmptyCell value={playerStatLog.stats.efficiency} />
+    ),
+    sortFunction: byStatValue('efficiency')
   }
 ];
 
@@ -195,8 +209,8 @@ function findSortFunction(statId: string) {
   }
 
   return (
-    playerStatLogA: PlayerStatsLogRenderEntity,
-    playerStatLogB: PlayerStatsLogRenderEntity
+    playerStatLogA: StatsLogRenderEntity,
+    playerStatLogB: StatsLogRenderEntity
   ) => {
     return (
       Number(playerStatLogB.stats[statId]) -
@@ -230,17 +244,19 @@ function Legend(): React.ReactElement {
 }
 
 interface BoxScoreProps {
-  playerStatsLogs: PlayerStatsLogRenderEntity[];
+  playerStatsLogs: StatsLogRenderEntity[];
   playersMap: PlayersMap;
   playerViewBasePath: string;
   team: TeamEntity;
+  teamStatsLog: StatsLogRenderEntity;
 }
 
 function BoxScore({
   playerStatsLogs,
   playersMap,
   playerViewBasePath,
-  team
+  team,
+  teamStatsLog
 }: BoxScoreProps) {
   const { t } = useTranslation();
   const statColumns = generateStatColumns(t);
@@ -268,6 +284,7 @@ function BoxScore({
         playersMap={playersMap}
         playerStatLogs={sortedPlayerStatLogs}
         playerViewBasePath={playerViewBasePath}
+        teamStatsLog={teamStatsLog}
         statColumns={statColumns}
         onHeaderClick={onHeaderClick}
       />
@@ -278,8 +295,10 @@ function BoxScore({
 function GameBoxScoreViewer({
   awayTeam,
   awayPlayerStatsLogs,
+  awayTeamStatsLog,
   homeTeam,
   homePlayerStatsLogs,
+  homeTeamStatsLog,
   playersMap,
   playerViewBasePath
 }: BoxScoreViewerProps): React.ReactElement {
@@ -290,12 +309,14 @@ function GameBoxScoreViewer({
         playersMap={playersMap}
         playerViewBasePath={playerViewBasePath}
         team={homeTeam}
+        teamStatsLog={homeTeamStatsLog}
       />
       <BoxScore
         playerStatsLogs={awayPlayerStatsLogs}
         playersMap={playersMap}
         playerViewBasePath={playerViewBasePath}
         team={awayTeam}
+        teamStatsLog={awayTeamStatsLog}
       />
       <Legend />
     </div>

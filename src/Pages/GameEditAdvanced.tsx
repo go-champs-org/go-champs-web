@@ -24,6 +24,8 @@ import { Mutator } from 'final-form';
 import { playersByTeamId } from '../Players/selectors';
 import { selectPlayerStatisticsByLevel } from '../Sports/selectors';
 import { playerStatThatContainsInStatistic } from '../Tournaments/dataSelectors';
+import { getTeamStatsLogsByFilter } from '../TeamStatsLog/effects';
+import { statLogRendersByGameIdAndTeamId } from '../TeamStatsLog/selectors';
 
 const mapStateToProps = (
   state: StoreState,
@@ -47,6 +49,11 @@ const mapStateToProps = (
     awayTeam.id,
     tournament.id
   );
+  const awayTeamStatsLog = statLogRendersByGameIdAndTeamId(
+    state.teamStatsLogs,
+    game.id,
+    game.awayTeam.id
+  );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
   const homePlayers = playersByTeamId(
     state.players,
@@ -61,13 +68,20 @@ const mapStateToProps = (
     homeTeam.id,
     tournament.id
   );
+  const homeTeamStatsLog = statLogRendersByGameIdAndTeamId(
+    state.teamStatsLogs,
+    game.id,
+    game.homeTeam.id
+  );
 
   return {
     awayTeam,
     awayTeamPlayerStatLogsFormData,
+    awayTeamStatsLog,
     game,
     homeTeam,
     homeTeamPlayerStatLogsFormData,
+    homeTeamStatsLog,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     players: state.players.players,
     tournament,
@@ -84,6 +98,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     {
       getGame,
       getPlayerStatsLogsByFilter,
+      getTeamStatsLogsByFilter,
       patchAndPostPlayerStatsLogs
     },
     dispatch
