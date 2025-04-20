@@ -7,8 +7,11 @@ import MetaInput from './MetaInput';
 /// https://www.youtube.com/v/VIDEO_CODE
 /// https://www.youtube.com/embed/VIDEO_CODE
 /// https://www.youtube.com/watch?v=VIDEO_CODE&ab_channel=CHANNEL_NAME
+/// https://www.youtube.com/live/VIDEO_CODE?si=QUERY_PARAMETER
+/// https://www.youtube.com/live/VIDEO_CODE
 /// https://youtu.be/VIDEO_CODE
-const YOUTUBE_CODE_REGEX = /^(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|v\/|embed\/|watch\?.*v=)?([a-zA-Z0-9_-]{11})(?:[&?].*)?$/;
+
+const YOUTUBE_CODE_REGEX = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|v\/|embed\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:[?&].*)?/;
 
 interface YouTubeInputProps extends FieldRenderProps<string, HTMLElement> {
   className?: string;
