@@ -1,11 +1,40 @@
 import React from 'react';
 import { GameEntity } from './state';
 import { useTranslation } from 'react-i18next';
+import Identifier from '../Teams/Indentifier';
+import './Card.scss';
+import { TeamEntity } from '../Teams/state';
+
+function Team({
+  team,
+  isHomeTeam = false
+}: {
+  team: TeamEntity;
+  isHomeTeam?: boolean;
+}) {
+  return (
+    <div
+      className={
+        `team-container columns is-vcentered` +
+        (isHomeTeam ? ' is-reverse' : '')
+      }
+    >
+      {team.logoUrl && (
+        <div className="column is-2">
+          <img src={team.logoUrl} alt={team.name} className="logo" />
+        </div>
+      )}
+      <div className="column">
+        <h2 className="title">{team.name}</h2>
+      </div>
+    </div>
+  );
+}
 
 function Card({ game }: { game: GameEntity }): React.ReactElement {
   const { t } = useTranslation();
   return (
-    <div className="tile is-child box">
+    <div className="tile is-child box game-card">
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-6 has-text-left notranslate">
           <small>{t('dateTime', { date: game.datetime })}</small>
@@ -16,9 +45,9 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
         </div>
 
         <div className="column is-12 is-hidden-mobile">
-          <div className="columns">
+          <div className="columns is-vcentered">
             <div className="column is-5 has-text-right">
-              <h2 className="title">{game.homeTeam.name}</h2>
+              <Team team={game.homeTeam} isHomeTeam />
             </div>
 
             <div className="column is-2 has-text-centered">
@@ -43,7 +72,7 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
             </div>
 
             <div className="column is-5 has-text-left">
-              <h2 className="title">{game.awayTeam.name}</h2>
+              <Team team={game.awayTeam} />
             </div>
           </div>
         </div>
@@ -51,7 +80,9 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
         <div className="column is-12 is-hidden-tablet">
           <div className="columns is-mobile is-multiline">
             <div className="column is-8">
-              <span className="title is-size-5">{game.homeTeam.name}</span>
+              <span className="title is-size-5">
+                <Identifier team={game.homeTeam} />
+              </span>
             </div>
 
             <div className="column is-4 has-text-right">
@@ -59,7 +90,9 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
             </div>
 
             <div className="column is-8">
-              <span className="title is-size-5">{game.awayTeam.name}</span>
+              <span className="title is-size-5">
+                <Identifier team={game.awayTeam} />
+              </span>
             </div>
 
             <div className="column is-4 has-text-right">

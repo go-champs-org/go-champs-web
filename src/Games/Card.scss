@@ -1,0 +1,11 @@
+.game-card {
+  .is-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .team-container {
+    .logo {
+      width: 100%;
+    }
+  }
+}
