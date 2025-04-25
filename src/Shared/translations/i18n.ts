@@ -54,6 +54,8 @@ i18n
       escapeValue: false, // react already safes from xss
       format: (value, format, lng) => {
         switch (format) {
+          case 'uppercase':
+            return value.toUpperCase();
           case 'date':
             return formatDate(value, lng!);
           case 'datetime':

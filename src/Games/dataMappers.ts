@@ -26,7 +26,8 @@ export const mapApiGameToGameEntity = (
   isFinished: apiGame.is_finished,
   location: apiGame.location,
   phaseId: apiGame.phase_id,
-  youTubeCode: apiGame.youtube_code ? apiGame.youtube_code : ''
+  youTubeCode: apiGame.youtube_code ? apiGame.youtube_code : '',
+  liveState: apiGame.live_state
 });
 
 export const mapGameEntityToApiGamePostRequest = (
@@ -46,7 +47,8 @@ export const mapGameEntityToApiGamePostRequest = (
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
     phase_id: phaseId,
-    youtube_code: game.youTubeCode && game.youTubeCode
+    youtube_code: game.youTubeCode && game.youTubeCode,
+    live_state: game.liveState
   }
 });
 
@@ -65,6 +67,7 @@ export const mapGameEntityToApiGamePatchRequest = (
     info: game.info ? game.info : '',
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
-    youtube_code: game.youTubeCode && game.youTubeCode
+    youtube_code: game.youTubeCode && game.youTubeCode,
+    live_state: game.liveState
   }
 });
