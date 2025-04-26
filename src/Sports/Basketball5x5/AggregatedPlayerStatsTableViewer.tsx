@@ -5,7 +5,11 @@ import AggregatePlayerStatsTable, {
   StatColumn
 } from '../../Shared/AggregatedPlayerStatsTable';
 import { AggregatedPlayerStatsTableViewerProps } from '../../AggregatedPlayerStats/AggregatedPlayerStatsTableViewer';
-import { PercetualCell, RateCell, ValueOrEmptyCell } from './TableCells';
+import {
+  PercetualCell,
+  RateCell,
+  ValueOrEmptyCell
+} from '../../Shared/UI/TableCells';
 
 interface BaseAggregatedStatColumn {
   id: string;

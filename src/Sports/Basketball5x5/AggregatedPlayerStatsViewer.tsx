@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { AggregatedPlayerStatsViewerProps } from '../../Players/AggregatedStats';
 import AggregatedStats from '../../Players/AggregatedStats';
 import { Trans, useTranslation } from 'react-i18next';
-import { PercetualCell, RateCell } from './TableCells';
+import { PercetualCell, RateCell } from '../../Shared/UI/TableCells';
 
 interface Stats {
   labelKey: string;

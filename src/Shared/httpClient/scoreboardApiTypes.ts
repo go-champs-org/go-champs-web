@@ -49,7 +49,7 @@ export interface ApiTeam {
   tri_code: string;
 }
 
-interface ApiClockState {
+export interface ApiClockState {
   initial_period_time: number | null;
   period: number;
   state: 'not_started' | 'running' | 'stopped' | 'ended';

@@ -6,7 +6,11 @@ import { PlayersMap } from '../../Players/state';
 import GameBoxScoreTable, { StatColumn } from '../../Shared/GameBoxScoreTable';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { MinutesCell, PercetualCell, ValueOrEmptyCell } from './TableCells';
+import {
+  MinutesCell,
+  PercetualCell,
+  ValueOrEmptyCell
+} from '../../Shared/UI/TableCells';
 
 function byStatValue(key: string) {
   return (

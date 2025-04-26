@@ -4,8 +4,12 @@ import { timeFromDate } from '../Shared/datetime/format';
 import './MiniLiveGameCard.scss';
 import { useTranslation } from 'react-i18next';
 import scoreboardApiHttpClient from '../Shared/httpClient/scoreboardApiHttpClient';
-import { teamScore } from '../Sports/Basketball5x5/scoreboardGameStateDataMappers';
+import {
+  periodAndTime,
+  teamScore
+} from '../Sports/Basketball5x5/scoreboardGameStateDataMappers';
 import TeamAndScore from './TeamAndScore';
+import { MinutesCell } from '../Shared/UI/TableCells';
 
 const POLLING_SCORES_INTERVAL = 10000; // 10 seconds
 
@@ -16,9 +20,11 @@ interface MiniLiveGameCardProps {
 
 function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
   const { t } = useTranslation();
-  const [teamScores, setTeamScores] = useState({
+  const [gameData, setGameData] = useState({
     awayScore: game.awayScore,
-    homeScore: game.homeScore
+    homeScore: game.homeScore,
+    period: 0,
+    time: 0
   });
 
   useEffect(() => {
@@ -29,7 +35,8 @@ function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
           const { away_team, home_team } = gameState;
           const awayScore = teamScore(away_team);
           const homeScore = teamScore(home_team);
-          setTeamScores({ awayScore, homeScore });
+          const { period, time } = periodAndTime(gameState.clock_state);
+          setGameData({ awayScore, homeScore, period, time });
         }
       } catch (error) {
         console.error('Error fetching game state:', error);
@@ -38,8 +45,10 @@ function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
 
     const interval = setInterval(fetchGameState, POLLING_SCORES_INTERVAL);
 
+    fetchGameState(); // Fetch immediately on mount
+
     return () => clearInterval(interval);
-  });
+  }, [game.id]);
 
   return (
     <div className="card item">
@@ -71,11 +80,18 @@ function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
           </div>
 
           <div className="column is-12">
-            <TeamAndScore team={game.awayTeam} score={teamScores.awayScore} />
+            <TeamAndScore team={game.awayTeam} score={gameData.awayScore} />
           </div>
 
           <div className="column is-12">
-            <TeamAndScore team={game.homeTeam} score={teamScores.homeScore} />
+            <TeamAndScore team={game.homeTeam} score={gameData.homeScore} />
+          </div>
+
+          <div className="column is-12 is-narrow has-text-centered">
+            <span>
+              {`Q${gameData.period} | `}
+              <MinutesCell value={gameData.time.toString()} />
+            </span>
           </div>
         </div>
       </div>
