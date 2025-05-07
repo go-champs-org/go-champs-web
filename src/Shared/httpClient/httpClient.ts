@@ -41,6 +41,23 @@ const get = async <R>(url: string): Promise<R> => {
   return jsonData;
 };
 
+const downloadCsv = async (url: string): Promise<string> => {
+  const response = await fetch(url, {
+    headers: buildAuthenticationHeader()
+  });
+  const textData = await response.text();
+  const blob = new Blob([textData], { type: 'text/csv;charset=utf-8;' });
+  const urlBlob = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = urlBlob;
+  a.setAttribute('download', 'export.csv');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(urlBlob);
+  return textData;
+};
+
 const patch = async <T, R>(url: string, data: T): Promise<R> => {
   const response = await fetch(url, {
     headers: buildAuthenticationHeader(),
@@ -102,6 +119,7 @@ const post = async <T, R>(url: string, data: T): Promise<R> => {
 export default {
   delete: deleteRequest,
   get,
+  downloadCsv,
   patch,
   put,
   post

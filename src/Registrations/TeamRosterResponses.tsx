@@ -7,6 +7,7 @@ import RegistrationResponseFieldDisplay from './RegistrationResponseFieldDisplay
 import RegistrationResponseStatusChip from './RegistrationResponseStatusChip';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import registrationInviteHttpClient from './registrationInviteHttpClient';
 
 function TeamRosterResponseRow({
   onSelect,
@@ -63,6 +64,7 @@ function TeamRosterResponses({
   const [selectedResponses, setSelectedResponses] = useState<
     RegistrationResponseEntity[]
   >([]);
+  const [isExporting, setIsExporting] = useState(false);
 
   const onSelectResponse = (response: RegistrationResponseEntity) => {
     if (selectedResponses.includes(response)) {
@@ -74,6 +76,12 @@ function TeamRosterResponses({
 
   const onApprove = () => {
     putRegistrationResponseApprove(selectedResponses, registrationInvite);
+  };
+
+  const onExport = async () => {
+    setIsExporting(true);
+    await registrationInviteHttpClient.downloadExport(registrationInvite.id);
+    setIsExporting(false);
   };
 
   return (
@@ -112,13 +120,22 @@ function TeamRosterResponses({
                 </span>
               </div>
               <div className="column is-4 has-text-right">
-                <LoadingButton
-                  className="button is-primary is-small"
-                  onClick={onApprove}
-                  isLoading={isApprovingRegistrationResponses}
-                >
-                  <Trans>approve</Trans>
-                </LoadingButton>
+                <p className="buttons" style={{ justifyContent: 'flex-end' }}>
+                  <LoadingButton
+                    className="button is-info is-small"
+                    onClick={onExport}
+                    isLoading={isExporting}
+                  >
+                    <Trans>export</Trans>
+                  </LoadingButton>
+                  <LoadingButton
+                    className="button is-primary is-small"
+                    onClick={onApprove}
+                    isLoading={isApprovingRegistrationResponses}
+                  >
+                    <Trans>approve</Trans>
+                  </LoadingButton>
+                </p>
               </div>
             </div>
           </div>

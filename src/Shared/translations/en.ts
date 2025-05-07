@@ -49,6 +49,7 @@ export default {
     eliminations: 'Eliminations',
     email: 'Email',
     endDate: 'End date',
+    export: 'Export',
     filter: 'Filter',
     filters: 'Filters',
     firstTeam: 'First team',

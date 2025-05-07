@@ -24,4 +24,14 @@ const getForInvitePage = async (
   return await httpClient.get<ApiRegistrationInviteResponse>(url);
 };
 
-export default { get, getForInvitePage };
+const downloadExport = async (
+  registrationInviteId: string
+): Promise<string> => {
+  const url = `${REGISTRATION_INVITE_API}/${registrationInviteId}/export`;
+
+  const data = await httpClient.downloadCsv(url);
+
+  return data;
+};
+
+export default { downloadExport, get, getForInvitePage };
