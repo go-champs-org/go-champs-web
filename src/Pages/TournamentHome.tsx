@@ -37,6 +37,7 @@ import RegistrationEdit from './RegistrationEdit';
 import RegistrationInvitesRoot from './RegistrationInvitesRoot';
 import PlayerView from './PlayerView';
 import ScoreboardSettingEdit from './ScoreboardSettingEdit';
+import TeamEditRoster from './TeamEditRoster';
 
 const mapStateToProps = (
   state: StoreState,
@@ -155,6 +156,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <TeamEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/EditTeamRoster/:teamId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TeamEditRoster {...props} />
             </AuthenticatedRoute>
           )}
         />

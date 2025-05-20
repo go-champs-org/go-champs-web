@@ -24,6 +24,11 @@ export default {
     cancel: 'Cancel',
     clean: 'Clean',
     clickToUpload: 'Click to upload',
+    coachingStaff: 'Coaching staff',
+    coachTypes: {
+      head_coach: 'Head coach',
+      assistant_coach: 'Assistant coach'
+    },
     consentInputViewDocument: 'Click to view terms and conditions',
     consentInputAgree: 'I agree to the terms and conditions',
     copyLink: 'Copy link',
@@ -83,6 +88,7 @@ export default {
     myAccount: 'My account',
     name: 'Name',
     new: 'New',
+    newCoach: 'New coach',
     newDraw: 'New draw',
     newElimination: 'New elimination',
     newFixedPlayerStatsTable: 'New players stats table',
@@ -120,6 +126,8 @@ export default {
     remove: 'Remove',
     repeatPassword: 'Repeat password',
     required: 'Required',
+    role: 'Role',
+    roster: 'Roster',
     rounds: 'Rounds',
     roundsMenuTitle: 'Rounds menu',
     rows: 'Rows',

@@ -1,8 +1,15 @@
+export interface CoachEntity {
+  id: string;
+  name: string;
+  type: string;
+}
+
 export interface TeamEntity {
   id: string;
   name: string;
   logoUrl: string;
   triCode: string;
+  coaches: CoachEntity[];
 }
 
 export interface TeamState {
@@ -29,5 +36,12 @@ export const DEFAULT_TEAM: TeamEntity = {
   id: '',
   name: '',
   logoUrl: '',
-  triCode: ''
+  triCode: '',
+  coaches: []
+};
+
+export const DEFAULT_COACH: CoachEntity = {
+  id: '',
+  name: '',
+  type: ''
 };

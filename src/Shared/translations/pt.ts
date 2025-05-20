@@ -25,6 +25,11 @@ export default {
     cancel: 'Cancelar',
     clean: 'Limpar',
     clickToUpload: 'Clique para enviar',
+    coachingStaff: 'Comissão técnica',
+    coachTypes: {
+      head_coach: 'Treinador principal',
+      assistant_coach: 'Assistente'
+    },
     consentInputViewDocument: 'Clique para ver termos e condicões',
     consentInputAgree: 'Eu concordo com os termos e condicões',
     copyLink: 'Copiar',
@@ -84,6 +89,7 @@ export default {
     myAccount: 'Minha conta',
     name: 'Nome',
     new: 'Novo',
+    newCoach: 'Novo treinador',
     newDraw: 'Novo chaveamento',
     newElimination: 'Nova eliminacao',
     newFixedPlayerStatsTable: 'Nova tabela de estatiticas de atletas',
@@ -121,6 +127,8 @@ export default {
     registrationFormSuccessMsg: 'Inscricão realizada com sucesso!',
     repeatPassword: 'Senha novamente',
     required: 'Obrigatório',
+    role: 'Função',
+    roster: 'Elenco',
     rounds: 'Chaveamentos',
     roundsMenuTitle: 'Menu chaveamentos',
     rows: 'Linhas',

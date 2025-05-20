@@ -46,7 +46,8 @@ describe('deleteTeamSuccess', () => {
         id: 'first-id',
         name: 'first-name',
         logoUrl: '',
-        triCode: ''
+        triCode: '',
+        coaches: []
       }
     }
   };
@@ -69,7 +70,8 @@ describe('deleteTeamSuccess', () => {
           id: 'some-id',
           name: 'some-name',
           logoUrl: 'some-logo-url',
-          triCode: 'some-tri-code'
+          triCode: 'some-tri-code',
+          coaches: []
         },
         ...deleteState.teams
       }
@@ -81,7 +83,8 @@ describe('deleteTeamSuccess', () => {
       id: 'some-id',
       name: 'some-name',
       logoUrl: 'some-logo-url',
-      triCode: 'some-tri-code'
+      triCode: 'some-tri-code',
+      coaches: []
     });
   });
 });
@@ -107,7 +110,10 @@ describe('patchTeamSuccess', () => {
     id: 'first-id',
     name: 'some-first-name',
     logoUrl: 'some-logo-url',
-    triCode: 'some-tri-code'
+    triCode: 'some-tri-code',
+    coaches: [
+      { id: 'some-coach-id', name: 'some-coach-name', type: 'some-coach-type' }
+    ]
   });
 
   const updateState: TeamState = {
@@ -117,7 +123,8 @@ describe('patchTeamSuccess', () => {
         id: 'first-id',
         name: 'first-name',
         logoUrl: '',
-        triCode: ''
+        triCode: '',
+        coaches: []
       }
     }
   };
@@ -133,7 +140,14 @@ describe('patchTeamSuccess', () => {
       id: 'first-id',
       name: 'some-first-name',
       logoUrl: 'some-logo-url',
-      triCode: 'some-tri-code'
+      triCode: 'some-tri-code',
+      coaches: [
+        {
+          id: 'some-coach-id',
+          name: 'some-coach-name',
+          type: 'some-coach-type'
+        }
+      ]
     });
   });
 
@@ -145,7 +159,8 @@ describe('patchTeamSuccess', () => {
           id: 'some-id',
           name: 'some-name',
           logoUrl: 'some-logo-url',
-          triCode: 'some-tri-code'
+          triCode: 'some-tri-code',
+          coaches: []
         }
       }
     };
@@ -156,7 +171,8 @@ describe('patchTeamSuccess', () => {
       id: 'some-id',
       name: 'some-name',
       logoUrl: 'some-logo-url',
-      triCode: 'some-tri-code'
+      triCode: 'some-tri-code',
+      coaches: []
     });
   });
 });
@@ -182,7 +198,8 @@ describe('postTeamSuccess', () => {
     id: 'first-id',
     name: 'first-name',
     logoUrl: 'some-logo-url',
-    triCode: 'some-tri-code'
+    triCode: 'some-tri-code',
+    coaches: []
   });
 
   it('sets isLoadingPostTeam to false', () => {
@@ -196,7 +213,8 @@ describe('postTeamSuccess', () => {
       id: 'first-id',
       name: 'first-name',
       logoUrl: 'some-logo-url',
-      triCode: 'some-tri-code'
+      triCode: 'some-tri-code',
+      coaches: []
     });
   });
 
@@ -208,7 +226,8 @@ describe('postTeamSuccess', () => {
           id: 'some-id',
           name: 'some-name',
           logoUrl: 'some-logo-url',
-          triCode: 'some-tri-code'
+          triCode: 'some-tri-code',
+          coaches: []
         }
       }
     };
@@ -219,7 +238,8 @@ describe('postTeamSuccess', () => {
       id: 'some-id',
       name: 'some-name',
       logoUrl: 'some-logo-url',
-      triCode: 'some-tri-code'
+      triCode: 'some-tri-code',
+      coaches: []
     });
   });
 });
@@ -235,11 +255,13 @@ describe('getTournamentSuccess', () => {
       teams: [
         {
           id: 'first-team-id',
-          name: 'first team name'
+          name: 'first team name',
+          coaches: []
         },
         {
           id: 'second-team-id',
-          name: 'second team name'
+          name: 'second team name',
+          coaches: []
         }
       ],
       organization: {
@@ -258,13 +280,15 @@ describe('getTournamentSuccess', () => {
       id: 'first-team-id',
       name: 'first team name',
       logoUrl: '',
-      triCode: ''
+      triCode: '',
+      coaches: []
     });
     expect(newState.teams['second-team-id']).toEqual({
       id: 'second-team-id',
       name: 'second team name',
       logoUrl: '',
-      triCode: ''
+      triCode: '',
+      coaches: []
     });
   });
 

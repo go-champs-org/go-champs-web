@@ -10,7 +10,7 @@ import {
   postTeamStart,
   postTeamSuccess
 } from './actions';
-import { TeamEntity } from './state';
+import { CoachEntity, TeamEntity } from './state';
 import teamHttpClient from './teamHttpClient';
 import { Dispatch } from 'redux';
 
@@ -52,5 +52,64 @@ export const postTeam = (team: TeamEntity, tournamentId: string) => async (
     displayToast(`${team.name} created!`, 'is-success');
   } catch (err) {
     dispatch(postTeamFailure(err));
+  }
+};
+
+export const postCoachInTeam = (team: TeamEntity, coach: CoachEntity) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(patchTeamStart());
+
+  try {
+    const teamWithCoach = {
+      ...team,
+      coaches: [...team.coaches, coach]
+    };
+    const response = await teamHttpClient.patch(teamWithCoach);
+
+    dispatch(patchTeamSuccess(response));
+    displayToast(`${team.name} created!`, 'is-success');
+  } catch (err) {
+    dispatch(patchTeamFailure(err));
+  }
+};
+
+export const patchCoachInTeam = (
+  team: TeamEntity,
+  coach: CoachEntity
+) => async (dispatch: Dispatch) => {
+  dispatch(patchTeamStart());
+
+  try {
+    const teamWithCoach = {
+      ...team,
+      coaches: team.coaches.map(c => (c.id === coach.id ? coach : c))
+    };
+    const response = await teamHttpClient.patch(teamWithCoach);
+
+    dispatch(patchTeamSuccess(response));
+    displayToast(`${team.name} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchTeamFailure(err));
+  }
+};
+
+export const deleteCoachInTeam = (
+  team: TeamEntity,
+  coach: CoachEntity
+) => async (dispatch: Dispatch) => {
+  dispatch(patchTeamStart());
+
+  try {
+    const teamWithCoach = {
+      ...team,
+      coaches: team.coaches.filter(c => c.id !== coach.id)
+    };
+    await teamHttpClient.patch(teamWithCoach);
+
+    dispatch(patchTeamSuccess(teamWithCoach));
+    displayToast(`${team.name} updated!`, 'is-success');
+  } catch (err) {
+    dispatch(patchTeamFailure(err));
   }
 };

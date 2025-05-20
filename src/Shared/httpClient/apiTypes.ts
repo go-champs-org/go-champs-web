@@ -270,9 +270,16 @@ export interface ApiStat {
   ranking_order?: number;
 }
 
+export interface ApiCoach {
+  id: string;
+  name: string;
+  type: string;
+}
+
 export interface ApiTeam {
   id: string;
   name: string;
+  coaches?: ApiCoach[];
   logo_url?: string;
   tri_code?: string;
 }
@@ -567,10 +574,15 @@ export interface ApiStatistic {
   scope: string;
 }
 
+export interface ApiCoachType {
+  type: string;
+}
+
 export interface ApiSport {
   name: string;
   slug: string;
   player_statistics?: ApiStatistic[];
+  coach_types?: ApiCoachType[];
 }
 
 export interface ApiSportsResponse {

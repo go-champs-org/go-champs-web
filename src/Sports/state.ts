@@ -2,6 +2,10 @@ export type ValueType = 'manual' | 'calculated';
 export type Level = 'game' | 'tournament';
 export type Scope = 'aggregate' | 'per_game';
 
+export interface CoachType {
+  type: string;
+}
+
 export interface Statistic {
   name: string;
   slug: string;
@@ -14,6 +18,7 @@ export interface SportEntity {
   name: string;
   slug: string;
   playerStatistics: Statistic[];
+  coachTypes: CoachType[];
 }
 
 export interface SportState {
@@ -33,5 +38,6 @@ export const initialState: SportState = {
 export const DEFAULT_SPORT: SportEntity = {
   name: '',
   slug: '',
-  playerStatistics: []
+  playerStatistics: [],
+  coachTypes: []
 };

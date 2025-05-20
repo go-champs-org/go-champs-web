@@ -1,5 +1,13 @@
-import { ApiSport, ApiStatistic } from '../Shared/httpClient/apiTypes';
+import {
+  ApiCoachType,
+  ApiSport,
+  ApiStatistic
+} from '../Shared/httpClient/apiTypes';
 import { Level, Scope, SportEntity, Statistic, ValueType } from './state';
+
+const mapApiCoachTypeToCoachTypeEntity = (apiCoachType: ApiCoachType) => ({
+  type: apiCoachType.type
+});
 
 const mapApiStatisticTypeToStatisticType = (
   apiStatisticType: string
@@ -28,5 +36,8 @@ export const mapApiSportToSportEntity = (apiSport: ApiSport): SportEntity => ({
   slug: apiSport.slug,
   playerStatistics: apiSport.player_statistics
     ? apiSport.player_statistics.map(mapApiStatisticToStatisticEntity)
+    : [],
+  coachTypes: apiSport.coach_types
+    ? apiSport.coach_types.map(mapApiCoachTypeToCoachTypeEntity)
     : []
 });

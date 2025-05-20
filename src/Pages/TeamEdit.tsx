@@ -15,6 +15,7 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { TeamEntity } from '../Teams/state';
 import { Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = (
   state: StoreState,
@@ -57,10 +58,26 @@ const TeamEdit: React.FC<TeamEditProps> = ({
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-12">
+          <div className="column is-6">
             <h2 className="subtitle">
               <Trans>editTeam</Trans>
             </h2>
+          </div>
+
+          <div className="column is-6 has-text-right">
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/EditTeamRoster/${team.id}`}
+            >
+              <button className="button is-info is-outlined">
+                <span className="icon">
+                  <i className="fas fa-users"></i>
+                </span>
+
+                <span>
+                  <Trans>roster</Trans>
+                </span>
+              </button>
+            </Link>
           </div>
 
           <div className="column is-12">

@@ -1,4 +1,5 @@
-import { DEFAULT_SPORT, Level, Scope, SportState } from './state';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { CoachType, DEFAULT_SPORT, Level, Scope, SportState } from './state';
 
 export const sports = (state: SportState) =>
   Object.keys(state.sports).map((key: string) => state.sports[key]);
@@ -25,4 +26,15 @@ export const selectPlayerStatisticsByScope = (
 ) => {
   const sport = state.sports[sportSlug] || DEFAULT_SPORT;
   return sport.playerStatistics.filter(stat => stat.scope === scope);
+};
+
+export const coachTypesForSelectInput = (
+  state: SportState,
+  sportSlug: string
+): SelectOptionType[] => {
+  const sport = state.sports[sportSlug] || DEFAULT_SPORT;
+  return sport.coachTypes.map((coachType: CoachType) => ({
+    value: coachType.type,
+    label: coachType.type
+  }));
 };
