@@ -1,0 +1,212 @@
+// Theme switcher component styles
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .theme-switcher-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--theme-text);
+  }
+
+  .theme-toggle-button {
+    border: 1px solid var(--theme-border);
+    background-color: var(--theme-background);
+    color: var(--theme-text);
+
+    &:hover:not(:disabled) {
+      background-color: var(--theme-backgroundSecondary);
+      border-color: var(--theme-primary);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &.theme-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .buttons {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// CSS Custom Properties for theming
+:root {
+  // Default theme values (light theme)
+  --theme-primary: #970c10;
+  --theme-secondary: #2b5615;
+  --theme-accent: #e91919;
+  --theme-background: #fdfdff;
+  --theme-backgroundSecondary: #eeeeee;
+  --theme-backgroundTertiary: #dbdbdb;
+  --theme-text: #1e1200;
+  --theme-textSecondary: #343434;
+  --theme-textInverted: #fdfdff;
+  --theme-border: #dbdbdb;
+  --theme-navbar: #970c10;
+  --theme-navbarText: #fdfdff;
+  --theme-navbarHover: #2b5615;
+  --theme-button: #970c10;
+  --theme-buttonText: #fdfdff;
+  --theme-success: #2b5615;
+  --theme-warning: #e91919;
+  --theme-error: #750608;
+  --theme-info: #343434;
+  --theme-shadow: rgba(30, 18, 0, 0.6);
+  --theme-shadowLight: rgba(30, 18, 0, 0.1);
+}
+
+// Base theming for body and html
+body {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Utility classes for themed elements
+.themed-bg {
+  background-color: var(--theme-background);
+}
+
+.themed-bg-secondary {
+  background-color: var(--theme-backgroundSecondary);
+}
+
+.themed-bg-tertiary {
+  background-color: var(--theme-backgroundTertiary);
+}
+
+.themed-text {
+  color: var(--theme-text);
+}
+
+.themed-text-secondary {
+  color: var(--theme-textSecondary);
+}
+
+.themed-text-inverted {
+  color: var(--theme-textInverted);
+}
+
+.themed-border {
+  border-color: var(--theme-border);
+}
+
+.themed-shadow {
+  box-shadow: 0 2px 3px var(--theme-shadow), 0 0 0 1px var(--theme-shadowLight);
+}
+
+// Override Bulma variables with theme variables
+.navbar {
+  background-color: var(--theme-navbar) !important;
+  border-bottom-color: var(--theme-text);
+  box-shadow: 0 2px 3px var(--theme-shadow), 0 0 0 1px var(--theme-shadowLight);
+
+  .navbar-item {
+    color: var(--theme-navbarText);
+
+    &:hover {
+      background-color: var(--theme-navbarHover);
+      color: var(--theme-navbarText);
+    }
+  }
+
+  .navbar-brand .navbar-item {
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.button {
+  &.is-primary {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+    color: var(--theme-buttonText);
+
+    &:hover {
+      background-color: var(--theme-accent);
+      border-color: var(--theme-accent);
+    }
+  }
+}
+
+.card {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  box-shadow: 0 0.5em 1em -0.125em var(--theme-shadowLight),
+    0 0px 0 1px var(--theme-shadowLight);
+}
+
+.table {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+
+  th {
+    color: var(--theme-text);
+  }
+
+  tr:hover {
+    background-color: var(--theme-backgroundSecondary);
+  }
+}
+
+.input,
+.textarea,
+.select select {
+  background-color: var(--theme-background);
+  border-color: var(--theme-border);
+  color: var(--theme-text);
+
+  &::placeholder {
+    color: var(--theme-textSecondary);
+  }
+
+  &:focus {
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 0 0.125em var(--theme-shadowLight);
+  }
+}
+
+.label {
+  color: var(--theme-text);
+}
+
+.dropdown-content {
+  background-color: var(--theme-background);
+  box-shadow: 0 0.5em 1em -0.125em var(--theme-shadowLight);
+
+  .dropdown-item {
+    color: var(--theme-text);
+
+    &:hover {
+      background-color: var(--theme-backgroundSecondary);
+    }
+  }
+}
+
+// Dark theme specific adjustments
+[data-theme='dark'] {
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--theme-backgroundSecondary) 25%,
+      var(--theme-backgroundTertiary) 50%,
+      var(--theme-backgroundSecondary) 75%
+    );
+    background-size: 200% 100%;
+  }
+}

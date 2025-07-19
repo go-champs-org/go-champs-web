@@ -33,6 +33,8 @@ import { SportState } from './Sports/state';
 import { default as sportReducer } from './Sports/reducer';
 import { RegistrationState } from './Registrations/state';
 import { default as registrationReducer } from './Registrations/reducer';
+import { default as themeReducer } from './Theme/reducer';
+import { ThemeState } from './Theme/types';
 import { NODE_ENV } from './Shared/env';
 
 export interface StoreState {
@@ -51,6 +53,7 @@ export interface StoreState {
   sports: SportState;
   teams: TeamState;
   teamStatsLogs: TeamStatsLogState;
+  theme: ThemeState;
   tournaments: TournamentState;
 }
 
@@ -71,6 +74,7 @@ export default createStore(
     sports: sportReducer,
     teams: teamReducer,
     teamStatsLogs: teamStatsLogReducer,
+    theme: themeReducer,
     tournaments: tournamentReducer
   }),
   NODE_ENV === 'production'

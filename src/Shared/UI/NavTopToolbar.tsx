@@ -9,6 +9,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Trans } from 'react-i18next';
 import { bindActionCreators, Dispatch } from 'redux';
 import withAccount from '../../Pages/support/withAccount';
+import { ThemeSwitcher } from '../../Theme';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -62,6 +63,10 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
                 <i className="fas fa-search"></i>
               </span>
             </a>
+
+            <div className="navbar-item">
+              <ThemeSwitcher variant="toggle" showLabel={false} />
+            </div>
 
             <div className="navbar-item">
               <span className="navbar-divider"></span>

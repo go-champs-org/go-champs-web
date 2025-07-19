@@ -31,166 +31,169 @@ import LanguageDropdown from './Shared/UI/LanguageDropdown';
 import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
 import OrganizationView from './Pages/OrganizationView';
+import { ThemeProvider } from './Theme';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
   return (
     <Provider store={store}>
-      <Router>
-        <DndProvider backend={HTML5Backend}>
-          <NavTopToolbar />
+      <ThemeProvider>
+        <Router>
+          <DndProvider backend={HTML5Backend}>
+            <NavTopToolbar />
 
-          <div className="hero is-fullheight-with-navbar">
-            <section className="section">
-              <div className="container">
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/About" component={About} />
-                  <Route
-                    exact
-                    sensitive
-                    path="/Account"
-                    render={() => (
-                      <AuthenticatedRoute>
-                        <AccountHome />
-                      </AuthenticatedRoute>
-                    )}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/Account/*"
-                    render={() => (
-                      <AuthenticatedRoute>
-                        <AccountHome />
-                      </AuthenticatedRoute>
-                    )}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/FacebookSignUp"
-                    component={FacebookSignUp}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/FacebookSignUp*"
-                    component={FacebookSignUp}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/Invite/:registrationInviteId"
-                    render={(props: RouteComponentProps<RouteProps>) => (
-                      <TeamRosterInvites {...props} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/PrivacyPolicy*"
-                    component={PrivacyPolicy}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/UseAsApp"
-                    component={UseAsApp}
-                  />
-                  <Route exact sensitive path="/SignIn*" component={SignIn} />
-                  <Route exact sensitive path="/SignUp" component={SignUp} />
-                  <Route
-                    exact
-                    sensitive
-                    path="/AccountReset"
-                    component={AccountReset}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/AccountRecovery"
-                    component={AccountRecovery}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/Organization/:organizationSlug"
-                    render={(props: RouteComponentProps<RouteProps>) => (
-                      <AuthenticatedRoute>
-                        <OrganizationHome {...props} />
-                      </AuthenticatedRoute>
-                    )}
-                  />
-                  <Route
-                    exact
-                    sensitive
-                    path="/Organization/:organizationSlug/*"
-                    render={(props: RouteComponentProps<RouteProps>) => (
-                      <AuthenticatedRoute>
-                        <OrganizationHome {...props} />
-                      </AuthenticatedRoute>
-                    )}
-                  />
-                  <Route exact sensitive path="/Search" component={Search} />
-                  <Route
-                    path="/:organizationSlug/:tournamentSlug/*"
-                    component={TournamentHome}
-                  />
-                  <Route
-                    path="/:organizationSlug/:tournamentSlug"
-                    component={TournamentHome}
-                  />
-                  <Route
-                    path={`/:organizationSlug`}
-                    render={(props: RouteComponentProps<RouteProps>) => (
-                      <OrganizationView {...props} />
-                    )}
-                  />
-                </Switch>
-              </div>
-            </section>
-
-            <div className="hero-foot">
-              <footer className="footer">
-                <div className="content has-text-centered">
-                  <div>
-                    <LanguageDropdown />
-                  </div>
-
-                  <p>
-                    <strong>Go Champs!</strong>
-                    <span>{` ${t('with')} 🖤 `}</span>
-                    <span>
-                      {`${t('by')} Lair Júnior. ${t(
-                        'theSourceCodeIsLicensed'
-                      )} `}
-                    </span>
-                    <a
-                      href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
-                      style={{ color: '#970c10' }}
-                    >
-                      MIT
-                    </a>
-                    <span>{`. ${t('theWebsiteContentIsLicensed')} `}</span>
-                    <a
-                      href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-                      style={{ color: '#970c10' }}
-                    >
-                      CC BY NC SA 4.0
-                    </a>
-                    .
-                  </p>
-
-                  <p>
-                    Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
-                  </p>
+            <div className="hero is-fullheight-with-navbar">
+              <section className="section">
+                <div className="container">
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/About" component={About} />
+                    <Route
+                      exact
+                      sensitive
+                      path="/Account"
+                      render={() => (
+                        <AuthenticatedRoute>
+                          <AccountHome />
+                        </AuthenticatedRoute>
+                      )}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/Account/*"
+                      render={() => (
+                        <AuthenticatedRoute>
+                          <AccountHome />
+                        </AuthenticatedRoute>
+                      )}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/FacebookSignUp"
+                      component={FacebookSignUp}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/FacebookSignUp*"
+                      component={FacebookSignUp}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/Invite/:registrationInviteId"
+                      render={(props: RouteComponentProps<RouteProps>) => (
+                        <TeamRosterInvites {...props} />
+                      )}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/PrivacyPolicy*"
+                      component={PrivacyPolicy}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/UseAsApp"
+                      component={UseAsApp}
+                    />
+                    <Route exact sensitive path="/SignIn*" component={SignIn} />
+                    <Route exact sensitive path="/SignUp" component={SignUp} />
+                    <Route
+                      exact
+                      sensitive
+                      path="/AccountReset"
+                      component={AccountReset}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/AccountRecovery"
+                      component={AccountRecovery}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/Organization/:organizationSlug"
+                      render={(props: RouteComponentProps<RouteProps>) => (
+                        <AuthenticatedRoute>
+                          <OrganizationHome {...props} />
+                        </AuthenticatedRoute>
+                      )}
+                    />
+                    <Route
+                      exact
+                      sensitive
+                      path="/Organization/:organizationSlug/*"
+                      render={(props: RouteComponentProps<RouteProps>) => (
+                        <AuthenticatedRoute>
+                          <OrganizationHome {...props} />
+                        </AuthenticatedRoute>
+                      )}
+                    />
+                    <Route exact sensitive path="/Search" component={Search} />
+                    <Route
+                      path="/:organizationSlug/:tournamentSlug/*"
+                      component={TournamentHome}
+                    />
+                    <Route
+                      path="/:organizationSlug/:tournamentSlug"
+                      component={TournamentHome}
+                    />
+                    <Route
+                      path={`/:organizationSlug`}
+                      render={(props: RouteComponentProps<RouteProps>) => (
+                        <OrganizationView {...props} />
+                      )}
+                    />
+                  </Switch>
                 </div>
-              </footer>
+              </section>
+
+              <div className="hero-foot">
+                <footer className="footer">
+                  <div className="content has-text-centered">
+                    <div>
+                      <LanguageDropdown />
+                    </div>
+
+                    <p>
+                      <strong>Go Champs!</strong>
+                      <span>{` ${t('with')} 🖤 `}</span>
+                      <span>
+                        {`${t('by')} Lair Júnior. ${t(
+                          'theSourceCodeIsLicensed'
+                        )} `}
+                      </span>
+                      <a
+                        href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
+                        style={{ color: '#970c10' }}
+                      >
+                        MIT
+                      </a>
+                      <span>{`. ${t('theWebsiteContentIsLicensed')} `}</span>
+                      <a
+                        href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+                        style={{ color: '#970c10' }}
+                      >
+                        CC BY NC SA 4.0
+                      </a>
+                      .
+                    </p>
+
+                    <p>
+                      Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
+                    </p>
+                  </div>
+                </footer>
+              </div>
             </div>
-          </div>
-        </DndProvider>
-      </Router>
+          </DndProvider>
+        </Router>
+      </ThemeProvider>
     </Provider>
   );
 };
