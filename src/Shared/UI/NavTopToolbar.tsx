@@ -1,5 +1,5 @@
 import React, { MouseEvent } from 'react';
-import logo from '../../assets/logo-with-background.png';
+import logo from '../../assets/logo-green.png';
 import './NavTopToolbar.scss';
 import AuthenticatedWrapper, { NotAuthenticatedWrapper } from './AdminWrapper';
 import { StoreState } from '../../store';

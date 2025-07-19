@@ -3,14 +3,15 @@
 // Color
 @import './colors.scss';
 
-// Import a Google Font
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+// Import Proxima Nova font files
+@import './fonts.scss';
 
-// Import animantions.css
+// Import animations.css
 @import '~animate.css/animate.css';
 
 // Update Bulma's global variables
-$family-sans-serif: 'Fira Sans', sans-serif;
+$family-sans-serif: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial,
+  sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $red;
