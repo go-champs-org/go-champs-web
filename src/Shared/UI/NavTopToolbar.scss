@@ -6,7 +6,7 @@
   height: 3.25rem;
 
   @media screen and (min-width: 1023px) {
-    height: 4rem;
+    height: 4.25rem;
   }
 
   .navbar-item {
@@ -22,8 +22,8 @@
     width: 52px;
 
     @media screen and (min-width: 1023px) {
-      height: 72px;
-      width: 72px;
+      height: 50px;
+      width: 50px;
     }
   }
 
@@ -33,7 +33,8 @@
     text-shadow: -1px 1px 0 $dark, 1px 1px 0 $dark, 1px -1px 0 $dark;
 
     @media screen and (min-width: 1023px) {
-      margin-left: 80px;
+      margin-left: 60px;
+      width: 120px;
     }
   }
 }

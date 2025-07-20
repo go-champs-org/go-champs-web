@@ -51,7 +51,9 @@
     "test:e2e": "nightwatch",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "lint:check": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
+    "lint:check": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "validate-colors": "node scripts/validate-colors.js",
+    "validate-colors:generate": "node scripts/validate-colors.js generate"
   },
   "eslintConfig": {
     "extends": "react-app"

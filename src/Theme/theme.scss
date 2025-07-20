@@ -1,4 +1,5 @@
-// Theme switcher component styles
+@import '../Shared/styles/colors.scss';
+
 .theme-switcher {
   display: flex;
   align-items: center;
@@ -44,30 +45,8 @@
 }
 
 // CSS Custom Properties for theming
-:root {
-  // Default theme values (light theme)
-  --theme-primary: #970c10;
-  --theme-secondary: #2b5615;
-  --theme-accent: #e91919;
-  --theme-background: #fdfdff;
-  --theme-backgroundSecondary: #eeeeee;
-  --theme-backgroundTertiary: #dbdbdb;
-  --theme-text: #1e1200;
-  --theme-textSecondary: #343434;
-  --theme-textInverted: #fdfdff;
-  --theme-border: #dbdbdb;
-  --theme-navbar: #970c10;
-  --theme-navbarText: #fdfdff;
-  --theme-navbarHover: #2b5615;
-  --theme-button: #970c10;
-  --theme-buttonText: #fdfdff;
-  --theme-success: #2b5615;
-  --theme-warning: #e91919;
-  --theme-error: #750608;
-  --theme-info: #343434;
-  --theme-shadow: rgba(30, 18, 0, 0.6);
-  --theme-shadowLight: rgba(30, 18, 0, 0.1);
-}
+// Note: These variables are dynamically set by ThemeProvider
+// No default values needed since ThemeProvider initializes them on app start
 
 // Base theming for body and html
 body {
@@ -111,7 +90,7 @@ body {
 
 // Override Bulma variables with theme variables
 .navbar {
-  background-color: var(--theme-navbar) !important;
+  background-color: var(--theme-navbar);
   border-bottom-color: var(--theme-text);
   box-shadow: 0 2px 3px var(--theme-shadow), 0 0 0 1px var(--theme-shadowLight);
 

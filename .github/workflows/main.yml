@@ -32,10 +32,24 @@ jobs:
       - name: Running test
         run: yarn test
 
+  color_validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.11.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Validate SCSS color mapping
+        run: yarn validate-colors
+
   deploy_staging:
     needs:
       - unit_test
       - lint_check
+      - color_validation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
