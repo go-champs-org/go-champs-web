@@ -16,7 +16,7 @@ module.exports = {
     client
       .useCss()
       .click('a[href="/Organization/test-organization-cannot-delete/NewTournament"]')
-      .assert.title('Go Champs! | New Tournament')
+      .assert.title('Go Champs | New Tournament')
       .pause(1000)
       .setValue('input[name="name"]', 'Test tournament (can delete)')
       .setValue('input[name="slug"]', 'test-tournament-can-delete')
@@ -34,7 +34,7 @@ module.exports = {
       .click("//*[contains(text(), 'Test tournament (can delete)')]")
       .click("//*[contains(text(), 'Gerenciar')]")
       .click("//*[contains(text(), 'Informacões')]")
-      .assert.title('Go Champs! | Edit Tournament')
+      .assert.title('Go Champs | Edit Tournament')
       .useCss()
       .pause(1000)
       .setValue('input[name="name"]', ' edited')

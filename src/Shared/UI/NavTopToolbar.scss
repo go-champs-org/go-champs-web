@@ -33,8 +33,9 @@
     text-shadow: -1px 1px 0 $dark, 1px 1px 0 $dark, 1px -1px 0 $dark;
 
     @media screen and (min-width: 1023px) {
+      font-size: 2rem;
       margin-left: 60px;
-      width: 120px;
+      // width: 140px;
     }
   }
 }

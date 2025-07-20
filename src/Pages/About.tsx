@@ -9,7 +9,7 @@ const Home: React.FC = () => (
       <div className="content">
         <div className="columns is-vcentered">
           <div className="column is-6">
-            <h1 className="title">Go Champs!</h1>
+            <h1 className="title">Go Champs</h1>
 
             <span className="subtitle">
               <Trans>theBestAppToManageTournaments</Trans>

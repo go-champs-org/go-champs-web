@@ -76,7 +76,7 @@ function View({ organization }: ViewProps) {
       </div>
 
       <Helmet>
-        <title>Go Champs! | {organization.name}</title>
+        <title>Go Champs | {organization.name}</title>
 
         <meta name="description" content={`${organization.name} tournaments`} />
       </Helmet>

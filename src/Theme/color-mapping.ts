@@ -3,20 +3,20 @@
 
 export const scssColorMapping = {
   // SCSS variable -> hex value (from colors.scss)
-  $red: '#970c10',
+  $red: '#A72608',
   '$red-light': '#e91919',
   '$red-dark': '#750608',
-  $green: '#2b5615',
+  $green: '#A6CD63',
   '$green-light': '#3d7068',
   $pink: '#fa7c91',
-  $purple: '#8a4d76',
+  $purple: '#7B4B94',
   $brown: '#757763',
   '$beige-light': '#dbdbdb',
   '$beige-lighter': '#eff0eb',
   $dark: '#1e1200',
   '$dark-light': '#343434',
   '$orange-light': '#e3c4a8',
-  $white: '#fdfdff',
+  $white: '#F8F4F9',
   '$white-dark': '#eeeeee',
   $black: '#1d1d1b'
 };
@@ -24,50 +24,50 @@ export const scssColorMapping = {
 // Theme color definitions using SCSS color names
 export const themeColorMapping = {
   lightTheme: {
-    primary: '$red', // #970c10
-    secondary: '$green', // #2b5615
-    accent: '$red-light', // #e91919
-    background: '$white', // #fdfdff
-    backgroundSecondary: '$white-dark', // #eeeeee
-    backgroundTertiary: '$beige-light', // #dbdbdb
-    text: '$dark', // #1e1200
-    textSecondary: '$dark-light', // #343434
-    textInverted: '$white', // #fdfdff
-    border: '$beige-light', // #dbdbdb
-    navbar: '$black', // #1d1d1b
-    navbarText: '$white', // #fdfdff
-    navbarHover: '$green', // #2b5615
-    button: '$red', // #970c10
-    buttonText: '$white', // #fdfdff
-    success: '$green', // #2b5615
-    warning: '$red-light', // #e91919
-    error: '$red-dark', // #750608
-    info: '$dark-light', // #343434
-    shadow: 'rgba(30, 18, 0, 0.6)', // custom
-    shadowLight: 'rgba(30, 18, 0, 0.1)' // custom
+    primary: '$green',
+    secondary: '$red',
+    accent: '$black',
+    background: '$white',
+    backgroundSecondary: '$white-dark',
+    backgroundTertiary: '$beige-light',
+    text: '$black',
+    textSecondary: '$green',
+    textInverted: '$white',
+    border: '$beige-light',
+    navbar: '$black',
+    navbarText: '$white',
+    navbarHover: '$green',
+    button: '$green',
+    buttonText: '$white',
+    success: '$green',
+    warning: '$red',
+    error: '$red',
+    info: '$black',
+    shadow: 'rgba(30, 18, 0, 0.6)',
+    shadowLight: 'rgba(30, 18, 0, 0.1)'
   },
   darkTheme: {
-    primary: '$red-light', // #e91919
-    secondary: '$green-light', // #3d7068
-    accent: '$pink', // #fa7c91
-    background: '$dark', // #1e1200
-    backgroundSecondary: '$dark-light', // #343434
-    backgroundTertiary: '$brown', // #757763
-    text: '$white', // #fdfdff
-    textSecondary: '$white-dark', // #eeeeee
-    textInverted: '$dark', // #1e1200
-    border: '$brown', // #757763
-    navbar: '$dark-light', // #343434
-    navbarText: '$white', // #fdfdff
-    navbarHover: '$green-light', // #3d7068
-    button: '$red-light', // #e91919
-    buttonText: '$white', // #fdfdff
-    success: '$green-light', // #3d7068
-    warning: '$pink', // #fa7c91
-    error: '$red-light', // #e91919
-    info: '$white-dark', // #eeeeee
-    shadow: 'rgba(0, 0, 0, 0.8)', // custom
-    shadowLight: 'rgba(0, 0, 0, 0.2)' // custom
+    primary: '$red-light',
+    secondary: '$green-light',
+    accent: '$pink',
+    background: '$dark',
+    backgroundSecondary: '$dark-light',
+    backgroundTertiary: '$brown',
+    text: '$white',
+    textSecondary: '$white-dark',
+    textInverted: '$dark',
+    border: '$brown',
+    navbar: '$dark-light',
+    navbarText: '$white',
+    navbarHover: '$green-light',
+    button: '$red-light',
+    buttonText: '$white',
+    success: '$green-light',
+    warning: '$pink',
+    error: '$red-light',
+    info: '$white-dark',
+    shadow: 'rgba(0, 0, 0, 0.8)',
+    shadowLight: 'rgba(0, 0, 0, 0.2)'
   }
 };
 

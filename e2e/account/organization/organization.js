@@ -13,7 +13,7 @@ module.exports = {
   'Add new organization': function (client) {
     client
       .click('a[href="/Account/NewOrganization"]')
-      .assert.title('Go Champs! | New Organization')
+      .assert.title('Go Champs | New Organization')
       .pause(1000)
       .setValue('input[name="name"]', 'Test organization (can delete)')
       .setValue('input[name="slug"]', 'test-organization-can-delete')
@@ -31,7 +31,7 @@ module.exports = {
       .useXpath()
       .click("//*[contains(text(), 'Test organization (can delete)')]")
       .click("//*[contains(text(), 'Informacões')]")
-      .assert.title('Go Champs! | Edit Organization')
+      .assert.title('Go Champs | Edit Organization')
       .useCss()
       .pause(1000)
       .setValue('input[name="name"]', ' edited')

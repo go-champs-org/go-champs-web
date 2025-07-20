@@ -17,7 +17,7 @@ module.exports = {
 
   'Add new draw': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Novo')]/../a")
       .useCss()
       .pause(1000)
@@ -41,7 +41,7 @@ module.exports = {
 
   'Edit draw': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete)')]")
       .useCss()
       .pause(1000)
@@ -57,7 +57,7 @@ module.exports = {
 
   'Delete draw': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test round (can delete) edited')]/../../div/button") // needs to double click
       .pause(1000)

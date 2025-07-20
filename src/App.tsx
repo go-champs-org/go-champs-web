@@ -161,7 +161,7 @@ const App: React.FC = () => {
                     </div>
 
                     <p>
-                      <strong>Go Champs!</strong>
+                      <strong>Go Champs</strong>
                       <span>{` ${t('with')} 🖤 `}</span>
                       <span>
                         {`${t('by')} Lair Júnior. ${t(

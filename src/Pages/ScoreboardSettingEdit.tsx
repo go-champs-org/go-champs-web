@@ -138,7 +138,7 @@ function ScoreboardSettingEdit({
       </div>
 
       <Helmet>
-        <title>Go Champs! | Edit Scoreboard Settings</title>
+        <title>Go Champs | Edit Scoreboard Settings</title>
       </Helmet>
     </Fragment>
   );

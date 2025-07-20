@@ -17,7 +17,7 @@ module.exports = {
 
   'Add new phase': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .useCss()
       .pause(1000)
       .click('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewPhase"]')

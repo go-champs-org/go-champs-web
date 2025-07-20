@@ -157,7 +157,7 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
       </div>
 
       <Helmet>
-        <title>Go Champs! | Edit Tournament</title>
+        <title>Go Champs | Edit Tournament</title>
       </Helmet>
     </Fragment>
   );

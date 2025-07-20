@@ -4,7 +4,7 @@ module.exports = {
       .url(`${client.launchUrl}demo-organization/demo-tournament`)
       .useCss()
       .waitForElementVisible('body', 1000)
-      .assert.title('Go Champs! | Demo Tournament')
+      .assert.title('Go Champs | Demo Tournament')
       .end();
   },
 

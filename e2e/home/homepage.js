@@ -4,7 +4,7 @@ module.exports = {
       .url(client.launchUrl)
       .useCss()
       .waitForElementVisible('body', 1000)
-      .assert.title('Go Champs!')
+      .assert.title('Go Champs')
       .end();
   },
 
@@ -14,7 +14,7 @@ module.exports = {
       .useCss()
       .waitForElementVisible('body', 1000)
       .click('a[href="/Search"]')
-      .assert.title('Go Champs! | Search Tournaments')
+      .assert.title('Go Champs | Search Tournaments')
       .end();
   },
 

@@ -62,7 +62,7 @@ const AccountHome: React.FC = () => {
       </div>
 
       <Helmet>
-        <title>Go Champs! | My Account</title>
+        <title>Go Champs | My Account</title>
       </Helmet>
     </div>
   );

@@ -17,7 +17,7 @@ module.exports = {
 
   'Add new game': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Novo')]/../a")
       .pause(1000)
       .setValue("//*[contains(text(), 'Equipe visitante')]/../div/div/div/div/div/div/div/div/input", ['Test team (cannot delete) A', client.Keys.ENTER])
@@ -39,7 +39,7 @@ module.exports = {
 
   'Edit game': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test team (cannot delete) A')]")
       .useCss()
       .pause(1000)
@@ -56,7 +56,7 @@ module.exports = {
 
   'Delete game': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test team (cannot delete) A')]/../../../../div/button")
       .click("//*[contains(text(), 'Test team (cannot delete) A')]/../../../../div/button") // needs to double click
       .pause(1000)

@@ -17,7 +17,7 @@ module.exports = {
 
   'Add new player': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .useCss()
       .click('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewPlayer"]')
       .pause(1000)
