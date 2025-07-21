@@ -134,7 +134,7 @@ function GameEditAdvanced({
         </div>
 
         <div className="column is-12 has-text-centered">
-          <div className="tabs is-centered">
+          <div>
             <div className="columns is-multiline has-text-left">
               <Form
                 onSubmit={patchAndPostPlayerStatsLogs}
