@@ -158,6 +158,11 @@ body {
     border-color: var(--theme-primary);
     box-shadow: 0 0 0 0.125em var(--theme-shadowLight);
   }
+
+  &:hover {
+    border-color: var(--theme-border);
+    box-shadow: 0 0 0 0.125em var(--theme-shadowLight);
+  }
 }
 
 .label {
@@ -209,12 +214,9 @@ body {
   }
 }
 
-.hero-foot {
+.hero-foot .footer {
   background-color: var(--theme-info);
-  .footer {
-    background-color: var(--theme-info);
-    color: var(--theme-textInverted);
-  }
+  color: var(--theme-textInverted);
 }
 
 .has-text-primary {

@@ -41,7 +41,7 @@ const EmailForm: React.FC = () => {
 
             <div className="control">
               <input
-                className="input is-primary"
+                className="input"
                 type="text"
                 placeholder="Usain Bolt"
                 name="name"
@@ -56,7 +56,7 @@ const EmailForm: React.FC = () => {
 
             <div className="control">
               <input
-                className="input is-primary"
+                className="input"
                 type="text"
                 placeholder="seu@email.com"
                 name="email"
@@ -71,7 +71,7 @@ const EmailForm: React.FC = () => {
 
             <div className="control">
               <textarea
-                className="textarea is-primary"
+                className="textarea"
                 placeholder=""
                 name="message"
               ></textarea>

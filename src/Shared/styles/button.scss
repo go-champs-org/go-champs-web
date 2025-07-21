@@ -1,5 +1,6 @@
 @import './colors.scss';
 
-$button-hover-border-color: $red;
+$button-hover-border-color: var(--theme-primary);
+$button-hover-color: var(--theme-primary);
 $button-focus-border-color: $beige-light;
-$button-active-border-color: $red;
+$button-active-border-color: var(--theme-primary);

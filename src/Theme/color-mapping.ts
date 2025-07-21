@@ -3,20 +3,21 @@
 
 export const scssColorMapping = {
   // SCSS variable -> hex value (from colors.scss)
-  $red: '#A72608',
+  $red: '#a72608',
   '$red-light': '#e91919',
   '$red-dark': '#750608',
-  $green: '#A6CD63',
+  $green: '#a6cd63',
+  '$green-dark': '#7a9949',
   '$green-light': '#3d7068',
   $pink: '#fa7c91',
-  $purple: '#7B4B94',
+  $purple: '#7b4b94',
   $brown: '#757763',
   '$beige-light': '#dbdbdb',
   '$beige-lighter': '#eff0eb',
   $dark: '#1e1200',
   '$dark-light': '#343434',
   '$orange-light': '#e3c4a8',
-  $white: '#F8F4F9',
+  $white: '#f8f4f9',
   '$white-dark': '#eeeeee',
   $black: '#1d1d1b'
 };
@@ -33,7 +34,7 @@ export const themeColorMapping = {
     text: '$black',
     textSecondary: '$green',
     textInverted: '$white',
-    border: '$beige-light',
+    border: '$green-dark',
     navbar: '$black',
     navbarText: '$white',
     navbarHover: '$green',
