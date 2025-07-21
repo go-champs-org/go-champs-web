@@ -193,6 +193,7 @@ body {
 
 .subtitle {
   color: var(--theme-textSecondary);
+  font-weight: bold;
 
   &.is-1,
   &.is-2,
@@ -216,6 +217,27 @@ body {
 
     &:hover {
       background-color: var(--theme-backgroundSecondary);
+    }
+  }
+}
+
+.breadcrumb {
+  a {
+    color: var(--theme-text);
+
+    &:hover {
+      color: var(--theme-primary);
+    }
+  }
+
+  li {
+    &.is-active a {
+      color: var(--theme-primary);
+      cursor: default;
+    }
+
+    & + li::before {
+      color: var(--theme-primary);
     }
   }
 }

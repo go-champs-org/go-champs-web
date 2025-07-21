@@ -1,20 +1,21 @@
 @import '../../Shared/styles/colors.scss';
 
 .tournament-link {
-  color: $dark;
+  color: var(--theme-text);
   transition: color 0.3s ease;
 
   &:hover {
-    color: $brown;
+    color: var(--theme-textHover);
   }
 }
 
 .organization-link {
-  color: $red-dark;
+  color: var(--theme-textSecondary);
   transition: color 0.3s ease;
 
   &:hover {
     color: $red-light;
+    color: var(--theme-primary);
   }
 }
 
