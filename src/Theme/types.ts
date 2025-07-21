@@ -14,7 +14,7 @@ export interface ThemeColors {
   // Text colors
   text: string;
   textHover: string;
-  textPlacehorder: string;
+  textPlaceholder: string;
   textSecondary: string;
   textInverted: string;
 

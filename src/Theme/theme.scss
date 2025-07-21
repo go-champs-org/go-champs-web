@@ -190,7 +190,7 @@ body {
 .input,
 .textarea,
 .select select {
-  background-color: var(--theme-backgroundTertiary);
+  background-color: var(--theme-backgroundPrimary);
   border: none;
   border-bottom: 2px solid var(--theme-border);
   border-radius: 5px;
@@ -199,18 +199,17 @@ body {
   transition: all 0.3s ease;
 
   &::placeholder {
-    color: var(--theme-textPlacehorder);
+    color: var(--theme-textPlaceholder);
   }
 
   &:focus {
-    background-color: var(--theme-backgroundSecondary);
-    border-bottom-color: var(--theme-primary);
-    box-shadow: none;
+    background-color: var(--theme-backgroundPrimary);
+    box-shadow: 0 0 0 0.125rem var(--theme-primary);
     outline: none;
   }
 
   &:hover {
-    background-color: var(--theme-backgroundTertiary);
+    background-color: var(--theme-backgroundSecondary);
     border-bottom-color: var(--theme-text);
   }
 }
