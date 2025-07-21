@@ -161,8 +161,8 @@ const App: React.FC = () => {
                     </div>
 
                     <p>
-                      <strong>Go Champs</strong>
-                      <span>{` ${t('with')} 🖤 `}</span>
+                      <strong className="has-text-primary">Go Champs</strong>
+                      <span>{` ${t('with')} 💚 `}</span>
                       <span>
                         {`${t('by')} Lair Júnior. ${t(
                           'theSourceCodeIsLicensed'
@@ -170,14 +170,14 @@ const App: React.FC = () => {
                       </span>
                       <a
                         href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
-                        style={{ color: '#970c10' }}
+                        className="has-text-primary"
                       >
                         MIT
                       </a>
                       <span>{`. ${t('theWebsiteContentIsLicensed')} `}</span>
                       <a
                         href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-                        style={{ color: '#970c10' }}
+                        className="has-text-primary"
                       >
                         CC BY NC SA 4.0
                       </a>
