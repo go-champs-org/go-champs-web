@@ -89,8 +89,16 @@ jobs:
           node-version: '18.11.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
         with:
-          chrome-version: 139.0.7218.0
+          chrome-version: 120
+          install-chromedriver: true
+      - name: Verify Chrome and ChromeDriver versions
+        run: |
+          echo "Chrome path: ${{ steps.setup-chrome.outputs.chrome-path }}"
+          echo "ChromeDriver path: ${{ steps.setup-chrome.outputs.chromedriver-path }}"
+          ${{ steps.setup-chrome.outputs.chrome-path }} --version
+          ${{ steps.setup-chrome.outputs.chromedriver-path }} --version
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
@@ -98,4 +106,5 @@ jobs:
           STAGING_APP_HOST: ${{ secrets.STAGING_APP_HOST }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+          CHROMEDRIVER_PATH: ${{ steps.setup-chrome.outputs.chromedriver-path }}
         run: yarn run test:e2e --env=ci:staging

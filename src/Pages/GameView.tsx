@@ -258,8 +258,8 @@ function GameView({
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
   const playerStats = statistics.length
     ? tournament.playerStats.filter(
-      playerStatThatContainsInStatistic(statistics)
-    )
+        playerStatThatContainsInStatistic(statistics)
+      )
     : tournament.playerStats;
   const playerViewBasePath = `/${organizationSlug}/${tournament.slug}/Player/`;
   const visiblePlayerStats = playerStats.filter(playerStatThatIsVisible);

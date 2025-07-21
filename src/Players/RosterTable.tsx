@@ -30,11 +30,7 @@ function RosterTable({
           {players.map(player => (
             <tr key={player.id}>
               <td>
-                <Link
-                  to={`${playerBaseUrl}/${player.id}`}
-                >
-                  {player.name}
-                </Link>
+                <Link to={`${playerBaseUrl}/${player.id}`}>{player.name}</Link>
               </td>
               <td className="has-text-centered">{player.shirtName}</td>
               <td className="has-text-centered">{player.shirtNumber}</td>

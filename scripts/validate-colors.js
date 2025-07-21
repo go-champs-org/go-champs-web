@@ -51,13 +51,13 @@ function parseColorMapping(tsContent) {
   if (!mappingMatch) {
     throw new Error('Could not find scssColorMapping in color-mapping.ts');
   }
-  
+
   const mappingContent = mappingMatch[1];
   
   // Regex to match mapping entries: '$variable': '#value', 
   // Only match lines that are actual mapping entries (not comments)
   const lines = mappingContent.split('\n');
-  
+
   lines.forEach(line => {
     // Skip comments and empty lines
     const trimmed = line.trim();
@@ -65,8 +65,15 @@ function parseColorMapping(tsContent) {
       return;
     }
     
-    // Match the mapping pattern
-    const entryMatch = trimmed.match(/['"](\$[a-zA-Z0-9_-]+)['"]\s*:\s*['"]([^'"]+)['"],?/);
+    // Match the mapping pattern - handle both quoted and unquoted keys
+    // Pattern 1: quoted keys '$variable': '#value'
+    let entryMatch = trimmed.match(/['"](\$[a-zA-Z0-9_-]+)['"]\s*:\s*['"]([^'"]+)['"],?/);
+
+    // Pattern 2: unquoted keys $variable: '#value'
+    if (!entryMatch) {
+      entryMatch = trimmed.match(/(\$[a-zA-Z0-9_-]+)\s*:\s*['"]([^'"]+)['"],?/);
+    }
+
     if (entryMatch) {
       const varName = entryMatch[1];
       const value = entryMatch[2];

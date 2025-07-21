@@ -4,7 +4,7 @@ const config = {
 
   "webdriver": {
     "start_process": true,
-    "server_path": "./node_modules/.bin/chromedriver",
+    "server_path": process.env.CHROMEDRIVER_PATH || "./node_modules/.bin/chromedriver",
     "cli_args": ["--verbose"],
     "port": 9515
   },

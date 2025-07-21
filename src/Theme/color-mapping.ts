@@ -2,7 +2,6 @@
 // This ensures consistency between SCSS and theme system
 
 export const scssColorMapping = {
-  // SCSS variable -> hex value (from colors.scss)
   $red: '#a72608',
   '$red-light': '#e91919',
   '$red-dark': '#750608',
@@ -15,7 +14,7 @@ export const scssColorMapping = {
   '$beige-light': '#dbdbdb',
   '$beige-lighter': '#eff0eb',
   $dark: '#1e1200',
-  '$dark-light': '#838383',
+  '$dark-light': '#343434',
   '$orange-light': '#e3c4a8',
   $white: '#f8f4f9',
   '$white-dark': '#eeeeee',
