@@ -32,7 +32,6 @@ function RosterTable({
               <td>
                 <Link
                   to={`${playerBaseUrl}/${player.id}`}
-                  className="has-text-danger"
                 >
                   {player.name}
                 </Link>

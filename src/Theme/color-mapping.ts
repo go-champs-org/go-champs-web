@@ -26,7 +26,7 @@ export const scssColorMapping = {
 export const themeColorMapping = {
   lightTheme: {
     primary: '$green',
-    secondary: '$red',
+    secondary: '$green-dark',
     accent: '$black',
     background: '$white',
     backgroundSecondary: '$white-dark',

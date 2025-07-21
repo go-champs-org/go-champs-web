@@ -294,6 +294,35 @@ body {
   color: var(--theme-primary) !important;
 }
 
+// Link styling with theme colors
+a {
+  color: var(--theme-text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--theme-primary);
+  }
+
+  &.is-active {
+    color: var(--theme-primary);
+    cursor: default;
+  }
+
+  &:visited {
+    color: var(--theme-textSecondary);
+  }
+}
+
+.notification a {
+  color: var(--theme-textInverted);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--theme-primary);
+  }
+}
+
 // Dark theme specific adjustments
 [data-theme='dark'] {
   .shimmer {

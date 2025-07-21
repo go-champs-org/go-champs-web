@@ -132,7 +132,7 @@ function CoachingStaffTable({
   return (
     <div>
       <div className="table-container">
-        <table className="table is-fullwidth">
+        <table className="table is-fullwidth is-narrow">
           <thead>
             <tr>
               <th>
