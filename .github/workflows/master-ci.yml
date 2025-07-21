@@ -92,6 +92,8 @@ jobs:
           node-version: '18.11.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 139.0.7218.0
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
@@ -146,6 +148,8 @@ jobs:
           node-version: '18.11.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 139.0.7218.0
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
