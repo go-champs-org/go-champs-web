@@ -375,7 +375,7 @@ function PlayerStatsLogTableForm({
   return (
     <div className="basketball-5x5-stats-table-form container">
       <div className="table-container" ref={tableContainerRef}>
-        <table className="table is-fullwidth is-custom-striped">
+        <table className="table is-fullwidth is-custom-striped is-narrow">
           <thead>
             <tr>
               <th className="player">

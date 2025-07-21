@@ -111,7 +111,7 @@ function AggregatePlayerStatsTable({
   return (
     <div className="aggregated-player-stats-table container">
       <div className="table-container" ref={tableContainerRef}>
-        <table className="table is-fullwidth is-custom-striped is-size-7-mobile">
+        <table className="table is-fullwidth is-custom-striped is-narrow is-size-7-mobile">
           <thead>
             <tr>
               <th className="position">#</th>
