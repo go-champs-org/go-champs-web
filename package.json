@@ -82,6 +82,7 @@
     "@types/react-redux": "^7.0.8",
     "@types/react-router-dom": "5.1.2",
     "@types/react-select": "^2.0.19",
+    "chromedriver": "138.0.3",
     "env-cmd": "^10.1.0",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.7",
@@ -93,7 +94,7 @@
     "selenium-webdriver": "^4.1.1"
   },
   "engines": {
-    "node": "18.11.0",
-    "npm": "8.19.2"
+    "node": "20.0.0",
+    "npm": "10.0.0"
   }
 }

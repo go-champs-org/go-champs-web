@@ -1,4 +1,4 @@
-FROM node:18.11.0
+FROM node:20.0.0
 
 ENV APP_HOME /app
 RUN mkdir $APP_HOME

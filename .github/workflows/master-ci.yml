@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -89,19 +89,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@v1
-        id: setup-chrome-staging
-        with:
-          chrome-version: 120
-          install-chromedriver: true
-      - name: Verify Chrome and ChromeDriver versions
-        run: |
-          echo "Chrome path: ${{ steps.setup-chrome-staging.outputs.chrome-path }}"
-          echo "ChromeDriver path: ${{ steps.setup-chrome-staging.outputs.chromedriver-path }}"
-          ${{ steps.setup-chrome-staging.outputs.chrome-path }} --version
-          ${{ steps.setup-chrome-staging.outputs.chromedriver-path }} --version
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
@@ -109,7 +99,6 @@ jobs:
           STAGING_APP_HOST: ${{ secrets.STAGING_APP_HOST }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-          CHROMEDRIVER_PATH: ${{ steps.setup-chrome-staging.outputs.chromedriver-path }}
         run: yarn run test:e2e --env=ci:staging
 
   deploy_admin:
@@ -119,7 +108,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -154,19 +143,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@v1
-        id: setup-chrome-prod
-        with:
-          chrome-version: 120
-          install-chromedriver: true
-      - name: Verify Chrome and ChromeDriver versions  
-        run: |
-          echo "Chrome path: ${{ steps.setup-chrome-prod.outputs.chrome-path }}"
-          echo "ChromeDriver path: ${{ steps.setup-chrome-prod.outputs.chromedriver-path }}"
-          ${{ steps.setup-chrome-prod.outputs.chrome-path }} --version
-          ${{ steps.setup-chrome-prod.outputs.chromedriver-path }} --version
       - name: Install dependencies
         run: yarn install
       - name: Running e2e tests
@@ -174,7 +153,6 @@ jobs:
           PROD_APP_HOST: ${{ secrets.PROD_APP_HOST }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-          CHROMEDRIVER_PATH: ${{ steps.setup-chrome-prod.outputs.chromedriver-path }}
         run: yarn run test:e2e --env=ci:prod
 
   deploy_prod:
@@ -184,7 +162,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
