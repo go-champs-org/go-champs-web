@@ -4,10 +4,11 @@ import { changeTheme, setThemeLoading } from './actions';
 import { THEME_MODES, THEME_STORAGE_KEY } from './constants';
 
 jest.mock('../Shared/env', () => ({
-  get REACT_APP_ENV() {
-    return process.env.REACT_APP_ENV || 'dev';
-  }
+  REACT_APP_ENV: 'dev'
 }));
+
+// Get reference to the mocked module for manipulation in tests
+const mockEnv = require('../Shared/env');
 
 let dispatch: jest.Mock;
 let getState: jest.Mock;
@@ -42,6 +43,18 @@ describe('Theme Effects', () => {
     dispatch = jest.fn();
     getState = jest.fn();
     jest.clearAllMocks();
+
+    // Reset window.matchMedia to default mock
+    window.matchMedia = jest.fn().mockImplementation(query => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn()
+    }));
   });
 
   describe('initializeTheme', () => {
@@ -79,7 +92,45 @@ describe('Theme Effects', () => {
         mockLocalStorage.getItem.mockReturnValue(null);
       });
 
-      it('defaults to light theme in non-prod environment', () => {
+      it('uses system preference when user prefers dark in non-prod environment', () => {
+        // Ensure we're in non-prod environment
+        mockEnv.REACT_APP_ENV = 'dev';
+
+        const mockMatchMedia = jest.fn().mockImplementation(query => ({
+          matches: query === '(prefers-color-scheme: dark)',
+          media: query,
+          onchange: null,
+          addListener: jest.fn(),
+          removeListener: jest.fn(),
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+          dispatchEvent: jest.fn()
+        }));
+
+        window.matchMedia = mockMatchMedia;
+
+        initializeTheme()(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(changeTheme(THEME_MODES.DARK));
+      });
+
+      it('defaults to light when system does not prefer dark in non-prod environment', () => {
+        // Ensure we're in non-prod environment
+        mockEnv.REACT_APP_ENV = 'dev';
+
+        const mockMatchMedia = jest.fn().mockImplementation(query => ({
+          matches: false, // User does not prefer dark
+          media: query,
+          onchange: null,
+          addListener: jest.fn(),
+          removeListener: jest.fn(),
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+          dispatchEvent: jest.fn()
+        }));
+
+        window.matchMedia = mockMatchMedia;
+
         initializeTheme()(dispatch);
 
         expect(dispatch).toHaveBeenCalledWith(changeTheme(THEME_MODES.LIGHT));
@@ -88,18 +139,19 @@ describe('Theme Effects', () => {
       describe('in production environment', () => {
         beforeEach(() => {
           // Set environment to production
-          process.env.REACT_APP_ENV = 'prod';
+          mockEnv.REACT_APP_ENV = 'prod';
         });
 
         afterEach(() => {
-          // Reset environment
-          delete process.env.REACT_APP_ENV;
+          // Reset environment to dev
+          mockEnv.REACT_APP_ENV = 'dev';
         });
 
-        it('uses system preference when user prefers dark', () => {
+        it('always uses light theme regardless of system preference', () => {
           // Mock localStorage to return null (no saved theme)
           mockLocalStorage.getItem.mockReturnValue(null);
 
+          // Mock system preference to prefer dark (should be ignored)
           const mockMatchMedia = jest.fn().mockImplementation(query => ({
             matches: query === '(prefers-color-scheme: dark)',
             media: query,
@@ -115,27 +167,10 @@ describe('Theme Effects', () => {
 
           initializeTheme()(dispatch);
 
-          expect(dispatch).toHaveBeenCalledWith(changeTheme(THEME_MODES.DARK));
-        });
-
-        it('defaults to light when system does not prefer dark', () => {
-          // Mock localStorage to return null (no saved theme)
-          mockLocalStorage.getItem.mockReturnValue(null);
-
-          (window.matchMedia as jest.Mock).mockImplementation(query => ({
-            matches: false, // Always return false, even for dark preference query
-            media: query,
-            onchange: null,
-            addListener: jest.fn(),
-            removeListener: jest.fn(),
-            addEventListener: jest.fn(),
-            removeEventListener: jest.fn(),
-            dispatchEvent: jest.fn()
-          }));
-
-          initializeTheme()(dispatch);
-
+          // Should always dispatch light theme in production
           expect(dispatch).toHaveBeenCalledWith(changeTheme(THEME_MODES.LIGHT));
+          // matchMedia should not be called in production
+          expect(mockMatchMedia).not.toHaveBeenCalled();
         });
       });
     });

@@ -18,10 +18,12 @@ export const initializeTheme = () => (dispatch: Dispatch) => {
     ) {
       dispatch(changeTheme(savedTheme));
     } else {
-      // Check system preference
-      if (REACT_APP_ENV !== 'prod') {
+      // Check system preference based on environment
+      if (REACT_APP_ENV === 'prod') {
+        // In production, always use light theme
         dispatch(changeTheme(THEME_MODES.LIGHT));
       } else {
+        // In non-production, use system preference
         const prefersDark =
           window.matchMedia &&
           window.matchMedia('(prefers-color-scheme: dark)').matches;
