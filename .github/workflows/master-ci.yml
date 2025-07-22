@@ -68,10 +68,11 @@ jobs:
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: yarn build:staging
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './build'
           production-branch: master
+          production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: false
@@ -122,10 +123,11 @@ jobs:
           PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
         run: yarn build
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './build'
           production-branch: master
+          production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: false
@@ -178,7 +180,7 @@ jobs:
           PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
         run: yarn build
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './build'
           production-branch: master
