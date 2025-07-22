@@ -1,11 +1,11 @@
 import { createReducer } from '../Shared/store/helpers';
 import { CHANGE_THEME, SET_THEME_LOADING } from './actions';
-import { ThemeState } from './types';
+import { ThemeState, ThemeMode } from './types';
 import { initialState } from './state';
 
 const changeTheme = (
   state: ThemeState,
-  action: { payload: 'light' | 'dark' }
+  action: { payload: ThemeMode }
 ): ThemeState => ({
   ...state,
   currentTheme: action.payload

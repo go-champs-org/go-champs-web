@@ -1,8 +1,9 @@
 import { Dispatch } from 'redux';
 import { changeTheme, setThemeLoading } from './actions';
 import { ThemeMode } from './types';
-
-const THEME_STORAGE_KEY = 'go-champs-theme';
+import { THEME_MODES, THEME_STORAGE_KEY } from './constants';
+import { REACT_APP_ENV } from '../Shared/env';
+import { StoreState } from '../store';
 
 export const initializeTheme = () => (dispatch: Dispatch) => {
   dispatch(setThemeLoading(true));
@@ -11,26 +12,39 @@ export const initializeTheme = () => (dispatch: Dispatch) => {
     // Check if user has a saved theme preference
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode;
 
-    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+    if (
+      savedTheme &&
+      (savedTheme === THEME_MODES.LIGHT || savedTheme === THEME_MODES.DARK)
+    ) {
       dispatch(changeTheme(savedTheme));
     } else {
       // Check system preference
-      const prefersDark =
-        window.matchMedia &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches;
-      dispatch(changeTheme(prefersDark ? 'dark' : 'light'));
+      if (REACT_APP_ENV !== 'prod') {
+        dispatch(changeTheme(THEME_MODES.LIGHT));
+      } else {
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        dispatch(
+          changeTheme(prefersDark ? THEME_MODES.DARK : THEME_MODES.LIGHT)
+        );
+      }
     }
   } catch (error) {
     console.warn('Theme initialization failed:', error);
-    dispatch(changeTheme('light')); // fallback to light theme
+    dispatch(changeTheme(THEME_MODES.LIGHT)); // fallback to light theme
   } finally {
     dispatch(setThemeLoading(false));
   }
 };
 
-export const toggleTheme = () => (dispatch: Dispatch, getState: () => any) => {
+export const toggleTheme = () => (
+  dispatch: Dispatch,
+  getState: () => StoreState
+) => {
   const currentTheme = getState().theme.currentTheme;
-  const newTheme: ThemeMode = currentTheme === 'light' ? 'dark' : 'light';
+  const newTheme: ThemeMode =
+    currentTheme === THEME_MODES.LIGHT ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 
   try {
     localStorage.setItem(THEME_STORAGE_KEY, newTheme);

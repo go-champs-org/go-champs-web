@@ -1,4 +1,6 @@
-export type ThemeMode = 'light' | 'dark';
+import { ThemeModeValue } from './constants';
+
+export type ThemeMode = ThemeModeValue;
 
 export interface ThemeColors {
   // Primary colors

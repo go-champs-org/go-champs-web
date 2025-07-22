@@ -15,11 +15,11 @@ export const useTheme = () => {
   const theme = themes[currentThemeMode];
 
   const handleToggleTheme = () => {
-    dispatch(toggleTheme() as any);
+    dispatch(toggleTheme());
   };
 
   const handleSetTheme = (newTheme: ThemeMode) => {
-    dispatch(setTheme(newTheme) as any);
+    dispatch(setTheme(newTheme));
   };
 
   return {

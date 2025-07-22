@@ -1,3 +1,5 @@
+import { ThemeMode } from './types';
+
 export const CHANGE_THEME = 'CHANGE_THEME';
 export const SET_THEME_LOADING = 'SET_THEME_LOADING';
 
@@ -5,7 +7,7 @@ export type ActionTypes = typeof CHANGE_THEME | typeof SET_THEME_LOADING;
 
 export interface ChangeThemeAction {
   type: typeof CHANGE_THEME;
-  payload: 'light' | 'dark';
+  payload: ThemeMode;
 }
 
 export interface SetThemeLoadingAction {
@@ -15,7 +17,7 @@ export interface SetThemeLoadingAction {
 
 export type ThemeAction = ChangeThemeAction | SetThemeLoadingAction;
 
-export const changeTheme = (theme: 'light' | 'dark'): ChangeThemeAction => ({
+export const changeTheme = (theme: ThemeMode): ChangeThemeAction => ({
   type: CHANGE_THEME,
   payload: theme
 });

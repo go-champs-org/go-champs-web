@@ -151,8 +151,10 @@ Predefined utility classes for common theming needs:
 ## Theme Data Structure
 
 ```typescript
+import { ThemeMode } from './Theme/types';
+
 interface Theme {
-  mode: 'light' | 'dark';
+  mode: ThemeMode;
   colors: {
     primary: string;
     secondary: string;
@@ -185,8 +187,9 @@ interface Theme {
 
 ```typescript
 import { changeTheme } from './Theme/actions';
+import { THEME_MODES } from './Theme/constants';
 
-dispatch(changeTheme('dark'));
+dispatch(changeTheme(THEME_MODES.DARK));
 ```
 
 ### Toggle Theme

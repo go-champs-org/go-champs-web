@@ -5,6 +5,7 @@ import { StoreState } from '../store';
 import { currentTheme, isThemeLoading } from './selectors';
 import { toggleTheme, setTheme } from './effects';
 import { ThemeMode } from './types';
+import { THEME_MODES } from './constants';
 
 const mapStateToProps = (state: StoreState) => ({
   currentTheme: currentTheme(state),
@@ -60,16 +61,20 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
             isLoading ? 'is-loading' : ''
           }`}
           title={`Switch to ${
-            currentThemeMode === 'light' ? 'dark' : 'light'
+            currentThemeMode === THEME_MODES.LIGHT
+              ? THEME_MODES.DARK
+              : THEME_MODES.LIGHT
           } theme`}
           aria-label={`Switch to ${
-            currentThemeMode === 'light' ? 'dark' : 'light'
+            currentThemeMode === THEME_MODES.LIGHT
+              ? THEME_MODES.DARK
+              : THEME_MODES.LIGHT
           } theme`}
         >
           <span className="icon">
             <i
               className={`fas ${
-                currentThemeMode === 'light' ? 'fa-moon' : 'fa-sun'
+                currentThemeMode === THEME_MODES.LIGHT ? 'fa-moon' : 'fa-sun'
               }`}
             ></i>
           </span>
@@ -93,8 +98,8 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
             onChange={e => handleSetTheme(e.target.value as ThemeMode)}
             disabled={isLoading}
           >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
+            <option value={THEME_MODES.LIGHT}>Light</option>
+            <option value={THEME_MODES.DARK}>Dark</option>
           </select>
         </div>
       </div>
@@ -107,10 +112,10 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         {showLabel && <span className="theme-switcher-label">Theme:</span>}
         <div className="buttons are-small">
           <button
-            onClick={() => handleSetTheme('light')}
+            onClick={() => handleSetTheme(THEME_MODES.LIGHT)}
             disabled={isLoading}
             className={`button ${
-              currentThemeMode === 'light' ? 'is-primary' : ''
+              currentThemeMode === THEME_MODES.LIGHT ? 'is-primary' : ''
             }`}
           >
             <span className="icon">
@@ -119,10 +124,10 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
             <span>Light</span>
           </button>
           <button
-            onClick={() => handleSetTheme('dark')}
+            onClick={() => handleSetTheme(THEME_MODES.DARK)}
             disabled={isLoading}
             className={`button ${
-              currentThemeMode === 'dark' ? 'is-primary' : ''
+              currentThemeMode === THEME_MODES.DARK ? 'is-primary' : ''
             }`}
           >
             <span className="icon">
