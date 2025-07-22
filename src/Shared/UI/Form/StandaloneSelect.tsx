@@ -1,18 +1,21 @@
 import React from 'react';
-import { FieldRenderProps } from 'react-final-form';
 import { default as ReactSelect } from 'react-select';
 import { ValueType } from 'react-select/lib/types';
 import { useTheme } from '../../../Theme/useTheme';
-import './Select.scss';
 
 export interface SelectOptionType {
   value: string;
   label: string;
 }
 
-interface SelectInputProps extends FieldRenderProps<string, HTMLSelectElement> {
-  isClearable?: boolean;
+interface StandaloneSelectProps {
+  value?: string;
   options: SelectOptionType[];
+  onChange?: (value: string) => void;
+  placeholder?: string;
+  isClearable?: boolean;
+  className?: string;
+  isDisabled?: boolean;
 }
 
 const getOptionValue = (option: SelectOptionType) => option.value;
@@ -25,30 +28,54 @@ const findOptionByValue = (options: SelectOptionType[], value: string) => {
   }
 };
 
-// Styles are now handled via CSS custom properties in Select.scss
-// This allows proper theme integration and better maintainability
-
-const SelectInput: React.FC<SelectInputProps> = ({
-  input,
-  meta,
-  isClearable,
-  options
+const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
+  value,
+  options,
+  onChange,
+  placeholder,
+  isClearable = false,
+  className = '',
+  isDisabled = false
 }) => {
   const { theme } = useTheme();
-  const value = findOptionByValue(options, input.value);
+  const selectedOption = value ? findOptionByValue(options, value) : undefined;
 
   // Create styles object using theme colors
   const selectStyles = {
+    control: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: theme.colors.background,
+      borderColor: state.isFocused ? theme.colors.primary : theme.colors.border,
+      borderWidth: '2px',
+      borderRadius: '8px',
+      minHeight: '44px',
+      minWidth: '200px',
+      width: '100%',
+      '@media (min-width: 768px)': {
+        minWidth: '280px',
+        width: 'auto'
+      },
+      boxShadow: state.isFocused
+        ? `0 0 0 0.125rem ${theme.colors.primary}40`
+        : 'none',
+      '&:hover': {
+        borderColor: state.isFocused ? theme.colors.primary : theme.colors.text
+      }
+    }),
     menu: (provided: any) => ({
       ...provided,
       backgroundColor: theme.colors.background,
-      border: 'none',
+      border: `2px solid ${theme.colors.border}`,
       borderRadius: '8px',
       marginTop: '4px',
       boxShadow: `0 4px 16px ${theme.colors.shadowLight}`,
       overflow: 'hidden',
       zIndex: 9999,
-      position: 'absolute'
+      position: 'absolute',
+      minWidth: '200px',
+      '@media (min-width: 768px)': {
+        minWidth: '280px'
+      }
     }),
     menuPortal: (provided: any) => ({
       ...provided,
@@ -63,7 +90,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
         : theme.colors.background,
       color: state.isSelected ? theme.colors.buttonText : theme.colors.text,
       padding: '12px 16px',
-      ':active': {
+      cursor: 'pointer',
+      '&:active': {
         backgroundColor: theme.colors.primary
       }
     }),
@@ -92,33 +120,34 @@ const SelectInput: React.FC<SelectInputProps> = ({
       '&:hover': {
         color: theme.colors.primary
       }
+    }),
+    indicatorSeparator: () => ({
+      display: 'none'
     })
   };
 
-  const onChange = (eventValue?: ValueType<SelectOptionType>) => {
+  const handleChange = (eventValue: ValueType<SelectOptionType>) => {
     if (eventValue) {
       const newValue = getOptionValue(eventValue as SelectOptionType);
-      return input.onChange(newValue);
+      if (onChange) {
+        onChange(newValue);
+      }
+    } else if (isClearable && onChange) {
+      onChange('');
     }
-    return input.onChange(null);
   };
 
   return (
     <ReactSelect
-      className="select-override"
-      value={value}
+      className={`select-themed ${className}`}
+      value={selectedOption}
       styles={selectStyles}
       isClearable={isClearable}
+      isDisabled={isDisabled}
       getOptionValue={getOptionValue}
       options={options}
-      onChange={onChange}
-      onBlur={event =>
-        input.onBlur(event as React.FocusEvent<HTMLSelectElement>)
-      }
-      onFocus={event =>
-        input.onFocus(event as React.FocusEvent<HTMLSelectElement>)
-      }
-      name={input.name}
+      onChange={handleChange}
+      placeholder={placeholder}
       menuPortalTarget={document.body}
       menuPosition="absolute"
       menuPlacement="auto"
@@ -126,4 +155,4 @@ const SelectInput: React.FC<SelectInputProps> = ({
   );
 };
 
-export default SelectInput;
+export default StandaloneSelect;

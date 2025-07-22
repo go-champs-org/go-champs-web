@@ -2,14 +2,31 @@ import React from 'react';
 import { FiltersProps } from '../../AggregatedPlayerStats/Filters';
 import { Scope } from '../state';
 import { Trans, useTranslation } from 'react-i18next';
+import StandaloneSelect, {
+  SelectOptionType
+} from '../../Shared/UI/Form/StandaloneSelect';
+import { useLocation } from 'react-router-dom';
 
+const SCOPE_URL_QUERY_PARAM = 'scope';
 function AggregatedPlayerStatsFilter({
   onStatisticsScopeFilterChange
 }: FiltersProps): React.ReactElement<FiltersProps> {
-  const onScopeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onStatisticsScopeFilterChange(event.target.value as Scope);
-  };
   const { t } = useTranslation();
+
+  const location = useLocation();
+  const scope =
+    (new URLSearchParams(location.search).get(
+      SCOPE_URL_QUERY_PARAM
+    ) as Scope) || ('aggregate' as Scope);
+
+  const scopeOptions: SelectOptionType[] = [
+    { value: 'aggregate', label: t('perAggregation') },
+    { value: 'per_game', label: t('perGame') }
+  ];
+
+  const handleScopeChange = (value: string) => {
+    onStatisticsScopeFilterChange(value as Scope);
+  };
 
   return (
     <div className="card">
@@ -26,12 +43,12 @@ function AggregatedPlayerStatsFilter({
                   <Trans>scope</Trans>
                 </label>
                 <div className="control">
-                  <div className="select">
-                    <select onChange={onScopeChange}>
-                      <option value="aggregate">{t('perAggregation')}</option>
-                      <option value="per_game">{t('perGame')}</option>
-                    </select>
-                  </div>
+                  <StandaloneSelect
+                    options={scopeOptions}
+                    onChange={handleScopeChange}
+                    placeholder={t('selectScope')}
+                    value={scope}
+                  />
                 </div>
               </div>
             </div>

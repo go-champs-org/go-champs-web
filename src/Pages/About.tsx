@@ -42,7 +42,7 @@ const Home: React.FC = () => (
           &nbsp;
           <a
             href="/demo-organization/demo-tournament"
-            style={{ color: '#970c10' }}
+            className="has-text-primary"
           >
             <Trans>here</Trans>
           </a>
