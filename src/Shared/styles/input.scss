@@ -1,19 +1,6 @@
 @import './colors.scss';
 
-$input-border-color: $red;
-$input-focus-border-color: $red;
-$textarea-border-color: $red;
-$textarea-focus-border-color: $red;
-
 .input,
 .textarea {
   height: 2.65em !important;
-
-  &:focus {
-    box-shadow: 0 0 1pt 1pt $red;
-  }
-
-  &:hover {
-    box-shadow: 0 0 1pt 1pt $red;
-  }
 }

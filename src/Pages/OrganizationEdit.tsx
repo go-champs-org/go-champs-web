@@ -94,7 +94,7 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
       </div>
 
       <Helmet>
-        <title>Go Champs! | Edit Organization</title>
+        <title>Go Champs | Edit Organization</title>
       </Helmet>
     </Fragment>
   );

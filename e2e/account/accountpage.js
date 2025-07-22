@@ -8,7 +8,7 @@ module.exports = {
       .setValue('input[name="password"]', process.env.TEST_PASSWORD)
       .click('button[type=submit]')
       .waitForElementVisible('body', 1000)
-      .assert.title('Go Champs! | My Account')
+      .assert.title('Go Champs | My Account')
       .end();
   },
 

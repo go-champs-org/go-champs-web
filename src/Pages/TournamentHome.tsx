@@ -295,7 +295,7 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
 
       {tournament.name && (
         <Helmet>
-          <title>Go Champs! | {tournament.name}</title>
+          <title>Go Champs | {tournament.name}</title>
 
           <meta name="description" content={tournament.name} />
         </Helmet>

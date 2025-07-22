@@ -7,7 +7,7 @@ const Search: React.FC = () => (
     <List />
 
     <Helmet>
-      <title>Go Champs! | Search Tournaments</title>
+      <title>Go Champs | Search Tournaments</title>
 
       <meta
         name="description"

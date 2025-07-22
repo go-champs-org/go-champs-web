@@ -24,7 +24,7 @@ function TeamRosterInviteRow({
   return (
     <tr>
       <td style={{ paddingLeft: 0, verticalAlign: 'middle' }}>
-        <Link to={registrationInviteManagerUrl} className="has-text-danger">
+        <Link to={registrationInviteManagerUrl}>
           {teamsMap[registrationInvite.inviteeId]
             ? teamsMap[registrationInvite.inviteeId].name
             : ''}

@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -25,23 +25,37 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
       - name: Running test
         run: yarn test
 
-  deploy_staging:
-    needs:
-      - unit_test
-      - lint_check
+  color_validation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Validate SCSS color mapping
+        run: yarn validate-colors
+
+  deploy_staging:
+    needs:
+      - unit_test
+      - lint_check
+      - color_validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.0.0'
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -51,12 +65,13 @@ jobs:
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: yarn build:staging
       - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
+        uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './build'
           production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
+          production-deploy: true
           enable-pull-request-comment: false
           enable-commit-comment: true
           overwrites-pull-request-comment: true
@@ -72,7 +87,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.11.0'
+          node-version: '20.0.0'
           cache: 'yarn'
       - uses: browser-actions/setup-chrome@v1
       - name: Install dependencies

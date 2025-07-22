@@ -1,5 +1,5 @@
 import React, { MouseEvent } from 'react';
-import logo from '../../assets/logo-with-background.png';
+import logo from '../../assets/logo-green.png';
 import './NavTopToolbar.scss';
 import AuthenticatedWrapper, { NotAuthenticatedWrapper } from './AdminWrapper';
 import { StoreState } from '../../store';
@@ -9,6 +9,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Trans } from 'react-i18next';
 import { bindActionCreators, Dispatch } from 'redux';
 import withAccount from '../../Pages/support/withAccount';
+import { ThemeSwitcher } from '../../Theme';
+import BehindFeatureFlag from './BehindFeatureFlag';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
@@ -38,7 +40,7 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
           <a className="navbar-item" href="/">
             <img src={logo} alt="Go Champs" className="logo" />
 
-            <h2 className="title notranslate">Go Champs!</h2>
+            <h2 className="title notranslate">Go Champs</h2>
           </a>
 
           <span
@@ -66,6 +68,12 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
             <div className="navbar-item">
               <span className="navbar-divider"></span>
             </div>
+
+            <BehindFeatureFlag>
+              <div className="navbar-item">
+                <ThemeSwitcher variant="toggle" showLabel={false} />
+              </div>
+            </BehindFeatureFlag>
 
             <NotAuthenticatedWrapper>
               <a href="/SignIn" className="navbar-item has-text-centered-touch">

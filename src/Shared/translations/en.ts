@@ -656,7 +656,7 @@ export default {
     with: 'with',
     whatIsGoChamps: 'What is Go Champs?',
     whatIsGoChampsLine1:
-      'Go Champs! It is an application for you to create your tournament and manage phases, teams, games, qualifications and much more.',
+      'Go Champs It is an application for you to create your tournament and manage phases, teams, games, qualifications and much more.',
     whatIsGoChampsLine2:
       'All information is available for anyone to access and can follow your tournament.',
     whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking',

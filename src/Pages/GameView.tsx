@@ -295,7 +295,7 @@ function GameView({
         )}
 
         <div className="column is-12 has-text-centered">
-          <div>{isLoadingPlayerStatsLogs ? <BoxScoreLoading /> : boxScore}</div>
+          {isLoadingPlayerStatsLogs ? <BoxScoreLoading /> : boxScore}
         </div>
       </div>
     </div>

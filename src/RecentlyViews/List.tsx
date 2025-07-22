@@ -69,7 +69,7 @@ const List: React.FC = () => {
             <nav className="level">
               <div className="level-left">
                 <div className="level-item">
-                  <h1 className="title">
+                  <h1 className="subtitle is-3 has-text-weight-bold">
                     <Trans>tournaments</Trans>
                   </h1>
                 </div>

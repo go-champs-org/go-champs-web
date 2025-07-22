@@ -126,7 +126,7 @@ function GameBoxScoreTable({
   return (
     <div className="container">
       <div className="table-container" ref={tableContainerRef}>
-        <table className="table is-fullwidth is-custom-striped is-size-7-mobile">
+        <table className="table is-fullwidth is-custom-striped is-narrow is-size-7-mobile">
           <thead>
             <tr>
               <th className="player">

@@ -17,7 +17,7 @@ module.exports = {
 
   'Add new elimination': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Novo')]/../a")
       .pause(1000)
       .useCss()
@@ -38,7 +38,7 @@ module.exports = {
 
   'Edit elimination': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test elimination (can delete)')]")
       .useCss()
       .pause(1000)
@@ -54,7 +54,7 @@ module.exports = {
 
   'Delete elimination': function (client) {
     client
-      .assert.title('Go Champs! | Test tournament (cannot delete)')
+      .assert.title('Go Champs | Test tournament (cannot delete)')
       .click("//*[contains(text(), 'Test elimination (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test elimination (can delete) edited')]/../../div/button") // needs to double click
       .pause(1000)

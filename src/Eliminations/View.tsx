@@ -64,7 +64,7 @@ const Elimination: React.FC<EliminationProps> = ({
     <div className="group">
       {TitleSection}
       <div className="table-container">
-        <table className="table is-fullwidth is-striped is-hoverable">
+        <table className="table is-fullwidth is-striped is-hoverable is-narrow">
           <thead>
             <tr>
               <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>

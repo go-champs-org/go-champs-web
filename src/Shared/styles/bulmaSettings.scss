@@ -3,17 +3,18 @@
 // Color
 @import './colors.scss';
 
-// Import a Google Font
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+// Import Proxima Nova font files
+@import './fonts.scss';
 
-// Import animantions.css
+// Import animations.css
 @import '~animate.css/animate.css';
 
 // Update Bulma's global variables
-$family-sans-serif: 'Fira Sans', sans-serif;
+$family-sans-serif: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial,
+  sans-serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
-$primary: $red;
+$primary: $green;
 $link: $beige-lighter;
 $link-hover: $red;
 $info: $dark;
@@ -47,11 +48,6 @@ $navbar-item-hover-background-color: $green;
 
 // Custom form values
 $label-color: $dark;
-
-// Custom breadcrumbs values
-$breadcrumb-item-separator-color: $green;
-$breadcrumb-item-color: $dark;
-$breadcrumb-item-active-color: $green;
 
 // Custom tabs values
 $tabs-link-color: $dark;

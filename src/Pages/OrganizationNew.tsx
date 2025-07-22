@@ -71,7 +71,7 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
       </div>
 
       <Helmet>
-        <title>Go Champs! | New Organization</title>
+        <title>Go Champs | New Organization</title>
       </Helmet>
     </Fragment>
   );

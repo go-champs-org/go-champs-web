@@ -15,7 +15,6 @@
 .table.is-custom-striped {
   .player {
     padding-left: 0;
-    margin-top: 1px;
     min-width: 175px;
     max-width: 175px;
     overflow: hidden;
@@ -49,7 +48,7 @@
 
   tbody {
     tr td {
-      height: 40px;
+      height: 49px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -76,7 +75,7 @@
   .table.is-custom-striped {
     tbody {
       tr td {
-        height: 32px;
+        height: 43px;
       }
     }
 

@@ -139,7 +139,7 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
       </div>
 
       <Helmet>
-        <title>Go Champs! | New Tournament</title>
+        <title>Go Champs | New Tournament</title>
       </Helmet>
     </Fragment>
   );

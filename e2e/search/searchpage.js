@@ -4,7 +4,7 @@ module.exports = {
       .url(`${client.launchUrl}Search`)
       .useCss()
       .waitForElementVisible('body', 1000)
-      .assert.title('Go Champs! | Search Tournaments')
+      .assert.title('Go Champs | Search Tournaments')
       .end();
   },
 
@@ -16,7 +16,7 @@ module.exports = {
       .setValue('input[name="searchTearm"]', 'Demo Tournament')
       .assert.containsText('.card-content .title', 'Demo Tournament')
       .click('.card-content .title')
-      .assert.title('Go Champs! | Demo Tournament')
+      .assert.title('Go Champs | Demo Tournament')
       .end();
   },
 }
