@@ -1,8 +1,6 @@
 @import '../styles/colors.scss';
 
 .navbar {
-  border-bottom: 2px solid $dark;
-  box-shadow: 0 2px 3px rgba($dark, 0.6), 0 0 0 1px rgba($dark, 0.1);
   height: 3.25rem;
 
   @media screen and (min-width: 1023px) {
