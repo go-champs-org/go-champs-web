@@ -33,7 +33,6 @@ import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
 import OrganizationView from './Pages/OrganizationView';
 import { ThemeProvider } from './Theme';
-import BehindFeatureFlag from './Shared/UI/BehindFeatureFlag';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -44,7 +43,7 @@ const App: React.FC = () => {
           <DndProvider backend={HTML5Backend}>
             <NavTopToolbar />
 
-            <div className="hero is-fullheight-with-navbar">
+            <main className="hero is-fullheight-with-navbar">
               <section className="section">
                 <div className="container">
                   <Switch>
@@ -192,11 +191,9 @@ const App: React.FC = () => {
                   </div>
                 </footer>
               </div>
-            </div>
+            </main>
           </DndProvider>
-          <BehindFeatureFlag>
-            <PWAInstallPrompt />
-          </BehindFeatureFlag>
+          <PWAInstallPrompt />
         </Router>
       </ThemeProvider>
     </Provider>

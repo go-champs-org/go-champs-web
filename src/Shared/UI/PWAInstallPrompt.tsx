@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import logo from '../../assets/logo-green.png';
+import analytics from '../analytics/analytics';
 import './PWAInstallPrompt.scss';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -42,6 +43,12 @@ const PWAInstallPrompt: React.FC = () => {
       e.preventDefault();
       setDeferredPrompt(e);
       setShowInstallPrompt(true);
+
+      const platform = navigator.userAgent.includes('Android')
+        ? 'Android'
+        : 'Desktop';
+      analytics.trackPWADeferredPromptAvailable(platform);
+      analytics.trackPWAPromptShown(platform, true);
     };
 
     const handleAppInstalled = () => {
@@ -49,6 +56,13 @@ const PWAInstallPrompt: React.FC = () => {
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
       console.log('PWA was installed');
+
+      const platform = navigator.userAgent.includes('Android')
+        ? 'Android'
+        : navigator.userAgent.includes('iPhone')
+        ? 'iOS'
+        : 'Desktop';
+      analytics.trackPWAInstalled(platform, 'native');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -61,6 +75,7 @@ const PWAInstallPrompt: React.FC = () => {
 
         if (isIOS && !isInStandaloneMode) {
           setShowInstallPrompt(true);
+          analytics.trackPWAPromptShown('iOS', false);
         }
       }
     }, 3000);
@@ -76,6 +91,10 @@ const PWAInstallPrompt: React.FC = () => {
   }, [deferredPrompt, isInstalled]);
 
   const handleInstallClick = async () => {
+    const platform = navigator.userAgent.includes('Android')
+      ? 'Android'
+      : 'Desktop';
+
     if (deferredPrompt) {
       deferredPrompt.prompt();
 
@@ -83,8 +102,10 @@ const PWAInstallPrompt: React.FC = () => {
 
       if (outcome === 'accepted') {
         console.log('User accepted the install prompt');
+        analytics.trackPWAInstalled(platform, 'native');
       } else {
         console.log('User dismissed the install prompt');
+        analytics.trackPWAPromptDismissed(platform, true);
       }
 
       setDeferredPrompt(null);
@@ -96,6 +117,14 @@ const PWAInstallPrompt: React.FC = () => {
   const handleDismiss = () => {
     setShowInstallPrompt(false);
     localStorage.setItem('pwa-install-dismissed', Date.now().toString());
+
+    const platform = navigator.userAgent.includes('Android')
+      ? 'Android'
+      : navigator.userAgent.includes('iPhone')
+      ? 'iOS'
+      : 'Desktop';
+    const hasNativePrompt = !!deferredPrompt;
+    analytics.trackPWAPromptDismissed(platform, hasNativePrompt);
   };
 
   if (isInstalled || !showInstallPrompt) {

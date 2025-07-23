@@ -50,9 +50,12 @@
 
 // Base theming for body and html
 body {
-  background-color: var(--theme-background);
   color: var(--theme-text);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+main {
+  background-color: var(--theme-background);
 }
 
 // Utility classes for themed elements
