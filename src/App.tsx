@@ -28,10 +28,12 @@ import { useTranslation } from 'react-i18next';
 import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import LanguageDropdown from './Shared/UI/LanguageDropdown';
+import PWAInstallPrompt from './Shared/UI/PWAInstallPrompt';
 import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
 import OrganizationView from './Pages/OrganizationView';
 import { ThemeProvider } from './Theme';
+import BehindFeatureFlag from './Shared/UI/BehindFeatureFlag';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -192,6 +194,9 @@ const App: React.FC = () => {
               </div>
             </div>
           </DndProvider>
+          <BehindFeatureFlag>
+            <PWAInstallPrompt />
+          </BehindFeatureFlag>
         </Router>
       </ThemeProvider>
     </Provider>

@@ -358,25 +358,25 @@ function generateStatsFormConfigs(
       const statConfig = STATS_CONFIG[playerStat.slug];
       return statConfig
         ? {
-          order: statConfig.order,
-          cell: statConfig.cell,
-          slug: statConfig.slug,
-          translationKey: statConfig.translationKey,
-          header: t(
-            `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.abbreviation`,
-            {
-              keySeparator: '.',
-              defaultValue: statConfig.slug
-            }
-          ),
-          legend: t(
-            `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.legend`,
-            {
-              keySeparator: '.',
-              defaultValue: statConfig.slug
-            }
-          )
-        }
+            order: statConfig.order,
+            cell: statConfig.cell,
+            slug: statConfig.slug,
+            translationKey: statConfig.translationKey,
+            header: t(
+              `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.abbreviation`,
+              {
+                keySeparator: '.',
+                defaultValue: statConfig.slug
+              }
+            ),
+            legend: t(
+              `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.legend`,
+              {
+                keySeparator: '.',
+                defaultValue: statConfig.slug
+              }
+            )
+          }
         : null;
     })
     .filter(statConfig => statConfig !== null)
