@@ -698,6 +698,30 @@ export default {
     value: 'Valor',
     viewer: 'Visualizador',
     visibility: 'Visibilidade',
-    youTubeCode: 'Código YouTube'
+    youTubeCode: 'Código YouTube',
+    pwa: {
+      install: {
+        title: 'Instalar Go Champs',
+        description:
+          'Tenha acesso rápido e uma melhor experiência com nosso app!',
+        button: 'Instalar',
+        dismiss: 'Agora não',
+        instructions: {
+          ios: {
+            title: 'Para instalar este app no seu dispositivo:',
+            step1:
+              'Toque no botão <strong>Compartilhar</strong> na parte inferior',
+            step2: 'Selecione <strong>"Adicionar à Tela de Início"</strong>',
+            step3: 'Toque em <strong>"Adicionar"</strong> para confirmar'
+          },
+          android: {
+            title: 'Para instalar este app:',
+            step1: 'Toque no <strong>menu</strong> (⋮) do seu navegador',
+            step2: 'Selecione <strong>"Adicionar à tela inicial"</strong>',
+            step3: 'Toque em <strong>"Adicionar"</strong> para confirmar'
+          }
+        }
+      }
+    }
   }
 };

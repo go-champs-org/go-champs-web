@@ -1,85 +1,101 @@
 .pwa-install-prompt {
+  // Mobile-first: Full width at bottom
   position: fixed;
-  bottom: 16px;
-  left: 16px;
-  right: 16px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: var(--theme-background);
   border: 1px solid var(--theme-border);
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.25rem 1rem 1.5rem;
+  box-shadow: 0 -0.25rem 1.25rem rgba(0, 0, 0, 0.15);
   z-index: 1000;
-  max-width: 400px;
-  margin: 0 auto;
 
-  @media (min-width: 768px) {
-    left: auto;
-    right: 16px;
-    bottom: 16px;
-    margin: 0;
-  }
-
-  &__content {
+  .content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 1rem;
   }
 
-  &__header {
+  .header {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 1rem;
 
     .app-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: var(--theme-primary);
+      // Mobile: Larger, more prominent
+      width: 3.5rem;
+      height: 3.5rem;
+      padding: 0.3rem;
+      border-radius: 0.875rem;
+      background: var(--theme-accent);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+
+      .logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: inherit;
+      }
     }
   }
 
-  &__title {
-    font-size: 16px;
-    font-weight: 600;
+  .title {
+    // Mobile: Larger, more prominent
+    font-size: 1.125rem;
+    font-weight: 700;
     color: var(--theme-text-primary);
-    margin: 0;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
   }
 
-  &__description {
-    font-size: 14px;
+  .description {
+    // Mobile: Larger for readability
+    font-size: 0.9375rem;
     color: var(--theme-text-secondary);
     margin: 0;
     line-height: 1.4;
   }
 
-  &__actions {
+  .actions {
     display: flex;
-    gap: 8px;
-    margin-top: 4px;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    // Mobile: Stack vertically for easier tapping
+    flex-direction: column;
   }
 
-  &__button {
-    flex: 1;
-    padding: 8px 16px;
-    border: 1px solid var(--theme-border);
-    border-radius: 6px;
+  .button {
+    // Mobile: Larger touch targets
+    padding: 0.875rem 1.25rem;
+    border: 2px solid var(--theme-border);
+    border-radius: 0.625rem;
     background: var(--theme-background);
     color: var(--theme-text-primary);
-    font-size: 14px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       background: var(--theme-hover);
     }
 
-    &--primary {
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &.primary {
       background: var(--theme-primary);
       color: white;
       border-color: var(--theme-primary);
@@ -90,13 +106,14 @@
       }
     }
 
-    &--dismiss {
+    &.dismiss {
       background: transparent;
       border: none;
       color: var(--theme-text-secondary);
       flex: none;
-      padding: 4px;
+      padding: 0.25rem;
       min-width: auto;
+      min-height: auto;
 
       &:hover {
         color: var(--theme-text-primary);
@@ -104,27 +121,39 @@
     }
   }
 
-  &__close {
+  .close {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    // Mobile: Larger touch target, top-right
+    top: 0.75rem;
+    right: 0.75rem;
     background: none;
     border: none;
     color: var(--theme-text-secondary);
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
 
     &:hover {
       background: var(--theme-hover);
       color: var(--theme-text-primary);
     }
+
+    &:active {
+      transform: scale(0.95);
+    }
   }
 
-  &__instructions {
-    font-size: 13px;
+  .instructions {
+    // Mobile: Larger text for better readability
+    font-size: 0.9375rem;
     color: var(--theme-text-secondary);
-    line-height: 1.4;
+    line-height: 1.5;
 
     strong {
       color: var(--theme-text-primary);
@@ -132,29 +161,188 @@
 
     .step {
       display: block;
-      margin: 4px 0;
+      margin: 0.5rem 0;
+      padding-left: 0.25rem;
     }
   }
 
   // iOS specific styles
-  &--ios {
+  &.ios {
     .app-icon {
-      border-radius: 12px;
+      // iOS uses more rounded icons
+      border-radius: 1rem;
     }
   }
 
   // Android specific styles
-  &--android {
+  &.android {
     .app-icon {
-      border-radius: 6px;
+      // Android uses less rounded icons
+      border-radius: 0.625rem;
     }
   }
 
-  // Animation
-  animation: slideUp 0.3s ease-out;
+  // Mobile-first animation - slide up from bottom
+  animation: slideUpMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  // Tablet styles (480px+)
+  @media (min-width: 480px) {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    border-radius: 0.75rem;
+    max-width: 25rem;
+    margin: 0 auto;
+    box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s ease-out;
+
+    .content {
+      gap: 0.875rem;
+    }
+
+    .header {
+      gap: 0.875rem;
+      align-items: center;
+
+      .app-icon {
+        width: 3.25rem;
+        height: 3.25rem;
+        font-size: 1.1875rem;
+        border-radius: 0.75rem;
+      }
+    }
+
+    .title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      margin: 0 0 0.125rem 0;
+    }
+
+    .description {
+      font-size: 0.875rem;
+    }
+
+    .actions {
+      flex-direction: row;
+      gap: 0.625rem;
+      margin-top: 0.375rem;
+    }
+
+    .button {
+      flex: 1;
+      padding: 0.75rem 1.125rem;
+      font-size: 0.9375rem;
+      min-height: 2.75rem;
+      border-radius: 0.5rem;
+    }
+
+    .close {
+      top: 0.625rem;
+      right: 0.625rem;
+      padding: 0.375rem;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+      border-radius: 0.375rem;
+    }
+
+    .instructions {
+      font-size: 0.875rem;
+      line-height: 1.4;
+
+      .step {
+        margin: 0.375rem 0;
+      }
+    }
+
+    &.ios .app-icon {
+      border-radius: 0.875rem;
+    }
+
+    &.android .app-icon {
+      border-radius: 0.5rem;
+    }
+  }
+
+  // Desktop styles (768px+)
+  @media (min-width: 768px) {
+    left: auto;
+    right: 1rem;
+    bottom: 1rem;
+    margin: 0;
+    max-width: 23.75rem;
+
+    .content {
+      gap: 0.75rem;
+    }
+
+    .header {
+      gap: 0.75rem;
+
+      .app-icon {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.125rem;
+        border-radius: 0.625rem;
+        padding: 0.2rem;
+      }
+    }
+
+    .title {
+      font-size: 1rem;
+      margin: 0;
+      margin-bottom: 0 !important;
+    }
+
+    .description {
+      font-size: 0.875rem;
+    }
+
+    .actions {
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .button {
+      padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      min-height: 2.5rem;
+      border-radius: 0.375rem;
+      border-width: 1px;
+    }
+
+    .close {
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.25rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      font-size: 0.875rem;
+      border-radius: 0.25rem;
+    }
+
+    .instructions {
+      font-size: 0.8125rem;
+
+      .step {
+        margin: 0.25rem 0;
+        padding-left: 0;
+      }
+    }
+
+    &.ios .app-icon {
+      border-radius: 0.75rem;
+    }
+
+    &.android .app-icon {
+      border-radius: 0.375rem;
+    }
+  }
 }
 
-@keyframes slideUp {
+// Mobile animation: Slide up from bottom
+@keyframes slideUpMobile {
   from {
     transform: translateY(100%);
     opacity: 0;
@@ -165,7 +353,28 @@
   }
 }
 
+// Desktop animation: Fade in with slight movement
+@keyframes slideUp {
+  from {
+    transform: translateY(1.25rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 // Dark theme adjustments
 [data-theme='dark'] .pwa-install-prompt {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  // Enhanced shadow for dark mode
+  box-shadow: 0 -0.5rem 2rem rgba(0, 0, 0, 0.4);
+
+  @media (min-width: 480px) {
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+  }
+
+  @media (min-width: 768px) {
+    box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.3);
+  }
 }

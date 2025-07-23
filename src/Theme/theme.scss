@@ -89,7 +89,8 @@ body {
 }
 
 // Override Bulma variables with theme variables
-.navbar {
+.navbar,
+.navbar-menu {
   background-color: var(--theme-navbar);
   border-bottom-color: var(--theme-text);
   box-shadow: 0 2px 3px var(--theme-shadow), 0 0 0 1px var(--theme-shadowLight);

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import logo from '../../assets/logo-green.png';
 import './PWAInstallPrompt.scss';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -23,14 +25,12 @@ const PWAInstallPrompt: React.FC = () => {
   ] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    // Check if app is already installed
     const checkIfInstalled = () => {
-      // Check if running in standalone mode (PWA installed)
       const isStandalone = window.matchMedia('(display-mode: standalone)')
         .matches;
-      // Check if running in a webview (mobile app wrapper)
       const isWebview = (window.navigator as any).standalone === true;
 
       return isStandalone || isWebview;
@@ -38,17 +38,12 @@ const PWAInstallPrompt: React.FC = () => {
 
     setIsInstalled(checkIfInstalled());
 
-    // Listen for the beforeinstallprompt event
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-      // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
-      // Save the event so it can be triggered later
       setDeferredPrompt(e);
-      // Show our custom install prompt
       setShowInstallPrompt(true);
     };
 
-    // Listen for the app being installed
     const handleAppInstalled = () => {
       setIsInstalled(true);
       setShowInstallPrompt(false);
@@ -59,10 +54,8 @@ const PWAInstallPrompt: React.FC = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
-    // Check if we should show the prompt after a delay
     const timer = setTimeout(() => {
       if (!isInstalled && !deferredPrompt) {
-        // For iOS devices that don't support beforeinstallprompt
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const isInStandaloneMode = (window.navigator as any).standalone;
 
@@ -70,7 +63,7 @@ const PWAInstallPrompt: React.FC = () => {
           setShowInstallPrompt(true);
         }
       }
-    }, 3000); // Show after 3 seconds
+    }, 3000);
 
     return () => {
       window.removeEventListener(
@@ -84,10 +77,8 @@ const PWAInstallPrompt: React.FC = () => {
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
-      // Show the native install prompt
       deferredPrompt.prompt();
 
-      // Wait for the user to respond to the prompt
       const { outcome } = await deferredPrompt.userChoice;
 
       if (outcome === 'accepted') {
@@ -96,26 +87,21 @@ const PWAInstallPrompt: React.FC = () => {
         console.log('User dismissed the install prompt');
       }
 
-      // Clear the prompt
       setDeferredPrompt(null);
     }
 
-    // Hide our custom prompt
     setShowInstallPrompt(false);
   };
 
   const handleDismiss = () => {
     setShowInstallPrompt(false);
-    // Remember user dismissed it (you could store this in localStorage)
     localStorage.setItem('pwa-install-dismissed', Date.now().toString());
   };
 
-  // Don't show if already installed or user recently dismissed
   if (isInstalled || !showInstallPrompt) {
     return null;
   }
 
-  // Check if user recently dismissed (within last 7 days)
   const lastDismissed = localStorage.getItem('pwa-install-dismissed');
   if (lastDismissed) {
     const dismissedTime = parseInt(lastDismissed, 10);
@@ -130,68 +116,114 @@ const PWAInstallPrompt: React.FC = () => {
 
   return (
     <div
-      className={`pwa-install-prompt ${
-        isIOS ? 'pwa-install-prompt--ios' : ''
-      } ${isAndroid ? 'pwa-install-prompt--android' : ''}`}
+      className={`pwa-install-prompt ${isIOS ? 'ios' : ''} ${
+        isAndroid ? 'android' : ''
+      }`}
     >
       <button
-        className="pwa-install-prompt__close"
+        className="close"
         onClick={handleDismiss}
         aria-label="Close install prompt"
       >
         ✕
       </button>
 
-      <div className="pwa-install-prompt__content">
-        <div className="pwa-install-prompt__header">
-          <div className="app-icon">GC</div>
+      <div className="content">
+        <div className="header">
+          <div className="app-icon">
+            <img src={logo} alt="Go Champs" className="logo" />
+          </div>
           <div>
-            <h3 className="pwa-install-prompt__title">Install Go Champs</h3>
-            <p className="pwa-install-prompt__description">
-              Get quick access and a better experience with our app!
+            <h3 className="title">
+              {t('pwa.install.title', { keySeparator: '.' })}
+            </h3>
+            <p className="description">
+              {t('pwa.install.description', { keySeparator: '.' })}
             </p>
           </div>
         </div>
 
         {deferredPrompt ? (
-          <div className="pwa-install-prompt__actions">
-            <button
-              className="pwa-install-prompt__button"
-              onClick={handleDismiss}
-            >
-              Not now
+          <div className="actions">
+            <button className="button" onClick={handleDismiss}>
+              {t('pwa.install.dismiss', { keySeparator: '.' })}
             </button>
-            <button
-              className="pwa-install-prompt__button pwa-install-prompt__button--primary"
-              onClick={handleInstallClick}
-            >
-              Install
+            <button className="button primary" onClick={handleInstallClick}>
+              {t('pwa.install.button', { keySeparator: '.' })}
             </button>
           </div>
         ) : isIOS ? (
-          <div className="pwa-install-prompt__instructions">
-            <p>To install this app on your device:</p>
+          <div className="instructions">
+            <p>
+              {t('pwa.install.instructions.ios.title', { keySeparator: '.' })}
+            </p>
             <span className="step">
-              1. Tap the <strong>Share</strong> button at the bottom
+              1.{' '}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('pwa.install.instructions.ios.step1', {
+                    keySeparator: '.'
+                  })
+                }}
+              />
             </span>
             <span className="step">
-              2. Select <strong>"Add to Home Screen"</strong>
+              2.{' '}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('pwa.install.instructions.ios.step2', {
+                    keySeparator: '.'
+                  })
+                }}
+              />
             </span>
             <span className="step">
-              3. Tap <strong>"Add"</strong> to confirm
+              3.{' '}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('pwa.install.instructions.ios.step3', {
+                    keySeparator: '.'
+                  })
+                }}
+              />
             </span>
           </div>
         ) : (
-          <div className="pwa-install-prompt__instructions">
-            <p>To install this app:</p>
+          <div className="instructions">
+            <p>
+              {t('pwa.install.instructions.android.title', {
+                keySeparator: '.'
+              })}
+            </p>
             <span className="step">
-              1. Tap the <strong>menu</strong> (⋮) in your browser
+              1.{' '}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('pwa.install.instructions.android.step1', {
+                    keySeparator: '.'
+                  })
+                }}
+              />
             </span>
             <span className="step">
-              2. Select <strong>"Add to Home screen"</strong>
+              2.{' '}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('pwa.install.instructions.android.step2', {
+                    keySeparator: '.'
+                  })
+                }}
+              />
             </span>
             <span className="step">
-              3. Tap <strong>"Add"</strong> to confirm
+              3.{' '}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('pwa.install.instructions.android.step3', {
+                    keySeparator: '.'
+                  })
+                }}
+              />
             </span>
           </div>
         )}

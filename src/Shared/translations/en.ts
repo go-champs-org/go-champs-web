@@ -672,6 +672,28 @@ export default {
     value: 'Value',
     viewer: 'Viewer',
     visibility: 'Visibility',
-    youTubeCode: 'YouTube code'
+    youTubeCode: 'YouTube code',
+    pwa: {
+      install: {
+        title: 'Install Go Champs',
+        description: 'Get quick access and a better experience with our app!',
+        button: 'Install',
+        dismiss: 'Not now',
+        instructions: {
+          ios: {
+            title: 'To install this app on your device:',
+            step1: 'Tap the <strong>Share</strong> button at the bottom',
+            step2: 'Select <strong>"Add to Home Screen"</strong>',
+            step3: 'Tap <strong>"Add"</strong> to confirm'
+          },
+          android: {
+            title: 'To install this app:',
+            step1: 'Tap the <strong>menu</strong> (⋮) in your browser',
+            step2: 'Select <strong>"Add to Home screen"</strong>',
+            step3: 'Tap <strong>"Add"</strong> to confirm'
+          }
+        }
+      }
+    }
   }
 };
