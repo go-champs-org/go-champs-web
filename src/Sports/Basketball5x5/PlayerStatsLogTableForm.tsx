@@ -8,6 +8,40 @@ import { PlayersMap } from '../../Players/state';
 import { Field, FieldInputProps } from 'react-final-form';
 import './PlayerStatsLogTableForm.scss';
 
+function MinutesCell({ value, onChange }: FieldInputProps<string>) {
+  const totalSeconds = parseInt(value || '0', 10);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const timeValue = `${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const timeString = e.target.value; // Format: "MM:SS"
+    if (timeString) {
+      const [minutesStr, secondsStr] = timeString.split(':');
+      const newMinutes = parseInt(minutesStr || '0', 10);
+      const newSeconds = parseInt(secondsStr || '0', 10);
+      const newTotalSeconds = newMinutes * 60 + newSeconds;
+      onChange(newTotalSeconds.toString());
+    } else {
+      onChange('0');
+    }
+  };
+
+  return (
+    <input
+      type="time"
+      className="input"
+      value={timeValue}
+      onChange={handleTimeChange}
+      style={{ width: '90px' }}
+      title="Playing time (MM:SS)"
+    />
+  );
+}
+
 function PointsCell({
   playerStatLog
 }: {
@@ -242,6 +276,16 @@ const STATS_CONFIG: { [key: string]: BaseStatConfig } = {
         <NumberCell {...input} />
       </>
     )
+  },
+  minutes_played: {
+    order: 19,
+    slug: 'minutes_played',
+    translationKey: 'minutesPlayed',
+    cell: (input, playerStatLog) => (
+      <>
+        <MinutesCell {...input} />
+      </>
+    )
   }
 };
 
@@ -314,25 +358,25 @@ function generateStatsFormConfigs(
       const statConfig = STATS_CONFIG[playerStat.slug];
       return statConfig
         ? {
-            order: statConfig.order,
-            cell: statConfig.cell,
-            slug: statConfig.slug,
-            translationKey: statConfig.translationKey,
-            header: t(
-              `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.abbreviation`,
-              {
-                keySeparator: '.',
-                defaultValue: statConfig.slug
-              }
-            ),
-            legend: t(
-              `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.legend`,
-              {
-                keySeparator: '.',
-                defaultValue: statConfig.slug
-              }
-            )
-          }
+          order: statConfig.order,
+          cell: statConfig.cell,
+          slug: statConfig.slug,
+          translationKey: statConfig.translationKey,
+          header: t(
+            `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.abbreviation`,
+            {
+              keySeparator: '.',
+              defaultValue: statConfig.slug
+            }
+          ),
+          legend: t(
+            `sports.basketball_5x5.playerStatFormTable.statColums.${statConfig.translationKey}.legend`,
+            {
+              keySeparator: '.',
+              defaultValue: statConfig.slug
+            }
+          )
+        }
         : null;
     })
     .filter(statConfig => statConfig !== null)

@@ -372,6 +372,10 @@ export default {
             foulsTechnical: {
               abbreviation: 'TFLS',
               legend: 'Technical fouls'
+            },
+            minutesPlayed: {
+              abbreviation: 'MIN',
+              legend: 'Minutes played'
             }
           }
         },

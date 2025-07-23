@@ -398,6 +398,10 @@ export default {
             foulsTechnical: {
               abbreviation: 'FLT',
               legend: 'Faltas técnicas'
+            },
+            minutesPlayed: {
+              abbreviation: 'MIN',
+              legend: 'Minutos jogados'
             }
           }
         },

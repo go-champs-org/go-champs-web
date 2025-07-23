@@ -45,7 +45,7 @@
 
     th {
       &.player {
-        height: 41px;
+        height: 47px;
       }
     }
 
@@ -53,7 +53,7 @@
       &.player {
         display: flex;
         align-items: center;
-        height: 59px;
+        height: 67px;
       }
     }
 
@@ -63,7 +63,8 @@
     }
 
     .stat-control {
-      min-width: 80px;
+      min-width: 82px;
+      padding: 0.75rem 0.5rem;
     }
   }
 
