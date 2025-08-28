@@ -54,7 +54,8 @@ describe('deletePlayerSuccess', () => {
         instagram: 'first-instagram',
         twitter: 'first-twitter',
         username: 'first-username',
-        photoUrl: 'first-photo-url'
+        photoUrl: 'first-photo-url',
+        licenseNumber: 'some-license-number'
       }
     }
   };
@@ -85,7 +86,8 @@ describe('deletePlayerSuccess', () => {
           instagram: 'some-instagram',
           twitter: 'some-twitter',
           username: 'some-username',
-          photoUrl: 'some-photo-url'
+          photoUrl: 'some-photo-url',
+          licenseNumber: 'some-license-number'
         },
         ...deleteState.players
       }
@@ -103,7 +105,8 @@ describe('deletePlayerSuccess', () => {
       instagram: 'some-instagram',
       twitter: 'some-twitter',
       username: 'some-username',
-      photoUrl: 'some-photo-url'
+      photoUrl: 'some-photo-url',
+      licenseNumber: 'some-license-number'
     });
   });
 });
@@ -139,6 +142,7 @@ describe('patchPlayerSuccess', () => {
     username: 'first-updeted-username',
     state: 'not_available',
     photoUrl: 'first-updeted-photo-url',
+    licenseNumber: 'some-license-number',
     team: DEFAULT_TEAM,
     teamId: DEFAULT_TEAM.id
   });
@@ -157,6 +161,7 @@ describe('patchPlayerSuccess', () => {
         twitter: 'first-twitter',
         username: 'first-username',
         photoUrl: 'first-photo-url',
+        licenseNumber: 'some-license-number',
         team: DEFAULT_TEAM,
         teamId: ''
       }
@@ -182,6 +187,7 @@ describe('patchPlayerSuccess', () => {
       username: 'first-updeted-username',
       photoUrl: 'first-updeted-photo-url',
       state: 'not_available',
+      licenseNumber: 'some-license-number',
       team: DEFAULT_TEAM,
       teamId: DEFAULT_TEAM.id
     });
@@ -202,6 +208,7 @@ describe('patchPlayerSuccess', () => {
           twitter: 'some-twitter',
           username: 'some-username',
           photoUrl: 'some-photo-url',
+          licenseNumber: 'some-license-number',
           team: DEFAULT_TEAM,
           teamId: ''
         }
@@ -221,6 +228,7 @@ describe('patchPlayerSuccess', () => {
       twitter: 'some-twitter',
       username: 'some-username',
       photoUrl: 'some-photo-url',
+      licenseNumber: 'some-license-number',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -254,7 +262,8 @@ describe('postPlayerSuccess', () => {
     instagram: 'first-instagram',
     twitter: 'first-twitter',
     username: 'first-username',
-    photoUrl: 'first-photo-url'
+    photoUrl: 'first-photo-url',
+    licenseNumber: 'first-license-number'
   });
 
   it('sets isLoadingPostPlayer to false', () => {
@@ -275,6 +284,7 @@ describe('postPlayerSuccess', () => {
       twitter: 'first-twitter',
       username: 'first-username',
       photoUrl: 'first-photo-url',
+      licenseNumber: 'first-license-number',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -295,6 +305,7 @@ describe('postPlayerSuccess', () => {
           twitter: 'some-twitter',
           username: 'some-username',
           photoUrl: 'some-photo-url',
+          licenseNumber: 'some-license-number',
           team: DEFAULT_TEAM,
           teamId: ''
         }
@@ -314,6 +325,7 @@ describe('postPlayerSuccess', () => {
       twitter: 'some-twitter',
       username: 'some-username',
       photoUrl: 'some-photo-url',
+      licenseNumber: 'some-license-number',
       team: DEFAULT_TEAM,
       teamId: ''
     });
@@ -340,7 +352,8 @@ describe('getTournamentSuccess', () => {
           twitter: 'first-twitter',
           username: 'first-username',
           state: 'available',
-          photo_url: 'first-photo-url'
+          photo_url: 'first-photo-url',
+          license_number: 'first-license-number'
         },
         {
           id: 'second-player-id',
@@ -352,7 +365,8 @@ describe('getTournamentSuccess', () => {
           twitter: 'second-twitter',
           username: 'second-username',
           state: 'available',
-          photo_url: 'second-photo-url'
+          photo_url: 'second-photo-url',
+          license_number: 'second-license-number'
         }
       ],
       organization: {
@@ -379,7 +393,8 @@ describe('getTournamentSuccess', () => {
       twitter: 'first-twitter',
       username: 'first-username',
       state: 'available',
-      photoUrl: 'first-photo-url'
+      photoUrl: 'first-photo-url',
+      licenseNumber: 'first-license-number'
     });
     expect(newState.players['second-player-id']).toEqual({
       id: 'second-player-id',
@@ -393,7 +408,8 @@ describe('getTournamentSuccess', () => {
       twitter: 'second-twitter',
       username: 'second-username',
       state: 'available',
-      photoUrl: 'second-photo-url'
+      photoUrl: 'second-photo-url',
+      licenseNumber: 'second-license-number'
     });
   });
 

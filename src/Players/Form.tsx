@@ -154,6 +154,16 @@ function Form({
 
         <div className="field">
           <label className="label">
+            <Trans>licenseNumber</Trans>
+          </label>
+
+          <div className="control">
+            <Field name="licenseNumber" component={StringInput} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
             <Trans>team</Trans>
           </label>
 

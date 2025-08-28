@@ -23,6 +23,7 @@ export const mapApiPlayerToPlayerEntity = (
   teamId: apiPlayer.team_id || '',
   state: apiPlayer.state,
   photoUrl: apiPlayer.photo_url || '',
+  licenseNumber: apiPlayer.license_number || '',
   registrationResponse:
     apiPlayer.registration_response &&
     mapApiRegistrationResponseResourceResponseToRegistrationResponse(
@@ -46,6 +47,7 @@ export const mapPlayerEntityToApiPlayerPostRequest = (
     tournament_id: tournamentId,
     team_id: player.team.id && player.team.id,
     photo_url: player.photoUrl ? player.photoUrl : '',
+    license_number: player.licenseNumber ? player.licenseNumber : '',
     state: player.state
   }
 });
@@ -64,7 +66,8 @@ export const mapPlayerEntityToApiPlayerPatchRequest = (
     username: player.username,
     team_id: player.team.id && player.team.id,
     state: player.state,
-    photo_url: player.photoUrl ? player.photoUrl : ''
+    photo_url: player.photoUrl ? player.photoUrl : '',
+    license_number: player.licenseNumber ? player.licenseNumber : ''
   }
 });
 

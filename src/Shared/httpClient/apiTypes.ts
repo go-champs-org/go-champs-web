@@ -318,6 +318,7 @@ export interface ApiPlayer {
   state: ApiPlayerState;
   team_id?: string;
   photo_url?: string;
+  license_number?: string;
   registration_response?: ApiRegistrationResponseResourceWithDependencies;
 }
 

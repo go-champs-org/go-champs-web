@@ -9,6 +9,7 @@ export interface PlayerEntity {
   name: string;
   shirtName: string;
   shirtNumber: string;
+  licenseNumber: string;
   username: string;
   twitter: string;
   team: TeamEntity;
@@ -45,6 +46,7 @@ export const DEFAULT_PLAYER: PlayerEntity = {
   name: '',
   shirtName: '',
   shirtNumber: '',
+  licenseNumber: '',
   username: '',
   twitter: '',
   team: DEFAULT_TEAM,

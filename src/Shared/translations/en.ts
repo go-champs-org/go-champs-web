@@ -78,6 +78,7 @@ export default {
     language: 'Language',
     legend: 'Legend',
     live: 'Live',
+    licenseNumber: 'License number',
     location: 'Location',
     logo: 'Logo',
     match: 'Match',
