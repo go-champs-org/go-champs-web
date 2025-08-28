@@ -13,6 +13,10 @@ export interface ThemeColors {
   backgroundSecondary: string;
   backgroundTertiary: string;
 
+  // Card background
+  cardBackground: string;
+  cardBackgroundHover: string;
+
   // Text colors
   text: string;
   textHover: string;

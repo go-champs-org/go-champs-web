@@ -151,10 +151,16 @@ main {
 }
 
 .card {
-  background-color: var(--theme-background);
+  background-color: var(--theme-cardBackground);
   color: var(--theme-text);
   box-shadow: 0 0.5em 1em -0.125em var(--theme-shadowLight),
     0 0px 0 1px var(--theme-shadowLight);
+
+  &:hover {
+    background-color: var(--theme-cardBackgroundHover);
+    box-shadow: 0 0.75em 1.5em -0.125em var(--theme-shadowLight),
+      0 0px 0 1px var(--theme-shadowLight);
+  }
 }
 
 .table {

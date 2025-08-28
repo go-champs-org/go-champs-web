@@ -18,7 +18,8 @@ export const scssColorMapping = {
   '$orange-light': '#e3c4a8',
   $white: '#f8f4f9',
   '$white-dark': '#eeeeee',
-  $black: '#1d1d1b'
+  $black: '#1d1d1b',
+  '$black-light': '#2c2c2c',
 };
 
 // Theme color definitions using SCSS color names
@@ -30,6 +31,8 @@ export const themeColorMapping = {
     background: '$white',
     backgroundSecondary: '$white-dark',
     backgroundTertiary: '$beige-light',
+    cardBackground: '$white',
+    cardBackgroundHover: '$white-dark',
     text: '$black',
     textHover: '$dark-light',
     textPlaceholder: '$dark-light',
@@ -53,13 +56,15 @@ export const themeColorMapping = {
     secondary: '$red',
     accent: '$white',
     background: '$black',
-    backgroundSecondary: '$dark-light',
+    backgroundSecondary: '$black-light',
     backgroundTertiary: '$brown',
+    cardBackground: '$green-dark',
+    cardBackgroundHover: '$green',
     text: '$white',
     textHover: '$white-dark',
     textPlaceholder: '$beige-light',
-    textSecondary: '$green-dark',
-    textInverted: '$dark',
+    textSecondary: '$white-dark',
+    textInverted: '$white',
     border: '$brown',
     navbar: '$black',
     navbarText: '$white',
@@ -69,9 +74,9 @@ export const themeColorMapping = {
     success: '$green',
     warning: '$red',
     error: '$red',
-    info: '$white',
-    shadow: 'rgba(0, 0, 0, 0.8)',
-    shadowLight: 'rgba(0, 0, 0, 0.2)'
+    info: '$black',
+    shadow: 'rgba(255, 255, 255, 0.15)',
+    shadowLight: 'rgba(255, 255, 255, 0.08)'
   }
 };
 
