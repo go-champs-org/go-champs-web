@@ -7,6 +7,7 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
+  ExtendedRequestFilter,
   mapRequestFilterToQueryString,
   RequestFilter
 } from '../Shared/httpClient/requestFilter';
@@ -32,7 +33,9 @@ const get = async (gameId: string): Promise<GameEntity> => {
   return mapApiGameToGameEntity(data);
 };
 
-const getByFilter = async (where: RequestFilter): Promise<GameEntity[]> => {
+const getByFilter = async (
+  where: RequestFilter | ExtendedRequestFilter
+): Promise<GameEntity[]> => {
   const url = `${GAMES_API}?${mapRequestFilterToQueryString(where)}`;
 
   const { data } = await httpClient.get<ApiGamesResponse>(url);

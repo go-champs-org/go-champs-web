@@ -101,6 +101,7 @@ export default {
     newRegistration: 'Nova inscricão',
     newTeam: 'Nova equipe',
     newTournament: 'Novo torneio',
+    noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
     organizations: 'Organizacões',
     orSignUp: 'Ou crie uma conta',

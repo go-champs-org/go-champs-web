@@ -1,5 +1,8 @@
 import { displayToast } from '../Shared/bulma/toast';
-import { RequestFilter } from '../Shared/httpClient/requestFilter';
+import {
+  ExtendedRequestFilter,
+  RequestFilter
+} from '../Shared/httpClient/requestFilter';
 import {
   deleteGameFailure,
   deleteGameStart,
@@ -74,9 +77,9 @@ export const getGame = (gameId: string) => async (dispatch: Dispatch) => {
   }
 };
 
-export const getGamesByFilter = (where: RequestFilter) => async (
-  dispatch: Dispatch
-) => {
+export const getGamesByFilter = (
+  where: RequestFilter | ExtendedRequestFilter
+) => async (dispatch: Dispatch) => {
   dispatch(getGamesByFilterStart());
 
   try {

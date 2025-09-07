@@ -3,12 +3,25 @@ import { StatEntity } from '../Phases/state';
 import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
+import { Link } from 'react-router-dom';
 
 const TeamEliminationRow: React.FC<{
+  baseUrl: string;
   eliminationStats: StatEntity[];
-  firstColumnValue: string;
   teamStats: { [statId: string]: string };
-}> = ({ eliminationStats, firstColumnValue, teamStats }) => {
+  team?: TeamEntity;
+  teamPlaceholder?: string;
+}> = ({ baseUrl, eliminationStats, team, teamPlaceholder = '', teamStats }) => {
+  const firstColumnValue = team ? (
+    <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
+      {team.logoUrl && (
+        <img src={team.logoUrl} alt={`${team.name} logo`} className="logo" />
+      )}
+      <span className="name">{team.name}</span>
+    </Link>
+  ) : (
+    <span>{teamPlaceholder}</span>
+  );
   return (
     <tr>
       <td
@@ -40,12 +53,14 @@ const EliminationHeader: React.FC<{
 );
 
 interface EliminationProps {
+  baseUrl: string;
   eliminationStats: StatEntity[];
   eliminations: EliminationEntity;
   teams: { [id: string]: TeamEntity };
 }
 
 const Elimination: React.FC<EliminationProps> = ({
+  baseUrl,
   eliminationStats,
   eliminations,
   teams
@@ -76,14 +91,12 @@ const Elimination: React.FC<EliminationProps> = ({
           <tbody>
             {eliminations.teamStats.map(
               (teamStats: EliminationTeamStatEntity) => {
-                const firstColumnValue =
-                  teamStats.teamId && teams[teamStats.teamId]
-                    ? teams[teamStats.teamId].name
-                    : teamStats.placeholder;
                 return (
                   <TeamEliminationRow
                     key={teamStats.id}
-                    firstColumnValue={firstColumnValue}
+                    baseUrl={baseUrl}
+                    team={teams[teamStats.teamId]}
+                    teamPlaceholder={teamStats.placeholder}
                     eliminationStats={eliminationStats}
                     teamStats={teamStats.stats}
                   />
@@ -104,12 +117,14 @@ const Elimination: React.FC<EliminationProps> = ({
 };
 
 interface TournamentEliminationViewProps {
+  baseUrl: string;
   eliminationStats: StatEntity[];
   eliminations: EliminationEntity[];
   teams: { [id: string]: TeamEntity };
 }
 
 export const View: React.FC<TournamentEliminationViewProps> = ({
+  baseUrl,
   eliminationStats,
   eliminations,
   teams
@@ -119,6 +134,7 @@ export const View: React.FC<TournamentEliminationViewProps> = ({
       {eliminations.map((standing: EliminationEntity) => (
         <Elimination
           key={standing.id}
+          baseUrl={baseUrl}
           eliminations={standing}
           eliminationStats={eliminationStats}
           teams={teams}

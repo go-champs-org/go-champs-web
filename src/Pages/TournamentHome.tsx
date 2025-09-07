@@ -38,6 +38,7 @@ import RegistrationInvitesRoot from './RegistrationInvitesRoot';
 import PlayerView from './PlayerView';
 import ScoreboardSettingEdit from './ScoreboardSettingEdit';
 import TeamEditRoster from './TeamEditRoster';
+import TeamView from './TeamView';
 
 const mapStateToProps = (
   state: StoreState,
@@ -258,6 +259,12 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
         <Route
           path={`/:organizationSlug/:tournamentSlug/RegistrationInvites/:registrationId`}
           component={RegistrationInvitesRoot}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Teams/:teamId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <TeamView {...props} />
+          )}
         />
         <Route
           path={`/:organizationSlug/:tournamentSlug/Teams`}

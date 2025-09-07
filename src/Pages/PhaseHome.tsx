@@ -12,7 +12,7 @@ import {
 import { draws } from '../Draws/selectors';
 import { sortedEliminations } from '../Eliminations/selectors';
 import { default as DrawView } from '../Draws/View';
-import { default as GameListByDate } from '../Games/ListByDate';
+import { default as GameListByCalendar } from '../Games/ListByCalendar';
 import { default as EliminationView } from '../Eliminations/View';
 import { PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
@@ -64,11 +64,14 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
 }) => {
   const route = useRouteMatch();
   const baseUrl = route.url;
+  const tournamentBaseUrl = `/${organizationSlug}/${tournamentSlug}`;
+  console.log({ tournamentBaseUrl });
 
   const MainContent =
     phase!.type === PhaseTypes.elimination ? (
       <EliminationView
         {...{
+          baseUrl: tournamentBaseUrl,
           eliminationStats: phase.eliminationStats,
           eliminations,
           teams
@@ -97,7 +100,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
 
           <aside className="column is-4-desktop is-12-tablet">
             <ComponentLoader canRender={!gamesLoading} loader={'Loading'}>
-              <GameListByDate
+              <GameListByCalendar
                 baseUrl={baseUrl}
                 dates={gameDates}
                 gamesByDate={gamesByDate}

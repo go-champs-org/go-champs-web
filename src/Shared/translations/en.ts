@@ -100,6 +100,7 @@ export default {
     newRegistration: 'New registration',
     newTeam: 'New team',
     newTournament: 'New tournament',
+    noGames: 'No games',
     noGamesScheduled: 'No games scheduled',
     organizations: 'Organizations',
     orSignUp: 'Or sign up',

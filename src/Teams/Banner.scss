@@ -1,0 +1,58 @@
+@import '../Shared/styles/colors.scss';
+
+.team-banner {
+  background-color: var(--theme-info);
+  box-shadow: 0 4px 4px 0 rgb(0, 0, 0, 0.8);
+  padding: 2rem 1rem;
+
+  .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $white;
+  }
+
+  .tri-code {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $white;
+    margin-top: 0.5rem;
+  }
+
+  .logo {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: contain;
+    padding: 0.5rem;
+
+    &.custom {
+      border: 3px solid $dark;
+      padding: 0.75rem;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .team-banner {
+    .name {
+      font-size: 2rem;
+    }
+
+    .tri-code {
+      font-size: 1.25rem;
+    }
+
+    .logo {
+      width: 175px;
+      height: 175px;
+      padding: 1rem;
+
+      &.custom {
+        border: 5px solid $dark;
+        width: 200px;
+        height: 200px;
+        padding: 0.5rem;
+      }
+    }
+  }
+}
