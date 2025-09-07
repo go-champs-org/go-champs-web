@@ -78,7 +78,13 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
         }}
       />
     ) : (
-      <DrawView {...{ draws, teams }} />
+      <DrawView
+        {...{
+          draws,
+          teams,
+          baseUrl: tournamentBaseUrl
+        }}
+      />
     );
 
   return (

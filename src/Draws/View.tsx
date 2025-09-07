@@ -3,10 +3,36 @@ import { DrawEntity, DrawMatchEntity } from './state';
 import './View.scss';
 import classNames from 'classnames';
 import { TeamEntity } from '../Teams/state';
+import { Link } from 'react-router-dom';
+import Identifier from '../Teams/Indentifier';
+
+interface TeamDisplayProps {
+  teamId: string;
+  placeholder: string;
+  teams: { [id: string]: TeamEntity };
+  baseUrl: string;
+}
+
+const TeamDisplay: React.FC<TeamDisplayProps> = ({
+  teamId,
+  placeholder,
+  teams,
+  baseUrl
+}) => {
+  if (teams[teamId]) {
+    return (
+      <Link to={`${baseUrl}/Teams/${teamId}`}>
+        <Identifier team={teams[teamId]} />
+      </Link>
+    );
+  }
+  return <span>{placeholder}</span>;
+};
 
 interface MatchProps {
   match: DrawMatchEntity;
   teams: { [id: string]: TeamEntity };
+  baseUrl: string;
 }
 
 const basicTeamClasses = {
@@ -25,7 +51,7 @@ const basicScoreClasses = {
   'is-size-5': true
 };
 
-const Match: React.FC<MatchProps> = ({ match, teams }) => {
+const Match: React.FC<MatchProps> = ({ match, teams, baseUrl }) => {
   const firstTeamClasses = classNames(
     {
       'has-text-weight-semibold': match.firstTeamScore > match.secondTeamScore
@@ -51,13 +77,6 @@ const Match: React.FC<MatchProps> = ({ match, teams }) => {
     basicScoreClasses
   );
 
-  const firstTeamText = teams[match.firstTeamId]
-    ? teams[match.firstTeamId].name
-    : match.firstTeamPlaceholder;
-  const secondTeamText = teams[match.secondTeamId]
-    ? teams[match.secondTeamId].name
-    : match.secondTeamPlaceholder;
-
   return (
     <div className="card">
       {match.name && (
@@ -71,7 +90,14 @@ const Match: React.FC<MatchProps> = ({ match, teams }) => {
           <div className="columns is-multiline is-vcentered">
             <div className="column">
               <div className="columns is-mobile is-vcentered">
-                <div className={firstTeamClasses}>{firstTeamText}</div>
+                <div className={firstTeamClasses}>
+                  <TeamDisplay
+                    teamId={match.firstTeamId}
+                    placeholder={match.firstTeamPlaceholder}
+                    teams={teams}
+                    baseUrl={baseUrl}
+                  />
+                </div>
 
                 <div className={firstTeamScoreClasses}>
                   {match.firstTeamScore || 0}
@@ -91,7 +117,14 @@ const Match: React.FC<MatchProps> = ({ match, teams }) => {
                   {match.secondTeamScore || 0}
                 </div>
 
-                <div className={secondTeamClasses}>{secondTeamText}</div>
+                <div className={secondTeamClasses}>
+                  <TeamDisplay
+                    teamId={match.secondTeamId}
+                    placeholder={match.secondTeamPlaceholder}
+                    teams={teams}
+                    baseUrl={baseUrl}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -112,30 +145,32 @@ const Match: React.FC<MatchProps> = ({ match, teams }) => {
 interface RoundProps {
   draw: DrawEntity;
   teams: { [id: string]: TeamEntity };
+  baseUrl: string;
 }
 
-const Round: React.FC<RoundProps> = ({ draw, teams }) => {
+const Round: React.FC<RoundProps> = ({ draw, teams, baseUrl }) => {
   return (
     <div className="column is-12 round">
       <h1 className="subtitle">{draw.title}</h1>
 
       {draw.matches.map((match: DrawMatchEntity) => (
-        <Match match={match} key={match.id} teams={teams} />
+        <Match match={match} key={match.id} teams={teams} baseUrl={baseUrl} />
       ))}
     </div>
   );
 };
 
 interface BracketProps {
+  baseUrl: string;
   draws: DrawEntity[];
   teams: { [id: string]: TeamEntity };
 }
 
-const Bracket: React.FC<BracketProps> = ({ draws, teams }) => {
+const Bracket: React.FC<BracketProps> = ({ draws, teams, baseUrl }) => {
   return (
-    <div className="columns is-multiline">
+    <div className="draws columns is-multiline">
       {draws.map((draw: DrawEntity) => (
-        <Round draw={draw} key={draw.id} teams={teams} />
+        <Round draw={draw} key={draw.id} teams={teams} baseUrl={baseUrl} />
       ))}
     </div>
   );

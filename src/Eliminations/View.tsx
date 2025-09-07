@@ -4,6 +4,7 @@ import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 import { Link } from 'react-router-dom';
+import Identifier from '../Teams/Indentifier';
 
 const TeamEliminationRow: React.FC<{
   baseUrl: string;
@@ -14,10 +15,7 @@ const TeamEliminationRow: React.FC<{
 }> = ({ baseUrl, eliminationStats, team, teamPlaceholder = '', teamStats }) => {
   const firstColumnValue = team ? (
     <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
-      {team.logoUrl && (
-        <img src={team.logoUrl} alt={`${team.name} logo`} className="logo" />
-      )}
-      <span className="name">{team.name}</span>
+      <Identifier team={team} logoSize={24} />
     </Link>
   ) : (
     <span>{teamPlaceholder}</span>

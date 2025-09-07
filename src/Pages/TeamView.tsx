@@ -26,7 +26,7 @@ const mapStateToProps = (
   return {
     gamesByDate: gamesByDate(state.games),
     gamesLoading: gamesLoading(state.games),
-    gameDates: gameDates(state.games),
+    gameDates: gameDates(state.games).reverse(),
     team: teamById(state.teams, teamId),
     tournament
   };
