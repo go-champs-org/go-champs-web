@@ -12,6 +12,7 @@ import withTeam from './support/withTeam';
 import { gameDates, gamesByDate, gamesLoading } from '../Games/selectors';
 import ListByDate from '../Games/ListByDate';
 import { Trans } from 'react-i18next';
+import { ListLoading } from '../Games/List';
 
 const mapStateToProps = (
   state: StoreState,
@@ -46,7 +47,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type TeamViewProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
-function TeamView({ team, gameDates, gamesByDate, match }: TeamViewProps) {
+function TeamView({
+  team,
+  gameDates,
+  gamesByDate,
+  gamesLoading,
+  match
+}: TeamViewProps) {
   const organizationSlug = match.params.organizationSlug;
   const tournamentSlug = match.params.tournamentSlug;
   const baseUrl = `/${organizationSlug}/${tournamentSlug}`;
@@ -66,11 +73,15 @@ function TeamView({ team, gameDates, gamesByDate, match }: TeamViewProps) {
         )}
 
         <div className="column is-12">
-          <ListByDate
-            gamesByDate={gamesByDate}
-            dates={gameDates}
-            baseUrl={baseUrl}
-          />
+          {gamesLoading ? (
+            <ListLoading />
+          ) : (
+            <ListByDate
+              gamesByDate={gamesByDate}
+              dates={gameDates}
+              baseUrl={baseUrl}
+            />
+          )}
         </div>
       </div>
     </div>
