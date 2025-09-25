@@ -4,7 +4,11 @@ import {
   ApiScoreboardSettingPostRequest
 } from '../Shared/httpClient/apiTypes';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
-import { ScoreboardSettingEntity } from './state';
+import {
+  ScoreboardSettingEntity,
+  ScoreboardSettingLiveSiteUpdate,
+  ScoreboardSettingView
+} from './state';
 
 export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
   scoreboardSettingEntity: ScoreboardSettingEntity
@@ -13,7 +17,9 @@ export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
     scoreboard_setting: {
       id: scoreboardSettingEntity.id,
       view: scoreboardSettingEntity.view,
-      initial_period_time: scoreboardSettingEntity.initialPeriodTime
+      initial_period_time: scoreboardSettingEntity.initialPeriodTime,
+      live_site_update: scoreboardSettingEntity.liveSiteUpdate,
+      initial_extra_period_time: scoreboardSettingEntity.initialExtraPeriodTime
     }
   };
 };
@@ -27,7 +33,9 @@ export const mapScoreboardSettingEntityToApiScoreboardSettingPostRequest = (
       id: scoreboardSettingEntity.id,
       view: scoreboardSettingEntity.view,
       initial_period_time: scoreboardSettingEntity.initialPeriodTime,
-      tournament_id: tournamentId
+      tournament_id: tournamentId,
+      live_site_update: scoreboardSettingEntity.liveSiteUpdate,
+      initial_extra_period_time: scoreboardSettingEntity.initialExtraPeriodTime
     }
   };
 };
@@ -37,12 +45,29 @@ export const mapApiScoreboardSettingToScoreboardSettingEntity = (
 ): ScoreboardSettingEntity => {
   return {
     id: apiScoreboardSetting.id,
-    view: apiScoreboardSetting.view,
-    initialPeriodTime: apiScoreboardSetting.initial_period_time
+    view: apiScoreboardSetting.view as ScoreboardSettingView,
+    initialPeriodTime: apiScoreboardSetting.initial_period_time,
+    initialExtraPeriodTime: apiScoreboardSetting.initial_extra_period_time,
+    liveSiteUpdate: apiScoreboardSetting.live_site_update as ScoreboardSettingLiveSiteUpdate
   };
 };
 
 export const SCOREBOARD_VIEW_OPTIONS: SelectOptionType[] = [
-  { value: 'basketball-basic', label: 'Basquete básico' },
-  { value: 'basketball-medium', label: 'Basquete completo' }
+  { value: ScoreboardSettingView.BASKETBALL_BASIC, label: 'Basquete básico' },
+  { value: ScoreboardSettingView.BASKETBALL_MEDIUM, label: 'Basquete completo' }
+];
+
+export const SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS: SelectOptionType[] = [
+  {
+    value: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE,
+    label: 'Após final de jogo'
+  },
+  {
+    value: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
+    label: 'Somente placar'
+  },
+  {
+    value: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
+    label: 'Estatísticas completas'
+  }
 ];

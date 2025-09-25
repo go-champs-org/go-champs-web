@@ -65,7 +65,6 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   const route = useRouteMatch();
   const baseUrl = route.url;
   const tournamentBaseUrl = `/${organizationSlug}/${tournamentSlug}`;
-  console.log({ tournamentBaseUrl });
 
   const MainContent =
     phase!.type === PhaseTypes.elimination ? (

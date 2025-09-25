@@ -15,7 +15,12 @@ import {
   postScoreboardSettingSuccess
 } from './actions';
 import scoreboardSettingReducer from './reducer';
-import { initialState, ScoreboardSettingState } from './state';
+import {
+  initialState,
+  ScoreboardSettingState,
+  ScoreboardSettingLiveSiteUpdate,
+  ScoreboardSettingView
+} from './state';
 
 describe('deleteScoreboardSetting', () => {
   const action = deleteScoreboardSettingStart();
@@ -47,8 +52,10 @@ describe('deleteScoreboardSettingSuccess', () => {
     scoreboardSettings: {
       'first-id': {
         id: 'first-id',
-        view: 'basketball-medium',
-        initialPeriodPime: 0
+        view: ScoreboardSettingView.BASKETBALL_MEDIUM,
+        initialPeriodTime: 0,
+        initialExtraPeriodTime: 0,
+        liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
       }
     }
   };
@@ -72,8 +79,10 @@ describe('deleteScoreboardSettingSuccess', () => {
       scoreboardSettings: {
         'some-id': {
           id: 'some-id',
-          view: 'basketball-basic',
-          initialPeriodTime: 100
+          view: ScoreboardSettingView.BASKETBALL_BASIC,
+          initialPeriodTime: 100,
+          initialExtraPeriodTime: 100,
+          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
         },
         ...deleteState.scoreboardSettings
       }
@@ -83,8 +92,10 @@ describe('deleteScoreboardSettingSuccess', () => {
 
     expect(newState.scoreboardSettings['some-id']).toEqual({
       id: 'some-id',
-      view: 'basketball-basic',
-      initialPeriodTime: 100
+      view: 'basketball-basic' as const,
+      initialPeriodTime: 100,
+      initialExtraPeriodTime: 100,
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
     });
   });
 });
@@ -114,8 +125,10 @@ describe('patchScoreboardSettingFailure', () => {
 describe('patchScoreboardSettingSuccess', () => {
   const action = patchScoreboardSettingSuccess({
     id: 'first-id',
-    view: 'basketball-medium',
-    initialPeriodTime: 0
+    view: ScoreboardSettingView.BASKETBALL_MEDIUM,
+    initialPeriodTime: 0,
+    initialExtraPeriodTime: 0,
+    liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
   });
 
   const updateState: ScoreboardSettingState = {
@@ -123,8 +136,10 @@ describe('patchScoreboardSettingSuccess', () => {
     scoreboardSettings: {
       'first-id': {
         id: 'first-id',
-        view: 'basketball-basic',
-        initialPeriodTime: 100
+        view: ScoreboardSettingView.BASKETBALL_BASIC,
+        initialPeriodTime: 100,
+        initialExtraPeriodTime: 100,
+        liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
       }
     }
   };
@@ -141,8 +156,10 @@ describe('patchScoreboardSettingSuccess', () => {
 
     expect(newState.scoreboardSettings['first-id']).toEqual({
       id: 'first-id',
-      view: 'basketball-medium',
-      initialPeriodTime: 0
+      view: 'basketball-medium' as const,
+      initialPeriodTime: 0,
+      initialExtraPeriodTime: 0,
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
     });
   });
 
@@ -152,8 +169,10 @@ describe('patchScoreboardSettingSuccess', () => {
       scoreboardSettings: {
         'some-id': {
           id: 'some-id',
-          view: 'basketball-medium',
-          initialPeriodTime: 150
+          view: 'basketball-medium' as const,
+          initialPeriodTime: 150,
+          initialExtraPeriodTime: 150,
+          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
         }
       }
     };
@@ -162,8 +181,10 @@ describe('patchScoreboardSettingSuccess', () => {
 
     expect(newState.scoreboardSettings['some-id']).toEqual({
       id: 'some-id',
-      view: 'basketball-medium',
-      initialPeriodTime: 150
+      view: 'basketball-medium' as const,
+      initialPeriodTime: 150,
+      initialExtraPeriodTime: 150,
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
     });
   });
 });
@@ -193,8 +214,10 @@ describe('postScoreboardSettingFailure', () => {
 describe('postScoreboardSettingSuccess', () => {
   const action = postScoreboardSettingSuccess({
     id: 'first-id',
-    view: 'basketball-medium',
-    initial_period_time: 150
+    view: 'basketball-medium' as const,
+    initialPeriodTime: 150,
+    initialExtraPeriodTime: 150,
+    liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
   });
 
   it('sets isLoadingPostScoreboardSetting to false', () => {
@@ -209,8 +232,10 @@ describe('postScoreboardSettingSuccess', () => {
 
     expect(newState.scoreboardSettings['first-id']).toEqual({
       id: 'first-id',
-      view: 'basketball-medium',
-      initialPeriodTime: 150
+      view: 'basketball-medium' as const,
+      initialPeriodTime: 150,
+      initialExtraPeriodTime: 150,
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
     });
   });
 
@@ -220,8 +245,10 @@ describe('postScoreboardSettingSuccess', () => {
       scoreboardSettings: {
         'some-id': {
           id: 'some-id',
-          view: 'basketball-basic',
-          initialPeriodTime: 100
+          view: 'basketball-basic' as const,
+          initialPeriodTime: 100,
+          initialExtraPeriodTime: 100,
+          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
         }
       }
     };
@@ -230,8 +257,10 @@ describe('postScoreboardSettingSuccess', () => {
 
     expect(newState.scoreboardSettings['some-id']).toEqual({
       id: 'some-id',
-      view: 'basketball-basic',
-      initialPeriodTime: 100
+      view: 'basketball-basic' as const,
+      initialPeriodTime: 100,
+      initialExtraPeriodTime: 100,
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
     });
   });
 });
@@ -250,7 +279,9 @@ describe('getTournamentSuccess', () => {
       scoreboard_setting: {
         id: 'first-scoreboard-setting-id',
         view: 'basketball-medium',
-        initial_period_time: 0
+        initial_period_time: 0,
+        initial_extra_period_time: 0,
+        live_site_update: 'no-live-update'
       },
       organization: {
         id: 'some-org-id',
@@ -266,8 +297,10 @@ describe('getTournamentSuccess', () => {
 
     expect(newState.scoreboardSettings['first-scoreboard-setting-id']).toEqual({
       id: 'first-scoreboard-setting-id',
-      view: 'basketball-medium',
-      initialPeriodTime: 0
+      view: 'basketball-medium' as const,
+      initialPeriodTime: 0,
+      initialExtraPeriodTime: 0,
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
     });
   });
 

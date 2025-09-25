@@ -4,8 +4,11 @@ import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { Trans } from 'react-i18next';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Link } from 'react-router-dom';
-import StringInput from '../Shared/UI/Form/StringInput';
-import { SCOREBOARD_VIEW_OPTIONS } from './dataMappers';
+import TimeInput from '../Shared/UI/Form/TimeInput';
+import {
+  SCOREBOARD_VIEW_OPTIONS,
+  SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS
+} from './dataMappers';
 import SelectInput from '../Shared/UI/Form/Select';
 
 interface FromProps extends FormRenderProps<ScoreboardSettingEntity> {
@@ -46,12 +49,46 @@ function Form({
           <div className="control">
             <Field
               name="initialPeriodTime"
-              component={StringInput}
-              type="number"
-              disabled
+              render={(props: FieldRenderProps<number, HTMLInputElement>) => (
+                <TimeInput {...props} />
+              )}
             />
           </div>
         </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>initialExtraPeriodTime</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="initialExtraPeriodTime"
+              render={(props: FieldRenderProps<number, HTMLInputElement>) => (
+                <TimeInput {...props} />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>liveSiteUpdate</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="liveSiteUpdate"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS}
+                />
+              )}
+            />
+          </div>
+        </div>
+
         <LoadingButton
           isLoading={isLoading}
           className="button is-primary"

@@ -122,12 +122,12 @@ const postScoreboardSettingFailure = (
 
 const postScoreboardSettingSuccess = (
   state: ScoreboardSettingState,
-  action: HttpAction<ActionTypes, ApiScoreboardSetting>
+  action: HttpAction<ActionTypes, ScoreboardSettingEntity>
 ) => ({
   ...state,
   isLoadingPostScoreboardSetting: false,
   scoreboardSettings: [action.payload!].reduce(
-    apiScoreboardSettingToEntities,
+    scoreboardSettingMapEntities,
     state.scoreboardSettings
   )
 });
