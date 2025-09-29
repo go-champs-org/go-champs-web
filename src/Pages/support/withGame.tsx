@@ -4,34 +4,23 @@ import { AnyAction, Dispatch } from 'redux';
 
 interface WithGameProps {
   getGame: (gameId: string) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
-  getTournamentBySlug: (
-    organizationSlug: string,
-    tournamentSlug: string
-  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 }
 
 const withGame = <T extends object>(
   WrappedComponent: React.ComponentType<T>
 ) => {
   const WithGame: React.FC<T & WithGameProps> = props => {
-    const { getGame, getTournamentBySlug } = props;
+    const { getGame } = props;
     const {
-      params: { gameId, organizationSlug, tournamentSlug }
+      params: { gameId }
     } = useRouteMatch();
     useEffect(() => {
-      if (organizationSlug && tournamentSlug && gameId) {
-        getTournamentBySlug(organizationSlug, tournamentSlug);
+      if (gameId) {
         getGame(gameId);
       }
 
       return () => undefined;
-    }, [
-      organizationSlug,
-      tournamentSlug,
-      gameId,
-      getGame,
-      getTournamentBySlug
-    ]);
+    }, [gameId, getGame]);
 
     return <WrappedComponent {...props} />;
   };

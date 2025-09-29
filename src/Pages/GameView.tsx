@@ -7,17 +7,12 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { getGame } from '../Games/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { default as GameCard } from '../Games/Card';
 import GeneralBoxScore from '../Games/GeneralBoxScore';
 import { teamById } from '../Teams/selectors';
-import {
-  playerStatLogsByGameIdAndTeamId,
-  playerStatLogsLoading
-} from '../PlayerStatsLog/selectors';
-import withPlayerStatsLogsForGame from './support/withPlayerStatsLogsForGame';
+import { useGameStatsLogs } from '../Games/useGameStatsLogs';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { playersMap } from '../Players/selectors';
 import { TeamEntity } from '../Teams/state';
@@ -31,9 +26,10 @@ import {
 } from '../Tournaments/dataSelectors';
 import './GameView.scss';
 import LoadingTable from '../Shared/LoadingTable';
-import { getTeamStatsLogsByFilter } from '../TeamStatsLog/effects';
-import { statLogRendersByGameIdAndTeamId } from '../TeamStatsLog/selectors';
 import VideoPlayer from '../Shared/UI/VideoPlayer';
+import withGame from './support/withGame';
+import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
+import { getTeamStatsLogsByFilter } from '../TeamStatsLog/effects';
 
 function BoxScoreLoading() {
   return (
@@ -159,36 +155,11 @@ const mapStateToProps = (
   );
   const game = gameById(state.games, gameId);
   const awayTeam = teamById(state.teams, game.awayTeam.id);
-  const awayPlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
-    state.playerStatsLogs,
-    game.id,
-    game.awayTeam.id
-  );
-  const awayTeamStatsLog = statLogRendersByGameIdAndTeamId(
-    state.teamStatsLogs,
-    game.id,
-    game.awayTeam.id
-  );
   const homeTeam = teamById(state.teams, game.homeTeam.id);
-  const homePlayerStatsLogs = playerStatLogsByGameIdAndTeamId(
-    state.playerStatsLogs,
-    game.id,
-    game.homeTeam.id
-  );
-  const homeTeamStatsLog = statLogRendersByGameIdAndTeamId(
-    state.teamStatsLogs,
-    game.id,
-    game.homeTeam.id
-  );
   const allPlayersMap = playersMap(state.players, state.teams);
   return {
-    awayPlayerStatsLogs,
-    awayTeamStatsLog,
     awayTeam,
     game,
-    isLoadingPlayerStatsLogs: playerStatLogsLoading(state.playerStatsLogs),
-    homePlayerStatsLogs,
-    homeTeamStatsLog,
     homeTeam,
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     playersMap: allPlayersMap,
@@ -222,19 +193,22 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type GameViewProps = ConnectedProps<typeof connector>;
 
 function GameView({
-  awayPlayerStatsLogs,
-  awayTeamStatsLog,
   awayTeam,
-  isLoadingPlayerStatsLogs,
   game,
-  homePlayerStatsLogs,
   homeTeam,
-  homeTeamStatsLog,
   tournament,
   playersMap,
   statistics,
   organizationSlug
 }: GameViewProps): React.ReactElement {
+  const {
+    awayPlayerStatsLogs,
+    awayTeamStatsLog,
+    homePlayerStatsLogs,
+    homeTeamStatsLog,
+    isLoading: isLoadingPlayerStatsLogs
+  } = useGameStatsLogs(game);
+
   const hasPlayerStatsLogs =
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
   const playerStats = statistics.length
@@ -248,10 +222,10 @@ function GameView({
   const boxScore = hasPlayerStatsLogs ? (
     <BoxScoreViewer
       awayPlayerStatsLogs={awayPlayerStatsLogs}
-      awayTeamStatsLog={awayTeamStatsLog}
+      awayTeamStatsLog={awayTeamStatsLog || ({} as StatsLogRenderEntity)}
       awayTeam={awayTeam}
       homePlayerStatsLogs={homePlayerStatsLogs}
-      homeTeamStatsLog={homeTeamStatsLog}
+      homeTeamStatsLog={homeTeamStatsLog || ({} as StatsLogRenderEntity)}
       homeTeam={homeTeam}
       playerViewBasePath={playerViewBasePath}
       playersMap={playersMap}
@@ -266,7 +240,11 @@ function GameView({
     <div className="column">
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
-          <GameCard game={game} />
+          <GameCard
+            game={game}
+            homeTeamStats={homeTeamStatsLog}
+            awayTeamStats={awayTeamStatsLog}
+          />
         </div>
 
         {game.youTubeCode && (
@@ -283,4 +261,4 @@ function GameView({
   );
 }
 
-export default connector(withPlayerStatsLogsForGame<GameViewProps>(GameView));
+export default connector(withGame(GameView));

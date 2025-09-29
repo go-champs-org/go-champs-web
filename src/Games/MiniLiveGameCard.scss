@@ -1,49 +1,5 @@
-@import '../Shared/styles/colors.scss';
-
 .time-and-live {
   display: flex;
   flex-direction: row;
-
-  .live-indicator {
-    padding: 0 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .live-dot {
-    height: 10px;
-    width: 10px;
-    background-color: $red-light;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 5px $red-light;
-    animation: pulse 1.5s infinite ease-in-out;
-  }
-
-  .live-text {
-    font-size: 12px;
-    font-weight: bold;
-    color: $red-light;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.8;
-    box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.7);
-  }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-    box-shadow: 0 0 0 5px rgba(255, 65, 54, 0);
-  }
-
-  100% {
-    transform: scale(0.8);
-    opacity: 0.8;
-    box-shadow: 0 0 0 0 rgba(255, 65, 54, 0);
-  }
+  gap: 9px;
 }

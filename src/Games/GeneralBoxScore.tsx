@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { PlayersMap } from '../Players/state';
-import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { default as PlayerStatLogView } from '../PlayerStatsLog/View';
 
 interface GeneralBoxScoreProps {
   playersMap: PlayersMap;
   playerStats: PlayerStatEntity[];
-  playerStatsLogs: PlayerStatsLogRenderEntity[];
+  playerStatsLogs: StatsLogRenderEntity[];
   playerViewBasePath: string;
   teamName: string;
   tournament: TournamentEntity;
 }
 
 const byStatValue = (statId: string) => (
-  playerStatsLogA: PlayerStatsLogRenderEntity,
-  playerStatsLogB: PlayerStatsLogRenderEntity
+  playerStatsLogA: StatsLogRenderEntity,
+  playerStatsLogB: StatsLogRenderEntity
 ) =>
   Number(playerStatsLogB.stats[statId]) - Number(playerStatsLogA.stats[statId]);
 
@@ -27,7 +27,7 @@ function GeneralBoxScore({
   teamName,
   tournament
 }: GeneralBoxScoreProps): React.ReactElement {
-  const firstStatId = playerStats[0].id;
+  const firstStatId = playerStats.length > 0 ? playerStats[0].id : '';
   const [statIdOrder, setStatIdOrder] = useState(firstStatId);
   const [isReverse, setIsReverse] = useState(false);
   const sortByStatId = byStatValue(statIdOrder);

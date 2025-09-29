@@ -47,6 +47,7 @@ export const DEFAULT_GAME: GameEntity = {
   homeTeam: DEFAULT_TEAM,
   info: '',
   isFinished: false,
+  liveState: 'not_started',
   location: '',
   phaseId: '',
   youTubeCode: ''

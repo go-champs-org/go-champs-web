@@ -10,6 +10,7 @@ import {
 } from '../Sports/Basketball5x5/scoreboardGameStateDataMappers';
 import TeamAndScore from './TeamAndScore';
 import { MinutesCell } from '../Shared/UI/TableCells';
+import LiveIndicator from '../Shared/UI/LiveIndicator';
 
 const POLLING_SCORES_INTERVAL = 10000; // 10 seconds
 
@@ -61,12 +62,7 @@ function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
                   {game.datetime && (
                     <span className="time">{timeFromDate(game.datetime)}</span>
                   )}
-                  <span className="live-indicator">
-                    <div className="live-dot"></div>
-                    <span className="live-text">
-                      {t('uppercase', { uppercase: t('live') })}
-                    </span>
-                  </span>
+                  <LiveIndicator />
                 </div>
               </div>
 

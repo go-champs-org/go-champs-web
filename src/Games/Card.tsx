@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Identifier from '../Teams/Indentifier';
 import './Card.scss';
 import { TeamEntity } from '../Teams/state';
+import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
+import LiveIndicator from '../Shared/UI/LiveIndicator';
 
 function Team({
   team,
@@ -31,11 +33,51 @@ function Team({
   );
 }
 
-function Card({ game }: { game: GameEntity }): React.ReactElement {
+interface CardProps {
+  game: GameEntity;
+  homeTeamStats?: StatsLogRenderEntity | null;
+  awayTeamStats?: StatsLogRenderEntity | null;
+}
+
+function Card({
+  game,
+  homeTeamStats,
+  awayTeamStats
+}: CardProps): React.ReactElement {
   const { t } = useTranslation();
+
+  const getHomeScore = () => {
+    if (
+      game.liveState === 'in_progress' &&
+      homeTeamStats &&
+      homeTeamStats.stats &&
+      homeTeamStats.stats.points
+    ) {
+      return homeTeamStats.stats.points;
+    }
+    return game.homeScore;
+  };
+
+  const getAwayScore = () => {
+    if (
+      game.liveState === 'in_progress' &&
+      awayTeamStats &&
+      awayTeamStats.stats &&
+      awayTeamStats.stats.points
+    ) {
+      return awayTeamStats.stats.points;
+    }
+    return game.awayScore;
+  };
+
   return (
     <div className="tile is-child box game-card">
       <div className="columns is-vcentered is-mobile is-multiline">
+        {game.liveState === 'in_progress' && (
+          <div className="column is-12 has-text-centered">
+            <LiveIndicator />
+          </div>
+        )}
         <div className="column is-6 has-text-left notranslate">
           <small>{t('dateTime', { date: game.datetime })}</small>
         </div>
@@ -53,7 +95,7 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
             <div className="column is-2 has-text-centered">
               <div className="columns is-vcentered is-gapless">
                 <div className="column is-5 has-text-centered">
-                  <span className="title">{game.homeScore}</span>
+                  <span className="title">{getHomeScore()}</span>
                 </div>
 
                 <div className="column is-2 has-text-centered">
@@ -66,7 +108,7 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
                 </div>
 
                 <div className="column is-5 has-text-centered">
-                  <span className="title">{game.awayScore}</span>
+                  <span className="title">{getAwayScore()}</span>
                 </div>
               </div>
             </div>
@@ -86,7 +128,7 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
             </div>
 
             <div className="column is-4 has-text-right">
-              <span className="title is-size-5">{game.homeScore}</span>
+              <span className="title is-size-5">{getHomeScore()}</span>
             </div>
 
             <div className="column is-8">
@@ -96,7 +138,7 @@ function Card({ game }: { game: GameEntity }): React.ReactElement {
             </div>
 
             <div className="column is-4 has-text-right">
-              <span className="title is-size-5">{game.awayScore}</span>
+              <span className="title is-size-5">{getAwayScore()}</span>
             </div>
           </div>
         </div>
