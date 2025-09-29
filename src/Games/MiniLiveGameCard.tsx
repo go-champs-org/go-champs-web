@@ -11,6 +11,7 @@ import {
 import TeamAndScore from './TeamAndScore';
 import { MinutesCell } from '../Shared/UI/TableCells';
 import LiveIndicator from '../Shared/UI/LiveIndicator';
+import { Link } from 'react-router-dom';
 
 const POLLING_SCORES_INTERVAL = 10000; // 10 seconds
 
@@ -19,7 +20,7 @@ interface MiniLiveGameCardProps {
   baseUrl: string;
 }
 
-function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
+function MiniLiveGameCard({ game, baseUrl }: MiniLiveGameCardProps) {
   const { t } = useTranslation();
   const [gameData, setGameData] = useState({
     awayScore: game.awayScore,
@@ -53,52 +54,56 @@ function MiniLiveGameCard({ game }: MiniLiveGameCardProps) {
 
   return (
     <div className="card item">
-      <div className="card-content">
-        <div className="columns is-multiline is-mobile">
-          <div className="column is-12 is-size-7 has-text-weight-bold">
-            <div className="columns is-mobile">
-              <div className="column is-8" style={{ padding: '.3rem' }}>
-                <div className="time-and-live">
-                  {game.datetime && (
-                    <span className="time">{timeFromDate(game.datetime)}</span>
-                  )}
-                  <LiveIndicator />
+      <Link to={`${baseUrl}/GameView/${game.id}`} className="has-text-dark">
+        <div className="card-content">
+          <div className="columns is-multiline is-mobile">
+            <div className="column is-12 is-size-7 has-text-weight-bold">
+              <div className="columns is-mobile">
+                <div className="column is-8" style={{ padding: '.3rem' }}>
+                  <div className="time-and-live">
+                    {game.datetime && (
+                      <span className="time">
+                        {timeFromDate(game.datetime)}
+                      </span>
+                    )}
+                    <LiveIndicator />
+                  </div>
+                </div>
+
+                <div
+                  className="column is-4 has-text-right"
+                  style={{ padding: '.3rem' }}
+                >
+                  {game.location}
                 </div>
               </div>
+            </div>
 
-              <div
-                className="column is-4 has-text-right"
-                style={{ padding: '.3rem' }}
-              >
-                {game.location}
-              </div>
+            <div className="column is-12">
+              <TeamAndScore team={game.awayTeam} score={gameData.awayScore} />
+            </div>
+
+            <div className="column is-12">
+              <TeamAndScore team={game.homeTeam} score={gameData.homeScore} />
+            </div>
+
+            <div className="column is-12 is-narrow has-text-centered">
+              <span>
+                {`Q${gameData.period} | `}
+                <MinutesCell value={gameData.time.toString()} />
+              </span>
             </div>
           </div>
-
-          <div className="column is-12">
-            <TeamAndScore team={game.awayTeam} score={gameData.awayScore} />
-          </div>
-
-          <div className="column is-12">
-            <TeamAndScore team={game.homeTeam} score={gameData.homeScore} />
-          </div>
-
-          <div className="column is-12 is-narrow has-text-centered">
-            <span>
-              {`Q${gameData.period} | `}
-              <MinutesCell value={gameData.time.toString()} />
-            </span>
-          </div>
         </div>
-      </div>
 
-      {game.info && (
-        <footer className="card-footer has-text-centered">
-          <span className="card-footer-item has-text-centered is-paddingless is-size-7">
-            {game.info}
-          </span>
-        </footer>
-      )}
+        {game.info && (
+          <footer className="card-footer has-text-centered">
+            <span className="card-footer-item has-text-centered is-paddingless is-size-7">
+              {game.info}
+            </span>
+          </footer>
+        )}
+      </Link>
     </div>
   );
 }

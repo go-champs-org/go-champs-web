@@ -73,11 +73,6 @@ function Card({
   return (
     <div className="tile is-child box game-card">
       <div className="columns is-vcentered is-mobile is-multiline">
-        {game.liveState === 'in_progress' && (
-          <div className="column is-12 has-text-centered">
-            <LiveIndicator />
-          </div>
-        )}
         <div className="column is-6 has-text-left notranslate">
           <small>{t('dateTime', { date: game.datetime })}</small>
         </div>
@@ -143,9 +138,17 @@ function Card({
           </div>
         </div>
 
-        <div className="column is-12 has-text-centered">
-          <small>{game.info}</small>
-        </div>
+        {game.info && (
+          <div className="column is-12 has-text-centered">
+            <small>{game.info}</small>
+          </div>
+        )}
+
+        {game.liveState === 'in_progress' && (
+          <div className="column is-12 has-text-centered">
+            <LiveIndicator />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -30,6 +30,8 @@ import VideoPlayer from '../Shared/UI/VideoPlayer';
 import withGame from './support/withGame';
 import { getPlayerStatsLogsByFilter } from '../PlayerStatsLog/effects';
 import { getTeamStatsLogsByFilter } from '../TeamStatsLog/effects';
+import { scoreboardSetting } from '../ScoreboardSettings/selectors';
+import { ScoreboardSettingLiveSiteUpdate } from '../ScoreboardSettings/state';
 
 function BoxScoreLoading() {
   return (
@@ -164,6 +166,7 @@ const mapStateToProps = (
     phase: phaseByIdOrDefault(state.phases, game.phaseId),
     playersMap: allPlayersMap,
     organizationSlug,
+    scoreboardSetting: scoreboardSetting(state.scoreboardSettings),
     tournament: tournamentBySlug(
       state.tournaments,
       props.match.params.tournamentSlug
@@ -198,6 +201,7 @@ function GameView({
   homeTeam,
   tournament,
   playersMap,
+  scoreboardSetting,
   statistics,
   organizationSlug
 }: GameViewProps): React.ReactElement {
@@ -211,6 +215,11 @@ function GameView({
 
   const hasPlayerStatsLogs =
     awayPlayerStatsLogs.length > 0 || homePlayerStatsLogs.length > 0;
+  const shouldShowBoxScore =
+    game.liveState === 'in_progress'
+      ? scoreboardSetting.liveSiteUpdate ===
+          ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE && hasPlayerStatsLogs
+      : hasPlayerStatsLogs;
   const playerStats = statistics.length
     ? tournament.playerStats.filter(
         playerStatThatContainsInStatistic(statistics)
@@ -219,7 +228,7 @@ function GameView({
   const playerViewBasePath = `/${organizationSlug}/${tournament.slug}/Player/`;
   const visiblePlayerStats = playerStats.filter(playerStatThatIsVisible);
 
-  const boxScore = hasPlayerStatsLogs ? (
+  const boxScore = shouldShowBoxScore ? (
     <BoxScoreViewer
       awayPlayerStatsLogs={awayPlayerStatsLogs}
       awayTeamStatsLog={awayTeamStatsLog || ({} as StatsLogRenderEntity)}
