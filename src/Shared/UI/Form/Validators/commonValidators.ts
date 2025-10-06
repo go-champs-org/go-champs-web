@@ -53,7 +53,7 @@ export const mustBeStrongPassword = (value: string) =>
 export const mustBeSimplePassword = (value: string) =>
   SIMPLE_PASSWORD_REGEX.test(value)
     ? undefined
-    : 'Password must be at least 6 characters long';
+    : 'Senha precisa ter no mínimo 6 caracteres';
 
 export const composeValidators = (
   validators: ValidatorFunction[],

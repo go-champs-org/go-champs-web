@@ -6,7 +6,7 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import {
   composeValidators,
   required,
-  mustBeStrongPassword
+  mustBeSimplePassword
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
@@ -72,7 +72,7 @@ const AccountResetForm: React.FC<FormProps> = ({
             component={StringInput}
             type="password"
             className="has-text-centered"
-            validate={composeValidators([required, mustBeStrongPassword])}
+            validate={composeValidators([required, mustBeSimplePassword])}
           />
         </div>
       </div>
