@@ -3,7 +3,8 @@ import {
   ApiGameResponse,
   ApiGamesResponse,
   ApiGamePostRequest,
-  ApiGamePatchRequest
+  ApiGamePatchRequest,
+  ApiGameMigrateToNewPhaseRequest
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -64,10 +65,25 @@ const post = async (game: GameEntity, phaseId: string): Promise<GameEntity> => {
   return mapApiGameToGameEntity(data);
 };
 
+const migrateToNewPhase = async (
+  gameId: string,
+  newPhaseId: string
+): Promise<GameEntity> => {
+  const url = `${GAMES_API}/${gameId}/migrate-phase`;
+  const body = { phase_id: newPhaseId };
+
+  const { data } = await httpClient.put<
+    ApiGameMigrateToNewPhaseRequest,
+    ApiGameResponse
+  >(url, body);
+  return mapApiGameToGameEntity(data);
+};
+
 export default {
   delete: deleteRequest,
   get,
   getByFilter,
+  migrateToNewPhase,
   patch,
   post
 };

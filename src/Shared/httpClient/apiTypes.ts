@@ -46,6 +46,10 @@ export interface ApiGameResponse {
   data: ApiGameWithDepedencies;
 }
 
+export interface ApiGameMigrateToNewPhaseRequest {
+  phase_id: string;
+}
+
 export interface ApiGamesResponse {
   data: ApiGameWithDepedencies[];
 }

@@ -1,0 +1,20 @@
+.phase-dropdown {
+  .dropdown-item {
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    padding: 0.375rem 1rem;
+
+    &:hover:not(.is-disabled) {
+      background-color: hsl(0, 0%, 96%);
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+      color: hsl(0, 0%, 71%);
+      opacity: 0.5;
+    }
+  }
+}

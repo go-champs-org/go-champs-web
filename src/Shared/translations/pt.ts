@@ -89,6 +89,7 @@ export default {
     manage: 'Gerenciar',
     members: 'Membros',
     message: 'Mensagem',
+    moveToPhase: 'Mover para...',
     myAccount: 'Minha conta',
     name: 'Nome',
     new: 'Novo',

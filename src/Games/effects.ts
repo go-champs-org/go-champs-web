@@ -90,3 +90,19 @@ export const getGamesByFilter = (
     dispatch(getGamesByFilterFailure(err));
   }
 };
+
+export const migrateGameToNewPhase = (
+  gameId: string,
+  newPhaseId: string
+) => async (dispatch: Dispatch) => {
+  dispatch(patchGameStart());
+
+  try {
+    const response = await gameHttpClient.migrateToNewPhase(gameId, newPhaseId);
+
+    dispatch(patchGameSuccess(response));
+    displayToast(`Game migrated to new phase!`, 'is-success');
+  } catch (err) {
+    dispatch(patchGameFailure(err));
+  }
+};
