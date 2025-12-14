@@ -6,6 +6,7 @@ export interface OrganizationEntity {
   id: string;
   name: string;
   slug: string;
+  logoUrl: string;
   members: MemberEntity[];
 }
 
@@ -31,6 +32,7 @@ export const DEFAULT_ORGANIZATION: OrganizationEntity = {
   id: '',
   name: '',
   slug: '',
+  logoUrl: '',
   members: []
 };
 

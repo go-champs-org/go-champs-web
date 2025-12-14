@@ -246,6 +246,7 @@ export interface ApiOrganization {
   id: string;
   name: string;
   slug: string;
+  logo_url?: string;
 }
 
 export interface ApiOrganizationRequest {
@@ -693,7 +694,8 @@ export interface ApiRegistrationResponseResourceResponse {
 export type ApiUploadFileType =
   | 'player-photos'
   | 'registration-consents'
-  | 'team-logos';
+  | 'team-logos'
+  | 'organization-logos';
 
 export interface ApiUploadPostRequest {
   filename: string;

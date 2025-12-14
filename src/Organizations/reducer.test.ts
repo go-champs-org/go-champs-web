@@ -52,6 +52,7 @@ describe('organizationReducer', () => {
           id: 'first-id',
           name: 'first-name',
           slug: 'first-slug',
+          logoUrl: 'first-logo-url',
           members: []
         }
       }
@@ -77,6 +78,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
+            logoUrl: 'some-logo-url',
             members: []
           },
           ...deleteState.organizations
@@ -89,6 +91,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
+        logoUrl: 'some-logo-url',
         members: []
       });
     });
@@ -119,6 +122,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'some-first-name',
       slug: 'first-slug',
+      logo_url: 'some-logo-url',
       members: [{ username: 'some-username' }]
     });
 
@@ -129,6 +133,7 @@ describe('organizationReducer', () => {
           id: 'first-id',
           name: 'first-name',
           slug: 'first-slug',
+          logoUrl: 'first-logo-url',
           members: [{ username: 'first-username' }]
         }
       }
@@ -147,6 +152,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'some-first-name',
         slug: 'first-slug',
+        logoUrl: 'some-logo-url',
         members: [{ username: 'some-username' }]
       });
     });
@@ -159,6 +165,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
+            logoUrl: 'some-logo-url',
             members: [{ username: 'some-username' }]
           }
         }
@@ -170,6 +177,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
+        logoUrl: 'some-logo-url',
         members: [{ username: 'some-username' }]
       });
     });
@@ -200,6 +208,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug',
+      logo_url: 'first-logo-url',
       members: [{ username: 'first-username' }]
     });
 
@@ -216,6 +225,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logoUrl: 'first-logo-url',
         members: [{ username: 'first-username' }]
       });
     });
@@ -228,6 +238,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
+            logoUrl: 'some-logo-url',
             members: [{ username: 'some-username' }]
           }
         }
@@ -239,6 +250,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
+        logoUrl: 'some-logo-url',
         members: [{ username: 'some-username' }]
       });
     });
@@ -257,12 +269,14 @@ describe('organizationReducer', () => {
                 id: 'first-id',
                 name: 'first-name',
                 slug: 'first-slug',
+                logo_url: 'first-logo-url',
                 members: [{ username: 'first-username' }]
               },
               {
                 id: 'second-id',
                 name: 'second-name',
                 slug: 'second-slug',
+                logo_url: 'second-logo-url',
                 members: [{ username: 'second-username' }]
               }
             ]
@@ -274,12 +288,14 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logoUrl: 'first-logo-url',
         members: [{ username: 'first-username' }]
       });
       expect(newState.organizations['second-slug']).toEqual({
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
+        logoUrl: 'second-logo-url',
         members: [{ username: 'second-username' }]
       });
     });
@@ -310,6 +326,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug',
+      logo_url: 'first-logo-url',
       members: [{ username: 'first-username' }]
     });
 
@@ -326,6 +343,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logoUrl: 'first-logo-url',
         members: [{ username: 'first-username' }]
       });
     });
@@ -338,6 +356,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
+            logoUrl: 'some-logo-url',
             members: [{ username: 'some-username' }]
           }
         }
@@ -349,6 +368,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
+        logoUrl: 'some-logo-url',
         members: [{ username: 'some-username' }]
       });
     });
@@ -380,12 +400,14 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logo_url: 'first-logo-url',
         members: [{ username: 'first-username' }]
       },
       {
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
+        logo_url: 'second-logo-url',
         members: [{ username: 'second-username' }]
       }
     ]);
@@ -403,12 +425,14 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logoUrl: 'first-logo-url',
         members: [{ username: 'first-username' }]
       });
       expect(newState.organizations['second-slug']).toEqual({
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
+        logoUrl: 'second-logo-url',
         members: [{ username: 'second-username' }]
       });
     });
@@ -422,6 +446,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logo_url: 'first-logo-url',
         members: [{ username: 'first-username' }]
       },
       phases: [],
@@ -435,6 +460,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
+        logoUrl: 'first-logo-url',
         members: [{ username: 'first-username' }]
       });
     });

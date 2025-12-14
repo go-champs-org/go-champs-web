@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Field, FormRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { OrganizationEntity, DEFAULT_MEMBER, MemberEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
@@ -13,6 +13,12 @@ import {
 import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import { Trans } from 'react-i18next';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
+import {
+  mapFileReferenceToApiOrganizationLogo,
+  mapOrganizationLogoToApiFileReference
+} from './dataMappers';
 
 interface OrganizationMemberProps {
   name: string;
@@ -144,6 +150,36 @@ const Form: React.FC<FormProps> = ({
           <p className="help is-info">
             {`${document.location.origin}/${values.slug ? values.slug : ''}`}
           </p>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>logo</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="logoUrl"
+              render={(
+                props: FieldRenderProps<FileReference | string, HTMLElement>
+              ) => (
+                <ImageUpload
+                  {...props}
+                  imageType="organization-logos"
+                  initialFileReference={
+                    values.logoUrl
+                      ? mapOrganizationLogoToApiFileReference(values)
+                      : undefined
+                  }
+                />
+              )}
+              parse={(value: FileReference) => {
+                if (!value) return '';
+
+                return mapFileReferenceToApiOrganizationLogo(value);
+              }}
+            />
+          </div>
         </div>
 
         <div className="field">

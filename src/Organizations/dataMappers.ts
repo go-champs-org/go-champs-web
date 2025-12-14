@@ -8,6 +8,7 @@ import {
   DEFAULT_ORGANIZATION
 } from './state';
 import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 
 export const mapApiOrganizationToOrganizationEntity = (
   apiOrganization: ApiOrganization
@@ -15,6 +16,7 @@ export const mapApiOrganizationToOrganizationEntity = (
   id: apiOrganization.id,
   name: apiOrganization.name,
   slug: apiOrganization.slug,
+  logoUrl: apiOrganization.logo_url || '',
   members: apiOrganization.members || []
 });
 
@@ -31,6 +33,7 @@ export const mapOrganizationEntityToApiOrganizationRequest = (
     id: organization.id,
     name: organization.name,
     slug: organization.slug,
+    logo_url: organization.logoUrl ? organization.logoUrl : undefined,
     members:
       organization.members.length > 0
         ? organization.members.map(mapMemberEntityToApiOrganizationMember)
@@ -46,3 +49,15 @@ export const buildNewOrganizationWithMember = () => {
     members: [{ username: currentUsername }]
   };
 };
+
+export const mapOrganizationLogoToApiFileReference = (
+  organization: OrganizationEntity
+): FileReference => ({
+  publicUrl: organization.logoUrl,
+  filename: '',
+  url: organization.logoUrl
+});
+
+export const mapFileReferenceToApiOrganizationLogo = (
+  fileReference: FileReference
+) => fileReference.publicUrl;
