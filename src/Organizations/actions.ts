@@ -1,6 +1,7 @@
 import { ApiOrganization } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
+import { OrganizationEntity } from './state';
 
 export const DELETE_ORGANIZATION = 'API_DELETE_ORGANIZATION';
 export const DELETE_ORGANIZATION_SUCCESS = 'API_DELETE_ORGANIZATION_SUCCESS';
@@ -41,8 +42,8 @@ export const patchOrganizationStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const patchOrganizationSuccess = (
-  payload: ApiOrganization
-): HttpAction<ActionTypes, ApiOrganization> => ({
+  payload: OrganizationEntity
+): HttpAction<ActionTypes, OrganizationEntity> => ({
   type: PATCH_ORGANIZATION_SUCCESS,
   payload
 });
@@ -59,8 +60,8 @@ export const postOrganizationStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const postOrganizationSuccess = (
-  payload: ApiOrganization
-): HttpAction<ActionTypes, ApiOrganization> => ({
+  payload: OrganizationEntity
+): HttpAction<ActionTypes, OrganizationEntity> => ({
   type: POST_ORGANIZATION_SUCCESS,
   payload
 });
@@ -77,8 +78,8 @@ export const getOrganizationStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const getOrganizationSuccess = (
-  payload: ApiOrganization
-): HttpAction<ActionTypes, ApiOrganization> => ({
+  payload: OrganizationEntity
+): HttpAction<ActionTypes, OrganizationEntity> => ({
   type: GET_ORGANIZATION_SUCCESS,
   payload
 });
@@ -95,8 +96,8 @@ export const getOrganizationsStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const getOrganizationsSuccess = (
-  payload: ApiOrganization[]
-): HttpAction<ActionTypes, ApiOrganization[]> => ({
+  payload: OrganizationEntity[]
+): HttpAction<ActionTypes, OrganizationEntity[]> => ({
   type: GET_ORGANIZATIONS_SUCCESS,
   payload
 });

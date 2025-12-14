@@ -8,7 +8,8 @@ import {
   entityById,
   mapEntitiesByKey,
   returnProperty,
-  apiDataToEntitiesOverride
+  apiDataToEntitiesOverride,
+  mapEntities
 } from '../Shared/store/helpers';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
@@ -33,6 +34,10 @@ import {
 import { initialState, OrganizationEntity, OrganizationState } from './state';
 import { mapApiOrganizationToOrganizationEntity } from './dataMappers';
 import { GET_ACCOUNT_SUCCESS } from '../Accounts/actions';
+
+const organizationMapEntities = mapEntities<OrganizationEntity>(
+  returnProperty('slug')
+);
 
 const apiOrganizationToEntities = apiDataToEntitiesOverride<
   ApiOrganization,
@@ -87,12 +92,12 @@ const patchOrganizationFailure = (
 
 const patchOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes, ApiOrganization>
+  action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
   ...state,
   isLoadingPatchOrganization: false,
   organizations: [action.payload!].reduce(
-    apiOrganizationToEntities,
+    organizationMapEntities,
     state.organizations
   )
 });
@@ -115,12 +120,12 @@ const postOrganizationFailure = (
 
 const postOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes, ApiOrganization>
+  action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
   ...state,
   isLoadingPostOrganization: false,
   organizations: [action.payload!].reduce(
-    apiOrganizationToEntities,
+    organizationMapEntities,
     state.organizations
   )
 });
@@ -154,12 +159,12 @@ const getOrganizationFailure = (
 
 const getOrganizationSuccess = (
   state: OrganizationState,
-  action: HttpAction<ActionTypes, ApiOrganization>
+  action: HttpAction<ActionTypes, OrganizationEntity>
 ) => ({
   ...state,
   isLoadingRequestOrganizations: false,
   organizations: [action.payload!].reduce(
-    apiOrganizationToEntities,
+    organizationMapEntities,
     state.organizations
   )
 });
@@ -186,7 +191,7 @@ const getOrganizationsSuccess = (
 ) => ({
   ...state,
   isLoadingRequestOrganizations: false,
-  organizations: action.payload!.reduce(apiOrganizationToEntities, {})
+  organizations: action.payload!.reduce(organizationMapEntities, {})
 });
 
 const getTournamentSuccess = (

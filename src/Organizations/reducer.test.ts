@@ -122,7 +122,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'some-first-name',
       slug: 'first-slug',
-      logo_url: 'some-logo-url',
+      logoUrl: 'some-logo-url',
       members: [{ username: 'some-username' }]
     });
 
@@ -208,7 +208,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug',
-      logo_url: 'first-logo-url',
+      logoUrl: 'first-logo-url',
       members: [{ username: 'first-username' }]
     });
 
@@ -326,7 +326,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug',
-      logo_url: 'first-logo-url',
+      logoUrl: 'first-logo-url',
       members: [{ username: 'first-username' }]
     });
 
@@ -400,14 +400,14 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logo_url: 'first-logo-url',
+        logoUrl: 'first-logo-url',
         members: [{ username: 'first-username' }]
       },
       {
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
-        logo_url: 'second-logo-url',
+        logoUrl: 'second-logo-url',
         members: [{ username: 'second-username' }]
       }
     ]);

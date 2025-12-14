@@ -3,7 +3,6 @@ import {
   ApiTournamentWithDependecies
 } from '../Shared/httpClient/apiTypes';
 import {
-  apiDataToEntities,
   apiDataToEntitiesOverride,
   createReducer,
   entityById,
