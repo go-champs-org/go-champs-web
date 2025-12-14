@@ -642,6 +642,7 @@ export default {
     uploadError: 'Upload error',
     uploadFiles: 'Uploaded files',
     username: 'Username',
+    usernameOrEmail: 'Username/E-mail',
     useAsAnApp: 'Install on your phone',
     useAsAnAppLine1: 'Open your browser menu.',
     useAsAnAppLine2: 'Click on "Add to the desktop".',

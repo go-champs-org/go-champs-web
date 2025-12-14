@@ -668,6 +668,7 @@ export default {
     uploadError: 'Erro ao enviar arquivo',
     uploadFiles: 'Arquivos enviados',
     username: 'Usuário',
+    usernameOrEmail: 'Usuário/E-mail',
     useAsAnApp: 'Use no celular',
     useAsAnAppLine1: 'Abra o menu do seu navegador de internet.',
     useAsAnAppLine2: 'Clique em "Adicionar na Área de Trabalho".',

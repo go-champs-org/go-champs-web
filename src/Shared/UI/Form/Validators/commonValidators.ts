@@ -55,6 +55,17 @@ export const mustBeSimplePassword = (value: string) =>
     ? undefined
     : 'Senha precisa ter no mínimo 6 caracteres';
 
+export const mustBeAccountIdentifier = (value: string) => {
+  if (!value) return undefined;
+
+  // Check if it contains @ symbol to determine if it's an email or username
+  if (value.includes('@')) {
+    return mustBeEmail(value);
+  } else {
+    return mustBeUsername(value);
+  }
+};
+
 export const composeValidators = (
   validators: ValidatorFunction[],
   asyncValidators: AsyncValidatorFunction[] = []

@@ -6,7 +6,8 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 import {
   required,
   composeValidators,
-  mustBeUsername
+  mustBeUsername,
+  mustBeAccountIdentifier
 } from '../Shared/UI/Form/Validators/commonValidators';
 import { Trans } from 'react-i18next';
 
@@ -25,7 +26,7 @@ const SingInForm: React.FC<FormProps> = ({
     <form onSubmit={handleSubmit} className="form">
       <div className="field">
         <label className="label">
-          <Trans>username</Trans>
+          <Trans>usernameOrEmail</Trans>
         </label>
 
         <div className="control">
@@ -33,9 +34,9 @@ const SingInForm: React.FC<FormProps> = ({
             name="username"
             component={StringInput}
             type="text"
-            placeholder="Username"
+            placeholder="Username or Email"
             className="has-text-centered"
-            validate={composeValidators([required, mustBeUsername])}
+            validate={composeValidators([required, mustBeAccountIdentifier])}
           />
         </div>
       </div>
