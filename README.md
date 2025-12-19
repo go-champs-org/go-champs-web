@@ -14,6 +14,8 @@ After that, you will be able to run your server:
   * Install dependencies with `yarn`
   * Start the server with `yarn start`
   * Run unit tests with `yarn test`
+  * See [TESTING.md](TESTING.md) for testing guidelines
+  * See [IMPLEMENTATION.md](IMPLEMENTATION.md) for implementation guidelines
 
 ---
 

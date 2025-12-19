@@ -27,7 +27,8 @@ export const mapApiGameToGameEntity = (
   location: apiGame.location,
   phaseId: apiGame.phase_id,
   youTubeCode: apiGame.youtube_code ? apiGame.youtube_code : '',
-  liveState: apiGame.live_state
+  liveState: apiGame.live_state,
+  resultType: apiGame.result_type
 });
 
 export const mapGameEntityToApiGamePostRequest = (
@@ -48,7 +49,8 @@ export const mapGameEntityToApiGamePostRequest = (
     location: game.location ? game.location : '',
     phase_id: phaseId,
     youtube_code: game.youTubeCode && game.youTubeCode,
-    live_state: game.liveState
+    live_state: game.liveState,
+    result_type: game.resultType
   }
 });
 
@@ -68,6 +70,7 @@ export const mapGameEntityToApiGamePatchRequest = (
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
     youtube_code: game.youTubeCode && game.youTubeCode,
-    live_state: game.liveState
+    live_state: game.liveState,
+    result_type: game.resultType
   }
 });

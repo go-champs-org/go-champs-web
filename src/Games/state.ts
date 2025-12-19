@@ -1,4 +1,4 @@
-import { ApiGameLiveState } from '../Shared/httpClient/apiTypes';
+import { ApiGameLiveState, ApiGameResultType } from '../Shared/httpClient/apiTypes';
 import { DEFAULT_TEAM, TeamEntity } from '../Teams/state';
 
 export interface GameEntity {
@@ -15,6 +15,7 @@ export interface GameEntity {
   location: string;
   phaseId: string;
   liveState: ApiGameLiveState;
+  resultType: ApiGameResultType;
   youTubeCode: string;
 }
 

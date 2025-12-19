@@ -1,6 +1,7 @@
 import { PhaseTypes } from '../../Phases/state';
 
 export type ApiGameLiveState = 'not_started' | 'in_progress' | 'ended';
+export type ApiGameResultType = 'automatic' | 'manual' | 'home_team_walkover' | 'away_team_walkover';
 
 interface ApiGame {
   id: string;
@@ -15,6 +16,7 @@ interface ApiGame {
   live_state: ApiGameLiveState;
   live_started_at?: string;
   live_ended_at?: string;
+  result_type: ApiGameResultType;
   youtube_code?: string;
 }
 

@@ -3,7 +3,6 @@ import {
   mapApiPlayerStatResponseToPlayerStatEntity,
   PRIVATE_STAT_SLUGS
 } from './dataMappers';
-import { DEFAULT_TOURNAMENT } from './state';
 
 describe('mapApiPlayerStatResponseToPlayerStatEntity', () => {
   it('returns a player stat entity with public visibility by default', () => {
