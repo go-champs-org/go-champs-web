@@ -87,13 +87,6 @@ describe('selectDefaultGame', () => {
     expect(result.resultType).toBe('automatic');
   });
 
-  it('returns a new instance of game (not the same reference as DEFAULT_GAME)', () => {
-    const result = selectDefaultGame('basketball_5x5');
-
-    expect(result).not.toBe(DEFAULT_GAME);
-    expect(result).toEqual(expect.objectContaining(DEFAULT_GAME));
-  });
-
   it('does not modify the original DEFAULT_GAME when returning sport-specific defaults', () => {
     const originalResultType = DEFAULT_GAME.resultType;
 

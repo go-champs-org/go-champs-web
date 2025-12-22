@@ -87,7 +87,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
         <div className="columns is-multiline">
           <div className="column is-12">
             <h2 className="subtitle">
-              <Trans>newElimination</Trans>
+              <Trans>newGroupStandings</Trans>
             </h2>
           </div>
 

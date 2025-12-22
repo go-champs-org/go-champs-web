@@ -66,7 +66,7 @@ const EliminationEdit: React.FC<EliminationEditProps> = ({
         <div className="columns is-multiline">
           <div className="column is-12">
             <h2 className="subtitle">
-              <Trans>editElimination</Trans>
+              <Trans>editGroupStandings</Trans>
             </h2>
           </div>
 

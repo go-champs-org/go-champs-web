@@ -48,7 +48,7 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
   const EliminationMenu = (
     <Fragment>
       <p className="menu-label">
-        <Trans>eliminationMenuTitle</Trans>
+        <Trans>groupStandingsMenuTitle</Trans>
       </p>
 
       <ul className="menu-list">
@@ -63,7 +63,7 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
           <Link
             to={`/${organizationSlug}/${tournamentSlug}/Manage/${phase.id}/Eliminations`}
           >
-            <Trans>eliminations</Trans>
+            <Trans>groupStandings</Trans>
           </Link>
         </li>
       </ul>

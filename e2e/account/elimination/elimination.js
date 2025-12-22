@@ -12,7 +12,7 @@ module.exports = {
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
       .click("//*[contains(text(), 'Gerenciar')]")
-      .click("//*[contains(text(), 'Eliminacoes')]")
+      .click("//*[contains(text(), 'Grupos de classificação')]")
   },
 
   'Add new elimination': function (client) {

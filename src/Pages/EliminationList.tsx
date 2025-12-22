@@ -98,7 +98,7 @@ const EliminationList: React.FC<EliminationListProps> = ({
             <div className="columns is-vcentered is-mobile is-multiline">
               <ListHeader
                 newUrl={newUrl}
-                title={t('eliminations')}
+                title={t('groupStandings')}
                 onSaveOrder={() =>
                   patchBatchElimination(
                     mapEliminationsOrderByIndex(sortedEliminations)

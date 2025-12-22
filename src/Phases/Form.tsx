@@ -9,13 +9,14 @@ import {
   StatEntity
 } from './state';
 import { FieldArray } from 'react-final-form-arrays';
-import { PHASE_TYPES_OPTIONS } from './constans';
+import { PHASE_TYPES_OPTIONS_TRANSLATED } from './constans';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import { required } from '../Shared/UI/Form/Validators/commonValidators';
 import { Trans } from 'react-i18next';
+import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
 
 interface StatFormProps {
   name: string;
@@ -92,6 +93,9 @@ const Form: React.FC<FormProps> = ({
   push,
   teamStatOptions
 }) => {
+  const translatedPhaseTypeOptions = useTranslatedSelectOptions(
+    PHASE_TYPES_OPTIONS_TRANSLATED
+  );
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -136,7 +140,7 @@ const Form: React.FC<FormProps> = ({
             <Field
               name="type"
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-                <SelectInput {...props} options={PHASE_TYPES_OPTIONS} />
+                <SelectInput {...props} options={translatedPhaseTypeOptions} />
               )}
               validate={required}
             />
