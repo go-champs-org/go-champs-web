@@ -73,6 +73,12 @@ export default {
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
     games: 'Games',
+    gameResultType: {
+      automatic: 'Automatic',
+      manual: 'Manual',
+      homeTeamWalkover: 'Home Team Walkover',
+      awayTeamWalkover: 'Away Team Walkover'
+    },
     general: 'General',
     generateInvites: 'Generate invites',
     groupStats: 'Group stats',
@@ -131,6 +137,7 @@ export default {
     remove: 'Remove',
     repeatPassword: 'Repeat password',
     required: 'Required',
+    resultType: 'Result type',
     role: 'Role',
     roster: 'Roster',
     rounds: 'Rounds',

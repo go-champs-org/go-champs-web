@@ -4,16 +4,20 @@ import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { postGame } from '../Games/effects';
 import { default as GameForm } from '../Games/Form';
 import { Form, FormRenderProps } from 'react-final-form';
-import { DEFAULT_GAME, GameEntity } from '../Games/state';
+import { GameEntity } from '../Games/state';
 import { StoreState } from '../store';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { TournamentEntity } from '../Tournaments/state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
-import { postingGame } from '../Games/selectors';
+import { postingGame, resultTypeOptions } from '../Games/selectors';
 import { Trans } from 'react-i18next';
+import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
+import { tournamentBySlug } from '../Tournaments/selectors';
+import { selectDefaultGame } from '../Sports/selectors';
 
 interface OwnProps {
   basePhaseManageUrl: string;
@@ -26,6 +30,9 @@ type StateProps = {
   isPostingGame: boolean;
   phase: PhaseEntity;
   selectInputTeams: SelectOptionType[];
+  resultTypeOptions: TranslateSelectOptionType[];
+  tournament: TournamentEntity;
+  defaultGame: GameEntity;
 };
 
 type DispatchProps = {
@@ -36,10 +43,15 @@ type DispatchProps = {
 };
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
+  const tournament = tournamentBySlug(state.tournaments, props.tournamentSlug);
+
   return {
     isPostingGame: postingGame(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
-    selectInputTeams: teamsForSelectInput(state.teams)
+    selectInputTeams: teamsForSelectInput(state.teams),
+    resultTypeOptions: resultTypeOptions(),
+    tournament,
+    defaultGame: selectDefaultGame(tournament.sportSlug || '')
   };
 };
 
@@ -76,8 +88,10 @@ const GameNew: React.FC<GameNewProps> = ({
   organizationSlug,
   phase,
   postGame,
+  resultTypeOptions,
   selectInputTeams,
-  tournamentSlug
+  tournamentSlug,
+  defaultGame
 }) => {
   return (
     <Fragment>
@@ -92,13 +106,14 @@ const GameNew: React.FC<GameNewProps> = ({
           <div className="column is-12">
             <Form
               onSubmit={postGame}
-              initialValues={DEFAULT_GAME}
+              initialValues={defaultGame}
               render={(props: FormRenderProps<GameEntity>) => (
                 <GameForm
                   {...props}
                   backUrl={`${basePhaseManageUrl}/Games`}
                   isLoading={isPostingGame}
                   selectInputTeams={selectInputTeams}
+                  resultTypeOptions={resultTypeOptions}
                 />
               )}
             />

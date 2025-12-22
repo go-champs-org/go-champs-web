@@ -1,5 +1,15 @@
-import { ApiGameLiveState, ApiGameResultType } from '../Shared/httpClient/apiTypes';
+import {
+  ApiGameLiveState,
+  ApiGameResultType
+} from '../Shared/httpClient/apiTypes';
 import { DEFAULT_TEAM, TeamEntity } from '../Teams/state';
+
+export const GAME_RESULT_TYPE: Record<string, ApiGameResultType> = {
+  AUTOMATIC: 'automatic',
+  MANUAL: 'manual',
+  HOME_TEAM_WALKOVER: 'home_team_walkover',
+  AWAY_TEAM_WALKOVER: 'away_team_walkover'
+};
 
 export interface GameEntity {
   id: string;
@@ -51,5 +61,6 @@ export const DEFAULT_GAME: GameEntity = {
   liveState: 'not_started',
   location: '',
   phaseId: '',
-  youTubeCode: ''
+  youTubeCode: '',
+  resultType: GAME_RESULT_TYPE.MANUAL
 };

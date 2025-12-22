@@ -9,11 +9,16 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import YouTubeInput from '../Shared/UI/Form/YouTubeInput';
+import {
+  TranslateSelectOptionType,
+  useTranslatedSelectOptions
+} from '../Shared/hooks/useTranslatedSelectOptions';
 
 interface FromProps extends FormRenderProps<GameEntity> {
   backUrl: string;
   isLoading: boolean;
   selectInputTeams: SelectOptionType[];
+  resultTypeOptions: TranslateSelectOptionType[];
 }
 
 const Form: React.FC<FromProps> = ({
@@ -22,12 +27,17 @@ const Form: React.FC<FromProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  selectInputTeams
+  selectInputTeams,
+  resultTypeOptions,
+  values
 }) => {
   const [state, setState] = useState({
     useAwayPlaceholder: false,
     useHomePlaceholder: false
   });
+  const translatedResultTypeOptions = useTranslatedSelectOptions(
+    resultTypeOptions
+  );
 
   const toggleAwayPlaceholder = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -214,6 +224,25 @@ const Form: React.FC<FromProps> = ({
               component={YouTubeInput}
               type="text"
               placeholder="B28HavKyGIE"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>resultType</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="resultType"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={translatedResultTypeOptions}
+                  isClearable={false}
+                />
+              )}
             />
           </div>
         </div>

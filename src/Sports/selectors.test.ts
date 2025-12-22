@@ -1,8 +1,10 @@
 import {
   selectPlayerStatisticsByLevel,
-  selectPlayerStatisticsByScope
+  selectPlayerStatisticsByScope,
+  selectDefaultGame
 } from './selectors';
 import { initialState, SportEntity } from './state';
+import { DEFAULT_GAME, GAME_RESULT_TYPE } from '../Games/state';
 
 describe('selectPlayerStatisticsByLevel', () => {
   it('returns all player statistics for a given sport and level', () => {
@@ -51,5 +53,52 @@ describe('selectPlayerStatisticsByScope', () => {
       { name: 'Goals', scope: 'per_game' },
       { name: 'Assists', scope: 'per_game' }
     ]);
+  });
+});
+
+describe('selectDefaultGame', () => {
+  it('returns default game with manual result type for unknown sports', () => {
+    const result = selectDefaultGame('unknown_sport');
+
+    expect(result).toEqual({
+      ...DEFAULT_GAME,
+      resultType: GAME_RESULT_TYPE.MANUAL
+    });
+    expect(result.resultType).toBe('manual');
+  });
+
+  it('returns default game with manual result type for empty sport slug', () => {
+    const result = selectDefaultGame('');
+
+    expect(result).toEqual({
+      ...DEFAULT_GAME,
+      resultType: GAME_RESULT_TYPE.MANUAL
+    });
+    expect(result.resultType).toBe('manual');
+  });
+
+  it('returns default game with automatic result type for basketball_5x5', () => {
+    const result = selectDefaultGame('basketball_5x5');
+
+    expect(result).toEqual({
+      ...DEFAULT_GAME,
+      resultType: GAME_RESULT_TYPE.AUTOMATIC
+    });
+    expect(result.resultType).toBe('automatic');
+  });
+
+  it('returns a new instance of game (not the same reference as DEFAULT_GAME)', () => {
+    const result = selectDefaultGame('basketball_5x5');
+
+    expect(result).not.toBe(DEFAULT_GAME);
+    expect(result).toEqual(expect.objectContaining(DEFAULT_GAME));
+  });
+
+  it('does not modify the original DEFAULT_GAME when returning sport-specific defaults', () => {
+    const originalResultType = DEFAULT_GAME.resultType;
+
+    selectDefaultGame('basketball_5x5');
+
+    expect(DEFAULT_GAME.resultType).toBe(originalResultType);
   });
 });

@@ -1,7 +1,11 @@
 import { PhaseTypes } from '../../Phases/state';
 
 export type ApiGameLiveState = 'not_started' | 'in_progress' | 'ended';
-export type ApiGameResultType = 'automatic' | 'manual' | 'home_team_walkover' | 'away_team_walkover';
+export type ApiGameResultType =
+  | 'automatic'
+  | 'manual'
+  | 'home_team_walkover'
+  | 'away_team_walkover';
 
 interface ApiGame {
   id: string;

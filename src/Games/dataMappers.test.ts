@@ -65,13 +65,13 @@ const mockGameEntity: GameEntity = {
 };
 
 describe('mapApiGameToGameEntity', () => {
-    it('maps complete API game to game entity', () => {
+  it('maps complete API game to game entity', () => {
     const result = mapApiGameToGameEntity(mockApiGame);
 
     expect(result).toEqual(mockGameEntity);
   });
 
-    it('handles missing optional fields with default values', () => {
+  it('handles missing optional fields with default values', () => {
     const apiGameWithMissingFields: ApiGameWithDepedencies = {
       id: 'game-2',
       away_score: 0,
@@ -104,7 +104,7 @@ describe('mapApiGameToGameEntity', () => {
     });
   });
 
-    it('handles null datetime field', () => {
+  it('handles null datetime field', () => {
     const apiGameWithNullDatetime = {
       ...mockApiGame,
       datetime: null as any
@@ -115,7 +115,7 @@ describe('mapApiGameToGameEntity', () => {
     expect(result.datetime).toBe('');
   });
 
-    it('handles null optional string fields', () => {
+  it('handles null optional string fields', () => {
     const apiGameWithNullFields = {
       ...mockApiGame,
       away_placeholder: null as any,
@@ -132,7 +132,7 @@ describe('mapApiGameToGameEntity', () => {
     expect(result.youTubeCode).toBe('');
   });
 
-    it('uses DEFAULT_TEAM when away_team is null', () => {
+  it('uses DEFAULT_TEAM when away_team is null', () => {
     const apiGameWithoutAwayTeam = {
       ...mockApiGame,
       away_team: null as any
@@ -143,7 +143,7 @@ describe('mapApiGameToGameEntity', () => {
     expect(result.awayTeam).toEqual(DEFAULT_TEAM);
   });
 
-    it('uses DEFAULT_TEAM when home_team is null', () => {
+  it('uses DEFAULT_TEAM when home_team is null', () => {
     const apiGameWithoutHomeTeam = {
       ...mockApiGame,
       home_team: null as any
@@ -154,7 +154,7 @@ describe('mapApiGameToGameEntity', () => {
     expect(result.homeTeam).toEqual(DEFAULT_TEAM);
   });
 
-    it('handles different live states', () => {
+  it('handles different live states', () => {
     const liveStates: Array<'not_started' | 'in_progress' | 'ended'> = [
       'not_started',
       'in_progress',
@@ -168,13 +168,10 @@ describe('mapApiGameToGameEntity', () => {
     });
   });
 
-    it('handles different result types', () => {
-    const resultTypes: Array<'automatic' | 'manual' | 'home_team_walkover' | 'away_team_walkover'> = [
-      'automatic',
-      'manual',
-      'home_team_walkover',
-      'away_team_walkover'
-    ];
+  it('handles different result types', () => {
+    const resultTypes: Array<
+      'automatic' | 'manual' | 'home_team_walkover' | 'away_team_walkover'
+    > = ['automatic', 'manual', 'home_team_walkover', 'away_team_walkover'];
 
     resultTypes.forEach(resultType => {
       const apiGame = { ...mockApiGame, result_type: resultType };
@@ -185,7 +182,7 @@ describe('mapApiGameToGameEntity', () => {
 });
 
 describe('mapGameEntityToApiGamePostRequest', () => {
-    it('maps game entity to API post request', () => {
+  it('maps game entity to API post request', () => {
     const phaseId = 'phase-123';
     const result = mapGameEntityToApiGamePostRequest(mockGameEntity, phaseId);
 
@@ -212,7 +209,7 @@ describe('mapGameEntityToApiGamePostRequest', () => {
     expect(result).toEqual(expected);
   });
 
-it('handles empty optional string fields', () => {
+  it('handles empty optional string fields', () => {
     const gameWithEmptyFields: GameEntity = {
       ...mockGameEntity,
       awayPlaceholder: '',
@@ -221,7 +218,10 @@ it('handles empty optional string fields', () => {
       youTubeCode: ''
     };
 
-    const result = mapGameEntityToApiGamePostRequest(gameWithEmptyFields, 'phase-1');
+    const result = mapGameEntityToApiGamePostRequest(
+      gameWithEmptyFields,
+      'phase-1'
+    );
 
     expect(result.game.away_placeholder).toBe('');
     expect(result.game.home_placeholder).toBe('');
@@ -229,51 +229,63 @@ it('handles empty optional string fields', () => {
     expect(result.game.youtube_code).toBe('');
   });
 
-it('handles empty datetime field', () => {
+  it('handles empty datetime field', () => {
     const gameWithEmptyDatetime = {
       ...mockGameEntity,
       datetime: ''
     };
 
-    const result = mapGameEntityToApiGamePostRequest(gameWithEmptyDatetime, 'phase-1');
+    const result = mapGameEntityToApiGamePostRequest(
+      gameWithEmptyDatetime,
+      'phase-1'
+    );
 
     expect(result.game.datetime).toBe('');
   });
 
-it('handles empty location field', () => {
+  it('handles empty location field', () => {
     const gameWithEmptyLocation = {
       ...mockGameEntity,
       location: ''
     };
 
-    const result = mapGameEntityToApiGamePostRequest(gameWithEmptyLocation, 'phase-1');
+    const result = mapGameEntityToApiGamePostRequest(
+      gameWithEmptyLocation,
+      'phase-1'
+    );
 
     expect(result.game.location).toBe('');
   });
 
-it('handles teams without IDs', () => {
+  it('handles teams without IDs', () => {
     const gameWithTeamsWithoutIds: GameEntity = {
       ...mockGameEntity,
       awayTeam: { ...mockTeamEntity, id: '' },
       homeTeam: { ...mockTeamEntity, id: '' }
     };
 
-    const result = mapGameEntityToApiGamePostRequest(gameWithTeamsWithoutIds, 'phase-1');
+    const result = mapGameEntityToApiGamePostRequest(
+      gameWithTeamsWithoutIds,
+      'phase-1'
+    );
 
     expect(result.game.away_team_id).toBe('');
     expect(result.game.home_team_id).toBe('');
   });
 
-    it('uses provided phase ID', () => {
+  it('uses provided phase ID', () => {
     const customPhaseId = 'custom-phase-id';
-    const result = mapGameEntityToApiGamePostRequest(mockGameEntity, customPhaseId);
+    const result = mapGameEntityToApiGamePostRequest(
+      mockGameEntity,
+      customPhaseId
+    );
 
     expect(result.game.phase_id).toBe(customPhaseId);
   });
 });
 
 describe('mapGameEntityToApiGamePatchRequest', () => {
-    it('maps game entity to API patch request', () => {
+  it('maps game entity to API patch request', () => {
     const result = mapGameEntityToApiGamePatchRequest(mockGameEntity);
 
     const expected: ApiGamePatchRequest = {
@@ -298,7 +310,7 @@ describe('mapGameEntityToApiGamePatchRequest', () => {
     expect(result).toEqual(expected);
   });
 
-it('handles empty optional string fields', () => {
+  it('handles empty optional string fields', () => {
     const gameWithEmptyFields: GameEntity = {
       ...mockGameEntity,
       awayPlaceholder: '',
@@ -315,7 +327,7 @@ it('handles empty optional string fields', () => {
     expect(result.game.youtube_code).toBe('');
   });
 
-it('handles empty datetime field', () => {
+  it('handles empty datetime field', () => {
     const gameWithEmptyDatetime = {
       ...mockGameEntity,
       datetime: ''
@@ -326,7 +338,7 @@ it('handles empty datetime field', () => {
     expect(result.game.datetime).toBe('');
   });
 
-it('handles empty location field', () => {
+  it('handles empty location field', () => {
     const gameWithEmptyLocation = {
       ...mockGameEntity,
       location: ''
@@ -337,7 +349,7 @@ it('handles empty location field', () => {
     expect(result.game.location).toBe('');
   });
 
-it('handles teams without IDs', () => {
+  it('handles teams without IDs', () => {
     const gameWithTeamsWithoutIds: GameEntity = {
       ...mockGameEntity,
       awayTeam: { ...mockTeamEntity, id: '' },
@@ -350,13 +362,13 @@ it('handles teams without IDs', () => {
     expect(result.game.home_team_id).toBe('');
   });
 
-    it('does not include phase_id in patch request', () => {
+  it('does not include phase_id in patch request', () => {
     const result = mapGameEntityToApiGamePatchRequest(mockGameEntity);
 
     expect(result.game).not.toHaveProperty('phase_id');
   });
 
-    it('handles all possible boolean values for isFinished', () => {
+  it('handles all possible boolean values for isFinished', () => {
     const finishedGame = { ...mockGameEntity, isFinished: true };
     const unfinishedGame = { ...mockGameEntity, isFinished: false };
 
@@ -367,7 +379,7 @@ it('handles teams without IDs', () => {
     expect(unfinishedResult.game.is_finished).toBe(false);
   });
 
-    it('handles numeric scores correctly', () => {
+  it('handles numeric scores correctly', () => {
     const gameWithScores = {
       ...mockGameEntity,
       awayScore: 5,

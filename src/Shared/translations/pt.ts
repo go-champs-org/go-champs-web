@@ -74,6 +74,12 @@ export default {
     isGameFinished: 'Jogo encerrado',
     isInProgress: 'Em progresso',
     games: 'Partidas',
+    gameResultType: {
+      automatic: 'Automático',
+      manual: 'Manual',
+      homeTeamWalkover: 'W.O. Time Mandante',
+      awayTeamWalkover: 'W.O. Time Visitante'
+    },
     general: 'Gerais',
     generateInvites: 'Gerar convites',
     groupStats: 'Estatísticas de grupo',
@@ -132,6 +138,7 @@ export default {
     registrationFormSuccessMsg: 'Inscricão realizada com sucesso!',
     repeatPassword: 'Senha novamente',
     required: 'Obrigatório',
+    resultType: 'Tipo de resultado',
     role: 'Função',
     roster: 'Elenco',
     rounds: 'Chaveamentos',

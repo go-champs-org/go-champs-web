@@ -9,7 +9,7 @@ import { StoreState } from '../store';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
-import { gameById, patchingGame } from '../Games/selectors';
+import { gameById, patchingGame, resultTypeOptions } from '../Games/selectors';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
@@ -35,7 +35,8 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     game: gameById(state.games, gameId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
-    selectInputTeams: teamsForSelectInput(state.teams)
+    selectInputTeams: teamsForSelectInput(state.teams),
+    resultTypeOptions: resultTypeOptions()
   };
 };
 
@@ -62,6 +63,7 @@ const GameEdit: React.FC<GameEditProps> = ({
   phase,
   phases,
   patchGame,
+  resultTypeOptions,
   selectInputTeams,
   tournamentSlug,
   tournament
@@ -137,6 +139,7 @@ const GameEdit: React.FC<GameEditProps> = ({
                   backUrl={`${basePhaseManageUrl}/Games`}
                   isLoading={isGamePatching}
                   selectInputTeams={selectInputTeams}
+                  resultTypeOptions={resultTypeOptions}
                 />
               )}
             />

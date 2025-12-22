@@ -1,5 +1,6 @@
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { CoachType, DEFAULT_SPORT, Level, Scope, SportState } from './state';
+import { DEFAULT_GAME, GameEntity, GAME_RESULT_TYPE } from '../Games/state';
 
 export const sports = (state: SportState) =>
   Object.keys(state.sports).map((key: string) => state.sports[key]);
@@ -37,4 +38,15 @@ export const coachTypesForSelectInput = (
     value: coachType.type,
     label: coachType.type
   }));
+};
+
+export const selectDefaultGame = (sportSlug: string): GameEntity => {
+  const baseGame = { ...DEFAULT_GAME };
+
+  // Set sport-specific defaults
+  if (sportSlug === 'basketball_5x5') {
+    baseGame.resultType = GAME_RESULT_TYPE.AUTOMATIC;
+  }
+
+  return baseGame;
 };

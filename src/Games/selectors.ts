@@ -1,4 +1,6 @@
-import { GameEntity, GameState, DEFAULT_GAME } from './state';
+import { GameEntity, GameState, DEFAULT_GAME, GAME_RESULT_TYPE } from './state';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
+import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 
 export const games = (state: GameState): GameEntity[] =>
   Object.keys(state.games)
@@ -73,3 +75,16 @@ export const postingGame = (state: GameState): boolean =>
   state.isLoadingPostGame;
 export const deletingGame = (state: GameState): boolean =>
   state.isLoadingDeleteGame;
+
+export const resultTypeOptions = (): TranslateSelectOptionType[] => [
+  { value: GAME_RESULT_TYPE.AUTOMATIC, labelKey: 'gameResultType.automatic' },
+  { value: GAME_RESULT_TYPE.MANUAL, labelKey: 'gameResultType.manual' },
+  {
+    value: GAME_RESULT_TYPE.HOME_TEAM_WALKOVER,
+    labelKey: 'gameResultType.homeTeamWalkover'
+  },
+  {
+    value: GAME_RESULT_TYPE.AWAY_TEAM_WALKOVER,
+    labelKey: 'gameResultType.awayTeamWalkover'
+  }
+];
