@@ -18,6 +18,21 @@ interface YouTubeInputProps extends FieldRenderProps<string, HTMLElement> {
   disabled?: boolean;
 }
 
+// Validation function to be used with Field validate prop
+export const validateYouTubeInput = (value: string): string | undefined => {
+  if (!value) return undefined;
+
+  // Check if it's a valid YouTube URL
+  const urlMatch = value.match(YOUTUBE_CODE_REGEX);
+  if (urlMatch) return undefined;
+
+  // Check if it's a valid video ID (11 characters, letters, numbers, underscores, hyphens)
+  const videoIdRegex = /^[a-zA-Z0-9_-]{11}$/;
+  if (value.match(videoIdRegex)) return undefined;
+
+  return 'Invalid YouTube video ID or URL';
+};
+
 const YouTubeInput: React.FunctionComponent<YouTubeInputProps> = ({
   input,
   meta,

@@ -16,6 +16,15 @@ import {
   mapFileReferenceToApiPlayerPhoto,
   mapPhayerPhotoToApiFileReference
 } from './dataMappers';
+import FacebookInput, {
+  validateFacebookInput
+} from '../Shared/UI/Form/FacebookInput';
+import InstagramInput, {
+  validateInstagramInput
+} from '../Shared/UI/Form/InstagramInput';
+import TwitterInput, {
+  validateTwitterInput
+} from '../Shared/UI/Form/TwitterInput';
 
 export function FormLoading(): React.ReactElement {
   return (
@@ -241,9 +250,10 @@ function Form({
               <div className="control">
                 <Field
                   name="facebook"
-                  component={StringInput}
+                  component={FacebookInput}
                   type="text"
                   placeholder="www.facebook.com/your-tournament"
+                  validate={validateFacebookInput}
                 />
               </div>
 
@@ -259,9 +269,10 @@ function Form({
               <div className="control">
                 <Field
                   name="instagram"
-                  component={StringInput}
+                  component={InstagramInput}
                   type="text"
                   placeholder="www.instagram.com/your-tournament"
+                  validate={validateInstagramInput}
                 />
               </div>
 
@@ -277,9 +288,10 @@ function Form({
               <div className="control">
                 <Field
                   name="twitter"
-                  component={StringInput}
+                  component={TwitterInput}
                   type="text"
                   placeholder="www.twitter.com/your-tournament"
+                  validate={validateTwitterInput}
                 />
               </div>
 

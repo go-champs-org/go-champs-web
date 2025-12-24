@@ -8,7 +8,9 @@ import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
-import YouTubeInput from '../Shared/UI/Form/YouTubeInput';
+import YouTubeInput, {
+  validateYouTubeInput
+} from '../Shared/UI/Form/YouTubeInput';
 import {
   TranslateSelectOptionType,
   useTranslatedSelectOptions
@@ -224,6 +226,7 @@ const Form: React.FC<FromProps> = ({
               component={YouTubeInput}
               type="text"
               placeholder="B28HavKyGIE"
+              validate={validateYouTubeInput}
             />
           </div>
         </div>
