@@ -6,8 +6,39 @@ import OrganizationEdit from './OrganizationEdit';
 import Helmet from 'react-helmet';
 import { signOut } from '../Accounts/effects';
 import { Trans } from 'react-i18next';
+import ProfileEdit from './ProfileEdit';
+import ProfileNew from './ProfileNew';
+import withAccount from './support/withAccount';
+import { StoreState } from '../store';
+import { athleteProfileByUsername } from '../AthleteProfiles/selectors';
+import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
+import { bindActionCreators, Dispatch } from 'redux';
+import { getAccount } from '../Accounts/effects';
+import { requestAthleteProfile } from '../AthleteProfiles/effects';
+import { connect, ConnectedProps } from 'react-redux';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
-const AccountHome: React.FC = () => {
+const mapStateToProps = (state: StoreState) => {
+  const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
+  return {
+    athleteProfile: athleteProfileByUsername(state.athleteProfiles, username)
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      getAccount,
+      requestAthleteProfile
+    },
+    dispatch
+  );
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type AccountHomeProps = ConnectedProps<typeof connector>;
+
+function AccountHome({ athleteProfile }: AccountHomeProps) {
   return (
     <div>
       <div className="columns is-multiline">
@@ -28,6 +59,11 @@ const AccountHome: React.FC = () => {
               component={OrganizationNew}
             />
             <Route path="/Account/Organizations" component={OrganizationList} />
+            <Route
+              path="/Account/EditProfile/:username"
+              component={ProfileEdit}
+            />
+            <Route path="/Account/NewProfile" component={ProfileNew} />
             <Route path="/Account" component={OrganizationList} />
           </Switch>
         </div>
@@ -39,6 +75,22 @@ const AccountHome: React.FC = () => {
             </p>
 
             <ul className="menu-list">
+              <BehindFeatureFlag>
+                {athleteProfile.username ? (
+                  <li>
+                    <a href={`/Account/EditProfile/${athleteProfile.username}`}>
+                      <Trans>editAthleteProfile</Trans>
+                    </a>
+                  </li>
+                ) : (
+                  <li>
+                    <a href="/Account/NewProfile">
+                      <Trans>newAthleteProfile</Trans>
+                    </a>
+                  </li>
+                )}
+              </BehindFeatureFlag>
+
               <li>
                 <a href="/Account/Organizations">
                   <Trans>organizations</Trans>
@@ -66,6 +118,6 @@ const AccountHome: React.FC = () => {
       </Helmet>
     </div>
   );
-};
+}
 
-export default AccountHome;
+export default connector(withAccount(AccountHome));

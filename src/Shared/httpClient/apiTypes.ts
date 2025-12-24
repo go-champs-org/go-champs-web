@@ -698,6 +698,7 @@ export interface ApiRegistrationResponseResourceResponse {
 }
 
 export type ApiUploadFileType =
+  | 'athlete-profiles-photos'
   | 'player-photos'
   | 'registration-consents'
   | 'team-logos'
@@ -771,4 +772,29 @@ export interface ApiTeamStatsLog {
 
 export interface ApiTeamStatsLogsResponse {
   data: ApiTeamStatsLog[];
+}
+
+export interface ApiAthleteProfile {
+  username: string;
+  name?: string;
+  photo_url?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+}
+
+export interface ApiAthleteProfilePostRequest {
+  athlete_profile: ApiAthleteProfile;
+}
+
+export interface ApiAthleteProfilePatchRequest {
+  athlete_profile: ApiAthleteProfile;
+}
+
+export interface ApiAthleteProfileResponse {
+  data: ApiAthleteProfile;
+}
+
+export interface ApiAthleteProfilesResponse {
+  data: ApiAthleteProfile[];
 }

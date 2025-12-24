@@ -11,6 +11,7 @@ import { isGettingAccountLoading } from '../Accounts/selectors';
 import { Trans } from 'react-i18next';
 import withAccount from './support/withAccount';
 import { getAccount } from '../Accounts/effects';
+import { requestAthleteProfile } from '../AthleteProfiles/effects';
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -23,7 +24,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       deleteOrganization,
-      getAccount
+      getAccount,
+      requestAthleteProfile
     },
     dispatch
   );
