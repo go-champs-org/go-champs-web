@@ -64,7 +64,7 @@ const List: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="container">
+    <section className="search container">
       <div className="hero">
         <div className="hero-head">
           <div className="container">

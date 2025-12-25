@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react';
 import List from '../RecentlyViews/List';
+import './Home.scss';
 
 const Home: React.FC = () => (
   <Fragment>
-    <List />
+    <div className="home-page">
+      <List />
+    </div>
   </Fragment>
 );
 
