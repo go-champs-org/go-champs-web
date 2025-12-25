@@ -11,6 +11,7 @@ import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import withAccount from './support/withAccount';
 import { isGettingAccountLoading } from '../Accounts/selectors';
 import { Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
@@ -144,6 +145,10 @@ function AccountHomeBillboard({
           </>
         )}
       </div>
+
+      <Helmet>
+        <title>Go Champs | My Account</title>
+      </Helmet>
     </div>
   );
 }

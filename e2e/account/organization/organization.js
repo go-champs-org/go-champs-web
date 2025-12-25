@@ -12,6 +12,9 @@ module.exports = {
 
   'Add new organization': function (client) {
     client
+      .useXpath()
+      .click('//*[contains(text(), "Gerencie seus campeonatos")]')
+      .useCss()
       .click('a[href="/Account/NewOrganization"]')
       .assert.title('Go Champs | New Organization')
       .pause(1000)
@@ -29,6 +32,7 @@ module.exports = {
   'Edit organization': function (client) {
     client
       .useXpath()
+      .click('//*[contains(text(), "Gerencie seus campeonatos")]')
       .click("//*[contains(text(), 'Test organization (can delete)')]")
       .click("//*[contains(text(), 'Informacões')]")
       .assert.title('Go Champs | Edit Organization')
@@ -48,6 +52,7 @@ module.exports = {
   'Delete organization': function (client) {
     client
       .useXpath()
+      .click('//*[contains(text(), "Gerencie seus campeonatos")]')
       .click("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button")
       .click("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button") // needs to double click
       .pause(1000)

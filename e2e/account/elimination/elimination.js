@@ -9,6 +9,7 @@ module.exports = {
       .click('button[type=submit]')
       .waitForElementVisible('body', 1000)
       .useXpath()
+      .click("//*[contains(text(), 'Gerencie seus campeonatos')]")
       .click("//*[contains(text(), 'Test Organization (cannot delete)')]")
       .click("//*[contains(text(), 'Test tournament (cannot delete)')]")
       .click("//*[contains(text(), 'Gerenciar')]")
