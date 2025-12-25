@@ -18,10 +18,18 @@
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [3000],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "bash scripts/install.sh",
+	"postCreateCommand": "yarn install && /workspace/.devcontainer/setup-cypress.sh",
+
+	// Use 'postStartCommand' to ensure services are running
+	"postStartCommand": "service dbus start > /dev/null 2>&1 && pkill Xvfb > /dev/null 2>&1; export DISPLAY=:99 && Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &",
+
+	// Environment variables for Cypress
+	"containerEnv": {
+		"DISPLAY": ":99"
+	},
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "node"

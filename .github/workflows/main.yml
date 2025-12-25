@@ -89,12 +89,15 @@ jobs:
         with:
           node-version: '20.0.0'
           cache: 'yarn'
-      - uses: browser-actions/setup-chrome@v1
-      - name: Install dependencies
-        run: yarn install
-      - name: Running e2e tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          install-command: yarn install
+          start: echo "Using deployed staging environment"
+          wait-on-timeout: 60
+          record: false
         env:
           STAGING_APP_HOST: ${{ secrets.STAGING_APP_HOST }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-        run: yarn run test:e2e --env=ci:staging
+          CYPRESS_baseUrl: ${{ secrets.STAGING_APP_HOST }}

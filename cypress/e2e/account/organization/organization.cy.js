@@ -1,0 +1,46 @@
+describe('Organization Management', () => {
+  beforeEach(() => {
+    cy.visit('/SignIn')
+    cy.get('body').should('be.visible')
+    cy.get('input[name="username"]').type(Cypress.env('TEST_USERNAME'))
+    cy.get('input[name="password"]').type(Cypress.env('TEST_PASSWORD'))
+    cy.get('button[type=submit]').click()
+    cy.get('body').should('be.visible')
+    cy.xpath('//*[contains(text(), "Gerencie seus campeonatos")]').click()
+  })
+
+  it('Add new organization', () => {
+    cy.get('a[href="/Account/NewOrganization"]').click()
+    cy.title().should('eq', 'Go Champs | New Organization')
+    cy.wait(1000)
+    cy.get('input[name="name"]').type('Test organization (can delete)')
+    cy.get('input[name="slug"]').type('test-organization-can-delete')
+    cy.wait(1000)
+    cy.get('button[type=submit]').click()
+    cy.wait(1000)
+    cy.reload()
+    cy.xpath("//*[contains(text(), 'Test organization (can delete)') and contains(@class, 'title')]").should('be.visible')
+  })
+
+  it('Edit organization', () => {
+    cy.wait(1000)
+    cy.xpath("//*[contains(text(), 'Test organization (can delete)')]").first().click()
+    cy.wait(1000)
+    cy.xpath("//*[contains(text(), 'Informacões')]").click()
+    cy.wait(1000)
+    cy.title().should('eq', 'Go Champs | Edit Organization')
+    cy.get('input[name="name"]').type(' edited')
+    cy.wait(1000)
+    cy.get('button[type=submit]').click()
+    cy.xpath("//*[contains(text(), 'Voltar')]").click()
+    cy.wait(1000)
+    cy.reload()
+    cy.xpath("//*[contains(text(), 'Test organization (can delete) edited') and contains(@class, 'title')]").should('be.visible')
+  })
+
+  it('Delete organization', () => {
+    cy.xpath("//*[contains(text(), 'Test organization (can delete) edited')]/../../div/button").dblclick()
+    cy.wait(1000)
+    cy.xpath("//*[contains(text(), 'Test organization (can delete) edited') and contains(@class, 'title')]").should('not.exist')
+  })
+})
