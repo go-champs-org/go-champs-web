@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
@@ -16,7 +16,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { getAccount } from '../Accounts/effects';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
@@ -43,9 +42,11 @@ function AccountHome({ athleteProfile }: AccountHomeProps) {
     <div>
       <div className="columns is-multiline">
         <header className="column is-12">
-          <h1 className="title">
-            <Trans>myAccount</Trans>
-          </h1>
+          <Link to="/Account">
+            <h1 className="title">
+              <Trans>myAccount</Trans>
+            </h1>
+          </Link>
         </header>
 
         <div className="column is-8">
@@ -64,7 +65,6 @@ function AccountHome({ athleteProfile }: AccountHomeProps) {
               component={ProfileEdit}
             />
             <Route path="/Account/NewProfile" component={ProfileNew} />
-            <Route path="/Account" component={OrganizationList} />
           </Switch>
         </div>
 
@@ -75,21 +75,19 @@ function AccountHome({ athleteProfile }: AccountHomeProps) {
             </p>
 
             <ul className="menu-list">
-              <BehindFeatureFlag>
-                {athleteProfile.username ? (
-                  <li>
-                    <a href={`/Account/EditProfile/${athleteProfile.username}`}>
-                      <Trans>editAthleteProfile</Trans>
-                    </a>
-                  </li>
-                ) : (
-                  <li>
-                    <a href="/Account/NewProfile">
-                      <Trans>newAthleteProfile</Trans>
-                    </a>
-                  </li>
-                )}
-              </BehindFeatureFlag>
+              {athleteProfile.username ? (
+                <li>
+                  <a href={`/Account/EditProfile/${athleteProfile.username}`}>
+                    <Trans>editAthleteProfile</Trans>
+                  </a>
+                </li>
+              ) : (
+                <li>
+                  <a href="/Account/NewProfile">
+                    <Trans>newAthleteProfile</Trans>
+                  </a>
+                </li>
+              )}
 
               <li>
                 <a href="/Account/Organizations">

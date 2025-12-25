@@ -718,6 +718,18 @@ export default {
     viewer: 'Visualizador',
     visibility: 'Visibilidade',
     youTubeCode: 'Código YouTube',
+    manageYourAthleteProfile: 'Gerencie seu Perfil de Atleta',
+    createYourAthleteProfileToGetStarted:
+      'Crie seu Perfil de Atleta para começar!',
+    manageYourOrganizations: 'Gerencie suas Organizações',
+    clickHere: 'Clique aqui',
+    forAthletes: 'Para atletas',
+    forOrganizationAdministrators:
+      'Para administradores de organizações e campeonatos',
+    welcomeChamps: 'Fala Champs!',
+    manageAthleteProfile: 'Gerencie seu Perfil de Atleta',
+    createAthleteProfile: 'Crie seu Perfil de Atleta',
+    manageOrganizations: 'Gerencie seus campeonatos',
     pwa: {
       install: {
         title: 'Instalar Go Champs',

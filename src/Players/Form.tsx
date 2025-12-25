@@ -8,7 +8,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { PlayerEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import { PLAYER_STATE_OPTIONS } from './selectors';
 import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 import ImageUpload from '../Shared/UI/Form/ImageUpload';
@@ -303,16 +302,6 @@ function Form({
             </div>
           </CollapsibleCard>
         </div>
-
-        <BehindFeatureFlag>
-          {values.registrationResponse && (
-            <div className="field">
-              <CollapsibleCard titleElement={t('registratioResponse')}>
-                Registration response
-              </CollapsibleCard>
-            </div>
-          )}
-        </BehindFeatureFlag>
 
         <LoadingButton
           isLoading={isLoading}

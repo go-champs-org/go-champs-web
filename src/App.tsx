@@ -33,6 +33,7 @@ import { REACT_APP_BUILD_NUMBER } from './Shared/env';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
 import OrganizationView from './Pages/OrganizationView';
 import { ThemeProvider } from './Theme';
+import AccountHomeBillboard from './Pages/AccountHomeBillboard';
 
 const App: React.FC = () => {
   const { t } = useTranslation();
@@ -55,7 +56,7 @@ const App: React.FC = () => {
                       path="/Account"
                       render={() => (
                         <AuthenticatedRoute>
-                          <AccountHome />
+                          <AccountHomeBillboard />
                         </AuthenticatedRoute>
                       )}
                     />
