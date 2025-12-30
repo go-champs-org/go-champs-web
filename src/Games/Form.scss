@@ -1,0 +1,18 @@
+.game-asset-form {
+  align-items: center;
+  justify-content: center;
+
+  .label {
+    margin: 0;
+    margin-right: 1rem;
+  }
+
+  .field-body {
+    align-items: center;
+    justify-content: center;
+
+    .button {
+      margin: auto;
+    }
+  }
+}

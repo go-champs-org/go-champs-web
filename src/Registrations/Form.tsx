@@ -295,7 +295,7 @@ function Form({
             </FieldArray>
 
             <button
-              className="button is-fullwidth  is-medium"
+              className="button is-fullwidth is-medium"
               type="button"
               onClick={() => push('customFields', DEFAULT_CUSTOM_FIELD)}
               style={{ marginBottom: '1rem' }}

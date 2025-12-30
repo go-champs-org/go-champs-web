@@ -3,10 +3,15 @@ import { Field, FormRenderProps, FieldRenderProps } from 'react-final-form';
 import Datetime from '../Shared/UI/Form/Datetime';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
-import { GameEntity } from './state';
+import {
+  DEFAULT_GAME_ASSET,
+  GAME_LIVE_STATE,
+  GameAsset,
+  GameEntity
+} from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import YouTubeInput, {
   validateYouTubeInput
@@ -15,12 +20,85 @@ import {
   TranslateSelectOptionType,
   useTranslatedSelectOptions
 } from '../Shared/hooks/useTranslatedSelectOptions';
+import CollapsibleCard from '../Shared/UI/CollapsibleCard';
+import { FieldArray } from 'react-final-form-arrays';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import './Form.scss';
+
+function GameAssetForm({
+  name,
+  currentValue,
+  gameAssetTypeOptions,
+  onRemove
+}: {
+  name: string;
+  currentValue: GameAsset;
+  gameAssetTypeOptions: SelectOptionType[];
+  onRemove: () => void;
+}) {
+  const { t } = useTranslation();
+  return (
+    <div className="game-asset-form field is-horizontal">
+      <label className="label">{t('asset')}</label>
+      <div className="field-body">
+        <div className="field">
+          <div className="control">
+            <Field
+              name={`${name}.type`}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={gameAssetTypeOptions}
+                  isClearable={false}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <div className="control">
+            <Field
+              name={`${name}.url`}
+              component={StringInput}
+              type="text"
+              placeholder="https://example.com/asset"
+            />
+          </div>
+        </div>
+
+        {currentValue.url && (
+          <a
+            className="button"
+            href={currentValue.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="icon">
+              <i className="fas fa-external-link-alt"></i>
+            </span>
+            <span>
+              <Trans>open</Trans>
+            </span>
+          </a>
+        )}
+
+        <DoubleClickButton className="button is-danger" onClick={onRemove}>
+          <i className="fas fa-trash" />
+        </DoubleClickButton>
+      </div>
+    </div>
+  );
+}
 
 interface FromProps extends FormRenderProps<GameEntity> {
   backUrl: string;
   isLoading: boolean;
   selectInputTeams: SelectOptionType[];
   resultTypeOptions: TranslateSelectOptionType[];
+  liveStateOptions: TranslateSelectOptionType[];
+  gameAssetTypeOptions: TranslateSelectOptionType[];
+  push: (fieldName: string, gameAsset: GameAsset) => {};
 }
 
 const Form: React.FC<FromProps> = ({
@@ -31,14 +109,24 @@ const Form: React.FC<FromProps> = ({
   pristine,
   selectInputTeams,
   resultTypeOptions,
-  values
+  liveStateOptions,
+  gameAssetTypeOptions,
+  values,
+  push
 }) => {
+  const { t } = useTranslation();
   const [state, setState] = useState({
     useAwayPlaceholder: false,
     useHomePlaceholder: false
   });
   const translatedResultTypeOptions = useTranslatedSelectOptions(
     resultTypeOptions
+  );
+  const translatedLiveStateOptions = useTranslatedSelectOptions(
+    liveStateOptions
+  );
+  const translatedGameAssetTypeOptions = useTranslatedSelectOptions(
+    gameAssetTypeOptions
   );
 
   const toggleAwayPlaceholder = (
@@ -87,6 +175,9 @@ const Form: React.FC<FromProps> = ({
                     ) => (
                       <SelectInput
                         {...props}
+                        isDisabled={
+                          values.liveState === GAME_LIVE_STATE.IN_PROGRESS
+                        }
                         options={selectInputTeams}
                         isClearable
                       />
@@ -105,16 +196,6 @@ const Form: React.FC<FromProps> = ({
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="field">
-          <label className="label">
-            <Trans>awayScore</Trans>
-          </label>
-
-          <div className="control">
-            <Field name="awayScore" component={StringInput} type="number" />
           </div>
         </div>
 
@@ -141,6 +222,9 @@ const Form: React.FC<FromProps> = ({
                     ) => (
                       <SelectInput
                         {...props}
+                        isDisabled={
+                          values.liveState === GAME_LIVE_STATE.IN_PROGRESS
+                        }
                         options={selectInputTeams}
                         isClearable
                       />
@@ -164,13 +248,46 @@ const Form: React.FC<FromProps> = ({
 
         <div className="field">
           <label className="label">
-            <Trans>homeScore</Trans>
+            <Trans>liveState</Trans>
           </label>
 
           <div className="control">
-            <Field name="homeScore" component={StringInput} type="number" />
+            <Field
+              name="liveState"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={translatedLiveStateOptions}
+                  isClearable={false}
+                />
+              )}
+            />
           </div>
         </div>
+
+        {values.liveState !== GAME_LIVE_STATE.NOT_STARTED && (
+          <>
+            <div className="field">
+              <label className="label">
+                <Trans>awayScore</Trans>
+              </label>
+
+              <div className="control">
+                <Field name="awayScore" component={StringInput} type="number" />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">
+                <Trans>homeScore</Trans>
+              </label>
+
+              <div className="control">
+                <Field name="homeScore" component={StringInput} type="number" />
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="field">
           <label className="label">
@@ -187,21 +304,6 @@ const Form: React.FC<FromProps> = ({
 
         <div className="field">
           <label className="label">
-            <Trans>informations</Trans>
-          </label>
-
-          <div className="control">
-            <Field
-              name="info"
-              component={StringInput}
-              type="text"
-              placeholder="Some information"
-            />
-          </div>
-        </div>
-
-        <div className="field">
-          <label className="label">
             <Trans>location</Trans>
           </label>
 
@@ -211,22 +313,6 @@ const Form: React.FC<FromProps> = ({
               component={StringInput}
               type="text"
               placeholder="Location"
-            />
-          </div>
-        </div>
-
-        <div className="field">
-          <label className="label">
-            <Trans>youTubeCode</Trans>
-          </label>
-
-          <div className="control">
-            <Field
-              name="youTubeCode"
-              component={YouTubeInput}
-              type="text"
-              placeholder="B28HavKyGIE"
-              validate={validateYouTubeInput}
             />
           </div>
         </div>
@@ -251,20 +337,60 @@ const Form: React.FC<FromProps> = ({
         </div>
 
         <div className="field">
-          <div className="control" style={{ paddingTop: '.5rem' }}>
-            <Field
-              name="isFinished"
-              type="checkbox"
-              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
-                <CheckboxInput {...props} id="isFinished" />
-              )}
-            />
+          <label className="label">
+            <Trans>informations</Trans>
+          </label>
 
-            <label className="label" htmlFor="isFinished">
-              <Trans>isGameFinished</Trans>
-            </label>
+          <div className="control">
+            <Field
+              name="info"
+              component={StringInput}
+              type="text"
+              placeholder="Some information"
+            />
           </div>
         </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>youTubeCode</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="youTubeCode"
+              component={YouTubeInput}
+              type="text"
+              placeholder="B28HavKyGIE"
+              validate={validateYouTubeInput}
+            />
+          </div>
+        </div>
+
+        <CollapsibleCard titleElement={t('assets')}>
+          <FieldArray name="assets">
+            {({ fields }) =>
+              fields.map((name, index) => (
+                <GameAssetForm
+                  key={name}
+                  name={name}
+                  gameAssetTypeOptions={translatedGameAssetTypeOptions}
+                  currentValue={fields.value[index]}
+                  onRemove={() => fields.remove(index)}
+                />
+              ))
+            }
+          </FieldArray>
+
+          <button
+            className="button is-fullwidth is-medium"
+            type="button"
+            onClick={() => push('assets', DEFAULT_GAME_ASSET)}
+            style={{ marginBottom: '1rem' }}
+          >
+            <Trans>addAsset</Trans>
+          </button>
+        </CollapsibleCard>
 
         <LoadingButton
           isLoading={isLoading}

@@ -30,6 +30,13 @@ const mockApiTeam: ApiTeam = {
 
 const mockApiGame: ApiGameWithDepedencies = {
   id: 'game-1',
+  assets: [
+    {
+      id: 'asset-1',
+      type: 'fiba-scoresheet',
+      url: 'https://example.com/scoresheet.pdf'
+    }
+  ],
   away_placeholder: 'Away Team',
   away_score: 2,
   away_team: mockApiTeam,
@@ -48,6 +55,13 @@ const mockApiGame: ApiGameWithDepedencies = {
 
 const mockGameEntity: GameEntity = {
   id: 'game-1',
+  assets: [
+    {
+      id: 'asset-1',
+      type: 'fiba-scoresheet',
+      url: 'https://example.com/scoresheet.pdf'
+    }
+  ],
   awayPlaceholder: 'Away Team',
   awayScore: 2,
   awayTeam: mockTeamEntity,
@@ -87,6 +101,7 @@ describe('mapApiGameToGameEntity', () => {
 
     expect(result).toEqual({
       id: 'game-2',
+      assets: [],
       awayPlaceholder: '',
       awayScore: 0,
       awayTeam: DEFAULT_TEAM,
@@ -189,6 +204,12 @@ describe('mapGameEntityToApiGamePostRequest', () => {
     const expected: ApiGamePostRequest = {
       game: {
         id: 'game-1',
+        assets: [
+          {
+            type: 'fiba-scoresheet',
+            url: 'https://example.com/scoresheet.pdf'
+          }
+        ],
         away_placeholder: 'Away Team',
         away_score: 2,
         away_team_id: 'team-1',
@@ -291,6 +312,13 @@ describe('mapGameEntityToApiGamePatchRequest', () => {
     const expected: ApiGamePatchRequest = {
       game: {
         id: 'game-1',
+        assets: [
+          {
+            id: 'asset-1',
+            type: 'fiba-scoresheet',
+            url: 'https://example.com/scoresheet.pdf'
+          }
+        ],
         away_placeholder: 'Away Team',
         away_score: 2,
         away_team_id: 'team-1',

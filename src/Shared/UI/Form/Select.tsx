@@ -12,6 +12,7 @@ export interface SelectOptionType {
 
 interface SelectInputProps extends FieldRenderProps<string, HTMLSelectElement> {
   isClearable?: boolean;
+  isDisabled?: boolean;
   options: SelectOptionType[];
 }
 
@@ -32,6 +33,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   input,
   meta,
   isClearable,
+  isDisabled = false,
   options
 }) => {
   const { theme } = useTheme();
@@ -107,6 +109,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
     <ReactSelect
       className="select-override"
       value={value}
+      isDisabled={isDisabled}
       styles={selectStyles}
       isClearable={isClearable}
       getOptionValue={getOptionValue}

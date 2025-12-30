@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import arrayMutators from 'final-form-arrays';
+import { Mutator } from 'final-form';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { postGame } from '../Games/effects';
@@ -13,7 +15,12 @@ import { phaseByIdOrDefault } from '../Phases/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { TournamentEntity } from '../Tournaments/state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
-import { postingGame, resultTypeOptions } from '../Games/selectors';
+import {
+  gameAssetTypeOptions,
+  liveStateOptions,
+  postingGame,
+  resultTypeOptions
+} from '../Games/selectors';
 import { Trans } from 'react-i18next';
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 import { tournamentBySlug } from '../Tournaments/selectors';
@@ -50,6 +57,8 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams),
     resultTypeOptions: resultTypeOptions(),
+    liveStateOptions: liveStateOptions(),
+    gameAssetTypeOptions: gameAssetTypeOptions(),
     tournament,
     defaultGame: selectDefaultGame(tournament.sportSlug || '')
   };
@@ -89,6 +98,8 @@ const GameNew: React.FC<GameNewProps> = ({
   phase,
   postGame,
   resultTypeOptions,
+  liveStateOptions,
+  gameAssetTypeOptions,
   selectInputTeams,
   tournamentSlug,
   defaultGame
@@ -107,13 +118,21 @@ const GameNew: React.FC<GameNewProps> = ({
             <Form
               onSubmit={postGame}
               initialValues={defaultGame}
+              mutators={
+                (arrayMutators as unknown) as {
+                  [key: string]: Mutator<GameEntity>;
+                }
+              }
               render={(props: FormRenderProps<GameEntity>) => (
                 <GameForm
                   {...props}
+                  push={props.form.mutators.push}
                   backUrl={`${basePhaseManageUrl}/Games`}
                   isLoading={isPostingGame}
                   selectInputTeams={selectInputTeams}
                   resultTypeOptions={resultTypeOptions}
+                  liveStateOptions={liveStateOptions}
+                  gameAssetTypeOptions={gameAssetTypeOptions}
                 />
               )}
             />

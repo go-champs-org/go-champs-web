@@ -1,5 +1,9 @@
 import { PhaseTypes } from '../../Phases/state';
 
+export type ApiGameAssetType =
+  | 'fiba-scoresheet'
+  | 'fiba-boxscore'
+  | 'folder-images';
 export type ApiGameLiveState = 'not_started' | 'in_progress' | 'ended';
 export type ApiGameResultType =
   | 'automatic'
@@ -7,8 +11,15 @@ export type ApiGameResultType =
   | 'home_team_walkover'
   | 'away_team_walkover';
 
+export interface ApiGameAsset {
+  id?: string;
+  type: ApiGameAssetType;
+  url: string;
+}
+
 interface ApiGame {
   id: string;
+  assets?: ApiGameAsset[];
   away_placeholder?: string;
   away_score: number;
   datetime?: string;
@@ -699,6 +710,7 @@ export interface ApiRegistrationResponseResourceResponse {
 
 export type ApiUploadFileType =
   | 'athlete-profiles-photos'
+  | 'game-assets'
   | 'player-photos'
   | 'registration-consents'
   | 'team-logos'

@@ -1,16 +1,29 @@
 import {
   ApiGameWithDepedencies,
   ApiGamePostRequest,
-  ApiGamePatchRequest
+  ApiGamePatchRequest,
+  ApiGameAssetType,
+  ApiGameAsset
 } from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { DEFAULT_TEAM } from '../Teams/state';
 import { GameEntity } from './state';
 
+export const mapApiGameAssetToGameAssetEntity = (
+  apiGameAsset: ApiGameAsset
+) => ({
+  id: apiGameAsset.id,
+  type: apiGameAsset.type as ApiGameAssetType,
+  url: apiGameAsset.url
+});
+
 export const mapApiGameToGameEntity = (
   apiGame: ApiGameWithDepedencies
 ): GameEntity => ({
   id: apiGame.id,
+  assets: apiGame.assets
+    ? apiGame.assets.map(mapApiGameAssetToGameAssetEntity)
+    : [],
   awayPlaceholder: apiGame.away_placeholder ? apiGame.away_placeholder : '',
   awayScore: apiGame.away_score,
   awayTeam: apiGame.away_team
@@ -37,6 +50,13 @@ export const mapGameEntityToApiGamePostRequest = (
 ): ApiGamePostRequest => ({
   game: {
     id: game.id,
+    assets:
+      game.assets.length > 0
+        ? game.assets.map(asset => ({
+            type: asset.type,
+            url: asset.url
+          }))
+        : [],
     away_placeholder: game.awayPlaceholder && game.awayPlaceholder,
     away_score: game.awayScore,
     away_team_id: game.awayTeam.id && game.awayTeam.id,
@@ -59,6 +79,14 @@ export const mapGameEntityToApiGamePatchRequest = (
 ): ApiGamePatchRequest => ({
   game: {
     id: game.id,
+    assets:
+      game.assets.length > 0
+        ? game.assets.map(asset => ({
+            id: asset.id && asset.id,
+            type: asset.type,
+            url: asset.url
+          }))
+        : [],
     away_placeholder: game.awayPlaceholder && game.awayPlaceholder,
     away_score: game.awayScore,
     away_team_id: game.awayTeam.id && game.awayTeam.id,
