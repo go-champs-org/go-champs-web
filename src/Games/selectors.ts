@@ -104,14 +104,25 @@ export const liveStateOptions = (): TranslateSelectOptionType[] => [
 export const gameAssetTypeOptions = (): TranslateSelectOptionType[] => [
   {
     value: GAME_ASSET_TYPE.FIBA_SCORESHEET,
-    labelKey: 'gameAssetType.fibaScoresheet'
+    labelKey: 'gameAssetType.fibaScoresheet',
+    faIconClass: 'fas fa-file-alt'
   },
   {
     value: GAME_ASSET_TYPE.FIBA_BOXSCORE,
-    labelKey: 'gameAssetType.fibaBoxscore'
+    labelKey: 'gameAssetType.fibaBoxscore',
+    faIconClass: 'fas fa-table'
   },
   {
     value: GAME_ASSET_TYPE.FOLDER_IMAGES,
-    labelKey: 'gameAssetType.folderImages'
+    labelKey: 'gameAssetType.folderImages',
+    faIconClass: 'fas fa-folder-open'
   }
 ];
+
+export const gameAssetOptionByValue = (
+  value: string
+): TranslateSelectOptionType | undefined => {
+  return gameAssetTypeOptions().find(
+    (option: TranslateSelectOptionType) => option.value === value
+  );
+};

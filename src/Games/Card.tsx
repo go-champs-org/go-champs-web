@@ -1,11 +1,42 @@
 import React from 'react';
-import { GameEntity } from './state';
+import { GameAssetEntity, GameEntity } from './state';
 import { useTranslation } from 'react-i18next';
 import Identifier from '../Teams/Indentifier';
 import './Card.scss';
 import { TeamEntity } from '../Teams/state';
 import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import LiveIndicator from '../Shared/UI/LiveIndicator';
+import { gameAssetOptionByValue } from './selectors';
+
+const DEFAULT_ASSET_ICON_CLASS = 'fas fa-external-link-alt';
+
+function Asset({ asset }: { asset: GameAssetEntity }) {
+  const { t } = useTranslation();
+  const assetTypeOption = gameAssetOptionByValue(asset.type);
+  return (
+    <a
+      href={asset.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="button is-small"
+    >
+      <span className="icon is-small">
+        <i
+          className={
+            assetTypeOption
+              ? assetTypeOption.faIconClass
+              : DEFAULT_ASSET_ICON_CLASS
+          }
+        ></i>
+      </span>
+      <span className="is-hidden-mobile">
+        {t(assetTypeOption ? assetTypeOption.labelKey || '' : '', {
+          keySeparator: '.'
+        })}
+      </span>
+    </a>
+  );
+}
 
 function Team({
   team,
@@ -138,11 +169,20 @@ function Card({
           </div>
         </div>
 
-        {game.info && (
-          <div className="column is-12 has-text-centered">
-            <small>{game.info}</small>
+        <div className="column is-12">
+          <div className="columns">
+            <div className="column is-6-tablet is-full-mobile buttons has-text-centered-mobile">
+              {game.assets.map(asset => (
+                <Asset key={asset.id || asset.url} asset={asset} />
+              ))}
+            </div>
+            {game.info && (
+              <div className="column is-6-tablet is-full-mobile has-text-centered-mobile has-text-right-tablet">
+                <small>{game.info}</small>
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
         {game.liveState === 'in_progress' && (
           <div className="column is-12 has-text-centered">

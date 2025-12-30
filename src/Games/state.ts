@@ -24,7 +24,7 @@ export const GAME_ASSET_TYPE: Record<string, ApiGameAssetType> = {
   FOLDER_IMAGES: 'folder-images'
 };
 
-export interface GameAsset {
+export interface GameAssetEntity {
   id?: string;
   type: 'fiba-scoresheet' | 'fiba-boxscore' | 'folder-images';
   url: string;
@@ -32,7 +32,7 @@ export interface GameAsset {
 
 export interface GameEntity {
   id: string;
-  assets: GameAsset[];
+  assets: GameAssetEntity[];
   awayPlaceholder: string;
   awayScore: number;
   awayTeam: TeamEntity;
@@ -86,7 +86,7 @@ export const DEFAULT_GAME: GameEntity = {
   resultType: GAME_RESULT_TYPE.MANUAL
 };
 
-export const DEFAULT_GAME_ASSET: GameAsset = {
+export const DEFAULT_GAME_ASSET: GameAssetEntity = {
   type: GAME_ASSET_TYPE.FOLDER_IMAGES,
   url: ''
 };

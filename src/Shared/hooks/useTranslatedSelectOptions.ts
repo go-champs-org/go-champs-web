@@ -5,6 +5,7 @@ import { SelectOptionType } from '../UI/Form/Select';
 export interface TranslateSelectOptionType {
   value: string;
   labelKey: string;
+  faIconClass?: string;
 }
 
 export const useTranslatedSelectOptions = (

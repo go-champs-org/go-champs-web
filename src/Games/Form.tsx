@@ -6,13 +6,12 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import {
   DEFAULT_GAME_ASSET,
   GAME_LIVE_STATE,
-  GameAsset,
+  GameAssetEntity,
   GameEntity
 } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans, useTranslation } from 'react-i18next';
-import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import YouTubeInput, {
   validateYouTubeInput
 } from '../Shared/UI/Form/YouTubeInput';
@@ -32,7 +31,7 @@ function GameAssetForm({
   onRemove
 }: {
   name: string;
-  currentValue: GameAsset;
+  currentValue: GameAssetEntity;
   gameAssetTypeOptions: SelectOptionType[];
   onRemove: () => void;
 }) {
@@ -98,7 +97,7 @@ interface FromProps extends FormRenderProps<GameEntity> {
   resultTypeOptions: TranslateSelectOptionType[];
   liveStateOptions: TranslateSelectOptionType[];
   gameAssetTypeOptions: TranslateSelectOptionType[];
-  push: (fieldName: string, gameAsset: GameAsset) => {};
+  push: (fieldName: string, gameAsset: GameAssetEntity) => {};
 }
 
 const Form: React.FC<FromProps> = ({
