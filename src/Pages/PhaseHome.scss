@@ -1,0 +1,66 @@
+@import '../Shared/styles/colors.scss';
+
+.phase-home {
+  main {
+    position: relative;
+
+    .is-processing {
+      position: absolute;
+      top: 1rem;
+      right: 0.8rem;
+      display: flex;
+      align-items: center;
+      padding: 0.2rem 0.2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid $beige-light;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      .icon {
+        color: $green;
+
+        .fa-spinner {
+          animation: spin 1.5s linear infinite;
+        }
+      }
+
+      .has-text-small {
+        font-size: 0.5rem;
+        color: $dark;
+        opacity: 0;
+        max-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        border-color: $green;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        span:not(.icon) {
+          opacity: 1;
+          max-width: 200px;
+          margin-left: 4px;
+        }
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

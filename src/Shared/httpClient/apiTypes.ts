@@ -227,6 +227,7 @@ export interface ApiPhase {
   draws?: ApiDraw[];
   eliminations?: ApiElimination[];
   elimination_stats?: ApiStat[];
+  is_processing: boolean;
 }
 
 export interface ApiPhaseWithDependeciesIds extends ApiPhaseRequest {

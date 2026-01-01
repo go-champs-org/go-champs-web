@@ -25,6 +25,7 @@ export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
   title: apiPhase.title,
   type: apiPhase.type,
   isInProgress: apiPhase.is_in_progress,
+  isProcessing: apiPhase.is_processing,
   eliminationStats: apiPhase.elimination_stats
     ? apiPhase.elimination_stats.map(mapApiEliminationStatToStatEntity)
     : []
