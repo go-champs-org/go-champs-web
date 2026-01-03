@@ -127,6 +127,7 @@ export default {
     newTournament: 'New tournament',
     noGames: 'No games',
     noGamesScheduled: 'No games scheduled',
+    noTournamentsYet: 'No tournaments yet',
     open: 'Open',
     organizations: 'Organizations',
     orSignUp: 'Or sign up',
@@ -717,7 +718,7 @@ export default {
     forOrganizationAdministrators:
       'For organization and tournament administrators',
     welcomeChamps: 'Welcome Champs!',
-    manageAthleteProfile: 'Manage your Athlete Profile',
+    seeAthleteProfile: 'Check your Athlete Profile',
     createAthleteProfile: 'Create your Athlete Profile',
     manageOrganizations: 'Manage your tournaments',
     pwa: {

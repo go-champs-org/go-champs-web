@@ -1,3 +1,5 @@
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
+
 export interface AthleteProfileEntity {
   username: string;
   name: string;
@@ -5,6 +7,7 @@ export interface AthleteProfileEntity {
   facebook: string;
   instagram: string;
   twitter: string;
+  tournaments?: ApiTournamentWithDependecies[]; // This should be use only for reading data, AthleteProfile are not strictly linked to Tournaments
 }
 
 export interface AthleteProfileState {
@@ -31,5 +34,6 @@ export const DEFAULT_ATHLETE_PROFILE: AthleteProfileEntity = {
   photoUrl: '',
   facebook: '',
   instagram: '',
-  twitter: ''
+  twitter: '',
+  tournaments: []
 };

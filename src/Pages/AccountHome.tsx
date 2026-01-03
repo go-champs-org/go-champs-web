@@ -16,6 +16,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { getAccount } from '../Accounts/effects';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
+import ProfileHome from './ProfileHome';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
@@ -64,6 +65,7 @@ function AccountHome({ athleteProfile }: AccountHomeProps) {
               path="/Account/EditProfile/:username"
               component={ProfileEdit}
             />
+            <Route path="/Account/Profile/:username" component={ProfileHome} />
             <Route path="/Account/NewProfile" component={ProfileNew} />
           </Switch>
         </div>

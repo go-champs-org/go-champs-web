@@ -13,7 +13,7 @@ export const scssColorMapping = {
   $brown: '#757763',
   '$beige-light': '#dbdbdb',
   '$beige-lighter': '#eff0eb',
-  $dark: '#1e1200',
+  $dark: '#1d1d1b',
   '$dark-light': '#343434',
   '$orange-light': '#e3c4a8',
   $white: '#f8f4f9',

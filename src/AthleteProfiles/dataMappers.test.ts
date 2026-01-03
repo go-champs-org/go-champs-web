@@ -4,7 +4,10 @@ import {
   mapAthleteProfileEntityToApiAthleteProfilePostRequest
 } from './dataMappers';
 import { AthleteProfileEntity } from './state';
-import { ApiAthleteProfile } from '../Shared/httpClient/apiTypes';
+import {
+  ApiAthleteProfile,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 
 describe('AthleteProfiles dataMappers', () => {
   describe('mapApiAthleteProfileToAthleteProfileEntity', () => {
@@ -15,7 +18,17 @@ describe('AthleteProfiles dataMappers', () => {
         photo_url: 'https://example.com/photo.jpg',
         facebook: 'john.doe',
         instagram: 'john_doe',
-        twitter: '@johndoe'
+        twitter: '@johndoe',
+        tournaments: [
+          {
+            id: 'tournament1',
+            name: 'Tournament 1'
+          } as ApiTournamentWithDependecies,
+          {
+            id: 'tournament2',
+            name: 'Tournament 2'
+          } as ApiTournamentWithDependecies
+        ]
       };
 
       const result = mapApiAthleteProfileToAthleteProfileEntity(
@@ -28,7 +41,17 @@ describe('AthleteProfiles dataMappers', () => {
         photoUrl: 'https://example.com/photo.jpg',
         facebook: 'john.doe',
         instagram: 'john_doe',
-        twitter: '@johndoe'
+        twitter: '@johndoe',
+        tournaments: [
+          {
+            id: 'tournament1',
+            name: 'Tournament 1'
+          } as ApiTournamentWithDependecies,
+          {
+            id: 'tournament2',
+            name: 'Tournament 2'
+          } as ApiTournamentWithDependecies
+        ]
       });
     });
 
@@ -47,7 +70,8 @@ describe('AthleteProfiles dataMappers', () => {
         photoUrl: '',
         facebook: '',
         instagram: '',
-        twitter: ''
+        twitter: '',
+        tournaments: []
       });
     });
 
@@ -58,7 +82,8 @@ describe('AthleteProfiles dataMappers', () => {
         photo_url: undefined,
         facebook: undefined,
         instagram: undefined,
-        twitter: undefined
+        twitter: undefined,
+        tournaments: undefined
       };
 
       const result = mapApiAthleteProfileToAthleteProfileEntity(
@@ -71,7 +96,8 @@ describe('AthleteProfiles dataMappers', () => {
         photoUrl: '',
         facebook: '',
         instagram: '',
-        twitter: ''
+        twitter: '',
+        tournaments: []
       });
     });
   });

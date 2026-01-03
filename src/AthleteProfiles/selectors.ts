@@ -27,6 +27,8 @@ export const athleteProfileByUsername = (
   return state.athleteProfiles[username];
 };
 
+export const athleteProfileLoading = (state: AthleteProfileState): boolean =>
+  state.isLoadingRequestAthleteProfile;
 export const athleteProfilesLoading = (state: AthleteProfileState) =>
   state.isLoadingRequestAthleteProfiles;
 export const patchingAthleteProfile = (state: AthleteProfileState): boolean =>

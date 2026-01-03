@@ -794,6 +794,7 @@ export interface ApiAthleteProfile {
   facebook?: string;
   instagram?: string;
   twitter?: string;
+  tournaments?: ApiTournamentWithDependecies[];
 }
 
 export interface ApiAthleteProfilePostRequest {

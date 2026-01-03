@@ -8,15 +8,84 @@ import {
   postAthleteProfileFailure,
   deleteAthleteProfileStart,
   deleteAthleteProfileSuccess,
-  deleteAthleteProfileFailure
+  deleteAthleteProfileFailure,
+  requestAthleteProfileStart,
+  requestAthleteProfileSuccess,
+  requestAthleteProfileFailure
 } from './actions';
 import { initialState, AthleteProfileEntity } from './state';
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 
 describe('AthleteProfiles reducer', () => {
   it('returns initial state', () => {
     const result = reducer(undefined, { type: 'UNKNOWN' });
 
     expect(result).toEqual(initialState);
+  });
+
+  describe('REQUEST_ATHLETE_PROFILE', () => {
+    it('sets isLoadingRequestAthleteProfile to true', () => {
+      const result = reducer(initialState, requestAthleteProfileStart());
+
+      expect(result.isLoadingRequestAthleteProfile).toBe(true);
+    });
+
+    it('sets isLoadingRequestAthleteProfile to false on failure', () => {
+      const stateWithLoading = {
+        ...initialState,
+        isLoadingRequestAthleteProfile: true
+      };
+
+      const result = reducer(
+        stateWithLoading,
+        requestAthleteProfileFailure('Error')
+      );
+
+      expect(result.isLoadingRequestAthleteProfile).toBe(false);
+    });
+
+    it('sets isLoadingRequestAthleteProfile to false on success', () => {
+      const stateWithLoading = {
+        ...initialState,
+        isLoadingRequestAthleteProfile: true
+      };
+
+      const result = reducer(
+        stateWithLoading,
+        requestAthleteProfileSuccess({
+          username: 'athlete1',
+          name: 'John Doe',
+          photoUrl: 'https://example.com/photo.jpg',
+          facebook: 'john.doe',
+          instagram: 'john_doe',
+          twitter: '@johndoe',
+          tournaments: [
+            {
+              id: 'tournament1',
+              name: 'Tournament 1'
+            } as ApiTournamentWithDependecies
+          ]
+        })
+      );
+
+      expect(result.isLoadingRequestAthleteProfile).toBe(false);
+      expect(result.athleteProfiles).toEqual({
+        athlete1: {
+          username: 'athlete1',
+          name: 'John Doe',
+          photoUrl: 'https://example.com/photo.jpg',
+          facebook: 'john.doe',
+          instagram: 'john_doe',
+          twitter: '@johndoe',
+          tournaments: [
+            {
+              id: 'tournament1',
+              name: 'Tournament 1'
+            } as ApiTournamentWithDependecies
+          ]
+        }
+      });
+    });
   });
 
   describe('REQUEST_ATHLETE_PROFILES', () => {
@@ -34,7 +103,13 @@ describe('AthleteProfiles reducer', () => {
           photoUrl: 'https://example.com/photo.jpg',
           facebook: 'john.doe',
           instagram: 'john_doe',
-          twitter: '@johndoe'
+          twitter: '@johndoe',
+          tournaments: [
+            {
+              id: 'tournament1',
+              name: 'Tournament 1'
+            } as ApiTournamentWithDependecies
+          ]
         },
         {
           username: 'athlete2',
@@ -64,7 +139,13 @@ describe('AthleteProfiles reducer', () => {
           photoUrl: 'https://example.com/photo.jpg',
           facebook: 'john.doe',
           instagram: 'john_doe',
-          twitter: '@johndoe'
+          twitter: '@johndoe',
+          tournaments: [
+            {
+              id: 'tournament1',
+              name: 'Tournament 1'
+            } as ApiTournamentWithDependecies
+          ]
         },
         athlete2: {
           username: 'athlete2',

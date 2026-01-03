@@ -129,6 +129,7 @@ export default {
     newTournament: 'Novo torneio',
     noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
+    noTournamentsYet: 'Nenhum torneio ainda',
     open: 'Abrir',
     organizations: 'Organizacões',
     orSignUp: 'Ou crie uma conta',
@@ -743,7 +744,7 @@ export default {
     forOrganizationAdministrators:
       'Para administradores de organizações e campeonatos',
     welcomeChamps: 'Fala Champs!',
-    manageAthleteProfile: 'Gerencie seu Perfil de Atleta',
+    seeAthleteProfile: 'Confira seu Perfil de Atleta',
     createAthleteProfile: 'Crie seu Perfil de Atleta',
     manageOrganizations: 'Gerencie seus campeonatos',
     pwa: {

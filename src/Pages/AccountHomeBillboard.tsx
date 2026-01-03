@@ -63,12 +63,12 @@ function AccountHomeBillboard({
           <>
             {athleteProfile.username ? (
               <div className="hero is-primary slide-fade-content delay-1 hero-clickable">
-                <Link to={`/Account/EditProfile/${athleteProfile.username}`}>
+                <Link to={`/Account/Profile/${athleteProfile.username}`}>
                   <div className="hero-body">
                     <div className="hero-content-stacked">
                       <div className="hero-main-row">
                         <p className="is-size-5">
-                          <Trans>manageAthleteProfile</Trans>
+                          <Trans>seeAthleteProfile</Trans>
                         </p>
                         <button className="button hero-button">
                           <span>

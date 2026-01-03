@@ -1,0 +1,67 @@
+@import '../Shared/styles/colors.scss';
+
+.athlete-profile-banner {
+  background-color: var(--theme-primary);
+  box-shadow: 0 4px 4px 0 rgb(0, 0, 0, 0.8);
+  padding: 2rem 1rem;
+
+  .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $black;
+  }
+
+  .shirt {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $dark;
+  }
+
+  .social-networks {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+    a {
+      color: $white;
+      font-size: 1.5rem;
+      text-decoration: none;
+      color: $dark;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+
+  .photo {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+
+    &.custom {
+      border: 3px solid $dark;
+      padding: 3px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .athlete-profile-banner {
+    .social-networks {
+      margin-top: 3rem;
+      justify-content: left;
+    }
+
+    .photo {
+      width: 120px;
+      height: 120px;
+
+      &.custom {
+        border: 5px solid $dark;
+        width: 125px;
+        height: 125px;
+      }
+    }
+  }
+}
