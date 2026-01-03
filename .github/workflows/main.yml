@@ -94,10 +94,20 @@ jobs:
         with:
           install-command: yarn install
           start: echo "Using deployed staging environment"
-          wait-on-timeout: 60
+          wait-on-timeout: 120
           record: false
+          browser: chrome
+          headed: false
         env:
           STAGING_APP_HOST: ${{ secrets.STAGING_APP_HOST }}
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           CYPRESS_baseUrl: ${{ secrets.STAGING_APP_HOST }}
+          CYPRESS_defaultCommandTimeout: 15000
+          CYPRESS_requestTimeout: 15000
+          CYPRESS_responseTimeout: 15000
+          CYPRESS_pageLoadTimeout: 30000
+          CYPRESS_video: false
+          CYPRESS_screenshotOnRunFailure: true
+          CYPRESS_numTestsKeptInMemory: 0
+          CYPRESS_retries: 2

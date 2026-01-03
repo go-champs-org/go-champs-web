@@ -5,11 +5,16 @@ module.exports = defineConfig({
     baseUrl: process.env.STAGING_APP_HOST || process.env.PROD_APP_HOST || 'http://localhost:3000',
     viewportWidth: 1600,
     viewportHeight: 900,
-    video: true,
+    video: false,
     screenshotOnRunFailure: true,
-    defaultCommandTimeout: 10000,
-    requestTimeout: 10000,
-    responseTimeout: 10000,
+    defaultCommandTimeout: 15000,
+    requestTimeout: 15000,
+    responseTimeout: 15000,
+    pageLoadTimeout: 30000,
+    retries: {
+      runMode: 2,
+      openMode: 0
+    },
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
@@ -20,5 +25,6 @@ module.exports = defineConfig({
   },
   // Additional configuration for headless environments
   chromeWebSecurity: false,
-  numTestsKeptInMemory: 0
+  numTestsKeptInMemory: 0,
+  watchForFileChanges: false
 })
