@@ -14,6 +14,7 @@ import Result from '../Search/Result';
 import Banner from '../AthleteProfiles/Banner';
 import './ProfileHome.scss';
 import { Trans } from 'react-i18next';
+import MiniCard from '../Tournaments/MiniCard';
 
 interface ProfileHomeParams extends RouteProps {
   username: string;
@@ -79,7 +80,9 @@ function ProfileHome({
             athleteProfile.tournaments.map((tournament, index) => (
               <div key={tournament.id} className="tournament-result column">
                 <div className="columns">
-                  <Result tournament={tournament} />
+                  <div className="column is-12">
+                    <MiniCard tournament={tournament} />
+                  </div>
                 </div>
               </div>
             ))

@@ -1,0 +1,48 @@
+// Override the global link hover effect for mini cards
+a:has(.tournament-mini-card) {
+  &:hover {
+    color: inherit;
+  }
+}
+
+.tournament-mini-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+
+  header {
+    display: flex;
+    width: 100%;
+    height: 48px;
+    align-items: center;
+    justify-content: left;
+    font-weight: 600;
+
+    span {
+      margin-left: 0.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .name {
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    margin: 1rem 0;
+    font-weight: 600;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    color: var(--theme-primary);
+  }
+}

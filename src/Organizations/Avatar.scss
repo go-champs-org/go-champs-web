@@ -1,0 +1,24 @@
+.organization-avatar {
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+
+  &--placeholder {
+    width: 40px;
+    height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    background-color: var(--theme-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}

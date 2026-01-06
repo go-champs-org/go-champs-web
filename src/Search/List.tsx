@@ -5,6 +5,7 @@ import Result, { ResultShimmer } from './Result';
 import './Result.scss';
 import searchHttpClient from './searchHttpClient';
 import { Trans, useTranslation } from 'react-i18next';
+import MiniCard from '../Tournaments/MiniCard';
 
 const ListShimmer = (
   <div className="columns is-multiline">
@@ -92,7 +93,9 @@ const List: React.FC = () => {
               {results.length > 0 ? (
                 <div className="columns is-multiline">
                   {results.map((tournament: ApiTournamentWithDependecies) => (
-                    <Result tournament={tournament} key={tournament.id} />
+                    <div className="column is-one-third-desktop is-half-tablet">
+                      <MiniCard tournament={tournament} key={tournament.id} />
+                    </div>
                   ))}
                 </div>
               ) : (
