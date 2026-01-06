@@ -114,6 +114,15 @@ jobs:
           CYPRESS_screenshotOnRunFailure: true
           CYPRESS_numTestsKeptInMemory: 0
           CYPRESS_retries: 2
+      - name: Upload Cypress artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-screenshots-staging
+          path: |
+            cypress/screenshots
+            cypress/videos
+          retention-days: 1
 
   deploy_admin:
     needs: staging_e2e_test
@@ -182,6 +191,15 @@ jobs:
           CYPRESS_screenshotOnRunFailure: true
           CYPRESS_numTestsKeptInMemory: 0
           CYPRESS_retries: 2
+      - name: Upload Cypress artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-screenshots-production
+          path: |
+            cypress/screenshots
+            cypress/videos
+          retention-days: 1
 
   deploy_prod:
     needs: prod_e2e_test
