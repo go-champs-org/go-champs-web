@@ -747,6 +747,15 @@ export default {
     seeAthleteProfile: 'Confira seu Perfil de Atleta',
     createAthleteProfile: 'Crie seu Perfil de Atleta',
     manageOrganizations: 'Gerencie seus campeonatos',
+    shareStory: 'Compartilhar Story',
+    storyShared: 'Story compartilhada com sucesso!',
+    storyDownloaded: 'Imagem da story baixada!',
+    shareError: 'Falha ao compartilhar story',
+    shareNotSupported: 'Compartilhamento não suportado neste dispositivo',
+    generatingStory: 'Gerando story...',
+    storyBrandTitle: 'Go Champs',
+    recentTournaments: 'Campeonatos Recentes',
+    checkOutMoreAthletes: 'Confira mais atletas em go-champs.com',
     pwa: {
       install: {
         title: 'Instalar Go Champs',

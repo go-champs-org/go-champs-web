@@ -717,10 +717,18 @@ export default {
     forAthletes: 'For athletes',
     forOrganizationAdministrators:
       'For organization and tournament administrators',
-    welcomeChamps: 'Welcome Champs!',
     seeAthleteProfile: 'Check your Athlete Profile',
     createAthleteProfile: 'Create your Athlete Profile',
     manageOrganizations: 'Manage your tournaments',
+    shareStory: 'Share Story',
+    storyShared: 'Story shared successfully!',
+    storyDownloaded: 'Story image downloaded!',
+    shareError: 'Failed to share story',
+    shareNotSupported: 'Sharing not supported on this device',
+    generatingStory: 'Generating story...',
+    storyBrandTitle: 'Go Champs',
+    recentTournaments: 'Recent Tournaments',
+    checkOutMoreAthletes: 'Check out more athletes at go-champs.com',
     pwa: {
       install: {
         title: 'Install Go Champs',
