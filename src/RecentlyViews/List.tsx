@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import recentlyViewsHttpClient from '../RecentlyViews/recentlyViewsHttpClient';
-import Result, { PinnedResult, ResultShimmer } from './Result';
+import { ResultShimmer } from './Result';
 import { ApiRecentlyView } from '../Shared/httpClient/apiTypes';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import { Link } from 'react-router-dom';
 import usePinnedRecentlyViews from '../Shared/hooks/usePinnedRecentlyViews';
+import MiniCard from '../Tournaments/MiniCard';
 
 const ListShimmer = (
   <div className="columns is-multiline">
@@ -24,11 +25,7 @@ const List: React.FC = () => {
     removeRecentlyView
   } = usePinnedRecentlyViews(recentlyViews);
 
-  const pinRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
-    event: React.MouseEvent
-  ) => {
-    event.preventDefault();
-
+  const pinRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => {
     pinRecentlyView(recentlyView);
 
     const newRecentlyViews = recentlyViews.filter(
@@ -38,11 +35,7 @@ const List: React.FC = () => {
     setTournaments(newRecentlyViews);
   };
 
-  const removeRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => (
-    event: React.MouseEvent
-  ) => {
-    event.preventDefault();
-
+  const removeRecentlyViewClickHandler = (recentlyView: ApiRecentlyView) => {
     removeRecentlyView(recentlyView);
   };
 
@@ -101,14 +94,16 @@ const List: React.FC = () => {
                 Object.keys(pinnedRecentlyViews).map((id: string) => {
                   const recentlyView = pinnedRecentlyViews[id];
                   return (
-                    <PinnedResult
-                      removeRecentlyView={removeRecentlyViewClickHandler(
-                        recentlyView
-                      )}
-                      tournament={recentlyView.tournament}
-                      key={recentlyView.tournament.id}
-                      views={recentlyView.views}
-                    />
+                    <div className="column is-one-third-desktop is-half-tablet">
+                      <MiniCard
+                        tournament={recentlyView.tournament}
+                        key={recentlyView.tournament.id}
+                        togglePin={() =>
+                          removeRecentlyViewClickHandler(recentlyView)
+                        }
+                        isPinned={true}
+                      />
+                    </div>
                   );
                 })}
 
@@ -116,14 +111,16 @@ const List: React.FC = () => {
                 {recentlyViewsWithNoPinned.length > 0 ? (
                   recentlyViewsWithNoPinned.map(
                     (recentlyView: ApiRecentlyView) => (
-                      <Result
-                        pinRecentlyView={pinRecentlyViewClickHandler(
-                          recentlyView
-                        )}
-                        tournament={recentlyView.tournament}
-                        key={recentlyView.tournament.id}
-                        views={recentlyView.views}
-                      />
+                      <div className="column is-one-third-desktop is-half-tablet">
+                        <MiniCard
+                          tournament={recentlyView.tournament}
+                          key={recentlyView.tournament.id}
+                          togglePin={() =>
+                            pinRecentlyViewClickHandler(recentlyView)
+                          }
+                          isPinned={false}
+                        />
+                      </div>
                     )
                   )
                 ) : (

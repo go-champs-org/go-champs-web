@@ -50,7 +50,7 @@ export const themeColorMapping = {
   },
   darkTheme: {
     primary: '$green',
-    secondary: '$red',
+    secondary: '$green-dark',
     accent: '$white',
     background: '$black',
     backgroundSecondary: '$dark-light',
