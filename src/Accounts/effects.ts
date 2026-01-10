@@ -88,6 +88,27 @@ export const signUp = (user: SignUpEntity, history: History) => async (
   }
 };
 
+export const signUpWithRegistration = (
+  user: SignUpEntity,
+  registrationResponseId: string,
+  history: History
+) => async (dispatch: Dispatch) => {
+  dispatch(signUpStart());
+
+  try {
+    const response = await accountHttpClient.signUpWithRegistration(
+      user,
+      registrationResponseId
+    );
+
+    dispatch(signUpSuccess(response));
+    history.push('/SignIn');
+  } catch (err) {
+    dispatch(signUpFailure(err));
+    displayToast(`Sign up failed :(`, 'is-primary');
+  }
+};
+
 export const facebookSignUp = (
   user: FacebookSignUpEntity,
   history: History

@@ -40,6 +40,10 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
     DEFAULT_TOURNAMENT
   );
   const [page, setPage] = useState<'loading' | 'form' | 'success'>('loading');
+  const [
+    submittedResponse,
+    setSubmittedResponse
+  ] = useState<RegistrationResponseEntity | null>(null);
 
   useEffect(() => {
     const fetchInvite = async () => {
@@ -70,10 +74,11 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
     if (!registrationInviteId) return;
 
     try {
-      await registrationResponseHttpClient.post(
+      const response = await registrationResponseHttpClient.post(
         registrationResponse,
         registrationInviteId
       );
+      setSubmittedResponse(response);
 
       setPage('success');
     } catch (error) {
@@ -132,7 +137,11 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
             </span>
           </div>
           <div className="column is-12">
-            <Success />
+            <Success
+              submittedResponse={
+                submittedResponse || DEFAULT_REGISTRATION_RESPONSE
+              }
+            />
           </div>
         </div>
       )}

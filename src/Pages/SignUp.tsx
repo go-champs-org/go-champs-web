@@ -4,7 +4,11 @@ import SignUpForm, { signUpValidor } from '../Accounts/SignUpForm';
 import { StoreState } from '../store';
 import { isSigingUp } from '../Accounts/selectors';
 import { Dispatch, bindActionCreators } from 'redux';
-import { signUp, redirectToFacebookSignUp } from '../Accounts/effects';
+import {
+  signUp,
+  signUpWithRegistration,
+  redirectToFacebookSignUp
+} from '../Accounts/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { SignUpEntity } from '../Accounts/entity';
 import { RouteComponentProps } from 'react-router-dom';
@@ -15,19 +19,27 @@ import { REACT_APP_FACEBOOK_APP_ID } from '../Shared/env';
 
 const mapStateToProps = (state: StoreState, props: RouteComponentProps) => ({
   isSigingUp: isSigingUp(state.account),
-  history: props.history
+  history: props.history,
+  location: props.location
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch,
-  { history }: RouteComponentProps
-) =>
-  bindActionCreators(
+  { history, location }: RouteComponentProps
+) => {
+  const searchParams = new URLSearchParams(location.search);
+  const registrationResponseId = searchParams.get('registrationResponseId');
+
+  return bindActionCreators(
     {
-      signUp: (user: SignUpEntity) => signUp(user, history)
+      signUp: registrationResponseId
+        ? (user: SignUpEntity) =>
+            signUpWithRegistration(user, registrationResponseId, history)
+        : (user: SignUpEntity) => signUp(user, history)
     },
     dispatch
   );
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -36,9 +48,14 @@ type SignUpProps = ConnectedProps<typeof connector>;
 function SignUp({
   isSigingUp,
   history,
+  location,
   signUp
 }: SignUpProps): React.ReactElement {
   const { t } = useTranslation();
+
+  const searchParams = new URLSearchParams(location.search);
+  const emailFromQuery = searchParams.get('email') || '';
+
   return (
     <div className="container has-text-centered">
       <div className="card" style={{ maxWidth: '380px', margin: 'auto' }}>
@@ -54,7 +71,7 @@ function SignUp({
               <Form
                 onSubmit={signUp}
                 initialValues={{
-                  email: '',
+                  email: emailFromQuery,
                   password: '',
                   repeatedPassword: '',
                   recaptcha: '',

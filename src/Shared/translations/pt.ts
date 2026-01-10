@@ -740,6 +740,8 @@ export default {
       'Crie seu Perfil de Atleta para começar!',
     manageYourOrganizations: 'Gerencie suas Organizações',
     clickHere: 'Clique aqui',
+    createAccountPrompt:
+      'para criar uma conta e perfil de atleta para acompanhar seus campeonatos e gerenciar suas informações.',
     forAthletes: 'Para atletas',
     forOrganizationAdministrators:
       'Para administradores de organizações e campeonatos',

@@ -22,6 +22,7 @@ import {
   mapFacebookSignInEntityToApiFacebookSignInPostRequest
 } from './dataMappers';
 import { REACT_APP_API_HOST } from '../Shared/env';
+import { RegistrationResponseEntity } from '../Registrations/state';
 
 const ACCOUNT_API = `${REACT_APP_API_HOST}v1/accounts`;
 const USER_API = `${REACT_APP_API_HOST}v1/users`;
@@ -62,6 +63,20 @@ const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
   });
 };
 
+const signUpWithRegistration = async (
+  user: SignUpEntity,
+  registrationResponseId: string
+): Promise<ApiUserResponse> => {
+  const url = `${ACCOUNT_API}/signup`;
+
+  return await httpClient.post<ApiSignUpRequest, ApiUserResponse>(url, {
+    user,
+    registration: {
+      registration_response_id: registrationResponseId
+    }
+  });
+};
+
 const facebookSignUp = async (
   facebookUser: FacebookSignUpEntity
 ): Promise<ApiUserResponse> => {
@@ -98,5 +113,6 @@ export default {
   recovery,
   reset,
   signIn,
-  signUp
+  signUp,
+  signUpWithRegistration
 };

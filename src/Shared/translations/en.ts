@@ -714,6 +714,8 @@ export default {
       'Create your Athlete Profile to get started!',
     manageYourOrganizations: 'Manage your Organizations',
     clickHere: 'Click here',
+    createAccountPrompt:
+      'to create an account and athlete profile to track your tournaments and manage your information.',
     forAthletes: 'For athletes',
     forOrganizationAdministrators:
       'For organization and tournament administrators',

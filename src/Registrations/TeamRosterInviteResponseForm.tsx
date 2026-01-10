@@ -83,7 +83,11 @@ export function CustomField({ field }: CustomFieldProps) {
   );
 }
 
-export function Success() {
+export function Success({
+  submittedResponse
+}: {
+  submittedResponse: RegistrationResponseEntity;
+}) {
   return (
     <div
       className="card"
@@ -102,7 +106,18 @@ export function Success() {
             </span>
           </div>
           <div className="column is-12 has-text-centered">
-            <i className="fas fa-check-circle fa-4x success-icon"></i>
+            <span className="is-6">
+              <a
+                href={`/SignUp?email=${submittedResponse.response.email}&registrationResponseId=${submittedResponse.id}`}
+                className="has-text-primary has-text-weight-bold"
+              >
+                <Trans>clickHere</Trans>
+              </a>{' '}
+              <Trans>createAccountPrompt</Trans>
+            </span>
+          </div>
+          <div className="column is-12 has-text-centered">
+            <i className="fas fa-check-circle fa-4x has-text-primary success-icon"></i>
           </div>
         </div>
       </div>

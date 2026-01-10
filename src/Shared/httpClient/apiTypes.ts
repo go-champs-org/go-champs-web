@@ -481,6 +481,10 @@ export interface ApiAccountResetRequest {
   };
 }
 
+export interface ApiRegistrationResponseForSignUpRequest {
+  registration_response_id: string;
+}
+
 export interface ApiSignUpRequest {
   user: {
     email: string;
@@ -488,6 +492,7 @@ export interface ApiSignUpRequest {
     recaptcha: string;
     username: string;
   };
+  registration?: ApiRegistrationResponseForSignUpRequest;
 }
 
 export interface ApiFacebookSignUpRequest {

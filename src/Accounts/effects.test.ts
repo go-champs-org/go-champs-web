@@ -1,6 +1,7 @@
 import {
   signIn,
   signUp,
+  signUpWithRegistration,
   accountReset,
   accountRecovery,
   getAccount,
@@ -276,6 +277,86 @@ describe('accountEffects', () => {
           .mockRejectedValue(new Error('some error'));
 
         await signUp(SIGN_UP, mockHistory)(dispatch);
+      });
+
+      it('dispatches post failure action', () => {
+        expect(dispatch).toHaveBeenCalledWith(
+          signUpFailure(new Error('some error'))
+        );
+      });
+
+      it('dispatches display toast', () => {
+        expect(toast.displayToast).toHaveBeenCalledWith(
+          'Sign up failed :(',
+          'is-primary'
+        );
+      });
+    });
+  });
+
+  describe('signUpWithRegistration', () => {
+    const registrationResponseId = 'registration-response-123';
+
+    beforeEach(() => {
+      dispatch = jest.fn();
+    });
+
+    it('dispatches start sign up action', () => {
+      signUpWithRegistration(
+        SIGN_UP,
+        registrationResponseId,
+        mockHistory
+      )(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(signUpStart());
+    });
+
+    describe('on success', () => {
+      beforeEach(() => {
+        dispatch.mockReset();
+
+        jest
+          .spyOn(accountHttpClient, 'signUpWithRegistration')
+          .mockResolvedValue({
+            data: { email: 'some@email.com', token: 'some token' }
+          });
+
+        signUpWithRegistration(
+          SIGN_UP,
+          registrationResponseId,
+          mockHistory
+        )(dispatch);
+      });
+
+      it('dispatches post success action', () => {
+        expect(dispatch).toHaveBeenCalledWith(
+          signUpSuccess({
+            data: {
+              email: 'some@email.com',
+              token: 'some token'
+            }
+          })
+        );
+      });
+
+      it('redirects to sign in page', () => {
+        expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
+      });
+    });
+
+    describe('on failure', () => {
+      beforeEach(async () => {
+        dispatch.mockReset();
+
+        jest
+          .spyOn(accountHttpClient, 'signUpWithRegistration')
+          .mockRejectedValue(new Error('some error'));
+
+        await signUpWithRegistration(
+          SIGN_UP,
+          registrationResponseId,
+          mockHistory
+        )(dispatch);
       });
 
       it('dispatches post failure action', () => {
