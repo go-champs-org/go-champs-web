@@ -1,3 +1,4 @@
+import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 import {
   ApiScoreboardSetting,
   ApiScoreboardSettingPatchRequest,
@@ -52,22 +53,33 @@ export const mapApiScoreboardSettingToScoreboardSettingEntity = (
   };
 };
 
-export const SCOREBOARD_VIEW_OPTIONS: SelectOptionType[] = [
-  { value: ScoreboardSettingView.BASKETBALL_BASIC, label: 'Basquete básico' },
-  { value: ScoreboardSettingView.BASKETBALL_MEDIUM, label: 'Basquete completo' }
+export const SCOREBOARD_VIEW_OPTIONS: TranslateSelectOptionType[] = [
+  {
+    value: ScoreboardSettingView.BASKETBALL_BASIC,
+    labelKey: 'scoreboardSettingsForm.viewOptions.basketball_basic'
+  },
+  {
+    value: ScoreboardSettingView.BASKETBALL_MEDIUM,
+    labelKey: 'scoreboardSettingsForm.viewOptions.basketball_medium'
+  },
+  {
+    value: ScoreboardSettingView.BASKETBALL_MEDIUM_PLUS,
+    labelKey: 'scoreboardSettingsForm.viewOptions.basketball_medium_plus'
+  }
 ];
 
-export const SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS: SelectOptionType[] = [
+export const SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS: TranslateSelectOptionType[] = [
   {
     value: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE,
-    label: 'Após final de jogo'
+    labelKey: 'scoreboardSettingsForm.liveSiteUpdateOptions.no_live_update'
   },
   {
     value: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
-    label: 'Somente placar'
+    labelKey:
+      'scoreboardSettingsForm.liveSiteUpdateOptions.team_score_live_update'
   },
   {
     value: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
-    label: 'Estatísticas completas'
+    labelKey: 'scoreboardSettingsForm.liveSiteUpdateOptions.full_live_update'
   }
 ];

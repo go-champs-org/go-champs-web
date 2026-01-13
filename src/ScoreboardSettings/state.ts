@@ -6,7 +6,8 @@ export enum ScoreboardSettingLiveSiteUpdate {
 
 export enum ScoreboardSettingView {
   BASKETBALL_BASIC = 'basketball-basic',
-  BASKETBALL_MEDIUM = 'basketball-medium'
+  BASKETBALL_MEDIUM = 'basketball-medium',
+  BASKETBALL_MEDIUM_PLUS = 'basketball-medium-plus'
 }
 
 export interface ScoreboardSettingEntity {

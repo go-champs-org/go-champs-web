@@ -10,6 +10,7 @@ import {
   SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS
 } from './dataMappers';
 import SelectInput from '../Shared/UI/Form/Select';
+import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
 
 interface FromProps extends FormRenderProps<ScoreboardSettingEntity> {
   backUrl: string;
@@ -23,6 +24,14 @@ function Form({
   submitting,
   pristine
 }: FromProps) {
+  const translatedViewOptions = useTranslatedSelectOptions(
+    SCOREBOARD_VIEW_OPTIONS
+  );
+
+  const translatedLiveSiteUpdateOptions = useTranslatedSelectOptions(
+    SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS
+  );
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
@@ -35,7 +44,7 @@ function Form({
             <Field
               name="view"
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-                <SelectInput {...props} options={SCOREBOARD_VIEW_OPTIONS} />
+                <SelectInput {...props} options={translatedViewOptions} />
               )}
             />
           </div>
@@ -82,7 +91,7 @@ function Form({
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
                 <SelectInput
                   {...props}
-                  options={SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS}
+                  options={translatedLiveSiteUpdateOptions}
                 />
               )}
             />
