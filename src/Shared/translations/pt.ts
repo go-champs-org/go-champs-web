@@ -241,6 +241,15 @@ export default {
               abbreviation: 'ERR',
               legend: 'Total/Média de erros'
             },
+            efficiency: {
+              abbreviation: 'EFF',
+              legend: 'Total/Média de eficiência'
+            },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend:
+                'Total/Média de diferença de pontos enquanto o jogador está em quadra'
+            },
             onePointersMade: {
               abbreviation: 'LLC',
               legend: 'Total/Média de lances livres convertidos'
@@ -369,6 +378,10 @@ export default {
               abbreviation: 'EFF',
               legend:
                 'Eficiência básica por Martin Manley (1986) = PTS + REB + AST + ROU + TOC − Arremessos errados - TO'
+            },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Diferença de pontos quando o jogador está em quadra'
             }
           }
         },
@@ -726,6 +739,12 @@ export default {
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
     thisTournamentIsUnderContruction: 'Este torneiro está em construção.',
     title: 'Título',
+    tournamentForm: {
+      visibility: {
+        public: 'Público',
+        private: 'Privado (Ideal para testes)'
+      }
+    },
     tournaments: 'Torneios',
     tournamentNotFound: 'Torneio não encontrado',
     totals: 'Totais',

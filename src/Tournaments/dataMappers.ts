@@ -11,7 +11,8 @@ import {
   TournamentEntity,
   PlayerStatEntity,
   TeamStatEntity,
-  PlayerStatVisibility
+  PlayerStatVisibility,
+  TournamentVisibilityEnum
 } from './state';
 
 export const PRIVATE_STAT_SLUGS = [
@@ -144,3 +145,14 @@ export const currentPhaseId = (tournament: ApiTournamentWithDependecies) => {
   }
   return '';
 };
+
+export const VISIBILITY_OPTIONS: { value: string; labelKey: string }[] = [
+  {
+    value: TournamentVisibilityEnum.PUBLIC,
+    labelKey: 'tournamentForm.visibility.public'
+  },
+  {
+    value: TournamentVisibilityEnum.PRIVATE,
+    labelKey: 'tournamentForm.visibility.private'
+  }
+];

@@ -69,6 +69,20 @@ const AGGREGATED_TOTAL_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
     sortKey: 'turnovers'
   },
   {
+    id: 'efficiency',
+    cell: playerStatLog => (
+      <ValueOrEmptyCell value={playerStatLog.stats.efficiency} />
+    ),
+    sortKey: 'efficiency'
+  },
+  {
+    id: 'plusMinus',
+    cell: playerStatLog => (
+      <ValueOrEmptyCell value={playerStatLog.stats.plus_minus} />
+    ),
+    sortKey: 'plus_minus'
+  },
+  {
     id: 'onePointersMade',
     cell: playerStatLog => (
       <ValueOrEmptyCell value={playerStatLog.stats.free_throws_made} />
@@ -223,6 +237,20 @@ const PERGAME_STAT_COLUMNS: BaseAggregatedStatColumn[] = [
       <RateCell value={playerStatLog.stats.turnovers_per_game} />
     ),
     sortKey: 'turnovers_per_game'
+  },
+  {
+    id: 'efficiency',
+    cell: playerStatLog => (
+      <RateCell value={playerStatLog.stats.efficiency_per_game} />
+    ),
+    sortKey: 'efficiency_per_game'
+  },
+  {
+    id: 'plusMinus',
+    cell: playerStatLog => (
+      <RateCell value={playerStatLog.stats.plus_minus_per_game} />
+    ),
+    sortKey: 'plus_minus_per_game'
   },
   {
     id: 'onePointersMade',

@@ -238,6 +238,14 @@ export default {
               abbreviation: 'TO',
               legend: 'Turnovers'
             },
+            efficiency: {
+              abbreviation: 'EFF',
+              legend: 'Efficiency'
+            },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Plus minus'
+            },
             onePointersMade: {
               abbreviation: 'FTM',
               legend: 'Free throws made'
@@ -249,6 +257,30 @@ export default {
             onePointerPercentage: {
               abbreviation: 'FT%',
               legend: 'Free throws percentage'
+            },
+            twoPointersMade: {
+              abbreviation: 'FGM',
+              legend: 'Field goals made'
+            },
+            twoPointersAttempted: {
+              abbreviation: 'FGA',
+              legend: 'Field goals attempted'
+            },
+            twoPointerPercentage: {
+              abbreviation: 'FG%',
+              legend: 'Field goals percentage'
+            },
+            threePointersMade: {
+              abbreviation: '3PM',
+              legend: 'Three points made'
+            },
+            threePointersAttempted: {
+              abbreviation: '3PA',
+              legend: 'Three points attempted'
+            },
+            threePointerPercentage: {
+              abbreviation: '3P%',
+              legend: 'Three points percentage'
             },
             reboundsOffensive: {
               abbreviation: 'OREB',
@@ -342,6 +374,10 @@ export default {
               abbreviation: 'EFF',
               legend:
                 'Player efficiency by Martin Manley (1986) = PTS + REB + AST + STL + BLK - (Missed FG + Missed FT + TO)'
+            },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Point difference when the player is on the court'
             }
           }
         },
@@ -699,6 +735,12 @@ export default {
     theWebsiteContentIsLicensed: 'The website content is licensed',
     thisTournamentIsUnderContruction: 'This tournament is under contruction.',
     title: 'Title',
+    tournamentForm: {
+      visibility: {
+        public: 'Public',
+        private: 'Private (Ideal for testing)'
+      }
+    },
     tournaments: 'Tournaments',
     tournamentNotFound: 'Tournament not found',
     totals: 'Totals',

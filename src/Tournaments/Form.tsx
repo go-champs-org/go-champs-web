@@ -23,17 +23,8 @@ import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import withSports from '../Pages/support/withSports';
 import { SportEntity } from '../Sports/state';
 import Package, { LoadingPackages } from '../Sports/Package';
-
-const VISIBILITY_OPTIONS: SelectOptionType[] = [
-  {
-    value: 'public',
-    label: 'Public'
-  },
-  {
-    value: 'private',
-    label: 'Private'
-  }
-];
+import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
+import { VISIBILITY_OPTIONS } from './dataMappers';
 
 interface TeamStatFormProps {
   name: string;
@@ -198,6 +189,7 @@ const Form: React.FC<FormProps> = ({
     }));
     change('playerStats', playerStats);
   };
+  const visibilityOptions = useTranslatedSelectOptions(VISIBILITY_OPTIONS);
   const hasSportSlug = !!values.sportSlug;
 
   return (
@@ -248,7 +240,7 @@ const Form: React.FC<FormProps> = ({
             <Field
               name="visibility"
               render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-                <SelectInput {...props} options={VISIBILITY_OPTIONS} />
+                <SelectInput {...props} options={visibilityOptions} />
               )}
             />
           </div>

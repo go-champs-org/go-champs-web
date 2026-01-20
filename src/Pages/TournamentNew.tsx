@@ -5,7 +5,11 @@ import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { postTournament } from '../Tournaments/effects';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
 import { Form, FormRenderProps } from 'react-final-form';
-import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
+import {
+  DEFAULT_TOURNAMENT,
+  TournamentEntity,
+  TournamentVisibilityEnum
+} from '../Tournaments/state';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
@@ -114,7 +118,10 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
           >
             <Form
               onSubmit={postTournament}
-              initialValues={DEFAULT_TOURNAMENT}
+              initialValues={{
+                ...DEFAULT_TOURNAMENT,
+                visibility: TournamentVisibilityEnum.PRIVATE
+              }}
               mutators={
                 {
                   ...arrayMutators

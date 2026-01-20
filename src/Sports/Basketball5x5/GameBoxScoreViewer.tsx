@@ -80,6 +80,21 @@ const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
     sortFunction: byStatValue('turnovers')
   },
   {
+    id: 'efficiency',
+    cell: (playerStatLog: StatsLogRenderEntity) => (
+      <ValueOrEmptyCell value={playerStatLog.stats.efficiency} />
+    ),
+    sortFunction: byStatValue('efficiency')
+  },
+
+  {
+    id: 'plusMinus',
+    cell: (playerStatLog: StatsLogRenderEntity) => (
+      <ValueOrEmptyCell value={playerStatLog.stats.plus_minus} />
+    ),
+    sortFunction: byStatValue('plus_minus')
+  },
+  {
     id: 'onePointers',
     cell: (playerStatLog: StatsLogRenderEntity) => (
       <>
@@ -169,13 +184,6 @@ const BASE_BASKETBALL_STAT_COLUMNS: BaseStatColumn[] = [
       <ValueOrEmptyCell value={playerStatLog.stats.fouls_technical} />
     ),
     sortFunction: byStatValue('fouls_technical')
-  },
-  {
-    id: 'efficiency',
-    cell: (playerStatLog: StatsLogRenderEntity) => (
-      <ValueOrEmptyCell value={playerStatLog.stats.efficiency} />
-    ),
-    sortFunction: byStatValue('efficiency')
   }
 ];
 
