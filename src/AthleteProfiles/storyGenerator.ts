@@ -2,6 +2,24 @@
 import html2canvas from 'html2canvas';
 import { AthleteProfileEntity } from './state';
 
+const getRelativePath = (url: string | undefined): string => {
+  if (!url) return '';
+
+  try {
+    // If it's already a relative path, return it
+    if (url.startsWith('/')) {
+      return url;
+    }
+
+    // If it's a full URL, extract the pathname
+    const urlObj = new URL(url);
+    return urlObj.pathname;
+  } catch (error) {
+    // If URL parsing fails, assume it's already a relative path or invalid
+    return url;
+  }
+};
+
 const convertImageToDataURL = async (imageUrl: string): Promise<string> => {
   // If it's already a data URL, return it as-is
   if (imageUrl.startsWith('data:')) {
@@ -87,7 +105,8 @@ export const generateStoryImage = async (
   try {
     // Pre-convert images to data URLs for better compatibility
     const photoUrl =
-      athleteProfile.photoUrl || '/src/Players/PlayerPhotoPlaceholder.png';
+      getRelativePath(athleteProfile.photoUrl) ||
+      '/src/Players/PlayerPhotoPlaceholder.png';
     const logoUrl = '/logo-with-name-black.png';
 
     console.log('Converting images to data URLs...', { photoUrl, logoUrl });
