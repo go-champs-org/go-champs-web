@@ -22,13 +22,13 @@ export const accountResetValidor = (formValues: AccountResetEntity) => {
   }
 
   return {
-    recaptcha: formValues.recaptcha ? undefined : `Required`,
-    recoveryToken: formValues.recoveryToken ? undefined : 'Required',
+    recaptcha: formValues.recaptcha ? undefined : `Obrigatório`,
+    recoveryToken: formValues.recoveryToken ? undefined : 'Obrigatório',
     repeatedPassword:
       formValues.password === formValues.repeatedPassword
         ? undefined
-        : `Passwords don't match`,
-    username: formValues.username ? undefined : 'Required'
+        : `Senhas não batem`,
+    username: formValues.username ? undefined : 'Obrigatório'
   };
 };
 

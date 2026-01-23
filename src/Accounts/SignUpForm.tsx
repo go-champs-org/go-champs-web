@@ -23,11 +23,11 @@ export const signUpValidor = (formValues: SignUpEntity) => {
   }
 
   return {
-    recaptcha: formValues.recaptcha ? undefined : `Required`,
+    recaptcha: formValues.recaptcha ? undefined : `Obrigatório`,
     repeatedPassword:
       formValues.password === formValues.repeatedPassword
         ? undefined
-        : `Passwords don't match`
+        : `Senhas não batem`
   };
 };
 

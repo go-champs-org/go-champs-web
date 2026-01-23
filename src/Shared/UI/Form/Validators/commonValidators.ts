@@ -2,7 +2,9 @@ const SLUG_REGEX = RegExp(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const EMAIL_REGEX = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
-const SIMPLE_PASSWORD_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){6,}$/);
+const SIMPLE_PASSWORD_REGEX = RegExp(
+  /^[A-Za-z0-9!@#$%^&*()_+=\[\]{};:'",.<>?\/\\|-]{6,}$/
+);
 const STRONG_PASSWORD_REGEX = RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
 );
@@ -53,7 +55,7 @@ export const mustBeStrongPassword = (value: string) =>
 export const mustBeSimplePassword = (value: string) =>
   SIMPLE_PASSWORD_REGEX.test(value)
     ? undefined
-    : 'Senha precisa ter no mínimo 6 caracteres';
+    : 'Senha precisa ter no mínimo 6 caracteres entre letras, números ou símbolos';
 
 export const mustBeAccountIdentifier = (value: string) => {
   if (!value) return undefined;
