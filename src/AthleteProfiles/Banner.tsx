@@ -30,15 +30,11 @@ function Banner({ athleteProfile }: { athleteProfile: AthleteProfileEntity }) {
             </div>
             <div className="column has-text-centered-mobile">
               <p className="name">{athleteProfile.name}</p>
-              <BehindFeatureFlag>
-                {isMobile && (
-                  <div className="share">
-                    {isMobile && (
-                      <ShareButton athleteProfile={athleteProfile} />
-                    )}
-                  </div>
-                )}
-              </BehindFeatureFlag>
+              {isMobile && (
+                <div className="share">
+                  <ShareButton athleteProfile={athleteProfile} />
+                </div>
+              )}
 
               {hadSocialNetworks && (
                 <div className="social-networks">
