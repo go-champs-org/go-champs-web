@@ -305,6 +305,7 @@ export interface ApiTeam {
   coaches?: ApiCoach[];
   logo_url?: string;
   tri_code?: string;
+  primary_color: string | null;
 }
 
 export interface ApiTeamWithDependencies extends ApiTeam {

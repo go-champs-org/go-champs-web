@@ -9,6 +9,7 @@ export interface TeamEntity {
   name: string;
   logoUrl: string;
   triCode: string;
+  primaryColor: string;
   coaches: CoachEntity[];
 }
 
@@ -37,6 +38,7 @@ export const DEFAULT_TEAM: TeamEntity = {
   name: '',
   logoUrl: '',
   triCode: '',
+  primaryColor: '',
   coaches: []
 };
 

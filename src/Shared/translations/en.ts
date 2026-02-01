@@ -146,6 +146,7 @@ export default {
     placeholder: 'Placeholder',
     perAggregation: 'Per total',
     perGame: 'Per game',
+    primaryColor: 'Primary color',
     rankingOrder: 'Ranking order',
     registrations: 'Registrations',
     registrationResponse: {

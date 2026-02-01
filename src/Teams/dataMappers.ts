@@ -24,6 +24,7 @@ export const mapApiTeamToTeamEntity = (apiTeam: ApiTeam): TeamEntity => ({
   name: apiTeam.name,
   logoUrl: apiTeam.logo_url || '',
   triCode: apiTeam.tri_code || '',
+  primaryColor: apiTeam.primary_color || '',
   coaches: apiTeam.coaches ? apiTeam.coaches.map(mapApiCoachToCoachEntity) : []
 });
 
@@ -37,6 +38,7 @@ export const mapTeamEntityToApiTeamPostRequest = (
     tri_code: team.triCode ? team.triCode : '',
     logo_url: team.logoUrl ? team.logoUrl : '',
     tournament_id: tournamentId,
+    primary_color: team.primaryColor ? team.primaryColor : null,
     coaches: team.coaches.map(mapCoachEntityToApiCoach)
   }
 });
@@ -49,6 +51,7 @@ export const mapTeamEntityToApiTeamPatchRequest = (
     name: team.name,
     tri_code: team.triCode ? team.triCode : '',
     logo_url: team.logoUrl ? team.logoUrl : '',
+    primary_color: team.primaryColor ? team.primaryColor : null,
     coaches: team.coaches.map(mapCoachEntityToApiCoach)
   }
 });

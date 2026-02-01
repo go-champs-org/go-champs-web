@@ -148,6 +148,7 @@ export default {
     placeholder: 'Temporário',
     perAggregation: 'Por total',
     perGame: 'Por jogo',
+    primaryColor: 'Cor primária',
     registrations: 'Inscrições',
     registrationResponse: {
       statuses: {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import StringInput from '../Shared/UI/Form/StringInput';
+import ColorPicker from '../Shared/UI/Form/ColorPicker';
 import Shimmer from '../Shared/UI/Shimmer';
 import { TeamEntity } from './state';
 import { Link } from 'react-router-dom';
@@ -85,6 +86,21 @@ const Form: React.FC<FormProps> = ({
               render={props => (
                 <TriCodeInput {...props} numberOfCharacters={3} />
               )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>primaryColor</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="primaryColor"
+              component={ColorPicker}
+              placeholder="#FFFFFF"
+              isClearable={true}
             />
           </div>
         </div>

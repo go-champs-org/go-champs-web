@@ -17,6 +17,7 @@ const mockTeamEntity: TeamEntity = {
   name: 'Team One',
   logoUrl: 'https://example.com/logo.png',
   triCode: 'T1',
+  primaryColor: '',
   coaches: []
 };
 
@@ -25,6 +26,7 @@ const mockApiTeam: ApiTeam = {
   name: 'Team One',
   logo_url: 'https://example.com/logo.png',
   tri_code: 'T1',
+  primary_color: '',
   coaches: []
 };
 

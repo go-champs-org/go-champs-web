@@ -47,6 +47,7 @@ describe('deleteTeamSuccess', () => {
         name: 'first-name',
         logoUrl: '',
         triCode: '',
+        primaryColor: '',
         coaches: []
       }
     }
@@ -71,6 +72,7 @@ describe('deleteTeamSuccess', () => {
           name: 'some-name',
           logoUrl: 'some-logo-url',
           triCode: 'some-tri-code',
+          primaryColor: '',
           coaches: []
         },
         ...deleteState.teams
@@ -84,6 +86,7 @@ describe('deleteTeamSuccess', () => {
       name: 'some-name',
       logoUrl: 'some-logo-url',
       triCode: 'some-tri-code',
+      primaryColor: '',
       coaches: []
     });
   });
@@ -111,6 +114,7 @@ describe('patchTeamSuccess', () => {
     name: 'some-first-name',
     logoUrl: 'some-logo-url',
     triCode: 'some-tri-code',
+    primaryColor: '#FFFFFF',
     coaches: [
       { id: 'some-coach-id', name: 'some-coach-name', type: 'some-coach-type' }
     ]
@@ -124,6 +128,7 @@ describe('patchTeamSuccess', () => {
         name: 'first-name',
         logoUrl: '',
         triCode: '',
+        primaryColor: '',
         coaches: []
       }
     }
@@ -141,6 +146,7 @@ describe('patchTeamSuccess', () => {
       name: 'some-first-name',
       logoUrl: 'some-logo-url',
       triCode: 'some-tri-code',
+      primaryColor: '#FFFFFF',
       coaches: [
         {
           id: 'some-coach-id',
@@ -160,6 +166,7 @@ describe('patchTeamSuccess', () => {
           name: 'some-name',
           logoUrl: 'some-logo-url',
           triCode: 'some-tri-code',
+          primaryColor: '',
           coaches: []
         }
       }
@@ -172,6 +179,7 @@ describe('patchTeamSuccess', () => {
       name: 'some-name',
       logoUrl: 'some-logo-url',
       triCode: 'some-tri-code',
+      primaryColor: '',
       coaches: []
     });
   });
@@ -199,6 +207,7 @@ describe('postTeamSuccess', () => {
     name: 'first-name',
     logoUrl: 'some-logo-url',
     triCode: 'some-tri-code',
+    primaryColor: '#FFFFFF',
     coaches: []
   });
 
@@ -214,6 +223,7 @@ describe('postTeamSuccess', () => {
       name: 'first-name',
       logoUrl: 'some-logo-url',
       triCode: 'some-tri-code',
+      primaryColor: '#FFFFFF',
       coaches: []
     });
   });
@@ -227,6 +237,7 @@ describe('postTeamSuccess', () => {
           name: 'some-name',
           logoUrl: 'some-logo-url',
           triCode: 'some-tri-code',
+          primaryColor: '',
           coaches: []
         }
       }
@@ -239,6 +250,7 @@ describe('postTeamSuccess', () => {
       name: 'some-name',
       logoUrl: 'some-logo-url',
       triCode: 'some-tri-code',
+      primaryColor: '',
       coaches: []
     });
   });
@@ -281,6 +293,7 @@ describe('getTournamentSuccess', () => {
       name: 'first team name',
       logoUrl: '',
       triCode: '',
+      primaryColor: '',
       coaches: []
     });
     expect(newState.teams['second-team-id']).toEqual({
@@ -288,6 +301,7 @@ describe('getTournamentSuccess', () => {
       name: 'second team name',
       logoUrl: '',
       triCode: '',
+      primaryColor: '',
       coaches: []
     });
   });
