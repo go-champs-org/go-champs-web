@@ -39,6 +39,9 @@ import PlayerView from './PlayerView';
 import ScoreboardSettingEdit from './ScoreboardSettingEdit';
 import TeamEditRoster from './TeamEditRoster';
 import TeamView from './TeamView';
+import OfficialList from './OfficialList';
+import OfficialNew from './OfficialNew';
+import OfficialEdit from './OfficialEdit';
 
 const mapStateToProps = (
   state: StoreState,
@@ -145,6 +148,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           )}
         />
         <Route
+          path={`/:organizationSlug/:tournamentSlug/EditOfficial/:officialId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <OfficialEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
           path={`/:organizationSlug/:tournamentSlug/EditRegistration/:registrationId`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
@@ -195,6 +206,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PlayerNew {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/NewOfficial`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <OfficialNew {...props} />
             </AuthenticatedRoute>
           )}
         />
@@ -254,6 +273,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           path={`/:organizationSlug/:tournamentSlug/PlayerStatsSummary`}
           render={(props: RouteComponentProps<RouteProps>) => (
             <PlayerStatsSummaryView {...props} />
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/Officials`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <OfficialList {...props} />
+            </AuthenticatedRoute>
           )}
         />
         <Route

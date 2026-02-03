@@ -367,6 +367,33 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
+export interface ApiOfficial {
+  id: string;
+  name: string;
+  license_number?: string;
+  username: string;
+}
+
+export interface ApiOfficialWithDependencies extends ApiOfficial {
+  tournament_id: string;
+}
+
+export interface ApiOfficialPatchRequest {
+  official: ApiOfficial;
+}
+
+export interface ApiOfficialPostRequest {
+  official: ApiOfficialWithDependencies;
+}
+
+export interface ApiOfficialResponse {
+  data: ApiOfficial;
+}
+
+export interface ApiOfficialsResponse {
+  data: ApiOfficial[];
+}
+
 interface ApiPlayerStat {
   title: string;
   slug?: string;
@@ -435,6 +462,7 @@ export interface ApiTournamentWithDependecies extends ApiTournament {
   phases: ApiPhase[];
   players: ApiPlayer[];
   teams: ApiTeam[];
+  officials: ApiOfficial[];
   registrations: ApiRegistration[];
   scoreboard_setting: ApiScoreboardSetting;
 }

@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import AdminMenu from '../Tournaments/AdminMenu';
 import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
-import List, { ListLoading } from '../Teams/List';
+import List, { ListLoading } from '../Officials/List';
 import { ConnectedProps, connect } from 'react-redux';
 import withTournament from './support/withTournament';
 import { getTournamentBySlug } from '../Tournaments/effects';
-import { deleteTeam } from '../Teams/effects';
+import { deleteOfficial } from '../Officials/effects';
 import { bindActionCreators, Dispatch } from 'redux';
-import { teams } from '../Teams/selectors';
+import { officials } from '../Officials/selectors';
 import { StoreState } from '../store';
 import { tournamentLoading } from '../Tournaments/selectors';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
@@ -31,14 +31,14 @@ const SearchNameInput: React.FC<{
 );
 
 const mapStateToProps = (state: StoreState) => ({
-  teams: teams(state.teams),
+  officials: officials(state.officials),
   tournamentLoading: tournamentLoading(state.tournaments)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      deleteTeam,
+      deleteOfficial,
       getTournamentBySlug
     },
     dispatch
@@ -46,22 +46,22 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type TeamListProps = ConnectedProps<typeof connector> &
+type OfficialListProps = ConnectedProps<typeof connector> &
   RouteComponentProps<RouteProps>;
 
-const TeamList: React.FC<TeamListProps> = ({
-  deleteTeam,
+const OfficialList: React.FC<OfficialListProps> = ({
+  deleteOfficial,
   match,
-  teams,
+  officials,
   tournamentLoading
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
-  const newUrl = `/${organizationSlug}/${tournamentSlug}/NewTeam`;
+  const newUrl = `/${organizationSlug}/${tournamentSlug}/NewOfficial`;
   const {
-    items: filteredTeams,
-    onPropertyNameChange: onTeamNameChange,
-    searchValue: teamNameFilterValue
-  } = useFilteredItemsByString(teams, 'name');
+    items: filteredOfficials,
+    onPropertyNameChange: onOfficialNameChange,
+    searchValue: officialNameFilterValue
+  } = useFilteredItemsByString(officials, 'name');
 
   const { t } = useTranslation();
 
@@ -71,12 +71,12 @@ const TeamList: React.FC<TeamListProps> = ({
         <div className="columns is-vcentered is-mobile is-multiline">
           <ListHeader
             newUrl={newUrl}
-            title={t('teams')}
+            title={t('officials')}
             filters={[
               <SearchNameInput
                 key="name"
-                onInputChange={onTeamNameChange}
-                value={teamNameFilterValue}
+                onInputChange={onOfficialNameChange}
+                value={officialNameFilterValue}
               />
             ]}
           />
@@ -87,9 +87,9 @@ const TeamList: React.FC<TeamListProps> = ({
               loader={<ListLoading />}
             >
               <List
-                deleteTeam={deleteTeam}
+                deleteOfficial={deleteOfficial}
                 organizationSlug={organizationSlug}
-                teams={filteredTeams}
+                officials={filteredOfficials}
                 tournamentSlug={tournamentSlug}
               />
             </ComponentLoader>
@@ -109,4 +109,4 @@ const TeamList: React.FC<TeamListProps> = ({
   );
 };
 
-export default connector(withTournament<TeamListProps>(TeamList));
+export default connector(withTournament<OfficialListProps>(OfficialList));

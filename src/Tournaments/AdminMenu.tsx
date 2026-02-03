@@ -125,6 +125,11 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
           </Link>
         </li>
         <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Officials`}>
+            <Trans>officials</Trans>
+          </Link>
+        </li>
+        <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Registrations`}>
             <Trans>registrations</Trans>
           </Link>

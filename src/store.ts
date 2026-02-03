@@ -35,6 +35,8 @@ import { SportState } from './Sports/state';
 import { default as sportReducer } from './Sports/reducer';
 import { RegistrationState } from './Registrations/state';
 import { default as registrationReducer } from './Registrations/reducer';
+import { default as officialsReducer } from './Officials/reducer';
+import { OfficialState } from './Officials/state';
 import { default as themeReducer } from './Theme/reducer';
 import { ThemeState } from './Theme/types';
 import { NODE_ENV } from './Shared/env';
@@ -47,6 +49,7 @@ export interface StoreState {
   eliminations: EliminationState;
   fixedPlayerStatsTables: FixedPlayerStatsTableState;
   games: GameState;
+  officials: OfficialState;
   organizations: OrganizationState;
   phases: PhaseState;
   players: PlayerState;
@@ -69,6 +72,7 @@ export default createStore(
     eliminations: eliminationsReducer,
     fixedPlayerStatsTables: fixedPlayerStatsTablesReducer,
     games: tournamentGameReducer,
+    officials: officialsReducer,
     organizations: organizationReducer,
     phases: tournamentPhaseReducer,
     players: playerReducer,
