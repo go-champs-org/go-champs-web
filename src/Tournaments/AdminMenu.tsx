@@ -108,20 +108,13 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
           </Link>
         </li>
         <li>
-          <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
-            <Trans>players</Trans>
-          </Link>
-        </li>
-        <li>
-          <Link
-            to={`/${organizationSlug}/${tournamentSlug}/FixedPlayerStatsTables`}
-          >
-            <Trans>fixedPlayerStatsTables</Trans>
-          </Link>
-        </li>
-        <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Teams`}>
             <Trans>teams</Trans>
+          </Link>
+        </li>
+        <li>
+          <Link to={`/${organizationSlug}/${tournamentSlug}/Players`}>
+            <Trans>players</Trans>
           </Link>
         </li>
         <li>
@@ -132,6 +125,13 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
         <li>
           <Link to={`/${organizationSlug}/${tournamentSlug}/Registrations`}>
             <Trans>registrations</Trans>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/FixedPlayerStatsTables`}
+          >
+            <Trans>fixedPlayerStatsTables</Trans>
           </Link>
         </li>
         <li>
