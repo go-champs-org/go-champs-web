@@ -2,6 +2,11 @@ export type ValueType = 'manual' | 'calculated';
 export type Level = 'game' | 'tournament';
 export type Scope = 'aggregate' | 'per_game';
 
+export interface OfficialType {
+  name: string;
+  role: string;
+}
+
 export interface CoachType {
   type: string;
 }
@@ -19,6 +24,7 @@ export interface SportEntity {
   slug: string;
   playerStatistics: Statistic[];
   coachTypes: CoachType[];
+  officialTypes?: OfficialType[];
 }
 
 export interface SportState {

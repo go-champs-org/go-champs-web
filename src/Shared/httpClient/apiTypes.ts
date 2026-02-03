@@ -636,11 +636,17 @@ export interface ApiCoachType {
   type: string;
 }
 
+export interface ApiOfficialType {
+  name: string;
+  role: string;
+}
+
 export interface ApiSport {
   name: string;
   slug: string;
   player_statistics?: ApiStatistic[];
   coach_types?: ApiCoachType[];
+  official_types?: ApiOfficialType[];
 }
 
 export interface ApiSportsResponse {
