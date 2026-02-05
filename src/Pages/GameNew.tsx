@@ -13,14 +13,16 @@ import withPhase from './support/withPhase';
 import { PhaseEntity } from '../Phases/state';
 import { phaseByIdOrDefault } from '../Phases/selectors';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { officialsForSelectInput } from '../Officials/selectors';
+import { officialTypesForSelectInput } from '../Sports/selectors';
 import { TournamentEntity } from '../Tournaments/state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import {
-  gameAssetTypeOptions,
   liveStateOptions,
   postingGame,
   resultTypeOptions
 } from '../Games/selectors';
+import { gameAssetTypeOptions } from '../Sports/selectors';
 import { Trans } from 'react-i18next';
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 import { tournamentBySlug } from '../Tournaments/selectors';
@@ -37,7 +39,11 @@ type StateProps = {
   isPostingGame: boolean;
   phase: PhaseEntity;
   selectInputTeams: SelectOptionType[];
+  selectInputOfficials: SelectOptionType[];
+  officialTypesSelectOptions: TranslateSelectOptionType[];
   resultTypeOptions: TranslateSelectOptionType[];
+  gameAssetTypeOptions: TranslateSelectOptionType[];
+  liveStateOptions: TranslateSelectOptionType[];
   tournament: TournamentEntity;
   defaultGame: GameEntity;
 };
@@ -56,6 +62,11 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     isPostingGame: postingGame(state.games),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     selectInputTeams: teamsForSelectInput(state.teams),
+    selectInputOfficials: officialsForSelectInput(state.officials),
+    officialTypesSelectOptions: officialTypesForSelectInput(
+      state.sports,
+      tournament.sportSlug || ''
+    ),
     resultTypeOptions: resultTypeOptions(),
     liveStateOptions: liveStateOptions(),
     gameAssetTypeOptions: gameAssetTypeOptions(),
@@ -101,6 +112,8 @@ const GameNew: React.FC<GameNewProps> = ({
   liveStateOptions,
   gameAssetTypeOptions,
   selectInputTeams,
+  selectInputOfficials,
+  officialTypesSelectOptions,
   tournamentSlug,
   defaultGame
 }) => {
@@ -130,6 +143,8 @@ const GameNew: React.FC<GameNewProps> = ({
                   backUrl={`${basePhaseManageUrl}/Games`}
                   isLoading={isPostingGame}
                   selectInputTeams={selectInputTeams}
+                  selectInputOfficials={selectInputOfficials}
+                  officialTypesSelectOptions={officialTypesSelectOptions}
                   resultTypeOptions={resultTypeOptions}
                   liveStateOptions={liveStateOptions}
                   gameAssetTypeOptions={gameAssetTypeOptions}

@@ -17,6 +17,12 @@ export interface ApiGameAsset {
   url: string;
 }
 
+export interface ApiGameOfficial {
+  id?: string;
+  official_id: string;
+  role: string;
+}
+
 interface ApiGame {
   id: string;
   assets?: ApiGameAsset[];
@@ -31,6 +37,7 @@ interface ApiGame {
   live_state: ApiGameLiveState;
   live_started_at?: string;
   live_ended_at?: string;
+  officials?: ApiGameOfficial[];
   result_type: ApiGameResultType;
   youtube_code?: string;
 }

@@ -5,9 +5,11 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import StringInput from '../Shared/UI/Form/StringInput';
 import {
   DEFAULT_GAME_ASSET,
+  DEFAULT_GAME_OFFICIAL,
   GAME_LIVE_STATE,
   GameAssetEntity,
-  GameEntity
+  GameEntity,
+  GameOfficialEntity
 } from './state';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
@@ -90,17 +92,87 @@ function GameAssetForm({
   );
 }
 
-interface FromProps extends FormRenderProps<GameEntity> {
+function GameOfficialForm({
+  name,
+  currentValue,
+  allOfficials,
+  allSelectedOfficials,
+  officialTypesSelectOptions,
+  onRemove
+}: {
+  name: string;
+  currentValue: GameOfficialEntity;
+  allOfficials: SelectOptionType[];
+  allSelectedOfficials: GameOfficialEntity[];
+  officialTypesSelectOptions: SelectOptionType[];
+  onRemove: () => void;
+}) {
+  const { t } = useTranslation();
+
+  // Filter out officials selected in OTHER positions, but keep current selection available
+  const otherSelectedIds = allSelectedOfficials
+    .filter(official => official !== currentValue)
+    .map(official => official.officialId)
+    .filter(Boolean); // Remove empty/undefined values
+
+  const availableOfficials = allOfficials.filter(
+    official => !otherSelectedIds.includes(official.value)
+  );
+  return (
+    <div className="game-official-form field is-horizontal">
+      <label className="label">{t('official')}</label>
+      <div className="field-body">
+        <div className="field">
+          <div className="control">
+            <Field
+              name={`${name}.officialId`}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={availableOfficials}
+                  placeholder={t('selectOfficial')}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <div className="control">
+            <Field
+              name={`${name}.role`}
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={officialTypesSelectOptions}
+                  placeholder={t('selectRole')}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <DoubleClickButton className="button is-danger" onClick={onRemove}>
+          <i className="fas fa-trash" />
+        </DoubleClickButton>
+      </div>
+    </div>
+  );
+}
+
+interface FormProps extends FormRenderProps<GameEntity> {
   backUrl: string;
   isLoading: boolean;
   selectInputTeams: SelectOptionType[];
   resultTypeOptions: TranslateSelectOptionType[];
   liveStateOptions: TranslateSelectOptionType[];
   gameAssetTypeOptions: TranslateSelectOptionType[];
-  push: (fieldName: string, gameAsset: GameAssetEntity) => {};
+  selectInputOfficials: SelectOptionType[];
+  officialTypesSelectOptions: TranslateSelectOptionType[];
+  push: (fieldName: string, entity: GameAssetEntity | GameOfficialEntity) => {};
 }
 
-const Form: React.FC<FromProps> = ({
+const Form: React.FC<FormProps> = ({
   backUrl,
   isLoading,
   handleSubmit,
@@ -110,6 +182,8 @@ const Form: React.FC<FromProps> = ({
   resultTypeOptions,
   liveStateOptions,
   gameAssetTypeOptions,
+  selectInputOfficials,
+  officialTypesSelectOptions,
   values,
   push
 }) => {
@@ -126,6 +200,9 @@ const Form: React.FC<FromProps> = ({
   );
   const translatedGameAssetTypeOptions = useTranslatedSelectOptions(
     gameAssetTypeOptions
+  );
+  const translatedOfficialTypesOptions = useTranslatedSelectOptions(
+    officialTypesSelectOptions
   );
 
   const toggleAwayPlaceholder = (
@@ -388,6 +465,33 @@ const Form: React.FC<FromProps> = ({
             style={{ marginBottom: '1rem' }}
           >
             <Trans>addAsset</Trans>
+          </button>
+        </CollapsibleCard>
+
+        <CollapsibleCard titleElement={t('officials')}>
+          <FieldArray name="officials">
+            {({ fields }) =>
+              fields.map((name, index) => (
+                <GameOfficialForm
+                  key={name}
+                  name={name}
+                  allOfficials={selectInputOfficials}
+                  allSelectedOfficials={values.officials || []}
+                  officialTypesSelectOptions={translatedOfficialTypesOptions}
+                  currentValue={fields.value[index]}
+                  onRemove={() => fields.remove(index)}
+                />
+              ))
+            }
+          </FieldArray>
+
+          <button
+            className="button is-fullwidth is-medium"
+            type="button"
+            onClick={() => push('officials', DEFAULT_GAME_OFFICIAL)}
+            style={{ marginBottom: '1rem' }}
+          >
+            <Trans>addOfficial</Trans>
           </button>
         </CollapsibleCard>
 

@@ -3,8 +3,7 @@ import {
   GameState,
   DEFAULT_GAME,
   GAME_RESULT_TYPE,
-  GAME_LIVE_STATE,
-  GAME_ASSET_TYPE
+  GAME_LIVE_STATE
 } from './state';
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 
@@ -100,29 +99,3 @@ export const liveStateOptions = (): TranslateSelectOptionType[] => [
   { value: GAME_LIVE_STATE.IN_PROGRESS, labelKey: 'gameLiveState.inProgress' },
   { value: GAME_LIVE_STATE.ENDED, labelKey: 'gameLiveState.ended' }
 ];
-
-export const gameAssetTypeOptions = (): TranslateSelectOptionType[] => [
-  {
-    value: GAME_ASSET_TYPE.FIBA_SCORESHEET,
-    labelKey: 'gameAssetType.fibaScoresheet',
-    faIconClass: 'fas fa-file-alt'
-  },
-  {
-    value: GAME_ASSET_TYPE.FIBA_BOXSCORE,
-    labelKey: 'gameAssetType.fibaBoxscore',
-    faIconClass: 'fas fa-table'
-  },
-  {
-    value: GAME_ASSET_TYPE.FOLDER_IMAGES,
-    labelKey: 'gameAssetType.folderImages',
-    faIconClass: 'fas fa-folder-open'
-  }
-];
-
-export const gameAssetOptionByValue = (
-  value: string
-): TranslateSelectOptionType | undefined => {
-  return gameAssetTypeOptions().find(
-    (option: TranslateSelectOptionType) => option.value === value
-  );
-};

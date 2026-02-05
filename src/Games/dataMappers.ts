@@ -3,11 +3,12 @@ import {
   ApiGamePostRequest,
   ApiGamePatchRequest,
   ApiGameAssetType,
-  ApiGameAsset
+  ApiGameAsset,
+  ApiGameOfficial
 } from '../Shared/httpClient/apiTypes';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { DEFAULT_TEAM } from '../Teams/state';
-import { GameEntity } from './state';
+import { GameEntity, GameOfficialEntity } from './state';
 
 export const mapApiGameAssetToGameAssetEntity = (
   apiGameAsset: ApiGameAsset
@@ -15,6 +16,22 @@ export const mapApiGameAssetToGameAssetEntity = (
   id: apiGameAsset.id,
   type: apiGameAsset.type as ApiGameAssetType,
   url: apiGameAsset.url
+});
+
+export const mapApiGameOfficialToGameOfficialEntity = (
+  apiGameOfficial: ApiGameOfficial
+) => ({
+  id: apiGameOfficial.id,
+  officialId: apiGameOfficial.official_id,
+  role: apiGameOfficial.role
+});
+
+export const mapGameOfficialEntityToApiGameOfficial = (
+  gameOfficial: GameOfficialEntity
+) => ({
+  id: gameOfficial.id && gameOfficial.id,
+  official_id: gameOfficial.officialId,
+  role: gameOfficial.role
 });
 
 export const mapApiGameToGameEntity = (
@@ -38,6 +55,9 @@ export const mapApiGameToGameEntity = (
   info: apiGame.info ? apiGame.info : '',
   isFinished: apiGame.is_finished,
   location: apiGame.location,
+  officials: apiGame.officials
+    ? apiGame.officials.map(mapApiGameOfficialToGameOfficialEntity)
+    : [],
   phaseId: apiGame.phase_id,
   youTubeCode: apiGame.youtube_code ? apiGame.youtube_code : '',
   liveState: apiGame.live_state,
@@ -67,6 +87,10 @@ export const mapGameEntityToApiGamePostRequest = (
     info: game.info ? game.info : '',
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
+    officials:
+      game.officials && game.officials.length > 0
+        ? game.officials.map(mapGameOfficialEntityToApiGameOfficial)
+        : [],
     phase_id: phaseId,
     youtube_code: game.youTubeCode && game.youTubeCode,
     live_state: game.liveState,
@@ -97,6 +121,10 @@ export const mapGameEntityToApiGamePatchRequest = (
     info: game.info ? game.info : '',
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
+    officials:
+      game.officials && game.officials.length > 0
+        ? game.officials.map(mapGameOfficialEntityToApiGameOfficial)
+        : [],
     youtube_code: game.youTubeCode && game.youTubeCode,
     live_state: game.liveState,
     result_type: game.resultType

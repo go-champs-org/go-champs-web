@@ -6,7 +6,7 @@ import './Card.scss';
 import { TeamEntity } from '../Teams/state';
 import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import LiveIndicator from '../Shared/UI/LiveIndicator';
-import { gameAssetOptionByValue } from './selectors';
+import { gameAssetOptionByValue } from '../Sports/selectors';
 
 const DEFAULT_ASSET_ICON_CLASS = 'fas fa-external-link-alt';
 

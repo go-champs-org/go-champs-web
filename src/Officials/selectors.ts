@@ -1,4 +1,5 @@
 import { OfficialEntity, OfficialState, DEFAULT_OFFICIAL } from './state';
+import { SelectOptionType } from '../Shared/UI/Form/types';
 
 export const officialById = (
   state: OfficialState,
@@ -25,3 +26,16 @@ export const postingOfficial = (state: OfficialState): boolean =>
 
 export const tournamentLoading = (state: OfficialState): boolean =>
   state.isLoadingRequestTournament;
+
+export const officialsForSelectInput = (
+  state: OfficialState,
+  selectedOfficialIds: string[] = []
+): SelectOptionType[] => {
+  const allOfficials = officials(state);
+  return allOfficials
+    .filter(official => !selectedOfficialIds.includes(official.id))
+    .map((official: OfficialEntity) => ({
+      value: official.id,
+      label: official.name
+    }));
+};

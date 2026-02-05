@@ -30,6 +30,12 @@ export interface GameAssetEntity {
   url: string;
 }
 
+export interface GameOfficialEntity {
+  id?: string;
+  officialId: string;
+  role: string;
+}
+
 export interface GameEntity {
   id: string;
   assets: GameAssetEntity[];
@@ -43,6 +49,7 @@ export interface GameEntity {
   info: string;
   isFinished: boolean;
   location: string;
+  officials: GameOfficialEntity[];
   phaseId: string;
   liveState: ApiGameLiveState;
   resultType: ApiGameResultType;
@@ -81,6 +88,7 @@ export const DEFAULT_GAME: GameEntity = {
   isFinished: false,
   liveState: GAME_LIVE_STATE.NOT_STARTED,
   location: '',
+  officials: [],
   phaseId: '',
   youTubeCode: '',
   resultType: GAME_RESULT_TYPE.MANUAL
@@ -89,4 +97,9 @@ export const DEFAULT_GAME: GameEntity = {
 export const DEFAULT_GAME_ASSET: GameAssetEntity = {
   type: GAME_ASSET_TYPE.FOLDER_IMAGES,
   url: ''
+};
+
+export const DEFAULT_GAME_OFFICIAL: GameOfficialEntity = {
+  officialId: '',
+  role: ''
 };

@@ -6,6 +6,7 @@ export default {
     accountReset: 'Account reset',
     actions: 'Actions',
     addAsset: 'Add asset',
+    addOfficial: 'Add official',
     addCustomField: 'Add custom field',
     addGroupStat: 'Add group stat',
     addPlayerStat: 'Add player stat',
@@ -64,6 +65,15 @@ export default {
       notStarted: 'Not started',
       inProgress: 'In progress',
       ended: 'Ended'
+    },
+    officialType: {
+      crew_chief: 'Referee',
+      umpire_1: 'Umpire 1',
+      umpire_2: 'Umpire 2',
+      scorer: 'Scorer',
+      timekeeper: 'Timekeeper',
+      shot_clock_operator: 'Shot Clock Operator',
+      assistant_scorer: 'Representative Scorer'
     },
     groupStandingsMenuTitle: 'Group standings menu',
     groupStandings: 'Group standings',
@@ -763,6 +773,8 @@ export default {
     url: 'URL',
     uppercase: '{{uppercase, uppercase}}',
     upload: 'Upload',
+    selectOfficial: 'Select official',
+    selectRole: 'Select role',
     value: 'Value',
     viewer: 'Viewer',
     visibility: 'Visibility',

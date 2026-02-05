@@ -12,15 +12,17 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
 import {
-  gameAssetTypeOptions,
   gameById,
   liveStateOptions,
   patchingGame,
   resultTypeOptions
 } from '../Games/selectors';
+import { gameAssetTypeOptions } from '../Sports/selectors';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { teamsForSelectInput } from '../Teams/selectors';
+import { officialsForSelectInput } from '../Officials/selectors';
+import { officialTypesForSelectInput } from '../Sports/selectors';
 import { Trans, useTranslation } from 'react-i18next';
 import { REACT_APP_SCOREBOARD_APP_URL } from '../Shared/env';
 import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
@@ -37,13 +39,19 @@ interface OwnProps extends RouteComponentProps<RouteProps> {
 
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { gameId = '', tournamentSlug = '' } = props.match.params;
+  const tournament = tournamentBySlug(state.tournaments, tournamentSlug);
   return {
-    tournament: tournamentBySlug(state.tournaments, tournamentSlug),
+    tournament,
     isGamePatching: patchingGame(state.games),
     game: gameById(state.games, gameId),
     phase: phaseByIdOrDefault(state.phases, props.phaseId),
     phases: sortedPhases(state.phases),
     selectInputTeams: teamsForSelectInput(state.teams),
+    selectInputOfficials: officialsForSelectInput(state.officials),
+    officialTypesSelectOptions: officialTypesForSelectInput(
+      state.sports,
+      tournament.sportSlug || ''
+    ),
     resultTypeOptions: resultTypeOptions(),
     liveStateOptions: liveStateOptions(),
     gameAssetTypeOptions: gameAssetTypeOptions()
@@ -77,6 +85,8 @@ const GameEdit: React.FC<GameEditProps> = ({
   liveStateOptions,
   gameAssetTypeOptions,
   selectInputTeams,
+  selectInputOfficials,
+  officialTypesSelectOptions,
   tournamentSlug,
   tournament
 }) => {
@@ -157,6 +167,8 @@ const GameEdit: React.FC<GameEditProps> = ({
                   backUrl={`${basePhaseManageUrl}/Games`}
                   isLoading={isGamePatching}
                   selectInputTeams={selectInputTeams}
+                  selectInputOfficials={selectInputOfficials}
+                  officialTypesSelectOptions={officialTypesSelectOptions}
                   resultTypeOptions={resultTypeOptions}
                   liveStateOptions={liveStateOptions}
                   gameAssetTypeOptions={gameAssetTypeOptions}
