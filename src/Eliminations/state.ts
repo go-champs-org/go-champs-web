@@ -2,7 +2,7 @@ export interface EliminationTeamStatEntity {
   id: string;
   placeholder: string;
   teamId: string;
-  stats: { [statId: string]: string };
+  stats?: { [statId: string]: string };
 }
 
 export interface EliminationEntity {
