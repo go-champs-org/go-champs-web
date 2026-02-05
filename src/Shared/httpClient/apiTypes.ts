@@ -142,7 +142,7 @@ export interface ApiDrawBatchResponse {
 export interface ApiEliminationTeamStatPatchAndPost {
   placeholder?: string;
   team_id?: string;
-  stats: { [stat_id: string]: string };
+  stats?: { [stat_id: string]: string };
 }
 
 export interface ApiEliminationTeamStatResponse

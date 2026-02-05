@@ -13,7 +13,7 @@ const mapApiEliminationTeamStatToTeamStat = (
 ): EliminationTeamStatEntity => ({
   id: apiTeamStats.id,
   placeholder: apiTeamStats.placeholder ? apiTeamStats.placeholder : '',
-  stats: apiTeamStats.stats,
+  stats: apiTeamStats.stats ? apiTeamStats.stats : {},
   teamId: apiTeamStats.team_id ? apiTeamStats.team_id : ''
 });
 
@@ -21,7 +21,7 @@ const mapTeamStatToApiEliminationTeamStatPatchAndPost = (
   teamStats: EliminationTeamStatEntity
 ): ApiEliminationTeamStatPatchAndPost => ({
   placeholder: teamStats.teamId ? undefined : teamStats.placeholder,
-  stats: teamStats.stats,
+  stats: teamStats.stats ? teamStats.stats : {},
   team_id: teamStats.teamId
 });
 

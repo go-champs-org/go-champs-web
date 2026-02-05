@@ -96,7 +96,7 @@ const Elimination: React.FC<EliminationProps> = ({
                     team={teams[teamStats.teamId]}
                     teamPlaceholder={teamStats.placeholder}
                     eliminationStats={eliminationStats}
-                    teamStats={teamStats.stats || {}}
+                    teamStats={teamStats.stats}
                   />
                 );
               }
