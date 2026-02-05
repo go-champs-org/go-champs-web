@@ -81,6 +81,7 @@ export default {
     groupStandings: 'Grupos de classificação',
     email: 'Email',
     endDate: 'Data de término',
+    evaluatePhase: 'Calcular Fase',
     export: 'Exportar',
     filter: 'Filtro',
     filters: 'Filtros',

@@ -79,6 +79,7 @@ export default {
     groupStandings: 'Group standings',
     email: 'Email',
     endDate: 'End date',
+    evaluatePhase: 'Evaluate Phase',
     export: 'Export',
     filter: 'Filter',
     filters: 'Filters',

@@ -72,10 +72,18 @@ const post = async (
   return data;
 };
 
+const postEvaluate = async (phaseId: string): Promise<ApiPhase> => {
+  const url = `${PHASES_API}/${phaseId}/evaluate`;
+
+  const { data } = await httpClient.post<null, ApiPhaseResponse>(url, null);
+  return data;
+};
+
 export default {
   delete: deleteRequest,
   get,
   patch,
   patchBatch,
-  post
+  post,
+  postEvaluate
 };

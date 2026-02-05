@@ -267,6 +267,20 @@ export interface ApiPhaseBatchResponse {
   };
 }
 
+export interface ApiPhaseEvaluateResponseError {
+  game_id: string;
+  error: string;
+}
+
+export interface ApiPhaseEvaluateResponse {
+  data: {
+    total_games: number;
+    successful: number;
+    failed: number;
+    errors: ApiPhaseEvaluateResponseError[];
+  };
+}
+
 export interface ApiOrganization {
   id: string;
   name: string;

@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PhaseEntity, PhaseTypes } from '../Phases/state';
 import { Trans } from 'react-i18next';
+import phaseHttpClient from '../Phases/phaseHttpClient';
 
 interface AdminMenuProps {
   organizationSlug: string;
@@ -20,6 +21,18 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
   phase,
   tournamentSlug
 }) => {
+  const [isEvaluating, setIsEvaluating] = useState(false);
+
+  const handleEvaluate = async () => {
+    try {
+      setIsEvaluating(true);
+      await phaseHttpClient.postEvaluate(phase.id);
+    } catch (error) {
+      console.error('Error evaluating phase:', error);
+    } finally {
+      setIsEvaluating(false);
+    }
+  };
   const DrawMenu = (
     <Fragment>
       <p className="menu-label">
@@ -40,6 +53,26 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
           >
             <Trans>rounds</Trans>
           </Link>
+        </li>
+        <li>
+          <a
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              handleEvaluate();
+            }}
+            style={{
+              cursor: isEvaluating ? 'not-allowed' : 'pointer',
+              opacity: isEvaluating ? 0.6 : 1
+            }}
+          >
+            <Trans>evaluatePhase</Trans>
+            {isEvaluating && (
+              <span className="icon is-small is-right">
+                <i className="fas fa-spinner fa-spin"></i>
+              </span>
+            )}
+          </a>
         </li>
       </ul>
     </Fragment>
@@ -65,6 +98,26 @@ const AdminPhaseMenu: React.FC<AdminPhaseMenuProps> = ({
           >
             <Trans>groupStandings</Trans>
           </Link>
+        </li>
+        <li>
+          <a
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              handleEvaluate();
+            }}
+            style={{
+              cursor: isEvaluating ? 'not-allowed' : 'pointer',
+              opacity: isEvaluating ? 0.6 : 1
+            }}
+          >
+            <Trans>evaluatePhase</Trans>
+            {isEvaluating && (
+              <span className="icon is-small is-right">
+                <i className="fas fa-spinner fa-spin"></i>
+              </span>
+            )}
+          </a>
         </li>
       </ul>
     </Fragment>
