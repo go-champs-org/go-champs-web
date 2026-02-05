@@ -17,7 +17,6 @@ export interface PhaseEntity {
   order: number;
   eliminationStats: StatEntity[];
   isInProgress: boolean;
-  isProcessing: boolean;
 }
 
 export interface PhaseState {
@@ -44,8 +43,7 @@ export const DEFAULT_PHASE: PhaseEntity = {
   type: PhaseTypes.elimination,
   order: 0,
   eliminationStats: [],
-  isInProgress: false,
-  isProcessing: false
+  isInProgress: false
 };
 
 export const DEFAULT_ELIMINATION_STAT: StatEntity = {

@@ -46,17 +46,19 @@ const PhaseManage: React.FC<PhaseManageProps> = ({
   teams,
   tournamentSlug
 }) => {
+  const tournamentBaseUrl = `/${organizationSlug}/${tournamentSlug}`;
   const MainContent =
     phase.type === PhaseTypes.elimination ? (
       <EliminationView
         {...{
+          baseUrl: tournamentBaseUrl,
           eliminationStats: phase.eliminationStats,
           eliminations,
           teams
         }}
       />
     ) : (
-      <DrawView {...{ draws, teams }} />
+      <DrawView {...{ draws, teams, baseUrl: tournamentBaseUrl }} />
     );
 
   return (

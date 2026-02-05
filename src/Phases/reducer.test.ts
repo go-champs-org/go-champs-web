@@ -125,7 +125,6 @@ describe('patchPhaseSuccess', () => {
         title: 'first-title',
         type: PhaseTypes.elimination,
         isInProgress: true,
-        isProcessing: false,
         order: 1,
         eliminationStats: []
       }
@@ -142,7 +141,6 @@ describe('patchPhaseSuccess', () => {
     expect(newState.phases['first-id']).toEqual({
       id: 'first-id',
       isInProgress: true,
-      isProcessing: false,
       title: 'some-first-title',
       type: PhaseTypes.elimination,
       order: 1,
@@ -159,7 +157,6 @@ describe('patchPhaseSuccess', () => {
           title: 'some-title',
           type: PhaseTypes.elimination,
           isInProgress: true,
-          isProcessing: false,
           order: 1,
           eliminationStats: []
         }
@@ -174,7 +171,6 @@ describe('patchPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       order: 1,
       isInProgress: true,
-      isProcessing: false,
       eliminationStats: []
     });
   });
@@ -209,8 +205,7 @@ describe('batchPatchPhaseSuccess', () => {
         type: PhaseTypes.elimination,
         isInProgress: true,
         order: 1,
-        eliminationStats: [],
-        isProcessing: false
+        eliminationStats: []
       },
       'second-id': {
         id: 'second-id',
@@ -218,8 +213,7 @@ describe('batchPatchPhaseSuccess', () => {
         type: PhaseTypes.elimination,
         isInProgress: true,
         order: 2,
-        eliminationStats: [],
-        isProcessing: false
+        eliminationStats: []
       }
     }
   };
@@ -237,8 +231,7 @@ describe('batchPatchPhaseSuccess', () => {
       title: 'updated-first-title',
       type: PhaseTypes.draw,
       order: 2,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
     expect(newState.phases['second-id']).toEqual({
       id: 'second-id',
@@ -246,8 +239,7 @@ describe('batchPatchPhaseSuccess', () => {
       title: 'updated-second-title',
       type: PhaseTypes.draw,
       order: 1,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 
@@ -261,8 +253,7 @@ describe('batchPatchPhaseSuccess', () => {
           type: PhaseTypes.elimination,
           isInProgress: true,
           order: 1,
-          eliminationStats: [],
-          isProcessing: false
+          eliminationStats: []
         }
       }
     };
@@ -275,8 +266,7 @@ describe('batchPatchPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       order: 1,
       isInProgress: true,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 });
@@ -320,8 +310,7 @@ describe('postPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       order: 1,
       isInProgress: true,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 
@@ -335,8 +324,7 @@ describe('postPhaseSuccess', () => {
           type: PhaseTypes.elimination,
           order: 1,
           isInProgress: true,
-          eliminationStats: [],
-          isProcessing: false
+          eliminationStats: []
         }
       }
     };
@@ -349,8 +337,7 @@ describe('postPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       order: 1,
       isInProgress: true,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 });
@@ -400,8 +387,7 @@ describe('getPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       isInProgress: true,
       order: 1,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 
@@ -415,8 +401,7 @@ describe('getPhaseSuccess', () => {
           type: PhaseTypes.draw,
           isInProgress: false,
           order: 2,
-          eliminationStats: [],
-          isProcessing: false
+          eliminationStats: []
         }
       }
     };
@@ -429,8 +414,7 @@ describe('getPhaseSuccess', () => {
       type: PhaseTypes.elimination,
       isInProgress: true,
       order: 1,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
     expect(newState.phases['second-id']).toEqual({
       id: 'second-id',
@@ -438,8 +422,7 @@ describe('getPhaseSuccess', () => {
       type: PhaseTypes.draw,
       isInProgress: false,
       order: 2,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 });
@@ -503,8 +486,7 @@ describe('getTournamentSuccess', () => {
       type: PhaseTypes.elimination,
       isInProgress: false,
       order: 1,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
     expect(newState.phases['second-phase-id']).toEqual({
       id: 'second-phase-id',
@@ -512,8 +494,7 @@ describe('getTournamentSuccess', () => {
       type: PhaseTypes.elimination,
       isInProgress: true,
       order: 2,
-      eliminationStats: [],
-      isProcessing: false
+      eliminationStats: []
     });
   });
 
@@ -527,7 +508,6 @@ describe('getTournamentSuccess', () => {
           type: PhaseTypes.draw,
           order: 1,
           isInProgress: true,
-          isProcessing: false,
           eliminationStats: []
         }
       }
@@ -547,7 +527,6 @@ describe('getTournamentSuccess', () => {
           type: PhaseTypes.draw,
           order: 2,
           isInProgress: true,
-          isProcessing: false,
           eliminationStats: []
         }
       }
@@ -559,7 +538,6 @@ describe('getTournamentSuccess', () => {
       title: 'some phase title',
       type: PhaseTypes.draw,
       isInProgress: true,
-      isProcessing: false,
       order: 2,
       eliminationStats: []
     });

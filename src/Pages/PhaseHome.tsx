@@ -19,7 +19,6 @@ import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
 import { useRouteMatch } from 'react-router-dom';
 import { organizationBySlug } from '../Organizations/selectors';
-import './PhaseHome.scss';
 
 interface OwnProps {
   organizationSlug: string;
@@ -100,21 +99,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
 
       <div className="phase-home column is-12">
         <div className="columns is-multiline">
-          <main className="column">
-            <>
-              {phase.isProcessing && (
-                <div className="is-processing">
-                  <span className="icon is-small">
-                    <i className="fas fa-spinner fa-pulse"></i>
-                  </span>
-                  <span className="has-text-small">
-                    Atualizando resultados...
-                  </span>
-                </div>
-              )}
-              {MainContent}
-            </>
-          </main>
+          <main className="column">{MainContent}</main>
 
           <div className="is-divider-vertical is-hidden-tablet-only"></div>
 
