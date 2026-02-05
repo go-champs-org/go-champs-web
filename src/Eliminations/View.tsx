@@ -37,7 +37,7 @@ const TeamEliminationRow: React.FC<{
           className="has-text-centered"
           style={{ minWidth: '90px' }}
         >
-          {teamStats[stat.id]}
+          {teamStats[stat.id] ? teamStats[stat.id] : ''}
         </td>
       ))}
     </tr>
