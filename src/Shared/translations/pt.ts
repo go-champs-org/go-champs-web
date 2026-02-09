@@ -68,13 +68,13 @@ export default {
       ended: 'Encerrado'
     },
     officialType: {
-      crew_chief: 'Árbitro',
-      umpire_1: 'Juiz 1',
-      umpire_2: 'Juiz 2',
+      crew_chief: 'Crew Chief (Árbitro Principal)',
+      umpire_1: 'Fiscal 1',
+      umpire_2: 'Fiscal 2',
       scorer: 'Apontador',
       timekeeper: 'Cronometrista',
-      shot_clock_operator: 'Operador de Cronômetro de Posse',
-      assistant_scorer: 'Apontador Representante'
+      shot_clock_operator: 'Operador dos 24 segundos',
+      assistant_scorer: 'Representante'
     },
     emailSent: 'E-mail enviado',
     groupStandingsMenuTitle: 'Menu grupos de classificação',
