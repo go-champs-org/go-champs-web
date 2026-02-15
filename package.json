@@ -6,7 +6,7 @@
     "@amplitude/analytics-browser": "^2.11.1",
     "@emailjs/browser": "^4.4.1",
     "@types/react-facebook-login": "^4.1.2",
-    "animate.css": "^3.7.1",
+    "animate.css": "^4.1.1",
     "bulma": "^0.7.4",
     "bulma-badge": "^3.0.1",
     "bulma-checkradio": "^1.1.1",
