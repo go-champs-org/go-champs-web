@@ -42,6 +42,7 @@ export interface GameEntity {
   awayPlaceholder: string;
   awayScore: number;
   awayTeam: TeamEntity;
+  city?: string;
   datetime: string;
   homePlaceholder: string;
   homeScore: number;
@@ -80,6 +81,7 @@ export const DEFAULT_GAME: GameEntity = {
   awayPlaceholder: '',
   awayScore: 0,
   awayTeam: DEFAULT_TEAM,
+  city: '',
   datetime: '',
   homePlaceholder: '',
   homeScore: 0,

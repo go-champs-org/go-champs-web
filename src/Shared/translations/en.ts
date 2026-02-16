@@ -115,6 +115,7 @@ export default {
     liveSiteUpdate: 'Live site update mode',
     licenseNumber: 'License number',
     location: 'Location',
+    city: 'City',
     logo: 'Logo',
     match: 'Match',
     matches: 'Matches',

@@ -395,6 +395,21 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">
+            <Trans>city</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="city"
+              component={StringInput}
+              type="text"
+              placeholder="City"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
             <Trans>resultType</Trans>
           </label>
 

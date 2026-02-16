@@ -117,6 +117,7 @@ export default {
     liveSiteUpdate: 'Modo de atualização ao vivo',
     licenseNumber: 'Número da licença',
     location: 'Local',
+    city: 'Cidade',
     logo: 'Logo',
     match: 'Confronto',
     matches: 'Confrontos',

@@ -34,6 +34,7 @@ interface ApiGame {
   is_finished: boolean;
   info?: string;
   location: string;
+  city?: string;
   live_state: ApiGameLiveState;
   live_started_at?: string;
   live_ended_at?: string;

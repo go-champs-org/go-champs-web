@@ -116,6 +116,7 @@ describe('patchGameSuccess', () => {
       id: 'updated-away-team-id',
       name: 'updated-away-team'
     },
+    city: 'updated city',
     datetime: '2019-05-22T03:21:21.248Z',
     homePlaceholder: 'updated home placeholder',
     homeScore: 40,
@@ -139,6 +140,7 @@ describe('patchGameSuccess', () => {
           id: 'first-away-team-id',
           name: 'first-away-team'
         },
+        city: 'first city',
         datetime: '2019-05-22T03:21:21.248Z',
         homePlaceholder: 'first home placeholder',
         homeScore: 20,
@@ -169,6 +171,7 @@ describe('patchGameSuccess', () => {
         id: 'updated-away-team-id',
         name: 'updated-away-team'
       },
+      city: 'updated city',
       datetime: '2019-05-22T03:21:21.248Z',
       homePlaceholder: 'updated home placeholder',
       homeScore: 40,
@@ -252,6 +255,7 @@ describe('postGameSuccess', () => {
       name: 'first-away-team',
       stats: {}
     },
+    city: 'first city',
     datetime: '2019-05-22T03:21:21.248Z',
     homePlaceholder: 'first home placeholder',
     homeScore: 20,
@@ -280,6 +284,7 @@ describe('postGameSuccess', () => {
         name: 'first-away-team',
         stats: {}
       },
+      city: 'first city',
       datetime: '2019-05-22T03:21:21.248Z',
       homePlaceholder: 'first home placeholder',
       homeScore: 20,
