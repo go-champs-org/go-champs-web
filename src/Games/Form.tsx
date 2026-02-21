@@ -322,24 +322,28 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
-        <div className="field">
-          <label className="label">
-            <Trans>liveState</Trans>
-          </label>
+        {values.id && (
+          <div className="field">
+            <label className="label">
+              <Trans>liveState</Trans>
+            </label>
 
-          <div className="control">
-            <Field
-              name="liveState"
-              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
-                <SelectInput
-                  {...props}
-                  options={translatedLiveStateOptions}
-                  isClearable={false}
-                />
-              )}
-            />
+            <div className="control">
+              <Field
+                name="liveState"
+                render={(
+                  props: FieldRenderProps<string, HTMLSelectElement>
+                ) => (
+                  <SelectInput
+                    {...props}
+                    options={translatedLiveStateOptions}
+                    isClearable={false}
+                  />
+                )}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {values.liveState !== GAME_LIVE_STATE.NOT_STARTED && (
           <>
@@ -458,57 +462,60 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
-        <CollapsibleCard titleElement={t('assets')}>
-          <FieldArray name="assets">
-            {({ fields }) =>
-              fields.map((name, index) => (
-                <GameAssetForm
-                  key={name}
-                  name={name}
-                  gameAssetTypeOptions={translatedGameAssetTypeOptions}
-                  currentValue={fields.value[index]}
-                  onRemove={() => fields.remove(index)}
-                />
-              ))
-            }
-          </FieldArray>
+        <div className="field">
+          <CollapsibleCard titleElement={t('assets')}>
+            <FieldArray name="assets">
+              {({ fields }) =>
+                fields.map((name, index) => (
+                  <GameAssetForm
+                    key={name}
+                    name={name}
+                    gameAssetTypeOptions={translatedGameAssetTypeOptions}
+                    currentValue={fields.value[index]}
+                    onRemove={() => fields.remove(index)}
+                  />
+                ))
+              }
+            </FieldArray>
 
-          <button
-            className="button is-fullwidth is-medium"
-            type="button"
-            onClick={() => push('assets', DEFAULT_GAME_ASSET)}
-            style={{ marginBottom: '1rem' }}
-          >
-            <Trans>addAsset</Trans>
-          </button>
-        </CollapsibleCard>
+            <button
+              className="button is-fullwidth is-medium"
+              type="button"
+              onClick={() => push('assets', DEFAULT_GAME_ASSET)}
+              style={{ marginBottom: '1rem' }}
+            >
+              <Trans>addAsset</Trans>
+            </button>
+          </CollapsibleCard>
+        </div>
+        <div className="field">
+          <CollapsibleCard titleElement={t('officials')}>
+            <FieldArray name="officials">
+              {({ fields }) =>
+                fields.map((name, index) => (
+                  <GameOfficialForm
+                    key={name}
+                    name={name}
+                    allOfficials={selectInputOfficials}
+                    allSelectedOfficials={values.officials || []}
+                    officialTypesSelectOptions={translatedOfficialTypesOptions}
+                    currentValue={fields.value[index]}
+                    onRemove={() => fields.remove(index)}
+                  />
+                ))
+              }
+            </FieldArray>
 
-        <CollapsibleCard titleElement={t('officials')}>
-          <FieldArray name="officials">
-            {({ fields }) =>
-              fields.map((name, index) => (
-                <GameOfficialForm
-                  key={name}
-                  name={name}
-                  allOfficials={selectInputOfficials}
-                  allSelectedOfficials={values.officials || []}
-                  officialTypesSelectOptions={translatedOfficialTypesOptions}
-                  currentValue={fields.value[index]}
-                  onRemove={() => fields.remove(index)}
-                />
-              ))
-            }
-          </FieldArray>
-
-          <button
-            className="button is-fullwidth is-medium"
-            type="button"
-            onClick={() => push('officials', DEFAULT_GAME_OFFICIAL)}
-            style={{ marginBottom: '1rem' }}
-          >
-            <Trans>addOfficial</Trans>
-          </button>
-        </CollapsibleCard>
+            <button
+              className="button is-fullwidth is-medium"
+              type="button"
+              onClick={() => push('officials', DEFAULT_GAME_OFFICIAL)}
+              style={{ marginBottom: '1rem' }}
+            >
+              <Trans>addOfficial</Trans>
+            </button>
+          </CollapsibleCard>
+        </div>
 
         <LoadingButton
           isLoading={isLoading}
