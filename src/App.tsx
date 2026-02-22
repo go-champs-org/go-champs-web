@@ -164,9 +164,9 @@ const App: React.FC = () => {
 
                     <p>
                       <strong className="has-text-primary">Go Champs</strong>
-                      <span>{` ${t('with')} 💚 `}</span>
+                      <span>{`, ${t('with')} 💚 `}</span>
                       <span>
-                        {`${t('by')} Lair Júnior. ${t(
+                        {`${t('byGoChampsTeam')}. ${t(
                           'theSourceCodeIsLicensed'
                         )} `}
                       </span>
@@ -184,6 +184,17 @@ const App: React.FC = () => {
                         CC BY NC SA 4.0
                       </a>
                       .
+                    </p>
+
+                    <p>
+                      {t('copyright')} &copy; {new Date().getFullYear()}{' '}
+                      <a
+                        href="https://gochamps.com"
+                        className="has-text-primary"
+                      >
+                        Go Champs Tecnologia LTDA
+                      </a>
+                      {` ${t('andContributors')}. ${t('allRightsReserved')}.`}
                     </p>
 
                     <p>
