@@ -16,6 +16,8 @@ const path = require('path');
 // File paths
 const COLORS_SCSS_PATH = path.join(__dirname, '../src/Shared/styles/colors.scss');
 const COLOR_MAPPING_PATH = path.join(__dirname, '../src/Theme/color-mapping.ts');
+const COLORS_V2_SCSS_PATH = path.join(__dirname, '../src/Shared/styles/colorsV2.scss');
+const COLOR_MAPPING_V2_PATH = path.join(__dirname, '../src/ThemeV2/color-mapping.ts');
 
 /**
  * Parse SCSS file to extract variable definitions
@@ -46,8 +48,8 @@ function parseScssVariables(scssContent) {
 function parseColorMapping(tsContent) {
   const mapping = {};
   
-  // Extract the scssColorMapping object content more precisely
-  const mappingMatch = tsContent.match(/export const scssColorMapping = \{([\s\S]*?)\n\};/);
+  // Extract the scssColorMapping or scssColorMappingV2 object content
+  const mappingMatch = tsContent.match(/export const scssColorMapping(?:V2)? = \{([\s\S]*?)\n\};/);
   if (!mappingMatch) {
     throw new Error('Could not find scssColorMapping in color-mapping.ts');
   }
@@ -87,20 +89,38 @@ function parseColorMapping(tsContent) {
 /**
  * Validate color mapping against SCSS variables
  */
-function validateColorMapping() {
-  console.log('🔍 Validating SCSS color mapping...\n');
+function validateColorMapping(version = 'v1') {
+  const isV2 = version === 'v2';
+  const versionLabel = isV2 ? 'V2' : 'V1';
+  const scssPath = isV2 ? COLORS_V2_SCSS_PATH : COLORS_SCSS_PATH;
+  const mappingPath = isV2 ? COLOR_MAPPING_V2_PATH : COLOR_MAPPING_PATH;
+  
+  console.log(`🔍 Validating SCSS color mapping (${versionLabel})...\n`);
   
   try {
+    // Check if files exist
+    if (!fs.existsSync(scssPath)) {
+      console.log(`ℹ️  ${versionLabel} SCSS file not found: ${scssPath}`);
+      console.log(`   Skipping ${versionLabel} validation.\n`);
+      return { passed: true, skipped: true };
+    }
+    
+    if (!fs.existsSync(mappingPath)) {
+      console.log(`ℹ️  ${versionLabel} mapping file not found: ${mappingPath}`);
+      console.log(`   Skipping ${versionLabel} validation.\n`);
+      return { passed: true, skipped: true };
+    }
+    
     // Read files
-    const scssContent = fs.readFileSync(COLORS_SCSS_PATH, 'utf8');
-    const tsContent = fs.readFileSync(COLOR_MAPPING_PATH, 'utf8');
+    const scssContent = fs.readFileSync(scssPath, 'utf8');
+    const tsContent = fs.readFileSync(mappingPath, 'utf8');
     
     // Parse variables
     const scssVariables = parseScssVariables(scssContent);
     const colorMapping = parseColorMapping(tsContent);
     
-    console.log(`📊 Found ${Object.keys(scssVariables).length} SCSS variables`);
-    console.log(`📊 Found ${Object.keys(colorMapping).length} mapped variables\n`);
+    console.log(`📊 Found ${Object.keys(scssVariables).length} SCSS variables (${versionLabel})`);
+    console.log(`📊 Found ${Object.keys(colorMapping).length} mapped variables (${versionLabel})\n`);
     
     // Validation results
     const results = {
@@ -133,7 +153,7 @@ function validateColorMapping() {
     });
     
     // Report results
-    console.log('📋 VALIDATION RESULTS:');
+    console.log(`📋 VALIDATION RESULTS (${versionLabel}):`);
     console.log('='.repeat(50));
     
     if (results.valid > 0) {
@@ -173,18 +193,60 @@ function validateColorMapping() {
     
     console.log('\n' + '='.repeat(50));
     if (hasErrors) {
-      console.log('❌ VALIDATION FAILED - Please fix the issues above');
-      process.exit(1);
+      console.log(`❌ VALIDATION FAILED (${versionLabel}) - Please fix the issues above`);
+      return { passed: false, skipped: false };
     } else {
-      console.log('✅ VALIDATION PASSED - All colors are correctly mapped!');
+      console.log(`✅ VALIDATION PASSED (${versionLabel}) - All colors are correctly mapped!`);
       
       if (results.extra.length > 0) {
         console.log('ℹ️  Note: Extra variables in mapping are not necessarily errors');
       }
+      return { passed: true, skipped: false };
     }
     
   } catch (error) {
-    console.error('💥 Error during validation:', error.message);
+    console.error(`💥 Error during ${versionLabel} validation:`, error.message);
+    return { passed: false, skipped: false, error: error.message };
+  }
+}
+
+/**
+ * Validate all color mappings (v1 and v2)
+ */
+function validateAll() {
+  console.log('🎨 SCSS Color Mapping Validator\n');
+  
+  const v1Result = validateColorMapping('v1');
+  console.log('');
+  
+  const v2Result = validateColorMapping('v2');
+  console.log('');
+  
+  // Final summary
+  console.log('='.repeat(50));
+  console.log('📊 FINAL SUMMARY:');
+  console.log('='.repeat(50));
+  
+  if (v1Result.skipped) {
+    console.log('V1: ⏭️  Skipped (files not found)');
+  } else if (v1Result.passed) {
+    console.log('V1: ✅ Passed');
+  } else {
+    console.log('V1: ❌ Failed');
+  }
+  
+  if (v2Result.skipped) {
+    console.log('V2: ⏭️  Skipped (files not found)');
+  } else if (v2Result.passed) {
+    console.log('V2: ✅ Passed');
+  } else {
+    console.log('V2: ❌ Failed');
+  }
+  
+  console.log('='.repeat(50));
+  
+  // Exit with error if any validation failed
+  if ((!v1Result.skipped && !v1Result.passed) || (!v2Result.skipped && !v2Result.passed)) {
     process.exit(1);
   }
 }
@@ -221,11 +283,23 @@ function generateMissingEntries() {
 
 // CLI interface
 const command = process.argv[2];
+const version = process.argv[3]; // Optional v1/v2/all flag
 
 switch (command) {
   case 'validate':
   case undefined:
-    validateColorMapping();
+    if (version === 'v1') {
+      const result = validateColorMapping('v1');
+      process.exit(result.passed ? 0 : 1);
+    } else if (version === 'v2') {
+      const result = validateColorMapping('v2');
+      process.exit(result.passed ? 0 : 1);
+    } else if (version === '--v2' || version === '-v2') {
+      const result = validateColorMapping('v2');
+      process.exit(result.passed ? 0 : 1);
+    } else {
+      validateAll();
+    }
     break;
   case 'generate':
     generateMissingEntries();
@@ -235,16 +309,22 @@ switch (command) {
 SCSS Color Mapping Validator
 
 Usage:
-  node validate-colors.js [command]
+  node validate-colors.js [command] [version]
 
 Commands:
   validate (default)  - Validate color mapping against SCSS
   generate           - Generate missing mapping entries
   help              - Show this help message
 
+Version flags:
+  (none)             - Validate both V1 and V2
+  v1                - Validate V1 only
+  v2 or --v2        - Validate V2 only
+
 Examples:
-  node validate-colors.js
-  node validate-colors.js validate
+  node validate-colors.js                  # Validate both V1 and V2
+  node validate-colors.js validate v1      # Validate V1 only
+  node validate-colors.js validate --v2    # Validate V2 only
   node validate-colors.js generate
 `);
     break;
@@ -253,3 +333,4 @@ Examples:
     console.log('Use "node validate-colors.js help" for usage information');
     process.exit(1);
 }
+

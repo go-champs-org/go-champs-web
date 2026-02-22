@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import AccountHome from './Pages/AccountHome';
 import About from './Pages/About';
+import AboutV2 from './PagesV2/About/AboutV2';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -50,6 +51,7 @@ const App: React.FC = () => {
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/About" component={About} />
+                    <Route path="/AboutV2" component={AboutV2} />
                     <Route
                       exact
                       sensitive
