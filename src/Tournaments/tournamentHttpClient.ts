@@ -4,7 +4,10 @@ import {
   ApiTournamentRequest,
   ApiTournamentResponse,
   ApiTournamentsResponse,
-  ApiTournamentWithDependecies
+  ApiTournamentWithDependecies,
+  ApiBillingAgreement,
+  ApiBillingAgreementRequest,
+  ApiBillingAgreementResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -80,11 +83,45 @@ const post = async (
   return data;
 };
 
-export default {
+const getBillingAgreement = async (
+  tournamentId: string
+): Promise<ApiBillingAgreement[] | null> => {
+  const url = `${TOURNAMENT_API}/${tournamentId}/billing-agreements`;
+
+  try {
+    const { data } = await httpClient.get<ApiBillingAgreementResponse>(url);
+    return data;
+  } catch (error) {
+    // If no billing agreement exists, the API might return 404
+    return null;
+  }
+};
+
+const postBillingAgreement = async (
+  tournamentId: string,
+  billingData: ApiBillingAgreement
+): Promise<ApiBillingAgreement> => {
+  const url = `${TOURNAMENT_API}/${tournamentId}/billing-agreements`;
+  const body: ApiBillingAgreementRequest = {
+    billing_agreement: billingData
+  };
+
+  const { data } = await httpClient.post<
+    ApiBillingAgreementRequest,
+    ApiBillingAgreementResponse
+  >(url, body);
+  return data;
+};
+
+const tournamentHttpClient = {
   delete: deleteRequest,
   getAll,
   getByFilter,
   get,
   patch,
-  post
+  post,
+  getBillingAgreement,
+  postBillingAgreement
 };
+
+export default tournamentHttpClient;

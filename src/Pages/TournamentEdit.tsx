@@ -26,6 +26,8 @@ import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
 import { SportEntity } from '../Sports/state';
+import { Link } from 'react-router-dom';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
@@ -109,10 +111,26 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-12">
+          <div className="column is-4">
             <h2 className="subtitle">
               <Trans>editTournament</Trans>
             </h2>
+          </div>
+
+          <div className="column is-8 has-text-right">
+            <BehindFeatureFlag>
+              <Link to={`${backUrl}/LicensingBilling`}>
+                <button className="button is-info is-outlined is-small">
+                  <span className="icon">
+                    <i className="fas fa-certificate"></i>
+                  </span>
+
+                  <span>
+                    <Trans>license</Trans>
+                  </span>
+                </button>
+              </Link>
+            </BehindFeatureFlag>
           </div>
 
           <div className="column is-12">

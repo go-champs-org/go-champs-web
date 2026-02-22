@@ -877,3 +877,22 @@ export interface ApiAthleteProfileResponse {
 export interface ApiAthleteProfilesResponse {
   data: ApiAthleteProfile[];
 }
+
+export interface ApiBillingAgreement {
+  id?: string;
+  plan_id: string;
+  campaign_slug: string;
+  due_day: number;
+  signed_at: string;
+  billing_contract_slug: string;
+  country_code: string;
+  status?: 'active' | 'cancelled';
+}
+
+export interface ApiBillingAgreementRequest {
+  billing_agreement: ApiBillingAgreement;
+}
+
+export interface ApiBillingAgreementResponse {
+  data: ApiBillingAgreement[];
+}
