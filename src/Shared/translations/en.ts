@@ -5,6 +5,7 @@ export default {
     accountRecovery: 'Account recovery',
     accountReset: 'Account reset',
     actions: 'Actions',
+    amountPerGame: 'Amount per game: R$',
     addAsset: 'Add asset',
     addOfficial: 'Add official',
     addCustomField: 'Add custom field',
@@ -169,7 +170,21 @@ export default {
     orSignUp: 'Or sign up',
     password: 'Password',
     plan: 'Plan',
-    planId: 'Plan',
+    plans: {
+      basketball_scoresheet: {
+        name: 'Basketball Scoresheet',
+        description: 'Plan for tournaments that need a basketball scoresheet'
+      },
+      basketball_statistics: {
+        name: 'Basketball Statistics',
+        description: 'Plan for tournaments that need basketball statistics'
+      },
+      basketball_full: {
+        name: 'Basketball Scoresheet and Statistics',
+        description:
+          'Plan for tournaments that need a basketball scoresheet and statistics'
+      }
+    },
     redirectingToTournamentEdit: 'Redirecting to tournament edit...',
     signedAt: 'Signed At',
     phases: 'Phases',

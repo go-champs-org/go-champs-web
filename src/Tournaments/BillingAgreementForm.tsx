@@ -1,14 +1,26 @@
-import React from 'react';
-import { Trans } from 'react-i18next';
+import React, {
+  useMemo,
+  useState,
+  useCallback,
+  useEffect,
+  useRef
+} from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Field, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import MarkdownContent from '../Shared/UI/MarkdownContent';
+import Select from '../Shared/UI/Form/Select';
+import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
+import { ApiBillingContract, ApiPlan } from '../Shared/httpClient/apiTypes';
+import { plansForSelectInput } from '../Plans/selectors';
+import planHttpClient from '../Plans/planHttpClient';
 
 export interface BillingFormData {
   acceptedTerms: boolean;
-  plan_id?: string;
-  campaign_slug?: string;
+  plan_slug?: string;
+  selected_campaign_slugs?: string[];
   due_day?: number;
 }
 
@@ -16,6 +28,8 @@ interface BillingAgreementFormProps extends FormRenderProps<BillingFormData> {
   backUrl: string;
   isSubmitting: boolean;
   showSuccess: boolean;
+  billingContract?: ApiBillingContract;
+  plans?: ApiPlan[];
 }
 
 function BillingAgreementForm({
@@ -26,8 +40,148 @@ function BillingAgreementForm({
   values,
   errors,
   submitFailed,
-  submitError
+  submitError,
+  billingContract,
+  plans = []
 }: BillingAgreementFormProps): React.ReactElement {
+  const { t } = useTranslation();
+  const [campaignInputs, setCampaignInputs] = useState<string[]>(['']);
+  const [campaignValidations, setCampaignValidations] = useState<
+    Record<string, boolean>
+  >({});
+  const [isValidatingCampaigns, setIsValidatingCampaigns] = useState(false);
+  const validationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Get translated select options for plans
+  const translatedPlanOptions = useTranslatedSelectOptions(
+    plansForSelectInput(plans),
+    'plans'
+  );
+
+  // Find selected plan for amount display
+  const selectedPlan = useMemo(
+    () => plans.find(plan => plan.slug === values.plan_slug),
+    [plans, values.plan_slug]
+  );
+
+  // Validate campaign slugs when plan or campaigns change
+  const validateCampaignSlugs = useCallback(
+    async (planSlug: string, campaignSlugs: string[]) => {
+      if (!planSlug || campaignSlugs.length === 0) {
+        setCampaignValidations({});
+        return;
+      }
+
+      setIsValidatingCampaigns(true);
+      const validations: Record<string, boolean> = {};
+
+      try {
+        const validationPromises = campaignSlugs
+          .filter(slug => slug.trim() !== '')
+          .map(async slug => {
+            try {
+              const result = await planHttpClient.validateCampaign(
+                planSlug,
+                slug.trim()
+              );
+              validations[slug] = result.valid;
+            } catch (error) {
+              console.error(`Error validating campaign ${slug}:`, error);
+              validations[slug] = false;
+            }
+          });
+
+        await Promise.all(validationPromises);
+        setCampaignValidations(validations);
+      } catch (error) {
+        console.error('Error validating campaigns:', error);
+      } finally {
+        setIsValidatingCampaigns(false);
+      }
+    },
+    []
+  );
+
+  // Debounced validation function
+  const debouncedValidation = useCallback(
+    (planSlug: string, campaignSlugs: string[]) => {
+      // Clear previous timeout
+      if (validationTimeoutRef.current) {
+        clearTimeout(validationTimeoutRef.current);
+      }
+
+      // Set new timeout
+      validationTimeoutRef.current = setTimeout(() => {
+        validateCampaignSlugs(planSlug, campaignSlugs);
+      }, 500); // Wait 500ms after user stops typing
+    },
+    [validateCampaignSlugs]
+  );
+
+  const updateCampaignInputs = useCallback(
+    (newInputs: string[]) => {
+      setCampaignInputs(newInputs);
+      // Update form values
+      const validCampaigns = newInputs.filter(slug => slug.trim() !== '');
+      values.selected_campaign_slugs = validCampaigns;
+
+      // Validate if plan is selected (debounced)
+      if (values.plan_slug && validCampaigns.length > 0) {
+        debouncedValidation(values.plan_slug, validCampaigns);
+      }
+    },
+    [values, debouncedValidation]
+  );
+
+  const addCampaignInput = useCallback(() => {
+    const newInputs = [...campaignInputs, ''];
+    updateCampaignInputs(newInputs);
+  }, [campaignInputs, updateCampaignInputs]);
+
+  const removeCampaignInput = useCallback(
+    (index: number) => {
+      if (campaignInputs.length > 1) {
+        const newInputs = campaignInputs.filter((_, i) => i !== index);
+        updateCampaignInputs(newInputs);
+      }
+    },
+    [campaignInputs, updateCampaignInputs]
+  );
+
+  const updateCampaignInput = useCallback(
+    (index: number, value: string) => {
+      const newInputs = [...campaignInputs];
+      newInputs[index] = value;
+      updateCampaignInputs(newInputs);
+    },
+    [campaignInputs, updateCampaignInputs]
+  );
+
+  // Validate campaigns when plan changes
+  useEffect(() => {
+    if (values.plan_slug && campaignInputs.length > 0) {
+      const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
+      if (validCampaigns.length > 0) {
+        debouncedValidation(values.plan_slug, validCampaigns);
+      }
+    }
+  }, [values.plan_slug, debouncedValidation]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (validationTimeoutRef.current) {
+        clearTimeout(validationTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Check if all campaigns are valid
+  const allCampaignsValid = useMemo(() => {
+    const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
+    if (validCampaigns.length === 0) return true; // No campaigns is valid
+    return validCampaigns.every(slug => campaignValidations[slug] === true);
+  }, [campaignInputs, campaignValidations]);
   return (
     <div className="column is-12">
       {showSuccess && (
@@ -47,69 +201,16 @@ function BillingAgreementForm({
             marginBottom: '1rem'
           }}
         >
-          <h3 className="title is-5">
-            <Trans>billingContractTerms</Trans>
-          </h3>
-          <div className="content">
-            <p>
-              <strong>BILLING AGREEMENT - STANDARD TERMS v2.0</strong>
-            </p>
-            <p>
-              This Billing Agreement ("Agreement") is entered into between Go
-              Champs ("Service Provider") and the organization utilizing the
-              tournament management services ("Client").
-            </p>
-            <h4>1. Services</h4>
-            <p>
-              Service Provider agrees to provide tournament management software
-              services as described in the selected plan. Services include but
-              are not limited to: tournament creation, team management,
-              scheduling, and statistics tracking.
-            </p>
-            <h4>2. Payment Terms</h4>
-            <p>
-              Client agrees to pay the fees associated with the selected plan on
-              the specified due day of each billing period. Payment methods
-              accepted include credit card, debit card, and other methods as
-              specified by Service Provider.
-            </p>
-            <h4>3. Billing Cycle</h4>
-            <p>
-              Billing will occur monthly on the due day specified in this
-              agreement. If the due day falls on a day that does not exist in a
-              given month, billing will occur on the last day of that month.
-            </p>
-            <h4>4. Late Payment</h4>
-            <p>
-              Late payments may result in service suspension until payment is
-              received. A grace period of 5 days will be provided before any
-              service interruption occurs.
-            </p>
-            <h4>5. Cancellation</h4>
-            <p>
-              Either party may terminate this agreement with 30 days written
-              notice. Client will be responsible for payment through the end of
-              the notice period.
-            </p>
-            <h4>6. Data Retention</h4>
-            <p>
-              Upon termination, tournament data will be retained for 90 days to
-              allow for export. After this period, data may be permanently
-              deleted.
-            </p>
-            <h4>7. Changes to Terms</h4>
-            <p>
-              Service Provider reserves the right to modify these terms with 30
-              days notice to Client. Continued use of services after
-              notification constitutes acceptance of modified terms.
-            </p>
-            <h4>8. Governing Law</h4>
-            <p>
-              This agreement shall be governed by the laws of the country
-              specified in the billing information. The country code will be
-              automatically determined based on your browser settings.
-            </p>
-          </div>
+          {billingContract && billingContract.content ? (
+            <MarkdownContent
+              content={billingContract.content}
+              className="content"
+            />
+          ) : (
+            <div className="content">
+              <p>Loading billing terms...</p>
+            </div>
+          )}
         </div>
 
         <BehindFeatureFlag>
@@ -118,27 +219,81 @@ function BillingAgreementForm({
               <Trans>plan</Trans>
             </label>
             <div className="control">
-              <Field name="plan_id" component="select" className="input">
-                <option value="premium-monthly">Premium Monthly</option>
-                <option value="basic-monthly">Basic Monthly</option>
-                <option value="enterprise-monthly">Enterprise Monthly</option>
-              </Field>
+              <Field
+                name="plan_slug"
+                component={Select}
+                options={translatedPlanOptions}
+                isClearable
+              />
             </div>
+            {selectedPlan && (
+              <div className="help is-info">
+                <Trans>amountPerGame</Trans>: {selectedPlan.amount}
+                <div className="mt-1">
+                  {t(`plans.${selectedPlan.slug}.description`, {
+                    keySeparator: '.'
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="field">
             <label className="label">
-              <Trans>campaign</Trans>
+              <Trans>campaigns</Trans>
             </label>
-            <div className="control">
-              <Field
-                name="campaign_slug"
-                component="input"
-                type="text"
-                className="input"
-                placeholder="e.g., summer-2026"
-              />
+            {campaignInputs.map((campaignSlug, index) => (
+              <div key={index} className="field has-addons mb-2">
+                <div className="control is-expanded">
+                  <input
+                    className={`input ${
+                      campaignSlug.trim() &&
+                      campaignValidations[campaignSlug] === false
+                        ? 'is-danger'
+                        : campaignSlug.trim() &&
+                          campaignValidations[campaignSlug] === true
+                        ? 'is-success'
+                        : ''
+                    }`}
+                    type="text"
+                    placeholder="e.g., summer-2026"
+                    value={campaignSlug}
+                    onChange={e => updateCampaignInput(index, e.target.value)}
+                  />
+                  {campaignSlug.trim() && isValidatingCampaigns && (
+                    <span className="icon is-small is-right">
+                      <i className="fas fa-spinner fa-pulse"></i>
+                    </span>
+                  )}
+                </div>
+                <div className="control">
+                  {campaignInputs.length > 1 && (
+                    <button
+                      type="button"
+                      className="button is-danger"
+                      onClick={() => removeCampaignInput(index)}
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+            <div className="field">
+              <button
+                type="button"
+                className="button is-small is-light"
+                onClick={addCampaignInput}
+              >
+                <i className="fas fa-plus mr-1"></i>
+                <Trans>addCampaign</Trans>
+              </button>
             </div>
+            {!allCampaignsValid && (
+              <p className="help is-danger">
+                <Trans>someInvalidCampaigns</Trans>
+              </p>
+            )}
           </div>
 
           <div className="field">
@@ -179,7 +334,13 @@ function BillingAgreementForm({
             <LoadingButton
               isLoading={isSubmitting || showSuccess}
               className="button is-primary"
-              disabled={!values.acceptedTerms || isSubmitting || showSuccess}
+              disabled={
+                !values.acceptedTerms ||
+                isSubmitting ||
+                showSuccess ||
+                !allCampaignsValid ||
+                isValidatingCampaigns
+              }
             >
               <Trans>acceptAndSubmit</Trans>
             </LoadingButton>

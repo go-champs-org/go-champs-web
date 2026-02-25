@@ -18,6 +18,7 @@ export default {
     advanced: 'Avancadas',
     aggregated: 'Agregadas',
     allRightsReserved: 'Todos os direitos reservados',
+    amountPerGame: 'Valor por jogo: R$',
     approve: 'Aprovar',
     asset: 'Artefato',
     assets: 'Artefatos',
@@ -171,7 +172,22 @@ export default {
     orSignUp: 'Ou crie uma conta',
     password: 'Senha',
     plan: 'Plano',
-    planId: 'Plano',
+    plans: {
+      basketball_scoresheet: {
+        name: 'Súmula de basquete',
+        description: 'Plano para torneios que precisam da súmula de basquete'
+      },
+      basketball_statistics: {
+        name: 'Estatísticas de basquete',
+        description:
+          'Plano para torneios que precisam de estatísticas de basquete'
+      },
+      basketball_full: {
+        name: 'Súmula e estatísticas de basquete',
+        description:
+          'Plano para torneios que precisam de súmula e estatísticas de basquete'
+      }
+    },
     redirectingToTournamentEdit: 'Redirecionando para edição do torneio...',
     signedAt: 'Assinado Em',
     phases: 'Fases',

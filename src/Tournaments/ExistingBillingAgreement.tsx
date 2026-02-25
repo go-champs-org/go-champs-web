@@ -28,15 +28,21 @@ function ExistingBillingAgreement({
           <tbody>
             <tr>
               <th>
-                <Trans>planId</Trans>
+                <Trans>plan</Trans>
               </th>
-              <td>{agreement ? agreement.plan_id : '-'}</td>
+              <td>{agreement ? agreement.plan_slug : '-'}</td>
             </tr>
             <tr>
               <th>
-                <Trans>campaignSlug</Trans>
+                <Trans>campaigns</Trans>
               </th>
-              <td>{agreement ? agreement.campaign_slug : '-'}</td>
+              <td>
+                {agreement &&
+                agreement.selected_campaign_slugs &&
+                agreement.selected_campaign_slugs.length > 0
+                  ? agreement.selected_campaign_slugs.join(', ')
+                  : '-'}
+              </td>
             </tr>
             <tr>
               <th>

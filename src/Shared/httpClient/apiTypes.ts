@@ -880,8 +880,8 @@ export interface ApiAthleteProfilesResponse {
 
 export interface ApiBillingAgreement {
   id?: string;
-  plan_id: string;
-  campaign_slug: string;
+  plan_slug: string;
+  selected_campaign_slugs: string[];
   due_day: number;
   signed_at: string;
   billing_contract_slug: string;
@@ -895,4 +895,26 @@ export interface ApiBillingAgreementRequest {
 
 export interface ApiBillingAgreementResponse {
   data: ApiBillingAgreement[];
+}
+
+export interface ApiBillingContract {
+  content: string;
+  slug: string;
+}
+
+export interface ApiBillingContractResponse {
+  data: ApiBillingContract;
+}
+
+export interface ApiBillingContractsResponse {
+  data: ApiBillingContract[];
+}
+
+export interface ApiPlan {
+  slug: string;
+  amount: number;
+}
+
+export interface ApiPlansResponse {
+  data: ApiPlan[];
 }
