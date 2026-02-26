@@ -213,89 +213,93 @@ function BillingAgreementForm({
           )}
         </div>
 
-        <BehindFeatureFlag>
-          <div className="field">
-            <label className="label">
-              <Trans>plan</Trans>
-            </label>
-            <div className="control">
-              <Field
-                name="plan_slug"
-                component={Select}
-                options={translatedPlanOptions}
-                isClearable
-              />
-            </div>
-            {selectedPlan && (
-              <div className="help is-info">
-                <Trans>amountPerGame</Trans>: {selectedPlan.amount}
-                <div className="mt-1">
-                  {t(`plans.${selectedPlan.slug}.description`, {
-                    keySeparator: '.'
-                  })}
-                </div>
-              </div>
-            )}
+        <div className="field">
+          <label className="label">
+            <Trans>plan</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name="plan_slug"
+              component={Select}
+              options={translatedPlanOptions}
+              isClearable
+            />
           </div>
-
-          <div className="field">
-            <label className="label">
-              <Trans>campaigns</Trans>
-            </label>
-            {campaignInputs.map((campaignSlug, index) => (
-              <div key={index} className="field has-addons mb-2">
-                <div className="control is-expanded">
-                  <input
-                    className={`input ${
-                      campaignSlug.trim() &&
-                      campaignValidations[campaignSlug] === false
-                        ? 'is-danger'
-                        : campaignSlug.trim() &&
-                          campaignValidations[campaignSlug] === true
-                        ? 'is-success'
-                        : ''
-                    }`}
-                    type="text"
-                    placeholder="e.g., summer-2026"
-                    value={campaignSlug}
-                    onChange={e => updateCampaignInput(index, e.target.value)}
-                  />
-                  {campaignSlug.trim() && isValidatingCampaigns && (
-                    <span className="icon is-small is-right">
-                      <i className="fas fa-spinner fa-pulse"></i>
-                    </span>
-                  )}
-                </div>
-                <div className="control">
-                  {campaignInputs.length > 1 && (
-                    <button
-                      type="button"
-                      className="button is-danger"
-                      onClick={() => removeCampaignInput(index)}
-                    >
-                      <i className="fas fa-times"></i>
-                    </button>
-                  )}
-                </div>
+          {selectedPlan && (
+            <div className="help is-info">
+              <Trans>amountPerGame</Trans>: {selectedPlan.amount}
+              <div className="mt-1">
+                {t(`plans.${selectedPlan.slug}.description`, {
+                  keySeparator: '.'
+                })}
               </div>
-            ))}
-            <div className="field">
-              <button
-                type="button"
-                className="button is-small is-light"
-                onClick={addCampaignInput}
-              >
-                <i className="fas fa-plus mr-1"></i>
+            </div>
+          )}
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>campaigns</Trans>
+          </label>
+          {campaignInputs.map((campaignSlug, index) => (
+            <div key={index} className="field has-addons mb-2">
+              <div className="control is-expanded">
+                <input
+                  className={`input ${
+                    campaignSlug.trim() &&
+                    campaignValidations[campaignSlug] === false
+                      ? 'is-danger'
+                      : campaignSlug.trim() &&
+                        campaignValidations[campaignSlug] === true
+                      ? 'is-success'
+                      : ''
+                  }`}
+                  type="text"
+                  placeholder="e.g., summer-2026"
+                  value={campaignSlug}
+                  onChange={e => updateCampaignInput(index, e.target.value)}
+                />
+                {campaignSlug.trim() && isValidatingCampaigns && (
+                  <span className="icon is-small is-right">
+                    <i className="fas fa-spinner fa-pulse"></i>
+                  </span>
+                )}
+              </div>
+              <div className="control">
+                {campaignInputs.length > 1 && (
+                  <button
+                    type="button"
+                    className="button is-danger"
+                    onClick={() => removeCampaignInput(index)}
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+          <div className="field">
+            <button
+              type="button"
+              className="button is-small is-light"
+              onClick={addCampaignInput}
+            >
+              <span className="icon">
+                <i className="fas fa-plus"></i>
+              </span>
+              <span>
                 <Trans>addCampaign</Trans>
-              </button>
-            </div>
-            {!allCampaignsValid && (
-              <p className="help is-danger">
-                <Trans>someInvalidCampaigns</Trans>
-              </p>
-            )}
+              </span>
+            </button>
           </div>
+          {!allCampaignsValid && (
+            <p className="help is-danger">
+              <Trans>someInvalidCampaigns</Trans>
+            </p>
+          )}
+        </div>
 
+        <BehindFeatureFlag>
           <div className="field">
             <label className="label">
               <Trans>dueDay</Trans>
