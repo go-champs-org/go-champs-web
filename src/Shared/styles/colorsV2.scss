@@ -1,0 +1,25 @@
+// ThemeV2 Color Palette
+// Abstract naming system for scalable, maintainable theming
+
+// NEUTRALS (Light to Dark Scale)
+// Used for backgrounds, text, borders, and general UI elements
+$neutral-100: #ffffff; // Pure white - cards, primary background in light mode
+$neutral-300: #efeae3; // Warm cream - page background in light mode
+$neutral-500: #4a4a4a; // Medium gray - secondary text, muted elements
+$neutral-700: #2c2c2c; // Dark charcoal - dark UI elements
+$neutral-900: #1d1d1b; // Near black - primary text, dark theme background
+$neutral-950: #12140e; // Darkest - navbar background
+
+// ACCENTS (Brand & Highlight Colors)
+// Used for interactive elements, CTAs, and visual emphasis
+$accent-a: #a6cd63; // Primary green - main brand color, buttons, links
+$accent-b: #f4d35e; // Golden yellow - illustrations, highlights, accents
+$accent-c: #7a9949; // Dark green - secondary brand color, hover states
+$accent-d: #509187; // Teal/cyan - tertiary accent for variety
+
+// STATUS COLORS
+// Used for feedback, alerts, and state indication
+$status-success: #4caf50; // Green - success messages, positive actions
+$status-warning: #ff9800; // Orange - warnings, caution states
+$status-error: #f44336; // Red - errors, destructive actions
+$status-info: #2196f3; // Blue - informational messages

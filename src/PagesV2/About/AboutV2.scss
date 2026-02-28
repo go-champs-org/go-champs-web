@@ -1,0 +1,154 @@
+@import '../../Shared/styles/colorsV2.scss';
+
+.about-v2-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--theme-v2-background);
+}
+
+.about-v2-page {
+  flex: 1;
+  margin-top: 64px; // Height of navbar
+  padding: 4rem 2rem;
+}
+
+.about-v2-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-v2-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.about-v2-content-card {
+  background-color: var(--theme-v2-backgroundSecondary);
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--theme-v2-shadowLight);
+}
+
+.about-v2-title {
+  color: var(--theme-v2-text);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.about-v2-text {
+  color: var(--theme-v2-text);
+
+  p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: var(--theme-v2-textSecondary);
+
+    strong {
+      color: var(--theme-v2-text);
+      font-weight: 600;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.about-v2-stats {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--theme-v2-border);
+  font-size: 1.125rem;
+
+  strong {
+    color: var(--theme-v2-primary);
+    font-weight: 700;
+  }
+}
+
+// Tablet Styles
+@media (max-width: 1024px) {
+  .about-v2-container {
+    gap: 3rem;
+  }
+
+  .about-v2-content-card {
+    padding: 2.5rem;
+  }
+
+  .about-v2-title {
+    font-size: 2.25rem;
+  }
+}
+
+// Mobile Styles
+@media (max-width: 768px) {
+  .about-v2-page {
+    padding: 2rem 1rem;
+  }
+
+  .about-v2-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-v2-illustration {
+    order: 1;
+    padding: 1rem;
+  }
+
+  .about-v2-content-card {
+    order: 2;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+  }
+
+  .about-v2-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-v2-text {
+    p {
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .about-v2-stats {
+    font-size: 1.0625rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+  }
+}
+
+// Small Mobile Styles
+@media (max-width: 480px) {
+  .about-v2-page {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .about-v2-content-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .about-v2-title {
+    font-size: 1.75rem;
+  }
+
+  .about-v2-text {
+    p {
+      font-size: 0.9375rem;
+    }
+  }
+}
