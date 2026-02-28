@@ -16,7 +16,7 @@ export const scssColorMapping = {
   $dark: '#1d1d1b',
   '$dark-light': '#343434',
   '$orange-light': '#e3c4a8',
-  $white: '#f8f4f9',
+  $white: '#fafaee',
   '$white-dark': '#eeeeee',
   $black: '#1d1d1b'
 };
