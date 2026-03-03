@@ -14,6 +14,7 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import Helmet from 'react-helmet';
 import {
   ApiBillingAgreement,
+  ApiBillingAgreementRequestData,
   ApiBillingContract,
   ApiPlan
 } from '../Shared/httpClient/apiTypes';
@@ -115,7 +116,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
     setIsSubmitting(true);
 
     try {
-      const billingData: ApiBillingAgreement = {
+      const billingData: ApiBillingAgreementRequestData = {
         plan_slug: values.plan_slug || 'premium-monthly',
         selected_campaign_slugs: values.selected_campaign_slugs || [],
         due_day: values.due_day || 1,
@@ -163,6 +164,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
               <ExistingBillingAgreement
                 agreement={existingAgreement}
                 backUrl={backUrl}
+                billingContract={billingContract}
               />
             ) : (
               <Form

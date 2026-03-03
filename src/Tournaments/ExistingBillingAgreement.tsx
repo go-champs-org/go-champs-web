@@ -1,16 +1,22 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ApiBillingAgreement } from '../Shared/httpClient/apiTypes';
+import {
+  ApiBillingAgreement,
+  ApiBillingContract
+} from '../Shared/httpClient/apiTypes';
+import MarkdownContent from '../Shared/UI/MarkdownContent';
 
 interface ExistingBillingAgreementProps {
-  agreement: ApiBillingAgreement | null;
+  agreement?: ApiBillingAgreement;
+  billingContract?: ApiBillingContract;
   backUrl: string;
 }
 
 function ExistingBillingAgreement({
   agreement,
-  backUrl
+  backUrl,
+  billingContract
 }: ExistingBillingAgreementProps): React.ReactElement {
   return (
     <div className="column is-12">
@@ -23,6 +29,26 @@ function ExistingBillingAgreement({
         </p>
       </div>
 
+      <div
+        className="box"
+        style={{
+          maxHeight: '400px',
+          overflowY: 'auto',
+          marginBottom: '1rem'
+        }}
+      >
+        {billingContract && billingContract.content ? (
+          <MarkdownContent
+            content={billingContract.content}
+            className="content"
+          />
+        ) : (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+      </div>
+
       <div className="box">
         <table className="table is-fullwidth">
           <tbody>
@@ -30,25 +56,7 @@ function ExistingBillingAgreement({
               <th>
                 <Trans>plan</Trans>
               </th>
-              <td>{agreement ? agreement.plan_slug : '-'}</td>
-            </tr>
-            <tr>
-              <th>
-                <Trans>campaigns</Trans>
-              </th>
-              <td>
-                {agreement &&
-                agreement.selected_campaign_slugs &&
-                agreement.selected_campaign_slugs.length > 0
-                  ? agreement.selected_campaign_slugs.join(', ')
-                  : '-'}
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <Trans>dueDay</Trans>
-              </th>
-              <td>{agreement ? agreement.due_day : '-'}</td>
+              <td>{agreement ? agreement.plan.name : '-'}</td>
             </tr>
             <tr>
               <th>
@@ -60,29 +68,21 @@ function ExistingBillingAgreement({
                   : '-'}
               </td>
             </tr>
-            <tr>
-              <th>
-                <Trans>useContractSlug</Trans>
-              </th>
-              <td>{agreement ? agreement.billing_contract_slug : '-'}</td>
-            </tr>
-            <tr>
-              <th>
-                <Trans>countryCode</Trans>
-              </th>
-              <td>{agreement ? agreement.country_code : '-'}</td>
-            </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="column is-12">
-        <Link to={backUrl}>
-          <button className="button is-primary">
-            <Trans>backToTournamentEdit</Trans>
-          </button>
-        </Link>
-      </div>
+      <Link to={backUrl}>
+        <button className="button is-small is-info is-outlined">
+          <span className="icon">
+            <i className="fas fa-caret-left"></i>
+          </span>
+
+          <span>
+            <Trans>back</Trans>
+          </span>
+        </button>
+      </Link>
     </div>
   );
 }

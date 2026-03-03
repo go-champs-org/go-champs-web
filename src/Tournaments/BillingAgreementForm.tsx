@@ -6,7 +6,7 @@ import React, {
   useRef
 } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Field, FormRenderProps } from 'react-final-form';
+import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import LoadingButton from '../Shared/UI/LoadingButton';
@@ -18,6 +18,7 @@ import { parseAmount, formatCurrency } from '../Shared/currencyUtils';
 import { plansForSelectInput } from '../Plans/selectors';
 import planHttpClient from '../Plans/planHttpClient';
 import './BillingAgreementForm.scss';
+import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 
 export interface BillingFormData {
   acceptedTerms: boolean;
@@ -390,8 +391,15 @@ function BillingAgreementForm({
 
         <div className="field">
           <div className="control">
-            <label className="checkbox">
-              <Field name="acceptedTerms" component="input" type="checkbox" />{' '}
+            <Field
+              name="acceptedTerms"
+              type="checkbox"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <CheckboxInput {...props} id="acceptedTerms" />
+              )}
+            />
+
+            <label className="label" htmlFor="acceptedTerms">
               <Trans>iAcceptTheTermsAndConditions</Trans>
             </label>
             {errors && errors.acceptedTerms && submitFailed && (

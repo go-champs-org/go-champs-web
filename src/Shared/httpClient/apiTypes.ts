@@ -878,19 +878,35 @@ export interface ApiAthleteProfilesResponse {
   data: ApiAthleteProfile[];
 }
 
-export interface ApiBillingAgreement {
-  id?: string;
+export interface ApiBillingAgreementRequestData {
   plan_slug: string;
   selected_campaign_slugs: string[];
   due_day: number;
   signed_at: string;
   billing_contract_slug: string;
   country_code: string;
-  status?: 'active' | 'cancelled';
+}
+
+export interface ApiBillingAgreement {
+  active: boolean;
+  agreed_amount: string | null;
+  due_day: number;
+  plan: ApiPlan & {
+    active: boolean;
+    description: string;
+    name: string;
+    sport: any;
+    sport_id: string;
+  };
+  plan_id: string;
+  selected_campaigns: string[];
+  signed_at: string;
+  tournament_id: string;
+  username: string;
 }
 
 export interface ApiBillingAgreementRequest {
-  billing_agreement: ApiBillingAgreement;
+  billing_agreement: ApiBillingAgreementRequestData;
 }
 
 export interface ApiBillingAgreementResponse {

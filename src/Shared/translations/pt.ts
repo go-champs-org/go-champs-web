@@ -30,7 +30,6 @@ export default {
     awayTeam: 'Equipe visitante',
     awayScore: 'Pontuacao visitante',
     back: 'Voltar',
-    backToTournamentEdit: 'Voltar para edição do torneio',
     billing: 'Faturamento',
     useAgreement: 'Contrato de Uso',
     useAgreementAcceptedSuccessfully: 'Contrato de uso aceito com sucesso!',

@@ -29,7 +29,6 @@ export default {
     awayTeam: 'Away team',
     awayScore: 'Away score',
     back: 'Back',
-    backToTournamentEdit: 'Back to tournament edit',
     billing: 'Billing',
     useAgreement: 'Use Agreement',
     useAgreementAcceptedSuccessfully: 'Use agreement accepted successfully!',
