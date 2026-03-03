@@ -151,7 +151,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
         <div className="columns is-multiline">
           <div className="column is-12">
             <h2 className="subtitle">
-              <Trans>billingAgreement</Trans>
+              <Trans>useAgreement</Trans>
             </h2>
           </div>
 

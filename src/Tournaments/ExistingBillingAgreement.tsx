@@ -16,7 +16,7 @@ function ExistingBillingAgreement({
     <div className="column is-12">
       <div className="notification is-success">
         <h3 className="title is-5">
-          <Trans>billingAgreementAlreadyAccepted</Trans>
+          <Trans>useAgreementAlreadyAccepted</Trans>
         </h3>
         <p>
           <Trans>agreementDetailsBelow</Trans>
@@ -62,7 +62,7 @@ function ExistingBillingAgreement({
             </tr>
             <tr>
               <th>
-                <Trans>billingContractSlug</Trans>
+                <Trans>useContractSlug</Trans>
               </th>
               <td>{agreement ? agreement.billing_contract_slug : '-'}</td>
             </tr>

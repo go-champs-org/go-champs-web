@@ -912,9 +912,24 @@ export interface ApiBillingContractsResponse {
 
 export interface ApiPlan {
   slug: string;
-  amount: number;
+  amount: string;
 }
 
 export interface ApiPlansResponse {
   data: ApiPlan[];
+}
+
+export interface ApiCampaign {
+  amount: string;
+  name: string;
+  slug: string;
+}
+
+export interface ApiCampaignValidationData {
+  campaign: ApiCampaign;
+  valid: boolean;
+}
+
+export interface ApiCampaignValidationResponse {
+  data: ApiCampaignValidationData;
 }

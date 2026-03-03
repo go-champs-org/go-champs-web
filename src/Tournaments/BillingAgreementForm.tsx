@@ -14,8 +14,10 @@ import MarkdownContent from '../Shared/UI/MarkdownContent';
 import Select from '../Shared/UI/Form/Select';
 import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
 import { ApiBillingContract, ApiPlan } from '../Shared/httpClient/apiTypes';
+import { parseAmount, formatCurrency } from '../Shared/currencyUtils';
 import { plansForSelectInput } from '../Plans/selectors';
 import planHttpClient from '../Plans/planHttpClient';
+import './BillingAgreementForm.scss';
 
 export interface BillingFormData {
   acceptedTerms: boolean;
@@ -47,7 +49,7 @@ function BillingAgreementForm({
   const { t } = useTranslation();
   const [campaignInputs, setCampaignInputs] = useState<string[]>(['']);
   const [campaignValidations, setCampaignValidations] = useState<
-    Record<string, boolean>
+    Record<string, { valid: boolean; amount: number; name?: string }>
   >({});
   const [isValidatingCampaigns, setIsValidatingCampaigns] = useState(false);
   const validationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -73,7 +75,10 @@ function BillingAgreementForm({
       }
 
       setIsValidatingCampaigns(true);
-      const validations: Record<string, boolean> = {};
+      const validations: Record<
+        string,
+        { valid: boolean; amount: number; name?: string }
+      > = {};
 
       try {
         const validationPromises = campaignSlugs
@@ -84,10 +89,14 @@ function BillingAgreementForm({
                 planSlug,
                 slug.trim()
               );
-              validations[slug] = result.valid;
+              validations[slug] = {
+                valid: result.valid,
+                amount: parseAmount(result.campaign.amount),
+                name: result.campaign.name
+              };
             } catch (error) {
               console.error(`Error validating campaign ${slug}:`, error);
-              validations[slug] = false;
+              validations[slug] = { valid: false, amount: 0 };
             }
           });
 
@@ -165,7 +174,7 @@ function BillingAgreementForm({
         debouncedValidation(values.plan_slug, validCampaigns);
       }
     }
-  }, [values.plan_slug, debouncedValidation]);
+  }, [values.plan_slug, debouncedValidation, campaignInputs]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -180,13 +189,33 @@ function BillingAgreementForm({
   const allCampaignsValid = useMemo(() => {
     const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
     if (validCampaigns.length === 0) return true; // No campaigns is valid
-    return validCampaigns.every(slug => campaignValidations[slug] === true);
+    return validCampaigns.every(
+      slug =>
+        campaignValidations[slug] && campaignValidations[slug].valid === true
+    );
   }, [campaignInputs, campaignValidations]);
+
+  // Calculate total campaign discount
+  const totalCampaignDiscount = useMemo(() => {
+    const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
+    return validCampaigns.reduce((total, slug) => {
+      const campaign = campaignValidations[slug];
+      return total + (campaign && campaign.valid ? campaign.amount || 0 : 0);
+    }, 0);
+  }, [campaignInputs, campaignValidations]);
+
+  // Calculate final price per game
+  const finalPricePerGame = useMemo(() => {
+    if (!selectedPlan) return 0;
+    const planAmount = parseAmount(selectedPlan.amount);
+    return Math.max(0, planAmount - totalCampaignDiscount);
+  }, [selectedPlan, totalCampaignDiscount]);
+
   return (
     <div className="column is-12">
       {showSuccess && (
         <div className="notification is-success">
-          <Trans>billingAgreementAcceptedSuccessfully</Trans>
+          <Trans>useAgreementAcceptedSuccessfully</Trans>
           <br />
           <Trans>redirectingToTournamentEdit</Trans>
         </div>
@@ -207,8 +236,8 @@ function BillingAgreementForm({
               className="content"
             />
           ) : (
-            <div className="content">
-              <p>Loading billing terms...</p>
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
             </div>
           )}
         </div>
@@ -227,7 +256,8 @@ function BillingAgreementForm({
           </div>
           {selectedPlan && (
             <div className="help is-info">
-              <Trans>amountPerGame</Trans>: {selectedPlan.amount}
+              <Trans>amountPerGame</Trans>:{' '}
+              {formatCurrency(parseAmount(selectedPlan.amount), t)}
               <div className="mt-1">
                 {t(`plans.${selectedPlan.slug}.description`, {
                   keySeparator: '.'
@@ -247,10 +277,12 @@ function BillingAgreementForm({
                 <input
                   className={`input ${
                     campaignSlug.trim() &&
-                    campaignValidations[campaignSlug] === false
+                    campaignValidations[campaignSlug] &&
+                    campaignValidations[campaignSlug].valid === false
                       ? 'is-danger'
                       : campaignSlug.trim() &&
-                        campaignValidations[campaignSlug] === true
+                        campaignValidations[campaignSlug] &&
+                        campaignValidations[campaignSlug].valid === true
                       ? 'is-success'
                       : ''
                   }`}
@@ -298,6 +330,45 @@ function BillingAgreementForm({
             </p>
           )}
         </div>
+
+        {selectedPlan && (
+          <div className="field">
+            <div className="box has-background-light">
+              <h4 className="title is-6">
+                <Trans>priceBreakdown</Trans>
+              </h4>
+              <div className="content">
+                <div className="is-flex is-justify-content-space-between">
+                  <span>
+                    <Trans>basePlanPrice</Trans>:
+                  </span>
+                  <span className="has-text-weight-bold">
+                    {formatCurrency(parseAmount(selectedPlan.amount), t)}
+                  </span>
+                </div>
+                {totalCampaignDiscount > 0 && (
+                  <div className="is-flex is-justify-content-space-between">
+                    <span>
+                      <Trans>totalCampaignDiscounts</Trans>:
+                    </span>
+                    <span className="has-text-weight-bold has-text-success">
+                      - {formatCurrency(totalCampaignDiscount, t)}
+                    </span>
+                  </div>
+                )}
+                <hr className="my-2" />
+                <div className="is-flex is-justify-content-space-between is-size-5">
+                  <span className="has-text-weight-bold">
+                    <Trans>finalPricePerGame</Trans>:
+                  </span>
+                  <span className="has-text-weight-bold">
+                    {formatCurrency(finalPricePerGame, t)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <BehindFeatureFlag>
           <div className="field">
