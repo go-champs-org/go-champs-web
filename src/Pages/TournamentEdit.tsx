@@ -29,7 +29,6 @@ import { getSports } from '../Sports/effects';
 import { SportEntity } from '../Sports/state';
 import { sportsLoading, sports } from '../Sports/selectors';
 import { Link } from 'react-router-dom';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import withSports from './support/withSports';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
@@ -120,21 +119,19 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
           </div>
 
           <div className="column is-8 has-text-right">
-            <BehindFeatureFlag>
-              {shouldTournamentHaveLicensingBilling(tournament) && (
-                <Link to={`${backUrl}/LicensingBilling`}>
-                  <button className="button is-info is-outlined is-small">
-                    <span className="icon">
-                      <i className="fas fa-certificate"></i>
-                    </span>
+            {shouldTournamentHaveLicensingBilling(tournament) && (
+              <Link to={`${backUrl}/LicensingBilling`}>
+                <button className="button is-info is-outlined is-small">
+                  <span className="icon">
+                    <i className="fas fa-certificate"></i>
+                  </span>
 
-                    <span>
-                      <Trans>license</Trans>
-                    </span>
-                  </button>
-                </Link>
-              )}
-            </BehindFeatureFlag>
+                  <span>
+                    <Trans>license</Trans>
+                  </span>
+                </button>
+              </Link>
+            )}
           </div>
 
           <div className="column is-12">

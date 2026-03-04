@@ -8,7 +8,6 @@ import React, {
 import { Trans, useTranslation } from 'react-i18next';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import MarkdownContent from '../Shared/UI/MarkdownContent';
 import Select from '../Shared/UI/Form/Select';
@@ -375,24 +374,6 @@ function BillingAgreementForm({
             </div>
           </div>
         )}
-
-        <BehindFeatureFlag>
-          <div className="field">
-            <label className="label">
-              <Trans>dueDay</Trans>
-            </label>
-            <div className="control">
-              <Field
-                name="due_day"
-                component="input"
-                type="number"
-                className="input"
-                min="1"
-                max="31"
-              />
-            </div>
-          </div>
-        </BehindFeatureFlag>
 
         <div className="field">
           <div className="control">
