@@ -10,7 +10,8 @@ import {
   tournamentBySlug,
   tournamentLoading,
   patchingTournament,
-  tournamentPlayerStatsForSelectInput
+  tournamentPlayerStatsForSelectInput,
+  shouldTournamentHaveLicensingBilling
 } from '../Tournaments/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
@@ -100,7 +101,6 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
   isPatchingTournament,
   isSportsLoading,
   match,
-  getSports,
   tournament,
   tournamentLoading,
   selectInputPlayerStats,
@@ -121,17 +121,19 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
 
           <div className="column is-8 has-text-right">
             <BehindFeatureFlag>
-              <Link to={`${backUrl}/LicensingBilling`}>
-                <button className="button is-info is-outlined is-small">
-                  <span className="icon">
-                    <i className="fas fa-certificate"></i>
-                  </span>
+              {shouldTournamentHaveLicensingBilling(tournament) && (
+                <Link to={`${backUrl}/LicensingBilling`}>
+                  <button className="button is-info is-outlined is-small">
+                    <span className="icon">
+                      <i className="fas fa-certificate"></i>
+                    </span>
 
-                  <span>
-                    <Trans>license</Trans>
-                  </span>
-                </button>
-              </Link>
+                    <span>
+                      <Trans>license</Trans>
+                    </span>
+                  </button>
+                </Link>
+              )}
             </BehindFeatureFlag>
           </div>
 

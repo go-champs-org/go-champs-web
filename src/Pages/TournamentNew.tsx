@@ -95,7 +95,6 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
   isPostingTournament,
   isSportsLoading,
   match,
-  getSports,
   organizationsLoading,
   postTournament,
   selectInputPlayerStats,

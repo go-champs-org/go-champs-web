@@ -4,7 +4,8 @@ import {
   DEFAULT_TOURNAMENT,
   PlayerStatMap,
   PlayerStatEntity,
-  TeamStatEntity
+  TeamStatEntity,
+  TournamentVisibilityEnum
 } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 
@@ -70,6 +71,15 @@ export const tournamentTeamStatsForSelectInput = (
     value: teamStats.slug,
     label: teamStats.title
   }));
+};
+
+export const shouldTournamentHaveLicensingBilling = (
+  tournament: TournamentEntity
+): boolean => {
+  return (
+    tournament.visibility === TournamentVisibilityEnum.PUBLIC &&
+    !!tournament.sportSlug
+  );
 };
 
 export const tournaments = (state: TournamentState) =>
