@@ -18,7 +18,7 @@ export default {
     advanced: 'Avancadas',
     aggregated: 'Agregadas',
     allRightsReserved: 'Todos os direitos reservados',
-    amountPerGame: 'Valor por jogo: R$',
+    amountPerGame: 'Valor por jogo',
     approve: 'Aprovar',
     asset: 'Artefato',
     assets: 'Artefatos',

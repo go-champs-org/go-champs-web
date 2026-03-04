@@ -5,7 +5,7 @@ export default {
     accountRecovery: 'Account recovery',
     accountReset: 'Account reset',
     actions: 'Actions',
-    amountPerGame: 'Amount per game: R$',
+    amountPerGame: 'Amount per game',
     addAsset: 'Add asset',
     addOfficial: 'Add official',
     addCustomField: 'Add custom field',

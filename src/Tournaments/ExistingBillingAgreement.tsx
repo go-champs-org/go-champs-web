@@ -1,11 +1,12 @@
 import React from 'react';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
   ApiBillingAgreement,
   ApiBillingContract
 } from '../Shared/httpClient/apiTypes';
 import MarkdownContent from '../Shared/UI/MarkdownContent';
+import { formatCurrency, parseAmount } from '../Shared/currencyUtils';
 
 interface ExistingBillingAgreementProps {
   agreement?: ApiBillingAgreement;
@@ -18,6 +19,11 @@ function ExistingBillingAgreement({
   backUrl,
   billingContract
 }: ExistingBillingAgreementProps): React.ReactElement {
+  const { t } = useTranslation();
+  const agreedAmount =
+    agreement && agreement.agreed_amount
+      ? parseAmount(agreement.agreed_amount)
+      : null;
   return (
     <div className="column is-12">
       <div className="notification is-success">
@@ -63,6 +69,12 @@ function ExistingBillingAgreement({
                   <Trans>noPlansAvailable</Trans>
                 )}
               </td>
+            </tr>
+            <tr>
+              <th>
+                <Trans>amountPerGame</Trans>
+              </th>
+              <td>{agreedAmount && formatCurrency(agreedAmount, t)}</td>
             </tr>
             <tr>
               <th>
