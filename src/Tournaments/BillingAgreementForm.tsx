@@ -255,6 +255,11 @@ function BillingAgreementForm({
               isClearable
             />
           </div>
+          {plans.length === 0 && (
+            <div className="help is-info">
+              <Trans>noPlansAvailable</Trans>
+            </div>
+          )}
           {selectedPlan && (
             <div className="help is-info">
               <Trans>amountPerGame</Trans>:{' '}

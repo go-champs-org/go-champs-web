@@ -154,6 +154,8 @@ export default {
     message: 'Mensagem',
     moveToPhase: 'Mover para...',
     myAccount: 'Minha conta',
+    mySportIsNotListed: 'Meu esporte não está listado',
+    chooseFromSportsList: 'Escolher da lista de esportes',
     name: 'Nome',
     new: 'Novo',
     newAthleteProfile: 'Novo perfil do atleta',
@@ -171,6 +173,7 @@ export default {
     newTournament: 'Novo torneio',
     noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
+    noPlansAvailable: 'Nenhum plano disponível',
     noTournamentsYet: 'Nenhum torneio ainda',
     open: 'Abrir',
     official: 'Oficial',
@@ -775,6 +778,7 @@ export default {
     },
     sportsPackages: {
       basketball_5x5: {
+        name: 'Basquete 5x5',
         title: 'Use pacote de basquete 5x5',
         description: 'Pacote com estatísticas de basquete 5x5'
       }

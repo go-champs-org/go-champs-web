@@ -77,14 +77,13 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!tournament.id || !tournament.sportSlug) return;
+      if (!tournament.id) return;
 
       try {
-        // Fetch all required data in parallel
-        const [agreements, contracts, sportPlans] = await Promise.all([
+        // Always fetch agreements and contracts
+        const [agreements, contracts] = await Promise.all([
           tournamentHttpClient.getBillingAgreement(tournament.id),
-          billingContractHttpClient.getAll(),
-          planHttpClient.getByFilter({ sport_slug: tournament.sportSlug })
+          billingContractHttpClient.getAll()
         ]);
 
         setExistingAgreement(
@@ -95,7 +94,16 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
             ? contracts[0]
             : { content: '', slug: '' }
         );
-        setPlans(sportPlans || []);
+
+        // Only fetch plans if tournament has a sport slug
+        if (tournament.sportSlug) {
+          const sportPlans = await planHttpClient.getByFilter({
+            sport_slug: tournament.sportSlug
+          });
+          setPlans(sportPlans || []);
+        } else {
+          setPlans([]);
+        }
       } catch (error) {
         console.error('Error fetching billing data:', error);
       } finally {
@@ -103,7 +111,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
       }
     };
 
-    if (tournament.id && tournament.sportSlug) {
+    if (tournament.id) {
       fetchData();
     }
   }, [tournament.id, tournament.sportSlug]);

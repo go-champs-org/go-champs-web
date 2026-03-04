@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import {
   TournamentEntity,
@@ -20,11 +20,9 @@ import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
-import withSports from '../Pages/support/withSports';
 import { SportEntity } from '../Sports/state';
-import Package, { LoadingPackages } from '../Sports/Package';
 import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
-import { VISIBILITY_OPTIONS } from './dataMappers';
+import { VISIBILITY_OPTIONS, sportsForSelectInput } from './dataMappers';
 
 interface TeamStatFormProps {
   name: string;
@@ -179,18 +177,61 @@ const Form: React.FC<FormProps> = ({
   form: { change }
 }) => {
   const { t } = useTranslation();
-  const updateFormWithPackageInfo = (sport: SportEntity) => {
-    change('sportName', sport.name);
-    change('sportSlug', sport.slug);
-    const playerStats = sport.playerStatistics.map(stat => ({
-      id: '',
-      title: stat.name,
-      slug: stat.slug
-    }));
-    change('playerStats', playerStats);
-  };
+  // Initialize manual sport mode if tournament has sportName but no sportSlug
+  const [isManualSport, setIsManualSport] = useState(
+    !!values.sportName && !values.sportSlug
+  );
+
+  const updateFormWithSportInfo = useCallback(
+    (sport: SportEntity) => {
+      change('sportName', sport.name);
+      change('sportSlug', sport.slug);
+      const playerStats = sport.playerStatistics.map(stat => ({
+        id: '',
+        title: stat.name,
+        slug: stat.slug,
+        visibility: 'public' as const
+      }));
+      change('playerStats', playerStats);
+      setIsManualSport(false);
+    },
+    [change]
+  );
+
+  const handleSportChange = useCallback(
+    (selectedSlug: string) => {
+      if (selectedSlug) {
+        const selectedSport = sports.find(sport => sport.slug === selectedSlug);
+        if (selectedSport) {
+          updateFormWithSportInfo(selectedSport);
+        }
+      }
+    },
+    [sports, updateFormWithSportInfo]
+  );
+
+  const sportsOptions = sportsForSelectInput(sports);
+  const translatedSportsOptions = useTranslatedSelectOptions(sportsOptions);
   const visibilityOptions = useTranslatedSelectOptions(VISIBILITY_OPTIONS);
-  const hasSportSlug = !!values.sportSlug;
+  const hasSportSlug = !!values.sportSlug && !isManualSport;
+
+  // Preselect first sport if none is selected and no manual sport name exists
+  useEffect(() => {
+    if (
+      !values.sportSlug &&
+      !values.sportName &&
+      !isManualSport &&
+      sports.length > 0
+    ) {
+      updateFormWithSportInfo(sports[0]);
+    }
+  }, [
+    sports,
+    values.sportSlug,
+    values.sportName,
+    isManualSport,
+    updateFormWithSportInfo
+  ]);
 
   return (
     <div>
@@ -251,29 +292,60 @@ const Form: React.FC<FormProps> = ({
             <Trans>sport</Trans>
           </label>
 
-          <div style={{ display: 'flex', paddingBottom: '1rem' }}>
-            {isSportsLoading ? (
-              <LoadingPackages />
-            ) : (
-              sports.map(sport => (
-                <Package
-                  key={sport.slug}
-                  sport={sport}
-                  onClick={updateFormWithPackageInfo}
+          {!isManualSport ? (
+            <>
+              <div className="control">
+                <Field
+                  name="sportSlug"
+                  render={(
+                    props: FieldRenderProps<string, HTMLSelectElement>
+                  ) => (
+                    <SelectInput
+                      {...props}
+                      options={translatedSportsOptions}
+                      onChange={handleSportChange}
+                    />
+                  )}
                 />
-              ))
-            )}
-          </div>
-
-          <div className="control">
-            <Field
-              name="sportName"
-              component={StringInput}
-              type="text"
-              placeholder="Basketball"
-              disabled={hasSportSlug}
-            />
-          </div>
+              </div>
+              <button
+                type="button"
+                className="button is-text is-small mt-2"
+                onClick={() => {
+                  setIsManualSport(true);
+                  change('sportSlug', '');
+                  change('sportName', '');
+                  change('playerStats', []);
+                }}
+              >
+                <Trans>mySportIsNotListed</Trans>
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="control">
+                <Field
+                  name="sportName"
+                  component={StringInput}
+                  type="text"
+                  placeholder="Basketball"
+                />
+              </div>
+              <button
+                type="button"
+                className="button is-text is-small mt-2"
+                onClick={() => {
+                  setIsManualSport(false);
+                  // Re-select first sport if available
+                  if (sports.length > 0) {
+                    updateFormWithSportInfo(sports[0]);
+                  }
+                }}
+              >
+                <Trans>chooseFromSportsList</Trans>
+              </button>
+            </>
+          )}
         </div>
 
         <div className="field">
@@ -481,4 +553,4 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-export default withSports(Form);
+export default Form;

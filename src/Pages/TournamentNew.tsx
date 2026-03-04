@@ -30,6 +30,7 @@ import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
 import { SportEntity } from '../Sports/state';
 import { sportsLoading, sports } from '../Sports/selectors';
+import withSports from './support/withSports';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
@@ -132,7 +133,6 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPostingTournament}
-                  getSports={getSports}
                   organizationSlug={organizationSlug}
                   push={props.form.mutators.push}
                   selectInputPlayerStats={selectInputPlayerStats}
@@ -152,4 +152,4 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
   );
 };
 
-export default connector(TournamentNew);
+export default connector(withSports<TournamentNewProps>(TournamentNew));

@@ -56,7 +56,13 @@ function ExistingBillingAgreement({
               <th>
                 <Trans>plan</Trans>
               </th>
-              <td>{agreement ? agreement.plan.name : '-'}</td>
+              <td>
+                {agreement && agreement.plan && agreement.plan.name ? (
+                  agreement.plan.name
+                ) : (
+                  <Trans>noPlansAvailable</Trans>
+                )}
+              </td>
             </tr>
             <tr>
               <th>

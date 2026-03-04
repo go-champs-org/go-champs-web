@@ -14,6 +14,8 @@ import {
   PlayerStatVisibility,
   TournamentVisibilityEnum
 } from './state';
+import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
+import { SportEntity } from '../Sports/state';
 
 export const PRIVATE_STAT_SLUGS = [
   'disqualifications',
@@ -156,3 +158,11 @@ export const VISIBILITY_OPTIONS: { value: string; labelKey: string }[] = [
     labelKey: 'tournamentForm.visibility.private'
   }
 ];
+
+export const sportsForSelectInput = (
+  sports: SportEntity[]
+): TranslateSelectOptionType[] =>
+  sports.map((sport: SportEntity) => ({
+    value: sport.slug,
+    labelKey: `sportsPackages.${sport.slug}.name`
+  }));
