@@ -158,7 +158,6 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   push: (fieldName: string, stat: PlayerStatEntity) => {};
   selectInputPlayerStats: SelectOptionType[];
   sports: SportEntity[];
-  isSportsLoading: boolean;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -171,7 +170,6 @@ const Form: React.FC<FormProps> = ({
   organizationSlug,
   selectInputPlayerStats,
   sports,
-  isSportsLoading,
   valid,
   push,
   form: { change }
@@ -304,6 +302,7 @@ const Form: React.FC<FormProps> = ({
                       {...props}
                       options={translatedSportsOptions}
                       onChange={handleSportChange}
+                      isDisabled={values.id !== ''}
                     />
                   )}
                 />
@@ -311,6 +310,7 @@ const Form: React.FC<FormProps> = ({
               <button
                 type="button"
                 className="button is-text is-small mt-2"
+                disabled={values.id !== ''}
                 onClick={() => {
                   setIsManualSport(true);
                   change('sportSlug', '');
