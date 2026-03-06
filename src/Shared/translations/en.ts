@@ -39,6 +39,7 @@ export default {
     campaign: 'Campaign',
     campaignSlug: 'Campaign Slug',
     campaigns: 'Campaigns',
+    category: 'Category',
     addCampaign: 'Add Campaign',
     someInvalidCampaigns: 'Some campaigns are invalid',
     campaignDiscount: 'Campaign discount',

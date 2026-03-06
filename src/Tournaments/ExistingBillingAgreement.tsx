@@ -64,7 +64,9 @@ function ExistingBillingAgreement({
               </th>
               <td>
                 {agreement && agreement.plan && agreement.plan.name ? (
-                  agreement.plan.name
+                  t(`plans.${agreement.plan.slug}.name`, agreement.plan.name, {
+                    keySeparator: '.'
+                  })
                 ) : (
                   <Trans>noPlansAvailable</Trans>
                 )}

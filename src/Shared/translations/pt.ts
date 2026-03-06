@@ -40,6 +40,7 @@ export default {
     campaign: 'Campanha',
     campaignSlug: 'Código da Campanha',
     campaigns: 'Campanhas',
+    category: 'Categoria',
     addCampaign: 'Adicionar Campanha',
     someInvalidCampaigns: 'Algumas campanhas são inválidas',
     campaignDiscount: 'Desconto da campanha',

@@ -393,6 +393,7 @@ export interface ApiOfficial {
   id: string;
   name: string;
   license_number?: string;
+  federation?: string;
   username: string;
 }
 

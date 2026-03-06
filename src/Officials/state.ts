@@ -2,6 +2,7 @@ export interface OfficialEntity {
   id: string;
   name: string;
   licenseNumber: string;
+  federation: string;
   username: string;
 }
 
@@ -17,6 +18,7 @@ export const DEFAULT_OFFICIAL: OfficialEntity = {
   id: '',
   name: '',
   licenseNumber: '',
+  federation: '',
   username: ''
 };
 
