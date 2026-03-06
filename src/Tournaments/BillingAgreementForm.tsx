@@ -18,6 +18,7 @@ import { plansForSelectInput } from '../Plans/selectors';
 import planHttpClient from '../Plans/planHttpClient';
 import './BillingAgreementForm.scss';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
+import { required } from '../Shared/UI/Form/Validators/commonValidators';
 
 export interface BillingFormData {
   acceptedTerms: boolean;
@@ -383,6 +384,7 @@ function BillingAgreementForm({
               render={(props: FieldRenderProps<string, HTMLInputElement>) => (
                 <CheckboxInput {...props} id="acceptedTerms" />
               )}
+              validate={required}
             />
 
             <label className="label" htmlFor="acceptedTerms">
