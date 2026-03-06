@@ -27,13 +27,12 @@ import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
 import { SportEntity } from '../Sports/state';
-import { sportsLoading, sports } from '../Sports/selectors';
+import { sports } from '../Sports/selectors';
 import { Link } from 'react-router-dom';
 import withSports from './support/withSports';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
-  isSportsLoading: boolean;
   organization: OrganizationEntity;
   selectInputPlayerStats: SelectOptionType[];
   sports: SportEntity[];
@@ -61,7 +60,6 @@ const mapStateToProps = (
   return {
     ...props,
     isPatchingTournament: patchingTournament(state.tournaments),
-    isSportsLoading: sportsLoading(state.sports),
     organization: organizationBySlug(state.organizations, organizationSlug),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
@@ -98,7 +96,6 @@ type TournamentEditProps = ConnectedProps<typeof connector>;
 
 const TournamentEdit: React.FC<TournamentEditProps> = ({
   isPatchingTournament,
-  isSportsLoading,
   match,
   tournament,
   tournamentLoading,
@@ -156,7 +153,6 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                     push={props.form.mutators.push}
                     selectInputPlayerStats={selectInputPlayerStats}
                     sports={sports}
-                    isSportsLoading={isSportsLoading}
                   />
                 )}
               />

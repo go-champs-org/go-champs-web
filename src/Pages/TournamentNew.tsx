@@ -29,8 +29,9 @@ import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
 import { SportEntity } from '../Sports/state';
-import { sportsLoading, sports } from '../Sports/selectors';
+import { sports } from '../Sports/selectors';
 import withSports from './support/withSports';
+import { History } from 'history';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPostingTournament: boolean;
@@ -38,14 +39,15 @@ interface StateProps extends RouteComponentProps<RouteProps> {
   organizationsLoading: boolean;
   selectInputPlayerStats: SelectOptionType[];
   sports: SportEntity[];
-  isSportsLoading: boolean;
+  history: History;
 }
 
 type DispatchProps = {
   getSports: () => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postTournament: (
     organizationId: string,
-    tournament: TournamentEntity
+    tournament: TournamentEntity,
+    history: History
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
@@ -58,13 +60,13 @@ const mapStateToProps = (
     ...props,
     organization: organizationBySlug(state.organizations, organizationSlug),
     isPostingTournament: postingTournament(state.tournaments),
-    isSportsLoading: sportsLoading(state.sports),
     organizationsLoading: organizationsLoading(state.organizations),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
       ''
     ),
-    sports: sports(state.sports)
+    sports: sports(state.sports),
+    history: props.history
   };
 };
 
@@ -83,7 +85,11 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps) => {
     ...stateProps,
     ...dispatchProps,
     postTournament: (tournament: TournamentEntity) =>
-      dispatchProps.postTournament(stateProps.organization.id, tournament)
+      dispatchProps.postTournament(
+        stateProps.organization.id,
+        tournament,
+        stateProps.history
+      )
   };
 };
 
@@ -93,7 +99,6 @@ type TournamentNewProps = ConnectedProps<typeof connector>;
 
 const TournamentNew: React.FC<TournamentNewProps> = ({
   isPostingTournament,
-  isSportsLoading,
   match,
   organizationsLoading,
   postTournament,
@@ -136,7 +141,6 @@ const TournamentNew: React.FC<TournamentNewProps> = ({
                   push={props.form.mutators.push}
                   selectInputPlayerStats={selectInputPlayerStats}
                   sports={sports}
-                  isSportsLoading={isSportsLoading}
                 />
               )}
             />

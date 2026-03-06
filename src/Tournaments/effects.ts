@@ -17,8 +17,9 @@ import {
   postTournamentStart,
   postTournamentSuccess
 } from './actions';
-import { TournamentEntity } from './state';
+import { TournamentEntity, TournamentVisibilityEnum } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
+import { History } from 'history';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
 import { getFixedPlayerStatsTablesByFilter } from '../FixedPlayerStatsTables/effects';
@@ -65,7 +66,8 @@ export const patchTournament = (
 
 export const postTournament = (
   organizationId: string,
-  tournament: TournamentEntity
+  tournament: TournamentEntity,
+  history: History
 ) => async (dispatch: Dispatch) => {
   dispatch(postTournamentStart());
 
@@ -77,6 +79,14 @@ export const postTournament = (
 
     dispatch(postTournamentSuccess(response));
     displayToast(`${response.name} created!`, 'is-success');
+    if (
+      response.sport_slug &&
+      response.visibility === TournamentVisibilityEnum.PUBLIC
+    ) {
+      history.push(
+        `/${response.organization.slug}/${response.slug}/LicensingBilling`
+      );
+    }
   } catch (err) {
     dispatch(postTournamentFailure(err));
 
