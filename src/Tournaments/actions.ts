@@ -1,6 +1,7 @@
 import {
   ApiTournament,
-  ApiTournamentWithDependecies
+  ApiTournamentWithDependecies,
+  ApiBillingAgreement
 } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 
@@ -21,6 +22,11 @@ export const GET_TOURNAMENTS_BY_FILTER_FAILURE =
 export const GET_TOURNAMENT = 'API_GET_TOURNAMENT';
 export const GET_TOURNAMENT_SUCCESS = 'API_GET_TOURNAMENT_SUCCESS';
 export const GET_TOURNAMENT_FAILURE = 'API_GET_TOURNAMENT_FAILURE';
+export const GET_BILLING_AGREEMENT = 'API_GET_BILLING_AGREEMENT';
+export const GET_BILLING_AGREEMENT_SUCCESS =
+  'API_GET_BILLING_AGREEMENT_SUCCESS';
+export const GET_BILLING_AGREEMENT_FAILURE =
+  'API_GET_BILLING_AGREEMENT_FAILURE';
 
 export const deleteTournamentStart = (): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT
@@ -112,6 +118,24 @@ export const getTournamentFailure = (
   payload
 });
 
+export const getBillingAgreementStart = (): HttpAction<ActionTypes> => ({
+  type: GET_BILLING_AGREEMENT
+});
+
+export const getBillingAgreementSuccess = (
+  payload: ApiBillingAgreement[] | null
+): HttpAction<ActionTypes, ApiBillingAgreement[] | null> => ({
+  type: GET_BILLING_AGREEMENT_SUCCESS,
+  payload
+});
+
+export const getBillingAgreementFailure = (
+  payload: any
+): HttpAction<ActionTypes> => ({
+  type: GET_BILLING_AGREEMENT_FAILURE,
+  payload
+});
+
 export type ActionTypes =
   | typeof DELETE_TOURNAMENT
   | typeof DELETE_TOURNAMENT_FAILURE
@@ -127,5 +151,8 @@ export type ActionTypes =
   | typeof GET_TOURNAMENTS_BY_FILTER_SUCCESS
   | typeof GET_TOURNAMENT
   | typeof GET_TOURNAMENT_FAILURE
-  | typeof GET_TOURNAMENT_SUCCESS;
+  | typeof GET_TOURNAMENT_SUCCESS
+  | typeof GET_BILLING_AGREEMENT
+  | typeof GET_BILLING_AGREEMENT_FAILURE
+  | typeof GET_BILLING_AGREEMENT_SUCCESS;
 export type Actions = HttpAction<ActionTypes>;

@@ -3,10 +3,18 @@ import { Trans } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { getTournamentBySlug } from '../Tournaments/effects';
+import {
+  getTournamentBySlug,
+  getBillingAgreement
+} from '../Tournaments/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
-import { tournamentBySlug, tournamentLoading } from '../Tournaments/selectors';
+import {
+  tournamentBySlug,
+  tournamentLoading,
+  billingAgreementByTournamentSlug,
+  billingAgreementLoading
+} from '../Tournaments/selectors';
 import tournamentHttpClient from '../Tournaments/tournamentHttpClient';
 import planHttpClient from '../Plans/planHttpClient';
 import billingContractHttpClient from '../BillingContracts/billingContractHttpClient';
@@ -36,14 +44,20 @@ const mapStateToProps = (
   return {
     ...props,
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
-    tournamentLoading: tournamentLoading(state.tournaments)
+    tournamentLoading: tournamentLoading(state.tournaments),
+    existingAgreement: billingAgreementByTournamentSlug(
+      state.tournaments,
+      tournamentSlug
+    ),
+    billingAgreementLoading: billingAgreementLoading(state.tournaments)
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
-      getTournamentBySlug
+      getTournamentBySlug,
+      getBillingAgreement
     },
     dispatch
   );
@@ -57,13 +71,12 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
   match,
   history,
   tournament,
-  tournamentLoading
+  tournamentLoading,
+  existingAgreement,
+  billingAgreementLoading,
+  getBillingAgreement
 }) => {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
-  const [
-    existingAgreement,
-    setExistingAgreement
-  ] = useState<ApiBillingAgreement | null>(null);
   const [billingContract, setBillingContract] = useState<ApiBillingContract>({
     content: '',
     slug: ''
@@ -80,15 +93,9 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
       if (!tournament.id) return;
 
       try {
-        // Always fetch agreements and contracts
-        const [agreements, contracts] = await Promise.all([
-          tournamentHttpClient.getBillingAgreement(tournament.id),
-          billingContractHttpClient.getAll()
-        ]);
+        // Fetch contracts
+        const contracts = await billingContractHttpClient.getAll();
 
-        setExistingAgreement(
-          agreements && agreements.length > 0 ? agreements[0] : null
-        );
         setBillingContract(
           contracts && contracts.length > 0
             ? contracts[0]
@@ -137,7 +144,10 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
         tournament.id,
         billingData
       );
-      setExistingAgreement(result);
+
+      // Refresh billing agreement from Redux
+      await getBillingAgreement(tournament.id);
+
       setShowSuccess(true);
 
       // Redirect after 2 seconds
@@ -165,7 +175,9 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
           </div>
 
           <ComponentLoader
-            canRender={!tournamentLoading && !isLoading}
+            canRender={
+              !tournamentLoading && !billingAgreementLoading && !isLoading
+            }
             loader={<FormLoading />}
           >
             {existingAgreement ? (

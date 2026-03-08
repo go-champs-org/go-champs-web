@@ -5,7 +5,8 @@ import {
   PlayerStatMap,
   PlayerStatEntity,
   TeamStatEntity,
-  TournamentVisibilityEnum
+  TournamentVisibilityEnum,
+  BillingAgreementEntity
 } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 
@@ -95,3 +96,19 @@ export const postingTournament = (state: TournamentState): boolean =>
   state.isLoadingPostTournament;
 export const deletingTournament = (state: TournamentState): boolean =>
   state.isLoadingDeleteTournament;
+
+export const billingAgreementByTournamentSlug = (
+  state: TournamentState,
+  slug?: string
+): BillingAgreementEntity | null => {
+  const tournament = tournamentBySlug(state, slug);
+  if (!tournament.id) {
+    return null;
+  }
+  return state.billingAgreements[tournament.id] !== undefined
+    ? state.billingAgreements[tournament.id]
+    : null;
+};
+
+export const billingAgreementLoading = (state: TournamentState): boolean =>
+  state.isLoadingBillingAgreement;

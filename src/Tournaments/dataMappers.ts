@@ -5,14 +5,18 @@ import {
   ApiPhase,
   ApiPlayerStatRequest,
   ApiTeamStat,
-  ApiPlayerStatResponse
+  ApiPlayerStatResponse,
+  ApiBillingAgreement,
+  ApiPlan
 } from '../Shared/httpClient/apiTypes';
 import {
   TournamentEntity,
   PlayerStatEntity,
   TeamStatEntity,
   PlayerStatVisibility,
-  TournamentVisibilityEnum
+  TournamentVisibilityEnum,
+  BillingAgreementEntity,
+  PlanEntity
 } from './state';
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 import { SportEntity } from '../Sports/state';
@@ -79,6 +83,29 @@ export const mapApiTeamStatToTeamStatEntity = (
   title: apiTeamStat.title,
   slug: apiTeamStat.slug,
   source: apiTeamStat.source
+});
+
+export const mapApiPlanToPlanEntity = (apiPlan: ApiPlan): PlanEntity => ({
+  slug: apiPlan.slug,
+  amount: apiPlan.amount,
+  active: (apiPlan as any).active || false,
+  description: (apiPlan as any).description || '',
+  name: (apiPlan as any).name || '',
+  sportId: (apiPlan as any).sport_id || ''
+});
+
+export const mapApiBillingAgreementToBillingAgreementEntity = (
+  apiBillingAgreement: ApiBillingAgreement
+): BillingAgreementEntity => ({
+  active: apiBillingAgreement.active,
+  agreedAmount: apiBillingAgreement.agreed_amount,
+  dueDay: apiBillingAgreement.due_day,
+  plan: mapApiPlanToPlanEntity(apiBillingAgreement.plan),
+  planId: apiBillingAgreement.plan_id,
+  selectedCampaigns: apiBillingAgreement.selected_campaigns,
+  signedAt: apiBillingAgreement.signed_at,
+  tournamentId: apiBillingAgreement.tournament_id,
+  username: apiBillingAgreement.username
 });
 
 export const mapApiTournamentToTournamentEntity = (

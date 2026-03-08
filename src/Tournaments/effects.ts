@@ -15,7 +15,10 @@ import {
   patchTournamentSuccess,
   postTournamentFailure,
   postTournamentStart,
-  postTournamentSuccess
+  postTournamentSuccess,
+  getBillingAgreementStart,
+  getBillingAgreementSuccess,
+  getBillingAgreementFailure
 } from './actions';
 import { TournamentEntity, TournamentVisibilityEnum } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
@@ -124,6 +127,21 @@ export const getTournament = (tournamentId: string) => async (
   }
 };
 
+export const getBillingAgreement = (tournamentId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(getBillingAgreementStart());
+
+  try {
+    const response = await tournamentHttpClient.getBillingAgreement(
+      tournamentId
+    );
+    dispatch(getBillingAgreementSuccess(response));
+  } catch (err) {
+    dispatch(getBillingAgreementFailure(err));
+  }
+};
+
 export const getTournamentBySlug = (
   organizationSlug: string,
   tournamentSlug: string
@@ -148,6 +166,8 @@ export const getTournamentBySlug = (
     if (response.sport_slug) {
       await getSport(response.sport_slug)(dispatch);
     }
+    // Always try to fetch billing agreement, returns null for unauthorized users
+    await getBillingAgreement(tournamentId)(dispatch);
   } catch (err) {
     dispatch(getTournamentFailure(err));
   }

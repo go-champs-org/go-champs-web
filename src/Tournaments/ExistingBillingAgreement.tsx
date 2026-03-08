@@ -1,15 +1,13 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import {
-  ApiBillingAgreement,
-  ApiBillingContract
-} from '../Shared/httpClient/apiTypes';
+import { ApiBillingContract } from '../Shared/httpClient/apiTypes';
+import { BillingAgreementEntity } from './state';
 import MarkdownContent from '../Shared/UI/MarkdownContent';
 import { formatCurrency, parseAmount } from '../Shared/currencyUtils';
 
 interface ExistingBillingAgreementProps {
-  agreement?: ApiBillingAgreement;
+  agreement?: BillingAgreementEntity;
   billingContract?: ApiBillingContract;
   backUrl: string;
 }
@@ -21,8 +19,8 @@ function ExistingBillingAgreement({
 }: ExistingBillingAgreementProps): React.ReactElement {
   const { t } = useTranslation();
   const agreedAmount =
-    agreement && agreement.agreed_amount
-      ? parseAmount(agreement.agreed_amount)
+    agreement && agreement.agreedAmount
+      ? parseAmount(agreement.agreedAmount)
       : null;
   return (
     <div className="column is-12">
@@ -83,8 +81,8 @@ function ExistingBillingAgreement({
                 <Trans>signedAt</Trans>
               </th>
               <td>
-                {agreement && agreement.signed_at
-                  ? new Date(agreement.signed_at).toLocaleString()
+                {agreement && agreement.signedAt
+                  ? new Date(agreement.signedAt).toLocaleString()
                   : '-'}
               </td>
             </tr>
