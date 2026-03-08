@@ -43,6 +43,12 @@ interface ApiGame {
   youtube_code?: string;
 }
 
+export interface ApiTournamentSponsor {
+  name: string;
+  link: string;
+  logo_url: string;
+}
+
 export interface ApiGameWithDepedencies extends ApiGame {
   away_team?: ApiTeam;
   home_team?: ApiTeam;
@@ -471,7 +477,9 @@ export interface ApiTournament {
   facebook?: string;
   has_aggregated_player_stats?: boolean;
   instagram?: string;
+  logo_url?: string;
   site_url?: string;
+  sponsors?: ApiTournamentSponsor[];
   twitter?: string;
   player_stats?: ApiPlayerStatResponse[];
   team_stats?: ApiTeamStat[];
@@ -778,7 +786,9 @@ export type ApiUploadFileType =
   | 'player-photos'
   | 'registration-consents'
   | 'team-logos'
-  | 'organization-logos';
+  | 'organization-logos'
+  | 'tournament-logos'
+  | 'tournament-sponsor-logos';
 
 export interface ApiUploadPostRequest {
   filename: string;

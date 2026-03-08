@@ -7,6 +7,12 @@ export enum TournamentVisibilityEnum {
   PRIVATE = 'private'
 }
 
+export interface TournamentSponsorEntity {
+  name: string;
+  link: string;
+  logoUrl: string;
+}
+
 export interface TournamentEntity {
   id: string;
   name: string;
@@ -14,7 +20,9 @@ export interface TournamentEntity {
   hasAggregatedPlayerStats?: boolean;
   facebook: string;
   instagram: string;
+  logoUrl: string;
   siteUrl: string;
+  sponsors: TournamentSponsorEntity[];
   twitter: string;
   playerStats: PlayerStatEntity[];
   teamStats: TeamStatEntity[];
@@ -90,13 +98,21 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   slug: '',
   facebook: '',
   instagram: '',
+  logoUrl: '',
   siteUrl: '',
+  sponsors: [],
   twitter: '',
   playerStats: [],
   teamStats: [],
   sportName: '',
   sportSlug: '',
   visibility: 'public'
+};
+
+export const DEFAULT_SPONSOR: TournamentSponsorEntity = {
+  name: '',
+  link: '',
+  logoUrl: ''
 };
 
 export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {

@@ -2,12 +2,14 @@ import {
   ApiTournament,
   ApiTournamentRequest,
   ApiTournamentWithDependecies,
+  ApiTournamentWithDependeciesIds,
   ApiPhase,
   ApiPlayerStatRequest,
   ApiTeamStat,
   ApiPlayerStatResponse,
   ApiBillingAgreement,
-  ApiPlan
+  ApiPlan,
+  ApiTournamentSponsor
 } from '../Shared/httpClient/apiTypes';
 import {
   TournamentEntity,
@@ -16,10 +18,12 @@ import {
   PlayerStatVisibility,
   TournamentVisibilityEnum,
   BillingAgreementEntity,
-  PlanEntity
+  PlanEntity,
+  TournamentSponsorEntity
 } from './state';
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 import { SportEntity } from '../Sports/state';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 
 export const PRIVATE_STAT_SLUGS = [
   'disqualifications',
@@ -108,6 +112,46 @@ export const mapApiBillingAgreementToBillingAgreementEntity = (
   username: apiBillingAgreement.username
 });
 
+export const mapApiTournamentSponsorToTournamentSponsorEntity = (
+  apiSponsor: ApiTournamentSponsor
+): TournamentSponsorEntity => ({
+  name: apiSponsor.name,
+  link: apiSponsor.link,
+  logoUrl: apiSponsor.logo_url
+});
+
+export const mapTournamentSponsorEntityToApiTournamentSponsor = (
+  sponsor: TournamentSponsorEntity
+): ApiTournamentSponsor => ({
+  name: sponsor.name,
+  link: sponsor.link,
+  logo_url: sponsor.logoUrl
+});
+
+export const mapTournamentLogoToApiFileReference = (
+  tournament: TournamentEntity
+): FileReference => ({
+  publicUrl: tournament.logoUrl,
+  filename: '',
+  url: tournament.logoUrl
+});
+
+export const mapFileReferenceToApiTournamentLogo = (
+  fileReference: FileReference
+) => fileReference.publicUrl;
+
+export const mapSponsorLogoToApiFileReference = (
+  logoUrl: string
+): FileReference => ({
+  publicUrl: logoUrl,
+  filename: '',
+  url: logoUrl
+});
+
+export const mapFileReferenceToApiSponsorLogo = (
+  fileReference: FileReference
+) => fileReference.publicUrl;
+
 export const mapApiTournamentToTournamentEntity = (
   apiTournament: ApiTournament
 ): TournamentEntity => ({
@@ -117,7 +161,13 @@ export const mapApiTournamentToTournamentEntity = (
   facebook: apiTournament.facebook ? apiTournament.facebook : '',
   instagram: apiTournament.instagram ? apiTournament.instagram : '',
   hasAggregatedPlayerStats: apiTournament.has_aggregated_player_stats,
+  logoUrl: apiTournament.logo_url ? apiTournament.logo_url : '',
   siteUrl: apiTournament.site_url ? apiTournament.site_url : '',
+  sponsors: apiTournament.sponsors
+    ? apiTournament.sponsors.map(
+        mapApiTournamentSponsorToTournamentSponsorEntity
+      )
+    : [],
   twitter: apiTournament.twitter ? apiTournament.twitter : '',
   playerStats: apiTournament.player_stats
     ? apiTournament.player_stats.map(mapApiPlayerStatResponseToPlayerStatEntity)
@@ -141,7 +191,14 @@ export const mapTournamentEntityToApiTournamentRequest = (
     organization_id: organizationId,
     facebook: tournament.facebook ? tournament.facebook : '',
     instagram: tournament.instagram ? tournament.instagram : '',
+    logo_url: tournament.logoUrl ? tournament.logoUrl : '',
     site_url: tournament.siteUrl ? tournament.siteUrl : '',
+    sponsors:
+      tournament.sponsors.length > 0
+        ? tournament.sponsors.map(
+            mapTournamentSponsorEntityToApiTournamentSponsor
+          )
+        : undefined,
     twitter: tournament.twitter ? tournament.twitter : '',
     player_stats:
       tournament.playerStats.length > 0
@@ -154,7 +211,7 @@ export const mapTournamentEntityToApiTournamentRequest = (
     sport_name: tournament.sportName,
     sport_slug: tournament.sportSlug,
     visibility: tournament.visibility
-  }
+  } as ApiTournamentWithDependeciesIds
 });
 
 export const currentPhaseId = (tournament: ApiTournamentWithDependecies) => {

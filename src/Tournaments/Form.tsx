@@ -3,8 +3,12 @@ import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import {
   TournamentEntity,
   PlayerStatEntity,
-  DEFAULT_PLAYER_STAT
+  DEFAULT_PLAYER_STAT,
+  DEFAULT_SPONSOR,
+  TournamentSponsorEntity
 } from './state';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
@@ -22,7 +26,90 @@ import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 import { SportEntity } from '../Sports/state';
 import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
-import { VISIBILITY_OPTIONS, sportsForSelectInput } from './dataMappers';
+import {
+  VISIBILITY_OPTIONS,
+  sportsForSelectInput,
+  mapTournamentLogoToApiFileReference,
+  mapFileReferenceToApiTournamentLogo,
+  mapSponsorLogoToApiFileReference,
+  mapFileReferenceToApiSponsorLogo
+} from './dataMappers';
+
+interface SponsorFormProps {
+  name: string;
+  onRemove: () => {};
+}
+
+const SponsorForm: React.FC<SponsorFormProps> = ({ name, onRemove }) => {
+  return (
+    <div className="card" style={{ marginBottom: '1rem' }}>
+      <div className="card-content">
+        <div className="field">
+          <label className="label">
+            <Trans>name</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.name`}
+              component={StringInput}
+              type="text"
+              validate={required}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>Site</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.link`}
+              component={StringInput}
+              type="text"
+              placeholder="https://www.sponsor.com"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>logo</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.logoUrl`}
+              render={(
+                props: FieldRenderProps<FileReference | string, HTMLElement>
+              ) => (
+                <ImageUpload
+                  {...props}
+                  imageType="tournament-sponsor-logos"
+                  initialFileReference={
+                    props.input.value && typeof props.input.value === 'string'
+                      ? mapSponsorLogoToApiFileReference(props.input.value)
+                      : undefined
+                  }
+                />
+              )}
+              parse={(value: FileReference) => {
+                if (!value) return '';
+
+                return mapFileReferenceToApiSponsorLogo(value);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="field has-text-right">
+          <DoubleClickButton className="button is-info" onClick={onRemove}>
+            <Trans>remove</Trans>
+          </DoubleClickButton>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 interface TeamStatFormProps {
   name: string;
@@ -155,7 +242,10 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   backUrl: string;
   isLoading: boolean;
   organizationSlug: string;
-  push: (fieldName: string, stat: PlayerStatEntity) => {};
+  push: (
+    fieldName: string,
+    stat: PlayerStatEntity | TournamentSponsorEntity
+  ) => {};
   selectInputPlayerStats: SelectOptionType[];
   sports: SportEntity[];
 }
@@ -268,6 +358,36 @@ const Form: React.FC<FormProps> = ({
               values.slug ? values.slug : ''
             }`}
           </p>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>logo</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="logoUrl"
+              render={(
+                props: FieldRenderProps<FileReference | string, HTMLElement>
+              ) => (
+                <ImageUpload
+                  {...props}
+                  imageType="tournament-logos"
+                  initialFileReference={
+                    values.logoUrl
+                      ? mapTournamentLogoToApiFileReference(values)
+                      : undefined
+                  }
+                />
+              )}
+              parse={(value: FileReference) => {
+                if (!value) return '';
+
+                return mapFileReferenceToApiTournamentLogo(value);
+              }}
+            />
+          </div>
         </div>
 
         <div className="field">
@@ -465,6 +585,29 @@ const Form: React.FC<FormProps> = ({
                 <Trans>addPlayerStat</Trans>
               </button>
             </div>
+          </CollapsibleCard>
+
+          <CollapsibleCard titleElement={t('sponsors')}>
+            <FieldArray name="sponsors">
+              {({ fields }) =>
+                fields.map((name, index) => (
+                  <SponsorForm
+                    key={name}
+                    name={name}
+                    onRemove={() => fields.remove(index)}
+                  />
+                ))
+              }
+            </FieldArray>
+
+            <button
+              className="button is-fullwidth is-medium"
+              type="button"
+              onClick={() => push('sponsors', DEFAULT_SPONSOR)}
+              style={{ marginBottom: '1rem' }}
+            >
+              <Trans>addSponsor</Trans>
+            </button>
           </CollapsibleCard>
 
           <BehindFeatureFlag>

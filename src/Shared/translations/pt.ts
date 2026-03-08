@@ -15,6 +15,7 @@ export default {
     addMember: 'Adicionar membro',
     addMatch: 'Adicionar confronto',
     addRow: 'Adicionar linha',
+    addSponsor: 'Adicionar patrocinador',
     advanced: 'Avancadas',
     aggregated: 'Agregadas',
     allRightsReserved: 'Todos os direitos reservados',
@@ -272,6 +273,7 @@ export default {
     socialNetworks: 'Redes sociais',
     sort: 'Ordenar',
     source: 'Fonte',
+    sponsors: 'Patrocinadores',
     sport: 'Esporte',
     sports: {
       basketball_5x5: {

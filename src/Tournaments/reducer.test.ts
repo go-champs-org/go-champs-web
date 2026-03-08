@@ -144,11 +144,15 @@ describe('patchTournamentSuccess', () => {
     team_stats: [
       {
         id: 'some-team-stat-id',
+        slug: 'some-updated-slug',
         source: 'some-updated-source-id',
         title: 'some-updated-team-stat-title'
       }
     ],
     players: [],
+    officials: [],
+    registrations: [],
+    scoreboard_setting: {} as any,
     visibility: 'public'
   });
 
@@ -174,10 +178,15 @@ describe('patchTournamentSuccess', () => {
         teamStats: [
           {
             id: 'some-team-stat-id',
+            slug: 'some-slug',
             source: 'some-source-id',
             title: 'some-team-stat-title'
           }
         ],
+        logoUrl: '',
+        sponsors: [],
+        sportName: '',
+        sportSlug: '',
         visibility: 'public'
       }
     }
@@ -218,6 +227,7 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].teamStats).toEqual([
       {
         id: 'some-team-stat-id',
+        slug: 'some-updated-slug',
         source: 'some-updated-source-id',
         title: 'some-updated-team-stat-title'
       }
@@ -237,6 +247,8 @@ describe('patchTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
+          logoUrl: '',
+          sponsors: [],
           playerStats: [],
           teamStats: [],
           sportName: '',
@@ -257,6 +269,8 @@ describe('patchTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
+      logoUrl: '',
+      sponsors: [],
       playerStats: [],
       teamStats: [],
       sportName: '',
@@ -288,7 +302,6 @@ describe('postTournamentFailure', () => {
 
 describe('postTournamentSuccess', () => {
   const action = postTournamentSuccess({
-    ...DEFAULT_TOURNAMENT,
     id: 'first-id',
     name: 'first-name',
     slug: 'first-slug',
@@ -304,10 +317,13 @@ describe('postTournamentSuccess', () => {
     phases: [],
     teams: [],
     players: [],
+    officials: [],
+    registrations: [],
+    scoreboard_setting: {} as any,
     sport_name: 'some-sport-name',
     sport_slug: 'some-sport-slug',
     visibility: 'public'
-  });
+  } as any);
 
   it('sets isLoadingPostTournament to false', () => {
     expect(
@@ -352,8 +368,12 @@ describe('postTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
+          logoUrl: '',
+          sponsors: [],
           playerStats: [],
           teamStats: [],
+          sportName: '',
+          sportSlug: '',
           visibility: 'public'
         }
       }
@@ -369,8 +389,12 @@ describe('postTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
+      logoUrl: '',
+      sponsors: [],
       playerStats: [],
       teamStats: [],
+      sportName: '',
+      sportSlug: '',
       visibility: 'public'
     });
   });
@@ -401,12 +425,14 @@ describe('getTournamentsByFilterSuccess', () => {
     {
       id: 'first-id',
       name: 'first-name',
-      slug: 'first-slug'
+      slug: 'first-slug',
+      visibility: 'public'
     },
     {
       id: 'second-id',
       name: 'second-name',
-      slug: 'second-slug'
+      slug: 'second-slug',
+      visibility: 'public'
     }
   ]);
 
@@ -465,9 +491,13 @@ describe('getTournamentSuccess', () => {
     phases: [],
     teams: [],
     players: [],
+    officials: [],
+    registrations: [],
+    scoreboard_setting: {} as any,
     team_stats: [
       {
         id: 'first-team-stat-id',
+        slug: 'first-slug',
         source: 'first-source',
         title: 'first-title'
       }
@@ -502,6 +532,7 @@ describe('getTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].teamStats).toEqual([
       {
         id: 'first-team-stat-id',
+        slug: 'first-slug',
         source: 'first-source',
         title: 'first-title'
       }
@@ -527,6 +558,12 @@ describe('getTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
+          logoUrl: '',
+          sponsors: [],
+          playerStats: [],
+          teamStats: [],
+          sportName: '',
+          sportSlug: '',
           visibility: 'public'
         }
       }
@@ -542,6 +579,12 @@ describe('getTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
+      logoUrl: '',
+      sponsors: [],
+      playerStats: [],
+      teamStats: [],
+      sportName: '',
+      sportSlug: '',
       visibility: 'public'
     });
   });
