@@ -85,6 +85,7 @@ const SponsorForm: React.FC<SponsorFormProps> = ({ name, onRemove }) => {
                 <ImageUpload
                   {...props}
                   imageType="tournament-sponsor-logos"
+                  id={`sponsor-logo-${name}`} // Ensure unique ID for each sponsor logo input
                   initialFileReference={
                     props.input.value && typeof props.input.value === 'string'
                       ? mapSponsorLogoToApiFileReference(props.input.value)
