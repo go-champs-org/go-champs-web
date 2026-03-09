@@ -529,6 +529,10 @@ export default {
               abbreviation: 'FLT',
               legend: 'Faltas técnicas'
             },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Diferença de pontos quando o jogador está em quadra'
+            },
             minutesPlayed: {
               abbreviation: 'MIN',
               legend: 'Minutos jogados'

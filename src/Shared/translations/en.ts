@@ -524,6 +524,10 @@ export default {
               abbreviation: 'TFLS',
               legend: 'Technical fouls'
             },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Point difference when the player is on the court'
+            },
             minutesPlayed: {
               abbreviation: 'MIN',
               legend: 'Minutes played'
