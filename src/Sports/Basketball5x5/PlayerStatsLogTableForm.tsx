@@ -69,7 +69,7 @@ function CheckCell({ value, onChange }: FieldInputProps<string>) {
   );
 }
 
-function NumberCell({ value, onChange, min = 0, }: FieldInputProps<string>) {
+function NumberCell({ value, onChange, min = 0 }: FieldInputProps<string>) {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value === '' ? '0' : e.target.value;
 
