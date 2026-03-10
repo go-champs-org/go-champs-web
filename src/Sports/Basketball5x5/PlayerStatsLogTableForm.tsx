@@ -69,7 +69,7 @@ function CheckCell({ value, onChange }: FieldInputProps<string>) {
   );
 }
 
-function NumberCell({ value, onChange }: FieldInputProps<string>) {
+function NumberCell({ value, onChange, min = 0 }: FieldInputProps<string>) {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value === '' ? '0' : e.target.value;
 
@@ -81,7 +81,7 @@ function NumberCell({ value, onChange }: FieldInputProps<string>) {
       className="input"
       value={value || '0'}
       onChange={handleOnChange}
-      min={0}
+      min={min}
     />
   );
 }
@@ -277,8 +277,18 @@ const STATS_CONFIG: { [key: string]: BaseStatConfig } = {
       </>
     )
   },
-  minutes_played: {
+  plus_minus: {
     order: 19,
+    slug: 'plus_minus',
+    translationKey: 'plusMinus',
+    cell: (input, playerStatLog) => (
+      <>
+        <NumberCell {...input} min={-99} />
+      </>
+    )
+  },
+  minutes_played: {
+    order: 20,
     slug: 'minutes_played',
     translationKey: 'minutesPlayed',
     cell: (input, playerStatLog) => (

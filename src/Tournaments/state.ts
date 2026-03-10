@@ -7,6 +7,12 @@ export enum TournamentVisibilityEnum {
   PRIVATE = 'private'
 }
 
+export interface TournamentSponsorEntity {
+  name: string;
+  link: string;
+  logoUrl: string;
+}
+
 export interface TournamentEntity {
   id: string;
   name: string;
@@ -14,7 +20,9 @@ export interface TournamentEntity {
   hasAggregatedPlayerStats?: boolean;
   facebook: string;
   instagram: string;
+  logoUrl: string;
   siteUrl: string;
+  sponsors: TournamentSponsorEntity[];
   twitter: string;
   playerStats: PlayerStatEntity[];
   teamStats: TeamStatEntity[];
@@ -41,13 +49,36 @@ export interface TeamStatEntity {
   source: string;
 }
 
+export interface PlanEntity {
+  slug: string;
+  amount: string;
+  active: boolean;
+  description: string;
+  name: string;
+  sportId: string;
+}
+
+export interface BillingAgreementEntity {
+  active: boolean;
+  agreedAmount: string | null;
+  dueDay: number;
+  plan: PlanEntity;
+  planId: string;
+  selectedCampaigns: string[];
+  signedAt: string;
+  tournamentId: string;
+  username: string;
+}
+
 export interface TournamentState {
   isLoadingDeleteTournament: boolean;
   isLoadingPatchTournament: boolean;
   isLoadingPostTournament: boolean;
   isLoadingRequestTournament: boolean;
   isLoadingRequestTournaments: boolean;
+  isLoadingBillingAgreement: boolean;
   tournaments: { [key: string]: TournamentEntity };
+  billingAgreements: { [tournamentId: string]: BillingAgreementEntity | null };
 }
 
 export const initialState: TournamentState = {
@@ -56,7 +87,9 @@ export const initialState: TournamentState = {
   isLoadingPostTournament: false,
   isLoadingRequestTournament: false,
   isLoadingRequestTournaments: false,
-  tournaments: {}
+  isLoadingBillingAgreement: false,
+  tournaments: {},
+  billingAgreements: {}
 };
 
 export const DEFAULT_TOURNAMENT: TournamentEntity = {
@@ -65,13 +98,21 @@ export const DEFAULT_TOURNAMENT: TournamentEntity = {
   slug: '',
   facebook: '',
   instagram: '',
+  logoUrl: '',
   siteUrl: '',
+  sponsors: [],
   twitter: '',
   playerStats: [],
   teamStats: [],
   sportName: '',
   sportSlug: '',
   visibility: 'public'
+};
+
+export const DEFAULT_SPONSOR: TournamentSponsorEntity = {
+  name: '',
+  link: '',
+  logoUrl: ''
 };
 
 export const DEFAULT_PLAYER_STAT: PlayerStatEntity = {

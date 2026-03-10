@@ -11,6 +11,7 @@ export const mapApiOfficialToOfficialEntity = (
   id: apiOfficial.id,
   name: apiOfficial.name,
   licenseNumber: apiOfficial.license_number || '',
+  federation: apiOfficial.federation || '',
   username: apiOfficial.username
 });
 
@@ -21,6 +22,7 @@ export const mapOfficialEntityToApiOfficialPatchRequest = (
     id: official.id,
     name: official.name,
     license_number: official.licenseNumber || undefined,
+    federation: official.federation || undefined,
     username: official.username
   }
 });
@@ -33,6 +35,7 @@ export const mapOfficialEntityToApiOfficialPostRequest = (
     id: official.id,
     name: official.name,
     license_number: official.licenseNumber || undefined,
+    federation: official.federation || undefined,
     username: official.username,
     tournament_id: tournamentId
   }

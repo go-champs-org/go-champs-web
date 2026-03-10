@@ -13,10 +13,19 @@ import {
   patchTournamentSuccess,
   postTournamentFailure,
   postTournamentStart,
-  postTournamentSuccess
+  postTournamentSuccess,
+  getBillingAgreementStart,
+  getBillingAgreementSuccess,
+  getBillingAgreementFailure
 } from './actions';
 import tournamentReducer from './reducer';
-import { DEFAULT_TOURNAMENT, initialState, TournamentState } from './state';
+import {
+  DEFAULT_TOURNAMENT,
+  initialState,
+  TournamentState,
+  BillingAgreementEntity
+} from './state';
+import { ApiBillingAgreement } from '../Shared/httpClient/apiTypes';
 
 describe('deleteTournament', () => {
   const action = deleteTournamentStart();
@@ -135,11 +144,15 @@ describe('patchTournamentSuccess', () => {
     team_stats: [
       {
         id: 'some-team-stat-id',
+        slug: 'some-updated-slug',
         source: 'some-updated-source-id',
         title: 'some-updated-team-stat-title'
       }
     ],
     players: [],
+    officials: [],
+    registrations: [],
+    scoreboard_setting: {} as any,
     visibility: 'public'
   });
 
@@ -165,10 +178,15 @@ describe('patchTournamentSuccess', () => {
         teamStats: [
           {
             id: 'some-team-stat-id',
+            slug: 'some-slug',
             source: 'some-source-id',
             title: 'some-team-stat-title'
           }
         ],
+        logoUrl: '',
+        sponsors: [],
+        sportName: '',
+        sportSlug: '',
         visibility: 'public'
       }
     }
@@ -209,6 +227,7 @@ describe('patchTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].teamStats).toEqual([
       {
         id: 'some-team-stat-id',
+        slug: 'some-updated-slug',
         source: 'some-updated-source-id',
         title: 'some-updated-team-stat-title'
       }
@@ -228,6 +247,8 @@ describe('patchTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
+          logoUrl: '',
+          sponsors: [],
           playerStats: [],
           teamStats: [],
           sportName: '',
@@ -248,6 +269,8 @@ describe('patchTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
+      logoUrl: '',
+      sponsors: [],
       playerStats: [],
       teamStats: [],
       sportName: '',
@@ -279,7 +302,6 @@ describe('postTournamentFailure', () => {
 
 describe('postTournamentSuccess', () => {
   const action = postTournamentSuccess({
-    ...DEFAULT_TOURNAMENT,
     id: 'first-id',
     name: 'first-name',
     slug: 'first-slug',
@@ -295,10 +317,13 @@ describe('postTournamentSuccess', () => {
     phases: [],
     teams: [],
     players: [],
+    officials: [],
+    registrations: [],
+    scoreboard_setting: {} as any,
     sport_name: 'some-sport-name',
     sport_slug: 'some-sport-slug',
     visibility: 'public'
-  });
+  } as any);
 
   it('sets isLoadingPostTournament to false', () => {
     expect(
@@ -343,8 +368,12 @@ describe('postTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
+          logoUrl: '',
+          sponsors: [],
           playerStats: [],
           teamStats: [],
+          sportName: '',
+          sportSlug: '',
           visibility: 'public'
         }
       }
@@ -360,8 +389,12 @@ describe('postTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
+      logoUrl: '',
+      sponsors: [],
       playerStats: [],
       teamStats: [],
+      sportName: '',
+      sportSlug: '',
       visibility: 'public'
     });
   });
@@ -392,12 +425,14 @@ describe('getTournamentsByFilterSuccess', () => {
     {
       id: 'first-id',
       name: 'first-name',
-      slug: 'first-slug'
+      slug: 'first-slug',
+      visibility: 'public'
     },
     {
       id: 'second-id',
       name: 'second-name',
-      slug: 'second-slug'
+      slug: 'second-slug',
+      visibility: 'public'
     }
   ]);
 
@@ -456,9 +491,13 @@ describe('getTournamentSuccess', () => {
     phases: [],
     teams: [],
     players: [],
+    officials: [],
+    registrations: [],
+    scoreboard_setting: {} as any,
     team_stats: [
       {
         id: 'first-team-stat-id',
+        slug: 'first-slug',
         source: 'first-source',
         title: 'first-title'
       }
@@ -493,6 +532,7 @@ describe('getTournamentSuccess', () => {
     expect(newState.tournaments['first-slug'].teamStats).toEqual([
       {
         id: 'first-team-stat-id',
+        slug: 'first-slug',
         source: 'first-source',
         title: 'first-title'
       }
@@ -518,6 +558,12 @@ describe('getTournamentSuccess', () => {
           instagram: 'some instagram',
           siteUrl: 'some site',
           twitter: 'some twitter',
+          logoUrl: '',
+          sponsors: [],
+          playerStats: [],
+          teamStats: [],
+          sportName: '',
+          sportSlug: '',
           visibility: 'public'
         }
       }
@@ -533,7 +579,193 @@ describe('getTournamentSuccess', () => {
       instagram: 'some instagram',
       siteUrl: 'some site',
       twitter: 'some twitter',
+      logoUrl: '',
+      sponsors: [],
+      playerStats: [],
+      teamStats: [],
+      sportName: '',
+      sportSlug: '',
       visibility: 'public'
     });
+  });
+});
+
+describe('getBillingAgreement', () => {
+  const action = getBillingAgreementStart();
+
+  it('sets isLoadingBillingAgreement to true', () => {
+    expect(
+      tournamentReducer(initialState, action).isLoadingBillingAgreement
+    ).toBe(true);
+  });
+});
+
+describe('getBillingAgreementFailure', () => {
+  const action = getBillingAgreementFailure('error');
+
+  it('sets isLoadingBillingAgreement to false', () => {
+    expect(
+      tournamentReducer(initialState, action).isLoadingBillingAgreement
+    ).toBe(false);
+  });
+});
+
+describe('getBillingAgreementSuccess', () => {
+  const mockApiBillingAgreement: ApiBillingAgreement = {
+    active: true,
+    agreed_amount: '5.00',
+    due_day: 15,
+    plan: {
+      slug: 'premium-monthly',
+      amount: '5.00',
+      active: true,
+      description: 'Premium plan',
+      name: 'Premium Monthly',
+      sport: { id: 'sport-123' },
+      sport_id: 'sport-123'
+    },
+    plan_id: 'plan-id-123',
+    selected_campaigns: ['campaign1'],
+    signed_at: '2023-01-15T10:00:00Z',
+    tournament_id: 'tournament-id-123',
+    username: 'user@example.com'
+  };
+
+  it('sets isLoadingBillingAgreement to false', () => {
+    const action = getBillingAgreementSuccess([mockApiBillingAgreement]);
+    const newState = tournamentReducer(initialState, action);
+
+    expect(newState.isLoadingBillingAgreement).toBe(false);
+  });
+
+  it('stores billing agreement entity keyed by tournament ID', () => {
+    const action = getBillingAgreementSuccess([mockApiBillingAgreement]);
+    const newState = tournamentReducer(initialState, action);
+
+    expect(newState.billingAgreements['tournament-id-123']).toBeDefined();
+    expect(newState.billingAgreements['tournament-id-123']?.active).toBe(true);
+    expect(newState.billingAgreements['tournament-id-123']?.agreedAmount).toBe(
+      '5.00'
+    );
+    expect(newState.billingAgreements['tournament-id-123']?.dueDay).toBe(15);
+    expect(newState.billingAgreements['tournament-id-123']?.planId).toBe(
+      'plan-id-123'
+    );
+    expect(
+      newState.billingAgreements['tournament-id-123']?.selectedCampaigns
+    ).toEqual(['campaign1']);
+    expect(newState.billingAgreements['tournament-id-123']?.signedAt).toBe(
+      '2023-01-15T10:00:00Z'
+    );
+    expect(newState.billingAgreements['tournament-id-123']?.tournamentId).toBe(
+      'tournament-id-123'
+    );
+    expect(newState.billingAgreements['tournament-id-123']?.username).toBe(
+      'user@example.com'
+    );
+  });
+
+  it('maps plan nested object correctly', () => {
+    const action = getBillingAgreementSuccess([mockApiBillingAgreement]);
+    const newState = tournamentReducer(initialState, action);
+
+    const plan = newState.billingAgreements['tournament-id-123']?.plan;
+    expect(plan).toBeDefined();
+    expect(plan?.slug).toBe('premium-monthly');
+    expect(plan?.amount).toBe('5.00');
+    expect(plan?.active).toBe(true);
+    expect(plan?.description).toBe('Premium plan');
+    expect(plan?.name).toBe('Premium Monthly');
+    expect(plan?.sportId).toBe('sport-123');
+  });
+
+  it('handles null response (unauthorized user)', () => {
+    const action = getBillingAgreementSuccess(null);
+    const newState = tournamentReducer(initialState, action);
+
+    expect(newState.isLoadingBillingAgreement).toBe(false);
+    expect(newState.billingAgreements).toEqual({});
+  });
+
+  it('handles empty array response', () => {
+    const action = getBillingAgreementSuccess([]);
+    const newState = tournamentReducer(initialState, action);
+
+    expect(newState.isLoadingBillingAgreement).toBe(false);
+    expect(newState.billingAgreements).toEqual({});
+  });
+
+  it('updates existing billing agreement', () => {
+    const existingAgreement: BillingAgreementEntity = {
+      active: false,
+      agreedAmount: '3.00',
+      dueDay: 1,
+      plan: {
+        slug: 'basic',
+        amount: '3.00',
+        active: true,
+        description: 'Basic plan',
+        name: 'Basic',
+        sportId: 'sport-456'
+      },
+      planId: 'plan-id-456',
+      selectedCampaigns: [],
+      signedAt: '2023-01-01T00:00:00Z',
+      tournamentId: 'tournament-id-123',
+      username: 'old@example.com'
+    };
+
+    const stateWithAgreement: TournamentState = {
+      ...initialState,
+      billingAgreements: {
+        'tournament-id-123': existingAgreement
+      }
+    };
+
+    const action = getBillingAgreementSuccess([mockApiBillingAgreement]);
+    const newState = tournamentReducer(stateWithAgreement, action);
+
+    expect(newState.billingAgreements['tournament-id-123']?.username).toBe(
+      'user@example.com'
+    );
+    expect(newState.billingAgreements['tournament-id-123']?.agreedAmount).toBe(
+      '5.00'
+    );
+  });
+
+  it('preserves other billing agreements', () => {
+    const otherAgreement: BillingAgreementEntity = {
+      active: true,
+      agreedAmount: '10.00',
+      dueDay: 20,
+      plan: {
+        slug: 'enterprise',
+        amount: '10.00',
+        active: true,
+        description: 'Enterprise plan',
+        name: 'Enterprise',
+        sportId: 'sport-789'
+      },
+      planId: 'plan-id-789',
+      selectedCampaigns: ['campaign2'],
+      signedAt: '2023-02-01T00:00:00Z',
+      tournamentId: 'other-tournament-id',
+      username: 'other@example.com'
+    };
+
+    const stateWithAgreement: TournamentState = {
+      ...initialState,
+      billingAgreements: {
+        'other-tournament-id': otherAgreement
+      }
+    };
+
+    const action = getBillingAgreementSuccess([mockApiBillingAgreement]);
+    const newState = tournamentReducer(stateWithAgreement, action);
+
+    expect(newState.billingAgreements['other-tournament-id']).toEqual(
+      otherAgreement
+    );
+    expect(newState.billingAgreements['tournament-id-123']).toBeDefined();
   });
 });

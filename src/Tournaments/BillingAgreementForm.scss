@@ -1,0 +1,27 @@
+@import '../Shared/styles/colors.scss';
+
+.box {
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-left: 3px solid $green;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import {
   TournamentEntity,
   PlayerStatEntity,
-  DEFAULT_PLAYER_STAT
+  DEFAULT_PLAYER_STAT,
+  DEFAULT_SPONSOR,
+  TournamentSponsorEntity
 } from './state';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import ImageUpload from '../Shared/UI/Form/ImageUpload';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
@@ -20,11 +24,93 @@ import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import SelectInput, { SelectOptionType } from '../Shared/UI/Form/Select';
 import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
-import withSports from '../Pages/support/withSports';
 import { SportEntity } from '../Sports/state';
-import Package, { LoadingPackages } from '../Sports/Package';
 import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
-import { VISIBILITY_OPTIONS } from './dataMappers';
+import {
+  VISIBILITY_OPTIONS,
+  sportsForSelectInput,
+  mapTournamentLogoToApiFileReference,
+  mapFileReferenceToApiTournamentLogo,
+  mapSponsorLogoToApiFileReference,
+  mapFileReferenceToApiSponsorLogo
+} from './dataMappers';
+
+interface SponsorFormProps {
+  name: string;
+  onRemove: () => {};
+}
+
+const SponsorForm: React.FC<SponsorFormProps> = ({ name, onRemove }) => {
+  return (
+    <div className="card" style={{ marginBottom: '1rem' }}>
+      <div className="card-content">
+        <div className="field">
+          <label className="label">
+            <Trans>name</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.name`}
+              component={StringInput}
+              type="text"
+              validate={required}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>Site</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.link`}
+              component={StringInput}
+              type="text"
+              placeholder="https://www.sponsor.com"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>logo</Trans>
+          </label>
+          <div className="control">
+            <Field
+              name={`${name}.logoUrl`}
+              render={(
+                props: FieldRenderProps<FileReference | string, HTMLElement>
+              ) => (
+                <ImageUpload
+                  {...props}
+                  imageType="tournament-sponsor-logos"
+                  id={`sponsor-logo-${name}`} // Ensure unique ID for each sponsor logo input
+                  initialFileReference={
+                    props.input.value && typeof props.input.value === 'string'
+                      ? mapSponsorLogoToApiFileReference(props.input.value)
+                      : undefined
+                  }
+                />
+              )}
+              parse={(value: FileReference) => {
+                if (!value) return '';
+
+                return mapFileReferenceToApiSponsorLogo(value);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="field has-text-right">
+          <DoubleClickButton className="button is-info" onClick={onRemove}>
+            <Trans>remove</Trans>
+          </DoubleClickButton>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 interface TeamStatFormProps {
   name: string;
@@ -157,10 +243,12 @@ interface FormProps extends FormRenderProps<TournamentEntity> {
   backUrl: string;
   isLoading: boolean;
   organizationSlug: string;
-  push: (fieldName: string, stat: PlayerStatEntity) => {};
+  push: (
+    fieldName: string,
+    stat: PlayerStatEntity | TournamentSponsorEntity
+  ) => {};
   selectInputPlayerStats: SelectOptionType[];
   sports: SportEntity[];
-  isSportsLoading: boolean;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -173,24 +261,66 @@ const Form: React.FC<FormProps> = ({
   organizationSlug,
   selectInputPlayerStats,
   sports,
-  isSportsLoading,
   valid,
   push,
   form: { change }
 }) => {
   const { t } = useTranslation();
-  const updateFormWithPackageInfo = (sport: SportEntity) => {
-    change('sportName', sport.name);
-    change('sportSlug', sport.slug);
-    const playerStats = sport.playerStatistics.map(stat => ({
-      id: '',
-      title: stat.name,
-      slug: stat.slug
-    }));
-    change('playerStats', playerStats);
-  };
+  // Initialize manual sport mode if tournament has sportName but no sportSlug
+  const [isManualSport, setIsManualSport] = useState(
+    !!values.sportName && !values.sportSlug
+  );
+
+  const updateFormWithSportInfo = useCallback(
+    (sport: SportEntity) => {
+      change('sportName', sport.name);
+      change('sportSlug', sport.slug);
+      const playerStats = sport.playerStatistics.map(stat => ({
+        id: '',
+        title: stat.name,
+        slug: stat.slug,
+        visibility: 'public' as const
+      }));
+      change('playerStats', playerStats);
+      setIsManualSport(false);
+    },
+    [change]
+  );
+
+  const handleSportChange = useCallback(
+    (selectedSlug: string) => {
+      if (selectedSlug) {
+        const selectedSport = sports.find(sport => sport.slug === selectedSlug);
+        if (selectedSport) {
+          updateFormWithSportInfo(selectedSport);
+        }
+      }
+    },
+    [sports, updateFormWithSportInfo]
+  );
+
+  const sportsOptions = sportsForSelectInput(sports);
+  const translatedSportsOptions = useTranslatedSelectOptions(sportsOptions);
   const visibilityOptions = useTranslatedSelectOptions(VISIBILITY_OPTIONS);
-  const hasSportSlug = !!values.sportSlug;
+  const hasSportSlug = !!values.sportSlug && !isManualSport;
+
+  // Preselect first sport if none is selected and no manual sport name exists
+  useEffect(() => {
+    if (
+      !values.sportSlug &&
+      !values.sportName &&
+      !isManualSport &&
+      sports.length > 0
+    ) {
+      updateFormWithSportInfo(sports[0]);
+    }
+  }, [
+    sports,
+    values.sportSlug,
+    values.sportName,
+    isManualSport,
+    updateFormWithSportInfo
+  ]);
 
   return (
     <div>
@@ -233,6 +363,36 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">
+            <Trans>logo</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="logoUrl"
+              render={(
+                props: FieldRenderProps<FileReference | string, HTMLElement>
+              ) => (
+                <ImageUpload
+                  {...props}
+                  imageType="tournament-logos"
+                  initialFileReference={
+                    values.logoUrl
+                      ? mapTournamentLogoToApiFileReference(values)
+                      : undefined
+                  }
+                />
+              )}
+              parse={(value: FileReference) => {
+                if (!value) return '';
+
+                return mapFileReferenceToApiTournamentLogo(value);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
             <Trans>visibility</Trans>
           </label>
 
@@ -251,29 +411,62 @@ const Form: React.FC<FormProps> = ({
             <Trans>sport</Trans>
           </label>
 
-          <div style={{ display: 'flex', paddingBottom: '1rem' }}>
-            {isSportsLoading ? (
-              <LoadingPackages />
-            ) : (
-              sports.map(sport => (
-                <Package
-                  key={sport.slug}
-                  sport={sport}
-                  onClick={updateFormWithPackageInfo}
+          {!isManualSport ? (
+            <>
+              <div className="control">
+                <Field
+                  name="sportSlug"
+                  render={(
+                    props: FieldRenderProps<string, HTMLSelectElement>
+                  ) => (
+                    <SelectInput
+                      {...props}
+                      options={translatedSportsOptions}
+                      onChange={handleSportChange}
+                      isDisabled={values.id !== ''}
+                    />
+                  )}
                 />
-              ))
-            )}
-          </div>
-
-          <div className="control">
-            <Field
-              name="sportName"
-              component={StringInput}
-              type="text"
-              placeholder="Basketball"
-              disabled={hasSportSlug}
-            />
-          </div>
+              </div>
+              <button
+                type="button"
+                className="button is-text is-small mt-2"
+                disabled={values.id !== ''}
+                onClick={() => {
+                  setIsManualSport(true);
+                  change('sportSlug', '');
+                  change('sportName', '');
+                  change('playerStats', []);
+                }}
+              >
+                <Trans>mySportIsNotListed</Trans>
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="control">
+                <Field
+                  name="sportName"
+                  component={StringInput}
+                  type="text"
+                  placeholder="Basketball"
+                />
+              </div>
+              <button
+                type="button"
+                className="button is-text is-small mt-2"
+                onClick={() => {
+                  setIsManualSport(false);
+                  // Re-select first sport if available
+                  if (sports.length > 0) {
+                    updateFormWithSportInfo(sports[0]);
+                  }
+                }}
+              >
+                <Trans>chooseFromSportsList</Trans>
+              </button>
+            </>
+          )}
         </div>
 
         <div className="field">
@@ -395,6 +588,29 @@ const Form: React.FC<FormProps> = ({
             </div>
           </CollapsibleCard>
 
+          <CollapsibleCard titleElement={t('sponsors')}>
+            <FieldArray name="sponsors">
+              {({ fields }) =>
+                fields.map((name, index) => (
+                  <SponsorForm
+                    key={name}
+                    name={name}
+                    onRemove={() => fields.remove(index)}
+                  />
+                ))
+              }
+            </FieldArray>
+
+            <button
+              className="button is-fullwidth is-medium"
+              type="button"
+              onClick={() => push('sponsors', DEFAULT_SPONSOR)}
+              style={{ marginBottom: '1rem' }}
+            >
+              <Trans>addSponsor</Trans>
+            </button>
+          </CollapsibleCard>
+
           <BehindFeatureFlag>
             <CollapsibleCard titleElement={t('teamStats')}>
               <div className="field">
@@ -481,4 +697,4 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-export default withSports(Form);
+export default Form;

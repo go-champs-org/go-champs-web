@@ -98,6 +98,16 @@ function Form({
 
         <div className="field">
           <label className="label">
+            <Trans>category</Trans>
+          </label>
+
+          <div className="control">
+            <Field name="federation" component={StringInput} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
             <Trans>username</Trans>
           </label>
 

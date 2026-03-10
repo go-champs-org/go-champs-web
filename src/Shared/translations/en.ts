@@ -5,6 +5,7 @@ export default {
     accountRecovery: 'Account recovery',
     accountReset: 'Account reset',
     actions: 'Actions',
+    amountPerGame: 'Amount per game',
     addAsset: 'Add asset',
     addOfficial: 'Add official',
     addCustomField: 'Add custom field',
@@ -14,17 +15,41 @@ export default {
     addMember: 'Add member',
     addMatch: 'Add match',
     addRow: 'Add row',
+    addSponsor: 'Add sponsor',
     advanced: 'Advanced',
     aggregated: 'Aggregated',
+    allRightsReserved: 'All rights reserved',
     approve: 'Approve',
     asset: 'Asset',
     assets: 'Assets',
     autoApprove: 'Auto approve',
+    acceptAndSubmit: 'Accept and Submit',
+    agreementDetailsBelow: 'The agreement details are shown below.',
+    andContributors: 'and contributors',
     average: 'Average',
     awayTeam: 'Away team',
     awayScore: 'Away score',
     back: 'Back',
+    billing: 'Billing',
+    useAgreement: 'Use Agreement',
+    useAgreementAcceptedSuccessfully: 'Use agreement accepted successfully!',
+    useAgreementAlreadyAccepted: 'Use Agreement already accepted',
+    useContractSlug: 'Contract Slug',
     by: 'by',
+    byGoChampsTeam: 'by Go Champs team',
+    campaign: 'Campaign',
+    campaignSlug: 'Campaign Slug',
+    campaigns: 'Campaigns',
+    category: 'Category',
+    addCampaign: 'Add Campaign',
+    someInvalidCampaigns: 'Some campaigns are invalid',
+    campaignDiscount: 'Campaign discount',
+    totalPricePerGame: 'Total Price per Game',
+    priceBreakdown: 'Price Breakdown',
+    basePlanPrice: 'Base Plan Price',
+    totalCampaignDiscounts: 'Total Campaign Discounts',
+    finalPricePerGame: 'Final Price per Game',
+    currencySymbol: 'R$',
     cancel: 'Cancel',
     clean: 'Clean',
     clickToUpload: 'Click to upload',
@@ -36,6 +61,8 @@ export default {
     consentInputViewDocument: 'Click to view terms and conditions',
     consentInputAgree: 'I agree to the terms and conditions',
     copyLink: 'Copy link',
+    copyright: 'Copyright',
+    countryCode: 'Country Code',
     customFields: 'Custom fields',
     date: '{{date, date}}',
     dateTime: '{{date, datetime}}',
@@ -43,6 +70,7 @@ export default {
     description: 'Description',
     doubleClickToConfirm: 'Double click to confirm',
     draws: 'Draws',
+    dueDay: 'Due Day',
     editAthleteProfile: 'Edit athlete profile',
     editDraw: 'Edit draw',
     editGroupStandings: 'Edit group standings',
@@ -110,9 +138,11 @@ export default {
     groupStats: 'Group stats',
     language: 'Language',
     legend: 'Legend',
+    iAcceptTheTermsAndConditions: 'I accept the terms and conditions',
     live: 'Live',
     liveState: 'Game moment state',
     liveSiteUpdate: 'Live site update mode',
+    license: 'License',
     licenseNumber: 'License number',
     location: 'Location',
     city: 'City',
@@ -124,6 +154,8 @@ export default {
     message: 'Message',
     moveToPhase: 'Move to...',
     myAccount: 'My account',
+    mySportIsNotListed: 'My sport is not listed',
+    chooseFromSportsList: 'Choose from sports list',
     name: 'Name',
     new: 'New',
     newAthleteProfile: 'New athlete profile',
@@ -141,6 +173,7 @@ export default {
     newTournament: 'New tournament',
     noGames: 'No games',
     noGamesScheduled: 'No games scheduled',
+    noPlansAvailable: 'No plans available',
     noTournamentsYet: 'No tournaments yet',
     open: 'Open',
     official: 'Official',
@@ -148,6 +181,24 @@ export default {
     organizations: 'Organizations',
     orSignUp: 'Or sign up',
     password: 'Password',
+    plan: 'Plan',
+    plans: {
+      basketball_scoresheet: {
+        name: 'Basketball Scoresheet',
+        description: 'Plan for tournaments that need a basketball scoresheet'
+      },
+      basketball_statistics: {
+        name: 'Basketball Statistics',
+        description: 'Plan for tournaments that need basketball statistics'
+      },
+      basketball_full: {
+        name: 'Basketball Scoresheet and Statistics',
+        description:
+          'Plan for tournaments that need a basketball scoresheet and statistics'
+      }
+    },
+    redirectingToTournamentEdit: 'Redirecting to tournament edit...',
+    signedAt: 'Signed At',
     phases: 'Phases',
     phaseTypes: {
       bracket: 'Bracket',
@@ -218,6 +269,7 @@ export default {
     socialNetworks: 'Social networks',
     sort: 'Sort',
     source: 'Source',
+    sponsors: 'Sponsors',
     sport: 'Sport',
     sports: {
       basketball_5x5: {
@@ -472,6 +524,10 @@ export default {
               abbreviation: 'TFLS',
               legend: 'Technical fouls'
             },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Point difference when the player is on the court'
+            },
             minutesPlayed: {
               abbreviation: 'MIN',
               legend: 'Minutes played'
@@ -724,6 +780,7 @@ export default {
     },
     sportsPackages: {
       basketball_5x5: {
+        name: 'Basketball 5x5',
         title: 'Use basketball package',
         description: 'Full stats for basketball 5x5'
       }

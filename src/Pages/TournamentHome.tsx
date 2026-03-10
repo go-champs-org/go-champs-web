@@ -42,6 +42,7 @@ import TeamView from './TeamView';
 import OfficialList from './OfficialList';
 import OfficialNew from './OfficialNew';
 import OfficialEdit from './OfficialEdit';
+import TournamentLicensingBilling from './TournamentLicensingBilling';
 
 const mapStateToProps = (
   state: StoreState,
@@ -112,6 +113,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <TournamentEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/LicensingBilling`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TournamentLicensingBilling {...props} />
             </AuthenticatedRoute>
           )}
         />

@@ -15,17 +15,42 @@ export default {
     addMember: 'Adicionar membro',
     addMatch: 'Adicionar confronto',
     addRow: 'Adicionar linha',
+    addSponsor: 'Adicionar patrocinador',
     advanced: 'Avancadas',
     aggregated: 'Agregadas',
+    allRightsReserved: 'Todos os direitos reservados',
+    amountPerGame: 'Valor por jogo',
     approve: 'Aprovar',
     asset: 'Artefato',
     assets: 'Artefatos',
     autoApprove: 'Aprovar automaticamente',
+    acceptAndSubmit: 'Aceitar e Enviar',
+    agreementDetailsBelow: 'Os detalhes do contrato são mostrados abaixo.',
+    andContributors: 'e colaboradores',
     average: 'Média',
     awayTeam: 'Equipe visitante',
     awayScore: 'Pontuacao visitante',
     back: 'Voltar',
+    billing: 'Faturamento',
+    useAgreement: 'Contrato de Uso',
+    useAgreementAcceptedSuccessfully: 'Contrato de uso aceito com sucesso!',
+    useAgreementAlreadyAccepted: 'Contrato de uso já aceito',
+    useContractSlug: 'Código do Contrato',
     by: 'por',
+    byGoChampsTeam: 'pela equipe Go Champs',
+    campaign: 'Campanha',
+    campaignSlug: 'Código da Campanha',
+    campaigns: 'Campanhas',
+    category: 'Categoria',
+    addCampaign: 'Adicionar Campanha',
+    someInvalidCampaigns: 'Algumas campanhas são inválidas',
+    campaignDiscount: 'Desconto da campanha',
+    totalPricePerGame: 'Preço Total por Jogo',
+    priceBreakdown: 'Detalhamento do Preço',
+    basePlanPrice: 'Preço Base do Plano',
+    totalCampaignDiscounts: 'Total de Descontos das Campanhas',
+    finalPricePerGame: 'Preço Final por Jogo',
+    currencySymbol: 'R$',
     cancel: 'Cancelar',
     clean: 'Limpar',
     clickToUpload: 'Clique para enviar',
@@ -37,6 +62,8 @@ export default {
     consentInputViewDocument: 'Clique para ver termos e condicões',
     consentInputAgree: 'Eu concordo com os termos e condicões',
     copyLink: 'Copiar',
+    copyright: 'Copyright',
+    countryCode: 'Código do País',
     customFields: 'Campos personalizados',
     date: '{{date, date}}',
     dateTime: '{{date, datetime}}',
@@ -44,6 +71,7 @@ export default {
     description: 'Descrição',
     doubleClickToConfirm: 'Dois cliques para confirmar',
     draws: 'Chaveamentos',
+    dueDay: 'Dia de Vencimento',
     editAthleteProfile: 'Editar perfil do atleta',
     editDraw: 'Editar chaveamento',
     editGroupStandings: 'Editar classificação de grupos',
@@ -112,9 +140,11 @@ export default {
     groupStats: 'Estatísticas de grupo',
     language: 'Linguagem',
     legend: 'Legenda',
+    iAcceptTheTermsAndConditions: 'Eu aceito os termos e condições',
     live: 'Ao vivo',
     liveState: 'Momento do jogo',
     liveSiteUpdate: 'Modo de atualização ao vivo',
+    license: 'Licença',
     licenseNumber: 'Número da licença',
     location: 'Local',
     city: 'Cidade',
@@ -126,6 +156,8 @@ export default {
     message: 'Mensagem',
     moveToPhase: 'Mover para...',
     myAccount: 'Minha conta',
+    mySportIsNotListed: 'Meu esporte não está listado',
+    chooseFromSportsList: 'Escolher da lista de esportes',
     name: 'Nome',
     new: 'Novo',
     newAthleteProfile: 'Novo perfil do atleta',
@@ -143,6 +175,7 @@ export default {
     newTournament: 'Novo torneio',
     noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
+    noPlansAvailable: 'Nenhum plano disponível',
     noTournamentsYet: 'Nenhum torneio ainda',
     open: 'Abrir',
     official: 'Oficial',
@@ -150,6 +183,25 @@ export default {
     organizations: 'Organizacões',
     orSignUp: 'Ou crie uma conta',
     password: 'Senha',
+    plan: 'Plano',
+    plans: {
+      basketball_scoresheet: {
+        name: 'Súmula de basquete',
+        description: 'Plano para torneios que precisam da súmula de basquete'
+      },
+      basketball_statistics: {
+        name: 'Estatísticas de basquete',
+        description:
+          'Plano para torneios que precisam de estatísticas de basquete'
+      },
+      basketball_full: {
+        name: 'Súmula e estatísticas de basquete',
+        description:
+          'Plano para torneios que precisam de súmula e estatísticas de basquete'
+      }
+    },
+    redirectingToTournamentEdit: 'Redirecionando para edição do torneio...',
+    signedAt: 'Assinado Em',
     phases: 'Fases',
     phaseTypes: {
       bracket: 'Chaveamento',
@@ -221,6 +273,7 @@ export default {
     socialNetworks: 'Redes sociais',
     sort: 'Ordenar',
     source: 'Fonte',
+    sponsors: 'Patrocinadores',
     sport: 'Esporte',
     sports: {
       basketball_5x5: {
@@ -476,6 +529,10 @@ export default {
               abbreviation: 'FLT',
               legend: 'Faltas técnicas'
             },
+            plusMinus: {
+              abbreviation: '+/-',
+              legend: 'Diferença de pontos quando o jogador está em quadra'
+            },
             minutesPlayed: {
               abbreviation: 'MIN',
               legend: 'Minutos jogados'
@@ -728,6 +785,7 @@ export default {
     },
     sportsPackages: {
       basketball_5x5: {
+        name: 'Basquete 5x5',
         title: 'Use pacote de basquete 5x5',
         description: 'Pacote com estatísticas de basquete 5x5'
       }

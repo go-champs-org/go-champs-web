@@ -3,7 +3,6 @@ import { AthleteProfileEntity } from './state';
 import PlayerPhotoPlaceholder from '../Players/PlayerPhotoPlaceholder.png';
 import ShareButton from '../Shared/UI/ShareButton';
 import './Banner.scss';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 function Banner({ athleteProfile }: { athleteProfile: AthleteProfileEntity }) {
   const imageSrc = athleteProfile.photoUrl || PlayerPhotoPlaceholder;

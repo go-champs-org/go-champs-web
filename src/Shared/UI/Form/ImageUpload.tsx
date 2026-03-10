@@ -91,12 +91,14 @@ interface ImageUploadProps
   extends FieldRenderProps<FileReference | string, HTMLElement> {
   imageType: ApiUploadFileType;
   initialFileReference?: FileReference;
+  id?: string;
 }
 
 function ImageUpload({
   imageType,
   initialFileReference,
-  input
+  input,
+  id = 'fileInput'
 }: ImageUploadProps) {
   const [src, setSrc] = useState<string | null>(null);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
@@ -227,9 +229,9 @@ function ImageUpload({
         accept="image/*"
         onChange={onSelectFile}
         style={{ display: 'none' }}
-        id="fileInput"
+        id={id}
       />
-      <label htmlFor="fileInput" className="image-placeholder">
+      <label htmlFor={id} className="image-placeholder">
         {fileReference ? (
           <img src={fileReference.publicUrl} alt="Uploaded" />
         ) : (

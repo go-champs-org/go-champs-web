@@ -10,7 +10,8 @@ import {
   tournamentBySlug,
   tournamentLoading,
   patchingTournament,
-  tournamentPlayerStatsForSelectInput
+  tournamentPlayerStatsForSelectInput,
+  shouldTournamentHaveLicensingBilling
 } from '../Tournaments/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
 import { default as TournamentForm, FormLoading } from '../Tournaments/Form';
@@ -26,10 +27,12 @@ import { Mutator } from 'final-form';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 import { getSports } from '../Sports/effects';
 import { SportEntity } from '../Sports/state';
+import { sports } from '../Sports/selectors';
+import { Link } from 'react-router-dom';
+import withSports from './support/withSports';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   isPatchingTournament: boolean;
-  isSportsLoading: boolean;
   organization: OrganizationEntity;
   selectInputPlayerStats: SelectOptionType[];
   sports: SportEntity[];
@@ -57,13 +60,12 @@ const mapStateToProps = (
   return {
     ...props,
     isPatchingTournament: patchingTournament(state.tournaments),
-    isSportsLoading: false,
     organization: organizationBySlug(state.organizations, organizationSlug),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
       tournamentSlug
     ),
-    sports: [],
+    sports: sports(state.sports),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -94,9 +96,7 @@ type TournamentEditProps = ConnectedProps<typeof connector>;
 
 const TournamentEdit: React.FC<TournamentEditProps> = ({
   isPatchingTournament,
-  isSportsLoading,
   match,
-  getSports,
   tournament,
   tournamentLoading,
   selectInputPlayerStats,
@@ -109,10 +109,26 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-12">
+          <div className="column is-4">
             <h2 className="subtitle">
               <Trans>editTournament</Trans>
             </h2>
+          </div>
+
+          <div className="column is-8 has-text-right">
+            {shouldTournamentHaveLicensingBilling(tournament) && (
+              <Link to={`${backUrl}/LicensingBilling`}>
+                <button className="button is-info is-outlined is-small">
+                  <span className="icon">
+                    <i className="fas fa-certificate"></i>
+                  </span>
+
+                  <span>
+                    <Trans>license</Trans>
+                  </span>
+                </button>
+              </Link>
+            )}
           </div>
 
           <div className="column is-12">
@@ -132,13 +148,11 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
                   <TournamentForm
                     {...props}
                     backUrl={backUrl}
-                    getSports={getSports}
                     isLoading={isPatchingTournament}
                     organizationSlug={organizationSlug}
                     push={props.form.mutators.push}
                     selectInputPlayerStats={selectInputPlayerStats}
                     sports={sports}
-                    isSportsLoading={isSportsLoading}
                   />
                 )}
               />
@@ -163,4 +177,8 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
   );
 };
 
-export default connector(withTournament<TournamentEditProps>(TournamentEdit));
+export default connector(
+  withSports<TournamentEditProps>(
+    withTournament<TournamentEditProps>(TournamentEdit)
+  )
+);

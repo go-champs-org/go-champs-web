@@ -43,6 +43,12 @@ interface ApiGame {
   youtube_code?: string;
 }
 
+export interface ApiTournamentSponsor {
+  name: string;
+  link: string;
+  logo_url: string;
+}
+
 export interface ApiGameWithDepedencies extends ApiGame {
   away_team?: ApiTeam;
   home_team?: ApiTeam;
@@ -393,6 +399,7 @@ export interface ApiOfficial {
   id: string;
   name: string;
   license_number?: string;
+  federation?: string;
   username: string;
 }
 
@@ -470,7 +477,9 @@ export interface ApiTournament {
   facebook?: string;
   has_aggregated_player_stats?: boolean;
   instagram?: string;
+  logo_url?: string;
   site_url?: string;
+  sponsors?: ApiTournamentSponsor[];
   twitter?: string;
   player_stats?: ApiPlayerStatResponse[];
   team_stats?: ApiTeamStat[];
@@ -777,7 +786,9 @@ export type ApiUploadFileType =
   | 'player-photos'
   | 'registration-consents'
   | 'team-logos'
-  | 'organization-logos';
+  | 'organization-logos'
+  | 'tournament-logos'
+  | 'tournament-sponsor-logos';
 
 export interface ApiUploadPostRequest {
   filename: string;
@@ -876,4 +887,76 @@ export interface ApiAthleteProfileResponse {
 
 export interface ApiAthleteProfilesResponse {
   data: ApiAthleteProfile[];
+}
+
+export interface ApiBillingAgreementRequestData {
+  plan_slug: string;
+  selected_campaign_slugs: string[];
+  due_day: number;
+  signed_at: string;
+  billing_contract_slug: string;
+  country_code: string;
+}
+
+export interface ApiBillingAgreement {
+  active: boolean;
+  agreed_amount: string | null;
+  due_day: number;
+  plan: ApiPlan & {
+    active: boolean;
+    description: string;
+    name: string;
+    sport: any;
+    sport_id: string;
+  };
+  plan_id: string;
+  selected_campaigns: string[];
+  signed_at: string;
+  tournament_id: string;
+  username: string;
+}
+
+export interface ApiBillingAgreementRequest {
+  billing_agreement: ApiBillingAgreementRequestData;
+}
+
+export interface ApiBillingAgreementResponse {
+  data: ApiBillingAgreement[];
+}
+
+export interface ApiBillingContract {
+  content: string;
+  slug: string;
+}
+
+export interface ApiBillingContractResponse {
+  data: ApiBillingContract;
+}
+
+export interface ApiBillingContractsResponse {
+  data: ApiBillingContract[];
+}
+
+export interface ApiPlan {
+  slug: string;
+  amount: string;
+}
+
+export interface ApiPlansResponse {
+  data: ApiPlan[];
+}
+
+export interface ApiCampaign {
+  amount: string;
+  name: string;
+  slug: string;
+}
+
+export interface ApiCampaignValidationData {
+  campaign: ApiCampaign;
+  valid: boolean;
+}
+
+export interface ApiCampaignValidationResponse {
+  data: ApiCampaignValidationData;
 }
