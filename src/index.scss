@@ -10,6 +10,10 @@ body {
 @import './Shared/styles/bulmaSettings.scss';
 @import './Theme/theme.scss';
 
+// ThemeV2 styles
+@import './Shared/styles/colorsV2.scss';
+@import './ThemeV2/theme.scss';
+
 html {
   overflow: auto;
 }

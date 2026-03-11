@@ -1,0 +1,265 @@
+@import '../Shared/styles/colorsV2.scss';
+
+// ThemeV2 Root Wrapper
+.theme-v2-root {
+  font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+  background-color: var(--theme-v2-background);
+  color: var(--theme-v2-text);
+}
+
+// Utility Classes for ThemeV2
+.themed-v2-bg {
+  background-color: var(--theme-v2-background);
+}
+
+.themed-v2-bg-secondary {
+  background-color: var(--theme-v2-backgroundSecondary);
+}
+
+.themed-v2-bg-tertiary {
+  background-color: var(--theme-v2-backgroundTertiary);
+}
+
+.themed-v2-text {
+  color: var(--theme-v2-text);
+}
+
+.themed-v2-text-secondary {
+  color: var(--theme-v2-textSecondary);
+}
+
+.themed-v2-text-inverted {
+  color: var(--theme-v2-textInverted);
+}
+
+.themed-v2-border {
+  border-color: var(--theme-v2-border);
+}
+
+.themed-v2-shadow {
+  box-shadow: 0 4px 20px var(--theme-v2-shadow);
+}
+
+.themed-v2-shadow-light {
+  box-shadow: 0 2px 8px var(--theme-v2-shadowLight);
+}
+
+// Button Styles for ThemeV2
+.theme-v2-root {
+  .button-v2 {
+    background-color: var(--theme-v2-button);
+    color: var(--theme-v2-buttonText);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+
+    &:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.button-v2-outline {
+      background-color: transparent;
+      color: var(--theme-v2-primary);
+      border: 2px solid var(--theme-v2-primary);
+
+      &:hover {
+        background-color: var(--theme-v2-primary);
+        color: var(--theme-v2-buttonText);
+      }
+    }
+
+    &.button-v2-secondary {
+      background-color: var(--theme-v2-secondary);
+    }
+
+    &.button-v2-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    &.button-v2-large {
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+    }
+  }
+}
+
+// Card Styles for ThemeV2
+.theme-v2-root {
+  .card-v2 {
+    background-color: var(--theme-v2-backgroundSecondary);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px var(--theme-v2-shadowLight);
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 6px 28px var(--theme-v2-shadow);
+    }
+
+    &.card-v2-bordered {
+      border: 1px solid var(--theme-v2-border);
+    }
+  }
+}
+
+// Link Styles for ThemeV2
+// Scoped to content areas to avoid conflicts with component-specific links
+.theme-v2-root {
+  .theme-v2-content a:not([class]),
+  .link-v2 {
+    color: var(--theme-v2-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--theme-v2-textHover);
+    }
+  }
+}
+
+// Typography Styles for ThemeV2
+.theme-v2-root {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--theme-v2-text);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+  }
+
+  h6 {
+    font-size: 1rem;
+  }
+
+  p {
+    color: var(--theme-v2-text);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .text-v2-secondary {
+    color: var(--theme-v2-textSecondary);
+  }
+
+  .text-v2-muted {
+    color: var(--theme-v2-textSecondary);
+    opacity: 0.8;
+  }
+}
+
+// Input Styles for ThemeV2
+.theme-v2-root {
+  input,
+  textarea,
+  select {
+    background-color: var(--theme-v2-backgroundSecondary);
+    color: var(--theme-v2-text);
+    border: 1px solid var(--theme-v2-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: var(--theme-v2-textPlaceholder);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--theme-v2-primary);
+      box-shadow: 0 0 0 3px rgba(166, 205, 99, 0.1);
+    }
+  }
+}
+
+// Status Colors for ThemeV2
+.theme-v2-root {
+  .status-v2-success {
+    color: var(--theme-v2-success);
+  }
+
+  .status-v2-warning {
+    color: var(--theme-v2-warning);
+  }
+
+  .status-v2-error {
+    color: var(--theme-v2-error);
+  }
+
+  .status-v2-info {
+    color: var(--theme-v2-info);
+  }
+
+  .bg-v2-success {
+    background-color: var(--theme-v2-success);
+    color: var(--theme-v2-textInverted);
+  }
+
+  .bg-v2-warning {
+    background-color: var(--theme-v2-warning);
+    color: var(--theme-v2-textInverted);
+  }
+
+  .bg-v2-error {
+    background-color: var(--theme-v2-error);
+    color: var(--theme-v2-textInverted);
+  }
+
+  .bg-v2-info {
+    background-color: var(--theme-v2-info);
+    color: var(--theme-v2-textInverted);
+  }
+}
+
+// Responsive Utilities
+@media (max-width: 768px) {
+  .theme-v2-root {
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
+}
