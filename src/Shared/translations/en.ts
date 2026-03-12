@@ -126,6 +126,7 @@ export default {
     invites: 'Invites',
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
+    gameNumber: 'Game number',
     games: 'Games',
     gameResultType: {
       automatic: 'Automatic',

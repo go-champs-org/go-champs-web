@@ -128,6 +128,7 @@ export default {
     invites: 'Convites',
     isGameFinished: 'Jogo encerrado',
     isInProgress: 'Em progresso',
+    gameNumber: 'Número do jogo',
     games: 'Partidas',
     gameResultType: {
       automatic: 'Automático',

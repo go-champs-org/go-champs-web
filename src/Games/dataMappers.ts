@@ -56,6 +56,7 @@ export const mapApiGameToGameEntity = (
   isFinished: apiGame.is_finished,
   location: apiGame.location,
   city: apiGame.city ? apiGame.city : '',
+  number: apiGame.number ? apiGame.number : '',
   officials: apiGame.officials
     ? apiGame.officials.map(mapApiGameOfficialToGameOfficialEntity)
     : [],
@@ -89,6 +90,7 @@ export const mapGameEntityToApiGamePostRequest = (
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
     city: game.city ? game.city : '',
+    number: game.number ? game.number : '',
     officials:
       game.officials && game.officials.length > 0
         ? game.officials.map(mapGameOfficialEntityToApiGameOfficial)
@@ -124,6 +126,7 @@ export const mapGameEntityToApiGamePatchRequest = (
     is_finished: game.isFinished,
     location: game.location ? game.location : '',
     city: game.city ? game.city : '',
+    number: game.number ? game.number : '',
     officials:
       game.officials && game.officials.length > 0
         ? game.officials.map(mapGameOfficialEntityToApiGameOfficial)

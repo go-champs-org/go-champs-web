@@ -414,6 +414,21 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">
+            <Trans>gameNumber</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="number"
+              component={StringInput}
+              type="text"
+              placeholder="Game number"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
             <Trans>resultType</Trans>
           </label>
 
@@ -487,8 +502,7 @@ const Form: React.FC<FormProps> = ({
               <Trans>addAsset</Trans>
             </button>
           </CollapsibleCard>
-        </div>
-        <div className="field">
+
           <CollapsibleCard titleElement={t('officials')}>
             <FieldArray name="officials">
               {({ fields }) =>
