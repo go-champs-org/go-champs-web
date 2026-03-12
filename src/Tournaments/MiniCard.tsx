@@ -42,7 +42,9 @@ function MiniCard({ tournament, togglePin, isPinned = false }: MiniCardProps) {
             </button>
           )}
         </header>
-        <span className="name">{tournament.organization.name}</span>
+        <div className="organization-name">
+          <span className="name">{tournament.organization.name}</span>
+        </div>
       </div>
     </Link>
   );

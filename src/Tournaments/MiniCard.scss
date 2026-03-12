@@ -49,16 +49,20 @@ a:has(.tournament-mini-card) {
     }
   }
 
-  .name {
-    display: flex;
-    justify-content: left;
+  .organization-name {
     width: 100%;
-    margin: 1rem 0;
-    font-weight: 600;
-    text-wrap: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: grid;
 
-    color: var(--theme-primary);
+    .name {
+      display: block;
+      width: 100%;
+      margin: 1rem 0;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      color: var(--theme-primary);
+    }
   }
 }
