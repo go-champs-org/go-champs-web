@@ -1,5 +1,9 @@
 @import '../Shared/styles/colorsV2.scss';
 
+main {
+  background-color: unset;
+}
+
 // ThemeV2 Root Wrapper
 .theme-v2-root {
   font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI',
