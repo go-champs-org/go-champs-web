@@ -17,8 +17,16 @@ import { default as EliminationView } from '../Eliminations/View';
 import { PhaseTypes } from '../Phases/state';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import TopBreadcrumbs from '../Tournaments/Common/TopBreadcrumbs';
-import { useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { organizationBySlug } from '../Organizations/selectors';
+import { AuthenticatedAndMemberWrapper } from '../Shared/UI/AdminWrapper';
+import {
+  tournamentBySlug,
+  shouldTournamentHaveLicensingBilling,
+  billingAgreementByTournamentSlug,
+  billingAgreementLoading as billingAgreementLoadingSelector
+} from '../Tournaments/selectors';
+import { Trans } from 'react-i18next';
 
 interface OwnProps {
   organizationSlug: string;
@@ -40,7 +48,13 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     phases: sortedPhases(state.phases),
     draws: draws(state.draws),
     eliminations: sortedEliminations(state.eliminations),
-    teams: state.teams.teams
+    teams: state.teams.teams,
+    tournament: tournamentBySlug(state.tournaments, props.tournamentSlug),
+    billingAgreement: billingAgreementByTournamentSlug(
+      state.tournaments,
+      props.tournamentSlug
+    ),
+    billingAgreementLoading: billingAgreementLoadingSelector(state.tournaments)
   };
 };
 
@@ -49,6 +63,8 @@ const connector = connect(mapStateToProps);
 type PhaseHomeProps = ConnectedProps<typeof connector> & OwnProps;
 
 const PhaseHome: React.FC<PhaseHomeProps> = ({
+  billingAgreement,
+  billingAgreementLoading,
   draws,
   eliminations,
   gameDates,
@@ -60,6 +76,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
   phase,
   phases,
   teams,
+  tournament,
   tournamentSlug
 }) => {
   const route = useRouteMatch();
@@ -96,6 +113,24 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
           tournamentSlug={tournamentSlug}
         />
       </div>
+
+      <AuthenticatedAndMemberWrapper organization={organization}>
+        {shouldTournamentHaveLicensingBilling(tournament) &&
+          !billingAgreementLoading &&
+          !billingAgreement && (
+            <div className="column is-12">
+              <div className="notification is-primary has-text-info">
+                <Trans>noPlanSelectedWarning</Trans>{' '}
+                <Link
+                  to={`/${organizationSlug}/${tournamentSlug}/LicensingBilling`}
+                >
+                  <Trans>clickHere</Trans>
+                </Link>{' '}
+                <Trans>toSignContractAndSelectPlan</Trans>
+              </div>
+            </div>
+          )}
+      </AuthenticatedAndMemberWrapper>
 
       <div className="phase-home column is-12">
         <div className="columns is-multiline">
