@@ -126,7 +126,8 @@ describe('patchGameSuccess', () => {
     },
     info: 'updated info',
     isFinished: true,
-    location: 'updated location'
+    location: 'updated location',
+    number: 'updated number'
   });
 
   const updateState: GameState = {
@@ -150,7 +151,8 @@ describe('patchGameSuccess', () => {
         },
         info: 'first info',
         isFinished: false,
-        location: 'first location'
+        location: 'first location',
+        number: 'first number'
       }
     }
   };
@@ -181,7 +183,8 @@ describe('patchGameSuccess', () => {
       },
       info: 'updated info',
       isFinished: true,
-      location: 'updated location'
+      location: 'updated location',
+      number: 'updated number'
     });
   });
 
@@ -203,7 +206,8 @@ describe('patchGameSuccess', () => {
             name: 'some-home-team'
           },
           info: 'some info',
-          location: 'some location'
+          location: 'some location',
+          number: 'some number'
         }
       }
     };
@@ -224,7 +228,8 @@ describe('patchGameSuccess', () => {
         name: 'some-home-team'
       },
       info: 'some info',
-      location: 'some location'
+      location: 'some location',
+      number: 'some number'
     });
   });
 });
@@ -265,6 +270,7 @@ describe('postGameSuccess', () => {
       stats: {}
     },
     location: 'first location',
+    number: 'first number',
     isFinished: true
   });
 
@@ -294,6 +300,7 @@ describe('postGameSuccess', () => {
         stats: {}
       },
       location: 'first location',
+      number: 'first number',
       isFinished: true
     });
   });
@@ -317,7 +324,8 @@ describe('postGameSuccess', () => {
             name: 'some-home-team',
             stats: {}
           },
-          location: 'some location'
+          location: 'some location',
+          number: 'some number'
         }
       }
     };
@@ -339,7 +347,8 @@ describe('postGameSuccess', () => {
         name: 'some-home-team',
         stats: {}
       },
-      location: 'some location'
+      location: 'some location',
+      number: 'some number'
     });
   });
 });
@@ -378,6 +387,7 @@ describe('getGameSuccess', () => {
     },
     phaseId: 'phase-id',
     location: 'first location',
+    number: 'first number',
     isFinished: true
   });
 
@@ -405,6 +415,7 @@ describe('getGameSuccess', () => {
       },
       phaseId: 'phase-id',
       location: 'first location',
+      number: 'first number',
       isFinished: true
     });
   });
@@ -442,7 +453,8 @@ describe('getGamesByFilterSuccess', () => {
         id: 'first-home-team-id',
         name: 'first-home-team'
       },
-      location: 'first location'
+      location: 'first location',
+      number: 'first number'
     },
     {
       id: 'second-id',
@@ -458,7 +470,8 @@ describe('getGamesByFilterSuccess', () => {
         id: 'second-home-team-id',
         name: 'second-home-team'
       },
-      location: 'second location'
+      location: 'second location',
+      number: 'second number'
     },
     {
       id: 'third-id',
@@ -467,7 +480,8 @@ describe('getGamesByFilterSuccess', () => {
       datetime: '2019-06-22T03:21:21.248Z',
       homeScore: null,
       homeTeam: null,
-      location: 'third location'
+      location: 'third location',
+      number: 'third number'
     }
   ]);
 
@@ -492,7 +506,8 @@ describe('getGamesByFilterSuccess', () => {
         id: 'first-home-team-id',
         name: 'first-home-team'
       },
-      location: 'first location'
+      location: 'first location',
+      number: 'first number'
     });
     expect(newState.games['second-id']).toEqual({
       id: 'second-id',
@@ -508,7 +523,8 @@ describe('getGamesByFilterSuccess', () => {
         id: 'second-home-team-id',
         name: 'second-home-team'
       },
-      location: 'second location'
+      location: 'second location',
+      number: 'second number'
     });
   });
 });

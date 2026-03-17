@@ -56,6 +56,7 @@ const DEFAULT_GAME: GameEntity = {
   info: 'Game info',
   isFinished: false,
   location: 'Game Location',
+  number: '',
   phaseId: 'phase-id',
   liveState: 'not_started',
   youTubeCode: ''

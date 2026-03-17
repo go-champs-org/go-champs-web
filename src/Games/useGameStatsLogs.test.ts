@@ -50,6 +50,7 @@ const mockGameStatic: GameEntity = {
   info: '',
   isFinished: false,
   location: '',
+  number: '',
   phaseId: 'phase-1',
   liveState: 'not_started',
   youTubeCode: ''

@@ -50,6 +50,7 @@ export interface GameEntity {
   info: string;
   isFinished: boolean;
   location: string;
+  number: string;
   officials: GameOfficialEntity[];
   phaseId: string;
   liveState: ApiGameLiveState;
@@ -90,6 +91,7 @@ export const DEFAULT_GAME: GameEntity = {
   isFinished: false,
   liveState: GAME_LIVE_STATE.NOT_STARTED,
   location: '',
+  number: '',
   officials: [],
   phaseId: '',
   youTubeCode: '',

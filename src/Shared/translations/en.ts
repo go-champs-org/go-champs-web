@@ -35,6 +35,9 @@ export default {
     useAgreementAcceptedSuccessfully: 'Use agreement accepted successfully!',
     useAgreementAlreadyAccepted: 'Use Agreement already accepted',
     useContractSlug: 'Contract Slug',
+    noPlanSelectedWarning:
+      'Game creation will be prevented without a plan selected.',
+    toSignContractAndSelectPlan: 'to sign the contract and select a plan.',
     by: 'by',
     byGoChampsTeam: 'by Go Champs team',
     campaign: 'Campaign',
@@ -126,6 +129,7 @@ export default {
     invites: 'Invites',
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
+    gameNumber: 'Game number',
     games: 'Games',
     gameResultType: {
       automatic: 'Automatic',

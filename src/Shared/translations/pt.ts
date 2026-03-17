@@ -36,6 +36,10 @@ export default {
     useAgreementAcceptedSuccessfully: 'Contrato de uso aceito com sucesso!',
     useAgreementAlreadyAccepted: 'Contrato de uso já aceito',
     useContractSlug: 'Código do Contrato',
+    noPlanSelectedWarning:
+      'A criação de jogos será bloqueada a partir de 23/03 sem um plano selecionado.',
+    toSignContractAndSelectPlan:
+      'para assinar o contrato e selecionar um plano.',
     by: 'por',
     byGoChampsTeam: 'pela equipe Go Champs',
     campaign: 'Campanha',
@@ -128,6 +132,7 @@ export default {
     invites: 'Convites',
     isGameFinished: 'Jogo encerrado',
     isInProgress: 'Em progresso',
+    gameNumber: 'Número do jogo',
     games: 'Partidas',
     gameResultType: {
       automatic: 'Automático',
