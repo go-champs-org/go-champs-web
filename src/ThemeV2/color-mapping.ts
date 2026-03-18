@@ -5,6 +5,7 @@ export const scssColorMappingV2 = {
   // Neutrals
   '$neutral-100': '#ffffff',
   '$neutral-300': '#FAFAEE',
+  '$neutral-400': '#d9d9d9',
   '$neutral-500': '#4a4a4a',
   '$neutral-700': '#2c2c2c',
   '$neutral-900': '#1d1d1b',
@@ -37,7 +38,7 @@ export const themeColorMappingV2 = {
     textPlaceholder: '$neutral-500',
     textSecondary: '$neutral-500',
     textInverted: '$neutral-100',
-    border: '$neutral-500',
+    border: '$neutral-400',
     navbar: '$neutral-950',
     navbarText: '$neutral-100',
     navbarHover: '$accent-a',

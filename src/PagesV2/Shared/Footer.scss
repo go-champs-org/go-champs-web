@@ -2,35 +2,50 @@
 
 .footer-v2 {
   background-color: var(--theme-v2-background);
-  padding: 3rem 2rem;
+  padding: 2rem 1rem;
   margin-top: auto;
+
+  @media (min-width: 769px) {
+    padding: 3rem 2rem;
+  }
 }
 
 .footer-v2-container {
   max-width: 1440px;
+  border-top: 1px solid var(--theme-v2-border);
+  padding-top: 2rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+
+  @media (min-width: 769px) {
+    padding-top: 4rem;
+    gap: 2rem;
+  }
 }
 
 .footer-v2-social {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+
+  @media (min-width: 769px) {
+    gap: 2rem;
+  }
 }
 
 .footer-v2-social-link {
   color: var(--theme-v2-textSecondary);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   transition: all 0.2s ease;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
 
   &:hover {
@@ -42,6 +57,12 @@
   &:active {
     transform: translateY(0);
   }
+
+  @media (min-width: 769px) {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .footer-v2-text {
@@ -50,10 +71,14 @@
 }
 
 .footer-v2-attribution {
-  font-size: 1rem;
+  font-size: 0.9375rem;
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: var(--theme-v2-text);
+
+  @media (min-width: 769px) {
+    font-size: 1rem;
+  }
 }
 
 .footer-v2-heart {
@@ -78,9 +103,23 @@
 }
 
 .footer-v2-license {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   margin-bottom: 0.5rem;
   opacity: 0.9;
+
+  @media (min-width: 769px) {
+    font-size: 0.875rem;
+  }
+}
+
+.footer-v2-link {
+  color: var(--theme-v2-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .footer-v2-build {
@@ -90,30 +129,5 @@
   em {
     font-style: normal;
     font-weight: 600;
-  }
-}
-
-// Mobile Styles
-@media (max-width: 768px) {
-  .footer-v2 {
-    padding: 2rem 1rem;
-  }
-
-  .footer-v2-social {
-    gap: 1.5rem;
-  }
-
-  .footer-v2-social-link {
-    font-size: 1.25rem;
-    width: 36px;
-    height: 36px;
-  }
-
-  .footer-v2-attribution {
-    font-size: 0.9375rem;
-  }
-
-  .footer-v2-license {
-    font-size: 0.8125rem;
   }
 }

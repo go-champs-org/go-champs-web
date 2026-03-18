@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeV2Provider } from '../../ThemeV2';
 import NavBar from '../Shared/NavBar';
 import Footer from '../Shared/Footer';
-import AboutIllustration from './AboutIllustration';
+import handsOnTrophy from '../../assets/illustrations/hands-on-trophy.svg';
 import './AboutV2.scss';
 
 const AboutV2: React.FC = () => {
@@ -13,7 +13,7 @@ const AboutV2: React.FC = () => {
         <main className="about-v2-page">
           <div className="about-v2-container">
             <div className="about-v2-illustration">
-              <AboutIllustration />
+              <img src={handsOnTrophy} alt="" aria-hidden="true" />
             </div>
 
             <div className="about-v2-content-card">

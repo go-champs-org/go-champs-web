@@ -268,6 +268,8 @@ export default {
     sendYourFeedback: 'Mande seu feedback',
     sendYourFeedbackFailMsg: 'Problema ao enviar, tente mais tarde!',
     sendYourFeedbackSuccessMsg: 'Mensagem enviada com sucesso!',
+    faq: 'Perguntas Frequentes',
+    contactUs: 'Fale com a gente',
     signIn: 'Entrar',
     signInWithFacebook: 'Entre com Facebook',
     signUp: 'Novo usuário',

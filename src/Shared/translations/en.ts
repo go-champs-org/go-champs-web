@@ -261,6 +261,8 @@ export default {
     secondTeamScore: 'Second team score',
     send: 'Send it',
     sendYourFeedback: 'Send us your feedback',
+    faq: 'FAQ',
+    contactUs: 'Contact us',
     signIn: 'Sign in',
     signInWithFacebook: 'Sign in with Facebook',
     sendYourFeedbackFailMsg: 'Something went wrong, please try again later!',

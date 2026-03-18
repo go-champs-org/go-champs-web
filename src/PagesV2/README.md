@@ -146,20 +146,18 @@ export default MyFeatureV2;
 
 .myfeature-v2-page {
   flex: 1;
-  margin-top: 64px; // Height of navbar
-  padding: 4rem 2rem;
+  margin-top: 52px; // Mobile navbar height
+  padding: 1.5rem 0.75rem;
+
+  @media (min-width: 769px) {
+    margin-top: 64px;
+    padding: 4rem 2rem;
+  }
 }
 
 .myfeature-v2-container {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-// Mobile responsive
-@media (max-width: 768px) {
-  .myfeature-v2-page {
-    padding: 2rem 1rem;
-  }
 }
 ```
 
@@ -192,7 +190,7 @@ All v2 pages follow this structure:
     <NavBar /> {/* Fixed top */}
     <main className="[page]-v2-page">
       {' '}
-      {/* Flex: 1, margin-top: 64px */}
+      {/* Flex: 1, margin-top: 52px mobile / 64px desktop */}
       <div className="[page]-v2-container">
         {' '}
         {/* Max-width: 1200px */}
@@ -257,45 +255,32 @@ All v2 pages follow this structure:
 
 ## Responsive Design
 
-All v2 pages should be mobile-responsive:
+All v2 pages follow a **mobile-first** approach — base styles target mobile, `min-width` breakpoints layer on desktop enhancements:
 
 ```scss
-// Desktop first
+// Mobile-first
 .myfeature-v2-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-}
+  grid-template-columns: 1fr; // Single column on mobile
+  gap: 2rem;
 
-// Tablet
-@media (max-width: 1024px) {
-  .myfeature-v2-container {
+  @media (min-width: 769px) {
+    grid-template-columns: 1fr 1fr;
     gap: 3rem;
   }
-}
 
-// Mobile
-@media (max-width: 768px) {
-  .myfeature-v2-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-}
-
-// Small mobile
-@media (max-width: 480px) {
-  .myfeature-v2-container {
-    gap: 1rem;
+  @media (min-width: 1025px) {
+    gap: 4rem;
   }
 }
 ```
 
 ## Common Breakpoints
 
-- **Desktop**: 1200px+ (default)
-- **Tablet**: 768px - 1024px
-- **Mobile**: 480px - 768px
-- **Small Mobile**: < 480px
+- **Mobile** (base): < 480px
+- **Large mobile**: 481px+
+- **Tablet / Desktop**: 769px+
+- **Large desktop**: 1025px+
 
 ## Example Pages
 
@@ -324,7 +309,7 @@ See: [`src/PagesV2/About/AboutV2.tsx`](./About/AboutV2.tsx)
 - Wrap every v2 page with `<ThemeV2Provider>`
 - Use shared NavBar and Footer components
 - Style with CSS custom properties
-- Follow mobile-first responsive design
+- Follow **mobile-first** responsive design (`min-width` breakpoints)
 - Test both light and dark themes
 - Keep max-width: 1200px for content
 - Use semantic HTML (main, article, section, etc.)

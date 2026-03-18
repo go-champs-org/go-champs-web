@@ -1,14 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './Footer.scss';
 import { REACT_APP_BUILD_NUMBER } from '../../Shared/env';
 
 const Footer: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="footer-v2">
       <div className="footer-v2-container">
         <div className="footer-v2-social">
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/gochampsapp"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-v2-social-link"
@@ -17,25 +20,16 @@ const Footer: React.FC = () => {
             <i className="fab fa-instagram"></i>
           </a>
           <a
-            href="https://facebook.com"
+            href="https://www.youtube.com/@GoChampsApp"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-v2-social-link"
-            aria-label="Facebook"
+            aria-label="YouTube"
           >
-            <i className="fab fa-facebook"></i>
+            <i className="fab fa-youtube"></i>
           </a>
           <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-v2-social-link"
-            aria-label="Twitter"
-          >
-            <i className="fab fa-twitter"></i>
-          </a>
-          <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/company/go-champs"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-v2-social-link"
@@ -47,12 +41,33 @@ const Footer: React.FC = () => {
 
         <div className="footer-v2-text">
           <p className="footer-v2-attribution">
-            Go Champs! with <span className="footer-v2-heart">♥️</span> by Lair
-            Júnior
+            <strong>Go Champs</strong>
+            {`, ${t('with')} 💚 `}
+            {t('byGoChampsTeam')}.
           </p>
           <p className="footer-v2-license">
-            The source code is licensed MIT. The website content is licensed CC
-            BY SA 4.0.
+            {`${t('theSourceCodeIsLicensed')} `}
+            <a
+              href="https://github.com/lairjr/go-champs-web/blob/master/LICENSE"
+              className="footer-v2-link"
+            >
+              MIT
+            </a>
+            {`. ${t('theWebsiteContentIsLicensed')} `}
+            <a
+              href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+              className="footer-v2-link"
+            >
+              CC BY NC SA 4.0
+            </a>
+            .
+          </p>
+          <p className="footer-v2-attribution">
+            {t('copyright')} &copy; {new Date().getFullYear()}{' '}
+            <a href="https://gochamps.com" className="footer-v2-link">
+              Go Champs Tecnologia LTDA
+            </a>
+            {` ${t('andContributors')}. ${t('allRightsReserved')}.`}
           </p>
           <p className="footer-v2-build">
             Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
