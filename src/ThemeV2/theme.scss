@@ -1,4 +1,5 @@
 @import '../Shared/styles/colorsV2.scss';
+@import '../PagesV2/Shared/page-v2';
 
 main {
   background-color: unset;
@@ -95,25 +96,6 @@ main {
     &.button-v2-large {
       padding: 1rem 2rem;
       font-size: 1.125rem;
-    }
-  }
-}
-
-// Card Styles for ThemeV2
-.theme-v2-root {
-  .card-v2 {
-    background-color: var(--theme-v2-backgroundSecondary);
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px var(--theme-v2-shadowLight);
-    transition: box-shadow 0.3s ease;
-
-    &:hover {
-      box-shadow: 0 6px 28px var(--theme-v2-shadow);
-    }
-
-    &.card-v2-bordered {
-      border: 1px solid var(--theme-v2-border);
     }
   }
 }

@@ -2,24 +2,25 @@ import React from 'react';
 import { ThemeV2Provider } from '../../ThemeV2';
 import NavBar from '../Shared/NavBar';
 import Footer from '../Shared/Footer';
+import CardV2 from '../Shared/CardV2';
 import handsOnTrophy from '../../assets/illustrations/hands-on-trophy.svg';
 import './AboutV2.scss';
 
-const AboutV2: React.FC = () => {
+function AboutV2() {
   return (
     <ThemeV2Provider>
-      <div className="about-v2-wrapper">
+      <div className="page-v2-wrapper">
         <NavBar />
-        <main className="about-v2-page">
-          <div className="about-v2-container">
+        <main className="page-v2-main">
+          <div className="page-v2-container">
             <div className="about-v2-illustration">
               <img src={handsOnTrophy} alt="" aria-hidden="true" />
             </div>
 
-            <div className="about-v2-content-card">
-              <h1 className="about-v2-title">Sobre nós</h1>
+            <CardV2>
+              <h1 className="card-v2-title">Sobre nós</h1>
 
-              <div className="about-v2-text">
+              <div className="card-v2-content">
                 <p>
                   No GO CHAMPS, a gente vive o esporte como ele é:{' '}
                   <strong>dinâmico, competitivo e emocionante</strong>. Criamos
@@ -60,13 +61,13 @@ const AboutV2: React.FC = () => {
                   só começando.
                 </p>
               </div>
-            </div>
+            </CardV2>
           </div>
         </main>
         <Footer />
       </div>
     </ThemeV2Provider>
   );
-};
+}
 
 export default AboutV2;

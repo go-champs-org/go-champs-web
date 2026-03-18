@@ -4,7 +4,7 @@
 export const scssColorMappingV2 = {
   // Neutrals
   '$neutral-100': '#ffffff',
-  '$neutral-300': '#FAFAEE',
+  '$neutral-300': '#fafaee',
   '$neutral-400': '#d9d9d9',
   '$neutral-500': '#4a4a4a',
   '$neutral-700': '#2c2c2c',

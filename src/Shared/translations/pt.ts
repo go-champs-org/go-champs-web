@@ -186,7 +186,11 @@ export default {
     official: 'Oficial',
     officials: 'Oficiais',
     organizations: 'Organizacões',
+    or: 'Ou',
     orSignUp: 'Ou crie uma conta',
+    needAnAccount: 'Precisa criar uma conta?',
+    createAccount: 'Criar Conta',
+    recoverPassword: 'Recuperar senha',
     password: 'Senha',
     plan: 'Plano',
     plans: {
@@ -271,6 +275,9 @@ export default {
     faq: 'Perguntas Frequentes',
     contactUs: 'Fale com a gente',
     signIn: 'Entrar',
+    signInTitle: 'Entrar na minha conta',
+    signInSubtitle:
+      'Acompanhe os jogos e resultados como um verdadeiro campeão.',
     signInWithFacebook: 'Entre com Facebook',
     signUp: 'Novo usuário',
     signUpWithFacebook: 'Acesse com Facebook',

@@ -4,7 +4,7 @@ import logoWhiteName from '../../assets/logo-white-name.png';
 import logoGreen from '../../assets/logo-green.png';
 import { Trans } from 'react-i18next';
 
-const NavBar: React.FC = () => {
+function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -46,7 +46,7 @@ const NavBar: React.FC = () => {
             </a>
           </div>
           <div className="navbar-v2-actions">
-            <a href="/SignIn" className="navbar-v2-login-button button-v2">
+            <a href="/SignInV2" className="navbar-v2-login-button button-v2">
               <Trans>signIn</Trans>
             </a>
           </div>
@@ -54,6 +54,6 @@ const NavBar: React.FC = () => {
       </div>
     </nav>
   );
-};
+}
 
 export default NavBar;

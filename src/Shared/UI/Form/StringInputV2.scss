@@ -1,0 +1,69 @@
+@import '../../styles/colorsV2.scss';
+
+.string-input-v2-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.string-input-v2 {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  border: 1px solid var(--theme-v2-border);
+  border-radius: 8px;
+  background-color: var(--theme-v2-backgroundSecondary);
+  color: var(--theme-v2-text);
+  outline: none;
+  transition: border-color 0.2s ease;
+  text-align: center;
+
+  @media (min-width: 769px) {
+    text-align: left;
+  }
+
+  &::placeholder {
+    color: $neutral-400;
+  }
+
+  &:focus {
+    border-color: $accent-a;
+  }
+
+  &.is-error {
+    border-color: $status-error;
+  }
+
+  .has-toggle & {
+    padding-right: 2.75rem;
+  }
+}
+
+.string-input-v2-eye-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--theme-v2-textSecondary);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  line-height: 1;
+
+  &:hover {
+    color: var(--theme-v2-text);
+  }
+}
+
+.string-input-v2-error {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: $status-error;
+  text-align: center;
+
+  @media (min-width: 769px) {
+    text-align: left;
+  }
+}

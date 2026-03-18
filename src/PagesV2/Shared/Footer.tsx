@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import './Footer.scss';
 import { REACT_APP_BUILD_NUMBER } from '../../Shared/env';
 
-const Footer: React.FC = () => {
+function Footer() {
   const { t } = useTranslation();
 
   return (
@@ -76,6 +76,6 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;
