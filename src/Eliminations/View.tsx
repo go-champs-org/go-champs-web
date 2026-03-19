@@ -8,6 +8,7 @@ import Identifier from '../Teams/Indentifier';
 import { Trans, useTranslation } from 'react-i18next';
 
 const TeamEliminationRow: React.FC<{
+  number: number;
   baseUrl: string;
   eliminationStats: StatEntity[];
   teamStats: { [statId: string]: string };
@@ -16,6 +17,7 @@ const TeamEliminationRow: React.FC<{
   team?: TeamEntity;
   teamPlaceholder?: string;
 }> = ({
+  number,
   baseUrl,
   eliminationStats,
   team,
@@ -26,9 +28,12 @@ const TeamEliminationRow: React.FC<{
 }) => {
   const { t } = useTranslation();
   const firstColumnValue = team ? (
-    <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
-      <Identifier team={team} logoSize={24} />
-    </Link>
+    <span className="position-and-team">
+      {`${number}. `}
+      <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
+        <Identifier team={team} logoSize={24} />
+      </Link>
+    </span>
   ) : (
     <span>{teamPlaceholder}</span>
   );
@@ -50,6 +55,9 @@ const TeamEliminationRow: React.FC<{
         style={{
           paddingLeft: '0',
           width: '225px',
+          maxWidth: '225px',
+          minWidth: '120px',
+          overflow: 'hidden',
           position: 'relative'
         }}
       >
@@ -113,7 +121,9 @@ const Elimination: React.FC<EliminationProps> = ({
         <table className="table is-fullwidth is-striped is-hoverable is-narrow">
           <thead>
             <tr>
-              <th style={{ paddingLeft: '0', width: '225px' }}>
+              <th
+                style={{ paddingLeft: '0', width: '225px', minWidth: '120px' }}
+              >
                 <Trans>team</Trans>
               </th>
               {eliminationStats.map((stat: StatEntity) => (
@@ -123,10 +133,11 @@ const Elimination: React.FC<EliminationProps> = ({
           </thead>
           <tbody>
             {eliminations.teamStats.map(
-              (teamStats: EliminationTeamStatEntity) => {
+              (teamStats: EliminationTeamStatEntity, index: number) => {
                 return (
                   <TeamEliminationRow
                     key={teamStats.id}
+                    number={index + 1}
                     baseUrl={baseUrl}
                     team={teams[teamStats.teamId]}
                     teamPlaceholder={teamStats.placeholder}
