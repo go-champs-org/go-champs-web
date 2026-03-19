@@ -1,3 +1,10 @@
+import { ApiRankingCriteria } from '../Shared/httpClient/apiTypes';
+
+export enum RankingCriteria {
+  overall = 'overall',
+  headToHead = 'head_to_head'
+}
+
 export enum PhaseTypes {
   elimination = 'elimination',
   draw = 'draw'
@@ -8,6 +15,7 @@ export interface StatEntity {
   title: string;
   teamStatSource: string;
   rankingOrder: number;
+  rankingCriteria: ApiRankingCriteria;
 }
 
 export interface PhaseEntity {
@@ -50,5 +58,6 @@ export const DEFAULT_ELIMINATION_STAT: StatEntity = {
   id: '',
   title: '',
   teamStatSource: '',
-  rankingOrder: 0
+  rankingOrder: 0,
+  rankingCriteria: RankingCriteria.overall
 };

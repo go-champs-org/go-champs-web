@@ -6,7 +6,7 @@ import {
   ApiPatchAndPostStat,
   ApiPhaseBatchPatchRequest
 } from '../Shared/httpClient/apiTypes';
-import { PhaseEntity, StatEntity } from './state';
+import { PhaseEntity, RankingCriteria, StatEntity } from './state';
 
 export const mapApiEliminationStatToStatEntity = (
   apiStatEntity: ApiStat
@@ -16,7 +16,10 @@ export const mapApiEliminationStatToStatEntity = (
   teamStatSource: apiStatEntity.team_stat_source
     ? apiStatEntity.team_stat_source
     : '',
-  rankingOrder: apiStatEntity.ranking_order ? apiStatEntity.ranking_order : 0
+  rankingOrder: apiStatEntity.ranking_order ? apiStatEntity.ranking_order : 0,
+  rankingCriteria: apiStatEntity.ranking_criteria
+    ? apiStatEntity.ranking_criteria
+    : RankingCriteria.overall
 });
 
 export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
@@ -36,7 +39,10 @@ export const mapStatEntityToApiEliminationStat = (
   id: stat.id ? stat.id : undefined,
   title: stat.title,
   team_stat_source: stat.teamStatSource && stat.teamStatSource,
-  ranking_order: stat.rankingOrder ? stat.rankingOrder : 0
+  ranking_order: stat.rankingOrder ? stat.rankingOrder : 0,
+  ranking_criteria: stat.rankingCriteria
+    ? stat.rankingCriteria
+    : RankingCriteria.overall
 });
 
 export const mapPhaseEntityToApiPhasePostRequest = (

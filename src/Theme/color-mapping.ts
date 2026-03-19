@@ -18,7 +18,8 @@ export const scssColorMapping = {
   '$orange-light': '#e3c4a8',
   $white: '#f8f4f9',
   '$white-dark': '#eeeeee',
-  $black: '#1d1d1b'
+  $black: '#1d1d1b',
+  $blue: '#3e8ed0'
 };
 
 // Theme color definitions using SCSS color names

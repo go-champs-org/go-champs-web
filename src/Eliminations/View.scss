@@ -1,9 +1,26 @@
+@import '../Shared/styles/colors.scss';
+
 .elimination-info {
   padding-bottom: 1rem;
 }
 
 .group:not(:first-child) {
   padding-top: 1.25rem;
+}
+
+.group .table-container {
+  overflow: visible;
+}
+
+.head-to-head-indicator {
+  position: relative;
+  left: 8px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: $blue;
+  display: inline-block;
 }
 
 @media screen and (min-width: 1215px) {

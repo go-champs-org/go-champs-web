@@ -1,5 +1,11 @@
 import { byOrder } from './compareFunctions';
-import { PhaseEntity, PhaseState, DEFAULT_PHASE } from './state';
+import {
+  PhaseEntity,
+  PhaseState,
+  DEFAULT_PHASE,
+  RankingCriteria,
+  StatEntity
+} from './state';
 
 export const phases = (state: PhaseState): PhaseEntity[] => {
   return Object.keys(state.phases).map((key: string) => state.phases[key]);
@@ -31,3 +37,6 @@ export const postingPhase = (state: PhaseState): boolean =>
   state.isLoadingPostPhase;
 export const deletingPhase = (state: PhaseState): boolean =>
   state.isLoadingDeletePhase;
+
+export const visibleEliminationStats = (stats: StatEntity[]): StatEntity[] =>
+  stats.filter(stat => stat.rankingCriteria === RankingCriteria.overall);
