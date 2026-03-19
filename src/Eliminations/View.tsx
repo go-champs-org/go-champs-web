@@ -1,18 +1,30 @@
 import React from 'react';
-import { StatEntity } from '../Phases/state';
+import { RakingCriteria, StatEntity } from '../Phases/state';
 import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 import { Link } from 'react-router-dom';
 import Identifier from '../Teams/Indentifier';
+import { Trans, useTranslation } from 'react-i18next';
 
 const TeamEliminationRow: React.FC<{
   baseUrl: string;
   eliminationStats: StatEntity[];
   teamStats: { [statId: string]: string };
+  rankingCriteriaUsed?: string;
+  rankingStatUsed?: string;
   team?: TeamEntity;
   teamPlaceholder?: string;
-}> = ({ baseUrl, eliminationStats, team, teamPlaceholder = '', teamStats }) => {
+}> = ({
+  baseUrl,
+  eliminationStats,
+  team,
+  teamPlaceholder = '',
+  teamStats,
+  rankingCriteriaUsed,
+  rankingStatUsed
+}) => {
+  const { t } = useTranslation();
   const firstColumnValue = team ? (
     <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
       <Identifier team={team} logoSize={24} />
@@ -20,15 +32,35 @@ const TeamEliminationRow: React.FC<{
   ) : (
     <span>{teamPlaceholder}</span>
   );
+  const isHeadToHead = rankingCriteriaUsed === RakingCriteria.headToHead;
+  const matchedStat = eliminationStats.find(
+    stat => stat.teamStatSource === rankingStatUsed
+  );
+  const fallbackTitle = matchedStat ? matchedStat.title : rankingStatUsed;
+  const rankingStatTitle = rankingStatUsed
+    ? t(`sports.basketball_5x5.team_statistics.${rankingStatUsed}.title`, {
+        defaultValue: fallbackTitle,
+        keySeparator: '.'
+      })
+    : fallbackTitle;
   return (
     <tr>
       <td
         style={{
           paddingLeft: '0',
-          width: '225px'
+          width: '225px',
+          position: 'relative'
         }}
       >
         {firstColumnValue}
+        {isHeadToHead && (
+          <span
+            className="head-to-head-indicator has-tooltip-right"
+            data-tooltip={t('headToHeadRankTooltip', {
+              stat: rankingStatTitle
+            })}
+          />
+        )}
       </td>
 
       {eliminationStats.map((stat: StatEntity) => (
@@ -80,7 +112,9 @@ const Elimination: React.FC<EliminationProps> = ({
         <table className="table is-fullwidth is-striped is-hoverable is-narrow">
           <thead>
             <tr>
-              <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>
+              <th style={{ paddingLeft: '0', width: '225px' }}>
+                <Trans>team</Trans>
+              </th>
               {eliminationStats.map((stat: StatEntity) => (
                 <EliminationHeader key={stat.id} tournamentStat={stat} />
               ))}
@@ -97,6 +131,8 @@ const Elimination: React.FC<EliminationProps> = ({
                     teamPlaceholder={teamStats.placeholder}
                     eliminationStats={eliminationStats}
                     teamStats={teamStats.stats}
+                    rankingCriteriaUsed={teamStats.rankingCriteriaUsed}
+                    rankingStatUsed={teamStats.rankingStatUsed}
                   />
                 );
               }

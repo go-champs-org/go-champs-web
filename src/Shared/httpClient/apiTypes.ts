@@ -151,6 +151,8 @@ export interface ApiEliminationTeamStatPatchAndPost {
   placeholder?: string;
   team_id?: string;
   stats?: { [stat_id: string]: string };
+  ranking_criteria_used?: ApiRankingCriteria;
+  ranking_stat_used?: string;
 }
 
 export interface ApiEliminationTeamStatResponse
@@ -164,6 +166,8 @@ export interface ApiElimination {
   info?: string;
   title?: string;
   team_stats: ApiEliminationTeamStatResponse[];
+  ranking_criteria_used?: ApiRankingCriteria;
+  ranking_stat_used?: string;
 }
 
 export interface ApiEliminationPost {
@@ -308,11 +312,14 @@ export interface ApiOrganizationsResponse {
   data: ApiOrganization[];
 }
 
+export type ApiRankingCriteria = 'overall' | 'head_to_head';
+
 export interface ApiPatchAndPostStat {
   id?: string;
   title: string;
   team_stat_source?: string;
   ranking_order?: number;
+  ranking_criteria?: ApiRankingCriteria;
 }
 
 export interface ApiStat {
@@ -320,6 +327,7 @@ export interface ApiStat {
   title: string;
   team_stat_source?: string;
   ranking_order?: number;
+  ranking_criteria?: ApiRankingCriteria;
 }
 
 export interface ApiCoach {

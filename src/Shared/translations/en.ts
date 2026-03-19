@@ -219,6 +219,12 @@ export default {
     perGame: 'Per game',
     primaryColor: 'Primary color',
     rankingOrder: 'Ranking order',
+    rankingCriteria: 'Ranking criteria',
+    rankingCriteriaOptions: {
+      overall: 'Overall',
+      headToHead: 'Head to head'
+    },
+    headToHeadRankTooltip: 'Head to head on: {{stat}}',
     registrations: 'Registrations',
     registrationResponse: {
       statuses: {
@@ -778,6 +784,152 @@ export default {
           turnovers_per_game: {
             abbreviation: 'TO',
             title: 'Turnovers per game'
+          }
+        },
+        team_statistics: {
+          assists: {
+            abbreviation: 'AST',
+            title: 'Assists'
+          },
+          blocks: {
+            abbreviation: 'BLK',
+            title: 'Blocks'
+          },
+          disqualifications: {
+            abbreviation: 'DISQ',
+            title: 'Disqualifications'
+          },
+          ejections: {
+            abbreviation: 'EJ',
+            title: 'Ejections'
+          },
+          efficiency: {
+            abbreviation: 'EFF',
+            title: 'Efficiency'
+          },
+          field_goal_percentage: {
+            abbreviation: 'FG%',
+            title: 'Field Goal Percentage'
+          },
+          field_goals_attempted: {
+            abbreviation: 'FGA',
+            title: 'Field Goals Attempted'
+          },
+          field_goals_made: {
+            abbreviation: 'FGM',
+            title: 'Field Goals Made'
+          },
+          field_goals_missed: {
+            abbreviation: 'FGMI',
+            title: 'Field Goals Missed'
+          },
+          fouls: {
+            abbreviation: 'FLS',
+            title: 'Fouls'
+          },
+          fouls_flagrant: {
+            abbreviation: 'FLF',
+            title: 'Flagrant Fouls'
+          },
+          fouls_personal: {
+            abbreviation: 'FLP',
+            title: 'Personal Fouls'
+          },
+          fouls_technical: {
+            abbreviation: 'FLT',
+            title: 'Technical Fouls'
+          },
+          fouls_unsportsmanlike: {
+            abbreviation: 'FLU',
+            title: 'Unsportsmanlike Fouls'
+          },
+          free_throw_percentage: {
+            abbreviation: 'FT%',
+            title: 'Free Throw Percentage'
+          },
+          free_throws_attempted: {
+            abbreviation: 'FTA',
+            title: 'Free Throws Attempted'
+          },
+          free_throws_made: {
+            abbreviation: 'FTM',
+            title: 'Free Throws Made'
+          },
+          free_throws_missed: {
+            abbreviation: 'FTMI',
+            title: 'Free Throws Missed'
+          },
+          game_played: {
+            abbreviation: 'GP',
+            title: 'Games Played'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Points'
+          },
+          rebounds: {
+            abbreviation: 'REB',
+            title: 'Rebounds'
+          },
+          rebounds_defensive: {
+            abbreviation: 'DREB',
+            title: 'Defensive Rebounds'
+          },
+          rebounds_offensive: {
+            abbreviation: 'OREB',
+            title: 'Offensive Rebounds'
+          },
+          steals: {
+            abbreviation: 'STL',
+            title: 'Steals'
+          },
+          three_point_field_goal_percentage: {
+            abbreviation: '3P%',
+            title: 'Three Point Field Goal Percentage'
+          },
+          three_point_field_goals_attempted: {
+            abbreviation: '3PA',
+            title: 'Three Point Field Goals Attempted'
+          },
+          three_point_field_goals_made: {
+            abbreviation: '3PM',
+            title: 'Three Point Field Goals Made'
+          },
+          three_point_field_goals_missed: {
+            abbreviation: '3PMI',
+            title: 'Three Point Field Goals Missed'
+          },
+          turnovers: {
+            abbreviation: 'TO',
+            title: 'Turnovers'
+          },
+          game_walkover: {
+            abbreviation: 'WO',
+            title: 'Walkover'
+          },
+          fiba_group_points: {
+            abbreviation: 'FGP',
+            title: 'FIBA Group Points'
+          },
+          wins: {
+            abbreviation: 'W',
+            title: 'Wins'
+          },
+          losses: {
+            abbreviation: 'L',
+            title: 'Losses'
+          },
+          points_against: {
+            abbreviation: 'PA',
+            title: 'Points Against'
+          },
+          points_balance: {
+            abbreviation: 'PB',
+            title: 'Points Balance'
+          },
+          game_walkover_against: {
+            abbreviation: 'WOA',
+            title: 'Against Walkover'
           }
         }
       }

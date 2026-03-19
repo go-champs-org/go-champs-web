@@ -231,6 +231,12 @@ export default {
     },
     remove: 'Remover',
     rankingOrder: 'Ordem de rankemento',
+    rankingCriteria: 'Critério de classificação',
+    rankingCriteriaOptions: {
+      overall: 'Geral',
+      headToHead: 'Confronto direto'
+    },
+    headToHeadRankTooltip: 'Confronto direto por: {{stat}}',
     registrationForm: 'Formulário de inscricão',
     registrationFormSuccessMsg: 'Inscricão realizada com sucesso!',
     repeatPassword: 'Senha novamente',
@@ -784,6 +790,152 @@ export default {
           turnovers_per_game: {
             abbreviation: 'TO',
             title: 'Erros por jogo'
+          }
+        },
+        team_statistics: {
+          assists: {
+            abbreviation: 'AST',
+            title: 'Assistências'
+          },
+          blocks: {
+            abbreviation: 'BLK',
+            title: 'Tocos'
+          },
+          disqualifications: {
+            abbreviation: 'DISQ',
+            title: 'Desqualificações'
+          },
+          ejections: {
+            abbreviation: 'EJ',
+            title: 'Expulsões'
+          },
+          efficiency: {
+            abbreviation: 'EFF',
+            title: 'Eficiência'
+          },
+          field_goal_percentage: {
+            abbreviation: 'FG%',
+            title: 'Porcentagem de arremessos'
+          },
+          field_goals_attempted: {
+            abbreviation: 'FGA',
+            title: 'Arremessos tentados'
+          },
+          field_goals_made: {
+            abbreviation: 'FGM',
+            title: 'Arremessos certos'
+          },
+          field_goals_missed: {
+            abbreviation: 'FGMI',
+            title: 'Arremessos errados'
+          },
+          fouls: {
+            abbreviation: 'FLS',
+            title: 'Faltas'
+          },
+          fouls_flagrant: {
+            abbreviation: 'FLF',
+            title: 'Faltas flagrantes'
+          },
+          fouls_personal: {
+            abbreviation: 'FLP',
+            title: 'Faltas pessoais'
+          },
+          fouls_technical: {
+            abbreviation: 'FLT',
+            title: 'Faltas técnicas'
+          },
+          fouls_unsportsmanlike: {
+            abbreviation: 'FLU',
+            title: 'Faltas anti-desportivas'
+          },
+          free_throw_percentage: {
+            abbreviation: 'FT%',
+            title: 'Porcentagem de lances livres'
+          },
+          free_throws_attempted: {
+            abbreviation: 'FTA',
+            title: 'Lances livres tentados'
+          },
+          free_throws_made: {
+            abbreviation: 'FTM',
+            title: 'Lances livres certos'
+          },
+          free_throws_missed: {
+            abbreviation: 'FTMI',
+            title: 'Lances livres errados'
+          },
+          game_played: {
+            abbreviation: 'GP',
+            title: 'Jogos disputados'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Pontos'
+          },
+          rebounds: {
+            abbreviation: 'REB',
+            title: 'Rebotes'
+          },
+          rebounds_defensive: {
+            abbreviation: 'DREB',
+            title: 'Rebotes defensivos'
+          },
+          rebounds_offensive: {
+            abbreviation: 'OREB',
+            title: 'Rebotes ofensivos'
+          },
+          steals: {
+            abbreviation: 'STL',
+            title: 'Roubadas'
+          },
+          three_point_field_goal_percentage: {
+            abbreviation: '3P%',
+            title: 'Porcentagem de arremessos de 3 pontos'
+          },
+          three_point_field_goals_attempted: {
+            abbreviation: '3PA',
+            title: 'Arremessos de 3 pontos tentados'
+          },
+          three_point_field_goals_made: {
+            abbreviation: '3PM',
+            title: 'Arremessos de 3 pontos certos'
+          },
+          three_point_field_goals_missed: {
+            abbreviation: '3PMI',
+            title: 'Arremessos de 3 pontos errados'
+          },
+          turnovers: {
+            abbreviation: 'TO',
+            title: 'Erros'
+          },
+          game_walkover: {
+            abbreviation: 'WO',
+            title: 'Walkover'
+          },
+          fiba_group_points: {
+            abbreviation: 'FGP',
+            title: 'Pontos FIBA'
+          },
+          wins: {
+            abbreviation: 'W',
+            title: 'Vitórias'
+          },
+          losses: {
+            abbreviation: 'L',
+            title: 'Derrotas'
+          },
+          points_against: {
+            abbreviation: 'PA',
+            title: 'Pontos sofridos'
+          },
+          points_balance: {
+            abbreviation: 'PB',
+            title: 'Saldo de pontos'
+          },
+          game_walkover_against: {
+            abbreviation: 'WOA',
+            title: 'Walkover sofrido'
           }
         }
       }

@@ -14,7 +14,11 @@ const mapApiEliminationTeamStatToTeamStat = (
   id: apiTeamStats.id,
   placeholder: apiTeamStats.placeholder ? apiTeamStats.placeholder : '',
   stats: apiTeamStats.stats ? apiTeamStats.stats : {},
-  teamId: apiTeamStats.team_id ? apiTeamStats.team_id : ''
+  teamId: apiTeamStats.team_id ? apiTeamStats.team_id : '',
+  rankingCriteriaUsed: apiTeamStats.ranking_criteria_used,
+  rankingStatUsed: apiTeamStats.ranking_stat_used
+    ? apiTeamStats.ranking_stat_used
+    : ''
 });
 
 const mapTeamStatToApiEliminationTeamStatPatchAndPost = (

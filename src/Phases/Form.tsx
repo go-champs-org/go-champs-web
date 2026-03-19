@@ -9,7 +9,10 @@ import {
   StatEntity
 } from './state';
 import { FieldArray } from 'react-final-form-arrays';
-import { PHASE_TYPES_OPTIONS_TRANSLATED } from './constans';
+import {
+  PHASE_TYPES_OPTIONS_TRANSLATED,
+  RANKING_CRITERIA_OPTIONS
+} from './constans';
 import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 import { Link } from 'react-router-dom';
 import LoadingButton from '../Shared/UI/LoadingButton';
@@ -29,6 +32,9 @@ const StatForm: React.FC<StatFormProps> = ({
   onRemove,
   teamStatOptions
 }) => {
+  const rankingCriteriaOptions = useTranslatedSelectOptions(
+    RANKING_CRITERIA_OPTIONS
+  );
   return (
     <tr>
       <td
@@ -58,6 +64,15 @@ const StatForm: React.FC<StatFormProps> = ({
           name={`${name}.rankingOrder`}
           component={StringInput}
           type="number"
+        />
+      </td>
+
+      <td>
+        <Field
+          name={`${name}.rankingCriteria`}
+          render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            <SelectInput {...props} options={rankingCriteriaOptions} />
+          )}
         />
       </td>
 
@@ -168,6 +183,9 @@ const Form: React.FC<FormProps> = ({
                   </th>
                   <th>
                     <Trans>rankingOrder</Trans>
+                  </th>
+                  <th>
+                    <Trans>rankingCriteria</Trans>
                   </th>
                   <th
                     style={{

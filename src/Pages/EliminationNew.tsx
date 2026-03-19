@@ -10,7 +10,10 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import arrayMutators from 'final-form-arrays';
 import withPhase from './support/withPhase';
 import { PhaseEntity } from '../Phases/state';
-import { phaseByIdOrDefault } from '../Phases/selectors';
+import {
+  phaseByIdOrDefault,
+  visibleEliminationStats
+} from '../Phases/selectors';
 import { Mutator } from 'final-form';
 import { teamsForSelectInput } from '../Teams/selectors';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
@@ -107,7 +110,7 @@ const EliminationNew: React.FC<EliminationNewProps> = ({
                   isLoading={isPostingElimination}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
-                  stats={phase.eliminationStats}
+                  stats={visibleEliminationStats(phase.eliminationStats)}
                 />
               )}
             />
