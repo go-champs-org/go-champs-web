@@ -6,7 +6,7 @@ import {
   ApiPatchAndPostStat,
   ApiPhaseBatchPatchRequest
 } from '../Shared/httpClient/apiTypes';
-import { PhaseEntity, RakingCriteria, StatEntity } from './state';
+import { PhaseEntity, RankingCriteria, StatEntity } from './state';
 
 export const mapApiEliminationStatToStatEntity = (
   apiStatEntity: ApiStat
@@ -19,7 +19,7 @@ export const mapApiEliminationStatToStatEntity = (
   rankingOrder: apiStatEntity.ranking_order ? apiStatEntity.ranking_order : 0,
   rankingCriteria: apiStatEntity.ranking_criteria
     ? apiStatEntity.ranking_criteria
-    : RakingCriteria.overall
+    : RankingCriteria.overall
 });
 
 export const mapApiPhaseToPhaseEntity = (apiPhase: ApiPhase): PhaseEntity => ({
@@ -42,7 +42,7 @@ export const mapStatEntityToApiEliminationStat = (
   ranking_order: stat.rankingOrder ? stat.rankingOrder : 0,
   ranking_criteria: stat.rankingCriteria
     ? stat.rankingCriteria
-    : RakingCriteria.overall
+    : RankingCriteria.overall
 });
 
 export const mapPhaseEntityToApiPhasePostRequest = (

@@ -1,5 +1,5 @@
 import { visibleEliminationStats } from './selectors';
-import { RakingCriteria, StatEntity } from './state';
+import { RankingCriteria, StatEntity } from './state';
 
 const makeStat = (
   id: string,
@@ -18,28 +18,19 @@ describe('visibleEliminationStats', () => {
   });
 
   it('keeps stat with rankingCriteria overall', () => {
-    const stat = makeStat('1', RakingCriteria.overall);
-    expect(visibleEliminationStats([stat])).toEqual([stat]);
-  });
-
-  it('keeps stat with rankingCriteria undefined', () => {
-    const stat = makeStat('2', undefined as any);
+    const stat = makeStat('1', RankingCriteria.overall);
     expect(visibleEliminationStats([stat])).toEqual([stat]);
   });
 
   it('filters out stat with rankingCriteria head_to_head', () => {
-    const stat = makeStat('3', RakingCriteria.headToHead);
+    const stat = makeStat('3', RankingCriteria.headToHead);
     expect(visibleEliminationStats([stat])).toEqual([]);
   });
 
-  it('handles mixed array keeping only overall and undefined criteria', () => {
-    const overall = makeStat('1', RakingCriteria.overall);
-    const h2h = makeStat('2', RakingCriteria.headToHead);
-    const noValue = makeStat('3', undefined as any);
+  it('handles mixed array keeping only overall criteria', () => {
+    const overall = makeStat('1', RankingCriteria.overall);
+    const h2h = makeStat('2', RankingCriteria.headToHead);
 
-    expect(visibleEliminationStats([overall, h2h, noValue])).toEqual([
-      overall,
-      noValue
-    ]);
+    expect(visibleEliminationStats([overall, h2h])).toEqual([overall]);
   });
 });

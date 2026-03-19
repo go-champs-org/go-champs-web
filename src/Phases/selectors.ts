@@ -3,7 +3,7 @@ import {
   PhaseEntity,
   PhaseState,
   DEFAULT_PHASE,
-  RakingCriteria,
+  RankingCriteria,
   StatEntity
 } from './state';
 
@@ -39,7 +39,4 @@ export const deletingPhase = (state: PhaseState): boolean =>
   state.isLoadingDeletePhase;
 
 export const visibleEliminationStats = (stats: StatEntity[]): StatEntity[] =>
-  stats.filter(
-    stat =>
-      !stat.rankingCriteria || stat.rankingCriteria === RakingCriteria.overall
-  );
+  stats.filter(stat => stat.rankingCriteria === RankingCriteria.overall);

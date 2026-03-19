@@ -1,6 +1,6 @@
 import { ApiRankingCriteria } from '../Shared/httpClient/apiTypes';
 
-export enum RakingCriteria {
+export enum RankingCriteria {
   overall = 'overall',
   headToHead = 'head_to_head'
 }
@@ -59,5 +59,5 @@ export const DEFAULT_ELIMINATION_STAT: StatEntity = {
   title: '',
   teamStatSource: '',
   rankingOrder: 0,
-  rankingCriteria: RakingCriteria.overall
+  rankingCriteria: RankingCriteria.overall
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { RakingCriteria, StatEntity } from '../Phases/state';
+import { RankingCriteria, StatEntity } from '../Phases/state';
 import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
@@ -11,7 +11,7 @@ const TeamEliminationRow: React.FC<{
   baseUrl: string;
   eliminationStats: StatEntity[];
   teamStats: { [statId: string]: string };
-  rankingCriteriaUsed?: string;
+  rankingCriteriaUsed: EliminationTeamStatEntity['rankingCriteriaUsed'];
   rankingStatUsed?: string;
   team?: TeamEntity;
   teamPlaceholder?: string;
@@ -32,7 +32,8 @@ const TeamEliminationRow: React.FC<{
   ) : (
     <span>{teamPlaceholder}</span>
   );
-  const isHeadToHead = rankingCriteriaUsed === RakingCriteria.headToHead;
+  const isHeadToHead =
+    rankingCriteriaUsed === RankingCriteria.headToHead && !!rankingStatUsed;
   const matchedStat = eliminationStats.find(
     stat => stat.teamStatSource === rankingStatUsed
   );
@@ -42,7 +43,7 @@ const TeamEliminationRow: React.FC<{
         defaultValue: fallbackTitle,
         keySeparator: '.'
       })
-    : fallbackTitle;
+    : '';
   return (
     <tr>
       <td

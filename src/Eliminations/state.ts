@@ -1,5 +1,4 @@
-import { RANKING_CRITERIA_OPTIONS } from '../Phases/constans';
-import { RakingCriteria } from '../Phases/state';
+import { RankingCriteria } from '../Phases/state';
 import { ApiRankingCriteria } from '../Shared/httpClient/apiTypes';
 
 export interface EliminationTeamStatEntity {
@@ -49,5 +48,5 @@ export const DEFAULT_ELIMINATION_TEAM_STAT: EliminationTeamStatEntity = {
   teamId: '',
   stats: {},
   rankingStatUsed: '',
-  rankingCriteriaUsed: RakingCriteria.overall
+  rankingCriteriaUsed: RankingCriteria.overall
 };

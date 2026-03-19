@@ -1,4 +1,4 @@
-import { PhaseTypes, RakingCriteria } from './state';
+import { PhaseTypes, RankingCriteria } from './state';
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 
 export const PHASE_TYPES_OPTIONS_TRANSLATED: TranslateSelectOptionType[] = [
@@ -7,9 +7,9 @@ export const PHASE_TYPES_OPTIONS_TRANSLATED: TranslateSelectOptionType[] = [
 ];
 
 export const RANKING_CRITERIA_OPTIONS: TranslateSelectOptionType[] = [
-  { value: RakingCriteria.overall, labelKey: 'rankingCriteriaOptions.overall' },
+  { value: RankingCriteria.overall, labelKey: 'rankingCriteriaOptions.overall' },
   {
-    value: RakingCriteria.headToHead,
+    value: RankingCriteria.headToHead,
     labelKey: 'rankingCriteriaOptions.headToHead'
   }
 ];
