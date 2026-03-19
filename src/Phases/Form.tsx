@@ -71,10 +71,11 @@ const StatForm: React.FC<StatFormProps> = ({
         <Field
           name={`${name}.rankingCriteria`}
           render={(
-            props: FieldRenderProps<StatEntity['rankingCriteria'], HTMLSelectElement>
-          ) => (
-            <SelectInput {...props} options={rankingCriteriaOptions} />
-          )}
+            props: FieldRenderProps<
+              StatEntity['rankingCriteria'],
+              HTMLSelectElement
+            >
+          ) => <SelectInput {...props} options={rankingCriteriaOptions} />}
         />
       </td>
 

@@ -409,6 +409,8 @@ describe('getPhaseSuccess', () => {
           {
             id: 'first-team-stat-id',
             placeholder: '',
+            rankingCriteriaUsed: undefined,
+            rankingStatUsed: '',
             stats: {
               'first-stat-id': 'first-team-stat-value'
             },
@@ -417,6 +419,8 @@ describe('getPhaseSuccess', () => {
           {
             id: 'second-team-stat-id',
             placeholder: '',
+            rankingCriteriaUsed: undefined,
+            rankingStatUsed: '',
             stats: {
               'first-stat-id': 'second-team-stat-value'
             },
@@ -441,6 +445,8 @@ describe('getPhaseSuccess', () => {
           {
             id: 'first-team-stat-id',
             placeholder: 'first placeholder',
+            rankingCriteriaUsed: undefined,
+            rankingStatUsed: '',
             stats: {
               'first-stat-id': 'first-team-stat-value'
             },
@@ -449,6 +455,8 @@ describe('getPhaseSuccess', () => {
           {
             id: 'second-team-stat-id',
             placeholder: 'second placeholder',
+            rankingCriteriaUsed: undefined,
+            rankingStatUsed: '',
             stats: {
               'first-stat-id': 'second-team-stat-value'
             },

@@ -151,13 +151,13 @@ export interface ApiEliminationTeamStatPatchAndPost {
   placeholder?: string;
   team_id?: string;
   stats?: { [stat_id: string]: string };
-  ranking_criteria_used?: ApiRankingCriteria;
-  ranking_stat_used?: string;
 }
 
 export interface ApiEliminationTeamStatResponse
   extends ApiEliminationTeamStatPatchAndPost {
   id: string;
+  ranking_criteria_used?: ApiRankingCriteria;
+  ranking_stat_used?: string;
 }
 
 export interface ApiElimination {
