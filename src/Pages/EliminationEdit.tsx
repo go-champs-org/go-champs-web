@@ -9,7 +9,10 @@ import { StoreState } from '../store';
 import arrayMutators from 'final-form-arrays';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
-import { phaseByIdOrDefault } from '../Phases/selectors';
+import {
+  phaseByIdOrDefault,
+  visibleEliminationStats
+} from '../Phases/selectors';
 import {
   eliminationById,
   patchingElimination
@@ -86,7 +89,7 @@ const EliminationEdit: React.FC<EliminationEditProps> = ({
                   isLoading={isPacthingElimination}
                   push={props.form.mutators.push}
                   selectInputTeams={selectInputTeams}
-                  stats={phase.eliminationStats}
+                  stats={visibleEliminationStats(phase.eliminationStats)}
                 />
               )}
             />

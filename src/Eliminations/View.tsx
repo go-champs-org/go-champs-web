@@ -1,34 +1,75 @@
 import React from 'react';
-import { StatEntity } from '../Phases/state';
+import { RankingCriteria, StatEntity } from '../Phases/state';
 import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
 import { Link } from 'react-router-dom';
 import Identifier from '../Teams/Indentifier';
+import { Trans, useTranslation } from 'react-i18next';
 
 const TeamEliminationRow: React.FC<{
+  number: number;
   baseUrl: string;
   eliminationStats: StatEntity[];
   teamStats: { [statId: string]: string };
+  rankingCriteriaUsed: EliminationTeamStatEntity['rankingCriteriaUsed'];
+  rankingStatUsed?: string;
   team?: TeamEntity;
   teamPlaceholder?: string;
-}> = ({ baseUrl, eliminationStats, team, teamPlaceholder = '', teamStats }) => {
+}> = ({
+  number,
+  baseUrl,
+  eliminationStats,
+  team,
+  teamPlaceholder = '',
+  teamStats,
+  rankingCriteriaUsed,
+  rankingStatUsed
+}) => {
+  const { t } = useTranslation();
   const firstColumnValue = team ? (
-    <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
-      <Identifier team={team} logoSize={24} />
-    </Link>
+    <span className="position-and-team">
+      {`${number}. `}
+      <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
+        <Identifier team={team} logoSize={24} />
+      </Link>
+    </span>
   ) : (
     <span>{teamPlaceholder}</span>
   );
+  const isHeadToHead =
+    rankingCriteriaUsed === RankingCriteria.headToHead && !!rankingStatUsed;
+  const matchedStat = eliminationStats.find(
+    stat => stat.teamStatSource === rankingStatUsed
+  );
+  const fallbackTitle = matchedStat ? matchedStat.title : rankingStatUsed;
+  const rankingStatTitle = rankingStatUsed
+    ? t(`sports.basketball_5x5.team_statistics.${rankingStatUsed}.title`, {
+        defaultValue: fallbackTitle,
+        keySeparator: '.'
+      })
+    : '';
   return (
     <tr>
       <td
         style={{
           paddingLeft: '0',
-          width: '225px'
+          width: '225px',
+          maxWidth: '225px',
+          minWidth: '120px',
+          overflow: 'hidden',
+          position: 'relative'
         }}
       >
         {firstColumnValue}
+        {isHeadToHead && (
+          <span
+            className="head-to-head-indicator has-tooltip-right"
+            data-tooltip={t('headToHeadRankTooltip', {
+              stat: rankingStatTitle
+            })}
+          />
+        )}
       </td>
 
       {eliminationStats.map((stat: StatEntity) => (
@@ -80,7 +121,11 @@ const Elimination: React.FC<EliminationProps> = ({
         <table className="table is-fullwidth is-striped is-hoverable is-narrow">
           <thead>
             <tr>
-              <th style={{ paddingLeft: '0', width: '225px' }}>Equipe</th>
+              <th
+                style={{ paddingLeft: '0', width: '225px', minWidth: '120px' }}
+              >
+                <Trans>team</Trans>
+              </th>
               {eliminationStats.map((stat: StatEntity) => (
                 <EliminationHeader key={stat.id} tournamentStat={stat} />
               ))}
@@ -88,15 +133,18 @@ const Elimination: React.FC<EliminationProps> = ({
           </thead>
           <tbody>
             {eliminations.teamStats.map(
-              (teamStats: EliminationTeamStatEntity) => {
+              (teamStats: EliminationTeamStatEntity, index: number) => {
                 return (
                   <TeamEliminationRow
                     key={teamStats.id}
+                    number={index + 1}
                     baseUrl={baseUrl}
                     team={teams[teamStats.teamId]}
                     teamPlaceholder={teamStats.placeholder}
                     eliminationStats={eliminationStats}
                     teamStats={teamStats.stats}
+                    rankingCriteriaUsed={teamStats.rankingCriteriaUsed}
+                    rankingStatUsed={teamStats.rankingStatUsed}
                   />
                 );
               }

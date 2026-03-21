@@ -1,9 +1,41 @@
+@import '../Shared/styles/colors.scss';
+
 .elimination-info {
   padding-bottom: 1rem;
 }
 
 .group:not(:first-child) {
   padding-top: 1.25rem;
+}
+
+.group .table-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.position-and-team {
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+
+  .team-with-logo {
+    margin-left: 0.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.head-to-head-indicator {
+  position: relative;
+  left: 8px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: $blue;
+  display: inline-block;
 }
 
 @media screen and (min-width: 1215px) {

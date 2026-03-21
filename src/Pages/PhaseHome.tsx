@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react';
 import withPhase from './support/withPhase';
-import { phaseByIdOrDefault, sortedPhases } from '../Phases/selectors';
+import {
+  phaseByIdOrDefault,
+  sortedPhases,
+  visibleEliminationStats
+} from '../Phases/selectors';
 import { StoreState } from '../store';
 import { connect, ConnectedProps } from 'react-redux';
 import {
@@ -88,7 +92,7 @@ const PhaseHome: React.FC<PhaseHomeProps> = ({
       <EliminationView
         {...{
           baseUrl: tournamentBaseUrl,
-          eliminationStats: phase.eliminationStats,
+          eliminationStats: visibleEliminationStats(phase.eliminationStats),
           eliminations,
           teams
         }}
