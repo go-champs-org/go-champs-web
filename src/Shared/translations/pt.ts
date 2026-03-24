@@ -40,6 +40,8 @@ export default {
       'A criação de jogos será bloqueada a partir de 23/03 sem um plano selecionado.',
     toSignContractAndSelectPlan:
       'para assinar o contrato e selecionar um plano.',
+    activeBillingAgreementRequired:
+      'Um contrato de faturamento ativo é necessário para criar jogos neste torneio',
     by: 'por',
     byGoChampsTeam: 'pela equipe Go Champs',
     campaign: 'Campanha',

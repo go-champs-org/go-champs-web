@@ -38,6 +38,8 @@ export default {
     noPlanSelectedWarning:
       'Game creation will be prevented without a plan selected.',
     toSignContractAndSelectPlan: 'to sign the contract and select a plan.',
+    activeBillingAgreementRequired:
+      'An active billing agreement is required to create games for this tournament',
     by: 'by',
     byGoChampsTeam: 'by Go Champs team',
     campaign: 'Campaign',

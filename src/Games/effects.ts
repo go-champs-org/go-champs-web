@@ -1,4 +1,6 @@
 import { displayToast } from '../Shared/bulma/toast';
+import ApiError from '../Shared/httpClient/ApiError';
+import i18n from 'i18next';
 import {
   ExtendedRequestFilter,
   RequestFilter
@@ -62,6 +64,17 @@ export const postGame = (game: GameEntity, phaseId: string) => async (
     displayToast(`Game created!`, 'is-success');
   } catch (err) {
     dispatch(postGameFailure(err));
+
+    if (
+      err instanceof ApiError &&
+      err.payload.data &&
+      err.payload.data.errors &&
+      err.payload.data.errors.base &&
+      err.payload.data.errors.base[0] ===
+        'An active billing agreement is required to create games for this tournament'
+    ) {
+      displayToast(i18n.t('activeBillingAgreementRequired'), 'is-danger');
+    }
   }
 };
 
