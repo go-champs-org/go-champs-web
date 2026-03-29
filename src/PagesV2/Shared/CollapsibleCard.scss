@@ -1,0 +1,60 @@
+@import '../../Shared/styles/colorsV2.scss';
+
+.collapsible-card {
+  border: 1px solid var(--theme-v2-border);
+  border-radius: 12px;
+  background-color: var(--theme-v2-surface, #{$neutral-100});
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+
+  &.is-open {
+    box-shadow: 0 4px 16px var(--theme-v2-shadowLight);
+  }
+}
+
+.collapsible-card-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--theme-v2-text);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+.collapsible-card-icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  width: 1.5rem;
+  color: $accent-c;
+  line-height: 1;
+}
+
+.collapsible-card-question {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+
+  @media (min-width: 769px) {
+    font-size: 1.0625rem;
+  }
+}
+
+.collapsible-card-answer {
+  padding: 0 1.5rem 1.25rem 3.5rem;
+
+  p {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--theme-v2-textSecondary);
+    margin: 0;
+  }
+}

@@ -272,6 +272,22 @@ export default {
     send: 'Send it',
     sendYourFeedback: 'Send us your feedback',
     faq: 'FAQ',
+    faqSubtitle: 'Frequently asked questions',
+    faqQ1Question: 'What is GO CHAMPS?',
+    faqQ1Answer:
+      'GO CHAMPS is a platform to follow tournaments, games, and stats from amateur to semi-professional level — all in one place.',
+    faqQ2Question: 'Do I need an account to use it?',
+    faqQ2Answer:
+      'You can browse without an account, but creating one unlocks extra features like pinning tournaments and receiving updates.',
+    faqQ3Question: 'How do I find my tournament?',
+    faqQ3Answer:
+      'Use the search bar at the top of the page to find your tournament by name or organization.',
+    faqQ4Question: 'Are results updated in real time?',
+    faqQ4Answer:
+      'Results are updated as data is submitted by tournament organizers, keeping everything as current as possible.',
+    faqQ5Question: 'I forgot my password. What now?',
+    faqQ5Answer:
+      "Go to the Account Recovery page and enter your email. We'll send you a link to reset your password.",
     contactUs: 'Contact us',
     signIn: 'Sign in',
     signInTitle: 'Sign in to my account',

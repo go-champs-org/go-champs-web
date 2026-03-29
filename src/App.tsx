@@ -16,6 +16,7 @@ import SignInV2 from './PagesV2/SignIn/SignInV2';
 import SignUpV2 from './PagesV2/SignUp/SignUpV2';
 import AccountRecoveryV2 from './PagesV2/AccountRecovery/AccountRecoveryV2';
 import AccountResetV2 from './PagesV2/AccountReset/AccountResetV2';
+import FaqV2 from './PagesV2/FAQ/FaqV2';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -69,6 +70,7 @@ const App: React.FC = () => {
                 <Route exact path="/" component={Home} />
                 <Route path="/About" component={About} />
                 <Route path="/AboutV2" component={AboutV2} />
+                <Route path="/FaqV2" component={FaqV2} />
                 <Route
                   exact
                   sensitive

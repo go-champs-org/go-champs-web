@@ -38,7 +38,7 @@ function NavBar() {
             <a href="/AboutV2" className="navbar-v2-link">
               <Trans>aboutUs</Trans>
             </a>
-            <a href="/faq" className="navbar-v2-link">
+            <a href="/FaqV2" className="navbar-v2-link">
               <Trans>faq</Trans>
             </a>
             <a href="/contact" className="navbar-v2-link">

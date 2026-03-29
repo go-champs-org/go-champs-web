@@ -1,0 +1,32 @@
+@import '../../Shared/styles/colorsV2.scss';
+@import '../Shared/page-v2';
+
+.faq-v2-illustration {
+  display: none;
+
+  img {
+    max-width: 440px;
+    width: 100%;
+  }
+
+  @media (min-width: 769px) {
+    display: flex;
+    order: unset;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+}
+
+.faq-v2-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.faq-v2-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
