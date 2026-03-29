@@ -13,6 +13,7 @@ import AccountHome from './Pages/AccountHome';
 import About from './Pages/About';
 import AboutV2 from './PagesV2/About/AboutV2';
 import SignInV2 from './PagesV2/SignIn/SignInV2';
+import SignUpV2 from './PagesV2/SignUp/SignUpV2';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -114,6 +115,7 @@ const App: React.FC = () => {
                 />
                 <Route exact sensitive path="/UseAsApp" component={UseAsApp} />
                 <Route exact sensitive path="/SignInV2" component={SignInV2} />
+                <Route exact sensitive path="/SignUpV2" component={SignUpV2} />
                 <Route exact sensitive path="/SignIn*" component={SignIn} />
                 <Route exact sensitive path="/SignUp" component={SignUp} />
                 <Route

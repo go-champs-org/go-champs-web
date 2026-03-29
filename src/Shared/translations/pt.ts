@@ -286,7 +286,10 @@ export default {
       'Acompanhe os jogos e resultados como um verdadeiro campeão.',
     signInWithFacebook: 'Entre com Facebook',
     signUp: 'Novo usuário',
+    signUpSubtitle:
+      'Fique por dentro dos jogos e resultados tudo em um só lugar.',
     signUpWithFacebook: 'Acesse com Facebook',
+    alreadyHaveAnAccount: 'Já tem uma conta?',
     signOut: 'Sair',
     shirtName: 'Nome na camiseta',
     shirtNumber: 'Número na camiseta',

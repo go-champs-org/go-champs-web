@@ -68,7 +68,7 @@ function SignInFormV2({
       <div className="signin-form-v2-links">
         <p className="signin-form-v2-link-text">
           <Trans>needAnAccount</Trans>{' '}
-          <a href="/SignUp" className="signin-form-v2-link">
+          <a href="/SignUpV2" className="signin-form-v2-link">
             <Trans>createAccount</Trans>
           </a>
         </p>
