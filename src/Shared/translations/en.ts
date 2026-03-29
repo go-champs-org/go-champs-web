@@ -283,6 +283,9 @@ export default {
     signUpSubtitle: 'Follow games and results, all in one place.',
     signUpWithFacebook: 'Sign up with Facebook',
     alreadyHaveAnAccount: 'Already have an account?',
+    accountRecoverySubtitle:
+      "Enter your email and we'll send you a link to reset your password.",
+    rememberYourPassword: 'Remember your password?',
     signOut: 'Sign out',
     shirtName: 'Shirt name',
     shirtNumber: 'Shirt number',

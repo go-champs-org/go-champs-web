@@ -290,6 +290,9 @@ export default {
       'Fique por dentro dos jogos e resultados tudo em um só lugar.',
     signUpWithFacebook: 'Acesse com Facebook',
     alreadyHaveAnAccount: 'Já tem uma conta?',
+    accountRecoverySubtitle:
+      'Informe seu email e enviaremos um link para redefinir sua senha.',
+    rememberYourPassword: 'Lembrou sua senha?',
     signOut: 'Sair',
     shirtName: 'Nome na camiseta',
     shirtNumber: 'Número na camiseta',

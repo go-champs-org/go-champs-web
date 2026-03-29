@@ -82,7 +82,7 @@ function SignUpFormV2({
         />
       </div>
 
-      <div className="signup-form-v2-field">
+      <div className="signup-form-v2-field" style={{ alignItems: 'center' }}>
         <ReCAPTCHA
           sitekey={REACT_APP_RECAPTCHA_SITE_KEY || ''}
           onChange={recaptchaField.input.onChange}

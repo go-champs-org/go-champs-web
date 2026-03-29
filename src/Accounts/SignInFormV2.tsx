@@ -74,7 +74,7 @@ function SignInFormV2({
         </p>
         <p className="signin-form-v2-link-text">
           <Trans>forgotYourPassword</Trans>{' '}
-          <a href="/AccountRecovery" className="signin-form-v2-link">
+          <a href="/AccountRecoveryV2" className="signin-form-v2-link">
             <Trans>recoverPassword</Trans>
           </a>
         </p>
