@@ -17,6 +17,7 @@ import SignUpV2 from './PagesV2/SignUp/SignUpV2';
 import AccountRecoveryV2 from './PagesV2/AccountRecovery/AccountRecoveryV2';
 import AccountResetV2 from './PagesV2/AccountReset/AccountResetV2';
 import FaqV2 from './PagesV2/FAQ/FaqV2';
+import ContactV2 from './PagesV2/Contact/ContactV2';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -131,6 +132,12 @@ const App: React.FC = () => {
                   sensitive
                   path="/AccountResetV2"
                   component={AccountResetV2}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/ContactV2"
+                  component={ContactV2}
                 />
                 <Route exact sensitive path="/SignIn*" component={SignIn} />
                 <Route exact sensitive path="/SignUp" component={SignUp} />

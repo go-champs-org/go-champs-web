@@ -289,6 +289,7 @@ export default {
     faqQ5Answer:
       "Go to the Account Recovery page and enter your email. We'll send you a link to reset your password.",
     contactUs: 'Contact us',
+    contactSubtitle: "Have a question or feedback? We'd love to hear from you.",
     signIn: 'Sign in',
     signInTitle: 'Sign in to my account',
     signInSubtitle: 'Follow games and results like a true champion.',

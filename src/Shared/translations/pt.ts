@@ -296,6 +296,7 @@ export default {
     faqQ5Answer:
       'Acesse a página de recuperação de conta e informe seu email. Enviaremos um link para redefinir sua senha.',
     contactUs: 'Fale com a gente',
+    contactSubtitle: 'Tem alguma dúvida ou sugestão? Adoraríamos ouvir você.',
     signIn: 'Entrar',
     signInTitle: 'Entrar na minha conta',
     signInSubtitle:

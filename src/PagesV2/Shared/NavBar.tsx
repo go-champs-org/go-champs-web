@@ -41,7 +41,7 @@ function NavBar() {
             <a href="/FaqV2" className="navbar-v2-link">
               <Trans>faq</Trans>
             </a>
-            <a href="/contact" className="navbar-v2-link">
+            <a href="/ContactV2" className="navbar-v2-link">
               <Trans>contactUs</Trans>
             </a>
           </div>
