@@ -286,6 +286,9 @@ export default {
     accountRecoverySubtitle:
       "Enter your email and we'll send you a link to reset your password.",
     rememberYourPassword: 'Remember your password?',
+    accountResetSubtitle:
+      'Enter your new password to regain access to your account.',
+    newPassword: 'New password',
     signOut: 'Sign out',
     shirtName: 'Shirt name',
     shirtNumber: 'Shirt number',

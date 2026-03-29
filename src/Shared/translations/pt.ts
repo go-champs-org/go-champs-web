@@ -293,6 +293,9 @@ export default {
     accountRecoverySubtitle:
       'Informe seu email e enviaremos um link para redefinir sua senha.',
     rememberYourPassword: 'Lembrou sua senha?',
+    accountResetSubtitle:
+      'Insira sua nova senha para recuperar o acesso à sua conta.',
+    newPassword: 'Nova senha',
     signOut: 'Sair',
     shirtName: 'Nome na camiseta',
     shirtNumber: 'Número na camiseta',
