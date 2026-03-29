@@ -3,7 +3,7 @@
 .collapsible-card {
   border: 1px solid var(--theme-v2-border);
   border-radius: 12px;
-  background-color: var(--theme-v2-surface, #{$neutral-100});
+  background-color: var(--theme-v2-backgroundSecondary);
   overflow: hidden;
   transition: box-shadow 0.2s ease;
 
@@ -54,7 +54,7 @@
   p {
     font-size: 0.9375rem;
     line-height: 1.65;
-    color: var(--theme-v2-textSecondary);
+    color: var(--theme-v2-text);
     margin: 0;
   }
 }

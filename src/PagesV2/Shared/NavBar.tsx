@@ -3,9 +3,11 @@ import './NavBar.scss';
 import logoWhiteName from '../../assets/logo-white-name.png';
 import logoGreen from '../../assets/logo-green.png';
 import { Trans } from 'react-i18next';
+import { useThemeV2 } from '../../ThemeV2';
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { currentTheme, toggleTheme } = useThemeV2();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -46,6 +48,17 @@ function NavBar() {
             </a>
           </div>
           <div className="navbar-v2-actions">
+            <button
+              className="navbar-v2-theme-toggle"
+              onClick={toggleTheme}
+              aria-label={
+                currentTheme === 'dark'
+                  ? 'Switch to light mode'
+                  : 'Switch to dark mode'
+              }
+            >
+              {currentTheme === 'dark' ? '☀' : '☾'}
+            </button>
             <a href="/SignInV2" className="navbar-v2-login-button button-v2">
               <Trans>signIn</Trans>
             </a>

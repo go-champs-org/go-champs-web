@@ -76,6 +76,10 @@
   font-weight: 500;
   color: var(--theme-v2-text);
 
+  strong {
+    color: inherit;
+  }
+
   @media (min-width: 769px) {
     font-size: 1rem;
   }
