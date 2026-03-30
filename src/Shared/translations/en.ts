@@ -185,7 +185,11 @@ export default {
     official: 'Official',
     officials: 'Officials',
     organizations: 'Organizations',
+    or: 'Or',
     orSignUp: 'Or sign up',
+    needAnAccount: 'Need an account?',
+    createAccount: 'Create Account',
+    recoverPassword: 'Recover password',
     password: 'Password',
     plan: 'Plan',
     plans: {
@@ -269,12 +273,41 @@ export default {
     secondTeamScore: 'Second team score',
     send: 'Send it',
     sendYourFeedback: 'Send us your feedback',
+    faq: 'FAQ',
+    faqSubtitle: 'Frequently asked questions',
+    faqQ1Question: 'What is GO CHAMPS?',
+    faqQ1Answer:
+      'GO CHAMPS is a platform to follow tournaments, games, and stats from amateur to semi-professional level — all in one place.',
+    faqQ2Question: 'Do I need an account to use it?',
+    faqQ2Answer:
+      'You can browse without an account, but creating one unlocks extra features like pinning tournaments and receiving updates.',
+    faqQ3Question: 'How do I find my tournament?',
+    faqQ3Answer:
+      'Use the search bar at the top of the page to find your tournament by name or organization.',
+    faqQ4Question: 'Are results updated in real time?',
+    faqQ4Answer:
+      'Results are updated as data is submitted by tournament organizers, keeping everything as current as possible.',
+    faqQ5Question: 'I forgot my password. What now?',
+    faqQ5Answer:
+      "Go to the Account Recovery page and enter your email. We'll send you a link to reset your password.",
+    contactUs: 'Contact us',
+    contactSubtitle: "Have a question or feedback? We'd love to hear from you.",
     signIn: 'Sign in',
+    signInTitle: 'Sign in to my account',
+    signInSubtitle: 'Follow games and results like a true champion.',
     signInWithFacebook: 'Sign in with Facebook',
     sendYourFeedbackFailMsg: 'Something went wrong, please try again later!',
     sendYourFeedbackSuccessMsg: 'Thank you for your message!',
     signUp: 'Sign up',
+    signUpSubtitle: 'Follow games and results, all in one place.',
     signUpWithFacebook: 'Sign up with Facebook',
+    alreadyHaveAnAccount: 'Already have an account?',
+    accountRecoverySubtitle:
+      "Enter your email and we'll send you a link to reset your password.",
+    rememberYourPassword: 'Remember your password?',
+    accountResetSubtitle:
+      'Enter your new password to regain access to your account.',
+    newPassword: 'New password',
     signOut: 'Sign out',
     shirtName: 'Shirt name',
     shirtNumber: 'Shirt number',

@@ -1,0 +1,26 @@
+@import '../../Shared/styles/colorsV2.scss';
+@import '../Shared/page-v2';
+
+.account-reset-v2-page {
+  @media (min-width: 769px) {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.account-reset-v2-illustration {
+  display: none;
+
+  img {
+    max-width: 440px;
+    width: 100%;
+  }
+
+  @media (min-width: 769px) {
+    display: flex;
+    order: unset;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+}

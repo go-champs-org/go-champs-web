@@ -1,0 +1,33 @@
+@import '../../Shared/styles/colorsV2.scss';
+@import '../Shared/page-v2';
+
+.about-v2-illustration {
+  order: 1;
+  display: none;
+
+  @media (min-width: 769px) {
+    display: flex;
+    order: unset;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+}
+
+.about-v2-stats {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--theme-v2-border);
+  font-size: 1.0625rem;
+
+  strong {
+    color: var(--theme-v2-primary);
+    font-weight: 700;
+  }
+
+  @media (min-width: 769px) {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    font-size: 1.125rem;
+  }
+}

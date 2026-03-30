@@ -188,7 +188,11 @@ export default {
     official: 'Oficial',
     officials: 'Oficiais',
     organizations: 'Organizacões',
+    or: 'Ou',
     orSignUp: 'Ou crie uma conta',
+    needAnAccount: 'Precisa criar uma conta?',
+    createAccount: 'Criar Conta',
+    recoverPassword: 'Recuperar senha',
     password: 'Senha',
     plan: 'Plano',
     plans: {
@@ -276,10 +280,41 @@ export default {
     sendYourFeedback: 'Mande seu feedback',
     sendYourFeedbackFailMsg: 'Problema ao enviar, tente mais tarde!',
     sendYourFeedbackSuccessMsg: 'Mensagem enviada com sucesso!',
+    faq: 'Perguntas Frequentes',
+    faqSubtitle: 'Acompanhe as perguntas frequentes',
+    faqQ1Question: 'O que é o GO CHAMPS?',
+    faqQ1Answer:
+      'GO CHAMPS é uma plataforma para acompanhar campeonatos, jogos e estatísticas do amador ao semiprofissional — tudo em um só lugar.',
+    faqQ2Question: 'Preciso de conta para usar?',
+    faqQ2Answer:
+      'Você pode navegar sem conta, mas criar uma conta libera recursos extras como fixar campeonatos e receber atualizações.',
+    faqQ3Question: 'Como encontro meu campeonato?',
+    faqQ3Answer:
+      'Use a barra de busca no topo da página para encontrar seu campeonato pelo nome ou organização.',
+    faqQ4Question: 'Os resultados são em tempo real?',
+    faqQ4Answer:
+      'Os resultados são atualizados conforme os dados são enviados pelos organizadores do campeonato.',
+    faqQ5Question: 'Esqueci minha senha. E agora?',
+    faqQ5Answer:
+      'Acesse a página de recuperação de conta e informe seu email. Enviaremos um link para redefinir sua senha.',
+    contactUs: 'Fale com a gente',
+    contactSubtitle: 'Tem alguma dúvida ou sugestão? Adoraríamos ouvir você.',
     signIn: 'Entrar',
+    signInTitle: 'Entrar na minha conta',
+    signInSubtitle:
+      'Acompanhe os jogos e resultados como um verdadeiro campeão.',
     signInWithFacebook: 'Entre com Facebook',
     signUp: 'Novo usuário',
+    signUpSubtitle:
+      'Fique por dentro dos jogos e resultados tudo em um só lugar.',
     signUpWithFacebook: 'Acesse com Facebook',
+    alreadyHaveAnAccount: 'Já tem uma conta?',
+    accountRecoverySubtitle:
+      'Informe seu email e enviaremos um link para redefinir sua senha.',
+    rememberYourPassword: 'Lembrou sua senha?',
+    accountResetSubtitle:
+      'Insira sua nova senha para recuperar o acesso à sua conta.',
+    newPassword: 'Nova senha',
     signOut: 'Sair',
     shirtName: 'Nome na camiseta',
     shirtNumber: 'Número na camiseta',
