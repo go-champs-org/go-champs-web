@@ -104,7 +104,9 @@ describe('mapApiBillingAgreementToBillingAgreementEntity', () => {
       selected_campaigns: ['campaign1', 'campaign2'],
       signed_at: '2023-01-15T10:00:00Z',
       tournament_id: 'tournament-id-123',
-      username: 'user@example.com'
+      username: 'user@example.com',
+      trial_active: true,
+      games_remaining: 10
     };
 
     const result = mapApiBillingAgreementToBillingAgreementEntity(
@@ -127,7 +129,9 @@ describe('mapApiBillingAgreementToBillingAgreementEntity', () => {
       selectedCampaigns: ['campaign1', 'campaign2'],
       signedAt: '2023-01-15T10:00:00Z',
       tournamentId: 'tournament-id-123',
-      username: 'user@example.com'
+      username: 'user@example.com',
+      trialActive: true,
+      gamesRemaining: 10
     });
   });
 

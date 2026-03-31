@@ -133,6 +133,7 @@ export default {
     isInProgress: 'Is in progress',
     gameNumber: 'Game number',
     games: 'Games',
+    gamesRemaining: 'Games remaining',
     gameResultType: {
       automatic: 'Automatic',
       manual: 'Manual',
@@ -1010,6 +1011,7 @@ export default {
     tournaments: 'Tournaments',
     tournamentNotFound: 'Tournament not found',
     totals: 'Totals',
+    trialActive: 'Trial active',
     triCode: 'Tri code',
     type: 'Type',
     with: 'with',
@@ -1021,6 +1023,7 @@ export default {
     whatIsGoChampsLine3: 'Take a look at our sample tournament by clicking',
     youNeedCreateTeams: 'You need to create teams.',
     youNeedCreatePhases: 'You need to create phases.',
+    unlimited: 'Unlimited',
     url: 'URL',
     uppercase: '{{uppercase, uppercase}}',
     upload: 'Upload',

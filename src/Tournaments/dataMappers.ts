@@ -109,7 +109,12 @@ export const mapApiBillingAgreementToBillingAgreementEntity = (
   selectedCampaigns: apiBillingAgreement.selected_campaigns,
   signedAt: apiBillingAgreement.signed_at,
   tournamentId: apiBillingAgreement.tournament_id,
-  username: apiBillingAgreement.username
+  username: apiBillingAgreement.username,
+  trialActive: apiBillingAgreement.trial_active || false,
+  gamesRemaining:
+    apiBillingAgreement.games_remaining !== undefined
+      ? apiBillingAgreement.games_remaining
+      : null
 });
 
 export const mapApiTournamentSponsorToTournamentSponsorEntity = (

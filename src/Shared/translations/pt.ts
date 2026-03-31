@@ -136,6 +136,7 @@ export default {
     isInProgress: 'Em progresso',
     gameNumber: 'Número do jogo',
     games: 'Partidas',
+    gamesRemaining: 'Jogos restantes',
     gameResultType: {
       automatic: 'Automático',
       manual: 'Manual',
@@ -1018,6 +1019,7 @@ export default {
     tournaments: 'Torneios',
     tournamentNotFound: 'Torneio não encontrado',
     totals: 'Totais',
+    trialActive: 'Teste ativo',
     triCode: 'Sigla (3 letras)',
     type: 'Tipo',
     with: 'com',
@@ -1029,6 +1031,7 @@ export default {
     whatIsGoChampsLine3: 'Acesse nosso torneio exemplo clicando',
     youNeedCreateTeams: 'Você precisa criar times.',
     youNeedCreatePhases: 'Você precisa criar fases.',
+    unlimited: 'Ilimitado',
     url: 'URL',
     upload: 'Enviar',
     selectOfficial: 'Selecionar oficial',
