@@ -22,6 +22,7 @@ import { required } from '../Shared/UI/Form/Validators/commonValidators';
 
 export interface BillingFormData {
   acceptedTerms: boolean;
+  isTrial: boolean;
   plan_slug?: string;
   selected_campaign_slugs?: string[];
   due_day?: number;
@@ -33,6 +34,7 @@ interface BillingAgreementFormProps extends FormRenderProps<BillingFormData> {
   showSuccess: boolean;
   billingContract?: ApiBillingContract;
   plans?: ApiPlan[];
+  onTrialToggle: (isTrial: boolean) => void;
 }
 
 function BillingAgreementForm({
@@ -45,7 +47,8 @@ function BillingAgreementForm({
   submitFailed,
   submitError,
   billingContract,
-  plans = []
+  plans = [],
+  onTrialToggle
 }: BillingAgreementFormProps): React.ReactElement {
   const { t } = useTranslation();
   const [campaignInputs, setCampaignInputs] = useState<string[]>(['']);
@@ -115,15 +118,13 @@ function BillingAgreementForm({
   // Debounced validation function
   const debouncedValidation = useCallback(
     (planSlug: string, campaignSlugs: string[]) => {
-      // Clear previous timeout
       if (validationTimeoutRef.current) {
         clearTimeout(validationTimeoutRef.current);
       }
 
-      // Set new timeout
       validationTimeoutRef.current = setTimeout(() => {
         validateCampaignSlugs(planSlug, campaignSlugs);
-      }, 500); // Wait 500ms after user stops typing
+      }, 500);
     },
     [validateCampaignSlugs]
   );
@@ -131,11 +132,9 @@ function BillingAgreementForm({
   const updateCampaignInputs = useCallback(
     (newInputs: string[]) => {
       setCampaignInputs(newInputs);
-      // Update form values
       const validCampaigns = newInputs.filter(slug => slug.trim() !== '');
       values.selected_campaign_slugs = validCampaigns;
 
-      // Validate if plan is selected (debounced)
       if (values.plan_slug && validCampaigns.length > 0) {
         debouncedValidation(values.plan_slug, validCampaigns);
       }
@@ -186,31 +185,39 @@ function BillingAgreementForm({
     };
   }, []);
 
-  // Check if all campaigns are valid
+  // Re-fetch plans when isTrial changes
+  useEffect(() => {
+    onTrialToggle(values.isTrial);
+  }, [values.isTrial]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Check if all campaigns are valid (always true when trial is enabled)
   const allCampaignsValid = useMemo(() => {
+    if (values.isTrial) return true;
     const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
-    if (validCampaigns.length === 0) return true; // No campaigns is valid
+    if (validCampaigns.length === 0) return true;
     return validCampaigns.every(
       slug =>
         campaignValidations[slug] && campaignValidations[slug].valid === true
     );
-  }, [campaignInputs, campaignValidations]);
+  }, [values.isTrial, campaignInputs, campaignValidations]);
 
-  // Calculate total campaign discount
+  // Calculate total campaign discount (always 0 when trial is enabled)
   const totalCampaignDiscount = useMemo(() => {
+    if (values.isTrial) return 0;
     const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
     return validCampaigns.reduce((total, slug) => {
       const campaign = campaignValidations[slug];
       return total + (campaign && campaign.valid ? campaign.amount || 0 : 0);
     }, 0);
-  }, [campaignInputs, campaignValidations]);
+  }, [values.isTrial, campaignInputs, campaignValidations]);
 
-  // Calculate final price per game
+  // Final price is always 0 when trial is enabled
   const finalPricePerGame = useMemo(() => {
+    if (values.isTrial) return 0;
     if (!selectedPlan) return 0;
     const planAmount = parseAmount(selectedPlan.amount);
     return Math.max(0, planAmount - totalCampaignDiscount);
-  }, [selectedPlan, totalCampaignDiscount]);
+  }, [values.isTrial, selectedPlan, totalCampaignDiscount]);
 
   return (
     <div className="column is-12">
@@ -243,6 +250,23 @@ function BillingAgreementForm({
           )}
         </div>
 
+        {/* Trial checkbox */}
+        <div className="field">
+          <div className="control">
+            <Field
+              name="isTrial"
+              type="checkbox"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <CheckboxInput {...props} id="isTrial" />
+              )}
+            />
+
+            <label className="label" htmlFor="isTrial">
+              <Trans>isTrialTournament</Trans>
+            </label>
+          </div>
+        </div>
+
         <div className="field">
           <label className="label">
             <Trans>plan</Trans>
@@ -263,7 +287,9 @@ function BillingAgreementForm({
           {selectedPlan && (
             <div className="help is-info">
               <Trans>amountPerGame</Trans>:{' '}
-              {formatCurrency(parseAmount(selectedPlan.amount), t)}
+              {values.isTrial
+                ? formatCurrency(0, t)
+                : formatCurrency(parseAmount(selectedPlan.amount), t)}
               <div className="mt-1">
                 {t(`plans.${selectedPlan.slug}.description`, {
                   keySeparator: '.'
@@ -273,69 +299,72 @@ function BillingAgreementForm({
           )}
         </div>
 
-        <div className="field">
-          <label className="label">
-            <Trans>campaigns</Trans>
-          </label>
-          {campaignInputs.map((campaignSlug, index) => (
-            <div key={index} className="field has-addons mb-2">
-              <div className="control is-expanded">
-                <input
-                  className={`input ${
-                    campaignSlug.trim() &&
-                    campaignValidations[campaignSlug] &&
-                    campaignValidations[campaignSlug].valid === false
-                      ? 'is-danger'
-                      : campaignSlug.trim() &&
-                        campaignValidations[campaignSlug] &&
-                        campaignValidations[campaignSlug].valid === true
-                      ? 'is-success'
-                      : ''
-                  }`}
-                  type="text"
-                  placeholder="e.g., summer-2026"
-                  value={campaignSlug}
-                  onChange={e => updateCampaignInput(index, e.target.value)}
-                />
-                {campaignSlug.trim() && isValidatingCampaigns && (
-                  <span className="icon is-small is-right">
-                    <i className="fas fa-spinner fa-pulse"></i>
-                  </span>
-                )}
-              </div>
-              <div className="control">
-                {campaignInputs.length > 1 && (
-                  <button
-                    type="button"
-                    className="button is-danger"
-                    onClick={() => removeCampaignInput(index)}
-                  >
-                    <i className="fas fa-times"></i>
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
+        {/* Campaigns section — hidden when trial is enabled */}
+        {!values.isTrial && (
           <div className="field">
-            <button
-              type="button"
-              className="button is-small is-light"
-              onClick={addCampaignInput}
-            >
-              <span className="icon">
-                <i className="fas fa-plus"></i>
-              </span>
-              <span>
-                <Trans>addCampaign</Trans>
-              </span>
-            </button>
+            <label className="label">
+              <Trans>campaigns</Trans>
+            </label>
+            {campaignInputs.map((campaignSlug, index) => (
+              <div key={index} className="field has-addons mb-2">
+                <div className="control is-expanded">
+                  <input
+                    className={`input ${
+                      campaignSlug.trim() &&
+                      campaignValidations[campaignSlug] &&
+                      campaignValidations[campaignSlug].valid === false
+                        ? 'is-danger'
+                        : campaignSlug.trim() &&
+                          campaignValidations[campaignSlug] &&
+                          campaignValidations[campaignSlug].valid === true
+                        ? 'is-success'
+                        : ''
+                    }`}
+                    type="text"
+                    placeholder="e.g., summer-2026"
+                    value={campaignSlug}
+                    onChange={e => updateCampaignInput(index, e.target.value)}
+                  />
+                  {campaignSlug.trim() && isValidatingCampaigns && (
+                    <span className="icon is-small is-right">
+                      <i className="fas fa-spinner fa-pulse"></i>
+                    </span>
+                  )}
+                </div>
+                <div className="control">
+                  {campaignInputs.length > 1 && (
+                    <button
+                      type="button"
+                      className="button is-danger"
+                      onClick={() => removeCampaignInput(index)}
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+            <div className="field">
+              <button
+                type="button"
+                className="button is-small is-light"
+                onClick={addCampaignInput}
+              >
+                <span className="icon">
+                  <i className="fas fa-plus"></i>
+                </span>
+                <span>
+                  <Trans>addCampaign</Trans>
+                </span>
+              </button>
+            </div>
+            {!allCampaignsValid && (
+              <p className="help is-danger">
+                <Trans>someInvalidCampaigns</Trans>
+              </p>
+            )}
           </div>
-          {!allCampaignsValid && (
-            <p className="help is-danger">
-              <Trans>someInvalidCampaigns</Trans>
-            </p>
-          )}
-        </div>
+        )}
 
         {selectedPlan && (
           <div className="field">
@@ -349,10 +378,12 @@ function BillingAgreementForm({
                     <Trans>basePlanPrice</Trans>:
                   </span>
                   <span className="has-text-weight-bold">
-                    {formatCurrency(parseAmount(selectedPlan.amount), t)}
+                    {values.isTrial
+                      ? formatCurrency(0, t)
+                      : formatCurrency(parseAmount(selectedPlan.amount), t)}
                   </span>
                 </div>
-                {totalCampaignDiscount > 0 && (
+                {!values.isTrial && totalCampaignDiscount > 0 && (
                   <div className="is-flex is-justify-content-space-between">
                     <span>
                       <Trans>totalCampaignDiscounts</Trans>:
@@ -410,7 +441,7 @@ function BillingAgreementForm({
                 isSubmitting ||
                 showSuccess ||
                 !allCampaignsValid ||
-                isValidatingCampaigns
+                (!values.isTrial && isValidatingCampaigns)
               }
             >
               <Trans>acceptAndSubmit</Trans>

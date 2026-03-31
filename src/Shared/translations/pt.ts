@@ -299,6 +299,7 @@ export default {
       'Acesse a página de recuperação de conta e informe seu email. Enviaremos um link para redefinir sua senha.',
     contactUs: 'Fale com a gente',
     contactSubtitle: 'Tem alguma dúvida ou sugestão? Adoraríamos ouvir você.',
+    isTrialTournament: 'Torneio em modo de teste',
     signIn: 'Entrar',
     signInTitle: 'Entrar na minha conta',
     signInSubtitle:
