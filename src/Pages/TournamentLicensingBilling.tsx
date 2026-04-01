@@ -106,8 +106,13 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
       if (tournament.sportSlug) {
         try {
           const fetchedPlans = await fetchPlans(tournament.sportSlug, isTrial);
-          if (isTrial && fetchedPlans.length > 0) {
-            change('plan_slug', fetchedPlans[0].slug);
+          if (fetchedPlans.length > 0) {
+            if (isTrial) {
+              change('plan_slug', fetchedPlans[0].slug);
+            } else {
+              // When disabling trial, ensure the selected plan is valid for non-trial plans
+              change('plan_slug', fetchedPlans[0].slug);
+            }
           }
         } catch (error) {
           console.error('Error re-fetching plans for trial toggle:', error);

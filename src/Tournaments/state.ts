@@ -67,8 +67,8 @@ export interface BillingAgreementEntity {
   selectedCampaigns: string[];
   signedAt: string;
   tournamentId: string;
-  trialActive: boolean;
-  gamesRemaining: number | null;
+  trialActive?: boolean;
+  gamesRemaining?: number | null;
   username: string;
 }
 

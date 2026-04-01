@@ -163,4 +163,33 @@ describe('mapApiBillingAgreementToBillingAgreementEntity', () => {
     expect(result.agreedAmount).toBeNull();
     expect(result.selectedCampaigns).toEqual([]);
   });
+
+  it('defaults trialActive to false and gamesRemaining to null when fields are absent', () => {
+    const apiBillingAgreement: ApiBillingAgreement = {
+      active: true,
+      agreed_amount: '5.00',
+      due_day: 1,
+      plan: {
+        slug: 'basic',
+        amount: '5.00',
+        active: true,
+        description: 'Basic plan',
+        name: 'Basic',
+        sport: null,
+        sport_id: ''
+      },
+      plan_id: 'basic-plan',
+      selected_campaigns: [],
+      signed_at: '2023-01-01T00:00:00Z',
+      tournament_id: 'tournament-123',
+      username: 'test@test.com'
+    };
+
+    const result = mapApiBillingAgreementToBillingAgreementEntity(
+      apiBillingAgreement
+    );
+
+    expect(result.trialActive).toBe(false);
+    expect(result.gamesRemaining).toBeNull();
+  });
 });

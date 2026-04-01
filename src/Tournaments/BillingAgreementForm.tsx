@@ -135,7 +135,7 @@ function BillingAgreementForm({
       const validCampaigns = newInputs.filter(slug => slug.trim() !== '');
       values.selected_campaign_slugs = validCampaigns;
 
-      if (values.plan_slug && validCampaigns.length > 0) {
+      if (!values.isTrial && values.plan_slug && validCampaigns.length > 0) {
         debouncedValidation(values.plan_slug, validCampaigns);
       }
     },
@@ -168,13 +168,13 @@ function BillingAgreementForm({
 
   // Validate campaigns when plan changes
   useEffect(() => {
-    if (values.plan_slug && campaignInputs.length > 0) {
+    if (!values.isTrial && values.plan_slug && campaignInputs.length > 0) {
       const validCampaigns = campaignInputs.filter(slug => slug.trim() !== '');
       if (validCampaigns.length > 0) {
         debouncedValidation(values.plan_slug, validCampaigns);
       }
     }
-  }, [values.plan_slug, debouncedValidation, campaignInputs]);
+  }, [values.plan_slug, debouncedValidation, campaignInputs, values.isTrial]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -185,8 +185,16 @@ function BillingAgreementForm({
     };
   }, []);
 
-  // Re-fetch plans when isTrial changes
+  // Re-fetch plans when isTrial changes; cancel pending validation and clear
+  // stale campaign validation state when trial is enabled.
   useEffect(() => {
+    if (values.isTrial) {
+      if (validationTimeoutRef.current) {
+        clearTimeout(validationTimeoutRef.current);
+        validationTimeoutRef.current = null;
+      }
+      setCampaignValidations({});
+    }
     onTrialToggle(values.isTrial);
   }, [values.isTrial]); // eslint-disable-line react-hooks/exhaustive-deps
 

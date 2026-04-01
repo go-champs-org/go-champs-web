@@ -905,6 +905,7 @@ export interface ApiBillingAgreementRequestData {
   signed_at: string;
   billing_contract_slug: string;
   country_code: string;
+  trial_enabled: boolean;
 }
 
 export interface ApiBillingAgreement {
