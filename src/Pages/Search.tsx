@@ -11,7 +11,7 @@ const Search: React.FC = () => (
 
       <meta
         name="description"
-        content="Pesquise torneios para ficar informado."
+        content="Pesquise campeonatos para ficar informado."
       />
     </Helmet>
   </Fragment>

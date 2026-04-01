@@ -5,7 +5,6 @@ import {
   PlayerStatMap,
   PlayerStatEntity,
   TeamStatEntity,
-  TournamentVisibilityEnum,
   BillingAgreementEntity
 } from './state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
@@ -77,10 +76,7 @@ export const tournamentTeamStatsForSelectInput = (
 export const shouldTournamentHaveLicensingBilling = (
   tournament: TournamentEntity
 ): boolean => {
-  return (
-    tournament.visibility === TournamentVisibilityEnum.PUBLIC &&
-    !!tournament.sportSlug
-  );
+  return !!tournament.sportSlug;
 };
 
 export const tournaments = (state: TournamentState) =>

@@ -20,7 +20,7 @@ import {
   getBillingAgreementSuccess,
   getBillingAgreementFailure
 } from './actions';
-import { TournamentEntity, TournamentVisibilityEnum } from './state';
+import { TournamentEntity } from './state';
 import tournamentHttpClient from './tournamentHttpClient';
 import { History } from 'history';
 import { Dispatch } from 'redux';
@@ -82,10 +82,7 @@ export const postTournament = (
 
     dispatch(postTournamentSuccess(response));
     displayToast(`${response.name} created!`, 'is-success');
-    if (
-      response.sport_slug &&
-      response.visibility === TournamentVisibilityEnum.PUBLIC
-    ) {
+    if (response.sport_slug) {
       history.push(
         `/${response.organization.slug}/${response.slug}/LicensingBilling`
       );

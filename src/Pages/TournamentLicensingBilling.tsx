@@ -67,7 +67,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type TournamentLicensingBillingProps = ConnectedProps<typeof connector>;
 
-const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
+function TournamentLicensingBilling({
   match,
   history,
   tournament,
@@ -75,7 +75,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
   existingAgreement,
   billingAgreementLoading,
   getBillingAgreement
-}) => {
+}: TournamentLicensingBillingProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const [billingContract, setBillingContract] = useState<ApiBillingContract>({
     content: '',
@@ -258,7 +258,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
       </Helmet>
     </Fragment>
   );
-};
+}
 
 export default connector(
   withTournament<TournamentLicensingBillingProps>(TournamentLicensingBilling)

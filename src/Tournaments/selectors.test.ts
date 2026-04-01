@@ -73,30 +73,18 @@ describe('tournamentBySlug', () => {
 });
 
 describe('shouldTournamentHaveLicensingBilling', () => {
-  it('returns true for public tournament with sport slug', () => {
+  it('returns true for tournament with sport slug', () => {
     const tournament: TournamentEntity = {
       ...DEFAULT_TOURNAMENT,
-      visibility: TournamentVisibilityEnum.PUBLIC,
       sportSlug: 'basketball'
     };
 
     expect(shouldTournamentHaveLicensingBilling(tournament)).toBe(true);
   });
 
-  it('returns false for private tournament with sport slug', () => {
+  it('returns false for tournament without sport slug', () => {
     const tournament: TournamentEntity = {
       ...DEFAULT_TOURNAMENT,
-      visibility: TournamentVisibilityEnum.PRIVATE,
-      sportSlug: 'basketball'
-    };
-
-    expect(shouldTournamentHaveLicensingBilling(tournament)).toBe(false);
-  });
-
-  it('returns false for public tournament without sport slug', () => {
-    const tournament: TournamentEntity = {
-      ...DEFAULT_TOURNAMENT,
-      visibility: TournamentVisibilityEnum.PUBLIC,
       sportSlug: ''
     };
 
