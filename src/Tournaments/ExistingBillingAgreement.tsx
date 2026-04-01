@@ -91,7 +91,7 @@ function ExistingBillingAgreement({
                 <Trans>gamesRemaining</Trans>
               </th>
               <td>
-                {agreement && agreement.gamesRemaining !== null ? (
+                {agreement && agreement.gamesRemaining != null ? (
                   agreement.gamesRemaining
                 ) : (
                   <Trans>unlimited</Trans>

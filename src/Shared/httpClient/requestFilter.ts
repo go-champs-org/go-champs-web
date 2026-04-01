@@ -1,5 +1,5 @@
 export interface RequestFilter {
-  [key: string]: string;
+  [key: string]: string | string[] | number | boolean;
 }
 
 export interface OrCondition {
