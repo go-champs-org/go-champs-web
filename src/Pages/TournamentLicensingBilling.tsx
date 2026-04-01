@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import { Trans } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
@@ -88,12 +88,45 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
 
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Edit`;
 
+  const fetchPlans = useCallback(
+    async (sportSlug: string, supportsTrials: boolean): Promise<ApiPlan[]> => {
+      const sportPlans = await planHttpClient.getByFilter({
+        sport_slug: sportSlug,
+        ...(supportsTrials ? { supports_trials: true } : {})
+      });
+      const result = sportPlans || [];
+      setPlans(result);
+      return result;
+    },
+    []
+  );
+
+  const handleTrialToggle = useCallback(
+    async (isTrial: boolean, change: (field: string, value: any) => void) => {
+      if (tournament.sportSlug) {
+        try {
+          const fetchedPlans = await fetchPlans(tournament.sportSlug, isTrial);
+          if (fetchedPlans.length > 0) {
+            if (isTrial) {
+              change('plan_slug', fetchedPlans[0].slug);
+            } else {
+              // When disabling trial, ensure the selected plan is valid for non-trial plans
+              change('plan_slug', fetchedPlans[0].slug);
+            }
+          }
+        } catch (error) {
+          console.error('Error re-fetching plans for trial toggle:', error);
+        }
+      }
+    },
+    [tournament.sportSlug, fetchPlans]
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       if (!tournament.id) return;
 
       try {
-        // Fetch contracts
         const contracts = await billingContractHttpClient.getAll();
 
         setBillingContract(
@@ -102,12 +135,8 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
             : { content: '', slug: '' }
         );
 
-        // Only fetch plans if tournament has a sport slug
         if (tournament.sportSlug) {
-          const sportPlans = await planHttpClient.getByFilter({
-            sport_slug: tournament.sportSlug
-          });
-          setPlans(sportPlans || []);
+          await fetchPlans(tournament.sportSlug, false);
         } else {
           setPlans([]);
         }
@@ -121,7 +150,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
     if (tournament.id) {
       fetchData();
     }
-  }, [tournament.id, tournament.sportSlug]);
+  }, [tournament.id, tournament.sportSlug, fetchPlans]);
 
   const onSubmit = async (values: BillingFormData) => {
     if (!values.acceptedTerms) {
@@ -133,24 +162,25 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
     try {
       const billingData: ApiBillingAgreementRequestData = {
         plan_slug: values.plan_slug || 'premium-monthly',
-        selected_campaign_slugs: values.selected_campaign_slugs || [],
+        selected_campaign_slugs: values.isTrial
+          ? []
+          : values.selected_campaign_slugs || [],
         due_day: values.due_day || 1,
         signed_at: new Date().toISOString(),
         billing_contract_slug: billingContract.slug || 'standard-terms-v2',
-        country_code: getCountryCodeFromBrowser()
+        country_code: getCountryCodeFromBrowser(),
+        trial_enabled: values.isTrial
       };
 
-      const result = await tournamentHttpClient.postBillingAgreement(
+      await tournamentHttpClient.postBillingAgreement(
         tournament.id,
         billingData
       );
 
-      // Refresh billing agreement from Redux
       await getBillingAgreement(tournament.id);
 
       setShowSuccess(true);
 
-      // Redirect after 2 seconds
       setTimeout(() => {
         history.push(backUrl);
       }, 2000);
@@ -191,8 +221,10 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
                 onSubmit={onSubmit}
                 initialValues={{
                   acceptedTerms: false,
+                  isTrial: false,
                   selected_campaign_slugs: []
                 }}
+                keepDirtyOnReinitialize
                 render={(props: FormRenderProps<BillingFormData>) => (
                   <BillingAgreementForm
                     {...props}
@@ -201,6 +233,9 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
                     showSuccess={showSuccess}
                     billingContract={billingContract}
                     plans={plans}
+                    onTrialToggle={isTrial =>
+                      handleTrialToggle(isTrial, props.form.change)
+                    }
                   />
                 )}
               />

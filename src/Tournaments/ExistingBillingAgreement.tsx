@@ -86,6 +86,30 @@ function ExistingBillingAgreement({
                   : '-'}
               </td>
             </tr>
+            <tr>
+              <th>
+                <Trans>gamesRemaining</Trans>
+              </th>
+              <td>
+                {agreement && agreement.gamesRemaining != null ? (
+                  agreement.gamesRemaining
+                ) : (
+                  <Trans>unlimited</Trans>
+                )}
+              </td>
+            </tr>
+            {agreement && agreement.trialActive && (
+              <tr>
+                <th>
+                  <Trans>trialActive</Trans>
+                </th>
+                <td>
+                  <span className="tag is-light">
+                    <Trans>isTrialTournament</Trans>
+                  </span>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

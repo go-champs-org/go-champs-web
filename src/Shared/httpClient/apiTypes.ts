@@ -905,12 +905,14 @@ export interface ApiBillingAgreementRequestData {
   signed_at: string;
   billing_contract_slug: string;
   country_code: string;
+  trial_enabled: boolean;
 }
 
 export interface ApiBillingAgreement {
   active: boolean;
   agreed_amount: string | null;
   due_day: number;
+  games_remaining?: number;
   plan: ApiPlan & {
     active: boolean;
     description: string;
@@ -922,6 +924,7 @@ export interface ApiBillingAgreement {
   selected_campaigns: string[];
   signed_at: string;
   tournament_id: string;
+  trial_active?: boolean;
   username: string;
 }
 
