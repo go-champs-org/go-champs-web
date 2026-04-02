@@ -21,12 +21,11 @@ import billingContractHttpClient from '../BillingContracts/billingContractHttpCl
 import AdminMenu from '../Tournaments/AdminMenu';
 import Helmet from 'react-helmet';
 import {
-  ApiBillingAgreement,
   ApiBillingAgreementRequestData,
   ApiBillingContract,
   ApiPlan
 } from '../Shared/httpClient/apiTypes';
-import { Form, FormRenderProps } from 'react-final-form';
+import { Form, FormApi, FormRenderProps } from 'react-final-form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import BillingAgreementForm, {
   BillingFormData
@@ -102,7 +101,7 @@ function TournamentLicensingBilling({
   );
 
   const handleTrialToggle = useCallback(
-    async (isTrial: boolean, change: (field: string, value: any) => void) => {
+    async (isTrial: boolean, change: FormApi<BillingFormData>['change']) => {
       if (tournament.sportSlug) {
         try {
           const fetchedPlans = await fetchPlans(tournament.sportSlug, isTrial);

@@ -15,10 +15,6 @@ export interface FileReference {
   url: string;
 }
 
-interface File extends Document {
-  type: string;
-}
-
 interface UploadFile {
   file: Blob;
   fileReference: ApiUploadPostRequest;

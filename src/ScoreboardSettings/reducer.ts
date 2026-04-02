@@ -4,7 +4,6 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import {
   apiDataToEntities,
-  apiDataToEntitiesOverride,
   createReducer,
   entityById,
   mapEntities,
@@ -35,11 +34,6 @@ import {
 const scoreboardSettingMapEntities = mapEntities<ScoreboardSettingEntity>(
   returnProperty('id')
 );
-
-const apiScoreboardSettingToEntities = apiDataToEntitiesOverride<
-  ApiScoreboardSetting,
-  ScoreboardSettingEntity
->(mapApiScoreboardSettingToScoreboardSettingEntity, returnProperty('id'));
 
 const apiScoreboardSettingToEntitiesNoOverride = apiDataToEntities<
   ApiScoreboardSetting,

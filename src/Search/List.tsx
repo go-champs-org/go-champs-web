@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
-import Result, { ResultShimmer } from './Result';
+import { ResultShimmer } from './Result';
 import './Result.scss';
 import searchHttpClient from './searchHttpClient';
 import { Trans, useTranslation } from 'react-i18next';

@@ -6,7 +6,6 @@ import LoadingButton from '../Shared/UI/LoadingButton';
 import {
   required,
   composeValidators,
-  mustBeUsername,
   mustBeAccountIdentifier
 } from '../Shared/UI/Form/Validators/commonValidators';
 import { Trans } from 'react-i18next';

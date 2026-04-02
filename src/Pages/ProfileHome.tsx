@@ -10,7 +10,6 @@ import {
 import { bindActionCreators, Dispatch } from 'redux';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
-import Result from '../Search/Result';
 import Banner from '../AthleteProfiles/Banner';
 import './ProfileHome.scss';
 import { Trans } from 'react-i18next';

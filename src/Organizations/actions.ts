@@ -1,4 +1,3 @@
-import { ApiOrganization } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import { OrganizationEntity } from './state';

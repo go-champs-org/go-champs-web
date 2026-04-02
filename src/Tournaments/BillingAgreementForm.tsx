@@ -282,9 +282,13 @@ function BillingAgreementForm({
           <div className="control">
             <Field
               name="plan_slug"
-              component={Select}
-              options={translatedPlanOptions}
-              isClearable
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <Select
+                  {...props}
+                  options={translatedPlanOptions}
+                  isClearable
+                />
+              )}
             />
           </div>
           {plans.length === 0 && (

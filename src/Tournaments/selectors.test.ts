@@ -14,7 +14,6 @@ import {
   initialState,
   TournamentState,
   DEFAULT_TOURNAMENT,
-  TournamentVisibilityEnum,
   BillingAgreementEntity,
   TournamentEntity
 } from './state';
