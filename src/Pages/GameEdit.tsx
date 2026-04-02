@@ -26,7 +26,11 @@ import { officialTypesForSelectInput } from '../Sports/selectors';
 import { Trans, useTranslation } from 'react-i18next';
 import { REACT_APP_SCOREBOARD_APP_URL } from '../Shared/env';
 import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
-import { tournamentBySlug } from '../Tournaments/selectors';
+import {
+  tournamentBySlug,
+  billingAgreementByTournamentSlug,
+  billingAgreementLoading
+} from '../Tournaments/selectors';
 import { hasSportPackage } from '../Tournaments/dataSelectors';
 import PhaseDropdown from '../Phases/PhaseDropdown';
 
@@ -54,7 +58,12 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     ),
     resultTypeOptions: resultTypeOptions(),
     liveStateOptions: liveStateOptions(),
-    gameAssetTypeOptions: gameAssetTypeOptions()
+    gameAssetTypeOptions: gameAssetTypeOptions(),
+    billingAgreement: billingAgreementByTournamentSlug(
+      state.tournaments,
+      tournamentSlug
+    ),
+    billingAgreementLoading: billingAgreementLoading(state.tournaments)
   };
 };
 
@@ -88,7 +97,9 @@ const GameEdit: React.FC<GameEditProps> = ({
   selectInputOfficials,
   officialTypesSelectOptions,
   tournamentSlug,
-  tournament
+  tournament,
+  billingAgreement,
+  billingAgreementLoading
 }) => {
   const scoreboardUrl = REACT_APP_SCOREBOARD_APP_URL;
   const userToken = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
@@ -119,14 +130,31 @@ const GameEdit: React.FC<GameEditProps> = ({
               />
             </div>
 
-            {hasSportPackage(tournament) && (
-              <a
-                href={`${scoreboardUrl}scoreboard/load/${game.id}?token=${userToken}`}
-                target="_blank"
-                rel="noreferrer"
-                style={{ paddingRight: '1rem' }}
-              >
-                <button className="button is-info is-outlined is-small">
+            {hasSportPackage(tournament) &&
+              (billingAgreement ? (
+                <a
+                  href={`${scoreboardUrl}scoreboard/load/${game.id}?token=${userToken}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ paddingRight: '1rem' }}
+                >
+                  <button className="button is-info is-outlined is-small">
+                    <span className="icon">
+                      <i className="fas fa-clock"></i>
+                    </span>
+
+                    <span>
+                      <Trans>Scoreboard</Trans>
+                    </span>
+                  </button>
+                </a>
+              ) : (
+                <button
+                  className="button is-info is-outlined is-small"
+                  disabled
+                  title={t('billingAgreementRequired')}
+                  style={{ marginRight: '1rem', cursor: 'not-allowed' }}
+                >
                   <span className="icon">
                     <i className="fas fa-clock"></i>
                   </span>
@@ -135,8 +163,7 @@ const GameEdit: React.FC<GameEditProps> = ({
                     <Trans>Scoreboard</Trans>
                   </span>
                 </button>
-              </a>
-            )}
+              ))}
 
             <Link to={`${basePhaseManageUrl}/EditGameAdvanced/${game.id}`}>
               <button className="button is-info is-outlined is-small">
