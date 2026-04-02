@@ -22,7 +22,6 @@ import {
   mapFacebookSignInEntityToApiFacebookSignInPostRequest
 } from './dataMappers';
 import { REACT_APP_API_HOST } from '../Shared/env';
-import { RegistrationResponseEntity } from '../Registrations/state';
 
 const ACCOUNT_API = `${REACT_APP_API_HOST}v1/accounts`;
 const USER_API = `${REACT_APP_API_HOST}v1/users`;

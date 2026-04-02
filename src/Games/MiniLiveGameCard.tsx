@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { GameEntity } from './state';
 import { timeFromDate } from '../Shared/datetime/format';
 import './MiniLiveGameCard.scss';
-import { useTranslation } from 'react-i18next';
 import scoreboardApiHttpClient from '../Shared/httpClient/scoreboardApiHttpClient';
 import {
   periodAndTime,
@@ -21,7 +20,6 @@ interface MiniLiveGameCardProps {
 }
 
 function MiniLiveGameCard({ game, baseUrl }: MiniLiveGameCardProps) {
-  const { t } = useTranslation();
   const [gameData, setGameData] = useState({
     awayScore: game.awayScore,
     homeScore: game.homeScore,

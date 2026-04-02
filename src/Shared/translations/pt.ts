@@ -41,7 +41,7 @@ export default {
     toSignContractAndSelectPlan:
       'para assinar o contrato e selecionar um plano.',
     activeBillingAgreementRequired:
-      'Um contrato de faturamento ativo é necessário para criar jogos neste torneio',
+      'Um contrato de faturamento ativo é necessário para criar jogos neste campeonato',
     by: 'por',
     byGoChampsTeam: 'pela equipe Go Champs',
     campaign: 'Campanha',
@@ -90,7 +90,7 @@ export default {
     editScoreboardSettings: 'Editar configuracões de scoreboard',
     editRegistration: 'Editar inscricão',
     editTeam: 'Editar equipe',
-    editTournament: 'Editar torneio',
+    editTournament: 'Editar campeonato',
     gameAssetType: {
       fibaScoresheet: 'Súmula FIBA',
       fibaBoxscore: 'Boxscore FIBA',
@@ -180,11 +180,11 @@ export default {
     newPlayer: 'Nova(o) atleta',
     newRegistration: 'Nova inscricão',
     newTeam: 'Nova equipe',
-    newTournament: 'Novo torneio',
+    newTournament: 'Novo campeonato',
     noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
     noPlansAvailable: 'Nenhum plano disponível',
-    noTournamentsYet: 'Nenhum torneio ainda',
+    noTournamentsYet: 'Nenhum campeonato ainda',
     open: 'Abrir',
     official: 'Oficial',
     officials: 'Oficiais',
@@ -199,20 +199,20 @@ export default {
     plans: {
       basketball_scoresheet: {
         name: 'Súmula de basquete',
-        description: 'Plano para torneios que precisam da súmula de basquete'
+        description: 'Plano para campeonatos que precisam da súmula de basquete'
       },
       basketball_statistics: {
         name: 'Estatísticas de basquete',
         description:
-          'Plano para torneios que precisam de estatísticas de basquete'
+          'Plano para campeonatos que precisam de estatísticas de basquete'
       },
       basketball_full: {
         name: 'Súmula e estatísticas de basquete',
         description:
-          'Plano para torneios que precisam de súmula e estatísticas de basquete'
+          'Plano para campeonatos que precisam de súmula e estatísticas de basquete'
       }
     },
-    redirectingToTournamentEdit: 'Redirecionando para edição do torneio...',
+    redirectingToTournamentEdit: 'Redirecionando para edição do campeonato...',
     signedAt: 'Assinado Em',
     phases: 'Fases',
     phaseTypes: {
@@ -274,7 +274,7 @@ export default {
       }
     },
     search: 'Pesquisar',
-    searchTournaments: 'Busca de torneios',
+    searchTournaments: 'Busca de campeonatos',
     secondTeam: 'Segunda equipe',
     secondTeamScore: 'Pontuacao segunda equipe',
     send: 'Enviar',
@@ -300,7 +300,7 @@ export default {
       'Acesse a página de recuperação de conta e informe seu email. Enviaremos um link para redefinir sua senha.',
     contactUs: 'Fale com a gente',
     contactSubtitle: 'Tem alguma dúvida ou sugestão? Adoraríamos ouvir você.',
-    isTrialTournament: 'Torneio em modo de teste',
+    isTrialTournament: 'Campeonato em modo de teste',
     signIn: 'Entrar',
     signInTitle: 'Entrar na minha conta',
     signInSubtitle:
@@ -1005,7 +1005,7 @@ export default {
     teamStats: 'Estatísticas de equipes',
     teamStatSource: 'Fonte de estatísticas de equipes',
     theBestAppToManageTournaments:
-      'A web app mais maneira para gerenciar torneios',
+      'A web app mais maneira para gerenciar campeonatos',
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
     thisTournamentIsUnderContruction: 'Este torneiro está em construção.',
@@ -1016,8 +1016,8 @@ export default {
         private: 'Privado (Ideal para testes)'
       }
     },
-    tournaments: 'Torneios',
-    tournamentNotFound: 'Torneio não encontrado',
+    tournaments: 'Campeonatos',
+    tournamentNotFound: 'Campeonato não encontrado',
     totals: 'Totais',
     trialActive: 'Teste ativo',
     triCode: 'Sigla (3 letras)',
@@ -1025,10 +1025,10 @@ export default {
     with: 'com',
     whatIsGoChamps: 'O que é o Go Champs?',
     whatIsGoChampsLine1:
-      'Go Champs É uma aplicacão para você criar seu torneio e gerenciar fases, times, jogos, classificacões e muito mais.',
+      'Go Champs É uma aplicação para você criar seu campeonato e gerenciar fases, times, jogos, classificações e muito mais.',
     whatIsGoChampsLine2:
-      'As informacões ficam disponibilizadas para qualquer pessoa acessar e pode acompanhar seu torneio.',
-    whatIsGoChampsLine3: 'Acesse nosso torneio exemplo clicando',
+      'As informações ficam disponibilizadas para qualquer pessoa acessar e pode acompanhar seu campeonato.',
+    whatIsGoChampsLine3: 'Acesse nosso campeonato exemplo clicando',
     youNeedCreateTeams: 'Você precisa criar times.',
     youNeedCreatePhases: 'Você precisa criar fases.',
     unlimited: 'Ilimitado',

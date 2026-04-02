@@ -21,12 +21,11 @@ import billingContractHttpClient from '../BillingContracts/billingContractHttpCl
 import AdminMenu from '../Tournaments/AdminMenu';
 import Helmet from 'react-helmet';
 import {
-  ApiBillingAgreement,
   ApiBillingAgreementRequestData,
   ApiBillingContract,
   ApiPlan
 } from '../Shared/httpClient/apiTypes';
-import { Form, FormRenderProps } from 'react-final-form';
+import { Form, FormApi, FormRenderProps } from 'react-final-form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import BillingAgreementForm, {
   BillingFormData
@@ -67,7 +66,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type TournamentLicensingBillingProps = ConnectedProps<typeof connector>;
 
-const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
+function TournamentLicensingBilling({
   match,
   history,
   tournament,
@@ -75,7 +74,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
   existingAgreement,
   billingAgreementLoading,
   getBillingAgreement
-}) => {
+}: TournamentLicensingBillingProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const [billingContract, setBillingContract] = useState<ApiBillingContract>({
     content: '',
@@ -102,7 +101,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
   );
 
   const handleTrialToggle = useCallback(
-    async (isTrial: boolean, change: (field: string, value: any) => void) => {
+    async (isTrial: boolean, change: FormApi<BillingFormData>['change']) => {
       if (tournament.sportSlug) {
         try {
           const fetchedPlans = await fetchPlans(tournament.sportSlug, isTrial);
@@ -258,7 +257,7 @@ const TournamentLicensingBilling: React.FC<TournamentLicensingBillingProps> = ({
       </Helmet>
     </Fragment>
   );
-};
+}
 
 export default connector(
   withTournament<TournamentLicensingBillingProps>(TournamentLicensingBilling)

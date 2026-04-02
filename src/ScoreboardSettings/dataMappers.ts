@@ -4,7 +4,6 @@ import {
   ApiScoreboardSettingPatchRequest,
   ApiScoreboardSettingPostRequest
 } from '../Shared/httpClient/apiTypes';
-import { SelectOptionType } from '../Shared/UI/Form/Select';
 import {
   ScoreboardSettingEntity,
   ScoreboardSettingLiveSiteUpdate,
