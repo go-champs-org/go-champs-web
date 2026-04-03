@@ -63,7 +63,8 @@ interface ApiLiveState {
 }
 
 interface ApiViewSettingsState {
-  view: string;
+  initial_period_time: number | null;
+  initial_extra_period_time: number | null;
 }
 
 interface ApiGameState {

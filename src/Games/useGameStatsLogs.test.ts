@@ -213,9 +213,7 @@ const mockApiGameData = {
     state: 'in_progress' as const
   },
   sport_id: 'basketball',
-  view_settings_state: {
-    view: 'default'
-  }
+  view_settings_state: {}
 };
 
 describe('useGameStatsLogs', () => {

@@ -4,15 +4,8 @@ export enum ScoreboardSettingLiveSiteUpdate {
   FULL_LIVE_UPDATE = 'full-live-update'
 }
 
-export enum ScoreboardSettingView {
-  BASKETBALL_BASIC = 'basketball-basic',
-  BASKETBALL_MEDIUM = 'basketball-medium',
-  BASKETBALL_MEDIUM_PLUS = 'basketball-medium-plus'
-}
-
 export interface ScoreboardSettingEntity {
   id: string;
-  view: ScoreboardSettingView;
   initialPeriodTime: number;
   initialExtraPeriodTime: number;
   liveSiteUpdate: ScoreboardSettingLiveSiteUpdate;
@@ -40,7 +33,6 @@ export const initialState: ScoreboardSettingState = {
 
 export const DEFAULT_SCOREBOARD_SETTING: ScoreboardSettingEntity = {
   id: '',
-  view: ScoreboardSettingView.BASKETBALL_MEDIUM,
   initialPeriodTime: 600,
   initialExtraPeriodTime: 300,
   liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
