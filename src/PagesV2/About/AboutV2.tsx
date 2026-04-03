@@ -63,6 +63,101 @@ function AboutV2() {
               </div>
             </CardV2>
           </div>
+
+          <div className="about-v2-team-section">
+            <CardV2>
+              <h2 className="card-v2-title">O time</h2>
+
+              <div className="card-v2-content">
+                <div className="about-v2-team-grid">
+                  <div className="about-v2-team-member">
+                    <div className="about-v2-team-member-photo">
+                      <img
+                        src="https://via.placeholder.com/150"
+                        alt="Nome do Membro 1"
+                      />
+                    </div>
+                    <h3 className="about-v2-team-member-name">
+                      Nome do Membro 1
+                    </h3>
+                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-bio">
+                      Breve descrição sobre o membro da equipe, suas
+                      responsabilidades e paixão pelo esporte.
+                    </p>
+                  </div>
+
+                  <div className="about-v2-team-member">
+                    <div className="about-v2-team-member-photo">
+                      <img
+                        src="https://via.placeholder.com/150"
+                        alt="Nome do Membro 2"
+                      />
+                    </div>
+                    <h3 className="about-v2-team-member-name">
+                      Nome do Membro 2
+                    </h3>
+                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-bio">
+                      Breve descrição sobre o membro da equipe, suas
+                      responsabilidades e paixão pelo esporte.
+                    </p>
+                  </div>
+
+                  <div className="about-v2-team-member">
+                    <div className="about-v2-team-member-photo">
+                      <img
+                        src="https://via.placeholder.com/150"
+                        alt="Nome do Membro 3"
+                      />
+                    </div>
+                    <h3 className="about-v2-team-member-name">
+                      Nome do Membro 3
+                    </h3>
+                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-bio">
+                      Breve descrição sobre o membro da equipe, suas
+                      responsabilidades e paixão pelo esporte.
+                    </p>
+                  </div>
+
+                  <div className="about-v2-team-member">
+                    <div className="about-v2-team-member-photo">
+                      <img
+                        src="https://via.placeholder.com/150"
+                        alt="Nome do Membro 4"
+                      />
+                    </div>
+                    <h3 className="about-v2-team-member-name">
+                      Nome do Membro 4
+                    </h3>
+                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-bio">
+                      Breve descrição sobre o membro da equipe, suas
+                      responsabilidades e paixão pelo esporte.
+                    </p>
+                  </div>
+
+                  <div className="about-v2-team-member">
+                    <div className="about-v2-team-member-photo">
+                      <img
+                        src="https://via.placeholder.com/150"
+                        alt="Nome do Membro 5"
+                      />
+                    </div>
+                    <h3 className="about-v2-team-member-name">
+                      Nome do Membro 5
+                    </h3>
+                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-bio">
+                      Breve descrição sobre o membro da equipe, suas
+                      responsabilidades e paixão pelo esporte.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardV2>
+          </div>
         </main>
         <Footer />
       </div>
