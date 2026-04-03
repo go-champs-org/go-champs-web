@@ -257,11 +257,6 @@ export default {
     scope: 'Scope',
     scoreboardSettings: 'Scoreboard settings',
     scoreboardSettingsForm: {
-      viewOptions: {
-        basketball_basic: 'Basic basketball',
-        basketball_medium: 'Full basketball',
-        basketball_medium_plus: 'Full basketball + Scoresheet'
-      },
       liveSiteUpdateOptions: {
         no_live_update: 'After game ends',
         team_score_live_update: 'Score only',

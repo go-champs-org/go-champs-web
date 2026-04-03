@@ -821,17 +821,13 @@ export interface ApiUploadDeleteRequest {
   file_type: ApiUploadFileType;
 }
 
-export type ApiScoreboardSettingView =
-  | 'basketball-basic'
-  | 'basketball-medium'
-  | 'basketball-medium-plus';
 export type ApiScoreboardSettingLiveSiteUpdate =
   | 'no-live-update'
   | 'team-score-live-update'
   | 'full-live-update';
+
 export interface ApiScoreboardSetting {
   id: string;
-  view: ApiScoreboardSettingView;
   initial_period_time: number;
   initial_extra_period_time: number;
   live_site_update: ApiScoreboardSettingLiveSiteUpdate;

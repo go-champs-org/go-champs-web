@@ -6,8 +6,7 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import {
   ScoreboardSettingEntity,
-  ScoreboardSettingLiveSiteUpdate,
-  ScoreboardSettingView
+  ScoreboardSettingLiveSiteUpdate
 } from './state';
 
 export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
@@ -16,7 +15,6 @@ export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
   return {
     scoreboard_setting: {
       id: scoreboardSettingEntity.id,
-      view: scoreboardSettingEntity.view,
       initial_period_time: scoreboardSettingEntity.initialPeriodTime,
       live_site_update: scoreboardSettingEntity.liveSiteUpdate,
       initial_extra_period_time: scoreboardSettingEntity.initialExtraPeriodTime
@@ -31,7 +29,6 @@ export const mapScoreboardSettingEntityToApiScoreboardSettingPostRequest = (
   return {
     scoreboard_setting: {
       id: scoreboardSettingEntity.id,
-      view: scoreboardSettingEntity.view,
       initial_period_time: scoreboardSettingEntity.initialPeriodTime,
       tournament_id: tournamentId,
       live_site_update: scoreboardSettingEntity.liveSiteUpdate,
@@ -45,27 +42,11 @@ export const mapApiScoreboardSettingToScoreboardSettingEntity = (
 ): ScoreboardSettingEntity => {
   return {
     id: apiScoreboardSetting.id,
-    view: apiScoreboardSetting.view as ScoreboardSettingView,
     initialPeriodTime: apiScoreboardSetting.initial_period_time,
     initialExtraPeriodTime: apiScoreboardSetting.initial_extra_period_time,
     liveSiteUpdate: apiScoreboardSetting.live_site_update as ScoreboardSettingLiveSiteUpdate
   };
 };
-
-export const SCOREBOARD_VIEW_OPTIONS: TranslateSelectOptionType[] = [
-  {
-    value: ScoreboardSettingView.BASKETBALL_BASIC,
-    labelKey: 'scoreboardSettingsForm.viewOptions.basketball_basic'
-  },
-  {
-    value: ScoreboardSettingView.BASKETBALL_MEDIUM,
-    labelKey: 'scoreboardSettingsForm.viewOptions.basketball_medium'
-  },
-  {
-    value: ScoreboardSettingView.BASKETBALL_MEDIUM_PLUS,
-    labelKey: 'scoreboardSettingsForm.viewOptions.basketball_medium_plus'
-  }
-];
 
 export const SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS: TranslateSelectOptionType[] = [
   {

@@ -262,11 +262,6 @@ export default {
     scope: 'Escopo',
     scoreboardSettings: 'Configuracões de scoreboard',
     scoreboardSettingsForm: {
-      viewOptions: {
-        basketball_basic: 'Basquete básico',
-        basketball_medium: 'Basquete completo',
-        basketball_medium_plus: 'Basquete completo + Súmula'
-      },
       liveSiteUpdateOptions: {
         no_live_update: 'Após final de jogo',
         team_score_live_update: 'Somente placar',
