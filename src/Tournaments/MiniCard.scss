@@ -1,3 +1,5 @@
+@import '../Shared/styles/colorsV2.scss';
+
 // Override the global link hover effect for mini cards
 a:has(.tournament-mini-card) {
   &:hover {
@@ -12,8 +14,8 @@ a:has(.tournament-mini-card) {
   padding: 1rem;
 
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  background: #fff;
+  border: 1px solid var(--theme-v2-border, var(--theme-border));
+  background: var(--theme-v2-backgroundSecondary, var(--theme-background));
 
   header {
     display: flex;
@@ -22,6 +24,7 @@ a:has(.tournament-mini-card) {
     align-items: center;
     justify-content: left;
     font-weight: 600;
+    color: var(--theme-v2-text, var(--theme-text));
 
     > span {
       margin-left: 0.5rem;
@@ -34,13 +37,19 @@ a:has(.tournament-mini-card) {
     }
 
     .pin-button {
-      background-color: var(--theme-primary);
-      color: var(--theme-text);
+      background-color: var(--theme-v2-primary, var(--theme-primary));
+      color: var(--theme-v2-text, var(--theme-text));
       font-size: 0.65rem;
+      border: none;
+      transition: all 0.2s ease;
 
       &.is-pinned {
-        background-color: var(--theme-secondary);
-        color: var(--theme-textInverted);
+        background-color: var(--theme-v2-secondary, var(--theme-secondary));
+        color: var(--theme-v2-textInverted, var(--theme-textInverted));
+      }
+
+      &:hover {
+        opacity: 0.9;
       }
 
       .icon {
@@ -62,7 +71,7 @@ a:has(.tournament-mini-card) {
       overflow: hidden;
       text-overflow: ellipsis;
 
-      color: var(--theme-primary);
+      color: var(--theme-v2-primary, var(--theme-primary));
     }
   }
 }
