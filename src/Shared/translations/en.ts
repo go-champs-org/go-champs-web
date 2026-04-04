@@ -182,6 +182,7 @@ export default {
     noGamesScheduled: 'No games scheduled',
     noPlansAvailable: 'No plans available',
     noTournamentsYet: 'No tournaments yet',
+    onGoingTournaments: 'Ongoing tournaments',
     open: 'Open',
     official: 'Official',
     officials: 'Officials',
@@ -1051,6 +1052,7 @@ export default {
     storyBrandTitle: 'Go Champs',
     recentTournaments: 'Recent Tournaments',
     checkOutMoreAthletes: 'Check out more athletes at go-champs.com',
+    checkTheMostUpToDataGameResults: 'Check the most up-to-date game results',
     pwa: {
       install: {
         title: 'Install Go Champs',

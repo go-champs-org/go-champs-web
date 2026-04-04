@@ -70,7 +70,7 @@ function Footer() {
             {` ${t('andContributors')}. ${t('allRightsReserved')}.`}
           </p>
           <p className="footer-v2-build">
-            Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
+            Build: <em>1.0.{REACT_APP_BUILD_NUMBER}</em>
           </p>
         </div>
       </div>

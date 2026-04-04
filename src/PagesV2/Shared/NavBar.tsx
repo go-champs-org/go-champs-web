@@ -17,7 +17,7 @@ function NavBar() {
     <nav className="navbar-v2">
       <div className="navbar-v2-container">
         <div className="navbar-v2-brand">
-          <a href="/AboutV2" className="navbar-v2-logo">
+          <a href="/HomeV2" className="navbar-v2-logo">
             <picture>
               <source media="(min-width: 769px)" srcSet={logoWhiteName} />
               <img src={logoGreen} alt="Go Champs" />

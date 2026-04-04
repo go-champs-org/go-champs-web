@@ -12,6 +12,7 @@ import {
 import AccountHome from './Pages/AccountHome';
 import About from './Pages/About';
 import AboutV2 from './PagesV2/About/AboutV2';
+import HomeV2 from './PagesV2/Home/HomeV2';
 import SignInV2 from './PagesV2/SignIn/SignInV2';
 import SignUpV2 from './PagesV2/SignUp/SignUpV2';
 import AccountRecoveryV2 from './PagesV2/AccountRecovery/AccountRecoveryV2';
@@ -71,6 +72,7 @@ const App: React.FC = () => {
                 <Route exact path="/" component={Home} />
                 <Route path="/About" component={About} />
                 <Route path="/AboutV2" component={AboutV2} />
+                <Route path="/HomeV2" component={HomeV2} />
                 <Route path="/FaqV2" component={FaqV2} />
                 <Route
                   exact
