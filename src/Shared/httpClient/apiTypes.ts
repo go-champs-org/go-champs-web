@@ -894,6 +894,30 @@ export interface ApiAthleteProfilesResponse {
   data: ApiAthleteProfile[];
 }
 
+export interface ApiOfficialProfile {
+  username: string;
+  name?: string;
+  photo_url?: string;
+  signature?: string;
+  signature_pin?: string;
+}
+
+export interface ApiOfficialProfilePostRequest {
+  official_profile: ApiOfficialProfile;
+}
+
+export interface ApiOfficialProfilePatchRequest {
+  official_profile: ApiOfficialProfile;
+}
+
+export interface ApiOfficialProfileResponse {
+  data: ApiOfficialProfile;
+}
+
+export interface ApiOfficialProfilesResponse {
+  data: ApiOfficialProfile[];
+}
+
 export interface ApiBillingAgreementRequestData {
   plan_slug: string;
   selected_campaign_slugs: string[];
