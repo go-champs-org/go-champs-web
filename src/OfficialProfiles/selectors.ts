@@ -29,7 +29,7 @@ export const officialProfileByUsername = (
 
 export const officialProfileLoading = (state: OfficialProfileState): boolean =>
   state.isLoadingRequestOfficialProfile;
-export const officialProfilesLoading = (state: OfficialProfileState) =>
+export const officialProfilesLoading = (state: OfficialProfileState): boolean =>
   state.isLoadingRequestOfficialProfiles;
 export const patchingOfficialProfile = (state: OfficialProfileState): boolean =>
   state.isLoadingPatchOfficialProfile;
