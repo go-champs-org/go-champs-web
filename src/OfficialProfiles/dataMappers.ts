@@ -4,6 +4,7 @@ import {
   ApiOfficialProfilePatchRequest
 } from '../Shared/httpClient/apiTypes';
 import { OfficialProfileEntity } from './state';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 
 export const mapApiOfficialProfileToOfficialProfileEntity = (
   apiOfficialProfile: ApiOfficialProfile
@@ -37,4 +38,16 @@ export const mapOfficialProfileEntityToApiOfficialProfilePatchRequest = (
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }
+});
+
+export const mapFileReferenceToApiOfficialProfilePhoto = (
+  fileReference: FileReference
+) => fileReference.publicUrl;
+
+export const mapOfficialProfilePhotoToApiFileReference = (
+  officialProfile: OfficialProfileEntity
+): FileReference => ({
+  publicUrl: officialProfile.photoUrl,
+  filename: '',
+  url: officialProfile.photoUrl
 });

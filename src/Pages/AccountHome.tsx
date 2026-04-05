@@ -8,20 +8,26 @@ import { signOut } from '../Accounts/effects';
 import { Trans } from 'react-i18next';
 import ProfileEdit from './ProfileEdit';
 import ProfileNew from './ProfileNew';
+import OfficialProfileEdit from './OfficialProfileEdit';
+import OfficialProfileHome from './OfficialProfileHome';
+import OfficialProfileNew from './OfficialProfileNew';
 import withAccount from './support/withAccount';
 import { StoreState } from '../store';
 import { athleteProfileByUsername } from '../AthleteProfiles/selectors';
+import { officialProfileByUsername } from '../OfficialProfiles/selectors';
 import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
 import { bindActionCreators, Dispatch } from 'redux';
 import { getAccount } from '../Accounts/effects';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
+import { requestOfficialProfile } from '../OfficialProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import ProfileHome from './ProfileHome';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
   return {
-    athleteProfile: athleteProfileByUsername(state.athleteProfiles, username)
+    athleteProfile: athleteProfileByUsername(state.athleteProfiles, username),
+    officialProfile: officialProfileByUsername(state.officialProfiles, username)
   };
 };
 
@@ -29,7 +35,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       getAccount,
-      requestAthleteProfile
+      requestAthleteProfile,
+      requestOfficialProfile
     },
     dispatch
   );
@@ -38,7 +45,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type AccountHomeProps = ConnectedProps<typeof connector>;
 
-function AccountHome({ athleteProfile }: AccountHomeProps) {
+function AccountHome({ athleteProfile, officialProfile }: AccountHomeProps) {
   return (
     <div>
       <div className="columns is-multiline">
@@ -67,6 +74,18 @@ function AccountHome({ athleteProfile }: AccountHomeProps) {
             />
             <Route path="/Account/Profile/:username" component={ProfileHome} />
             <Route path="/Account/NewProfile" component={ProfileNew} />
+            <Route
+              path="/Account/EditOfficialProfile/:username"
+              component={OfficialProfileEdit}
+            />
+            <Route
+              path="/Account/OfficialProfile/:username"
+              component={OfficialProfileHome}
+            />
+            <Route
+              path="/Account/NewOfficialProfile"
+              component={OfficialProfileNew}
+            />
           </Switch>
         </div>
 
@@ -87,6 +106,22 @@ function AccountHome({ athleteProfile }: AccountHomeProps) {
                 <li>
                   <a href="/Account/NewProfile">
                     <Trans>newAthleteProfile</Trans>
+                  </a>
+                </li>
+              )}
+
+              {officialProfile.username ? (
+                <li>
+                  <a
+                    href={`/Account/EditOfficialProfile/${officialProfile.username}`}
+                  >
+                    <Trans>editOfficialProfile</Trans>
+                  </a>
+                </li>
+              ) : (
+                <li>
+                  <a href="/Account/NewOfficialProfile">
+                    <Trans>newOfficialProfile</Trans>
                   </a>
                 </li>
               )}
