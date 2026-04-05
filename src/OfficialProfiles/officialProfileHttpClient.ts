@@ -9,8 +9,7 @@ import { REACT_APP_API_HOST } from '../Shared/env';
 
 const OFFICIAL_PROFILES_API = `${REACT_APP_API_HOST}v1/official-profiles`;
 
-const slug = (username = '') =>
-  `${OFFICIAL_PROFILES_API}/username/${username}`;
+const slug = (username = '') => `${OFFICIAL_PROFILES_API}/username/${username}`;
 
 const officialProfileHttpClient = {
   delete: (username: string): Promise<any> => httpClient.delete(slug(username)),
