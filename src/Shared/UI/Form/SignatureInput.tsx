@@ -1,9 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import MetaInput from './MetaInput';
-
-// @ts-ignore
 import SignatureCanvas from 'react-signature-canvas';
+import { Trans } from 'react-i18next';
 
 interface SignatureInputProps extends FieldRenderProps<string, HTMLElement> {
   className?: string;
@@ -16,12 +15,14 @@ function SignatureInput({
   className,
   allowClear = true
 }: SignatureInputProps) {
-  const signatureRef = useRef<any>(null);
+  const signatureRef = useRef<SignatureCanvas | null>(null);
 
   // Load existing signature when component mounts or value changes
   useEffect(() => {
     if (input.value && signatureRef.current) {
       signatureRef.current.fromDataURL(input.value);
+    } else if (!input.value && signatureRef.current) {
+      signatureRef.current.clear();
     }
   }, [input.value]);
 
@@ -68,7 +69,7 @@ function SignatureInput({
                 className="button is-small is-light"
                 onClick={handleClear}
               >
-                Clear
+                <Trans>clear</Trans>
               </button>
             </div>
           )}

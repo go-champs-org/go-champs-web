@@ -210,6 +210,7 @@ const Form: React.FC<FormProps> = ({
                   component={StringInput}
                   type="password"
                   placeholder="****"
+                  validate={mustBePin}
                 />
               </div>
               <p className="help">

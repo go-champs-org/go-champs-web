@@ -91,6 +91,7 @@
     "@types/react-redux": "^7.0.8",
     "@types/react-router-dom": "5.1.2",
     "@types/react-select": "^2.0.19",
+    "@types/react-signature-canvas": "^1.0.7",
     "cypress": "^13.6.2",
     "cypress-xpath": "^2.0.1",
     "env-cmd": "^10.1.0",

@@ -70,7 +70,7 @@ export const mustBeAccountIdentifier = (value: string) => {
 };
 
 export const mustBePin = (value: string) =>
-  !value || PIN_REGEX.test(value) ? undefined : 'mustBeAtLeast4Digits';
+  !value || PIN_REGEX.test(value) ? undefined : 'Must be at least 4 digits';
 
 export const composeValidators = (
   validators: ValidatorFunction[],
