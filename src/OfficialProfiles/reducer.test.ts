@@ -86,6 +86,7 @@ describe('OfficialProfiles reducer', () => {
           username: 'official1',
           name: 'Jane Doe',
           photoUrl: 'https://example.com/photo.jpg',
+          category: 'Referee',
           signature: 'data:image/png;base64,abc123',
           signaturePin: '1234'
         },
@@ -93,6 +94,7 @@ describe('OfficialProfiles reducer', () => {
           username: 'official2',
           name: 'John Smith',
           photoUrl: 'https://example.com/john.jpg',
+          category: 'Umpire',
           signature: '',
           signaturePin: ''
         }
@@ -114,6 +116,7 @@ describe('OfficialProfiles reducer', () => {
           username: 'official1',
           name: 'Jane Doe',
           photoUrl: 'https://example.com/photo.jpg',
+          category: 'Referee',
           signature: 'data:image/png;base64,abc123',
           signaturePin: '1234'
         },
@@ -121,6 +124,7 @@ describe('OfficialProfiles reducer', () => {
           username: 'official2',
           name: 'John Smith',
           photoUrl: 'https://example.com/john.jpg',
+          category: 'Umpire',
           signature: '',
           signaturePin: ''
         }
@@ -154,6 +158,7 @@ describe('OfficialProfiles reducer', () => {
         username: 'newofficial',
         name: 'New Official',
         photoUrl: 'https://example.com/new.jpg',
+        category: 'Referee',
         signature: 'data:image/png;base64,new123',
         signaturePin: '0000'
       };
@@ -199,6 +204,7 @@ describe('OfficialProfiles reducer', () => {
         username: 'official1',
         name: 'Jane Doe',
         photoUrl: 'https://example.com/photo.jpg',
+        category: 'Referee',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234'
       };

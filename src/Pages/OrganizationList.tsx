@@ -12,6 +12,7 @@ import { Trans } from 'react-i18next';
 import withAccount from './support/withAccount';
 import { getAccount } from '../Accounts/effects';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
+import { requestOfficialProfile } from '../OfficialProfiles/effects';
 
 const mapStateToProps = (state: StoreState) => {
   return {
@@ -25,7 +26,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       deleteOrganization,
       getAccount,
-      requestAthleteProfile
+      requestAthleteProfile,
+      requestOfficialProfile
     },
     dispatch
   );

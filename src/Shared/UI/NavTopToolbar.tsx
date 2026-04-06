@@ -12,12 +12,14 @@ import withAccount from '../../Pages/support/withAccount';
 import { ThemeSwitcher } from '../../Theme';
 import BehindFeatureFlag from './BehindFeatureFlag';
 import { requestAthleteProfile } from '../../AthleteProfiles/effects';
+import { requestOfficialProfile } from '../../OfficialProfiles/effects';
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       getAccount,
-      requestAthleteProfile
+      requestAthleteProfile,
+      requestOfficialProfile
     },
     dispatch
   );

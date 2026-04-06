@@ -792,6 +792,7 @@ export interface ApiRegistrationResponseResourceResponse {
 export type ApiUploadFileType =
   | 'athlete-profiles-photos'
   | 'game-assets'
+  | 'official-profiles-photos'
   | 'player-photos'
   | 'registration-consents'
   | 'team-logos'
@@ -898,6 +899,7 @@ export interface ApiOfficialProfile {
   username: string;
   name?: string;
   photo_url?: string;
+  category?: string;
   signature?: string;
   signature_pin?: string;
 }

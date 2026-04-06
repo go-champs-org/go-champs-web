@@ -8,15 +8,21 @@ import { StoreState } from '../store';
 import { athleteProfileByUsername } from '../AthleteProfiles/selectors';
 import { getAccount } from '../Accounts/effects';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
+import { requestOfficialProfile } from '../OfficialProfiles/effects';
 import withAccount from './support/withAccount';
 import { isGettingAccountLoading } from '../Accounts/selectors';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import { officialProfileByUsername } from '../OfficialProfiles/selectors';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
   return {
     athleteProfile: athleteProfileByUsername(state.athleteProfiles, username),
+    officialProfile: officialProfileByUsername(
+      state.officialProfiles,
+      username
+    ),
     isGettingAccountLoading: isGettingAccountLoading(state.account)
   };
 };
@@ -25,7 +31,8 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       getAccount,
-      requestAthleteProfile
+      requestAthleteProfile,
+      requestOfficialProfile
     },
     dispatch
   );
@@ -36,6 +43,7 @@ type AccountHomeBillboardProps = ConnectedProps<typeof connector>;
 
 function AccountHomeBillboard({
   athleteProfile,
+  officialProfile,
   isGettingAccountLoading
 }: AccountHomeBillboardProps) {
   return (
@@ -62,7 +70,7 @@ function AccountHomeBillboard({
         ) : (
           <>
             {athleteProfile.username ? (
-              <div className="hero is-primary slide-fade-content delay-1 hero-clickable">
+              <div className="hero is-small is-primary slide-fade-content delay-1 hero-clickable">
                 <Link to={`/Account/Profile/${athleteProfile.username}`}>
                   <div className="hero-body">
                     <div className="hero-content-stacked">
@@ -89,7 +97,7 @@ function AccountHomeBillboard({
                 </Link>
               </div>
             ) : (
-              <div className="hero is-primary slide-fade-content delay-1 hero-clickable">
+              <div className="hero is-small is-primary slide-fade-content delay-1 hero-clickable">
                 <Link to="/Account/NewProfile">
                   <div className="hero-body">
                     <div className="hero-content-stacked">
@@ -116,7 +124,64 @@ function AccountHomeBillboard({
                 </Link>
               </div>
             )}
-            <div className="hero is-info slide-fade-content delay-2 hero-clickable">
+            {officialProfile.username ? (
+              <div className="hero is-small is-primary slide-fade-content delay-2 hero-clickable">
+                <Link
+                  to={`/Account/OfficialProfile/${officialProfile.username}`}
+                >
+                  <div className="hero-body">
+                    <div className="hero-content-stacked">
+                      <div className="hero-main-row">
+                        <p className="is-size-5">
+                          <Trans>seeOfficialProfile</Trans>
+                        </p>
+                        <button className="button hero-button">
+                          <span>
+                            <Trans>clickHere</Trans>
+                          </span>
+                          <span className="icon">
+                            <i className="fas fa-arrow-right"></i>
+                          </span>
+                        </button>
+                      </div>
+                      <div className="hero-subtitle-row">
+                        <p className="is-size-7">
+                          <Trans>forOfficials</Trans>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ) : (
+              <div className="hero is-small is-primary slide-fade-content delay-2 hero-clickable">
+                <Link to="/Account/NewOfficialProfile">
+                  <div className="hero-body">
+                    <div className="hero-content-stacked">
+                      <div className="hero-main-row">
+                        <p className="is-size-5">
+                          <Trans>createOfficialProfile</Trans>
+                        </p>
+                        <button className="button hero-button">
+                          <span>
+                            <Trans>clickHere</Trans>
+                          </span>
+                          <span className="icon">
+                            <i className="fas fa-arrow-right"></i>
+                          </span>
+                        </button>
+                      </div>
+                      <div className="hero-subtitle-row">
+                        <p className="is-size-7">
+                          <Trans>forOfficials</Trans>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
+            <div className="hero is-small is-info slide-fade-content delay-2 hero-clickable">
               <Link to="/Account/Organizations">
                 <div className="hero-body">
                   <div className="hero-content-stacked">
