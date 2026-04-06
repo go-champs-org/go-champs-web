@@ -13,6 +13,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: 'Jane Doe',
         photo_url: 'https://example.com/photo.jpg',
+        category: 'Referee',
         signature: 'data:image/png;base64,abc123',
         signature_pin: '1234'
       };
@@ -25,6 +26,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: 'Jane Doe',
         photoUrl: 'https://example.com/photo.jpg',
+        category: 'Referee',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234'
       });
@@ -43,6 +45,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: '',
         photoUrl: '',
+        category: '',
         signature: '',
         signaturePin: ''
       });
@@ -53,6 +56,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: undefined,
         photo_url: undefined,
+        category: undefined,
         signature: undefined,
         signature_pin: undefined
       };
@@ -65,6 +69,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: '',
         photoUrl: '',
+        category: '',
         signature: '',
         signaturePin: ''
       });
@@ -77,6 +82,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: 'Jane Doe',
         photoUrl: 'https://example.com/photo.jpg',
+        category: 'Referee',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234'
       };
@@ -90,6 +96,7 @@ describe('OfficialProfiles dataMappers', () => {
           username: 'official123',
           name: 'Jane Doe',
           photo_url: 'https://example.com/photo.jpg',
+          category: 'Referee',
           signature: 'data:image/png;base64,abc123',
           signature_pin: '1234'
         }
@@ -101,6 +108,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: '',
         photoUrl: '',
+        category: '',
         signature: '',
         signaturePin: ''
       };
@@ -114,6 +122,7 @@ describe('OfficialProfiles dataMappers', () => {
           username: 'official123',
           name: '',
           photo_url: '',
+          category: '',
           signature: '',
           signature_pin: ''
         }
@@ -127,6 +136,7 @@ describe('OfficialProfiles dataMappers', () => {
         username: 'official123',
         name: 'Jane Doe Updated',
         photoUrl: 'https://example.com/new-photo.jpg',
+        category: 'Head Referee',
         signature: 'data:image/png;base64,xyz789',
         signaturePin: '5678'
       };
@@ -140,6 +150,7 @@ describe('OfficialProfiles dataMappers', () => {
           username: 'official123',
           name: 'Jane Doe Updated',
           photo_url: 'https://example.com/new-photo.jpg',
+          category: 'Head Referee',
           signature: 'data:image/png;base64,xyz789',
           signature_pin: '5678'
         }

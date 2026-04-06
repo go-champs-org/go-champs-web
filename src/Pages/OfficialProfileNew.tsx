@@ -2,7 +2,10 @@ import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { postOfficialProfile } from '../OfficialProfiles/effects';
-import { default as OfficialProfileForm } from '../OfficialProfiles/Form';
+import {
+  default as OfficialProfileForm,
+  officialProfileValidator
+} from '../OfficialProfiles/Form';
 import { Form, FormRenderProps } from 'react-final-form';
 import {
   OfficialProfileEntity,
@@ -49,11 +52,13 @@ const OfficialProfileNew: React.FC<OfficialProfileNewProps> = ({
           <Form
             onSubmit={postOfficialProfile}
             initialValues={initialOfficialProfile}
+            validate={values => officialProfileValidator(values, true)}
             render={(props: FormRenderProps<OfficialProfileEntity>) => (
               <OfficialProfileForm
                 {...props}
                 backUrl={backUrl}
                 isLoading={isPostingOfficialProfile}
+                isNewProfile={true}
               />
             )}
           />

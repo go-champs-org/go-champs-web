@@ -2,6 +2,7 @@ export interface OfficialProfileEntity {
   username: string;
   name: string;
   photoUrl: string;
+  category: string;
   signature: string;
   signaturePin: string;
 }
@@ -28,6 +29,7 @@ export const DEFAULT_OFFICIAL_PROFILE: OfficialProfileEntity = {
   username: '',
   name: '',
   photoUrl: '',
+  category: '',
   signature: '',
   signaturePin: ''
 };

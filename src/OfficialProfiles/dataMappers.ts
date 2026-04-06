@@ -12,6 +12,7 @@ export const mapApiOfficialProfileToOfficialProfileEntity = (
   username: apiOfficialProfile.username,
   name: apiOfficialProfile.name || '',
   photoUrl: apiOfficialProfile.photo_url || '',
+  category: apiOfficialProfile.category || '',
   signature: apiOfficialProfile.signature || '',
   signaturePin: apiOfficialProfile.signature_pin || ''
 });
@@ -23,6 +24,7 @@ export const mapOfficialProfileEntityToApiOfficialProfilePostRequest = (
     username: officialProfile.username,
     name: officialProfile.name,
     photo_url: officialProfile.photoUrl,
+    category: officialProfile.category,
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }
@@ -35,6 +37,7 @@ export const mapOfficialProfileEntityToApiOfficialProfilePatchRequest = (
     username: officialProfile.username,
     name: officialProfile.name,
     photo_url: officialProfile.photoUrl,
+    category: officialProfile.category,
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }

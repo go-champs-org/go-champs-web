@@ -16,7 +16,8 @@ import {
 import { Form, FormRenderProps } from 'react-final-form';
 import {
   default as OfficialProfileForm,
-  FormLoading
+  FormLoading,
+  officialProfileValidator
 } from '../OfficialProfiles/Form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import Helmet from 'react-helmet';
@@ -85,11 +86,13 @@ const OfficialProfileEdit: React.FC<OfficialProfileEditProps> = ({
             <Form
               onSubmit={patchOfficialProfile}
               initialValues={officialProfile}
+              validate={values => officialProfileValidator(values, false)}
               render={(props: FormRenderProps<OfficialProfileEntity>) => (
                 <OfficialProfileForm
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPatchingOfficialProfile}
+                  isNewProfile={false}
                 />
               )}
             />

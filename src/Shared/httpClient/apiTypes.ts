@@ -899,6 +899,7 @@ export interface ApiOfficialProfile {
   username: string;
   name?: string;
   photo_url?: string;
+  category?: string;
   signature?: string;
   signature_pin?: string;
 }

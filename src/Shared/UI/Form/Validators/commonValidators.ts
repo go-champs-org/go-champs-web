@@ -9,6 +9,7 @@ const STRONG_PASSWORD_REGEX = RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
 );
 const USERNAME_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){4,20}$/);
+const PIN_REGEX = RegExp(/^\d{4,}$/);
 
 export type ValidatorFunction = (value: any) => string | undefined;
 export type AsyncValidatorFunction = (
@@ -67,6 +68,9 @@ export const mustBeAccountIdentifier = (value: string) => {
     return mustBeUsername(value);
   }
 };
+
+export const mustBePin = (value: string) =>
+  !value || PIN_REGEX.test(value) ? undefined : 'mustBeAtLeast4Digits';
 
 export const composeValidators = (
   validators: ValidatorFunction[],
