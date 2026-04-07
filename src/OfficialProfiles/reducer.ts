@@ -111,14 +111,10 @@ const patchOfficialProfileSignatureFailure = (
 
 const patchOfficialProfileSignatureSuccess = (
   state: OfficialProfileState,
-  action: HttpAction<string, OfficialProfileEntity>
+  action: HttpAction<string, string>
 ) => ({
   ...state,
-  isLoadingPatchOfficialProfileSignature: false,
-  officialProfiles: [action.payload].reduce(
-    officialProfileMapEntities,
-    state.officialProfiles
-  )
+  isLoadingPatchOfficialProfileSignature: false
 });
 
 const postOfficialProfile = (
