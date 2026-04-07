@@ -920,6 +920,11 @@ export interface ApiOfficialProfilesResponse {
   data: ApiOfficialProfile[];
 }
 
+export interface ApiOfficialProfileSignaturePatchResponse {
+  message: string;
+  username: string;
+}
+
 export interface ApiBillingAgreementRequestData {
   plan_slug: string;
   selected_campaign_slugs: string[];

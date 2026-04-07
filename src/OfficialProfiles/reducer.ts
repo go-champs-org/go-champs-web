@@ -112,10 +112,16 @@ const patchOfficialProfileSignatureFailure = (
 const patchOfficialProfileSignatureSuccess = (
   state: OfficialProfileState,
   action: HttpAction<string, string>
-) => ({
-  ...state,
-  isLoadingPatchOfficialProfileSignature: false
-});
+) => {
+  const officialProfiles = Object.keys(state.officialProfiles)
+    .filter((username: string) => username !== action.payload)
+    .reduce(mapEntitiesByKey(state.officialProfiles), {});
+  return {
+    ...state,
+    isLoadingPatchOfficialProfileSignature: false,
+    officialProfiles
+  };
+};
 
 const postOfficialProfile = (
   state: OfficialProfileState,

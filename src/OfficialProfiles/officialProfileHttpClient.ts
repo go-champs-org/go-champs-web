@@ -2,7 +2,8 @@ import {
   ApiOfficialProfilePostRequest,
   ApiOfficialProfilePatchRequest,
   ApiOfficialProfileResponse,
-  ApiOfficialProfilesResponse
+  ApiOfficialProfilesResponse,
+  ApiOfficialProfileSignaturePatchResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import { REACT_APP_API_HOST } from '../Shared/env';
@@ -23,7 +24,7 @@ const officialProfileHttpClient = {
   patchSignature: (
     signatureRequest: { signature: string; signature_pin: string },
     username: string
-  ): Promise<ApiOfficialProfileResponse> =>
+  ): Promise<ApiOfficialProfileSignaturePatchResponse> =>
     httpClient.patch(`${slug(username)}/signature`, signatureRequest),
   post: (
     officialProfileRequest: ApiOfficialProfilePostRequest
