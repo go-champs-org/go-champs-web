@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import {
   requestOfficialProfile,
@@ -72,10 +73,26 @@ const OfficialProfileEdit: React.FC<OfficialProfileEditProps> = ({
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
-        <div className="column is-12">
+        <div className="column is-4">
           <h2 className="subtitle">
             <Trans>editOfficialProfile</Trans>
           </h2>
+        </div>
+
+        <div className="column is-8 has-text-right">
+          <Link
+            to={`/Account/EditOfficialProfileSignature/${match.params.username}`}
+          >
+            <button className="button is-info is-outlined is-small">
+              <span className="icon">
+                <i className="fas fa-signature"></i>
+              </span>
+
+              <span>
+                <Trans>updateSignature</Trans>
+              </span>
+            </button>
+          </Link>
         </div>
 
         <div className="column is-12">

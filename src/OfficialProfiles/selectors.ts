@@ -33,6 +33,9 @@ export const officialProfilesLoading = (state: OfficialProfileState): boolean =>
   state.isLoadingRequestOfficialProfiles;
 export const patchingOfficialProfile = (state: OfficialProfileState): boolean =>
   state.isLoadingPatchOfficialProfile;
+export const patchingOfficialProfileSignature = (
+  state: OfficialProfileState
+): boolean => state.isLoadingPatchOfficialProfileSignature;
 export const postingOfficialProfile = (state: OfficialProfileState): boolean =>
   state.isLoadingPostOfficialProfile;
 export const deletingOfficialProfile = (state: OfficialProfileState): boolean =>

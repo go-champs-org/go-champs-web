@@ -10,6 +10,13 @@ export const PATCH_OFFICIAL_PROFILE = 'PATCH_OFFICIAL_PROFILE';
 export const PATCH_OFFICIAL_PROFILE_SUCCESS = 'PATCH_OFFICIAL_PROFILE_SUCCESS';
 export const PATCH_OFFICIAL_PROFILE_FAILURE = 'PATCH_OFFICIAL_PROFILE_FAILURE';
 
+export const PATCH_OFFICIAL_PROFILE_SIGNATURE =
+  'PATCH_OFFICIAL_PROFILE_SIGNATURE';
+export const PATCH_OFFICIAL_PROFILE_SIGNATURE_SUCCESS =
+  'PATCH_OFFICIAL_PROFILE_SIGNATURE_SUCCESS';
+export const PATCH_OFFICIAL_PROFILE_SIGNATURE_FAILURE =
+  'PATCH_OFFICIAL_PROFILE_SIGNATURE_FAILURE';
+
 export const POST_OFFICIAL_PROFILE = 'POST_OFFICIAL_PROFILE';
 export const POST_OFFICIAL_PROFILE_SUCCESS = 'POST_OFFICIAL_PROFILE_SUCCESS';
 export const POST_OFFICIAL_PROFILE_FAILURE = 'POST_OFFICIAL_PROFILE_FAILURE';
@@ -53,6 +60,22 @@ export const patchOfficialProfileSuccess = (
 
 export const patchOfficialProfileFailure = (error: any) => ({
   type: PATCH_OFFICIAL_PROFILE_FAILURE,
+  payload: error
+});
+
+export const patchOfficialProfileSignatureStart = () => ({
+  type: PATCH_OFFICIAL_PROFILE_SIGNATURE
+});
+
+export const patchOfficialProfileSignatureSuccess = (
+  officialProfile: OfficialProfileEntity
+) => ({
+  type: PATCH_OFFICIAL_PROFILE_SIGNATURE_SUCCESS,
+  payload: officialProfile
+});
+
+export const patchOfficialProfileSignatureFailure = (error: any) => ({
+  type: PATCH_OFFICIAL_PROFILE_SIGNATURE_FAILURE,
   payload: error
 });
 

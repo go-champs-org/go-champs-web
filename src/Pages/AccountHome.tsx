@@ -11,6 +11,7 @@ import ProfileNew from './ProfileNew';
 import OfficialProfileEdit from './OfficialProfileEdit';
 import OfficialProfileHome from './OfficialProfileHome';
 import OfficialProfileNew from './OfficialProfileNew';
+import OfficialProfileSignatureEdit from './OfficialProfileSignatureEdit';
 import withAccount from './support/withAccount';
 import { StoreState } from '../store';
 import { athleteProfileByUsername } from '../AthleteProfiles/selectors';
@@ -77,6 +78,10 @@ function AccountHome({ athleteProfile, officialProfile }: AccountHomeProps) {
             <Route
               path="/Account/EditOfficialProfile/:username"
               component={OfficialProfileEdit}
+            />
+            <Route
+              path="/Account/EditOfficialProfileSignature/:username"
+              component={OfficialProfileSignatureEdit}
             />
             <Route
               path="/Account/OfficialProfile/:username"

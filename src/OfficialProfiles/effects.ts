@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { History } from 'history';
 import {
   deleteOfficialProfileFailure,
   deleteOfficialProfileStart,
@@ -6,6 +7,9 @@ import {
   patchOfficialProfileFailure,
   patchOfficialProfileStart,
   patchOfficialProfileSuccess,
+  patchOfficialProfileSignatureFailure,
+  patchOfficialProfileSignatureStart,
+  patchOfficialProfileSignatureSuccess,
   postOfficialProfileFailure,
   postOfficialProfileStart,
   postOfficialProfileSuccess,
@@ -37,7 +41,7 @@ export const deleteOfficialProfile = (username: string) => async (
     dispatch(deleteOfficialProfileSuccess(username));
     displayToast('Official profile deleted!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err);
+    const apiError = new ApiError(err as any);
     dispatch(deleteOfficialProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -64,8 +68,35 @@ export const patchOfficialProfile = (
     dispatch(patchOfficialProfileSuccess(updatedOfficialProfile));
     displayToast('Official profile updated!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err);
+    const apiError = new ApiError(err as any);
     dispatch(patchOfficialProfileFailure(err));
+    displayToast(apiError.message, 'is-danger');
+  }
+};
+
+export const patchOfficialProfileSignature = (
+  signature: string,
+  signaturePin: string,
+  username: string,
+  history: History
+) => async (dispatch: Dispatch) => {
+  dispatch(patchOfficialProfileSignatureStart());
+
+  try {
+    const response = await officialProfileHttpClient.patchSignature(
+      { signature, signature_pin: signaturePin },
+      username
+    );
+
+    const updatedOfficialProfile = mapApiOfficialProfileToOfficialProfileEntity(
+      response.data
+    );
+    dispatch(patchOfficialProfileSignatureSuccess(updatedOfficialProfile));
+    displayToast('Signature updated!', 'is-success');
+    history.push(`/Account/EditOfficialProfile/${username}`);
+  } catch (err) {
+    const apiError = new ApiError(err as any);
+    dispatch(patchOfficialProfileSignatureFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
 };
@@ -90,7 +121,7 @@ export const postOfficialProfile = (
     dispatch(postOfficialProfileSuccess(newOfficialProfile));
     displayToast('Official profile created!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err);
+    const apiError = new ApiError(err as any);
     dispatch(postOfficialProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }

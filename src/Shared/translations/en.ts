@@ -315,6 +315,7 @@ export default {
     signature: 'Signature',
     signaturePin: 'Signature PIN',
     signatureRequiresPin: 'Signature requires a PIN',
+    updateSignature: 'Update Signature',
     shirtName: 'Shirt name',
     shirtNumber: 'Shirt number',
     socialNetworks: 'Social networks',

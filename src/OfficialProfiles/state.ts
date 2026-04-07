@@ -10,6 +10,7 @@ export interface OfficialProfileEntity {
 export interface OfficialProfileState {
   isLoadingDeleteOfficialProfile: boolean;
   isLoadingPatchOfficialProfile: boolean;
+  isLoadingPatchOfficialProfileSignature: boolean;
   isLoadingPostOfficialProfile: boolean;
   isLoadingRequestOfficialProfile: boolean;
   isLoadingRequestOfficialProfiles: boolean;
@@ -19,6 +20,7 @@ export interface OfficialProfileState {
 export const initialState: OfficialProfileState = {
   isLoadingDeleteOfficialProfile: false,
   isLoadingPatchOfficialProfile: false,
+  isLoadingPatchOfficialProfileSignature: false,
   isLoadingPostOfficialProfile: false,
   isLoadingRequestOfficialProfile: false,
   isLoadingRequestOfficialProfiles: false,
