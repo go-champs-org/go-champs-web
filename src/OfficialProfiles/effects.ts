@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { History } from 'history';
 import {
   deleteOfficialProfileFailure,
   deleteOfficialProfileStart,
@@ -76,7 +77,8 @@ export const patchOfficialProfile = (
 export const patchOfficialProfileSignature = (
   signature: string,
   signaturePin: string,
-  username: string
+  username: string,
+  history: History
 ) => async (dispatch: Dispatch) => {
   dispatch(patchOfficialProfileSignatureStart());
 
@@ -91,7 +93,7 @@ export const patchOfficialProfileSignature = (
     );
     dispatch(patchOfficialProfileSignatureSuccess(updatedOfficialProfile));
     displayToast('Signature updated!', 'is-success');
-    window.location.href = `/Account/EditOfficialProfile/${username}`;
+    history.push(`/Account/EditOfficialProfile/${username}`);
   } catch (err) {
     const apiError = new ApiError(err as any);
     dispatch(patchOfficialProfileSignatureFailure(err));

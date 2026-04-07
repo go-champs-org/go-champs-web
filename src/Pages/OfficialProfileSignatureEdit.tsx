@@ -10,7 +10,7 @@ import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import {
   officialProfileByUsername,
-  officialProfilesLoading,
+  officialProfileLoading,
   patchingOfficialProfileSignature
 } from '../OfficialProfiles/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
@@ -41,7 +41,7 @@ const mapStateToProps = (
     state.officialProfiles,
     props.match.params.username
   ),
-  officialProfilesLoading: officialProfilesLoading(state.officialProfiles)
+  officialProfileLoading: officialProfileLoading(state.officialProfiles)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -61,10 +61,11 @@ type OfficialProfileSignatureEditProps = ConnectedProps<typeof connector> &
 const OfficialProfileSignatureEdit: React.FC<OfficialProfileSignatureEditProps> = ({
   isPatchingSignature,
   officialProfile,
-  officialProfilesLoading,
+  officialProfileLoading,
   patchOfficialProfileSignature,
   requestOfficialProfile,
-  match
+  match,
+  history
 }) => {
   React.useEffect(() => {
     if (match.params.username) {
@@ -78,7 +79,8 @@ const OfficialProfileSignatureEdit: React.FC<OfficialProfileSignatureEditProps> 
     patchOfficialProfileSignature(
       values.signature,
       values.signaturePin,
-      match.params.username
+      match.params.username,
+      history
     );
   };
 
@@ -93,7 +95,7 @@ const OfficialProfileSignatureEdit: React.FC<OfficialProfileSignatureEditProps> 
 
         <div className="column is-12">
           <ComponentLoader
-            canRender={!officialProfilesLoading}
+            canRender={!officialProfileLoading}
             loader={<FormLoading />}
           >
             <Form
