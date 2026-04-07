@@ -67,11 +67,9 @@ export const patchOfficialProfileSignatureStart = () => ({
   type: PATCH_OFFICIAL_PROFILE_SIGNATURE
 });
 
-export const patchOfficialProfileSignatureSuccess = (
-  officialProfile: OfficialProfileEntity
-) => ({
+export const patchOfficialProfileSignatureSuccess = (username: string) => ({
   type: PATCH_OFFICIAL_PROFILE_SIGNATURE_SUCCESS,
-  payload: officialProfile
+  payload: username
 });
 
 export const patchOfficialProfileSignatureFailure = (error: any) => ({

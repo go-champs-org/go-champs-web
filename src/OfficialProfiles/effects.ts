@@ -83,15 +83,12 @@ export const patchOfficialProfileSignature = (
   dispatch(patchOfficialProfileSignatureStart());
 
   try {
-    const response = await officialProfileHttpClient.patchSignature(
+    await officialProfileHttpClient.patchSignature(
       { signature, signature_pin: signaturePin },
       username
     );
 
-    const updatedOfficialProfile = mapApiOfficialProfileToOfficialProfileEntity(
-      response.data
-    );
-    dispatch(patchOfficialProfileSignatureSuccess(updatedOfficialProfile));
+    dispatch(patchOfficialProfileSignatureSuccess(username));
     displayToast('Signature updated!', 'is-success');
     history.push(`/Account/EditOfficialProfile/${username}`);
   } catch (err) {
