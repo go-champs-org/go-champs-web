@@ -12,6 +12,9 @@ import {
   PATCH_OFFICIAL_PROFILE,
   PATCH_OFFICIAL_PROFILE_FAILURE,
   PATCH_OFFICIAL_PROFILE_SUCCESS,
+  PATCH_OFFICIAL_PROFILE_SIGNATURE,
+  PATCH_OFFICIAL_PROFILE_SIGNATURE_FAILURE,
+  PATCH_OFFICIAL_PROFILE_SIGNATURE_SUCCESS,
   POST_OFFICIAL_PROFILE,
   POST_OFFICIAL_PROFILE_FAILURE,
   POST_OFFICIAL_PROFILE_SUCCESS,
@@ -84,6 +87,34 @@ const patchOfficialProfileSuccess = (
 ) => ({
   ...state,
   isLoadingPatchOfficialProfile: false,
+  officialProfiles: [action.payload].reduce(
+    officialProfileMapEntities,
+    state.officialProfiles
+  )
+});
+
+const patchOfficialProfileSignature = (
+  state: OfficialProfileState,
+  action: HttpAction<string>
+) => ({
+  ...state,
+  isLoadingPatchOfficialProfileSignature: true
+});
+
+const patchOfficialProfileSignatureFailure = (
+  state: OfficialProfileState,
+  action: HttpAction<string>
+) => ({
+  ...state,
+  isLoadingPatchOfficialProfileSignature: false
+});
+
+const patchOfficialProfileSignatureSuccess = (
+  state: OfficialProfileState,
+  action: HttpAction<string, OfficialProfileEntity>
+) => ({
+  ...state,
+  isLoadingPatchOfficialProfileSignature: false,
   officialProfiles: [action.payload].reduce(
     officialProfileMapEntities,
     state.officialProfiles
@@ -178,6 +209,9 @@ export default createReducer(initialState, {
   [PATCH_OFFICIAL_PROFILE]: patchOfficialProfile,
   [PATCH_OFFICIAL_PROFILE_FAILURE]: patchOfficialProfileFailure,
   [PATCH_OFFICIAL_PROFILE_SUCCESS]: patchOfficialProfileSuccess,
+  [PATCH_OFFICIAL_PROFILE_SIGNATURE]: patchOfficialProfileSignature,
+  [PATCH_OFFICIAL_PROFILE_SIGNATURE_FAILURE]: patchOfficialProfileSignatureFailure,
+  [PATCH_OFFICIAL_PROFILE_SIGNATURE_SUCCESS]: patchOfficialProfileSignatureSuccess,
   [POST_OFFICIAL_PROFILE]: postOfficialProfile,
   [POST_OFFICIAL_PROFILE_FAILURE]: postOfficialProfileFailure,
   [POST_OFFICIAL_PROFILE_SUCCESS]: postOfficialProfileSuccess,

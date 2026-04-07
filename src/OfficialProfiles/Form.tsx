@@ -164,22 +164,22 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
-        <div className="field">
-          <label className="label">
-            <Trans>signature</Trans>
-          </label>
-
-          <div className="control">
-            <Field
-              name="signature"
-              component={SignatureInput}
-              allowClear={isNewProfile}
-            />
-          </div>
-        </div>
-
         {isNewProfile && (
           <>
+            <div className="field">
+              <label className="label">
+                <Trans>signature</Trans>
+              </label>
+
+              <div className="control">
+                <Field
+                  name="signature"
+                  component={SignatureInput}
+                  allowClear={isNewProfile}
+                />
+              </div>
+            </div>
+
             <div className="field">
               <label className="label">
                 <Trans>signaturePin</Trans>
@@ -218,15 +218,6 @@ const Form: React.FC<FormProps> = ({
               </p>
             </div>
           </>
-        )}
-
-        {!isNewProfile && (
-          <div className="field">
-            <p className="help">
-              <Trans>toChangeSignaturePinContactSupport</Trans>
-            </p>
-            {/* TODO: Phase 2 - Add "Change Signature PIN" button/modal here */}
-          </div>
         )}
 
         <LoadingButton

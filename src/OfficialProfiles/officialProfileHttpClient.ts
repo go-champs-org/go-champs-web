@@ -20,6 +20,11 @@ const officialProfileHttpClient = {
     username: string
   ): Promise<ApiOfficialProfileResponse> =>
     httpClient.patch(slug(username), officialProfileRequest),
+  patchSignature: (
+    signatureRequest: { signature: string; signature_pin: string },
+    username: string
+  ): Promise<ApiOfficialProfileResponse> =>
+    httpClient.patch(`${slug(username)}/signature`, signatureRequest),
   post: (
     officialProfileRequest: ApiOfficialProfilePostRequest
   ): Promise<ApiOfficialProfileResponse> =>

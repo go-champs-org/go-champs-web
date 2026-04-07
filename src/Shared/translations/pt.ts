@@ -322,6 +322,7 @@ export default {
     signature: 'Assinatura',
     signaturePin: 'PIN da assinatura',
     signatureRequiresPin: 'Assinatura requer um PIN',
+    updateSignature: 'Atualizar Assinatura',
     shirtName: 'Nome na camiseta',
     shirtNumber: 'Número na camiseta',
     socialNetworks: 'Redes sociais',

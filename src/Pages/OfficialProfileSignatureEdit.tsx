@@ -1,39 +1,42 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
 import { bindActionCreators, Dispatch } from 'redux';
 import {
   requestOfficialProfile,
-  patchOfficialProfile
+  patchOfficialProfileSignature
 } from '../OfficialProfiles/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import {
   officialProfileByUsername,
   officialProfilesLoading,
-  patchingOfficialProfile
+  patchingOfficialProfileSignature
 } from '../OfficialProfiles/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
-import {
-  default as OfficialProfileForm,
-  FormLoading,
-  officialProfileValidator
-} from '../OfficialProfiles/Form';
+import SignatureForm, {
+  signatureValidator
+} from '../OfficialProfiles/SignatureForm';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
+import { FormLoading } from '../OfficialProfiles/Form';
 import Helmet from 'react-helmet';
-import { OfficialProfileEntity } from '../OfficialProfiles/state';
 import { Trans } from 'react-i18next';
 
-interface OfficialProfileRouteParams extends RouteProps {
+interface OfficialProfileSignatureRouteParams extends RouteProps {
   username: string;
+}
+
+interface SignatureFormValues {
+  signature: string;
+  signaturePin: string;
+  repeatedSignaturePin: string;
 }
 
 const mapStateToProps = (
   state: StoreState,
-  props: RouteComponentProps<OfficialProfileRouteParams>
+  props: RouteComponentProps<OfficialProfileSignatureRouteParams>
 ) => ({
-  isPatchingOfficialProfile: patchingOfficialProfile(state.officialProfiles),
+  isPatchingSignature: patchingOfficialProfileSignature(state.officialProfiles),
   officialProfile: officialProfileByUsername(
     state.officialProfiles,
     props.match.params.username
@@ -45,21 +48,21 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       requestOfficialProfile,
-      patchOfficialProfile
+      patchOfficialProfileSignature
     },
     dispatch
   );
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-type OfficialProfileEditProps = ConnectedProps<typeof connector> &
-  RouteComponentProps<OfficialProfileRouteParams>;
+type OfficialProfileSignatureEditProps = ConnectedProps<typeof connector> &
+  RouteComponentProps<OfficialProfileSignatureRouteParams>;
 
-const OfficialProfileEdit: React.FC<OfficialProfileEditProps> = ({
-  isPatchingOfficialProfile,
+const OfficialProfileSignatureEdit: React.FC<OfficialProfileSignatureEditProps> = ({
+  isPatchingSignature,
   officialProfile,
   officialProfilesLoading,
-  patchOfficialProfile,
+  patchOfficialProfileSignature,
   requestOfficialProfile,
   match
 }) => {
@@ -69,30 +72,23 @@ const OfficialProfileEdit: React.FC<OfficialProfileEditProps> = ({
     }
   }, [match.params.username, requestOfficialProfile]);
 
-  const backUrl = `/Account`;
+  const backUrl = `/Account/EditOfficialProfile/${match.params.username}`;
+
+  const handleSubmit = (values: SignatureFormValues) => {
+    patchOfficialProfileSignature(
+      values.signature,
+      values.signaturePin,
+      match.params.username
+    );
+  };
+
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
-        <div className="column is-4">
+        <div className="column is-12">
           <h2 className="subtitle">
-            <Trans>editOfficialProfile</Trans>
+            <Trans>updateSignature</Trans>
           </h2>
-        </div>
-
-        <div className="column is-8 has-text-right">
-          <Link
-            to={`/Account/EditOfficialProfileSignature/${match.params.username}`}
-          >
-            <button className="button is-info is-outlined is-small">
-              <span className="icon">
-                <i className="fas fa-signature"></i>
-              </span>
-
-              <span>
-                <Trans>updateSignature</Trans>
-              </span>
-            </button>
-          </Link>
         </div>
 
         <div className="column is-12">
@@ -101,15 +97,18 @@ const OfficialProfileEdit: React.FC<OfficialProfileEditProps> = ({
             loader={<FormLoading />}
           >
             <Form
-              onSubmit={patchOfficialProfile}
-              initialValues={officialProfile}
-              validate={values => officialProfileValidator(values, false)}
-              render={(props: FormRenderProps<OfficialProfileEntity>) => (
-                <OfficialProfileForm
+              onSubmit={handleSubmit}
+              initialValues={{
+                signature: officialProfile.signature || '',
+                signaturePin: '',
+                repeatedSignaturePin: ''
+              }}
+              validate={signatureValidator}
+              render={(props: FormRenderProps<SignatureFormValues>) => (
+                <SignatureForm
                   {...props}
                   backUrl={backUrl}
-                  isLoading={isPatchingOfficialProfile}
-                  isNewProfile={false}
+                  isLoading={isPatchingSignature}
                 />
               )}
             />
@@ -118,10 +117,10 @@ const OfficialProfileEdit: React.FC<OfficialProfileEditProps> = ({
       </div>
 
       <Helmet>
-        <title>Go Champs | Edit Official Profile</title>
+        <title>Go Champs | Update Official Profile Signature</title>
       </Helmet>
     </Fragment>
   );
 };
 
-export default connector(OfficialProfileEdit);
+export default connector(OfficialProfileSignatureEdit);
