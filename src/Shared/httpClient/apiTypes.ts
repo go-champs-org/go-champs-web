@@ -312,6 +312,10 @@ export interface ApiOrganizationsResponse {
   data: ApiOrganization[];
 }
 
+export interface ApiRecentlyViewedOrganizationsResponse {
+  data: Array<{ organization: ApiOrganization }>;
+}
+
 export type ApiRankingCriteria = 'overall' | 'head_to_head';
 
 export interface ApiPatchAndPostStat {

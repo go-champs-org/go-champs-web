@@ -6,6 +6,7 @@ import Footer from '../Shared/Footer';
 import CardV2 from '../Shared/CardV2';
 import mainBanner from '../../assets/illustrations/main-banner.svg';
 import MiniCard from '../../Tournaments/MiniCard';
+import RecentlyViewedOrganizationsSidebar from './RecentlyViewedOrganizationsSidebar';
 import {
   ApiRecentlyView,
   ApiTournamentWithDependecies
@@ -117,111 +118,125 @@ function HomeV2() {
             <img src={mainBanner} alt="" aria-hidden="true" />
           </div>
 
-          {/* Search Section */}
-          <div className="home-v2-search-section">
-            <CardV2>
-              <div className="home-v2-search-content">
-                <div className="home-v2-search-left">
-                  <h1 className="home-v2-title">
-                    <Trans>onGoingTournaments</Trans>
-                  </h1>
-                  <p className="home-v2-subtitle">
-                    <Trans>checkTheMostUpToDataGameResults</Trans>
-                  </p>
-                </div>
-                <div className="home-v2-search-right">
-                  <div className="home-v2-search-input-wrapper">
-                    <input
-                      className="home-v2-search-input"
-                      type="text"
-                      placeholder={`${t('searchTournaments')}...`}
-                      value={searchTerm}
-                      onChange={e => setSearchTerm(e.target.value)}
-                    />
-                    <span className="home-v2-search-icon">
-                      <i className="fas fa-search"></i>
-                    </span>
+          {/* Sidebar and Main Content Container */}
+          <div className="home-v2-layout">
+            {/* Organizations Sidebar */}
+            <aside className="home-v2-sidebar">
+              <RecentlyViewedOrganizationsSidebar />
+            </aside>
+
+            {/* Main Content */}
+            <div className="home-v2-content">
+              {/* Search Section */}
+              <div className="home-v2-search-section">
+                <CardV2>
+                  <div className="home-v2-search-content">
+                    <div className="home-v2-search-left">
+                      <h1 className="home-v2-title">
+                        <Trans>onGoingTournaments</Trans>
+                      </h1>
+                      <p className="home-v2-subtitle">
+                        <Trans>checkTheMostUpToDataGameResults</Trans>
+                      </p>
+                    </div>
+                    <div className="home-v2-search-right">
+                      <div className="home-v2-search-input-wrapper">
+                        <input
+                          className="home-v2-search-input"
+                          type="text"
+                          placeholder={`${t('searchTournaments')}...`}
+                          value={searchTerm}
+                          onChange={e => setSearchTerm(e.target.value)}
+                        />
+                        <span className="home-v2-search-icon">
+                          <i className="fas fa-search"></i>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </CardV2>
               </div>
-            </CardV2>
-          </div>
 
-          {/* Tournaments Section */}
-          <div className="home-v2-tournaments-section">
-            {isSearchMode ? (
-              // Search Results
-              <ComponentLoader canRender={!isSearching} loader={ListShimmer}>
-                {searchResults.length > 0 ? (
-                  <div className="home-v2-grid">
-                    {searchResults
-                      .slice(0, 15)
-                      .map((tournament: ApiTournamentWithDependecies) => (
-                        <div key={tournament.id}>
-                          <MiniCard tournament={tournament} />
-                        </div>
-                      ))}
-                  </div>
+              {/* Tournaments Section */}
+              <div className="home-v2-tournaments-section">
+                {isSearchMode ? (
+                  // Search Results
+                  <ComponentLoader
+                    canRender={!isSearching}
+                    loader={ListShimmer}
+                  >
+                    {searchResults.length > 0 ? (
+                      <div className="home-v2-grid">
+                        {searchResults
+                          .slice(0, 15)
+                          .map((tournament: ApiTournamentWithDependecies) => (
+                            <div key={tournament.id}>
+                              <MiniCard tournament={tournament} />
+                            </div>
+                          ))}
+                      </div>
+                    ) : (
+                      <div className="home-v2-empty-state">
+                        <p>
+                          {haveSearched
+                            ? `${t('tournamentNotFound')}.`
+                            : `${t('startTyping')}...`}
+                        </p>
+                      </div>
+                    )}
+                  </ComponentLoader>
                 ) : (
-                  <div className="home-v2-empty-state">
-                    <p>
-                      {haveSearched
-                        ? `${t('tournamentNotFound')}.`
-                        : `${t('startTyping')}...`}
-                    </p>
-                  </div>
-                )}
-              </ComponentLoader>
-            ) : (
-              // Pinned + Recently Viewed Tournaments
-              <ComponentLoader
-                canRender={!isLoadingTournaments}
-                loader={ListShimmer}
-              >
-                <div className="home-v2-grid">
-                  {/* Pinned Tournaments */}
-                  {Object.keys(pinnedRecentlyViews).length > 0 &&
-                    Object.keys(pinnedRecentlyViews)
-                      .slice(0, 15)
-                      .map((id: string) => {
-                        const recentlyView = pinnedRecentlyViews[id];
-                        return (
-                          <div key={recentlyView.tournament.id}>
-                            <MiniCard
-                              tournament={recentlyView.tournament}
-                              togglePin={() =>
-                                removeRecentlyViewClickHandler(recentlyView)
-                              }
-                              isPinned={true}
-                            />
-                          </div>
-                        );
-                      })}
+                  // Pinned + Recently Viewed Tournaments
+                  <ComponentLoader
+                    canRender={!isLoadingTournaments}
+                    loader={ListShimmer}
+                  >
+                    <div className="home-v2-grid">
+                      {/* Pinned Tournaments */}
+                      {Object.keys(pinnedRecentlyViews).length > 0 &&
+                        Object.keys(pinnedRecentlyViews)
+                          .slice(0, 15)
+                          .map((id: string) => {
+                            const recentlyView = pinnedRecentlyViews[id];
+                            return (
+                              <div key={recentlyView.tournament.id}>
+                                <MiniCard
+                                  tournament={recentlyView.tournament}
+                                  togglePin={() =>
+                                    removeRecentlyViewClickHandler(recentlyView)
+                                  }
+                                  isPinned={true}
+                                />
+                              </div>
+                            );
+                          })}
 
-                  {/* Recently Viewed Tournaments (not pinned) */}
-                  {recentlyViewsWithNoPinned.length > 0 &&
-                    recentlyViewsWithNoPinned
-                      .slice(
-                        0,
-                        Math.max(
-                          0,
-                          15 - Object.keys(pinnedRecentlyViews).length
-                        )
-                      )
-                      .map((recentlyView: ApiRecentlyView) => (
-                        <div key={recentlyView.tournament.id}>
-                          <MiniCard
-                            tournament={recentlyView.tournament}
-                            togglePin={() =>
-                              pinRecentlyViewClickHandler(recentlyView)
-                            }
-                            isPinned={false}
-                          />
-                        </div>
-                      ))}
-                </div>
-              </ComponentLoader>
-            )}
+                      {/* Recently Viewed Tournaments (not pinned) */}
+                      {recentlyViewsWithNoPinned.length > 0 &&
+                        recentlyViewsWithNoPinned
+                          .slice(
+                            0,
+                            Math.max(
+                              0,
+                              15 - Object.keys(pinnedRecentlyViews).length
+                            )
+                          )
+                          .map((recentlyView: ApiRecentlyView) => (
+                            <div key={recentlyView.tournament.id}>
+                              <MiniCard
+                                tournament={recentlyView.tournament}
+                                togglePin={() =>
+                                  pinRecentlyViewClickHandler(recentlyView)
+                                }
+                                isPinned={false}
+                              />
+                            </div>
+                          ))}
+                    </div>
+                  </ComponentLoader>
+                )}
+              </div>
+            </div>
           </div>
         </main>
         <Footer />
