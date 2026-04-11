@@ -53,24 +53,25 @@ function Footer() {
             >
               MIT
             </a>
-            {`. ${t('theWebsiteContentIsLicensed')} `}
-            <a
-              href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-              className="footer-v2-link"
-            >
-              CC BY NC SA 4.0
+            .
+            <a href="/PrivacyPolicyBRV2" className="footer-v2-link">
+              {` ${t('privacyPolicyBR')}`}
+            </a>
+            {'. '}
+            <a href="/TermsBRV2" className="footer-v2-link">
+              {t('termsBR')}
             </a>
             .
           </p>
           <p className="footer-v2-attribution">
             {t('copyright')} &copy; {new Date().getFullYear()}{' '}
-            <a href="https://gochamps.com" className="footer-v2-link">
+            <a href="https://go-champs.com" className="footer-v2-link">
               Go Champs Tecnologia LTDA
             </a>
             {` ${t('andContributors')}. ${t('allRightsReserved')}.`}
           </p>
           <p className="footer-v2-build">
-            Build: <em>0.0.{REACT_APP_BUILD_NUMBER}</em>
+            Build: <em>1.0.{REACT_APP_BUILD_NUMBER}</em>
           </p>
         </div>
       </div>

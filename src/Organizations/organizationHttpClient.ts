@@ -2,7 +2,8 @@ import {
   ApiOrganizationRequest,
   ApiOrganizationResponse,
   ApiOrganizationsResponse,
-  ApiOrganization
+  ApiOrganization,
+  ApiRecentlyViewedOrganizationsResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -73,11 +74,21 @@ const post = async (
   return mapApiOrganizationToOrganizationEntity(data);
 };
 
+const getRecentlyViewed = async (): Promise<ApiOrganization[]> => {
+  const url = `${ORGANIZATION_API}/recently-viewed`;
+
+  const { data } = await httpClient.get<ApiRecentlyViewedOrganizationsResponse>(
+    url
+  );
+  return data.map(item => item.organization);
+};
+
 export default {
   delete: deleteRequest,
   getAll,
   getByFilter,
   get,
+  getRecentlyViewed,
   patch,
   post
 };

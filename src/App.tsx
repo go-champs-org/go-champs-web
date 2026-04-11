@@ -12,12 +12,15 @@ import {
 import AccountHome from './Pages/AccountHome';
 import About from './Pages/About';
 import AboutV2 from './PagesV2/About/AboutV2';
+import HomeV2 from './PagesV2/Home/HomeV2';
 import SignInV2 from './PagesV2/SignIn/SignInV2';
 import SignUpV2 from './PagesV2/SignUp/SignUpV2';
 import AccountRecoveryV2 from './PagesV2/AccountRecovery/AccountRecoveryV2';
 import AccountResetV2 from './PagesV2/AccountReset/AccountResetV2';
 import FaqV2 from './PagesV2/FAQ/FaqV2';
 import ContactV2 from './PagesV2/Contact/ContactV2';
+import PrivacyPolicyBRV2 from './PagesV2/PrivacyPolicyBR/PrivacyPolicyBRV2';
+import TermsBRV2 from './PagesV2/TermsBR/TermsBRV2';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -71,6 +74,7 @@ const App: React.FC = () => {
                 <Route exact path="/" component={Home} />
                 <Route path="/About" component={About} />
                 <Route path="/AboutV2" component={AboutV2} />
+                <Route path="/HomeV2" component={HomeV2} />
                 <Route path="/FaqV2" component={FaqV2} />
                 <Route
                   exact
@@ -111,6 +115,18 @@ const App: React.FC = () => {
                   render={(props: RouteComponentProps<RouteProps>) => (
                     <TeamRosterInvites {...props} />
                   )}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/PrivacyPolicyBRV2"
+                  component={PrivacyPolicyBRV2}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/TermsBRV2"
+                  component={TermsBRV2}
                 />
                 <Route
                   exact

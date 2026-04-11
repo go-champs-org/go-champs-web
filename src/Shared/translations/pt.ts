@@ -189,6 +189,7 @@ export default {
     noGamesScheduled: 'Sem jogos agendados',
     noPlansAvailable: 'Nenhum plano disponível',
     noTournamentsYet: 'Nenhum campeonato ainda',
+    onGoingTournaments: 'Campeonatos em andamento',
     open: 'Abrir',
     official: 'Oficial',
     officials: 'Oficiais',
@@ -1013,6 +1014,8 @@ export default {
       'A web app mais maneira para gerenciar campeonatos',
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
+    privacyPolicyBR: 'Política de Privacidade (BR)',
+    termsBR: 'Termos de Uso (BR)',
     thisTournamentIsUnderContruction: 'Este torneiro está em construção.',
     title: 'Título',
     toChangeSignaturePinContactSupport:
@@ -1074,6 +1077,8 @@ export default {
     storyBrandTitle: 'Go Champs',
     recentTournaments: 'Campeonatos Recentes',
     checkOutMoreAthletes: 'Confira mais atletas em go-champs.com',
+    checkTheMostUpToDateGameResults:
+      'Acompanhe os resultados de jogos mais recentes',
     pwa: {
       install: {
         title: 'Instalar Go Champs',

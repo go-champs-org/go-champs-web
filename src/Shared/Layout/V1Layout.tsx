@@ -51,7 +51,7 @@ const V1Layout: React.FC<V1LayoutProps> = ({ children }) => {
 
               <p>
                 {t('copyright')} &copy; {new Date().getFullYear()}{' '}
-                <a href="https://gochamps.com" className="has-text-primary">
+                <a href="https://go-champs.com" className="has-text-primary">
                   Go Champs Tecnologia LTDA
                 </a>
                 {` ${t('andContributors')}. ${t('allRightsReserved')}.`}
