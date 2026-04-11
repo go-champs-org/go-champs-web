@@ -1004,6 +1004,7 @@ export default {
       'A web app mais maneira para gerenciar campeonatos',
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
+    privacyPolicyBR: 'Política de Privacidade (BR)',
     thisTournamentIsUnderContruction: 'Este torneiro está em construção.',
     title: 'Título',
     tournamentForm: {

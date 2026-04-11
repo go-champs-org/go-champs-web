@@ -60,11 +60,15 @@ function Footer() {
             >
               CC BY NC SA 4.0
             </a>
+            . 
+            <a href="/PrivacyPolicyBRV2" className="footer-v2-link">
+              {` ${t('privacyPolicyBR')}`}
+            </a>
             .
           </p>
           <p className="footer-v2-attribution">
             {t('copyright')} &copy; {new Date().getFullYear()}{' '}
-            <a href="https://gochamps.com" className="footer-v2-link">
+            <a href="https://go-champs.com" className="footer-v2-link">
               Go Champs Tecnologia LTDA
             </a>
             {` ${t('andContributors')}. ${t('allRightsReserved')}.`}

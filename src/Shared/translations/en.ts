@@ -996,6 +996,7 @@ export default {
       'The coolest web app to manage your tournaments',
     theSourceCodeIsLicensed: 'The source code is licensed',
     theWebsiteContentIsLicensed: 'The website content is licensed',
+    privacyPolicyBR: 'Privacy Policy (BR)',
     thisTournamentIsUnderContruction: 'This tournament is under contruction.',
     title: 'Title',
     tournamentForm: {

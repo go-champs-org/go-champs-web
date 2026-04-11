@@ -19,6 +19,7 @@ import AccountRecoveryV2 from './PagesV2/AccountRecovery/AccountRecoveryV2';
 import AccountResetV2 from './PagesV2/AccountReset/AccountResetV2';
 import FaqV2 from './PagesV2/FAQ/FaqV2';
 import ContactV2 from './PagesV2/Contact/ContactV2';
+import PrivacyPolicyBRV2 from './PagesV2/PrivacyPolicyBR/PrivacyPolicyBRV2';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
@@ -113,6 +114,12 @@ const App: React.FC = () => {
                   render={(props: RouteComponentProps<RouteProps>) => (
                     <TeamRosterInvites {...props} />
                   )}
+                />
+                <Route
+                  exact
+                  sensitive
+                  path="/PrivacyPolicyBRV2"
+                  component={PrivacyPolicyBRV2}
                 />
                 <Route
                   exact
