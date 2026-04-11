@@ -4,7 +4,6 @@ import { ThemeV2Provider } from '../../ThemeV2';
 import NavBar from '../Shared/NavBar';
 import Footer from '../Shared/Footer';
 import CardV2 from '../Shared/CardV2';
-import mainBanner from '../../assets/illustrations/main-banner.svg';
 import MiniCard from '../../Tournaments/MiniCard';
 import RecentlyViewedOrganizationsSidebar from './RecentlyViewedOrganizationsSidebar';
 import {
@@ -115,13 +114,26 @@ function HomeV2() {
         <main className="page-v2-main">
           {/* Banner Section */}
           <div className="home-v2-banner">
-            <img src={mainBanner} alt="" aria-hidden="true" />
+            <script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8429375868019921"
+              crossOrigin="anonymous"
+            ></script>
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-8429375868019921"
+              data-ad-slot="7176219418"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            ></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
           </div>
 
           {/* Sidebar and Main Content Container */}
           <div className="home-v2-layout">
             {/* Organizations Sidebar */}
-            <aside className="home-v2-sidebar">
+            <aside className="home-v2-sidebar is-hidden-mobile">
               <RecentlyViewedOrganizationsSidebar />
             </aside>
 
