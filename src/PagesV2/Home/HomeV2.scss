@@ -44,6 +44,14 @@
   }
 }
 
+.home-v2-search-card {
+  padding: 1rem;
+
+  @media (min-width: 769px) {
+    padding: 1.5rem;
+  }
+}
+
 .home-v2-banner {
   width: 100%;
   margin: 0 0 2rem;
@@ -66,7 +74,7 @@
 .home-v2-search-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem;
 
   @media (min-width: 769px) {
     flex-direction: row;
@@ -93,7 +101,7 @@
   margin: 0 0 0.5rem 0;
 
   @media (min-width: 769px) {
-    font-size: 1.875rem;
+    font-size: 1.5rem;
   }
 }
 

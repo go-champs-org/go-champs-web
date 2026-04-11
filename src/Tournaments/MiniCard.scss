@@ -26,6 +26,18 @@ a:has(.tournament-mini-card) {
     font-weight: 600;
     color: var(--theme-v2-text, var(--theme-text));
 
+    .organization-avatar,
+    .organization-avatar--placeholder {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+
+    .organization-avatar--placeholder {
+      font-size: 1rem;
+    }
+
     > span {
       margin-left: 0.5rem;
       flex: 1;

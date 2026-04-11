@@ -57,9 +57,9 @@ function RecentlyViewedOrganizationsSidebar() {
     <div className="org-sidebar">
       <CardV2 className="org-sidebar-card">
         <div className="org-sidebar-header">
-          <h2 className="org-sidebar-title">
+          <div className="org-sidebar-title">
             <Trans>organizations</Trans>
-          </h2>
+          </div>
           <button
             className={`org-sidebar-toggle ${isExpanded ? 'is-active' : ''}`}
             onClick={toggleExpanded}

@@ -129,13 +129,13 @@ function HomeV2() {
             <div className="home-v2-content">
               {/* Search Section */}
               <div className="home-v2-search-section">
-                <CardV2>
+                <CardV2 className="home-v2-search-card">
                   <div className="home-v2-search-content">
                     <div className="home-v2-search-left">
-                      <h1 className="home-v2-title">
+                      <div className="home-v2-title">
                         <Trans>onGoingTournaments</Trans>
-                      </h1>
-                      <p className="home-v2-subtitle">
+                      </div>
+                      <p className="home-v2-subtitle is-hidden-touch">
                         <Trans>checkTheMostUpToDataGameResults</Trans>
                       </p>
                     </div>
