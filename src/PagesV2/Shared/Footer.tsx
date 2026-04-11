@@ -53,14 +53,7 @@ function Footer() {
             >
               MIT
             </a>
-            {`. ${t('theWebsiteContentIsLicensed')} `}
-            <a
-              href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-              className="footer-v2-link"
-            >
-              CC BY NC SA 4.0
-            </a>
-            . 
+            .
             <a href="/PrivacyPolicyBRV2" className="footer-v2-link">
               {` ${t('privacyPolicyBR')}`}
             </a>

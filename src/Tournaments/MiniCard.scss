@@ -51,10 +51,7 @@ a:has(.tournament-mini-card) {
       color: var(--theme-v2-text, var(--theme-text));
       font-size: 0.65rem;
       border: none;
-      transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        opacity 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 
       &.is-pinned {
         background-color: var(--theme-v2-secondary, var(--theme-secondary));

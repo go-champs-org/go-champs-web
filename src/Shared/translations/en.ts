@@ -1054,7 +1054,7 @@ export default {
     storyBrandTitle: 'Go Champs',
     recentTournaments: 'Recent Tournaments',
     checkOutMoreAthletes: 'Check out more athletes at go-champs.com',
-    checkTheMostUpToDataGameResults: 'Check the most up-to-date game results',
+    checkTheMostUpToDateGameResults: 'Check the most up-to-date game results',
     pwa: {
       install: {
         title: 'Install Go Champs',

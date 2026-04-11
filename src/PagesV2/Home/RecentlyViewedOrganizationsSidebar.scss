@@ -27,7 +27,7 @@
 .org-sidebar-title {
   font-size: 0.875rem;
   font-weight: 700;
-  color: var(--theme-v2-text-primary);
+  color: var(--theme-v2-text);
   margin: 0;
 
   @media (min-width: 769px) {
@@ -42,14 +42,14 @@
   justify-content: center;
   background: none;
   border: none;
-  color: var(--theme-v2-text-secondary);
+  color: var(--theme-v2-textSecondary);
   cursor: pointer;
   font-size: 1rem;
   padding: 0.5rem;
   transition: color 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    color: var(--theme-v2-text-primary);
+    color: var(--theme-v2-text);
   }
 
   &.is-active {
@@ -91,7 +91,7 @@
   gap: 0.5rem;
   padding: 0.625rem 0.75rem;
   text-decoration: none;
-  color: var(--theme-v2-text-primary);
+  color: var(--theme-v2-text);
   transition: background 0.25s ease;
   border-bottom: 1px solid var(--theme-v2-border);
 
@@ -123,7 +123,7 @@
 
   .organization-avatar,
   .organization-avatar--placeholder {
-    border-radius: 6px;
+    border-radius: 50%;
     transition: transform 0.2s ease;
   }
 
@@ -137,7 +137,7 @@
   flex: 1;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--theme-v2-text-primary);
+  color: var(--theme-v2-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -154,7 +154,7 @@
 
   p {
     font-size: 0.8125rem;
-    color: var(--theme-v2-text-secondary);
+    color: var(--theme-v2-textSecondary);
     margin: 0;
   }
 

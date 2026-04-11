@@ -35,7 +35,9 @@ function TermsBRV2() {
                   concorda com estes termos.
                 </p>
 
-                <p>Caso não concorde, recomendamos não utilizar a plataforma.</p>
+                <p>
+                  Caso não concorde, recomendamos não utilizar a plataforma.
+                </p>
 
                 <section className="terms-br-section">
                   <h2>1. Sobre a plataforma</h2>

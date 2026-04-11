@@ -148,7 +148,7 @@ function HomeV2() {
                         <Trans>onGoingTournaments</Trans>
                       </div>
                       <p className="home-v2-subtitle is-hidden-touch">
-                        <Trans>checkTheMostUpToDataGameResults</Trans>
+                        <Trans>checkTheMostUpToDateGameResults</Trans>
                       </p>
                     </div>
                     <div className="home-v2-search-right">
@@ -161,7 +161,7 @@ function HomeV2() {
                           onChange={e => setSearchTerm(e.target.value)}
                         />
                         <span className="home-v2-search-icon">
-                          <i className="fas fa-search"></i>
+                          <i className="fas fa-search" aria-hidden="true"></i>
                         </span>
                       </div>
                     </div>

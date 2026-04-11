@@ -1062,7 +1062,7 @@ export default {
     storyBrandTitle: 'Go Champs',
     recentTournaments: 'Campeonatos Recentes',
     checkOutMoreAthletes: 'Confira mais atletas em go-champs.com',
-    checkTheMostUpToDataGameResults:
+    checkTheMostUpToDateGameResults:
       'Acompanhe os resultados de jogos mais recentes',
     pwa: {
       install: {
