@@ -997,6 +997,7 @@ export default {
     theSourceCodeIsLicensed: 'The source code is licensed',
     theWebsiteContentIsLicensed: 'The website content is licensed',
     privacyPolicyBR: 'Privacy Policy (BR)',
+    termsBR: 'Terms of Use (BR)',
     thisTournamentIsUnderContruction: 'This tournament is under contruction.',
     title: 'Title',
     tournamentForm: {

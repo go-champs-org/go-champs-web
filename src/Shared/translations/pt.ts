@@ -1005,6 +1005,7 @@ export default {
     theSourceCodeIsLicensed: 'Esse código-fonte é licenciado',
     theWebsiteContentIsLicensed: 'O conteúdo do website é licenciado',
     privacyPolicyBR: 'Política de Privacidade (BR)',
+    termsBR: 'Termos de Uso (BR)',
     thisTournamentIsUnderContruction: 'Este torneiro está em construção.',
     title: 'Título',
     tournamentForm: {
