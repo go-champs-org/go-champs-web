@@ -124,9 +124,10 @@
   letter-spacing: 0.05em;
 }
 
-.about-v2-team-member-bio {
+.theme-v2-root .card-v2-content .about-v2-team-member-bio {
   font-size: 0.9375rem;
   color: var(--theme-v2-textSecondary);
+  text-align: center;
   line-height: 1.6;
   margin: 0;
 }

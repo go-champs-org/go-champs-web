@@ -5,6 +5,8 @@ import Footer from '../Shared/Footer';
 import CardV2 from '../Shared/CardV2';
 import handsOnTrophy from '../../assets/illustrations/hands-on-trophy.svg';
 import './AboutV2.scss';
+import lairPhoto from '../../assets/photos/lair.png';
+import wagnerPhoto from '../../assets/photos/wagner.png';
 
 function AboutV2() {
   return (
@@ -73,18 +75,18 @@ function AboutV2() {
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
                       <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 1"
+                        src={lairPhoto}
+                        alt="Lair Júnior"
                       />
                     </div>
                     <h3 className="about-v2-team-member-name">
-                      Nome do Membro 1
+                      Lair Júnior
                     </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-role">Founder</p>
                     <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                      Apaixonada por construir em comunidade — seja em times de tecnologia ou nas quadras de basquete.
                     </p>
+                    <p className="about-v2-team-member-bio"><a href="https://www.lairjr.me" target="_blank" rel="noopener noreferrer">Quer me conhecer melhor?</a></p>
                   </div>
 
                   <div className="about-v2-team-member">
@@ -124,17 +126,16 @@ function AboutV2() {
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
                       <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 4"
+                        src={wagnerPhoto}
+                        alt="Wagner Assis"
                       />
                     </div>
                     <h3 className="about-v2-team-member-name">
-                      Nome do Membro 4
+                      Wagner Assis
                     </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-role">Founding Mobile Engineer</p>
                     <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                      Nerd, fã de esportes como basquete e futebol, torcedor do SC Internacional.
                     </p>
                   </div>
 
