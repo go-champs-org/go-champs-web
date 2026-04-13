@@ -36,6 +36,8 @@ import { RouteProps } from './Pages/support/routerInterfaces';
 import './Shared/translations/i18n';
 import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
+import PrivacyPolicyBR from './Pages/PrivacyPolicyBR';
+import TermsBR from './Pages/TermsBR';
 import PWAInstallPrompt from './Shared/UI/PWAInstallPrompt';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
 import OrganizationView from './Pages/OrganizationView';
@@ -131,9 +133,16 @@ const App: React.FC = () => {
                 <Route
                   exact
                   sensitive
+                  path="/PrivacyPolicyBR*"
+                  component={PrivacyPolicyBR}
+                />
+                <Route
+                  exact
+                  sensitive
                   path="/PrivacyPolicy*"
                   component={PrivacyPolicy}
                 />
+                <Route exact sensitive path="/TermsBR*" component={TermsBR} />
                 <Route exact sensitive path="/UseAsApp" component={UseAsApp} />
                 <Route exact sensitive path="/SignInV2" component={SignInV2} />
                 <Route exact sensitive path="/SignUpV2" component={SignUpV2} />
