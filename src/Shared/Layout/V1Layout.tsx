@@ -46,6 +46,14 @@ const V1Layout: React.FC<V1LayoutProps> = ({ children }) => {
                 >
                   CC BY NC SA 4.0
                 </a>
+                .{' '}
+                <a href="/PrivacyPolicyBR" className="has-text-primary">
+                  {t('privacyPolicyBR')}
+                </a>
+                .{' '}
+                <a href="/TermsBR" className="has-text-primary">
+                  {t('termsBR')}
+                </a>
                 .
               </p>
 
