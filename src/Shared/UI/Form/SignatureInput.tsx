@@ -35,7 +35,7 @@ function SignatureInput({
 
   const handleEnd = () => {
     if (signatureRef.current) {
-      const dataUrl = signatureRef.current.toDataURL();
+      const dataUrl = signatureRef.current.getTrimmedCanvas().toDataURL();
       lastLoadedValue.current = dataUrl;
       input.onChange(dataUrl);
     }
@@ -63,6 +63,7 @@ function SignatureInput({
           >
             <SignatureCanvas
               ref={signatureRef}
+              penColor="blue"
               canvasProps={{
                 width: 400,
                 height: 200,
