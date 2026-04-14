@@ -3,6 +3,7 @@ export interface OfficialProfileEntity {
   name: string;
   photoUrl: string;
   category: string;
+  licenseNumber: string;
   signature: string;
   signaturePin: string;
 }

@@ -904,6 +904,7 @@ export interface ApiOfficialProfile {
   name?: string;
   photo_url?: string;
   category?: string;
+  license_number?: string;
   signature?: string;
   signature_pin?: string;
 }

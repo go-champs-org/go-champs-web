@@ -13,6 +13,7 @@ export const mapApiOfficialProfileToOfficialProfileEntity = (
   name: apiOfficialProfile.name || '',
   photoUrl: apiOfficialProfile.photo_url || '',
   category: apiOfficialProfile.category || '',
+  licenseNumber: apiOfficialProfile.license_number || '',
   signature: apiOfficialProfile.signature || '',
   signaturePin: apiOfficialProfile.signature_pin || ''
 });
@@ -25,6 +26,7 @@ export const mapOfficialProfileEntityToApiOfficialProfilePostRequest = (
     name: officialProfile.name,
     photo_url: officialProfile.photoUrl,
     category: officialProfile.category,
+    license_number: officialProfile.licenseNumber,
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }
@@ -38,6 +40,7 @@ export const mapOfficialProfileEntityToApiOfficialProfilePatchRequest = (
     name: officialProfile.name,
     photo_url: officialProfile.photoUrl,
     category: officialProfile.category,
+    license_number: officialProfile.licenseNumber,
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }

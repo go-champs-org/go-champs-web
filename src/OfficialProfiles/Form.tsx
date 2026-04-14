@@ -164,6 +164,22 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
+        <div className="field">
+          <label className="label">
+            <Trans>licenseNumber</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="licenseNumber"
+              component={StringInput}
+              type="text"
+              placeholder="ABC123"
+              validate={required}
+            />
+          </div>
+        </div>
+
         {isNewProfile && (
           <>
             <div className="field">

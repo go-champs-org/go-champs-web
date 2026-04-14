@@ -14,6 +14,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: 'Jane Doe',
         photo_url: 'https://example.com/photo.jpg',
         category: 'Referee',
+        license_number: 'LN12345',
         signature: 'data:image/png;base64,abc123',
         signature_pin: '1234'
       };
@@ -27,6 +28,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: 'Jane Doe',
         photoUrl: 'https://example.com/photo.jpg',
         category: 'Referee',
+        licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234'
       });
@@ -46,6 +48,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: '',
         photoUrl: '',
         category: '',
+        licenseNumber: '',
         signature: '',
         signaturePin: ''
       });
@@ -57,6 +60,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: undefined,
         photo_url: undefined,
         category: undefined,
+        license_number: undefined,
         signature: undefined,
         signature_pin: undefined
       };
@@ -70,6 +74,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: '',
         photoUrl: '',
         category: '',
+        licenseNumber: '',
         signature: '',
         signaturePin: ''
       });
@@ -83,6 +88,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: 'Jane Doe',
         photoUrl: 'https://example.com/photo.jpg',
         category: 'Referee',
+        licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234'
       };
@@ -97,6 +103,7 @@ describe('OfficialProfiles dataMappers', () => {
           name: 'Jane Doe',
           photo_url: 'https://example.com/photo.jpg',
           category: 'Referee',
+          license_number: 'LN12345',
           signature: 'data:image/png;base64,abc123',
           signature_pin: '1234'
         }
@@ -109,6 +116,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: '',
         photoUrl: '',
         category: '',
+        licenseNumber: '',
         signature: '',
         signaturePin: ''
       };
@@ -123,6 +131,7 @@ describe('OfficialProfiles dataMappers', () => {
           name: '',
           photo_url: '',
           category: '',
+          license_number: '',
           signature: '',
           signature_pin: ''
         }
@@ -137,6 +146,7 @@ describe('OfficialProfiles dataMappers', () => {
         name: 'Jane Doe Updated',
         photoUrl: 'https://example.com/new-photo.jpg',
         category: 'Head Referee',
+        licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,xyz789',
         signaturePin: '5678'
       };
@@ -151,6 +161,7 @@ describe('OfficialProfiles dataMappers', () => {
           name: 'Jane Doe Updated',
           photo_url: 'https://example.com/new-photo.jpg',
           category: 'Head Referee',
+          license_number: 'LN12345',
           signature: 'data:image/png;base64,xyz789',
           signature_pin: '5678'
         }
