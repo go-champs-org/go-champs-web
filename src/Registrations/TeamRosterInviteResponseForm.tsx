@@ -164,22 +164,6 @@ export function LoadingForm() {
 
             <div className="column is-12">
               <label className="label">
-                <Trans>shirtName</Trans>
-              </label>
-
-              <Shimmer>
-                <div
-                  style={{
-                    height: '13px',
-                    marginTop: '13px',
-                    width: '250px'
-                  }}
-                ></div>
-              </Shimmer>
-            </div>
-
-            <div className="column is-12">
-              <label className="label">
                 <Trans>shirtNumber</Trans>
               </label>
 
@@ -244,20 +228,6 @@ function TeamRosterInviteResponseForm({
                   className="has-text-centered"
                   component={StringInput}
                   validate={composeValidators([required, mustBeEmail])}
-                />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">
-                <Trans>shirtName</Trans>
-              </label>
-
-              <div className="control">
-                <Field
-                  name="response.shirt_name"
-                  className="has-text-centered"
-                  component={StringInput}
                 />
               </div>
             </div>
