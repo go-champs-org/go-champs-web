@@ -12,6 +12,7 @@ import {
 import {
   composeValidators,
   mustBeEmail,
+  mustHaveAtLeastTwoWords,
   required
 } from '../Shared/UI/Form/Validators/commonValidators';
 import './TeamRosterInviteResponseForm.scss';
@@ -212,7 +213,10 @@ function TeamRosterInviteResponseForm({
                   name="response.name"
                   className="has-text-centered"
                   component={StringInput}
-                  validate={composeValidators([required])}
+                  validate={composeValidators([
+                    required,
+                    mustHaveAtLeastTwoWords
+                  ])}
                 />
               </div>
             </div>
