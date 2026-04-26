@@ -16,9 +16,12 @@ import AdminMenu from '../Tournaments/AdminMenu';
 import { postingOfficial } from '../Officials/selectors';
 import { Trans } from 'react-i18next';
 
+interface OwnProps extends RouteComponentProps<RouteProps> {}
+
 type StateProps = {
   isPostingOfficial: boolean;
   tournament: TournamentEntity;
+  tournamentLoading: boolean;
 };
 
 type DispatchProps = {
@@ -28,10 +31,7 @@ type DispatchProps = {
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
-const mapStateToProps = (
-  state: StoreState,
-  props: RouteComponentProps<RouteProps>
-) => {
+const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const { tournamentSlug } = props.match.params;
   return {
     isPostingOfficial: postingOfficial(state.officials),
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: OwnProps
 ) => {
   return {
     ...ownProps,

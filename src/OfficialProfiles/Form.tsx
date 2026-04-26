@@ -158,7 +158,7 @@ const Form: React.FC<FormProps> = ({
               name="category"
               component={StringInput}
               type="text"
-              placeholder="Category"
+              placeholder="FIBA,CBB, etc."
               validate={required}
             />
           </div>

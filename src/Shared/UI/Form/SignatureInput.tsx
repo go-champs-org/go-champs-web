@@ -64,6 +64,7 @@ function SignatureInput({
             <SignatureCanvas
               ref={signatureRef}
               penColor="blue"
+              velocityFilterWeight={0.5}
               canvasProps={{
                 width: 400,
                 height: 200,

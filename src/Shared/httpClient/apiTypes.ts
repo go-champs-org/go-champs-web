@@ -900,6 +900,7 @@ export interface ApiAthleteProfilesResponse {
 }
 
 export interface ApiOfficialProfile {
+  id: string;
   username: string;
   name?: string;
   photo_url?: string;
@@ -966,6 +967,44 @@ export interface ApiBillingAgreementRequest {
 
 export interface ApiBillingAgreementResponse {
   data: ApiBillingAgreement[];
+}
+
+export interface ApiOfficialInvite {
+  id: string;
+  tournament_id: string;
+  official_profile_id: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ApiOfficialInviteWithDetails {
+  id: string;
+  invitee_type: string;
+  invitee_id: string;
+  invitee: {
+    id: string;
+    username: string;
+    name: string;
+    category?: string;
+    license_number?: string;
+  };
+  registration_id?: string;
+  registration?: any;
+  registration_responses?: any[];
+}
+
+export interface ApiOfficialInviteRequest {
+  official_invite: {
+    official_profile_id: string;
+  };
+}
+
+export interface ApiOfficialInviteResponse {
+  data: ApiOfficialInvite;
+}
+
+export interface ApiOfficialInvitesResponse {
+  data: ApiOfficialInviteWithDetails[];
 }
 
 export interface ApiBillingContract {
