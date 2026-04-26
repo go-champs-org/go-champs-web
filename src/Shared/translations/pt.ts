@@ -279,6 +279,7 @@ export default {
       }
     },
     search: 'Pesquisar',
+    searching: 'Pesquisando',
     searchTournaments: 'Busca de campeonatos',
     searchOfficialProfile: 'Buscar perfil de oficial',
     searchOfficialProfilePlaceholder:

@@ -274,6 +274,7 @@ export default {
       }
     },
     search: 'Search',
+    searching: 'Searching',
     searchTournaments: 'Search tournaments',
     searchOfficialProfile: 'Search official profile',
     searchOfficialProfilePlaceholder:

@@ -91,18 +91,29 @@ const OfficialList: React.FC<OfficialListProps> = ({
   useEffect(() => {
     if (debouncedSearchTerm && showInviteSearch) {
       setIsSearching(true);
+      let isCancelled = false;
+
       officialProfileHttpClient
         .getByFilter({ term: debouncedSearchTerm })
         .then(response => {
-          setSearchResults(response.data);
-          setIsSearching(false);
+          if (!isCancelled) {
+            setSearchResults(response.data);
+            setIsSearching(false);
+          }
         })
         .catch(() => {
-          setSearchResults([]);
-          setIsSearching(false);
+          if (!isCancelled) {
+            setSearchResults([]);
+            setIsSearching(false);
+          }
         });
+
+      return () => {
+        isCancelled = true;
+      };
     } else {
       setSearchResults([]);
+      setIsSearching(false);
     }
   }, [debouncedSearchTerm, showInviteSearch]);
 

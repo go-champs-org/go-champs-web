@@ -900,7 +900,7 @@ export interface ApiAthleteProfilesResponse {
 }
 
 export interface ApiOfficialProfile {
-  id: string;
+  id?: string;
   username: string;
   name?: string;
   photo_url?: string;

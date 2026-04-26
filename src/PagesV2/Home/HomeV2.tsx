@@ -15,6 +15,7 @@ import recentlyViewsHttpClient from '../../RecentlyViews/recentlyViewsHttpClient
 import searchHttpClient from '../../Search/searchHttpClient';
 import ComponentLoader from '../../Shared/UI/ComponentLoader';
 import { ResultShimmer } from '../../Search/Result';
+import useDebounce from '../../Shared/hooks/useDebounce';
 import './HomeV2.scss';
 
 const ListShimmer = (
@@ -24,22 +25,6 @@ const ListShimmer = (
     <ResultShimmer />
   </div>
 );
-
-const useDebounce = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
 
 function HomeV2() {
   const { t } = useTranslation();
