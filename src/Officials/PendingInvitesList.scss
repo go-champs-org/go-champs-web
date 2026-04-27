@@ -1,0 +1,46 @@
+.pending-invites-list {
+  margin-bottom: 2rem;
+
+  .subtitle {
+    color: #7a7a7a;
+    margin-bottom: 0.75rem;
+  }
+
+  .pending-invite-card {
+    cursor: default;
+
+    .card-header-title {
+      cursor: default;
+      padding: 0.75rem 1rem;
+
+      .invite-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .title {
+          margin-bottom: 0;
+        }
+
+        .category-text {
+          font-size: 0.85rem;
+          color: #7a7a7a;
+          font-weight: normal;
+        }
+      }
+    }
+
+    .card-header-icon {
+      padding: 0.75rem 1rem;
+    }
+
+    &:hover {
+      box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1),
+        0 0 0 1px rgba(10, 10, 10, 0.1);
+    }
+  }
+
+  .tag {
+    font-size: 0.75rem;
+  }
+}

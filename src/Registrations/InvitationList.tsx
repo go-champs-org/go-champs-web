@@ -12,7 +12,8 @@ export interface InvitationListProps {
 const INVITATION_LIST: {
   [key: string]: React.ComponentType<InvitationListProps>;
 } = {
-  team_roster_invites: React.lazy(() => import('./TeamRosterInvites'))
+  team_roster_invites: React.lazy(() => import('./TeamRosterInvites')),
+  official_roster_invites: React.lazy(() => import('./OfficialRosterInvites'))
 };
 
 function InvitationList({

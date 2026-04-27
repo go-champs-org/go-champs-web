@@ -33,6 +33,7 @@ export const DEFAULT_OFFICIAL_PROFILE: OfficialProfileEntity = {
   name: '',
   photoUrl: '',
   category: '',
+  licenseNumber: '',
   signature: '',
   signaturePin: ''
 };

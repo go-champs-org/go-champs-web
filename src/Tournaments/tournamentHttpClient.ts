@@ -7,7 +7,13 @@ import {
   ApiTournamentWithDependecies,
   ApiBillingAgreement,
   ApiBillingAgreementRequest,
-  ApiBillingAgreementResponse
+  ApiBillingAgreementRequestData,
+  ApiBillingAgreementResponse,
+  ApiOfficialInvite,
+  ApiOfficialInviteRequest,
+  ApiOfficialInviteResponse,
+  ApiOfficialInviteWithDetails,
+  ApiOfficialInvitesResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -113,6 +119,33 @@ const postBillingAgreement = async (
   return data;
 };
 
+const postOfficialInvite = async (
+  tournamentId: string,
+  officialProfileId: string
+): Promise<ApiOfficialInvite> => {
+  const url = `${TOURNAMENT_API}/${tournamentId}/official-invites`;
+  const body: ApiOfficialInviteRequest = {
+    official_invite: {
+      official_profile_id: officialProfileId
+    }
+  };
+
+  const { data } = await httpClient.post<
+    ApiOfficialInviteRequest,
+    ApiOfficialInviteResponse
+  >(url, body);
+  return data;
+};
+
+const getOfficialInvites = async (
+  tournamentId: string
+): Promise<ApiOfficialInviteWithDetails[]> => {
+  const url = `${TOURNAMENT_API}/${tournamentId}/official-invites`;
+
+  const { data } = await httpClient.get<ApiOfficialInvitesResponse>(url);
+  return data;
+};
+
 const tournamentHttpClient = {
   delete: deleteRequest,
   getAll,
@@ -121,7 +154,9 @@ const tournamentHttpClient = {
   patch,
   post,
   getBillingAgreement,
-  postBillingAgreement
+  postBillingAgreement,
+  postOfficialInvite,
+  getOfficialInvites
 };
 
 export default tournamentHttpClient;

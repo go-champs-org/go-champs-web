@@ -7,6 +7,10 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import { REACT_APP_API_HOST } from '../Shared/env';
+import {
+  mapRequestFilterToQueryString,
+  RequestFilter
+} from '../Shared/httpClient/requestFilter';
 
 const OFFICIAL_PROFILES_API = `${REACT_APP_API_HOST}v1/official-profiles`;
 
@@ -31,7 +35,15 @@ const officialProfileHttpClient = {
   ): Promise<ApiOfficialProfileResponse> =>
     httpClient.post(OFFICIAL_PROFILES_API, officialProfileRequest),
   getAll: (): Promise<ApiOfficialProfilesResponse> =>
-    httpClient.get(OFFICIAL_PROFILES_API)
+    httpClient.get(OFFICIAL_PROFILES_API),
+  getByFilter: async (
+    where: RequestFilter
+  ): Promise<ApiOfficialProfilesResponse> => {
+    const url = `${OFFICIAL_PROFILES_API}?${mapRequestFilterToQueryString(
+      where
+    )}`;
+    return httpClient.get(url);
+  }
 };
 
 export default officialProfileHttpClient;

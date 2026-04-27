@@ -1,0 +1,36 @@
+@keyframes growIn {
+  0% {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    overflow: hidden;
+  }
+  99% {
+    overflow: hidden;
+  }
+  100% {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+    overflow: visible;
+  }
+}
+
+.invite-search-section {
+  animation: growIn 0.3s ease-out forwards;
+  position: relative;
+  z-index: 1001;
+
+  .field {
+    position: relative;
+  }
+
+  .dropdown.is-active {
+    position: relative;
+  }
+}
+
+.official-list-container {
+  position: relative;
+  z-index: 1;
+}

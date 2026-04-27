@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './ListHeader.scss';
 import LoadingButton from './LoadingButton';
 import { Trans } from 'react-i18next';
+import BehindFeatureFlag from './BehindFeatureFlag';
 
 interface ListHeaderProps {
   newUrl: string;
@@ -17,6 +18,9 @@ interface ListHeaderProps {
   toggleShouldDisplaySortButtons?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
+  onInviteClick?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
 }
 
 const ListHeader: React.FC<ListHeaderProps> = ({
@@ -27,7 +31,8 @@ const ListHeader: React.FC<ListHeaderProps> = ({
   onSaveOrder,
   isSavingOrder,
   shouldDisplaySortButtons,
-  toggleShouldDisplaySortButtons
+  toggleShouldDisplaySortButtons,
+  onInviteClick
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [shouldDisplayFilters, setShouldDisplayFilters] = useState(false);
@@ -73,6 +78,22 @@ const ListHeader: React.FC<ListHeaderProps> = ({
                 <Trans>cancel</Trans>
               </button>
             )}
+
+            <BehindFeatureFlag>
+              {onInviteClick &&
+                !shouldDisplayFilters &&
+                !shouldDisplaySortButtons && (
+                  <button className="button is-text" onClick={onInviteClick}>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-plus"></i>
+                    </span>
+
+                    <span>
+                      <Trans>invite</Trans>
+                    </span>
+                  </button>
+                )}
+            </BehindFeatureFlag>
 
             {shouldDisplaySortControls && !shouldDisplaySortButtons && (
               <button

@@ -130,6 +130,7 @@ export default {
     informations: 'Informations',
     initialPeriodTime: 'Initial period time (seconds)',
     initialExtraPeriodTime: 'Initial extra period time (seconds)',
+    invite: 'Invite',
     invites: 'Invites',
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
@@ -190,6 +191,8 @@ export default {
     open: 'Open',
     official: 'Official',
     officials: 'Officials',
+    pendingOfficialInvites: 'Pending Official Invites',
+    pending: 'Pending',
     organizations: 'Organizations',
     or: 'Or',
     orSignUp: 'Or sign up',
@@ -271,7 +274,11 @@ export default {
       }
     },
     search: 'Search',
+    searching: 'Searching',
     searchTournaments: 'Search tournaments',
+    searchOfficialProfile: 'Search official profile',
+    searchOfficialProfilePlaceholder:
+      'Search by name, username, or license number...',
     secondTeam: 'Second team',
     secondTeamScore: 'Second team score',
     send: 'Send it',
