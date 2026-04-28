@@ -18,6 +18,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import useDebounce from '../Shared/hooks/useDebounce';
 import officialProfileHttpClient from '../OfficialProfiles/officialProfileHttpClient';
 import tournamentHttpClient from '../Tournaments/tournamentHttpClient';
+import registrationInviteHttpClient from '../Registrations/registrationInviteHttpClient';
 import {
   ApiOfficialProfile,
   ApiOfficialInviteWithDetails
@@ -174,6 +175,28 @@ const OfficialList: React.FC<OfficialListProps> = ({
     }
   };
 
+  const handleDeleteInvite = async (inviteId: string) => {
+    if (!tournament || !tournament.id) return;
+
+    try {
+      await registrationInviteHttpClient.delete(inviteId);
+      displayToast('Invite deleted successfully!', 'is-success');
+
+      // Refresh pending invites
+      const invites = await tournamentHttpClient.getOfficialInvites(
+        tournament.id
+      );
+      const pending = invites.filter(
+        invite =>
+          !invite.registration_responses ||
+          invite.registration_responses.length === 0
+      );
+      setPendingInvites(pending);
+    } catch (err) {
+      displayToast('Error deleting invite', 'is-danger');
+    }
+  };
+
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -256,7 +279,10 @@ const OfficialList: React.FC<OfficialListProps> = ({
           </div>
 
           <div className="column is-12">
-            <PendingInvitesList invites={pendingInvites} />
+            <PendingInvitesList
+              invites={pendingInvites}
+              onDelete={handleDeleteInvite}
+            />
           </div>
         </div>
       </div>

@@ -6,6 +6,12 @@ import { RegistrationInviteEntity } from './state';
 
 const REGISTRATION_INVITE_API = `${REACT_APP_API_HOST}v1/registration-invites`;
 
+const deleteRequest = (registrationInviteId: string): Promise<string> => {
+  const url = `${REGISTRATION_INVITE_API}/${registrationInviteId}`;
+
+  return httpClient.delete(url);
+};
+
 const get = async (
   registrationInviteId: string
 ): Promise<RegistrationInviteEntity> => {
@@ -34,4 +40,11 @@ const downloadExport = async (
   return data;
 };
 
-export default { downloadExport, get, getForInvitePage };
+const registrationInviteHttpClient = {
+  delete: deleteRequest,
+  downloadExport,
+  get,
+  getForInvitePage
+};
+
+export default registrationInviteHttpClient;
