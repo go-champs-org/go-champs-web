@@ -18,7 +18,10 @@ import {
   requestOfficialProfileSuccess,
   requestOfficialProfilesFailure,
   requestOfficialProfilesStart,
-  requestOfficialProfilesSuccess
+  requestOfficialProfilesSuccess,
+  approveOfficialProfileInviteStart,
+  approveOfficialProfileInviteSuccess,
+  approveOfficialProfileInviteFailure
 } from './actions';
 import {
   mapApiOfficialProfileToOfficialProfileEntity,
@@ -153,5 +156,26 @@ export const requestOfficialProfiles = () => async (dispatch: Dispatch) => {
     dispatch(requestOfficialProfilesSuccess(officialProfiles));
   } catch (err) {
     dispatch(requestOfficialProfilesFailure(err));
+  }
+};
+
+export const approveOfficialProfileInvite = (
+  inviteId: string,
+  username: string
+) => async (dispatch: Dispatch) => {
+  dispatch(approveOfficialProfileInviteStart());
+
+  try {
+    await officialProfileHttpClient.approveInvite(inviteId);
+
+    dispatch(approveOfficialProfileInviteSuccess());
+    displayToast('Invite approved!', 'is-success');
+
+    // Refresh the official profile to update pending invites
+    await requestOfficialProfile(username)(dispatch);
+  } catch (err) {
+    const apiError = new ApiError(err as any);
+    dispatch(approveOfficialProfileInviteFailure(err));
+    displayToast(apiError.message, 'is-danger');
   }
 };

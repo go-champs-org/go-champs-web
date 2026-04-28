@@ -15,7 +15,9 @@ export const mapApiOfficialProfileToOfficialProfileEntity = (
   category: apiOfficialProfile.category || '',
   licenseNumber: apiOfficialProfile.license_number || '',
   signature: apiOfficialProfile.signature || '',
-  signaturePin: apiOfficialProfile.signature_pin || ''
+  signaturePin: apiOfficialProfile.signature_pin || '',
+  pendingInvites: apiOfficialProfile.pending_invites || [],
+  tournaments: apiOfficialProfile.tournaments || []
 });
 
 export const mapOfficialProfileEntityToApiOfficialProfilePostRequest = (

@@ -200,6 +200,7 @@ export default {
     createAccount: 'Create Account',
     recoverPassword: 'Recover password',
     password: 'Password',
+    pendingInvites: 'Pending invites',
     plan: 'Plan',
     plans: {
       basketball_scoresheet: {
