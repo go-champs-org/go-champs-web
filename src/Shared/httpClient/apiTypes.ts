@@ -910,6 +910,7 @@ export interface ApiOfficialProfile {
   signature?: string;
   signature_pin?: string;
   pending_invites?: ApiOfficialInviteWithDetails[];
+  tournaments?: ApiTournamentWithDependecies[];
 }
 
 export interface ApiOfficialProfilePostRequest {

@@ -1,4 +1,7 @@
-import { ApiOfficialInviteWithDetails } from '../Shared/httpClient/apiTypes';
+import {
+  ApiOfficialInviteWithDetails,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 
 export interface OfficialProfileEntity {
   username: string;
@@ -9,6 +12,7 @@ export interface OfficialProfileEntity {
   signature: string;
   signaturePin: string;
   pendingInvites: ApiOfficialInviteWithDetails[];
+  tournaments?: ApiTournamentWithDependecies[];
 }
 
 export interface OfficialProfileState {
@@ -41,5 +45,6 @@ export const DEFAULT_OFFICIAL_PROFILE: OfficialProfileEntity = {
   licenseNumber: '',
   signature: '',
   signaturePin: '',
-  pendingInvites: []
+  pendingInvites: [],
+  tournaments: []
 };
