@@ -23,7 +23,10 @@ import {
   REQUEST_OFFICIAL_PROFILE_SUCCESS,
   REQUEST_OFFICIAL_PROFILES,
   REQUEST_OFFICIAL_PROFILES_FAILURE,
-  REQUEST_OFFICIAL_PROFILES_SUCCESS
+  REQUEST_OFFICIAL_PROFILES_SUCCESS,
+  APPROVE_OFFICIAL_PROFILE_INVITE,
+  APPROVE_OFFICIAL_PROFILE_INVITE_SUCCESS,
+  APPROVE_OFFICIAL_PROFILE_INVITE_FAILURE
 } from './actions';
 import {
   OfficialProfileEntity,
@@ -204,6 +207,30 @@ const requestOfficialProfilesSuccess = (
   officialProfiles: action.payload!.reduce(officialProfileMapEntities, {})
 });
 
+const approveOfficialProfileInvite = (
+  state: OfficialProfileState,
+  action: HttpAction<string>
+) => ({
+  ...state,
+  isApprovingOfficialProfileInvite: true
+});
+
+const approveOfficialProfileInviteFailure = (
+  state: OfficialProfileState,
+  action: HttpAction<string>
+) => ({
+  ...state,
+  isApprovingOfficialProfileInvite: false
+});
+
+const approveOfficialProfileInviteSuccess = (
+  state: OfficialProfileState,
+  action: HttpAction<string>
+) => ({
+  ...state,
+  isApprovingOfficialProfileInvite: false
+});
+
 export default createReducer(initialState, {
   [DELETE_OFFICIAL_PROFILE]: deleteOfficialProfile,
   [DELETE_OFFICIAL_PROFILE_FAILURE]: deleteOfficialProfileFailure,
@@ -222,5 +249,8 @@ export default createReducer(initialState, {
   [REQUEST_OFFICIAL_PROFILE_SUCCESS]: requestOfficialProfileSuccess,
   [REQUEST_OFFICIAL_PROFILES]: requestOfficialProfiles,
   [REQUEST_OFFICIAL_PROFILES_FAILURE]: requestOfficialProfilesFailure,
-  [REQUEST_OFFICIAL_PROFILES_SUCCESS]: requestOfficialProfilesSuccess
+  [REQUEST_OFFICIAL_PROFILES_SUCCESS]: requestOfficialProfilesSuccess,
+  [APPROVE_OFFICIAL_PROFILE_INVITE]: approveOfficialProfileInvite,
+  [APPROVE_OFFICIAL_PROFILE_INVITE_FAILURE]: approveOfficialProfileInviteFailure,
+  [APPROVE_OFFICIAL_PROFILE_INVITE_SUCCESS]: approveOfficialProfileInviteSuccess
 });

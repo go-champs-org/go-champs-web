@@ -1,3 +1,5 @@
+import { ApiOfficialInviteWithDetails } from '../Shared/httpClient/apiTypes';
+
 export interface OfficialProfileEntity {
   username: string;
   name: string;
@@ -6,6 +8,7 @@ export interface OfficialProfileEntity {
   licenseNumber: string;
   signature: string;
   signaturePin: string;
+  pendingInvites: ApiOfficialInviteWithDetails[];
 }
 
 export interface OfficialProfileState {
@@ -15,6 +18,7 @@ export interface OfficialProfileState {
   isLoadingPostOfficialProfile: boolean;
   isLoadingRequestOfficialProfile: boolean;
   isLoadingRequestOfficialProfiles: boolean;
+  isApprovingOfficialProfileInvite: boolean;
   officialProfiles: { [key: string]: OfficialProfileEntity };
 }
 
@@ -25,6 +29,7 @@ export const initialState: OfficialProfileState = {
   isLoadingPostOfficialProfile: false,
   isLoadingRequestOfficialProfile: false,
   isLoadingRequestOfficialProfiles: false,
+  isApprovingOfficialProfileInvite: false,
   officialProfiles: {}
 };
 
@@ -35,5 +40,6 @@ export const DEFAULT_OFFICIAL_PROFILE: OfficialProfileEntity = {
   category: '',
   licenseNumber: '',
   signature: '',
-  signaturePin: ''
+  signaturePin: '',
+  pendingInvites: []
 };

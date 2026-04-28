@@ -30,7 +30,8 @@ describe('OfficialProfiles dataMappers', () => {
         category: 'Referee',
         licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,abc123',
-        signaturePin: '1234'
+        signaturePin: '1234',
+        pendingInvites: []
       });
     });
 
@@ -50,7 +51,8 @@ describe('OfficialProfiles dataMappers', () => {
         category: '',
         licenseNumber: '',
         signature: '',
-        signaturePin: ''
+        signaturePin: '',
+        pendingInvites: []
       });
     });
 
@@ -76,8 +78,50 @@ describe('OfficialProfiles dataMappers', () => {
         category: '',
         licenseNumber: '',
         signature: '',
-        signaturePin: ''
+        signaturePin: '',
+        pendingInvites: []
       });
+    });
+
+    it('maps API official profile with pending invites to entity', () => {
+      const apiOfficialProfile: ApiOfficialProfile = {
+        username: 'official123',
+        name: 'Jane Doe',
+        pending_invites: [
+          {
+            id: 'invite1',
+            invitee_type: 'official_profile',
+            invitee_id: 'official123',
+            invitee: {
+              id: 'official123',
+              username: 'official123',
+              name: 'Jane Doe'
+            },
+            registration_id: 'reg1',
+            registration: {
+              id: 'reg1',
+              title: 'System - Officials',
+              type: 'official_roster_invites',
+              tournament_id: 'tournament1',
+              tournament: {
+                id: 'tournament1',
+                name: 'Test Tournament',
+                slug: 'test-tournament'
+              }
+            }
+          }
+        ]
+      };
+
+      const result = mapApiOfficialProfileToOfficialProfileEntity(
+        apiOfficialProfile
+      );
+
+      expect(result.pendingInvites).toHaveLength(1);
+      expect(result.pendingInvites[0].id).toBe('invite1');
+      expect(result.pendingInvites[0].registration?.tournament?.name).toBe(
+        'Test Tournament'
+      );
     });
   });
 

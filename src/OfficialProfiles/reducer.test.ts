@@ -11,7 +11,10 @@ import {
   deleteOfficialProfileFailure,
   requestOfficialProfileStart,
   requestOfficialProfileSuccess,
-  requestOfficialProfileFailure
+  requestOfficialProfileFailure,
+  approveOfficialProfileInviteStart,
+  approveOfficialProfileInviteSuccess,
+  approveOfficialProfileInviteFailure
 } from './actions';
 import { initialState, OfficialProfileEntity } from './state';
 
@@ -56,7 +59,10 @@ describe('OfficialProfiles reducer', () => {
           name: 'Jane Doe',
           photoUrl: 'https://example.com/photo.jpg',
           signature: 'data:image/png;base64,abc123',
-          signaturePin: '1234'
+          signaturePin: '1234',
+          category: '',
+          licenseNumber: '',
+          pendingInvites: []
         })
       );
 
@@ -67,7 +73,10 @@ describe('OfficialProfiles reducer', () => {
           name: 'Jane Doe',
           photoUrl: 'https://example.com/photo.jpg',
           signature: 'data:image/png;base64,abc123',
-          signaturePin: '1234'
+          signaturePin: '1234',
+          category: '',
+          licenseNumber: '',
+          pendingInvites: []
         }
       });
     });
@@ -87,16 +96,20 @@ describe('OfficialProfiles reducer', () => {
           name: 'Jane Doe',
           photoUrl: 'https://example.com/photo.jpg',
           category: 'Referee',
+          licenseNumber: '',
           signature: 'data:image/png;base64,abc123',
-          signaturePin: '1234'
+          signaturePin: '1234',
+          pendingInvites: []
         },
         {
           username: 'official2',
           name: 'John Smith',
           photoUrl: 'https://example.com/john.jpg',
           category: 'Umpire',
+          licenseNumber: '',
           signature: '',
-          signaturePin: ''
+          signaturePin: '',
+          pendingInvites: []
         }
       ];
 
@@ -117,16 +130,20 @@ describe('OfficialProfiles reducer', () => {
           name: 'Jane Doe',
           photoUrl: 'https://example.com/photo.jpg',
           category: 'Referee',
+          licenseNumber: '',
           signature: 'data:image/png;base64,abc123',
-          signaturePin: '1234'
+          signaturePin: '1234',
+          pendingInvites: []
         },
         official2: {
           username: 'official2',
           name: 'John Smith',
           photoUrl: 'https://example.com/john.jpg',
           category: 'Umpire',
+          licenseNumber: '',
           signature: '',
-          signaturePin: ''
+          signaturePin: '',
+          pendingInvites: []
         }
       });
     });
@@ -159,8 +176,10 @@ describe('OfficialProfiles reducer', () => {
         name: 'New Official',
         photoUrl: 'https://example.com/new.jpg',
         category: 'Referee',
+        licenseNumber: '',
         signature: 'data:image/png;base64,new123',
-        signaturePin: '0000'
+        signaturePin: '0000',
+        pendingInvites: []
       };
 
       const stateWithLoading = {
@@ -205,8 +224,10 @@ describe('OfficialProfiles reducer', () => {
         name: 'Jane Doe',
         photoUrl: 'https://example.com/photo.jpg',
         category: 'Referee',
+        licenseNumber: '',
         signature: 'data:image/png;base64,abc123',
-        signaturePin: '1234'
+        signaturePin: '1234',
+        pendingInvites: []
       };
 
       const stateWithOfficialProfile = {
@@ -239,6 +260,42 @@ describe('OfficialProfiles reducer', () => {
       );
 
       expect(result.isLoadingDeleteOfficialProfile).toBe(false);
+    });
+  });
+
+  describe('APPROVE_OFFICIAL_PROFILE_INVITE', () => {
+    it('sets isApprovingOfficialProfileInvite to true', () => {
+      const result = reducer(initialState, approveOfficialProfileInviteStart());
+
+      expect(result.isApprovingOfficialProfileInvite).toBe(true);
+    });
+
+    it('sets isApprovingOfficialProfileInvite to false on success', () => {
+      const stateWithLoading = {
+        ...initialState,
+        isApprovingOfficialProfileInvite: true
+      };
+
+      const result = reducer(
+        stateWithLoading,
+        approveOfficialProfileInviteSuccess()
+      );
+
+      expect(result.isApprovingOfficialProfileInvite).toBe(false);
+    });
+
+    it('sets isApprovingOfficialProfileInvite to false on failure', () => {
+      const stateWithLoading = {
+        ...initialState,
+        isApprovingOfficialProfileInvite: true
+      };
+
+      const result = reducer(
+        stateWithLoading,
+        approveOfficialProfileInviteFailure('Error')
+      );
+
+      expect(result.isApprovingOfficialProfileInvite).toBe(false);
     });
   });
 });
