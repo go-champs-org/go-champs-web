@@ -21,7 +21,8 @@ describe('OfficialProfiles selectors', () => {
     licenseNumber: 'LN12345',
     signature: 'data:image/png;base64,abc123',
     signaturePin: '1234',
-    pendingInvites: []
+    pendingInvites: [],
+    autoApproveInvites: false
   };
 
   const mockOfficialProfile2: OfficialProfileEntity = {
@@ -32,6 +33,7 @@ describe('OfficialProfiles selectors', () => {
     licenseNumber: 'LN67890',
     signature: '',
     signaturePin: '',
+    autoApproveInvites: false,
     pendingInvites: [
       {
         id: 'invite1',

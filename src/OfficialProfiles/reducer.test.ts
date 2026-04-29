@@ -62,7 +62,8 @@ describe('OfficialProfiles reducer', () => {
           signaturePin: '1234',
           category: '',
           licenseNumber: '',
-          pendingInvites: []
+          pendingInvites: [],
+          autoApproveInvites: false
         })
       );
 
@@ -76,7 +77,8 @@ describe('OfficialProfiles reducer', () => {
           signaturePin: '1234',
           category: '',
           licenseNumber: '',
-          pendingInvites: []
+          pendingInvites: [],
+          autoApproveInvites: false
         }
       });
     });
@@ -99,7 +101,8 @@ describe('OfficialProfiles reducer', () => {
           licenseNumber: '',
           signature: 'data:image/png;base64,abc123',
           signaturePin: '1234',
-          pendingInvites: []
+          pendingInvites: [],
+          autoApproveInvites: false
         },
         {
           username: 'official2',
@@ -109,7 +112,8 @@ describe('OfficialProfiles reducer', () => {
           licenseNumber: '',
           signature: '',
           signaturePin: '',
-          pendingInvites: []
+          pendingInvites: [],
+          autoApproveInvites: false
         }
       ];
 
@@ -133,7 +137,8 @@ describe('OfficialProfiles reducer', () => {
           licenseNumber: '',
           signature: 'data:image/png;base64,abc123',
           signaturePin: '1234',
-          pendingInvites: []
+          pendingInvites: [],
+          autoApproveInvites: false
         },
         official2: {
           username: 'official2',
@@ -143,7 +148,8 @@ describe('OfficialProfiles reducer', () => {
           licenseNumber: '',
           signature: '',
           signaturePin: '',
-          pendingInvites: []
+          pendingInvites: [],
+          autoApproveInvites: false
         }
       });
     });
@@ -179,7 +185,8 @@ describe('OfficialProfiles reducer', () => {
         licenseNumber: '',
         signature: 'data:image/png;base64,new123',
         signaturePin: '0000',
-        pendingInvites: []
+        pendingInvites: [],
+        autoApproveInvites: false
       };
 
       const stateWithLoading = {
@@ -227,7 +234,8 @@ describe('OfficialProfiles reducer', () => {
         licenseNumber: '',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234',
-        pendingInvites: []
+        pendingInvites: [],
+        autoApproveInvites: false
       };
 
       const stateWithOfficialProfile = {

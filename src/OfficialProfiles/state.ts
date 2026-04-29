@@ -47,5 +47,6 @@ export const DEFAULT_OFFICIAL_PROFILE: OfficialProfileEntity = {
   signature: '',
   signaturePin: '',
   pendingInvites: [],
-  tournaments: []
+  tournaments: [],
+  autoApproveInvites: false
 };

@@ -95,8 +95,8 @@ function OfficialProfileHome({
       officialProfile.tournaments &&
       officialProfile.tournaments.length > 0 ? (
         officialProfile.tournaments.map(tournament => (
-          <div className="column is-12">
-            <MiniCard key={tournament.id} tournament={tournament} />
+          <div key={tournament.id} className="column is-12">
+            <MiniCard tournament={tournament} />
           </div>
         ))
       ) : (
