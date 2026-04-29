@@ -22,7 +22,7 @@ const PendingInviteCard: React.FC<{
   const tournamentName = tournament.name || '';
 
   return (
-    <div className="card item pending-invite-card">
+    <div className="card item official-profile-pending-invite-card">
       <div className="card-header">
         <div className="card-header-title">
           <div className="invite-info">
@@ -56,7 +56,7 @@ const PendingInvitesList: React.FC<PendingInvitesListProps> = ({
   }
 
   return (
-    <div className="pending-invites-list">
+    <div className="official-profile-pending-invites-list">
       <h3 className="subtitle is-6">
         <Trans>pendingInvites</Trans>
       </h3>

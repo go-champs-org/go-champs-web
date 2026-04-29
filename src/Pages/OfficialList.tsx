@@ -70,6 +70,7 @@ type OfficialListProps = ConnectedProps<typeof connector> &
 
 const OfficialList: React.FC<OfficialListProps> = ({
   deleteOfficial,
+  getTournamentBySlug,
   match,
   officials,
   tournament,
@@ -168,6 +169,8 @@ const OfficialList: React.FC<OfficialListProps> = ({
           invite.registration_responses.length === 0
       );
       setPendingInvites(pending);
+
+      getTournamentBySlug(organizationSlug, tournamentSlug);
     } catch (err) {
       displayToast('Error inviting official', 'is-danger');
     } finally {

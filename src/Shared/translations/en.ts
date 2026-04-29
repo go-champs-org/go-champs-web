@@ -23,6 +23,7 @@ export default {
     asset: 'Asset',
     assets: 'Assets',
     autoApprove: 'Auto approve',
+    autoApproveInvites: 'Auto approve invites',
     acceptAndSubmit: 'Accept and Submit',
     agreementDetailsBelow: 'The agreement details are shown below.',
     andContributors: 'and contributors',

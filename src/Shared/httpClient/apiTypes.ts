@@ -701,7 +701,7 @@ export interface ApiSportResponse {
   data: ApiSport;
 }
 
-export type ApiRegistrationType = 'team_roster_invites';
+export type ApiRegistrationType = 'team_roster_invites' | 'official_roster_invites';
 
 export type ApiCustomFieldType = 'date' | 'datetime' | 'text' | 'consent';
 
@@ -909,6 +909,7 @@ export interface ApiOfficialProfile {
   license_number?: string;
   signature?: string;
   signature_pin?: string;
+  auto_approve_invites?: boolean;
   pending_invites?: ApiOfficialInviteWithDetails[];
   tournaments?: ApiTournamentWithDependecies[];
 }

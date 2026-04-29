@@ -17,6 +17,7 @@ import {
   mapOfficialProfilePhotoToApiFileReference,
   mapFileReferenceToApiOfficialProfilePhoto
 } from './dataMappers';
+import CheckboxInput from '../Shared/UI/Form/CheckboxInput';
 
 interface OfficialProfileFormEntity extends OfficialProfileEntity {
   repeatedSignaturePin?: string;
@@ -177,6 +178,22 @@ const Form: React.FC<FormProps> = ({
               placeholder="ABC123"
               validate={required}
             />
+          </div>
+        </div>
+
+        <div className="field">
+          <div className="control" style={{ paddingTop: '.5rem' }}>
+            <Field
+              name="autoApproveInvites"
+              type="checkbox"
+              render={(props: FieldRenderProps<string, HTMLInputElement>) => (
+                <CheckboxInput {...props} id="autoApproveInvites" />
+              )}
+            />
+
+            <label className="label" htmlFor="autoApproveInvites">
+              <Trans>autoApproveInvites</Trans>
+            </label>
           </div>
         </div>
 

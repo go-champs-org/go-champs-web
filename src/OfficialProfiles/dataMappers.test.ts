@@ -15,6 +15,7 @@ describe('OfficialProfiles dataMappers', () => {
         photo_url: 'https://example.com/photo.jpg',
         category: 'Referee',
         license_number: 'LN12345',
+        auto_approve_invites: true,
         signature: 'data:image/png;base64,abc123',
         signature_pin: '1234'
       };
@@ -31,6 +32,7 @@ describe('OfficialProfiles dataMappers', () => {
         licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234',
+        autoApproveInvites: true,
         pendingInvites: [],
         tournaments: []
       });
@@ -51,6 +53,7 @@ describe('OfficialProfiles dataMappers', () => {
         photoUrl: '',
         category: '',
         licenseNumber: '',
+        autoApproveInvites: false,
         signature: '',
         signaturePin: '',
         pendingInvites: [],
@@ -66,7 +69,8 @@ describe('OfficialProfiles dataMappers', () => {
         category: undefined,
         license_number: undefined,
         signature: undefined,
-        signature_pin: undefined
+        signature_pin: undefined,
+        auto_approve_invites: undefined
       };
 
       const result = mapApiOfficialProfileToOfficialProfileEntity(
@@ -81,6 +85,7 @@ describe('OfficialProfiles dataMappers', () => {
         licenseNumber: '',
         signature: '',
         signaturePin: '',
+        autoApproveInvites: false,
         pendingInvites: [],
         tournaments: []
       });
@@ -165,6 +170,7 @@ describe('OfficialProfiles dataMappers', () => {
         licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,abc123',
         signaturePin: '1234',
+        autoApproveInvites: true,
         pendingInvites: [],
         tournaments: []
       };
@@ -180,6 +186,7 @@ describe('OfficialProfiles dataMappers', () => {
           photo_url: 'https://example.com/photo.jpg',
           category: 'Referee',
           license_number: 'LN12345',
+          auto_approve_invites: true,
           signature: 'data:image/png;base64,abc123',
           signature_pin: '1234'
         }
@@ -195,6 +202,7 @@ describe('OfficialProfiles dataMappers', () => {
         licenseNumber: '',
         signature: '',
         signaturePin: '',
+        autoApproveInvites: false,
         pendingInvites: [],
         tournaments: []
       };
@@ -210,6 +218,7 @@ describe('OfficialProfiles dataMappers', () => {
           photo_url: '',
           category: '',
           license_number: '',
+          auto_approve_invites: false,
           signature: '',
           signature_pin: ''
         }
@@ -227,6 +236,7 @@ describe('OfficialProfiles dataMappers', () => {
         licenseNumber: 'LN12345',
         signature: 'data:image/png;base64,xyz789',
         signaturePin: '5678',
+        autoApproveInvites: true,
         pendingInvites: [],
         tournaments: []
       };
@@ -242,6 +252,7 @@ describe('OfficialProfiles dataMappers', () => {
           photo_url: 'https://example.com/new-photo.jpg',
           category: 'Head Referee',
           license_number: 'LN12345',
+          auto_approve_invites: true,
           signature: 'data:image/png;base64,xyz789',
           signature_pin: '5678'
         }

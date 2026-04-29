@@ -24,6 +24,7 @@ export default {
     asset: 'Artefato',
     assets: 'Artefatos',
     autoApprove: 'Aprovar automaticamente',
+    autoApproveInvites: 'Aprovar convites automaticamente',
     acceptAndSubmit: 'Aceitar e Enviar',
     agreementDetailsBelow: 'Os detalhes do contrato são mostrados abaixo.',
     andContributors: 'e colaboradores',

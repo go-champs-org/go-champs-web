@@ -11,6 +11,7 @@ export interface OfficialProfileEntity {
   licenseNumber: string;
   signature: string;
   signaturePin: string;
+  autoApproveInvites: boolean;
   pendingInvites: ApiOfficialInviteWithDetails[];
   tournaments?: ApiTournamentWithDependecies[];
 }
