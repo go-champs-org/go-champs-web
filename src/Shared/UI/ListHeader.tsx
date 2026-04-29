@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import './ListHeader.scss';
 import LoadingButton from './LoadingButton';
 import { Trans } from 'react-i18next';
-import BehindFeatureFlag from './BehindFeatureFlag';
 
 interface ListHeaderProps {
   newUrl: string;
@@ -79,21 +78,19 @@ const ListHeader: React.FC<ListHeaderProps> = ({
               </button>
             )}
 
-            <BehindFeatureFlag>
-              {onInviteClick &&
-                !shouldDisplayFilters &&
-                !shouldDisplaySortButtons && (
-                  <button className="button is-text" onClick={onInviteClick}>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-plus"></i>
-                    </span>
+            {onInviteClick &&
+              !shouldDisplayFilters &&
+              !shouldDisplaySortButtons && (
+                <button className="button is-text" onClick={onInviteClick}>
+                  <span className="icon is-small">
+                    <i className="fas fa-user-plus"></i>
+                  </span>
 
-                    <span>
-                      <Trans>invite</Trans>
-                    </span>
-                  </button>
-                )}
-            </BehindFeatureFlag>
+                  <span>
+                    <Trans>invite</Trans>
+                  </span>
+                </button>
+              )}
 
             {shouldDisplaySortControls && !shouldDisplaySortButtons && (
               <button

@@ -701,7 +701,9 @@ export interface ApiSportResponse {
   data: ApiSport;
 }
 
-export type ApiRegistrationType = 'team_roster_invites' | 'official_roster_invites';
+export type ApiRegistrationType =
+  | 'team_roster_invites'
+  | 'official_roster_invites';
 
 export type ApiCustomFieldType = 'date' | 'datetime' | 'text' | 'consent';
 
