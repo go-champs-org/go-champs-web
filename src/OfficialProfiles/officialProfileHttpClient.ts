@@ -3,7 +3,9 @@ import {
   ApiOfficialProfilePatchRequest,
   ApiOfficialProfileResponse,
   ApiOfficialProfilesResponse,
-  ApiOfficialProfileSignaturePatchResponse
+  ApiOfficialProfileSignaturePatchResponse,
+  ApiRegistrationResponseResourcePostRequest,
+  ApiRegistrationResponseResourceResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import { REACT_APP_API_HOST } from '../Shared/env';
@@ -43,6 +45,18 @@ const officialProfileHttpClient = {
       where
     )}`;
     return httpClient.get(url);
+  },
+  approveInvite: (
+    inviteId: string
+  ): Promise<ApiRegistrationResponseResourceResponse> => {
+    const url = `${REACT_APP_API_HOST}v1/registration-responses`;
+    const body: ApiRegistrationResponseResourcePostRequest = {
+      registration_response: {
+        registration_invite_id: inviteId,
+        response: { accepted: true }
+      }
+    };
+    return httpClient.post(url, body);
   }
 };
 

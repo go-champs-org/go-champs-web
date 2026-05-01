@@ -1,15 +1,18 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { ApiOfficialInviteWithDetails } from '../Shared/httpClient/apiTypes';
+import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import './PendingInvitesList.scss';
 
 interface PendingInvitesListProps {
   invites: ApiOfficialInviteWithDetails[];
+  onDelete: (inviteId: string) => void;
 }
 
 const PendingInviteCard: React.FC<{
   invite: ApiOfficialInviteWithDetails;
-}> = ({ invite }) => (
+  onDelete: (inviteId: string) => void;
+}> = ({ invite, onDelete }) => (
   <div className="card item pending-invite-card">
     <div className="card-header">
       <div className="card-header-title">
@@ -29,12 +32,21 @@ const PendingInviteCard: React.FC<{
         <span className="tag is-warning">
           <Trans>pending</Trans>
         </span>
+        <DoubleClickButton
+          className="button is-text"
+          onClick={() => onDelete(invite.id)}
+        >
+          <i className="fas fa-trash" />
+        </DoubleClickButton>
       </div>
     </div>
   </div>
 );
 
-const PendingInvitesList: React.FC<PendingInvitesListProps> = ({ invites }) => {
+const PendingInvitesList: React.FC<PendingInvitesListProps> = ({
+  invites,
+  onDelete
+}) => {
   if (invites.length === 0) {
     return null;
   }
@@ -46,7 +58,11 @@ const PendingInvitesList: React.FC<PendingInvitesListProps> = ({ invites }) => {
       </h3>
       <div>
         {invites.map(invite => (
-          <PendingInviteCard key={invite.id} invite={invite} />
+          <PendingInviteCard
+            key={invite.id}
+            invite={invite}
+            onDelete={onDelete}
+          />
         ))}
       </div>
     </div>

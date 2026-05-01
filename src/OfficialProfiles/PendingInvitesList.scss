@@ -1,0 +1,49 @@
+.official-profile-pending-invites-list {
+  margin-bottom: 2rem;
+
+  .subtitle {
+    color: #7a7a7a;
+    margin-bottom: 0.75rem;
+  }
+
+  .official-profile-pending-invite-card {
+    cursor: default;
+    margin-bottom: 0.5rem;
+
+    .card-header-title {
+      cursor: default;
+      padding: 0.75rem 1rem;
+
+      .invite-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .title {
+          margin-bottom: 0;
+        }
+
+        .registration-text {
+          font-size: 0.85rem;
+          color: #7a7a7a;
+          font-weight: normal;
+        }
+      }
+    }
+
+    .card-header-icon {
+      padding: 0.75rem 1rem;
+      align-items: center;
+      display: flex;
+
+      .button {
+        margin: 0;
+      }
+    }
+
+    &:hover {
+      box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1),
+        0 0 0 1px rgba(10, 10, 10, 0.1);
+    }
+  }
+}

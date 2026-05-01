@@ -3,6 +3,7 @@ import {
   OfficialProfileState,
   DEFAULT_OFFICIAL_PROFILE
 } from './state';
+import { ApiOfficialInviteWithDetails } from '../Shared/httpClient/apiTypes';
 
 export const officialProfiles = (
   state: OfficialProfileState
@@ -40,3 +41,15 @@ export const postingOfficialProfile = (state: OfficialProfileState): boolean =>
   state.isLoadingPostOfficialProfile;
 export const deletingOfficialProfile = (state: OfficialProfileState): boolean =>
   state.isLoadingDeleteOfficialProfile;
+
+export const pendingInvitesByUsername = (
+  state: OfficialProfileState,
+  username: string
+): ApiOfficialInviteWithDetails[] => {
+  const officialProfile = officialProfileByUsername(state, username);
+  return officialProfile.pendingInvites || [];
+};
+
+export const approvingOfficialProfileInvite = (
+  state: OfficialProfileState
+): boolean => state.isApprovingOfficialProfileInvite;

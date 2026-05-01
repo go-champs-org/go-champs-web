@@ -24,6 +24,7 @@ export default {
     asset: 'Artefato',
     assets: 'Artefatos',
     autoApprove: 'Aprovar automaticamente',
+    autoApproveInvites: 'Aprovar convites automaticamente',
     acceptAndSubmit: 'Aceitar e Enviar',
     agreementDetailsBelow: 'Os detalhes do contrato são mostrados abaixo.',
     andContributors: 'e colaboradores',
@@ -194,7 +195,7 @@ export default {
     open: 'Abrir',
     official: 'Oficial',
     officials: 'Oficiais',
-    pendingOfficialInvites: 'Convites de Árbitros Pendentes',
+    pendingOfficialInvites: 'Convites de Oficiais Pendentes',
     pending: 'Pendente',
     organizations: 'Organizacões',
     or: 'Ou',
@@ -203,6 +204,7 @@ export default {
     createAccount: 'Criar Conta',
     recoverPassword: 'Recuperar senha',
     password: 'Senha',
+    pendingInvites: 'Convites pendentes',
     plan: 'Plano',
     plans: {
       basketball_scoresheet: {

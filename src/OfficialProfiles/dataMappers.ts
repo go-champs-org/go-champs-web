@@ -14,8 +14,11 @@ export const mapApiOfficialProfileToOfficialProfileEntity = (
   photoUrl: apiOfficialProfile.photo_url || '',
   category: apiOfficialProfile.category || '',
   licenseNumber: apiOfficialProfile.license_number || '',
+  autoApproveInvites: apiOfficialProfile.auto_approve_invites || false,
   signature: apiOfficialProfile.signature || '',
-  signaturePin: apiOfficialProfile.signature_pin || ''
+  signaturePin: apiOfficialProfile.signature_pin || '',
+  pendingInvites: apiOfficialProfile.pending_invites || [],
+  tournaments: apiOfficialProfile.tournaments || []
 });
 
 export const mapOfficialProfileEntityToApiOfficialProfilePostRequest = (
@@ -27,6 +30,7 @@ export const mapOfficialProfileEntityToApiOfficialProfilePostRequest = (
     photo_url: officialProfile.photoUrl,
     category: officialProfile.category,
     license_number: officialProfile.licenseNumber,
+    auto_approve_invites: officialProfile.autoApproveInvites,
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }
@@ -41,6 +45,7 @@ export const mapOfficialProfileEntityToApiOfficialProfilePatchRequest = (
     photo_url: officialProfile.photoUrl,
     category: officialProfile.category,
     license_number: officialProfile.licenseNumber,
+    auto_approve_invites: officialProfile.autoApproveInvites,
     signature: officialProfile.signature,
     signature_pin: officialProfile.signaturePin
   }

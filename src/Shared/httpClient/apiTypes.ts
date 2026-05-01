@@ -701,7 +701,9 @@ export interface ApiSportResponse {
   data: ApiSport;
 }
 
-export type ApiRegistrationType = 'team_roster_invites';
+export type ApiRegistrationType =
+  | 'team_roster_invites'
+  | 'official_roster_invites';
 
 export type ApiCustomFieldType = 'date' | 'datetime' | 'text' | 'consent';
 
@@ -746,7 +748,7 @@ export interface ApiRegistration {
 
 export interface ApiRegistrationWithDependencies extends ApiRegistration {
   tournament_id: string;
-  tournament?: ApiTournament;
+  tournament?: ApiTournamentWithDependecies;
 }
 
 export interface ApiRegistrationPatchRequest {
@@ -766,6 +768,7 @@ export interface ApiRegistrationResponseResponse extends Object {
   email?: string;
   shirt_name?: string;
   shirt_number?: string;
+  accepted?: boolean;
 }
 
 export type ApiRegistrationResponseStatus = 'pending' | 'approved';
@@ -908,6 +911,9 @@ export interface ApiOfficialProfile {
   license_number?: string;
   signature?: string;
   signature_pin?: string;
+  auto_approve_invites?: boolean;
+  pending_invites?: ApiOfficialInviteWithDetails[];
+  tournaments?: ApiTournamentWithDependecies[];
 }
 
 export interface ApiOfficialProfilePostRequest {
@@ -989,8 +995,8 @@ export interface ApiOfficialInviteWithDetails {
     license_number?: string;
   };
   registration_id?: string;
-  registration?: any;
-  registration_responses?: any[];
+  registration?: ApiRegistrationWithDependencies;
+  registration_responses?: ApiRegistrationResponseResourceWithDependencies[];
 }
 
 export interface ApiOfficialInviteRequest {

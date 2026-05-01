@@ -33,6 +33,13 @@ export const REQUEST_OFFICIAL_PROFILES_SUCCESS =
 export const REQUEST_OFFICIAL_PROFILES_FAILURE =
   'REQUEST_OFFICIAL_PROFILES_FAILURE';
 
+export const APPROVE_OFFICIAL_PROFILE_INVITE =
+  'APPROVE_OFFICIAL_PROFILE_INVITE';
+export const APPROVE_OFFICIAL_PROFILE_INVITE_SUCCESS =
+  'APPROVE_OFFICIAL_PROFILE_INVITE_SUCCESS';
+export const APPROVE_OFFICIAL_PROFILE_INVITE_FAILURE =
+  'APPROVE_OFFICIAL_PROFILE_INVITE_FAILURE';
+
 export const deleteOfficialProfileStart = () => ({
   type: DELETE_OFFICIAL_PROFILE
 });
@@ -122,5 +129,18 @@ export const requestOfficialProfilesSuccess = (
 
 export const requestOfficialProfilesFailure = (error: any) => ({
   type: REQUEST_OFFICIAL_PROFILES_FAILURE,
+  payload: error
+});
+
+export const approveOfficialProfileInviteStart = () => ({
+  type: APPROVE_OFFICIAL_PROFILE_INVITE
+});
+
+export const approveOfficialProfileInviteSuccess = () => ({
+  type: APPROVE_OFFICIAL_PROFILE_INVITE_SUCCESS
+});
+
+export const approveOfficialProfileInviteFailure = (error: any) => ({
+  type: APPROVE_OFFICIAL_PROFILE_INVITE_FAILURE,
   payload: error
 });

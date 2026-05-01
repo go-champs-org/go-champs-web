@@ -23,6 +23,7 @@ export default {
     asset: 'Asset',
     assets: 'Assets',
     autoApprove: 'Auto approve',
+    autoApproveInvites: 'Auto approve invites',
     acceptAndSubmit: 'Accept and Submit',
     agreementDetailsBelow: 'The agreement details are shown below.',
     andContributors: 'and contributors',
@@ -200,6 +201,7 @@ export default {
     createAccount: 'Create Account',
     recoverPassword: 'Recover password',
     password: 'Password',
+    pendingInvites: 'Pending invites',
     plan: 'Plan',
     plans: {
       basketball_scoresheet: {
