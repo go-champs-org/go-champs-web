@@ -46,8 +46,8 @@ export const mapOfficialProfileEntityToApiOfficialProfilePatchRequest = (
     category: officialProfile.category,
     license_number: officialProfile.licenseNumber,
     auto_approve_invites: officialProfile.autoApproveInvites,
-    signature: officialProfile.signature,
-    signature_pin: officialProfile.signaturePin
+    signature: officialProfile.signature || undefined,
+    signature_pin: officialProfile.signaturePin || undefined
   }
 });
 

@@ -258,5 +258,37 @@ describe('OfficialProfiles dataMappers', () => {
         }
       });
     });
+
+    it('maps empty signature and signaturePin to undefined in API PATCH request', () => {
+      const officialProfile: OfficialProfileEntity = {
+        username: 'official123',
+        name: 'Jane Doe',
+        photoUrl: 'https://example.com/photo.jpg',
+        category: 'Referee',
+        licenseNumber: 'LN12345',
+        signature: '',
+        signaturePin: '',
+        autoApproveInvites: false,
+        pendingInvites: [],
+        tournaments: []
+      };
+
+      const result = mapOfficialProfileEntityToApiOfficialProfilePatchRequest(
+        officialProfile
+      );
+
+      expect(result).toEqual({
+        official_profile: {
+          username: 'official123',
+          name: 'Jane Doe',
+          photo_url: 'https://example.com/photo.jpg',
+          category: 'Referee',
+          license_number: 'LN12345',
+          auto_approve_invites: false,
+          signature: undefined,
+          signature_pin: undefined
+        }
+      });
+    });
   });
 });
