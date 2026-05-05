@@ -7,6 +7,9 @@ import handsOnTrophy from '../../assets/illustrations/hands-on-trophy.svg';
 import './AboutV2.scss';
 import lairPhoto from '../../assets/photos/lair.png';
 import wagnerPhoto from '../../assets/photos/wagner.png';
+import juliaPhoto from '../../assets/photos/julia.png';
+import isaPhoto from '../../assets/photos/isa.png';
+import ruanPhoto from '../../assets/photos/ruan.png';
 
 function AboutV2() {
   return (
@@ -74,85 +77,79 @@ function AboutV2() {
                 <div className="about-v2-team-grid">
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src={lairPhoto}
-                        alt="Lair Júnior"
-                      />
+                      <img src={lairPhoto} alt="Lair Júnior" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Lair Júnior
-                    </h3>
-                    <p className="about-v2-team-member-role">Founder</p>
+                    <h3 className="about-v2-team-member-name">Lair Júnior</h3>
+                    <p className="about-v2-team-member-role">Fundador</p>
                     <p className="about-v2-team-member-bio">
-                      Apaixonada por construir em comunidade — seja em times de tecnologia ou nas quadras de basquete.
+                      Apaixonada por construir em comunidade — seja em times de
+                      tecnologia ou nas quadras de basquete.
                     </p>
-                    <p className="about-v2-team-member-bio"><a href="https://www.lairjr.me" target="_blank" rel="noopener noreferrer">Quer me conhecer melhor?</a></p>
-                  </div>
-
-                  <div className="about-v2-team-member">
-                    <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 2"
-                      />
-                    </div>
-                    <h3 className="about-v2-team-member-name">
-                      Nome do Membro 2
-                    </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
                     <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                      <a
+                        href="https://www.lairjr.me"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Quer me conhecer melhor?
+                      </a>
                     </p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 3"
-                      />
+                      <img src={isaPhoto} alt="Isadora Paixão" />
                     </div>
                     <h3 className="about-v2-team-member-name">
-                      Nome do Membro 3
+                      Isadora Paixão
                     </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <p className="about-v2-team-member-role">
+                      Product Designer
+                    </p>
                     <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                      Transformando problemas em experiências. Obcecada por
+                      entender pessoas. Entre dados, intuição e design também
+                      sou Astróloga.
                     </p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src={wagnerPhoto}
-                        alt="Wagner Assis"
-                      />
+                      <img src={ruanPhoto} alt="Ruan Victor" />
                     </div>
                     <h3 className="about-v2-team-member-name">
-                      Wagner Assis
+                      Ruan Victor
                     </h3>
-                    <p className="about-v2-team-member-role">Founding Mobile Engineer</p>
+                    <p className="about-v2-team-member-role">Software Engineer</p>
                     <p className="about-v2-team-member-bio">
-                      Nerd, fã de esportes como basquete e futebol, torcedor do SC Internacional.
+                      The Jedi.
                     </p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 5"
-                      />
+                      <img src={wagnerPhoto} alt="Wagner Assis" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Nome do Membro 5
-                    </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <h3 className="about-v2-team-member-name">Wagner Assis</h3>
+                    <p className="about-v2-team-member-role">
+                      Mobile Engineer
+                    </p>
                     <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                      Nerd, fã de esportes como basquete e futebol, torcedor do
+                      SC Internacional.
+                    </p>
+                  </div>
+
+                  <div className="about-v2-team-member">
+                    <div className="about-v2-team-member-photo">
+                      <img src={juliaPhoto} alt="Julia Ipê" />
+                    </div>
+                    <h3 className="about-v2-team-member-name">Julia Ipê</h3>
+                    <p className="about-v2-team-member-role">Social Media</p>
+                    <p className="about-v2-team-member-bio">
+                      Conecto pessoas e propósitos por meio da comunicação.
+                      Intensa, apaixonada por gente, por pets e pela vida —
+                      idealizadora na essência e prática na ação.
                     </p>
                   </div>
                 </div>
