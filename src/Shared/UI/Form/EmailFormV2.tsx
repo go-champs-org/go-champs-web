@@ -50,7 +50,7 @@ function EmailFormV2(): React.ReactElement {
           id="contact-name"
           className="contact-form-v2-input"
           type="text"
-          placeholder="Usain Bolt"
+          placeholder={t('yourName')}
           name="name"
           required
         />
@@ -64,7 +64,7 @@ function EmailFormV2(): React.ReactElement {
           id="contact-email"
           className="contact-form-v2-input"
           type="email"
-          placeholder="seu@email.com"
+          placeholder={t('yourEmail')}
           name="email"
           required
         />
@@ -77,7 +77,7 @@ function EmailFormV2(): React.ReactElement {
         <textarea
           id="contact-message"
           className="contact-form-v2-textarea"
-          placeholder=""
+          placeholder={t('yourMessage')}
           name="message"
           rows={5}
           required

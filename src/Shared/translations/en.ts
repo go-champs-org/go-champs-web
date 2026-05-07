@@ -1052,6 +1052,9 @@ export default {
     viewer: 'Viewer',
     visibility: 'Visibility',
     youTubeCode: 'YouTube code',
+    yourEmail: 'Your email',
+    yourMessage: 'Your message',
+    yourName: 'Your name',
     welcomeChamps: 'Welcome Champs!',
     manageYourAthleteProfile: 'Manage your Athlete Profile',
     createYourAthleteProfileToGetStarted:

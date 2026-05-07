@@ -117,13 +117,11 @@ function AboutV2() {
                     <div className="about-v2-team-member-photo">
                       <img src={ruanPhoto} alt="Ruan Victor" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Ruan Victor
-                    </h3>
-                    <p className="about-v2-team-member-role">Software Engineer</p>
-                    <p className="about-v2-team-member-bio">
-                      The Jedi.
+                    <h3 className="about-v2-team-member-name">Ruan Victor</h3>
+                    <p className="about-v2-team-member-role">
+                      Software Engineer
                     </p>
+                    <p className="about-v2-team-member-bio">The Jedi.</p>
                   </div>
 
                   <div className="about-v2-team-member">
@@ -131,9 +129,7 @@ function AboutV2() {
                       <img src={wagnerPhoto} alt="Wagner Assis" />
                     </div>
                     <h3 className="about-v2-team-member-name">Wagner Assis</h3>
-                    <p className="about-v2-team-member-role">
-                      Mobile Engineer
-                    </p>
+                    <p className="about-v2-team-member-role">Mobile Engineer</p>
                     <p className="about-v2-team-member-bio">
                       Nerd, fã de esportes como basquete e futebol, torcedor do
                       SC Internacional.

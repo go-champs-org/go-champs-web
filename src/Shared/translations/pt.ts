@@ -1060,6 +1060,9 @@ export default {
     viewer: 'Visualizador',
     visibility: 'Visibilidade',
     youTubeCode: 'Código YouTube',
+    yourEmail: 'Seu email',
+    yourMessage: 'Sua mensagem',
+    yourName: 'Seu nome',
     manageYourAthleteProfile: 'Gerencie seu Perfil de Atleta',
     createYourAthleteProfileToGetStarted:
       'Crie seu Perfil de Atleta para começar!',
