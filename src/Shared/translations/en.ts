@@ -1,6 +1,19 @@
 export default {
   translation: {
     aboutUs: 'About us',
+    aboutUsParagraph1:
+      'Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.',
+    aboutUsParagraph2:
+      'We want you to feel the atmosphere of competition in every detail. That is why we deliver — from amateur to semi-professional — fast information, clean visuals, and an experience designed for everyone: those who organize with mastery, those who play with grit, and those who cheer with their heart.',
+    aboutUsParagraph3:
+      'GO CHAMPS is the home of sport. Our platform was designed to be as fast as a counter-attack and as clear as a blowout victory.',
+    aboutUsListTitle: 'Here you will find:',
+    aboutUsListItem1: 'Electronic match reports and updated calendars.',
+    aboutUsListItem2: 'Brackets and results in real time.',
+    aboutUsListItem3: 'Objective statistics.',
+    aboutUsParagraph4:
+      'Whether you are the organizer seeking efficiency, the athlete wanting visibility, or the passionate fan, GO CHAMPS is your place.',
+    ourImpact: 'Our impact',
     account: 'Account',
     accountRecovery: 'Account recovery',
     accountReset: 'Account reset',

@@ -2,6 +2,19 @@
 export default {
   translation: {
     aboutUs: 'Sobre nós',
+    aboutUsParagraph1:
+      'O esporte não para, e a gente também não. A GO CHAMPS nasceu para transformar a gestão de campeonatos com simplicidade e dados confiáveis. Esqueça planilhas confusas e estatísticas perdidas.',
+    aboutUsParagraph2:
+      'Queremos que você sinta o clima da competição em cada detalhe. Por isso, entregamos - do amador ao semiprofissional, informação rápida, visual limpo e uma experiência pensada para todos: quem organiza com maestria, quem joga com raça e quem torce com o coração.',
+    aboutUsParagraph3:
+      'A GO CHAMPS é a casa do esporte. Nossa plataforma foi desenhada para ser rápida como um contra-ataque e clara como uma vitória por goleada.',
+    aboutUsListTitle: 'Aqui você encontra:',
+    aboutUsListItem1: 'Súmulas eletrônicas e calendários atualizados.',
+    aboutUsListItem2: 'Chaves e resultados em tempo real.',
+    aboutUsListItem3: 'Estatísticas objetivas.',
+    aboutUsParagraph4:
+      'Seja você o organizador que busca eficiência, o atleta que quer visibilidade ou o torcedor apaixonado, a GO CHAMPS é o seu lugar.',
+    ourImpact: 'Nosso impacto',
     account: 'Conta',
     accountRecovery: 'Recuperar conta',
     accountReset: 'Resetar conta',

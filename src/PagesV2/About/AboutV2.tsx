@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ThemeV2Provider } from '../../ThemeV2';
 import NavBar from '../Shared/NavBar';
 import Footer from '../Shared/Footer';
@@ -12,6 +13,7 @@ import isaPhoto from '../../assets/photos/isa.png';
 import ruanPhoto from '../../assets/photos/ruan.png';
 
 function AboutV2() {
+  const { t } = useTranslation();
   return (
     <ThemeV2Provider>
       <div className="page-v2-wrapper">
@@ -23,48 +25,49 @@ function AboutV2() {
             </div>
 
             <CardV2>
-              <h1 className="card-v2-title">Sobre nós</h1>
+              <h1 className="card-v2-title">{t('aboutUs')}</h1>
 
               <div className="card-v2-content">
-                <p>
-                  No GO CHAMPS, a gente vive o esporte como ele é:{' '}
-                  <strong>dinâmico, competitivo e emocionante</strong>. Criamos
-                  uma plataforma simples e poderosa para acompanhar campeonatos,
-                  jogos e estatísticas do amador ao semiprofissional com
-                  informação rápida, visual claro e experiência pensada para
-                  quem joga, organiza e torce.
-                </p>
+                <p>{t('aboutUsParagraph1')}</p>
 
-                <p>
-                  Nossa missão é conectar pessoas ao esporte que amam com dados
-                  confiáveis, atualizados e fáceis de entender, valorizando
-                  atletas, ligas e comunidades.{' '}
-                  <strong>
-                    Em um só lugar você encontra calendários, chaves, resultados
-                    e estatísticas objetivas, com atualização a partir de dados
-                    oficiais.
-                  </strong>
-                </p>
+                <p>{t('aboutUsParagraph2')}</p>
 
-                <p>
-                  Servimos torcedores que querem praticidade, atletas e equipes
-                  que buscam visibilidade e histórico organizado, e
-                  organizadores que precisam de um hub confiável para divulgar
-                  seus campeonatos.
-                </p>
+                <p>{t('aboutUsParagraph3')}</p>
 
-                <p>
-                  Nossos valores guiam tudo: jogo limpo, simplicidade que
-                  escala, performance de verdade, acessibilidade para todos e
-                  comunidade em primeiro lugar.
-                </p>
+                <div className="about-v2-list">
+                  <p>{t('aboutUsListTitle')}</p>
+                  <ul>
+                    <li>{t('aboutUsListItem1')}</li>
+                    <li>{t('aboutUsListItem2')}</li>
+                    <li>{t('aboutUsListItem3')}</li>
+                  </ul>
+                </div>
 
-                <p className="about-v2-stats">
-                  Hoje já somamos <strong>+&#123;X&#125; campeonatos</strong>,{' '}
-                  <strong>+&#123;Y&#125; jogos</strong> e{' '}
-                  <strong>+&#123;Z&#125; usuários por mês</strong> — e estamos
-                  só começando.
-                </p>
+                <p>{t('aboutUsParagraph4')}</p>
+              </div>
+            </CardV2>
+          </div>
+
+          <div className="about-v2-counters-section">
+            <CardV2>
+              <h2 className="card-v2-title">{t('ourImpact')}</h2>
+              <div className="about-v2-counters-grid">
+                <div className="about-v2-counter">
+                  <span className="about-v2-counter-value">+3.000</span>
+                  <span className="about-v2-counter-label">{t('games')}</span>
+                </div>
+                <div className="about-v2-counter">
+                  <span className="about-v2-counter-value">+300</span>
+                  <span className="about-v2-counter-label">
+                    {t('tournaments')}
+                  </span>
+                </div>
+                <div className="about-v2-counter">
+                  <span className="about-v2-counter-value">+100</span>
+                  <span className="about-v2-counter-label">
+                    {t('organizations')}
+                  </span>
+                </div>
               </div>
             </CardV2>
           </div>
