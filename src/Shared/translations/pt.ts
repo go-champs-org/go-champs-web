@@ -15,6 +15,22 @@ export default {
     aboutUsParagraph4:
       'Seja você o organizador que busca eficiência, o atleta que quer visibilidade ou o torcedor apaixonado, a GO CHAMPS é o seu lugar.',
     ourImpact: 'Nosso impacto',
+    theTeam: 'O time',
+    founder: 'Fundador',
+    productDesigner: 'Product Designer',
+    softwareEngineer: 'Software Engineer',
+    mobileEngineer: 'Mobile Engineer',
+    socialMedia: 'Social Media',
+    lairBio:
+      'Apaixonada por construir em comunidade — seja em times de tecnologia ou nas quadras de basquete.',
+    lairCta: 'Quer me conhecer melhor?',
+    isaBio:
+      'Transformando problemas em experiências. Obcecada por entender pessoas. Entre dados, intuição e design também sou Astróloga.',
+    ruanBio: 'The Jedi.',
+    wagnerBio:
+      'Nerd, fã de esportes como basquete e futebol, torcedor do SC Internacional.',
+    juliaBio:
+      'Conecto pessoas e propósitos por meio da comunicação. Intensa, apaixonada por gente, por pets e pela vida — idealizadora na essência e prática na ação.',
     account: 'Conta',
     accountRecovery: 'Recuperar conta',
     accountReset: 'Resetar conta',

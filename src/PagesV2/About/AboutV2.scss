@@ -47,26 +47,6 @@
   }
 }
 
-.theme-v2-root .card-v2-content .about-v2-stats {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid var(--theme-v2-border);
-  font-size: 1.0625rem;
-  color: var(--theme-v2-text);
-  text-align: left;
-
-  strong {
-    color: var(--theme-v2-primary);
-    font-weight: 700;
-  }
-
-  @media (min-width: 769px) {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    font-size: 1.125rem;
-  }
-}
-
 .about-v2-counters-section {
   margin: 2rem auto 0;
   width: 100%;
@@ -118,6 +98,50 @@
 
   @media (min-width: 769px) {
     font-size: 1rem;
+  }
+}
+
+// Shimmer loading states for counters
+.about-v2-counter-value-shimmer {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--theme-v2-backgroundSecondary) 0%,
+    var(--theme-v2-border) 50%,
+    var(--theme-v2-backgroundSecondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+
+  @media (min-width: 769px) {
+    width: 160px;
+    height: 50px;
+  }
+}
+
+.about-v2-counter-label-shimmer {
+  width: 80px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--theme-v2-backgroundSecondary) 0%,
+    var(--theme-v2-border) 50%,
+    var(--theme-v2-backgroundSecondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-top: 0.25rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 

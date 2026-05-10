@@ -70,8 +70,12 @@ function NavBar() {
             </NotAuthenticatedWrapper>
             <AuthenticatedWrapper>
               <a href="/Account" className="navbar-v2-login-button button-v2">
-                {localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) &&
-                  `@${localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY)}`}
+                {(() => {
+                  const username = localStorage.getItem(
+                    LOCAL_STORAGE_USERNAME_KEY
+                  );
+                  return username ? `@${username}` : <Trans>account</Trans>;
+                })()}
               </a>
             </AuthenticatedWrapper>
           </div>

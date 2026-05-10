@@ -14,6 +14,22 @@ export default {
     aboutUsParagraph4:
       'Whether you are the organizer seeking efficiency, the athlete wanting visibility, or the passionate fan, GO CHAMPS is your place.',
     ourImpact: 'Our impact',
+    theTeam: 'The team',
+    founder: 'Founder',
+    productDesigner: 'Product Designer',
+    softwareEngineer: 'Software Engineer',
+    mobileEngineer: 'Mobile Engineer',
+    socialMedia: 'Social Media',
+    lairBio:
+      'Passionate about building in community — whether in tech teams or on the basketball courts.',
+    lairCta: 'Want to get to know me better?',
+    isaBio:
+      'Transforming problems into experiences. Obsessed with understanding people. Between data, intuition, and design, I am also an Astrologer.',
+    ruanBio: 'The Jedi.',
+    wagnerBio:
+      'Nerd, fan of sports like basketball and soccer, supporter of SC Internacional.',
+    juliaBio:
+      'I connect people and purposes through communication. Intense, passionate about people, about pets, and about life — a dreamer in essence and practical in action.',
     account: 'Account',
     accountRecovery: 'Account recovery',
     accountReset: 'Account reset',

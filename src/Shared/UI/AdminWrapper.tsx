@@ -12,7 +12,7 @@ export const NotAuthenticatedWrapper: React.FC<{ children: ReactNode }> = ({
     return <Fragment>{children}</Fragment>;
   }
 
-  return <div></div>;
+  return <></>;
 };
 
 export const NotMemberWrapper: React.FC<{
@@ -27,7 +27,7 @@ export const NotMemberWrapper: React.FC<{
     return <Fragment>{children}</Fragment>;
   }
 
-  return <div></div>;
+  return <></>;
 };
 
 export const AuthenticatedAndMemberWrapper: React.FC<{
@@ -45,7 +45,7 @@ export const AuthenticatedAndMemberWrapper: React.FC<{
     return <Fragment>{children}</Fragment>;
   }
 
-  return <div></div>;
+  return <></>;
 };
 
 const AuthenticatedWrapper: React.FC<{ children: ReactNode }> = ({
@@ -55,7 +55,7 @@ const AuthenticatedWrapper: React.FC<{ children: ReactNode }> = ({
     return <Fragment>{children}</Fragment>;
   }
 
-  return <div></div>;
+  return <></>;
 };
 
 export default AuthenticatedWrapper;
