@@ -1,6 +1,35 @@
 export default {
   translation: {
     aboutUs: 'About us',
+    aboutUsParagraph1:
+      'Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.',
+    aboutUsParagraph2:
+      'We want you to feel the atmosphere of competition in every detail. That is why we deliver — from amateur to semi-professional — fast information, clean visuals, and an experience designed for everyone: those who organize with mastery, those who play with grit, and those who cheer with their heart.',
+    aboutUsParagraph3:
+      'GO CHAMPS is the home of sport. Our platform was designed to be as fast as a counter-attack and as clear as a blowout victory.',
+    aboutUsListTitle: 'Here you will find:',
+    aboutUsListItem1: 'Electronic match reports and updated calendars.',
+    aboutUsListItem2: 'Brackets and results in real time.',
+    aboutUsListItem3: 'Objective statistics.',
+    aboutUsParagraph4:
+      'Whether you are the organizer seeking efficiency, the athlete wanting visibility, or the passionate fan, GO CHAMPS is your place.',
+    ourImpact: 'Our impact',
+    theTeam: 'The team',
+    founder: 'Founder',
+    productDesigner: 'Product Designer',
+    softwareEngineer: 'Software Engineer',
+    mobileEngineer: 'Mobile Engineer',
+    socialMedia: 'Social Media',
+    lairBio:
+      'Passionate about building in community — whether in tech teams or on the basketball courts.',
+    lairCta: 'Want to get to know me better?',
+    isaBio:
+      'Transforming problems into experiences. Obsessed with understanding people. Between data, intuition, and design, I am also an Astrologer.',
+    ruanBio: 'The Jedi.',
+    wagnerBio:
+      'Nerd, fan of sports like basketball and soccer, supporter of SC Internacional.',
+    juliaBio:
+      'I connect people and purposes through communication. Intense, passionate about people, about pets, and about life — a dreamer in essence and practical in action.',
     account: 'Account',
     accountRecovery: 'Account recovery',
     accountReset: 'Account reset',
@@ -1052,6 +1081,9 @@ export default {
     viewer: 'Viewer',
     visibility: 'Visibility',
     youTubeCode: 'YouTube code',
+    yourEmail: 'Your email',
+    yourMessage: 'Your message',
+    yourName: 'Your name',
     welcomeChamps: 'Welcome Champs!',
     manageYourAthleteProfile: 'Manage your Athlete Profile',
     createYourAthleteProfileToGetStarted:

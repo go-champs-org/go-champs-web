@@ -4,6 +4,10 @@ import logoWhiteName from '../../assets/logo-white-name.png';
 import logoGreen from '../../assets/logo-green.png';
 import { Trans } from 'react-i18next';
 import { useThemeV2 } from '../../ThemeV2';
+import AuthenticatedWrapper, {
+  NotAuthenticatedWrapper
+} from '../../Shared/UI/AdminWrapper';
+import { LOCAL_STORAGE_USERNAME_KEY } from '../../Accounts/constants';
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,9 +63,21 @@ function NavBar() {
             >
               {currentTheme === 'dark' ? '☀' : '☾'}
             </button>
-            <a href="/SignInV2" className="navbar-v2-login-button button-v2">
-              <Trans>signIn</Trans>
-            </a>
+            <NotAuthenticatedWrapper>
+              <a href="/SignInV2" className="navbar-v2-login-button button-v2">
+                <Trans>signIn</Trans>
+              </a>
+            </NotAuthenticatedWrapper>
+            <AuthenticatedWrapper>
+              <a href="/Account" className="navbar-v2-login-button button-v2">
+                {(() => {
+                  const username = localStorage.getItem(
+                    LOCAL_STORAGE_USERNAME_KEY
+                  );
+                  return username ? `@${username}` : <Trans>account</Trans>;
+                })()}
+              </a>
+            </AuthenticatedWrapper>
           </div>
         </div>
       </div>

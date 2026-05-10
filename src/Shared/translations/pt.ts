@@ -2,6 +2,35 @@
 export default {
   translation: {
     aboutUs: 'Sobre nós',
+    aboutUsParagraph1:
+      'O esporte não para, e a gente também não. A GO CHAMPS nasceu para transformar a gestão de campeonatos com simplicidade e dados confiáveis. Esqueça planilhas confusas e estatísticas perdidas.',
+    aboutUsParagraph2:
+      'Queremos que você sinta o clima da competição em cada detalhe. Por isso, entregamos - do amador ao semiprofissional, informação rápida, visual limpo e uma experiência pensada para todos: quem organiza com maestria, quem joga com raça e quem torce com o coração.',
+    aboutUsParagraph3:
+      'A GO CHAMPS é a casa do esporte. Nossa plataforma foi desenhada para ser rápida como um contra-ataque e clara como uma vitória por goleada.',
+    aboutUsListTitle: 'Aqui você encontra:',
+    aboutUsListItem1: 'Súmulas eletrônicas e calendários atualizados.',
+    aboutUsListItem2: 'Chaves e resultados em tempo real.',
+    aboutUsListItem3: 'Estatísticas objetivas.',
+    aboutUsParagraph4:
+      'Seja você o organizador que busca eficiência, o atleta que quer visibilidade ou o torcedor apaixonado, a GO CHAMPS é o seu lugar.',
+    ourImpact: 'Nosso impacto',
+    theTeam: 'O time',
+    founder: 'Fundador',
+    productDesigner: 'Product Designer',
+    softwareEngineer: 'Software Engineer',
+    mobileEngineer: 'Mobile Engineer',
+    socialMedia: 'Social Media',
+    lairBio:
+      'Apaixonada por construir em comunidade — seja em times de tecnologia ou nas quadras de basquete.',
+    lairCta: 'Quer me conhecer melhor?',
+    isaBio:
+      'Transformando problemas em experiências. Obcecada por entender pessoas. Entre dados, intuição e design também sou Astróloga.',
+    ruanBio: 'The Jedi.',
+    wagnerBio:
+      'Nerd, fã de esportes como basquete e futebol, torcedor do SC Internacional.',
+    juliaBio:
+      'Conecto pessoas e propósitos por meio da comunicação. Intensa, apaixonada por gente, por pets e pela vida — idealizadora na essência e prática na ação.',
     account: 'Conta',
     accountRecovery: 'Recuperar conta',
     accountReset: 'Resetar conta',
@@ -1060,6 +1089,9 @@ export default {
     viewer: 'Visualizador',
     visibility: 'Visibilidade',
     youTubeCode: 'Código YouTube',
+    yourEmail: 'Seu email',
+    yourMessage: 'Sua mensagem',
+    yourName: 'Seu nome',
     manageYourAthleteProfile: 'Gerencie seu Perfil de Atleta',
     createYourAthleteProfileToGetStarted:
       'Crie seu Perfil de Atleta para começar!',

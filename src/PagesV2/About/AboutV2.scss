@@ -14,21 +14,134 @@
   }
 }
 
-.about-v2-stats {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid var(--theme-v2-border);
-  font-size: 1.0625rem;
+.theme-v2-root .card-v2-content .about-v2-list {
+  text-align: left;
 
-  strong {
-    color: var(--theme-v2-primary);
-    font-weight: 700;
+  p {
+    text-align: left !important;
+    margin-bottom: 0.5rem;
   }
 
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+
+    @media (min-width: 481px) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  li {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--theme-v2-textSecondary);
+
+    @media (min-width: 481px) {
+      font-size: 1rem;
+    }
+
+    @media (min-width: 769px) {
+      font-size: 1.0625rem;
+    }
+  }
+}
+
+.about-v2-counters-section {
+  margin: 2rem auto 0;
+  width: 100%;
+  max-width: 560px;
+
   @media (min-width: 769px) {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    font-size: 1.125rem;
+    max-width: 1200px;
+    margin-top: 3rem;
+  }
+}
+
+.about-v2-counters-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  @media (min-width: 481px) {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 1rem;
+  }
+}
+
+.about-v2-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.about-v2-counter-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--theme-v2-primary);
+  line-height: 1.1;
+
+  @media (min-width: 769px) {
+    font-size: 2.75rem;
+  }
+}
+
+.about-v2-counter-label {
+  font-size: 0.875rem;
+  color: var(--theme-v2-textSecondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+
+  @media (min-width: 769px) {
+    font-size: 1rem;
+  }
+}
+
+// Shimmer loading states for counters
+.about-v2-counter-value-shimmer {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--theme-v2-backgroundSecondary) 0%,
+    var(--theme-v2-border) 50%,
+    var(--theme-v2-backgroundSecondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+
+  @media (min-width: 769px) {
+    width: 160px;
+    height: 50px;
+  }
+}
+
+.about-v2-counter-label-shimmer {
+  width: 80px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--theme-v2-backgroundSecondary) 0%,
+    var(--theme-v2-border) 50%,
+    var(--theme-v2-backgroundSecondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-top: 0.25rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 
@@ -115,18 +228,21 @@
   margin: 0 0 0.25rem 0;
 }
 
-.about-v2-team-member-role {
+.theme-v2-root .card-v2-content .about-v2-team-member-role {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--theme-v2-primary);
   margin: 0 0 0.75rem 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  line-height: 1.4;
+  text-align: center;
 }
 
-.about-v2-team-member-bio {
+.theme-v2-root .card-v2-content .about-v2-team-member-bio {
   font-size: 0.9375rem;
   color: var(--theme-v2-textSecondary);
+  text-align: center;
   line-height: 1.6;
   margin: 0;
 }

@@ -1,12 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ThemeV2Provider } from '../../ThemeV2';
 import NavBar from '../Shared/NavBar';
 import Footer from '../Shared/Footer';
 import CardV2 from '../Shared/CardV2';
 import handsOnTrophy from '../../assets/illustrations/hands-on-trophy.svg';
 import './AboutV2.scss';
+import lairPhoto from '../../assets/photos/lair.png';
+import wagnerPhoto from '../../assets/photos/wagner.png';
+import juliaPhoto from '../../assets/photos/julia.png';
+import isaPhoto from '../../assets/photos/isa.png';
+import ruanPhoto from '../../assets/photos/ruan.png';
+import publicHttpClient from '../../Shared/httpClient/publicHttpClient';
+import { ApiAboutStats } from '../../Shared/httpClient/apiTypes';
+import { formatStatNumber } from './formatStatNumber';
+
+const CounterShimmer: React.FC = () => (
+  <div className="about-v2-counter">
+    <div className="about-v2-counter-value-shimmer"></div>
+    <div className="about-v2-counter-label-shimmer"></div>
+  </div>
+);
 
 function AboutV2() {
+  const { t } = useTranslation();
+  const [stats, setStats] = useState<ApiAboutStats | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await publicHttpClient.getAboutStats();
+        setStats(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch about stats:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <ThemeV2Provider>
       <div className="page-v2-wrapper">
@@ -18,141 +53,147 @@ function AboutV2() {
             </div>
 
             <CardV2>
-              <h1 className="card-v2-title">Sobre nós</h1>
+              <h1 className="card-v2-title">{t('aboutUs')}</h1>
 
               <div className="card-v2-content">
-                <p>
-                  No GO CHAMPS, a gente vive o esporte como ele é:{' '}
-                  <strong>dinâmico, competitivo e emocionante</strong>. Criamos
-                  uma plataforma simples e poderosa para acompanhar campeonatos,
-                  jogos e estatísticas do amador ao semiprofissional com
-                  informação rápida, visual claro e experiência pensada para
-                  quem joga, organiza e torce.
-                </p>
+                <p>{t('aboutUsParagraph1')}</p>
 
-                <p>
-                  Nossa missão é conectar pessoas ao esporte que amam com dados
-                  confiáveis, atualizados e fáceis de entender, valorizando
-                  atletas, ligas e comunidades.{' '}
-                  <strong>
-                    Em um só lugar você encontra calendários, chaves, resultados
-                    e estatísticas objetivas, com atualização a partir de dados
-                    oficiais.
-                  </strong>
-                </p>
+                <p>{t('aboutUsParagraph2')}</p>
 
-                <p>
-                  Servimos torcedores que querem praticidade, atletas e equipes
-                  que buscam visibilidade e histórico organizado, e
-                  organizadores que precisam de um hub confiável para divulgar
-                  seus campeonatos.
-                </p>
+                <p>{t('aboutUsParagraph3')}</p>
 
-                <p>
-                  Nossos valores guiam tudo: jogo limpo, simplicidade que
-                  escala, performance de verdade, acessibilidade para todos e
-                  comunidade em primeiro lugar.
-                </p>
+                <div className="about-v2-list">
+                  <p>{t('aboutUsListTitle')}</p>
+                  <ul>
+                    <li>{t('aboutUsListItem1')}</li>
+                    <li>{t('aboutUsListItem2')}</li>
+                    <li>{t('aboutUsListItem3')}</li>
+                  </ul>
+                </div>
 
-                <p className="about-v2-stats">
-                  Hoje já somamos <strong>+&#123;X&#125; campeonatos</strong>,{' '}
-                  <strong>+&#123;Y&#125; jogos</strong> e{' '}
-                  <strong>+&#123;Z&#125; usuários por mês</strong> — e estamos
-                  só começando.
-                </p>
+                <p>{t('aboutUsParagraph4')}</p>
+              </div>
+            </CardV2>
+          </div>
+
+          <div className="about-v2-counters-section">
+            <CardV2>
+              <h2 className="card-v2-title">{t('ourImpact')}</h2>
+              <div className="about-v2-counters-grid">
+                {isLoading ? (
+                  <>
+                    <CounterShimmer />
+                    <CounterShimmer />
+                    <CounterShimmer />
+                  </>
+                ) : (
+                  <>
+                    <div className="about-v2-counter">
+                      <span className="about-v2-counter-value">
+                        {stats
+                          ? formatStatNumber(stats.public_games_count)
+                          : '---'}
+                      </span>
+                      <span className="about-v2-counter-label">
+                        {t('games')}
+                      </span>
+                    </div>
+                    <div className="about-v2-counter">
+                      <span className="about-v2-counter-value">
+                        {stats
+                          ? formatStatNumber(stats.public_tournaments_count)
+                          : '---'}
+                      </span>
+                      <span className="about-v2-counter-label">
+                        {t('tournaments')}
+                      </span>
+                    </div>
+                    <div className="about-v2-counter">
+                      <span className="about-v2-counter-value">
+                        {stats
+                          ? formatStatNumber(
+                              stats.organizations_with_public_tournaments_count
+                            )
+                          : '---'}
+                      </span>
+                      <span className="about-v2-counter-label">
+                        {t('organizations')}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             </CardV2>
           </div>
 
           <div className="about-v2-team-section">
             <CardV2>
-              <h2 className="card-v2-title">O time</h2>
+              <h2 className="card-v2-title">{t('theTeam')}</h2>
 
               <div className="card-v2-content">
                 <div className="about-v2-team-grid">
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 1"
-                      />
+                      <img src={lairPhoto} alt="Lair Júnior" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Nome do Membro 1
-                    </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
+                    <h3 className="about-v2-team-member-name">Lair Júnior</h3>
+                    <p className="about-v2-team-member-role">{t('founder')}</p>
+                    <p className="about-v2-team-member-bio">{t('lairBio')}</p>
                     <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                      <a
+                        href="https://www.lairjr.me"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t('lairCta')}
+                      </a>
                     </p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 2"
-                      />
+                      <img src={isaPhoto} alt="Isadora Paixão" />
                     </div>
                     <h3 className="about-v2-team-member-name">
-                      Nome do Membro 2
+                      Isadora Paixão
                     </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
-                    <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                    <p className="about-v2-team-member-role">
+                      {t('productDesigner')}
                     </p>
+                    <p className="about-v2-team-member-bio">{t('isaBio')}</p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 3"
-                      />
+                      <img src={ruanPhoto} alt="Ruan Victor" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Nome do Membro 3
-                    </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
-                    <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                    <h3 className="about-v2-team-member-name">Ruan Victor</h3>
+                    <p className="about-v2-team-member-role">
+                      {t('softwareEngineer')}
                     </p>
+                    <p className="about-v2-team-member-bio">{t('ruanBio')}</p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 4"
-                      />
+                      <img src={wagnerPhoto} alt="Wagner Assis" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Nome do Membro 4
-                    </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
-                    <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                    <h3 className="about-v2-team-member-name">Wagner Assis</h3>
+                    <p className="about-v2-team-member-role">
+                      {t('mobileEngineer')}
                     </p>
+                    <p className="about-v2-team-member-bio">{t('wagnerBio')}</p>
                   </div>
 
                   <div className="about-v2-team-member">
                     <div className="about-v2-team-member-photo">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="Nome do Membro 5"
-                      />
+                      <img src={juliaPhoto} alt="Julia Ipê" />
                     </div>
-                    <h3 className="about-v2-team-member-name">
-                      Nome do Membro 5
-                    </h3>
-                    <p className="about-v2-team-member-role">Cargo / Função</p>
-                    <p className="about-v2-team-member-bio">
-                      Breve descrição sobre o membro da equipe, suas
-                      responsabilidades e paixão pelo esporte.
+                    <h3 className="about-v2-team-member-name">Julia Ipê</h3>
+                    <p className="about-v2-team-member-role">
+                      {t('socialMedia')}
                     </p>
+                    <p className="about-v2-team-member-bio">{t('juliaBio')}</p>
                   </div>
                 </div>
               </div>
