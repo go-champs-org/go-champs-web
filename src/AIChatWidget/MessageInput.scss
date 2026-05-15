@@ -1,0 +1,89 @@
+@import '../Shared/styles/colorsV2.scss';
+
+.ai-chat-message-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-top: 1px solid $neutral-400;
+  background-color: $neutral-100;
+  flex-shrink: 0;
+}
+
+.ai-chat-message-input__textarea {
+  flex: 1;
+  resize: none;
+  border: 1px solid $neutral-400;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  line-height: 1.5;
+  outline: none;
+  background-color: $neutral-100;
+  color: $neutral-900;
+  overflow-y: hidden;
+
+  &:disabled {
+    background-color: $neutral-300;
+  }
+}
+
+.ai-chat-message-input__button {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  background-color: $accent-a;
+  color: $neutral-950;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background-color: $accent-c;
+  }
+
+  &:disabled {
+    background-color: $neutral-400;
+    color: $neutral-500;
+    cursor: not-allowed;
+  }
+}
+
+.ai-chat-message-input--terminal {
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.ai-chat-message-input__start-over,
+.ai-chat-message-input__close-terminal {
+  flex: 1;
+  max-width: 140px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s;
+}
+
+.ai-chat-message-input__start-over {
+  background-color: $accent-a;
+  color: $neutral-950;
+
+  &:hover {
+    background-color: $accent-c;
+  }
+}
+
+.ai-chat-message-input__close-terminal {
+  background-color: $neutral-400;
+  color: $neutral-900;
+
+  &:hover {
+    background-color: $neutral-500;
+  }
+}
