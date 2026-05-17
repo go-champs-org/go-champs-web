@@ -12,13 +12,13 @@ interface WorkflowListProps {
   onRetry: () => void;
 }
 
-const WorkflowList: React.FC<WorkflowListProps> = ({
+function WorkflowList({
   workflows,
   isLoading,
   hasError,
   onSelect,
   onRetry
-}) => {
+}: WorkflowListProps) {
   const { t } = useTranslation();
 
   return (
@@ -50,6 +50,6 @@ const WorkflowList: React.FC<WorkflowListProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default WorkflowList;

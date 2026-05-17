@@ -9,10 +9,7 @@ interface MessageListProps {
   isProcessing: boolean;
 }
 
-const MessageList: React.FC<MessageListProps> = ({
-  messages,
-  isProcessing
-}) => {
+function MessageList({ messages, isProcessing }: MessageListProps) {
   const { t } = useTranslation();
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -40,6 +37,6 @@ const MessageList: React.FC<MessageListProps> = ({
       <div ref={bottomRef} />
     </div>
   );
-};
+}
 
 export default MessageList;

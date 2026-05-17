@@ -8,7 +8,7 @@ import ChatWindow from './ChatWindow';
 import WorkflowList from './WorkflowList';
 import './AIChatWidget.scss';
 
-const AIChatWidget: React.FC = () => {
+function AIChatWidget() {
   const account = useSelector((state: StoreState) => state.account.account);
   const location = useLocation();
   const {
@@ -74,7 +74,6 @@ const AIChatWidget: React.FC = () => {
       {state.isOpen && state.phase === AIChatPhase.Conversation && (
         <ChatWindow
           workflowName={selectedWorkflowName}
-          currentStep={state.currentStep}
           conversationStatus={
             state.conversationStatus || ConversationStatus.CollectingData
           }
@@ -130,6 +129,6 @@ const AIChatWidget: React.FC = () => {
       </button>
     </div>
   );
-};
+}
 
 export default AIChatWidget;

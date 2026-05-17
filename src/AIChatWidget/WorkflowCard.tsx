@@ -7,7 +7,7 @@ interface WorkflowCardProps {
   onClick: (workflow: Workflow) => void;
 }
 
-const WorkflowCard: React.FC<WorkflowCardProps> = ({ workflow, onClick }) => {
+function WorkflowCard({ workflow, onClick }: WorkflowCardProps) {
   return (
     <button
       className="ai-workflow-card"
@@ -17,15 +17,13 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({ workflow, onClick }) => {
       {workflow.name}
     </button>
   );
-};
+}
 
 interface WorkflowCardSkeletonProps {
   count?: number;
 }
 
-export const WorkflowCardSkeleton: React.FC<WorkflowCardSkeletonProps> = ({
-  count = 3
-}) => {
+export function WorkflowCardSkeleton({ count = 3 }: WorkflowCardSkeletonProps) {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
@@ -33,6 +31,6 @@ export const WorkflowCardSkeleton: React.FC<WorkflowCardSkeletonProps> = ({
       ))}
     </>
   );
-};
+}
 
 export default WorkflowCard;

@@ -7,7 +7,6 @@ import './ChatWindow.scss';
 
 interface ChatWindowProps {
   workflowName: string;
-  currentStep: string | null;
   conversationStatus: ConversationStatus;
   conversationError: string | null;
   messages: Message[];
@@ -20,9 +19,8 @@ interface ChatWindowProps {
   onStartOver: () => void;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({
+function ChatWindow({
   workflowName,
-  currentStep,
   conversationStatus,
   conversationError,
   messages,
@@ -33,7 +31,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   onClose,
   onDismissError,
   onStartOver
-}) => {
+}: ChatWindowProps) {
   const { t } = useTranslation();
 
   return (
@@ -49,9 +47,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
         </button>
         <div className="ai-chat-window__title-group">
           <span className="ai-chat-window__title">{workflowName}</span>
-          {currentStep ? (
-            <span className="ai-chat-window__step">{currentStep}</span>
-          ) : null}
         </div>
         <button
           className="ai-chat-window__close"
@@ -85,6 +80,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
       />
     </div>
   );
-};
+}
 
 export default ChatWindow;

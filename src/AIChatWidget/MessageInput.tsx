@@ -11,13 +11,13 @@ interface MessageInputProps {
   onClose?: () => void;
 }
 
-const MessageInput: React.FC<MessageInputProps> = ({
+function MessageInput({
   onSend,
   isDisabled,
   conversationStatus,
   onStartOver,
   onClose
-}) => {
+}: MessageInputProps) {
   const { t } = useTranslation();
   const [value, setValue] = useState('');
 
@@ -84,6 +84,6 @@ const MessageInput: React.FC<MessageInputProps> = ({
       </button>
     </div>
   );
-};
+}
 
 export default MessageInput;
