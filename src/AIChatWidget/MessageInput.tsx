@@ -22,7 +22,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
   const [value, setValue] = useState('');
 
   const isTerminal =
-    conversationStatus === 'completed' || conversationStatus === 'cancelled';
+    conversationStatus === ConversationStatus.Completed ||
+    conversationStatus === ConversationStatus.Cancelled;
 
   const handleSend = useCallback(() => {
     const trimmed = value.trim();

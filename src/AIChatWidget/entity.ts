@@ -9,7 +9,11 @@ export interface Workflow {
   description: string;
 }
 
-export type ConversationStatus = 'collecting_data' | 'completed' | 'cancelled';
+export enum ConversationStatus {
+  CollectingData = 'collecting_data',
+  Completed = 'completed',
+  Cancelled = 'cancelled'
+}
 
 export interface ConversationMeta {
   id: string;
@@ -17,7 +21,10 @@ export interface ConversationMeta {
   current_step: string;
 }
 
-export type AIChatPhase = 'workflow_selection' | 'conversation';
+export enum AIChatPhase {
+  WorkflowSelection = 'workflow_selection',
+  Conversation = 'conversation'
+}
 
 export interface AIChatState {
   phase: AIChatPhase;

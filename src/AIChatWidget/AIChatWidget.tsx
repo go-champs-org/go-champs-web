@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { StoreState } from '../store';
 import useAIChat from './useAIChat';
+import { AIChatPhase, ConversationStatus } from './entity';
 import ChatWindow from './ChatWindow';
 import WorkflowList from './WorkflowList';
 import './AIChatWidget.scss';
@@ -22,20 +23,21 @@ const AIChatWidget: React.FC = () => {
   } = useAIChat();
 
   useEffect(() => {
+    if (!account) return;
     if (
       location.pathname.indexOf('/organization/') !== -1 ||
-      location.pathname.indexOf('/Organization/') !== -1
+      location.pathname.indexOf('/Organization/') !== -1 ||
+      location.pathname.indexOf('/Account/Organizations') !== -1
     ) {
       if (!state.isOpen) {
         open();
       }
     }
-    // Only react to pathname changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, [location.pathname, account]);
 
   // Only render for authenticated users
-  if (!account) return null;
+  if (!account) return <></>;
 
   const selectedWorkflowName = state.selectedWorkflow
     ? state.selectedWorkflow.name
@@ -43,7 +45,7 @@ const AIChatWidget: React.FC = () => {
 
   return (
     <div className="ai-chat-widget">
-      {state.isOpen && state.phase === 'workflow_selection' && (
+      {state.isOpen && state.phase === AIChatPhase.WorkflowSelection && (
         <div className="ai-chat-window">
           <div className="ai-chat-window__header">
             <div className="ai-chat-window__title-group">
@@ -69,11 +71,13 @@ const AIChatWidget: React.FC = () => {
           )}
         </div>
       )}
-      {state.isOpen && state.phase === 'conversation' && (
+      {state.isOpen && state.phase === AIChatPhase.Conversation && (
         <ChatWindow
           workflowName={selectedWorkflowName}
           currentStep={state.currentStep}
-          conversationStatus={state.conversationStatus}
+          conversationStatus={
+            state.conversationStatus || ConversationStatus.CollectingData
+          }
           conversationError={state.conversationError}
           messages={state.messages}
           isConnected={state.isConnected}

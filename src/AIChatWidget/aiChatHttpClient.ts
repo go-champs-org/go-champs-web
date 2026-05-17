@@ -1,6 +1,6 @@
 import httpClient from '../Shared/httpClient/httpClient';
 import { REACT_APP_API_HOST } from '../Shared/env';
-import { Workflow, ConversationMeta } from './entity';
+import { Workflow, ConversationMeta, ConversationStatus } from './entity';
 
 const AI_API = `${REACT_APP_API_HOST}v1/ai`;
 
@@ -32,7 +32,7 @@ export const createConversation = async (
   );
   return {
     id: response.data.id,
-    status: response.data.status as ConversationMeta['status'],
+    status: response.data.status as ConversationStatus,
     current_step: response.data.current_step
   };
 };

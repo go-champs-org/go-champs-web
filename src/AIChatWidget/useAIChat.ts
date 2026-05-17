@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import {
   AIChatState,
   AIChatAction,
+  AIChatPhase,
   Message,
   Workflow,
   ConversationMeta
@@ -12,7 +13,7 @@ import { getWebSocketUrl } from '../Shared/env';
 import usePhoenixChannel from './usePhoenixChannel';
 
 const initialState: AIChatState = {
-  phase: 'workflow_selection',
+  phase: AIChatPhase.WorkflowSelection,
   workflows: [],
   workflowsLoading: false,
   workflowsError: false,
@@ -54,7 +55,7 @@ const reducer = (state: AIChatState, action: AIChatAction): AIChatState => {
         conversationId: action.payload.id,
         conversationStatus: action.payload.status,
         currentStep: action.payload.current_step,
-        phase: 'conversation',
+        phase: AIChatPhase.Conversation,
         isCreatingConversation: false,
         messages: []
       };
@@ -70,7 +71,7 @@ const reducer = (state: AIChatState, action: AIChatAction): AIChatState => {
     case 'BACK_TO_PHASE_ONE':
       return {
         ...state,
-        phase: 'workflow_selection',
+        phase: AIChatPhase.WorkflowSelection,
         conversationId: null,
         messages: [],
         isConnected: false,
@@ -146,7 +147,7 @@ const useAIChat = (): UseAIChatResult => {
     } catch {
       dispatch({
         type: 'SET_CONVERSATION_ERROR',
-        payload: 'createConversationError'
+        payload: i18n.t('aiChat.createConversationError')
       });
     }
   }, []);

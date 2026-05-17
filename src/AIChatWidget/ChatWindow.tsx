@@ -8,7 +8,7 @@ import './ChatWindow.scss';
 interface ChatWindowProps {
   workflowName: string;
   currentStep: string | null;
-  conversationStatus: ConversationStatus | null;
+  conversationStatus: ConversationStatus;
   conversationError: string | null;
   messages: Message[];
   isConnected: boolean;
@@ -69,6 +69,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
             className="ai-chat-window__error-dismiss"
             onClick={onDismissError}
             type="button"
+            aria-label={t('aiChat.closeButton')}
           >
             &#215;
           </button>
