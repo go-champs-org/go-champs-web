@@ -9,7 +9,8 @@ interface MessageBubbleProps {
 
 function MessageBubble({ message }: MessageBubbleProps) {
   if (message.role === 'assistant') {
-    const clean = DOMPurify.sanitize(message.content);
+    const withBreaks = message.content.replace(/\n/g, '<br>');
+    const clean = DOMPurify.sanitize(withBreaks);
     return (
       <div className="ai-chat-bubble ai-chat-bubble--assistant">
         <div

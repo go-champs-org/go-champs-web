@@ -1,4 +1,4 @@
-import React, { useState, useCallback, KeyboardEvent } from 'react';
+import React, { useState, useCallback, useRef, KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConversationStatus } from './entity';
 import './MessageInput.scss';
@@ -20,6 +20,7 @@ function MessageInput({
 }: MessageInputProps) {
   const { t } = useTranslation();
   const [value, setValue] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isTerminal =
     conversationStatus === ConversationStatus.Completed ||
@@ -30,6 +31,9 @@ function MessageInput({
     if (!trimmed || isDisabled) return;
     onSend(trimmed);
     setValue('');
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
   }, [value, isDisabled, onSend]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -72,6 +76,7 @@ function MessageInput({
         onChange={e => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         disabled={isDisabled}
+        ref={textareaRef}
         placeholder={t('aiChat.answerPlaceholder')}
         rows={1}
       />
