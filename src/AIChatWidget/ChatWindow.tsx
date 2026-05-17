@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Message, ConversationStatus } from './entity';
 import MessageList from './MessageList';
-import MessageInput from './MessageInput';
+import MessageInput, { MessageInputHandle } from './MessageInput';
 import './ChatWindow.scss';
 
 interface ChatWindowProps {
@@ -33,6 +33,18 @@ function ChatWindow({
   onStartOver
 }: ChatWindowProps) {
   const { t } = useTranslation();
+  const inputRef = useRef<MessageInputHandle>(null);
+  const isDisabled = isProcessing || !isConnected;
+  const prevIsDisabled = useRef(isDisabled);
+
+  useEffect(() => {
+    if (!isDisabled && prevIsDisabled.current) {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+    prevIsDisabled.current = isDisabled;
+  }, [isDisabled]);
 
   return (
     <div className="ai-chat-window">
@@ -72,8 +84,9 @@ function ChatWindow({
       ) : null}
       <MessageList messages={messages} isProcessing={isProcessing} />
       <MessageInput
+        ref={inputRef}
         onSend={onSend}
-        isDisabled={isProcessing || !isConnected}
+        isDisabled={isDisabled}
         conversationStatus={conversationStatus}
         onStartOver={onStartOver}
         onClose={onClose}
