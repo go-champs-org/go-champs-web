@@ -26,6 +26,7 @@ describe('Tournament Management', () => {
   it('Edit tournament', () => {
     cy.xpath("//*[contains(text(), 'Test tournament (can delete)')]").click()
     cy.xpath("//*[contains(text(), 'Gerenciar')]").click()
+    cy.get('.ai-chat-window__close').click();
     cy.xpath("//*[contains(text(), 'Informacões')]").click()
     cy.title().should('eq', 'Go Champs | Edit Tournament')
     cy.wait(1000)

@@ -10,6 +10,7 @@ describe('Round Management', () => {
     cy.xpath("//*[contains(text(), 'Test Organization (cannot delete)')]").click()
     cy.xpath("//*[contains(text(), 'Test tournament (cannot delete)')]").click()
     cy.xpath("//*[contains(text(), 'Test draw phase (cannot delete)')]").click()
+    cy.get('.ai-chat-window__close').click();
     cy.xpath("//a[contains(text(), 'Chaveamentos')]").click()
   })
 

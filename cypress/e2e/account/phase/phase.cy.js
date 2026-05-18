@@ -10,6 +10,7 @@ describe('Phase Management', () => {
     cy.xpath("//*[contains(text(), 'Test Organization (cannot delete)')]").click()
     cy.xpath("//*[contains(text(), 'Test tournament (cannot delete)')]").click()
     cy.xpath("//*[contains(text(), 'Gerenciar')]").click()
+    cy.get('.ai-chat-window__close').click();
     cy.xpath("//*[contains(text(), 'Fases')]").click()
   })
 
