@@ -49,7 +49,7 @@ i18n
     fallbackLng: 'pt',
     lng: 'pt',
     supportedLngs: ['en', 'pt'],
-    keySeparator: false, // we do not use keys in form messages.welcome
+    keySeparator: '.', // supports nested keys e.g. aiChat.title
     interpolation: {
       escapeValue: false, // react already safes from xss
       format: (value, format, lng) => {

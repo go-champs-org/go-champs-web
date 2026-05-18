@@ -14,3 +14,12 @@ export const REACT_APP_SCOREBOARD_APP_URL =
   process.env.REACT_APP_SCOREBOARD_APP_URL;
 export const REACT_APP_RECAPTCHA_SITE_KEY =
   process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+
+export const getWebSocketUrl = (): string => {
+  const apiHost = process.env.REACT_APP_API_HOST || '';
+  // Replace http(s):// with ws(s):// and strip trailing slash, then append /socket
+  const wsHost = apiHost
+    .replace(/^http(s?):\/\//, 'ws$1://')
+    .replace(/\/$/, '');
+  return `${wsHost}/socket`;
+};

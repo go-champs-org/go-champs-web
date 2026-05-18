@@ -1143,6 +1143,25 @@ export default {
           }
         }
       }
+    },
+    aiChat: {
+      title: 'Assistente de IA',
+      connected: 'Conectado',
+      reconnecting: 'Reconectando…',
+      emptyState: 'Como posso te ajudar hoje?',
+      inputPlaceholder: 'Digite uma mensagem…',
+      answerPlaceholder: 'Digite sua resposta…',
+      sendButton: 'Enviar',
+      selectWorkflow: 'O que você gostaria de fazer?',
+      loadingWorkflows: 'Carregando opções…',
+      workflowsError: 'Falha ao carregar opções. Por favor, tente novamente.',
+      retryButton: 'Tentar novamente',
+      backButton: 'Voltar',
+      closeButton: 'Fechar',
+      startOverButton: 'Recomeçar',
+      stepLabel: 'Passo',
+      createConversationError:
+        'Falha ao iniciar conversa. Por favor, tente novamente.'
     }
   }
 };

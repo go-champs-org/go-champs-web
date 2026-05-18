@@ -1,0 +1,50 @@
+@import '../Shared/styles/colorsV2.scss';
+
+.ai-workflow-card {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background-color: $neutral-100;
+  border: 1px solid $neutral-400;
+  border-radius: 0.5rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $neutral-900;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background-color: $neutral-300;
+    border-color: $accent-a;
+  }
+
+  &:active {
+    background-color: $accent-a;
+    color: $neutral-950;
+  }
+
+  &--loading {
+    height: 2.5rem;
+    background: linear-gradient(
+      90deg,
+      $neutral-400 25%,
+      $neutral-300 50%,
+      $neutral-400 75%
+    );
+    background-size: 200% 100%;
+    animation: ai-skeleton-shimmer 1.4s infinite;
+    border-color: transparent;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+@keyframes ai-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

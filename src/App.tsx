@@ -45,6 +45,7 @@ import { ThemeProvider } from './Theme';
 import AccountHomeBillboard from './Pages/AccountHomeBillboard';
 import V1Layout from './Shared/Layout/V1Layout';
 import V2Layout from './Shared/Layout/V2Layout';
+import AIChatWidget from './AIChatWidget/AIChatWidget';
 
 /**
  * LayoutWrapper conditionally applies V1 or V2 layout based on the current route.
@@ -217,6 +218,7 @@ const App: React.FC = () => {
             </LayoutWrapper>
           </DndProvider>
           <PWAInstallPrompt />
+          <AIChatWidget />
         </Router>
       </ThemeProvider>
     </Provider>

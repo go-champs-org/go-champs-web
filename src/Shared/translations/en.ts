@@ -1132,6 +1132,24 @@ export default {
           }
         }
       }
+    },
+    aiChat: {
+      title: 'AI Assistant',
+      connected: 'Connected',
+      reconnecting: 'Reconnecting…',
+      emptyState: 'How can I help you today?',
+      inputPlaceholder: 'Type a message…',
+      answerPlaceholder: 'Type your answer…',
+      sendButton: 'Send',
+      selectWorkflow: 'What would you like to do?',
+      loadingWorkflows: 'Loading options…',
+      workflowsError: 'Failed to load options. Please try again.',
+      retryButton: 'Retry',
+      backButton: 'Back',
+      closeButton: 'Close',
+      startOverButton: 'Start over',
+      stepLabel: 'Step',
+      createConversationError: 'Failed to start conversation. Please try again.'
     }
   }
 };
