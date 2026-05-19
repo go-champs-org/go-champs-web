@@ -10,7 +10,6 @@ import {
   useLocation
 } from 'react-router-dom';
 import AccountHome from './Pages/AccountHome';
-import About from './Pages/About';
 import AboutV2 from './PagesV2/About/AboutV2';
 import HomeV2 from './PagesV2/Home/HomeV2';
 import SignInV2 from './PagesV2/SignIn/SignInV2';
@@ -21,23 +20,16 @@ import FaqV2 from './PagesV2/FAQ/FaqV2';
 import ContactV2 from './PagesV2/Contact/ContactV2';
 import PrivacyPolicyBRV2 from './PagesV2/PrivacyPolicyBR/PrivacyPolicyBRV2';
 import TermsBRV2 from './PagesV2/TermsBR/TermsBRV2';
-import Home from './Pages/Home';
 import Search from './Pages/Search';
 import TournamentHome from './Pages/TournamentHome';
 import store from './store';
 import OrganizationHome from './Pages/OrganizationHome';
 import UseAsApp from './Pages/UseAsApp';
-import SignIn from './Pages/SignIn';
-import SignUp from './Pages/SignUp';
-import AccountReset from './Pages/AccountReset';
 import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
-import AccountRecovery from './Pages/AccountRecovery';
 import { RouteProps } from './Pages/support/routerInterfaces';
 import './Shared/translations/i18n';
 import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
-import PrivacyPolicyBR from './Pages/PrivacyPolicyBR';
-import TermsBR from './Pages/TermsBR';
 import PWAInstallPrompt from './Shared/UI/PWAInstallPrompt';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
 import OrganizationView from './Pages/OrganizationView';
@@ -46,18 +38,18 @@ import AccountHomeBillboard from './Pages/AccountHomeBillboard';
 import V1Layout from './Shared/Layout/V1Layout';
 import V2Layout from './Shared/Layout/V2Layout';
 import AIChatWidget from './AIChatWidget/AIChatWidget';
+import { isLocationV2 } from './PagesV2/routes';
 
 /**
  * LayoutWrapper conditionally applies V1 or V2 layout based on the current route.
- * V2 routes (ending with "V2") are self-contained with their own NavBar and Footer.
+ * V2 routes are self-contained with their own NavBar and Footer.
  * V1 routes use the legacy NavTopToolbar and footer structure.
  */
 const LayoutWrapper: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const location = useLocation();
-  const isV2Route =
-    /V2$/.test(location.pathname) || location.pathname.startsWith('/PagesV2');
+  const isV2Route = isLocationV2(location.pathname);
 
   if (isV2Route) {
     return <V2Layout>{children}</V2Layout>;
@@ -74,11 +66,9 @@ const App: React.FC = () => {
           <DndProvider backend={HTML5Backend}>
             <LayoutWrapper>
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/About" component={About} />
-                <Route path="/AboutV2" component={AboutV2} />
-                <Route path="/HomeV2" component={HomeV2} />
-                <Route path="/FaqV2" component={FaqV2} />
+                <Route exact path="/" component={HomeV2} />
+                <Route exact sensitive path="/About" component={AboutV2} />
+                <Route exact sensitive path="/Faq" component={FaqV2} />
                 <Route
                   exact
                   sensitive
@@ -122,20 +112,8 @@ const App: React.FC = () => {
                 <Route
                   exact
                   sensitive
-                  path="/PrivacyPolicyBRV2"
+                  path="/PrivacyPolicyBR"
                   component={PrivacyPolicyBRV2}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/TermsBRV2"
-                  component={TermsBRV2}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/PrivacyPolicyBR*"
-                  component={PrivacyPolicyBR}
                 />
                 <Route
                   exact
@@ -143,42 +121,23 @@ const App: React.FC = () => {
                   path="/PrivacyPolicy*"
                   component={PrivacyPolicy}
                 />
-                <Route exact sensitive path="/TermsBR*" component={TermsBR} />
+                <Route exact sensitive path="/TermsBR" component={TermsBRV2} />
                 <Route exact sensitive path="/UseAsApp" component={UseAsApp} />
-                <Route exact sensitive path="/SignInV2" component={SignInV2} />
-                <Route exact sensitive path="/SignUpV2" component={SignUpV2} />
+                <Route exact sensitive path="/SignIn" component={SignInV2} />
+                <Route exact sensitive path="/SignUp" component={SignUpV2} />
                 <Route
                   exact
                   sensitive
-                  path="/AccountRecoveryV2"
+                  path="/AccountRecovery"
                   component={AccountRecoveryV2}
                 />
                 <Route
                   exact
                   sensitive
-                  path="/AccountResetV2"
+                  path="/AccountReset"
                   component={AccountResetV2}
                 />
-                <Route
-                  exact
-                  sensitive
-                  path="/ContactV2"
-                  component={ContactV2}
-                />
-                <Route exact sensitive path="/SignIn*" component={SignIn} />
-                <Route exact sensitive path="/SignUp" component={SignUp} />
-                <Route
-                  exact
-                  sensitive
-                  path="/AccountReset"
-                  component={AccountReset}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/AccountRecovery"
-                  component={AccountRecovery}
-                />
+                <Route exact sensitive path="/Contact" component={ContactV2} />
                 <Route
                   exact
                   sensitive

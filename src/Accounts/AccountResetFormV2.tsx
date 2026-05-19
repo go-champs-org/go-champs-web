@@ -84,7 +84,7 @@ function AccountResetFormV2({
       <div className="account-reset-form-v2-links">
         <p className="account-reset-form-v2-link-text">
           <Trans>rememberYourPassword</Trans>{' '}
-          <a href="/SignInV2" className="account-reset-form-v2-link">
+          <a href="/SignIn" className="account-reset-form-v2-link">
             <Trans>signIn</Trans>
           </a>
         </p>

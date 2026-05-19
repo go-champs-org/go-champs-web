@@ -21,7 +21,7 @@ function NavBar() {
     <nav className="navbar-v2">
       <div className="navbar-v2-container">
         <div className="navbar-v2-brand">
-          <a href="/HomeV2" className="navbar-v2-logo">
+          <a href="/" className="navbar-v2-logo">
             <picture>
               <source media="(min-width: 769px)" srcSet={logoWhiteName} />
               <img src={logoGreen} alt="Go Champs" />
@@ -41,13 +41,13 @@ function NavBar() {
 
         <div className={`navbar-v2-menu ${isMenuOpen ? 'is-active' : ''}`}>
           <div className="navbar-v2-links">
-            <a href="/AboutV2" className="navbar-v2-link">
+            <a href="/About" className="navbar-v2-link">
               <Trans>aboutUs</Trans>
             </a>
-            <a href="/FaqV2" className="navbar-v2-link">
+            <a href="/Faq" className="navbar-v2-link">
               <Trans>faq</Trans>
             </a>
-            <a href="/ContactV2" className="navbar-v2-link">
+            <a href="/Contact" className="navbar-v2-link">
               <Trans>contactUs</Trans>
             </a>
           </div>
@@ -64,7 +64,7 @@ function NavBar() {
               {currentTheme === 'dark' ? '☀' : '☾'}
             </button>
             <NotAuthenticatedWrapper>
-              <a href="/SignInV2" className="navbar-v2-login-button button-v2">
+              <a href="/SignIn" className="navbar-v2-login-button button-v2">
                 <Trans>signIn</Trans>
               </a>
             </NotAuthenticatedWrapper>

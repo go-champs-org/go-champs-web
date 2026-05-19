@@ -54,11 +54,11 @@ function Footer() {
               MIT
             </a>
             .
-            <a href="/PrivacyPolicyBRV2" className="footer-v2-link">
+            <a href="/PrivacyPolicyBR" className="footer-v2-link">
               {` ${t('privacyPolicyBR')}`}
             </a>
             {'. '}
-            <a href="/TermsBRV2" className="footer-v2-link">
+            <a href="/TermsBR" className="footer-v2-link">
               {t('termsBR')}
             </a>
             .
