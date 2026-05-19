@@ -25,7 +25,8 @@ export default {
     lairCta: 'Want to get to know me better?',
     isaBio:
       'Transforming problems into experiences. Obsessed with understanding people. Between data, intuition, and design, I am also an Astrologer.',
-    ruanBio: 'The Jedi.',
+    ruanBio:
+      'I enjoy working in environments where hard problems are the norm and engineering quality is taken seriously.',
     wagnerBio:
       'Nerd, fan of sports like basketball and soccer, supporter of SC Internacional.',
     juliaBio:
