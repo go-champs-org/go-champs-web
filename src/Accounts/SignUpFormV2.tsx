@@ -101,7 +101,7 @@ function SignUpFormV2({
       <div className="signup-form-v2-links">
         <p className="signup-form-v2-link-text">
           <Trans>alreadyHaveAnAccount</Trans>{' '}
-          <a href="/SignInV2" className="signup-form-v2-link">
+          <a href="/SignIn" className="signup-form-v2-link">
             <Trans>signIn</Trans>
           </a>
         </p>
