@@ -1,0 +1,138 @@
+@import '../Shared/styles/colorsV2.scss';
+@import '../PagesV2/Shared/page-v2';
+
+.org-view-layout {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (min-width: 769px) {
+    gap: 2.5rem;
+  }
+}
+
+// Header card
+.org-view-header-card {
+  padding: 1.5rem 1rem;
+
+  @media (min-width: 769px) {
+    padding: 2rem 2.5rem;
+  }
+}
+
+.org-view-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  @media (min-width: 769px) {
+    gap: 2rem;
+  }
+}
+
+.org-view-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--theme-v2-border);
+  background-color: var(--theme-v2-backgroundSecondary);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (min-width: 769px) {
+    width: 96px;
+    height: 96px;
+    border-radius: 16px;
+  }
+}
+
+.org-view-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--theme-v2-text);
+  margin: 0;
+  line-height: 1.2;
+
+  @media (min-width: 769px) {
+    font-size: 2rem;
+  }
+}
+
+// Tournaments section
+.org-view-tournaments-section {
+  width: 100%;
+}
+
+.org-view-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--theme-v2-text);
+  margin: 0 0 1.25rem;
+
+  @media (min-width: 769px) {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Tournament grid
+.org-view-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+// Shimmer loading placeholder
+.org-view-shimmer {
+  min-height: 96px;
+  background: linear-gradient(
+    90deg,
+    var(--theme-v2-backgroundSecondary) 25%,
+    var(--theme-v2-border) 50%,
+    var(--theme-v2-backgroundSecondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: org-view-shimmer 1.5s infinite;
+  pointer-events: none;
+}
+
+@keyframes org-view-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Empty state
+.org-view-empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+
+  p {
+    font-size: 1rem;
+    color: var(--theme-v2-textSecondary);
+    margin: 0;
+  }
+}

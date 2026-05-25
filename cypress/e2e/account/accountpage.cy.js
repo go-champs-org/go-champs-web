@@ -6,6 +6,6 @@ describe('Account Page Tests', () => {
 
   it('List account organizations', () => {
     cy.login()
-    cy.get('.card').should('exist')
+    cy.get('a[href="/Account/Organizations"]').should('exist')
   })
 })

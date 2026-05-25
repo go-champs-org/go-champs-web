@@ -63,7 +63,7 @@ function AccountRecoveryFormV2({
       <div className="account-recovery-form-v2-links">
         <p className="account-recovery-form-v2-link-text">
           <Trans>rememberYourPassword</Trans>{' '}
-          <a href="/SignInV2" className="account-recovery-form-v2-link">
+          <a href="/SignIn" className="account-recovery-form-v2-link">
             <Trans>signIn</Trans>
           </a>
         </p>
