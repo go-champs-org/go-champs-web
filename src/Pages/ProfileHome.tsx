@@ -11,6 +11,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../AthleteProfiles/Banner';
+import CareerStats from '../AthleteProfiles/CareerStats';
 import './ProfileHome.scss';
 import { Trans } from 'react-i18next';
 import MiniCard from '../Tournaments/MiniCard';
@@ -59,6 +60,10 @@ function ProfileHome({
     <div className="columns is-multiline profile-home">
       <div className="column is-12 slide-fade-content">
         <Banner athleteProfile={athleteProfile} />
+      </div>
+
+      <div className="column is-12 slide-fade-content delay-1">
+        <CareerStats careerStats={athleteProfile && athleteProfile.career_stats} />
       </div>
 
       <div className="column is-12 slide-fade-content delay-1">

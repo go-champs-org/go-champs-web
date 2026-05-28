@@ -51,7 +51,8 @@ describe('AthleteProfiles dataMappers', () => {
             id: 'tournament2',
             name: 'Tournament 2'
           } as ApiTournamentWithDependecies
-        ]
+        ],
+        career_stats: []
       });
     });
 
@@ -71,7 +72,8 @@ describe('AthleteProfiles dataMappers', () => {
         facebook: '',
         instagram: '',
         twitter: '',
-        tournaments: []
+        tournaments: [],
+        career_stats: []
       });
     });
 
@@ -97,8 +99,50 @@ describe('AthleteProfiles dataMappers', () => {
         facebook: '',
         instagram: '',
         twitter: '',
-        tournaments: []
+        tournaments: [],
+        career_stats: []
       });
+    });
+
+    it('maps career_stats from API response to entity', () => {
+      const apiAthleteProfile: ApiAthleteProfile = {
+        username: 'athlete123',
+        career_stats: [
+          {
+            sport_slug: 'basketball_5x5',
+            sport_name: 'Basketball 5x5',
+            tournaments_count: 2,
+            stats: [
+              { slug: 'points', total: 50.0, average: 25.0 },
+              { slug: 'assists', total: 20.0, average: 10.0 }
+            ]
+          }
+        ]
+      };
+
+      const result = mapApiAthleteProfileToAthleteProfileEntity(apiAthleteProfile);
+
+      expect(result.career_stats).toEqual([
+        {
+          sport_slug: 'basketball_5x5',
+          sport_name: 'Basketball 5x5',
+          tournaments_count: 2,
+          stats: [
+            { slug: 'points', total: 50.0, average: 25.0 },
+            { slug: 'assists', total: 20.0, average: 10.0 }
+          ]
+        }
+      ]);
+    });
+
+    it('maps career_stats as empty array when absent in API response', () => {
+      const apiAthleteProfile: ApiAthleteProfile = {
+        username: 'athlete123'
+      };
+
+      const result = mapApiAthleteProfileToAthleteProfileEntity(apiAthleteProfile);
+
+      expect(result.career_stats).toEqual([]);
     });
   });
 

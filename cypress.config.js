@@ -20,7 +20,9 @@ module.exports = defineConfig({
     },
     env: {
       TEST_PASSWORD: process.env.TEST_PASSWORD,
-      TEST_USERNAME: process.env.TEST_USERNAME
+      TEST_USERNAME: process.env.TEST_USERNAME,
+      TEST_ATHLETE_USERNAME: process.env.TEST_ATHLETE_USERNAME || '',
+      TEST_ATHLETE_NO_STATS_USERNAME: process.env.TEST_ATHLETE_NO_STATS_USERNAME || ''
     }
   },
   // Additional configuration for headless environments

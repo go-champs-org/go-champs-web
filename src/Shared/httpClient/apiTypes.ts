@@ -886,6 +886,19 @@ export interface ApiTeamStatsLogsResponse {
   data: ApiTeamStatsLog[];
 }
 
+export interface ApiCareerStat {
+  slug: string;
+  total: number;
+  average: number;
+}
+
+export interface ApiCareerStatsBySport {
+  sport_slug: string;
+  sport_name: string;
+  tournaments_count: number;
+  stats: ApiCareerStat[];
+}
+
 export interface ApiAthleteProfile {
   username: string;
   name?: string;
@@ -894,6 +907,7 @@ export interface ApiAthleteProfile {
   instagram?: string;
   twitter?: string;
   tournaments?: ApiTournamentWithDependecies[];
+  career_stats?: ApiCareerStatsBySport[];
 }
 
 export interface ApiAthleteProfilePostRequest {
