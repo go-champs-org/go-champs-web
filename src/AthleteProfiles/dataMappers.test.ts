@@ -52,7 +52,7 @@ describe('AthleteProfiles dataMappers', () => {
             name: 'Tournament 2'
           } as ApiTournamentWithDependecies
         ],
-        career_stats: []
+        careerStats: []
       });
     });
 
@@ -73,7 +73,7 @@ describe('AthleteProfiles dataMappers', () => {
         instagram: '',
         twitter: '',
         tournaments: [],
-        career_stats: []
+        careerStats: []
       });
     });
 
@@ -100,7 +100,7 @@ describe('AthleteProfiles dataMappers', () => {
         instagram: '',
         twitter: '',
         tournaments: [],
-        career_stats: []
+        careerStats: []
       });
     });
 
@@ -124,7 +124,7 @@ describe('AthleteProfiles dataMappers', () => {
         apiAthleteProfile
       );
 
-      expect(result.career_stats).toEqual([
+      expect(result.careerStats).toEqual([
         {
           sport_slug: 'basketball_5x5',
           sport_name: 'Basketball 5x5',
@@ -146,7 +146,7 @@ describe('AthleteProfiles dataMappers', () => {
         apiAthleteProfile
       );
 
-      expect(result.career_stats).toEqual([]);
+      expect(result.careerStats).toEqual([]);
     });
   });
 

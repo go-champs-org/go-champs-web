@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CareerStatsBySport } from './state';
+import { ApiCareerStatsBySport } from '../Shared/httpClient/apiTypes';
 
 interface CareerStatsProps {
-  careerStats?: CareerStatsBySport[];
+  careerStats?: ApiCareerStatsBySport[];
 }
 
 function CareerStats({ careerStats }: CareerStatsProps) {

@@ -62,11 +62,13 @@ function ProfileHome({
         <Banner athleteProfile={athleteProfile} />
       </div>
 
-      <div className="column is-12 slide-fade-content delay-1">
-        <CareerStats
-          careerStats={athleteProfile && athleteProfile.career_stats}
-        />
-      </div>
+      {athleteProfile &&
+        athleteProfile.careerStats &&
+        athleteProfile.careerStats.length > 0 && (
+          <div className="column is-12 slide-fade-content delay-1">
+            <CareerStats careerStats={athleteProfile.careerStats} />
+          </div>
+        )}
 
       <div className="column is-12 slide-fade-content delay-1">
         <h2 className="title is-5">Seus campeonatos</h2>

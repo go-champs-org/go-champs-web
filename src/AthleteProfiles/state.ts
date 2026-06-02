@@ -1,17 +1,7 @@
-import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
-
-export interface CareerStat {
-  slug: string;
-  total: number;
-  average: number;
-}
-
-export interface CareerStatsBySport {
-  sport_slug: string;
-  sport_name: string;
-  tournaments_count: number;
-  stats: CareerStat[];
-}
+import {
+  ApiTournamentWithDependecies,
+  ApiCareerStatsBySport
+} from '../Shared/httpClient/apiTypes';
 
 export interface AthleteProfileEntity {
   username: string;
@@ -21,7 +11,7 @@ export interface AthleteProfileEntity {
   instagram: string;
   twitter: string;
   tournaments?: ApiTournamentWithDependecies[]; // This should be use only for reading data, AthleteProfile are not strictly linked to Tournaments
-  career_stats?: CareerStatsBySport[];
+  careerStats?: ApiCareerStatsBySport[];
 }
 
 export interface AthleteProfileState {

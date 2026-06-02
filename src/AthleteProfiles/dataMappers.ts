@@ -16,7 +16,7 @@ export const mapApiAthleteProfileToAthleteProfileEntity = (
   instagram: apiAthleteProfile.instagram || '',
   twitter: apiAthleteProfile.twitter || '',
   tournaments: apiAthleteProfile.tournaments || [],
-  career_stats: apiAthleteProfile.career_stats || []
+  careerStats: apiAthleteProfile.career_stats || []
 });
 
 export const mapAthleteProfileEntityToApiAthleteProfilePostRequest = (
