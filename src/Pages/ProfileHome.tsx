@@ -63,7 +63,9 @@ function ProfileHome({
       </div>
 
       <div className="column is-12 slide-fade-content delay-1">
-        <CareerStats careerStats={athleteProfile && athleteProfile.career_stats} />
+        <CareerStats
+          careerStats={athleteProfile && athleteProfile.career_stats}
+        />
       </div>
 
       <div className="column is-12 slide-fade-content delay-1">

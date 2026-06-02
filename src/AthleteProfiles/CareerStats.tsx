@@ -20,7 +20,8 @@ function CareerStats({ careerStats }: CareerStatsProps) {
           <h3 className="title is-5">
             {sportStats.sport_name}
             <span className="career-stats-tournament-count">
-              {' '}({sportStats.tournaments_count}{' '}
+              {' '}
+              ({sportStats.tournaments_count}{' '}
               {sportStats.tournaments_count === 1 ? 'torneio' : 'torneios'})
             </span>
           </h3>

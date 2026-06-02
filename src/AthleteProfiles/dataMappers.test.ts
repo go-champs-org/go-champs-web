@@ -120,7 +120,9 @@ describe('AthleteProfiles dataMappers', () => {
         ]
       };
 
-      const result = mapApiAthleteProfileToAthleteProfileEntity(apiAthleteProfile);
+      const result = mapApiAthleteProfileToAthleteProfileEntity(
+        apiAthleteProfile
+      );
 
       expect(result.career_stats).toEqual([
         {
@@ -140,7 +142,9 @@ describe('AthleteProfiles dataMappers', () => {
         username: 'athlete123'
       };
 
-      const result = mapApiAthleteProfileToAthleteProfileEntity(apiAthleteProfile);
+      const result = mapApiAthleteProfileToAthleteProfileEntity(
+        apiAthleteProfile
+      );
 
       expect(result.career_stats).toEqual([]);
     });
