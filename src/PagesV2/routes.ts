@@ -8,7 +8,8 @@ const V2_PATHS = new Set([
   '/AccountReset',
   '/Contact',
   '/PrivacyPolicyBR',
-  '/TermsBR'
+  '/TermsBR',
+  '/TournamentHomeV2'
 ]);
 
 // First path segments reserved for non-organization routes
