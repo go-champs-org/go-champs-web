@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './NavBar.scss';
 import logoWhiteName from '../../assets/logo-white-name.png';
 import logoGreen from '../../assets/logo-green.png';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useThemeV2 } from '../../ThemeV2';
 import AuthenticatedWrapper, {
   NotAuthenticatedWrapper
@@ -12,6 +12,11 @@ import { LOCAL_STORAGE_USERNAME_KEY } from '../../Accounts/constants';
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentTheme, toggleTheme } = useThemeV2();
+  const { i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language.startsWith('pt') ? 'en' : 'pt');
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -62,6 +67,17 @@ function NavBar() {
               }
             >
               {currentTheme === 'dark' ? '☀' : '☾'}
+            </button>
+            <button
+              className="navbar-v2-lang-toggle"
+              onClick={toggleLanguage}
+              aria-label={
+                i18n.language.startsWith('pt')
+                  ? 'Switch to English'
+                  : 'Mudar para Português'
+              }
+            >
+              {i18n.language.startsWith('pt') ? '🇧🇷 PT' : '🇺🇸 EN'}
             </button>
             <NotAuthenticatedWrapper>
               <a href="/SignIn" className="navbar-v2-login-button button-v2">

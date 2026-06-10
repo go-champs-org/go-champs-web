@@ -19,5 +19,13 @@ import './commands'
 // Import cypress-xpath plugin
 require('cypress-xpath')
 
+// Force Portuguese language for all tests so the language detector
+// picks up 'pt' via localStorage regardless of the browser's locale.
+beforeEach(() => {
+  cy.window().then(win => {
+    win.localStorage.setItem('i18nextLng', 'pt');
+  });
+});
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
