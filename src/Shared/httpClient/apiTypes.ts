@@ -886,17 +886,11 @@ export interface ApiTeamStatsLogsResponse {
   data: ApiTeamStatsLog[];
 }
 
-export interface ApiCareerStat {
-  slug: string;
-  total: number;
-  average: number;
-}
-
 export interface ApiCareerStatsBySport {
   sport_slug: string;
   sport_name: string;
   tournaments_count: number;
-  stats: ApiCareerStat[];
+  stats: Record<string, number>;
 }
 
 export interface ApiAthleteProfile {

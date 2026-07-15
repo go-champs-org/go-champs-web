@@ -27,19 +27,18 @@ function CareerStats({ careerStats }: CareerStatsProps) {
           </h3>
 
           <div className="columns is-multiline">
-            {sportStats.stats.map(stat => (
-              <div key={stat.slug} className="column is-narrow">
+            {Object.entries(sportStats.stats).map(([slug, total]) => (
+              <div key={slug} className="column is-narrow">
                 <div className="career-stat-card box">
                   <p className="career-stat-label heading">
-                    {t(
-                      `sports.${sportStats.sport_slug}.statistics.${stat.slug}.abbreviation`,
-                      { defaultValue: stat.slug }
-                    )}
+                    {t(`sports.${sportStats.sport_slug}.statistics.${slug}.abbreviation`, {
+                      defaultValue: slug
+                    })}
                   </p>
-                  <p className="career-stat-total title is-4">{stat.total}</p>
-                  <p className="career-stat-average subtitle is-6">
-                    {stat.average.toFixed(1)} / torneio
-                  </p>
+                  <p className="career-stat-total title is-4">{total}</p>
+                  {/* <p className="career-stat-average subtitle is-6">
+                    {(total / sportStats.tournaments_count).toFixed(1)} / torneio
+                  </p> */}
                 </div>
               </div>
             ))}

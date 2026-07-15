@@ -12,10 +12,7 @@ const athleteWithStats = {
         sport_slug: 'basketball_5x5',
         sport_name: 'Basketball 5x5',
         tournaments_count: 2,
-        stats: [
-          { slug: 'points', total: 50.0, average: 25.0 },
-          { slug: 'assists', total: 20.0, average: 10.0 }
-        ]
+        stats: { points: 50.0, assists: 20.0 }
       }
     ]
   }
