@@ -5,7 +5,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import {
   athleteProfileByUsername,
-  athleteProfileLoading
+  athleteProfileLoading,
+  hasCareerStats
 } from '../AthleteProfiles/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
@@ -67,13 +68,11 @@ function ProfileHome({
       </div>
 
       <BehindFeatureFlag>
-        {athleteProfile &&
-          athleteProfile.careerStats &&
-          athleteProfile.careerStats.length > 0 && (
-            <div className="column is-12 slide-fade-content delay-1">
-              <CareerStats careerStats={athleteProfile.careerStats} />
-            </div>
-          )}
+        {hasCareerStats(athleteProfile) && (
+          <div className="column is-12 slide-fade-content delay-1">
+            <CareerStats careerStats={athleteProfile.careerStats} />
+          </div>
+        )}
       </BehindFeatureFlag>
 
       <div className="column is-12 slide-fade-content delay-1">

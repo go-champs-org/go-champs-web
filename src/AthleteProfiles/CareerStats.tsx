@@ -3,15 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { ApiCareerStatsBySport } from '../Shared/httpClient/apiTypes';
 
 interface CareerStatsProps {
-  careerStats?: ApiCareerStatsBySport[];
+  careerStats: ApiCareerStatsBySport[];
 }
 
 function CareerStats({ careerStats }: CareerStatsProps) {
   const { t } = useTranslation();
-
-  if (!careerStats || careerStats.length === 0) {
-    return null;
-  }
 
   return (
     <div className="career-stats">

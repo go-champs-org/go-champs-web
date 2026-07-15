@@ -1,8 +1,11 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: process.env.STAGING_APP_HOST || process.env.PROD_APP_HOST || 'http://localhost:3000',
+    baseUrl:
+      process.env.STAGING_APP_HOST ||
+      process.env.PROD_APP_HOST ||
+      'http://localhost:3000',
     viewportWidth: 1600,
     viewportHeight: 900,
     video: false,
@@ -18,21 +21,19 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('before:browser:launch', (browser, launchOptions) => {
         if (browser.family === 'chromium') {
-          launchOptions.args.push('--disable-gpu')
-          launchOptions.args.push('--disable-software-rasterizer')
+          launchOptions.args.push('--disable-gpu');
+          launchOptions.args.push('--disable-software-rasterizer');
         }
-        return launchOptions
-      })
+        return launchOptions;
+      });
     },
     env: {
       TEST_PASSWORD: process.env.TEST_PASSWORD,
-      TEST_USERNAME: process.env.TEST_USERNAME,
-      TEST_ATHLETE_USERNAME: process.env.TEST_ATHLETE_USERNAME || '',
-      TEST_ATHLETE_NO_STATS_USERNAME: process.env.TEST_ATHLETE_NO_STATS_USERNAME || ''
+      TEST_USERNAME: process.env.TEST_USERNAME
     }
   },
   // Additional configuration for headless environments
   chromeWebSecurity: false,
   numTestsKeptInMemory: 0,
   watchForFileChanges: false
-})
+});
