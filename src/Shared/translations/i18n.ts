@@ -47,8 +47,12 @@ i18n
   .init({
     resources,
     fallbackLng: 'pt',
-    lng: 'pt',
     supportedLngs: ['en', 'pt'],
+    detection: {
+      order: ['localStorage', 'navigator'],
+      lookupLocalStorage: 'i18nextLng',
+      caches: ['localStorage']
+    },
     keySeparator: '.', // supports nested keys e.g. aiChat.title
     interpolation: {
       escapeValue: false, // react already safes from xss

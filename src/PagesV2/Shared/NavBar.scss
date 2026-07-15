@@ -156,7 +156,8 @@
   gap: 0.75rem;
 }
 
-.navbar-v2-theme-toggle {
+.navbar-v2-theme-toggle,
+.navbar-v2-lang-toggle {
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -175,6 +176,11 @@
     border-color: var(--theme-v2-navbarHover);
     color: var(--theme-v2-navbarHover);
   }
+}
+
+.navbar-v2-lang-toggle {
+  gap: 0.25rem;
+  letter-spacing: 0.02em;
 }
 
 .navbar-v2-login-button {
