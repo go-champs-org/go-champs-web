@@ -36,9 +36,6 @@ function CareerStats({ careerStats }: CareerStatsProps) {
                     })}
                   </p>
                   <p className="career-stat-total title is-4">{total}</p>
-                  {/* <p className="career-stat-average subtitle is-6">
-                    {(total / sportStats.tournaments_count).toFixed(1)} / torneio
-                  </p> */}
                 </div>
               </div>
             ))}
