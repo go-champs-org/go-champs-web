@@ -15,6 +15,7 @@ import CareerStats from '../AthleteProfiles/CareerStats';
 import './ProfileHome.scss';
 import { Trans } from 'react-i18next';
 import MiniCard from '../Tournaments/MiniCard';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface ProfileHomeParams extends RouteProps {
   username: string;
@@ -62,13 +63,15 @@ function ProfileHome({
         <Banner athleteProfile={athleteProfile} />
       </div>
 
+      <BehindFeatureFlag>
       {athleteProfile &&
         athleteProfile.careerStats &&
         athleteProfile.careerStats.length > 0 && (
           <div className="column is-12 slide-fade-content delay-1">
             <CareerStats careerStats={athleteProfile.careerStats} />
           </div>
-        )}
+          )}
+      </BehindFeatureFlag>
 
       <div className="column is-12 slide-fade-content delay-1">
         <h2 className="title is-5">Seus campeonatos</h2>
