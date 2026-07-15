@@ -62,10 +62,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
   match
 }) => {
   React.useEffect(() => {
-    if (match.params.username) {
+    if (match.params.username && athleteProfile.username !== match.params.username) {
       requestAthleteProfile(match.params.username);
     }
-  }, [match.params.username, requestAthleteProfile]);
+  }, [match.params.username, athleteProfile.username, requestAthleteProfile]);
 
   const backUrl = `/Account`;
   return (

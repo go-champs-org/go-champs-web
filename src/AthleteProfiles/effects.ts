@@ -96,21 +96,35 @@ export const postAthleteProfile = (
   }
 };
 
-export const requestAthleteProfile = (username: string) => async (
+const pendingAthleteProfileRequests = new Map<string, Promise<void>>();
+
+export const requestAthleteProfile = (username: string) => (
   dispatch: Dispatch
-) => {
-  dispatch(requestAthleteProfileStart());
-
-  try {
-    const response = await athleteProfileHttpClient.get(username);
-
-    const athleteProfile = mapApiAthleteProfileToAthleteProfileEntity(
-      response.data
-    );
-    dispatch(requestAthleteProfileSuccess(athleteProfile));
-  } catch (err) {
-    dispatch(requestAthleteProfileFailure(err));
+): Promise<void> => {
+  const pendingRequest = pendingAthleteProfileRequests.get(username);
+  if (pendingRequest) {
+    return pendingRequest;
   }
+
+  const request = (async () => {
+    dispatch(requestAthleteProfileStart());
+
+    try {
+      const response = await athleteProfileHttpClient.get(username);
+
+      const athleteProfile = mapApiAthleteProfileToAthleteProfileEntity(
+        response.data
+      );
+      dispatch(requestAthleteProfileSuccess(athleteProfile));
+    } catch (err) {
+      dispatch(requestAthleteProfileFailure(err));
+    } finally {
+      pendingAthleteProfileRequests.delete(username);
+    }
+  })();
+
+  pendingAthleteProfileRequests.set(username, request);
+  return request;
 };
 
 export const requestAthleteProfiles = () => async (dispatch: Dispatch) => {
