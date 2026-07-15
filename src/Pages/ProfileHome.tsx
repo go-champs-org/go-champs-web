@@ -52,7 +52,10 @@ function ProfileHome({
   athleteProfileLoading
 }: ProfileHomeProps) {
   React.useEffect(() => {
-    if (match.params.username && athleteProfile.username !== match.params.username) {
+    if (
+      match.params.username &&
+      athleteProfile.username !== match.params.username
+    ) {
       requestAthleteProfile(match.params.username);
     }
   }, [match.params.username, athleteProfile.username, requestAthleteProfile]);
@@ -64,12 +67,12 @@ function ProfileHome({
       </div>
 
       <BehindFeatureFlag>
-      {athleteProfile &&
-        athleteProfile.careerStats &&
-        athleteProfile.careerStats.length > 0 && (
-          <div className="column is-12 slide-fade-content delay-1">
-            <CareerStats careerStats={athleteProfile.careerStats} />
-          </div>
+        {athleteProfile &&
+          athleteProfile.careerStats &&
+          athleteProfile.careerStats.length > 0 && (
+            <div className="column is-12 slide-fade-content delay-1">
+              <CareerStats careerStats={athleteProfile.careerStats} />
+            </div>
           )}
       </BehindFeatureFlag>
 

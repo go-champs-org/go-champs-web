@@ -16,7 +16,13 @@ module.exports = defineConfig({
       openMode: 0
     },
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('before:browser:launch', (browser, launchOptions) => {
+        if (browser.family === 'chromium') {
+          launchOptions.args.push('--disable-gpu')
+          launchOptions.args.push('--disable-software-rasterizer')
+        }
+        return launchOptions
+      })
     },
     env: {
       TEST_PASSWORD: process.env.TEST_PASSWORD,

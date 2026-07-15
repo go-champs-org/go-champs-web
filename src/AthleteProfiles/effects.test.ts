@@ -13,6 +13,10 @@ describe('requestAthleteProfile', () => {
     dispatch = jest.fn();
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   describe('on success', () => {
     beforeEach(() => {
       jest.spyOn(athleteProfileHttpClient, 'get').mockResolvedValue({

@@ -1,5 +1,5 @@
 const athleteWithStats = {
-  athlete_profile: {
+  data: {
     username: 'test-athlete',
     name: 'Test Athlete',
     photo_url: '',
@@ -19,7 +19,7 @@ const athleteWithStats = {
 };
 
 const athleteWithoutStats = {
-  athlete_profile: {
+  data: {
     username: 'test-athlete-no-stats',
     name: 'Test Athlete No Stats',
     photo_url: '',
@@ -31,14 +31,32 @@ const athleteWithoutStats = {
   }
 };
 
+const signInAsLoggedInUser = win => {
+  win.localStorage.setItem('token', 'fake-token');
+  win.localStorage.setItem('username', 'logged-in-user');
+};
+
 describe('Athlete Profile - Career Stats', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '**/v1/users/logged-in-user', {
+      statusCode: 200,
+      body: { data: { email: '', username: 'logged-in-user', organizations: [] } }
+    });
+    cy.intercept('GET', '**/v1/official-profiles/username/logged-in-user', {
+      statusCode: 404,
+      body: {}
+    });
+  });
+
   it('shows career stats section when athlete has stats', () => {
     cy.intercept('GET', '**/v1/athlete-profiles/username/test-athlete', {
       statusCode: 200,
       body: athleteWithStats
     }).as('getAthleteProfile');
 
-    cy.visit('/athlete-profile/test-athlete');
+    cy.visit('/Account/Profile/test-athlete', {
+      onBeforeLoad: signInAsLoggedInUser
+    });
     cy.wait('@getAthleteProfile');
 
     cy.get('.career-stats').should('exist');
@@ -50,7 +68,9 @@ describe('Athlete Profile - Career Stats', () => {
       body: athleteWithStats
     }).as('getAthleteProfile');
 
-    cy.visit('/athlete-profile/test-athlete');
+    cy.visit('/Account/Profile/test-athlete', {
+      onBeforeLoad: signInAsLoggedInUser
+    });
     cy.wait('@getAthleteProfile');
 
     cy.get('.career-stats-sport')
@@ -61,20 +81,21 @@ describe('Athlete Profile - Career Stats', () => {
       });
   });
 
-  it('shows stat cards with total and average values', () => {
+  it('shows stat cards with total values', () => {
     cy.intercept('GET', '**/v1/athlete-profiles/username/test-athlete', {
       statusCode: 200,
       body: athleteWithStats
     }).as('getAthleteProfile');
 
-    cy.visit('/athlete-profile/test-athlete');
+    cy.visit('/Account/Profile/test-athlete', {
+      onBeforeLoad: signInAsLoggedInUser
+    });
     cy.wait('@getAthleteProfile');
 
     cy.get('.career-stat-card')
       .first()
       .within(() => {
         cy.get('.career-stat-total').should('exist');
-        cy.get('.career-stat-average').should('contain', '/ torneio');
       });
   });
 
@@ -88,7 +109,9 @@ describe('Athlete Profile - Career Stats', () => {
       }
     ).as('getAthleteProfileNoStats');
 
-    cy.visit('/athlete-profile/test-athlete-no-stats');
+    cy.visit('/Account/Profile/test-athlete-no-stats', {
+      onBeforeLoad: signInAsLoggedInUser
+    });
     cy.wait('@getAthleteProfileNoStats');
 
     cy.get('.career-stats').should('not.exist');

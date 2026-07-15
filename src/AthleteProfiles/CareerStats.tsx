@@ -31,9 +31,12 @@ function CareerStats({ careerStats }: CareerStatsProps) {
               <div key={slug} className="column is-narrow">
                 <div className="career-stat-card box">
                   <p className="career-stat-label heading">
-                    {t(`sports.${sportStats.sport_slug}.statistics.${slug}.abbreviation`, {
-                      defaultValue: slug
-                    })}
+                    {t(
+                      `sports.${sportStats.sport_slug}.statistics.${slug}.abbreviation`,
+                      {
+                        defaultValue: slug
+                      }
+                    )}
                   </p>
                   <p className="career-stat-total title is-4">{total}</p>
                 </div>
