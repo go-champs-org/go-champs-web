@@ -53,13 +53,10 @@ function ProfileHome({
   athleteProfileLoading
 }: ProfileHomeProps) {
   React.useEffect(() => {
-    if (
-      match.params.username &&
-      athleteProfile.username !== match.params.username
-    ) {
+    if (match.params.username) {
       requestAthleteProfile(match.params.username);
     }
-  }, [match.params.username, athleteProfile.username, requestAthleteProfile]);
+  }, [match.params.username, requestAthleteProfile]);
 
   return (
     <div className="columns is-multiline profile-home">
