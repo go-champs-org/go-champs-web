@@ -18,7 +18,7 @@ function CareerStats({ careerStats }: CareerStatsProps) {
             <span className="career-stats-tournament-count">
               {' '}
               ({sportStats.tournaments_count}{' '}
-              {sportStats.tournaments_count === 1 ? 'torneio' : 'torneios'})
+              {sportStats.tournaments_count === 1 ? t('tournament') : t('tournaments')})
             </span>
           </h3>
 
