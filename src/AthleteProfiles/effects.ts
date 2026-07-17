@@ -98,7 +98,7 @@ export const postAthleteProfile = (
 
 export const requestAthleteProfile = (username: string) => async (
   dispatch: Dispatch
-) => {
+): Promise<void> => {
   dispatch(requestAthleteProfileStart());
 
   try {

@@ -5,15 +5,18 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import {
   athleteProfileByUsername,
-  athleteProfileLoading
+  athleteProfileLoading,
+  hasCareerStats
 } from '../AthleteProfiles/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
 import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../AthleteProfiles/Banner';
+import CareerStats from '../AthleteProfiles/CareerStats';
 import './ProfileHome.scss';
 import { Trans } from 'react-i18next';
 import MiniCard from '../Tournaments/MiniCard';
+import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface ProfileHomeParams extends RouteProps {
   username: string;
@@ -60,6 +63,14 @@ function ProfileHome({
       <div className="column is-12 slide-fade-content">
         <Banner athleteProfile={athleteProfile} />
       </div>
+
+      <BehindFeatureFlag>
+        {hasCareerStats(athleteProfile) && (
+          <div className="column is-12 slide-fade-content delay-1">
+            <CareerStats careerStats={athleteProfile.careerStats} />
+          </div>
+        )}
+      </BehindFeatureFlag>
 
       <div className="column is-12 slide-fade-content delay-1">
         <h2 className="title is-5">Seus campeonatos</h2>

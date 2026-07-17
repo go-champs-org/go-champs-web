@@ -1,8 +1,11 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: process.env.STAGING_APP_HOST || process.env.PROD_APP_HOST || 'http://localhost:3000',
+    baseUrl:
+      process.env.STAGING_APP_HOST ||
+      process.env.PROD_APP_HOST ||
+      'http://localhost:3000',
     viewportWidth: 1600,
     viewportHeight: 900,
     video: false,
@@ -16,7 +19,13 @@ module.exports = defineConfig({
       openMode: 0
     },
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('before:browser:launch', (browser, launchOptions) => {
+        if (browser.family === 'chromium') {
+          launchOptions.args.push('--disable-gpu');
+          launchOptions.args.push('--disable-software-rasterizer');
+        }
+        return launchOptions;
+      });
     },
     env: {
       TEST_PASSWORD: process.env.TEST_PASSWORD,
@@ -27,4 +36,4 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   numTestsKeptInMemory: 0,
   watchForFileChanges: false
-})
+});

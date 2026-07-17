@@ -1051,6 +1051,7 @@ export default {
     title: 'Title',
     toChangeSignaturePinContactSupport:
       'To change signature PIN, contact support',
+    tournament: 'Tournament',
     tournamentForm: {
       visibility: {
         public: 'Public',

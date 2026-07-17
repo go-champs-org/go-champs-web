@@ -886,6 +886,13 @@ export interface ApiTeamStatsLogsResponse {
   data: ApiTeamStatsLog[];
 }
 
+export interface ApiCareerStatsBySport {
+  sport_slug: string;
+  sport_name: string;
+  tournaments_count: number;
+  stats: Record<string, number>;
+}
+
 export interface ApiAthleteProfile {
   username: string;
   name?: string;
@@ -894,6 +901,7 @@ export interface ApiAthleteProfile {
   instagram?: string;
   twitter?: string;
   tournaments?: ApiTournamentWithDependecies[];
+  career_stats?: ApiCareerStatsBySport[];
 }
 
 export interface ApiAthleteProfilePostRequest {

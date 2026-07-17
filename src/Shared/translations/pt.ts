@@ -1059,6 +1059,7 @@ export default {
     title: 'Título',
     toChangeSignaturePinContactSupport:
       'Para alterar o PIN da assinatura, entre em contato com o suporte',
+    tournament: 'Campeonato',
     tournamentForm: {
       visibility: {
         public: 'Público',

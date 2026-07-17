@@ -27,6 +27,9 @@ export const athleteProfileByUsername = (
   return state.athleteProfiles[username];
 };
 
+export const hasCareerStats = (athleteProfile: AthleteProfileEntity): boolean =>
+  !!athleteProfile.careerStats && athleteProfile.careerStats.length > 0;
+
 export const athleteProfileLoading = (state: AthleteProfileState): boolean =>
   state.isLoadingRequestAthleteProfile;
 export const athleteProfilesLoading = (state: AthleteProfileState) =>
