@@ -30,3 +30,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.log*
+
+# local design docs / plans - not committed
+/docs/superpowers
