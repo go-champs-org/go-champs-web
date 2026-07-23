@@ -1,4 +1,5 @@
 export const BASKETBALL_5X5_CAREER_STAT_SLUGS = [
+  'game_played',
   'points',
   'rebounds',
   'assists',
