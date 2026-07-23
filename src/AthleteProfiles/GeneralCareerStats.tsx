@@ -14,7 +14,15 @@ function GeneralCareerStats({ sportStats }: GeneralCareerStatsProps) {
       {Object.entries(sportStats.stats).map(([slug, total]) => (
         <div key={slug} className="column is-narrow">
           <div className="career-stat-card box">
-            <p className="career-stat-label heading">
+            <p
+              className="career-stat-label heading has-tooltip-bottom"
+              data-tooltip={t(
+                `sports.${sportStats.sport_slug}.statistics.${slug}.title`,
+                {
+                  defaultValue: slug
+                }
+              )}
+            >
               {t(
                 `sports.${sportStats.sport_slug}.statistics.${slug}.abbreviation`,
                 {
