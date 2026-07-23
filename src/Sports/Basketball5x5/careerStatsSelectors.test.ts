@@ -1,7 +1,7 @@
 import {
   BASKETBALL_5X5_CAREER_STAT_SLUGS,
   selectBasketball5x5CareerStatEntries
-} from './careerStats';
+} from './careerStatsSelectors';
 
 describe('BASKETBALL_5X5_CAREER_STAT_SLUGS', () => {
   it('is the fixed, ordered list of stat slugs', () => {

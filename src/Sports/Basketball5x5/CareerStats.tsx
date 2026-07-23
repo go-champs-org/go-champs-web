@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ApiCareerStatsBySport } from '../../Shared/httpClient/apiTypes';
-import { selectBasketball5x5CareerStatEntries } from './careerStats';
+import { selectBasketball5x5CareerStatEntries } from './careerStatsSelectors';
 
 interface CareerStatsProps {
   sportStats: ApiCareerStatsBySport;
