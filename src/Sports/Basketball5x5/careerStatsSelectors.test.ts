@@ -6,6 +6,7 @@ import {
 describe('BASKETBALL_5X5_CAREER_STAT_SLUGS', () => {
   it('is the fixed, ordered list of stat slugs', () => {
     expect(BASKETBALL_5X5_CAREER_STAT_SLUGS).toEqual([
+      'game_played',
       'points',
       'rebounds',
       'assists',
@@ -19,6 +20,7 @@ describe('BASKETBALL_5X5_CAREER_STAT_SLUGS', () => {
 describe('selectBasketball5x5CareerStatEntries', () => {
   it('returns entries in the fixed order, ignoring keys outside the list', () => {
     const stats = {
+      game_played: 20,
       turnovers: 12,
       points: 340,
       threePointers: 40,
@@ -29,6 +31,7 @@ describe('selectBasketball5x5CareerStatEntries', () => {
     };
 
     expect(selectBasketball5x5CareerStatEntries(stats)).toEqual([
+      { slug: 'game_played', total: 20 },
       { slug: 'points', total: 340 },
       { slug: 'rebounds', total: 210 },
       { slug: 'assists', total: 88 },
