@@ -1,40 +1,19 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { ApiCareerStatsBySport } from '../Shared/httpClient/apiTypes';
+import CareerStatsGrid from '../Shared/UI/CareerStatsGrid';
 
 interface GeneralCareerStatsProps {
   sportStats: ApiCareerStatsBySport;
 }
 
 function GeneralCareerStats({ sportStats }: GeneralCareerStatsProps) {
-  const { t } = useTranslation();
+  const entries = Object.entries(sportStats.stats).map(([slug, total]) => ({
+    slug,
+    total
+  }));
 
   return (
-    <div className="columns is-multiline">
-      {Object.entries(sportStats.stats).map(([slug, total]) => (
-        <div key={slug} className="column is-narrow">
-          <div className="career-stat-card box">
-            <p
-              className="career-stat-label heading has-tooltip-bottom"
-              data-tooltip={t(
-                `sports.${sportStats.sport_slug}.statistics.${slug}.title`,
-                {
-                  defaultValue: slug
-                }
-              )}
-            >
-              {t(
-                `sports.${sportStats.sport_slug}.statistics.${slug}.abbreviation`,
-                {
-                  defaultValue: slug
-                }
-              )}
-            </p>
-            <p className="career-stat-total title is-4">{total}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+    <CareerStatsGrid sportSlug={sportStats.sport_slug} entries={entries} />
   );
 }
 
