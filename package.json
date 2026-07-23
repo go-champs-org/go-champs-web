@@ -60,8 +60,8 @@
     "test:e2e:prod": "env-cmd -f env.prod.js xvfb-run -a cypress run",
     "test:e2e:open": "cypress open",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/prettier --single-quote --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "lint:check": "./node_modules/.bin/prettier --single-quote --check 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "lint": "./node_modules/.bin/prettier --single-quote --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint:check": "./node_modules/.bin/prettier --single-quote --check \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "validate-colors": "node scripts/validate-colors.js",
     "validate-colors:generate": "node scripts/validate-colors.js generate"
   },

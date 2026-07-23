@@ -12,9 +12,8 @@ const CAREER_STATS_VIEWERS: { [key: string]: CareerStatsViewer } = {
   basketball_5x5: BasketballCareerStats
 };
 
-export const selectCareerStatsViewer = (
-  sportSlug: string
-): CareerStatsViewer => CAREER_STATS_VIEWERS[sportSlug] || GeneralCareerStats;
+export const selectCareerStatsViewer = (sportSlug: string): CareerStatsViewer =>
+  CAREER_STATS_VIEWERS[sportSlug] || GeneralCareerStats;
 
 interface CareerStatsProps {
   careerStats: ApiCareerStatsBySport[];
