@@ -4,7 +4,10 @@ import {
   mapOfficialProfileEntityToApiOfficialProfilePostRequest
 } from './dataMappers';
 import { OfficialProfileEntity } from './state';
-import { ApiOfficialProfile } from '../Shared/httpClient/apiTypes';
+import {
+  ApiOfficialProfile,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 
 describe('OfficialProfiles dataMappers', () => {
   describe('mapApiOfficialProfileToOfficialProfileEntity', () => {
@@ -111,11 +114,11 @@ describe('OfficialProfiles dataMappers', () => {
               title: 'System - Officials',
               type: 'official_roster_invites',
               tournament_id: 'tournament1',
-              tournament: {
+              tournament: ({
                 id: 'tournament1',
                 name: 'Test Tournament',
                 slug: 'test-tournament'
-              }
+              } as unknown) as ApiTournamentWithDependecies
             }
           }
         ]

@@ -259,7 +259,7 @@ describe('postTeamSuccess', () => {
 describe('getTournamentSuccess', () => {
   const action: HttpAction<ActionTypes, ApiTournamentWithDependecies> = {
     type: GET_TOURNAMENT_SUCCESS,
-    payload: {
+    payload: ({
       ...DEFAULT_TOURNAMENT,
       id: 'first-id',
       name: 'first-name',
@@ -268,11 +268,13 @@ describe('getTournamentSuccess', () => {
         {
           id: 'first-team-id',
           name: 'first team name',
+          primary_color: '',
           coaches: []
         },
         {
           id: 'second-team-id',
           name: 'second team name',
+          primary_color: '',
           coaches: []
         }
       ],
@@ -282,7 +284,7 @@ describe('getTournamentSuccess', () => {
         slug: 'some-org-slug'
       },
       phases: []
-    }
+    } as unknown) as ApiTournamentWithDependecies
   };
 
   it('sets entities', () => {

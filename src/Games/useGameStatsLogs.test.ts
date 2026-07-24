@@ -27,6 +27,7 @@ const mockAwayTeam: TeamEntity = {
   name: 'Away Team',
   logoUrl: '',
   triCode: 'AWY',
+  primaryColor: '',
   coaches: []
 };
 
@@ -35,11 +36,13 @@ const mockHomeTeam: TeamEntity = {
   name: 'Home Team',
   logoUrl: '',
   triCode: 'HOM',
+  primaryColor: '',
   coaches: []
 };
 
 const mockGameStatic: GameEntity = {
   id: 'game-1',
+  assets: [],
   awayPlaceholder: '',
   awayScore: 0,
   awayTeam: mockAwayTeam,
@@ -51,8 +54,10 @@ const mockGameStatic: GameEntity = {
   isFinished: false,
   location: '',
   number: '',
+  officials: [],
   phaseId: 'phase-1',
   liveState: 'not_started',
+  resultType: 'automatic',
   youTubeCode: ''
 };
 
