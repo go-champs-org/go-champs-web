@@ -1,5 +1,5 @@
 import { OfficialEntity, OfficialState, DEFAULT_OFFICIAL } from './state';
-import { SelectOptionType } from '../Shared/UI/Form/types';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 export const officialById = (
   state: OfficialState,

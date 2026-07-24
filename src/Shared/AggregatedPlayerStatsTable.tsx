@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Trans } from 'react-i18next';
-import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import { PlayersMap } from '../Players/state';
 import './AggregatedPlayerStatsTable.scss';
 import { mapPlayerMapToPlayerDisplayName } from '../Players/dataMappers';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 interface AggregatePlayerStatsRowProps {
   number: number;
-  playerStatLog: PlayerStatsLogRenderEntity;
+  playerStatLog: StatsLogRenderEntity;
   players: PlayersMap;
   playerViewBasePath: string;
   statColumns: StatColumn[];
@@ -23,10 +23,10 @@ function AggregatePlayerStatsRow({
 }: AggregatePlayerStatsRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
     players,
-    playerStatLog.playerId
+    playerStatLog.playerId || ''
   );
-  const teamName = players[playerStatLog.playerId]
-    ? players[playerStatLog.playerId].team.name
+  const teamName = players[playerStatLog.playerId || '']
+    ? players[playerStatLog.playerId || ''].team.name
     : '';
   return (
     <tr>
@@ -62,7 +62,7 @@ function AggregatePlayerStatsRow({
 export interface StatColumn {
   id: string;
   header: string;
-  cell: (playerStatLog: PlayerStatsLogRenderEntity) => React.ReactElement;
+  cell: (playerStatLog: StatsLogRenderEntity) => React.ReactElement;
   cellStyle?: React.CSSProperties;
   sortKey?: string;
   legend?: string;
@@ -72,7 +72,7 @@ interface AggregatePlayerStatsTableProps {
   onHeaderClick?: (sportKey: string) => void;
   statColumns: StatColumn[];
   players: PlayersMap;
-  playerStatLogs: PlayerStatsLogRenderEntity[];
+  playerStatLogs: StatsLogRenderEntity[];
   playerViewBasePath: string;
 }
 
@@ -143,7 +143,7 @@ function AggregatePlayerStatsTable({
           </thead>
           <tbody>
             {playerStatLogs.map(
-              (playerStatLog: PlayerStatsLogRenderEntity, index: number) => (
+              (playerStatLog: StatsLogRenderEntity, index: number) => (
                 <AggregatePlayerStatsRow
                   number={index + 1}
                   key={playerStatLog.playerId}

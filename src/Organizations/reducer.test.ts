@@ -1,5 +1,6 @@
 import { getTournamentSuccess } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import {
   deleteOrganizationFailure,
   deleteOrganizationStart,
@@ -439,7 +440,7 @@ describe('organizationReducer', () => {
   });
 
   describe('getTournamentSuccess', () => {
-    const action = getTournamentSuccess({
+    const action = getTournamentSuccess(({
       ...DEFAULT_TOURNAMENT,
       id: 'some-tournament-id',
       organization: {
@@ -451,7 +452,7 @@ describe('organizationReducer', () => {
       },
       phases: [],
       teams: []
-    });
+    } as unknown) as ApiTournamentWithDependecies);
 
     it('sets entities', () => {
       const newState = organizationReducer(initialState, action);

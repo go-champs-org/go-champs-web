@@ -106,7 +106,7 @@ const getBillingAgreement = async (
 const postBillingAgreement = async (
   tournamentId: string,
   billingData: ApiBillingAgreementRequestData
-): Promise<ApiBillingAgreement> => {
+): Promise<ApiBillingAgreement[]> => {
   const url = `${TOURNAMENT_API}/${tournamentId}/billing-agreements`;
   const body: ApiBillingAgreementRequest = {
     billing_agreement: billingData

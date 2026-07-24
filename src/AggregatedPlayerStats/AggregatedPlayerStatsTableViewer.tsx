@@ -1,7 +1,7 @@
 import React from 'react';
 import { PlayerStatEntity, TournamentEntity } from '../Tournaments/state';
 import { PlayersMap } from '../Players/state';
-import { PlayerStatsLogRenderEntity } from '../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import PlayerStatLogView from '../PlayerStatsLog/View';
 import { Scope } from '../Sports/state';
 import LoadingTable from '../Shared/LoadingTable';
@@ -18,7 +18,7 @@ export interface AggregatedPlayerStatsTableViewerProps {
   onHeaderClick?: (sortKey: string) => void;
   players: PlayersMap;
   playersStats: PlayerStatEntity[];
-  playerStatLogs: PlayerStatsLogRenderEntity[];
+  playerStatLogs: StatsLogRenderEntity[];
   playerViewBasePath: string;
   scope: Scope;
   tournament: TournamentEntity;

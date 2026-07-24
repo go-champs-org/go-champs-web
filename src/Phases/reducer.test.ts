@@ -428,7 +428,7 @@ describe('getPhaseSuccess', () => {
 });
 
 describe('getTournamentSuccess', () => {
-  const apiTournament = {
+  const apiTournament = ({
     ...DEFAULT_TOURNAMENT,
     id: 'first-id',
     name: 'first-title',
@@ -457,7 +457,7 @@ describe('getTournamentSuccess', () => {
       name: 'some org name',
       slug: 'some-org-slug'
     }
-  };
+  } as unknown) as ApiTournamentWithDependecies;
 
   const action = getTournamentSuccess(apiTournament);
 
