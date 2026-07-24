@@ -25,6 +25,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
+  getTournamentBySlug: (
+    organizationSlug: string,
+    tournamentSlug: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postOfficial: (
     official: OfficialEntity,
     tournamentId: string

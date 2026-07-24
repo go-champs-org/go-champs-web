@@ -337,6 +337,7 @@ describe('getPhaseSuccess', () => {
     order: 0,
     type: PhaseTypes.elimination,
     is_in_progress: false,
+    is_processing: false,
     eliminations: [
       {
         id: 'first-id',
@@ -369,6 +370,7 @@ describe('getPhaseSuccess', () => {
     order: 0,
     type: PhaseTypes.elimination,
     is_in_progress: true,
+    is_processing: false,
     eliminations: [
       {
         id: 'first-id',

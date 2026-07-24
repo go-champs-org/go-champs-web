@@ -20,7 +20,7 @@ function GameBoxScorePlayerRow({
 }: GameBoxScorePlayerRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
     players,
-    playerStatLog.playerId
+    playerStatLog.playerId || ''
   );
   return (
     <tr>

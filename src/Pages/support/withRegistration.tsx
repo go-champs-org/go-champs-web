@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
+import { RouteProps } from './routerInterfaces';
 import { AnyAction, Dispatch } from 'redux';
 
 interface WithRegistrationProps {
@@ -19,7 +20,7 @@ const withRegistration = <T extends object>(
     const { getRegistration, getTournamentBySlug } = props;
     const {
       params: { registrationId, organizationSlug, tournamentSlug }
-    } = useRouteMatch();
+    } = useRouteMatch<RouteProps>();
     useEffect(() => {
       if (organizationSlug && tournamentSlug && registrationId) {
         getTournamentBySlug(organizationSlug, tournamentSlug);

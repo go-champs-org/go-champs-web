@@ -40,6 +40,7 @@ describe('deleteDrawSuccess', () => {
       'first-id': {
         id: 'first-id',
         title: 'first-title',
+        order: 1,
         matches: []
       }
     }
@@ -63,6 +64,7 @@ describe('deleteDrawSuccess', () => {
         'some-id': {
           id: 'some-id',
           title: 'some-title',
+          order: 1,
           matches: []
         },
         ...deleteState.draws
@@ -74,6 +76,7 @@ describe('deleteDrawSuccess', () => {
     expect(newState.draws['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
+      order: 1,
       matches: []
     });
   });
@@ -140,6 +143,7 @@ describe('patchDrawSuccess', () => {
         'some-id': {
           id: 'some-id',
           title: 'some-title',
+          order: 1,
           matches: []
         }
       }
@@ -150,6 +154,7 @@ describe('patchDrawSuccess', () => {
     expect(newState.draws['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
+      order: 1,
       matches: []
     });
   });

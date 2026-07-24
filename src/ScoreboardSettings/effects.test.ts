@@ -3,7 +3,7 @@ import {
   patchScoreboardSetting,
   deleteScoreboardSetting
 } from './effects';
-import { DEFAULT_SCOREBOARD_SETTING } from './state';
+import { DEFAULT_SCOREBOARD_SETTING, ScoreboardSettingEntity } from './state';
 import {
   postScoreboardSettingStart,
   postScoreboardSettingSuccess,
@@ -89,22 +89,22 @@ describe('patchScoreboardSetting', () => {
       dispatch.mockReset();
       displayToastSpy.mockReset();
 
-      jest.spyOn(scoreboardsSettingHttpClient, 'patch').mockResolvedValue({
+      jest.spyOn(scoreboardsSettingHttpClient, 'patch').mockResolvedValue(({
         id: 'patched-id',
         view: 'basketball-medium',
         initialPeriodTime: 0
-      });
+      } as unknown) as ScoreboardSettingEntity);
 
       patchScoreboardSetting(DEFAULT_SCOREBOARD_SETTING)(dispatch);
     });
 
     it('dispatches patch success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        patchScoreboardSettingSuccess({
+        patchScoreboardSettingSuccess(({
           id: 'patched-id',
           view: 'basketball-medium',
           initialPeriodTime: 0
-        })
+        } as unknown) as ScoreboardSettingEntity)
       );
     });
 
@@ -169,11 +169,11 @@ describe('postScoreboardSetting', () => {
     beforeEach(() => {
       dispatch.mockReset();
 
-      jest.spyOn(scoreboardsSettingHttpClient, 'post').mockResolvedValue({
+      jest.spyOn(scoreboardsSettingHttpClient, 'post').mockResolvedValue(({
         id: 'posted-id',
         view: 'basketball-medium',
         initialPeriodTime: 100
-      });
+      } as unknown) as ScoreboardSettingEntity);
 
       postScoreboardSetting(
         DEFAULT_SCOREBOARD_SETTING,
@@ -183,11 +183,11 @@ describe('postScoreboardSetting', () => {
 
     it('dispatches post success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        postScoreboardSettingSuccess({
+        postScoreboardSettingSuccess(({
           id: 'posted-id',
           view: 'basketball-medium',
           initialPeriodTime: 100
-        })
+        } as unknown) as ScoreboardSettingEntity)
       );
     });
 

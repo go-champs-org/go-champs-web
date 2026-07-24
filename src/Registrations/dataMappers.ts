@@ -10,7 +10,7 @@ import {
   ApiUploadFile,
   ApiRegistrationResponseResourcePutApproveRequest
 } from '../Shared/httpClient/apiTypes';
-import { FileReference } from '../Shared/UI/Form/FileUpload';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TeamEntity } from '../Teams/state';
 import {

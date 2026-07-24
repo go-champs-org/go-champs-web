@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: RouteComponentProps<RouteProps>
 ) => {
   return {
     ...ownProps,

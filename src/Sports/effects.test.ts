@@ -8,6 +8,7 @@ import {
   getSportsStart
 } from './actions';
 import sportHttpClient from './sportHttpClient';
+import { SportEntity } from './state';
 
 let dispatch: jest.Mock;
 
@@ -24,22 +25,22 @@ describe('getSport', () => {
 
   describe('on success', () => {
     beforeEach(() => {
-      jest.spyOn(sportHttpClient, 'get').mockResolvedValue({
+      jest.spyOn(sportHttpClient, 'get').mockResolvedValue(({
         name: 'some sport',
         slug: 'some-sport-slug',
         playerStatistics: []
-      });
+      } as unknown) as SportEntity);
 
       getSport('some-sport-slug')(dispatch);
     });
 
     it('dispatches get success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        getSportSuccess({
+        getSportSuccess(({
           name: 'some sport',
           slug: 'some-sport-slug',
           playerStatistics: []
-        })
+        } as unknown) as SportEntity)
       );
     });
   });
@@ -76,26 +77,26 @@ describe('getSports', () => {
 
   describe('on success', () => {
     beforeEach(() => {
-      jest.spyOn(sportHttpClient, 'getAll').mockResolvedValue([
+      jest.spyOn(sportHttpClient, 'getAll').mockResolvedValue(([
         {
           name: 'some sport',
           slug: 'some-sport-slug',
           playerStatistics: []
         }
-      ]);
+      ] as unknown) as SportEntity[]);
 
       getSports()(dispatch);
     });
 
     it('dispatches get success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        getSportsSuccess([
+        getSportsSuccess(([
           {
             name: 'some sport',
             slug: 'some-sport-slug',
             playerStatistics: []
           }
-        ])
+        ] as unknown) as SportEntity[])
       );
     });
   });

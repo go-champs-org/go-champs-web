@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
+import { RouteProps } from './routerInterfaces';
 import { AnyAction, Dispatch } from 'redux';
 
 interface WithRegistrationInviteProps {
@@ -16,7 +17,7 @@ const withRegistrationInvite = <T extends object>(
     const { getRegistrationInvite } = props;
     const {
       params: { inviteId }
-    } = useRouteMatch();
+    } = useRouteMatch<RouteProps>();
     useEffect(() => {
       if (inviteId) {
         getRegistrationInvite(inviteId);

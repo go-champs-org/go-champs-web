@@ -30,6 +30,12 @@ import {
 import tournamentHttpClient from './tournamentHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
+import { History } from 'history';
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
+
+const mockHistory = ({
+  push: jest.fn()
+} as unknown) as History;
 
 jest.spyOn(fixedPlayerStatsTablesEffects, 'getFixedPlayerStatsTablesByFilter');
 jest.spyOn(recentlyViewsEffects, 'postRecentlyView');
@@ -95,7 +101,7 @@ describe('getTournament', () => {
 
   describe('on success', () => {
     beforeEach(() => {
-      jest.spyOn(tournamentHttpClient, 'get').mockResolvedValue({
+      jest.spyOn(tournamentHttpClient, 'get').mockResolvedValue(({
         id: 'get-id',
         name: 'get tournament',
         slug: 'get-tournament-slug',
@@ -106,14 +112,14 @@ describe('getTournament', () => {
         },
         phases: [],
         teams: []
-      });
+      } as unknown) as ApiTournamentWithDependecies);
 
       getTournament('some-id')(dispatch);
     });
 
     it('dispatches get success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        getTournamentSuccess({
+        getTournamentSuccess(({
           id: 'get-id',
           name: 'get tournament',
           slug: 'get-tournament-slug',
@@ -124,7 +130,7 @@ describe('getTournament', () => {
           },
           phases: [],
           teams: []
-        })
+        } as unknown) as ApiTournamentWithDependecies)
       );
     });
   });
@@ -168,10 +174,11 @@ describe('getTournamentBySlug', () => {
         {
           id: 'get-id',
           name: 'get tournament',
-          slug: 'get-tournament-slug'
+          slug: 'get-tournament-slug',
+          visibility: 'public'
         }
       ]);
-      jest.spyOn(tournamentHttpClient, 'get').mockResolvedValue({
+      jest.spyOn(tournamentHttpClient, 'get').mockResolvedValue(({
         id: 'get-id',
         name: 'get tournament',
         slug: 'get-tournament-slug',
@@ -183,7 +190,7 @@ describe('getTournamentBySlug', () => {
         phases: [],
         teams: [],
         sport_slug: 'some-sport-slug'
-      });
+      } as unknown) as ApiTournamentWithDependecies);
 
       dispatch = jest.fn();
 
@@ -195,7 +202,7 @@ describe('getTournamentBySlug', () => {
 
     it('dispatches get success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        getTournamentSuccess({
+        getTournamentSuccess(({
           id: 'get-id',
           name: 'get tournament',
           slug: 'get-tournament-slug',
@@ -207,7 +214,7 @@ describe('getTournamentBySlug', () => {
           phases: [],
           teams: [],
           sport_slug: 'some-sport-slug'
-        })
+        } as unknown) as ApiTournamentWithDependecies)
       );
     });
 
@@ -264,7 +271,8 @@ describe('getTournamentsByFilter', () => {
         {
           id: 'get-id',
           name: 'get tournament',
-          slug: 'get-tournament-slug'
+          slug: 'get-tournament-slug',
+          visibility: 'public'
         }
       ]);
 
@@ -277,7 +285,8 @@ describe('getTournamentsByFilter', () => {
           {
             id: 'get-id',
             name: 'get tournament',
-            slug: 'get-tournament-slug'
+            slug: 'get-tournament-slug',
+            visibility: 'public'
           }
         ])
       );
@@ -322,7 +331,7 @@ describe('patchTournament', () => {
     beforeEach(() => {
       dispatch.mockReset();
 
-      jest.spyOn(tournamentHttpClient, 'patch').mockResolvedValue({
+      jest.spyOn(tournamentHttpClient, 'patch').mockResolvedValue(({
         id: 'patched-id',
         name: 'patched tournament',
         slug: 'patched-tournament-slug',
@@ -333,14 +342,14 @@ describe('patchTournament', () => {
         },
         phases: [],
         teams: []
-      });
+      } as unknown) as ApiTournamentWithDependecies);
 
       patchTournament('organization-id', DEFAULT_TOURNAMENT)(dispatch);
     });
 
     it('dispatches patch success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        patchTournamentSuccess({
+        patchTournamentSuccess(({
           id: 'patched-id',
           name: 'patched tournament',
           slug: 'patched-tournament-slug',
@@ -351,7 +360,7 @@ describe('patchTournament', () => {
           },
           phases: [],
           teams: []
-        })
+        } as unknown) as ApiTournamentWithDependecies)
       );
     });
 
@@ -400,7 +409,11 @@ describe('postTournament', () => {
   });
 
   it('dispatches start post action', () => {
-    postTournament('organization-id', DEFAULT_TOURNAMENT)(dispatch);
+    postTournament(
+      'organization-id',
+      DEFAULT_TOURNAMENT,
+      mockHistory
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(postTournamentStart());
   });
@@ -409,7 +422,7 @@ describe('postTournament', () => {
     beforeEach(() => {
       dispatch.mockReset();
 
-      jest.spyOn(tournamentHttpClient, 'post').mockResolvedValue({
+      jest.spyOn(tournamentHttpClient, 'post').mockResolvedValue(({
         id: 'posted-id',
         name: 'posted tournament',
         slug: 'posted-tournament-slug',
@@ -420,14 +433,18 @@ describe('postTournament', () => {
         },
         phases: [],
         teams: []
-      });
+      } as unknown) as ApiTournamentWithDependecies);
 
-      postTournament('organization-id', DEFAULT_TOURNAMENT)(dispatch);
+      postTournament(
+        'organization-id',
+        DEFAULT_TOURNAMENT,
+        mockHistory
+      )(dispatch);
     });
 
     it('dispatches post success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        postTournamentSuccess({
+        postTournamentSuccess(({
           id: 'posted-id',
           name: 'posted tournament',
           slug: 'posted-tournament-slug',
@@ -438,7 +455,7 @@ describe('postTournament', () => {
           },
           phases: [],
           teams: []
-        })
+        } as unknown) as ApiTournamentWithDependecies)
       );
     });
 
@@ -463,7 +480,11 @@ describe('postTournament', () => {
     });
 
     it('dispatches post failure action', async () => {
-      await postTournament('organization-id', DEFAULT_TOURNAMENT)(dispatch);
+      await postTournament(
+        'organization-id',
+        DEFAULT_TOURNAMENT,
+        mockHistory
+      )(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(postTournamentFailure(apiError));
     });
@@ -471,7 +492,8 @@ describe('postTournament', () => {
     it('returns formatted errors', async () => {
       const result = await postTournament(
         'organization-id',
-        DEFAULT_TOURNAMENT
+        DEFAULT_TOURNAMENT,
+        mockHistory
       )(dispatch);
 
       expect(result).toEqual({

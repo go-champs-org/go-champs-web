@@ -59,7 +59,7 @@ describe('deleteRegistrationFailure', () => {
 describe('deleteRegistrationSuccess', () => {
   const action = deleteRegistrationSuccess('first-id');
 
-  const deleteState = {
+  const deleteState = ({
     ...initialState,
     registrations: {
       'first-id': {
@@ -72,7 +72,7 @@ describe('deleteRegistrationSuccess', () => {
         customFields: []
       }
     }
-  };
+  } as unknown) as RegistrationState;
 
   it('sets isLoadingDeleteRegistration to false', () => {
     expect(
@@ -193,12 +193,14 @@ describe('getRegistrationInviteSuccess', () => {
       {
         id: 'first-response-id',
         registrationInviteId: 'first-id',
-        response: { foo: 'bar' }
+        response: { name: 'foo' },
+        status: 'pending' as ApiRegistrationResponseStatus
       },
       {
         id: 'second-response-id',
         registrationInviteId: 'first-id',
-        response: { boo: 'bah' }
+        response: { name: 'boo' },
+        status: 'pending' as ApiRegistrationResponseStatus
       }
     ]
   });
@@ -221,12 +223,14 @@ describe('getRegistrationInviteSuccess', () => {
         {
           id: 'first-response-id',
           registrationInviteId: 'first-id',
-          response: { foo: 'bar' }
+          response: { name: 'foo' },
+          status: 'pending'
         },
         {
           id: 'second-response-id',
           registrationInviteId: 'first-id',
-          response: { boo: 'bah' }
+          response: { name: 'boo' },
+          status: 'pending'
         }
       ]
     });
@@ -537,7 +541,7 @@ describe('postRegistrationSuccess', () => {
 describe('getTournamentSuccess', () => {
   const action: HttpAction<ActionTypes, ApiTournamentWithDependecies> = {
     type: GET_TOURNAMENT_SUCCESS,
-    payload: {
+    payload: ({
       ...DEFAULT_TOURNAMENT,
       id: 'first-id',
       name: 'first-name',
@@ -571,7 +575,7 @@ describe('getTournamentSuccess', () => {
         slug: 'some-org-slug'
       },
       phases: []
-    }
+    } as unknown) as ApiTournamentWithDependecies
   };
 
   it('sets entities', () => {

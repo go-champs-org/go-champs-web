@@ -16,7 +16,8 @@ import {
   patchGameSuccess
 } from './actions';
 import gameReducer from './reducer';
-import { DEFAULT_GAME, GameState, initialState } from './state';
+import { DEFAULT_GAME, GameEntity, GameState, initialState } from './state';
+import { DEFAULT_TEAM } from '../Teams/state';
 
 describe('deleteGame', () => {
   const action = deleteGameStart();
@@ -37,19 +38,22 @@ describe('deleteGameFailure', () => {
 describe('deleteGameSuccess', () => {
   const action = deleteGameSuccess('first-id');
 
-  const deleteState = {
+  const deleteState: GameState = {
     ...initialState,
     games: {
       'first-id': {
+        ...DEFAULT_GAME,
         id: 'first-id',
         awayScore: 10,
         awayTeam: {
+          ...DEFAULT_TEAM,
           id: 'first-away-team-id',
           name: 'first-away-team'
         },
         datetime: '2019-05-22T03:21:21.248Z',
         homeScore: 20,
         homeTeam: {
+          ...DEFAULT_TEAM,
           id: 'first-home-team-id',
           name: 'first-home-team'
         },
@@ -108,7 +112,7 @@ describe('patchGameFailure', () => {
 });
 
 describe('patchGameSuccess', () => {
-  const action = patchGameSuccess({
+  const action = patchGameSuccess(({
     id: 'first-id',
     awayPlaceholder: 'updated away placeholder',
     awayScore: 30,
@@ -128,9 +132,9 @@ describe('patchGameSuccess', () => {
     isFinished: true,
     location: 'updated location',
     number: 'updated number'
-  });
+  } as unknown) as GameEntity);
 
-  const updateState: GameState = {
+  const updateState = ({
     ...initialState,
     games: {
       'first-id': {
@@ -155,7 +159,7 @@ describe('patchGameSuccess', () => {
         number: 'first number'
       }
     }
-  };
+  } as unknown) as GameState;
 
   it('sets isLoadingPatchGame to false', () => {
     const newState = gameReducer(updateState, action);
@@ -189,7 +193,7 @@ describe('patchGameSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: GameState = {
+    const someState = ({
       ...updateState,
       games: {
         'some-id': {
@@ -210,7 +214,7 @@ describe('patchGameSuccess', () => {
           number: 'some number'
         }
       }
-    };
+    } as unknown) as GameState;
 
     const newState = gameReducer(someState, action);
 
@@ -306,7 +310,7 @@ describe('postGameSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: GameState = {
+    const someState = ({
       ...initialState,
       games: {
         'some-id': {
@@ -328,7 +332,7 @@ describe('postGameSuccess', () => {
           number: 'some number'
         }
       }
-    };
+    } as unknown) as GameState;
 
     const newState = gameReducer(someState, action);
 
@@ -370,7 +374,7 @@ describe('getGameFailure', () => {
 });
 
 describe('getGameSuccess', () => {
-  const action = getGameSuccess({
+  const action = getGameSuccess(({
     id: 'first-id',
     awayPlaceholder: 'first away placeholder',
     awayScore: 10,
@@ -389,7 +393,7 @@ describe('getGameSuccess', () => {
     location: 'first location',
     number: 'first number',
     isFinished: true
-  });
+  } as unknown) as GameEntity);
 
   it('sets isLoadingRequestGame to false', () => {
     expect(gameReducer(initialState, action).isLoadingRequestGame).toBe(false);

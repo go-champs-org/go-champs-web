@@ -34,6 +34,7 @@ let dispatch: jest.Mock;
 
 const DEFAULT_GAME: GameEntity = {
   id: 'game-id',
+  assets: [],
   awayPlaceholder: 'Away Placeholder',
   awayScore: 0,
   awayTeam: {
@@ -41,6 +42,7 @@ const DEFAULT_GAME: GameEntity = {
     name: 'Away Team',
     logoUrl: '',
     triCode: 'AWY',
+    primaryColor: '',
     coaches: []
   },
   datetime: '2023-01-01T00:00:00Z',
@@ -51,14 +53,17 @@ const DEFAULT_GAME: GameEntity = {
     name: 'Home Team',
     logoUrl: '',
     triCode: 'HOM',
+    primaryColor: '',
     coaches: []
   },
   info: 'Game info',
   isFinished: false,
   location: 'Game Location',
   number: '',
+  officials: [],
   phaseId: 'phase-id',
   liveState: 'not_started',
+  resultType: 'automatic',
   youTubeCode: ''
 };
 

@@ -24,7 +24,7 @@ import {
 import athleteProfileHttpClient from './athleteProfileHttpClient';
 import { AthleteProfileEntity } from './state';
 import { displayToast } from '../Shared/bulma/toast';
-import ApiError from '../Shared/httpClient/ApiError';
+import ApiError, { ApiDataError } from '../Shared/httpClient/ApiError';
 
 export const deleteAthleteProfile = (username: string) => async (
   dispatch: Dispatch
@@ -37,7 +37,7 @@ export const deleteAthleteProfile = (username: string) => async (
     dispatch(deleteAthleteProfileSuccess(username));
     displayToast('Athlete profile deleted!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(deleteAthleteProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -64,7 +64,7 @@ export const patchAthleteProfile = (
     dispatch(patchAthleteProfileSuccess(updatedAthleteProfile));
     displayToast('Athlete profile updated!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(patchAthleteProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -90,7 +90,7 @@ export const postAthleteProfile = (
     dispatch(postAthleteProfileSuccess(newAthleteProfile));
     displayToast('Athlete profile created!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(postAthleteProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }

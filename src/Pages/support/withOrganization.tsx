@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
+import { RouteProps } from './routerInterfaces';
 import { AnyAction, Dispatch } from 'redux';
 
 interface WithOrganizationProps {
@@ -15,7 +16,7 @@ const withOrganization = <T extends object>(
     const { getOrganizationBySlug } = props;
     const {
       params: { organizationSlug }
-    } = useRouteMatch();
+    } = useRouteMatch<RouteProps>();
     useEffect(() => {
       if (organizationSlug) {
         getOrganizationBySlug(organizationSlug);

@@ -31,7 +31,7 @@ function PlayerStatsLogRow({
 }: PlayerStatsLogRowProps): React.ReactElement {
   const playerName = mapPlayerMapToPlayerDisplayName(
     players,
-    playerStatLog.playerId
+    playerStatLog.playerId || ''
   );
   return (
     <tr>

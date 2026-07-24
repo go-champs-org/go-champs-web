@@ -7,7 +7,7 @@ import {
   getSportsSuccess
 } from './actions';
 import sportReducer from './reducer';
-import { initialState } from './state';
+import { initialState, SportEntity } from './state';
 
 describe('sportReducer', () => {
   describe('getSport', () => {
@@ -31,11 +31,11 @@ describe('sportReducer', () => {
   });
 
   describe('getSportSuccess', () => {
-    const action = getSportSuccess({
+    const action = getSportSuccess(({
       name: 'name',
       slug: 'slug',
       playerStatistics: []
-    });
+    } as unknown) as SportEntity);
 
     it('sets isLoadingRequestSports to false', () => {
       expect(sportReducer(initialState, action).isLoadingRequestSports).toBe(
@@ -75,7 +75,7 @@ describe('sportReducer', () => {
   });
 
   describe('getSportsSuccess', () => {
-    const action = getSportsSuccess([
+    const action = getSportsSuccess(([
       {
         name: 'first-name',
         slug: 'first-slug',
@@ -86,7 +86,7 @@ describe('sportReducer', () => {
         slug: 'second-slug',
         playerStatistics: []
       }
-    ]);
+    ] as unknown) as SportEntity[]);
 
     it('sets isLoadingRequestSports to false', () => {
       expect(sportReducer(initialState, action).isLoadingRequestSports).toBe(

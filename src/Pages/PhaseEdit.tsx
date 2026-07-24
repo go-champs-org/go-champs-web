@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import { StoreState } from '../store';
 import { getGamesByFilter } from '../Games/effects';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 import AdminMenu from '../Tournaments/AdminMenu';
 import withPhase from './support/withPhase';
 import arrayMutators from 'final-form-arrays';
@@ -16,13 +17,21 @@ import { phaseByIdOrDefault, patchingPhase } from '../Phases/selectors';
 import { Mutator } from 'final-form';
 import { Trans } from 'react-i18next';
 import { tournamentTeamStatsForSelectInput } from '../Tournaments/selectors';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 type StateProps = {
   isPatchingPhase: boolean;
   phase: PhaseEntity;
+  teamStatOptions: SelectOptionType[];
 };
 
 type DispatchProps = {
+  getGamesByFilter: (
+    where: RequestFilter
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getPhase: (
+    phaseId: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   patchPhase: (
     phase: PhaseEntity
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
@@ -57,7 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: RouteComponentProps<RouteProps>
 ) => {
   const { phaseId = '' } = ownProps.match.params;
   return {

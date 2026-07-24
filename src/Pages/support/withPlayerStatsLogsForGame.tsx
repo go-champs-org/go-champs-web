@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
+import { RouteProps } from './routerInterfaces';
 import { AnyAction, Dispatch } from 'redux';
 import { RequestFilter } from '../../Shared/httpClient/requestFilter';
 import { PhaseEntity } from '../../Phases/state';
@@ -31,7 +32,7 @@ const withPlayerStatsLogsForGame = <T extends object>(
     } = props;
     const {
       params: { gameId }
-    } = useRouteMatch();
+    } = useRouteMatch<RouteProps>();
 
     useEffect(() => {
       if (phase.id && tournament.id && gameId) {

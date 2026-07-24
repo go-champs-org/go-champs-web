@@ -11,6 +11,7 @@ import {
   approvingOfficialProfileInvite
 } from './selectors';
 import { OfficialProfileState, OfficialProfileEntity } from './state';
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 
 describe('OfficialProfiles selectors', () => {
   const mockOfficialProfile1: OfficialProfileEntity = {
@@ -50,11 +51,11 @@ describe('OfficialProfiles selectors', () => {
           title: 'System - Officials',
           type: 'official_roster_invites',
           tournament_id: 'tournament1',
-          tournament: {
+          tournament: ({
             id: 'tournament1',
             name: 'Test Tournament',
             slug: 'test-tournament'
-          }
+          } as unknown) as ApiTournamentWithDependecies
         }
       }
     ]

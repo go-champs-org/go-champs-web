@@ -22,6 +22,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
+  getTournamentBySlug: (
+    organizationSlug: string,
+    tournamentSlug: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postTeam: (
     team: TeamEntity,
     tournamentId: string
@@ -53,7 +57,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: RouteComponentProps<RouteProps>
 ) => {
   return {
     ...ownProps,

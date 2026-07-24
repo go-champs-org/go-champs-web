@@ -1,6 +1,6 @@
 import React from 'react';
 import { TFunction, Trans, useTranslation } from 'react-i18next';
-import { PlayerStatsLogRenderEntity } from '../../PlayerStatsLog/View';
+import { StatsLogRenderEntity } from '../../PlayerStatsLog/View';
 import AggregatePlayerStatsTable, {
   StatColumn
 } from '../../Shared/AggregatedPlayerStatsTable';
@@ -13,7 +13,7 @@ import {
 
 interface BaseAggregatedStatColumn {
   id: string;
-  cell: (playerStatLog: PlayerStatsLogRenderEntity) => React.ReactElement;
+  cell: (playerStatLog: StatsLogRenderEntity) => React.ReactElement;
   cellStyle?: React.CSSProperties;
   sortKey: string;
 }

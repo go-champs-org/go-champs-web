@@ -389,7 +389,10 @@ function generateStatsFormConfigs(
           }
         : null;
     })
-    .filter(statConfig => statConfig !== null)
+    .filter(
+      (statConfig): statConfig is NonNullable<typeof statConfig> =>
+        statConfig !== null
+    )
     .sort((a, b) => (a.order > b.order ? 1 : -1));
 }
 

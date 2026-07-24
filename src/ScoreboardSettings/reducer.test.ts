@@ -255,7 +255,7 @@ describe('postScoreboardSettingSuccess', () => {
 describe('getTournamentSuccess', () => {
   const action: HttpAction<ActionTypes, ApiTournamentWithDependecies> = {
     type: GET_TOURNAMENT_SUCCESS,
-    payload: {
+    payload: ({
       ...DEFAULT_TOURNAMENT,
       id: 'first-id',
       name: 'first-name',
@@ -275,7 +275,7 @@ describe('getTournamentSuccess', () => {
         slug: 'some-org-slug'
       },
       phases: []
-    }
+    } as unknown) as ApiTournamentWithDependecies
   };
 
   it('sets entities', () => {

@@ -1,7 +1,4 @@
-import {
-  ApiRegistration,
-  ApiRegistrationInvite
-} from '../Shared/httpClient/apiTypes';
+import { ApiRegistration } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import {
@@ -82,7 +79,7 @@ export const getRegistrationInviteStart = (): HttpAction<ActionTypes> => ({
 
 export const getRegistrationInviteSuccess = (
   payload: RegistrationInviteEntity
-): HttpAction<ActionTypes, ApiRegistrationInvite> => ({
+): HttpAction<ActionTypes, RegistrationInviteEntity> => ({
   type: GET_REGISTRATION_INVITE_SUCCESS,
   payload
 });

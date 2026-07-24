@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
+import { RouteProps } from './routerInterfaces';
 import { AnyAction, Dispatch } from 'redux';
 
 interface WithGameProps {
@@ -13,7 +14,7 @@ const withGame = <T extends object>(
     const { getGame } = props;
     const {
       params: { gameId }
-    } = useRouteMatch();
+    } = useRouteMatch<RouteProps>();
     useEffect(() => {
       if (gameId) {
         getGame(gameId);

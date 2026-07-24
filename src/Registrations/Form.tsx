@@ -17,7 +17,8 @@ import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import { FieldArray } from 'react-final-form-arrays';
 import SelectInput from '../Shared/UI/Form/Select';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
-import FileUpload, { FileReference } from '../Shared/UI/Form/FileUpload';
+import FileUpload from '../Shared/UI/Form/FileUpload';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 import {
   mapApiFileReferenceToFileReference,
   mapFileReferenceToApiFileReference
