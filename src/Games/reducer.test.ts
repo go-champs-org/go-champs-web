@@ -16,7 +16,7 @@ import {
   patchGameSuccess
 } from './actions';
 import gameReducer from './reducer';
-import { DEFAULT_GAME, GameState, initialState } from './state';
+import { DEFAULT_GAME, GameEntity, GameState, initialState } from './state';
 
 describe('deleteGame', () => {
   const action = deleteGameStart();
@@ -37,7 +37,7 @@ describe('deleteGameFailure', () => {
 describe('deleteGameSuccess', () => {
   const action = deleteGameSuccess('first-id');
 
-  const deleteState = {
+  const deleteState = ({
     ...initialState,
     games: {
       'first-id': {
@@ -56,7 +56,7 @@ describe('deleteGameSuccess', () => {
         location: 'first location'
       }
     }
-  };
+  } as unknown) as GameState;
 
   it('sets isLoadingDeleteGame to false', () => {
     expect(gameReducer(deleteState, action).isLoadingDeleteGame).toBe(false);
@@ -108,13 +108,17 @@ describe('patchGameFailure', () => {
 });
 
 describe('patchGameSuccess', () => {
-  const action = patchGameSuccess({
+  const action = patchGameSuccess(({
     id: 'first-id',
     awayPlaceholder: 'updated away placeholder',
     awayScore: 30,
     awayTeam: {
       id: 'updated-away-team-id',
-      name: 'updated-away-team'
+      name: 'updated-away-team',
+      logoUrl: '',
+      triCode: '',
+      primaryColor: '',
+      coaches: []
     },
     city: 'updated city',
     datetime: '2019-05-22T03:21:21.248Z',
@@ -122,15 +126,19 @@ describe('patchGameSuccess', () => {
     homeScore: 40,
     homeTeam: {
       id: 'updated-home-team-id',
-      name: 'updated-home-team'
+      name: 'updated-home-team',
+      logoUrl: '',
+      triCode: '',
+      primaryColor: '',
+      coaches: []
     },
     info: 'updated info',
     isFinished: true,
     location: 'updated location',
     number: 'updated number'
-  });
+  } as unknown) as GameEntity);
 
-  const updateState: GameState = {
+  const updateState = ({
     ...initialState,
     games: {
       'first-id': {
@@ -155,7 +163,7 @@ describe('patchGameSuccess', () => {
         number: 'first number'
       }
     }
-  };
+  } as unknown) as GameState;
 
   it('sets isLoadingPatchGame to false', () => {
     const newState = gameReducer(updateState, action);
@@ -189,7 +197,7 @@ describe('patchGameSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: GameState = {
+    const someState = ({
       ...updateState,
       games: {
         'some-id': {
@@ -210,7 +218,7 @@ describe('patchGameSuccess', () => {
           number: 'some number'
         }
       }
-    };
+    } as unknown) as GameState;
 
     const newState = gameReducer(someState, action);
 
@@ -306,7 +314,7 @@ describe('postGameSuccess', () => {
   });
 
   it('keeps others entities in other', () => {
-    const someState: GameState = {
+    const someState = ({
       ...initialState,
       games: {
         'some-id': {
@@ -328,7 +336,7 @@ describe('postGameSuccess', () => {
           number: 'some number'
         }
       }
-    };
+    } as unknown) as GameState;
 
     const newState = gameReducer(someState, action);
 
@@ -370,7 +378,7 @@ describe('getGameFailure', () => {
 });
 
 describe('getGameSuccess', () => {
-  const action = getGameSuccess({
+  const action = getGameSuccess(({
     id: 'first-id',
     awayPlaceholder: 'first away placeholder',
     awayScore: 10,
@@ -389,7 +397,7 @@ describe('getGameSuccess', () => {
     location: 'first location',
     number: 'first number',
     isFinished: true
-  });
+  } as unknown) as GameEntity);
 
   it('sets isLoadingRequestGame to false', () => {
     expect(gameReducer(initialState, action).isLoadingRequestGame).toBe(false);
