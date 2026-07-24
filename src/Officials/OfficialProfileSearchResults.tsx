@@ -68,8 +68,8 @@ function OfficialProfileSearchResults({
             <LoadingButton
               isLoading={isInviting}
               className="button is-small is-primary"
-              onClick={() => onInvite(profile.id)}
-              disabled={isInviting}
+              onClick={() => profile.id && onInvite(profile.id)}
+              disabled={isInviting || !profile.id}
             >
               <Trans>invite</Trans>
             </LoadingButton>
