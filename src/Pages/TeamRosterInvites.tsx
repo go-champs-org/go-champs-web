@@ -61,6 +61,8 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
             invite.data.registration.tournament
           )
         );
+      } else {
+        setTournament(DEFAULT_TOURNAMENT);
       }
       setRegistration(
         mapApiRegistrationToRegistrationEntity(invite.data.registration)
