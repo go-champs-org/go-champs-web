@@ -409,9 +409,11 @@ describe('postTournament', () => {
   });
 
   it('dispatches start post action', () => {
-    postTournament('organization-id', DEFAULT_TOURNAMENT, mockHistory)(
-      dispatch
-    );
+    postTournament(
+      'organization-id',
+      DEFAULT_TOURNAMENT,
+      mockHistory
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(postTournamentStart());
   });
@@ -433,9 +435,11 @@ describe('postTournament', () => {
         teams: []
       } as unknown) as ApiTournamentWithDependecies);
 
-      postTournament('organization-id', DEFAULT_TOURNAMENT, mockHistory)(
-        dispatch
-      );
+      postTournament(
+        'organization-id',
+        DEFAULT_TOURNAMENT,
+        mockHistory
+      )(dispatch);
     });
 
     it('dispatches post success action', () => {

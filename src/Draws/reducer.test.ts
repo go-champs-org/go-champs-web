@@ -76,6 +76,7 @@ describe('deleteDrawSuccess', () => {
     expect(newState.draws['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
+      order: 1,
       matches: []
     });
   });
@@ -153,6 +154,7 @@ describe('patchDrawSuccess', () => {
     expect(newState.draws['some-id']).toEqual({
       id: 'some-id',
       title: 'some-title',
+      order: 1,
       matches: []
     });
   });

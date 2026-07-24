@@ -114,11 +114,7 @@ describe('patchGameSuccess', () => {
     awayScore: 30,
     awayTeam: {
       id: 'updated-away-team-id',
-      name: 'updated-away-team',
-      logoUrl: '',
-      triCode: '',
-      primaryColor: '',
-      coaches: []
+      name: 'updated-away-team'
     },
     city: 'updated city',
     datetime: '2019-05-22T03:21:21.248Z',
@@ -126,11 +122,7 @@ describe('patchGameSuccess', () => {
     homeScore: 40,
     homeTeam: {
       id: 'updated-home-team-id',
-      name: 'updated-home-team',
-      logoUrl: '',
-      triCode: '',
-      primaryColor: '',
-      coaches: []
+      name: 'updated-home-team'
     },
     info: 'updated info',
     isFinished: true,

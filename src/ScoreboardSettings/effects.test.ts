@@ -3,10 +3,7 @@ import {
   patchScoreboardSetting,
   deleteScoreboardSetting
 } from './effects';
-import {
-  DEFAULT_SCOREBOARD_SETTING,
-  ScoreboardSettingEntity
-} from './state';
+import { DEFAULT_SCOREBOARD_SETTING, ScoreboardSettingEntity } from './state';
 import {
   postScoreboardSettingStart,
   postScoreboardSettingSuccess,
