@@ -25,7 +25,8 @@ import {
   ApiBillingContract,
   ApiPlan
 } from '../Shared/httpClient/apiTypes';
-import { Form, FormApi, FormRenderProps } from 'react-final-form';
+import { Form, FormRenderProps } from 'react-final-form';
+import { FormApi } from 'final-form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import BillingAgreementForm, {
   BillingFormData

@@ -67,7 +67,7 @@ function ProfileHome({
       <BehindFeatureFlag>
         {hasCareerStats(athleteProfile) && (
           <div className="column is-12 slide-fade-content delay-1">
-            <CareerStats careerStats={athleteProfile.careerStats} />
+            <CareerStats careerStats={athleteProfile.careerStats || []} />
           </div>
         )}
       </BehindFeatureFlag>

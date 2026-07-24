@@ -21,6 +21,7 @@ import {
   mapApiRegistrationToRegistrationEntity
 } from '../Registrations/dataMappers';
 import { DEFAULT_TOURNAMENT, TournamentEntity } from '../Tournaments/state';
+import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import { mapApiTournamentToTournamentEntity } from '../Tournaments/dataMappers';
 import { Trans } from 'react-i18next';
 import ApiError from '../Shared/httpClient/ApiError';
@@ -57,7 +58,8 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
       );
       setTournament(
         mapApiTournamentToTournamentEntity(
-          invite.data.registration.tournament || DEFAULT_TOURNAMENT
+          invite.data.registration.tournament ||
+            ((DEFAULT_TOURNAMENT as unknown) as ApiTournamentWithDependecies)
         )
       );
       setRegistration(
