@@ -16,14 +16,26 @@ import { RouteProps } from './support/routerInterfaces';
 import { RouteComponentProps } from 'react-router-dom';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { TournamentEntity } from '../Tournaments/state';
+import { PhaseEntity } from '../Phases/state';
+import { getPhase } from '../Phases/effects';
+import { getGamesByFilter } from '../Games/effects';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 
 type StateProps = {
   isPostingPlayer: boolean;
+  phase?: PhaseEntity;
+  phaseId: string;
   tournament: TournamentEntity;
   selectInputTeams: SelectOptionType[];
 };
 
 type DispatchProps = {
+  getGamesByFilter: (
+    where: RequestFilter
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getPhase: (
+    phaseId: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postPlayer: (
     player: PlayerEntity,
     phaseId: string
@@ -34,9 +46,10 @@ const mapStateToProps = (
   state: StoreState,
   props: RouteComponentProps<RouteProps>
 ) => {
-  const { tournamentSlug } = props.match.params;
+  const { phaseId = '', tournamentSlug } = props.match.params;
   return {
     isPostingPlayer: postingPlayer(state.players),
+    phaseId,
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     selectInputTeams: teamsForSelectInput(state.teams)
   };
@@ -45,6 +58,8 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
+      getGamesByFilter,
+      getPhase,
       postPlayer
     },
     dispatch
@@ -54,7 +69,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: RouteComponentProps<RouteProps>
 ) => {
   return {
     ...ownProps,

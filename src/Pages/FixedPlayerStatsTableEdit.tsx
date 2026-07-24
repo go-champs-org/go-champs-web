@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch, AnyAction } from 'redux';
 import { patchFixedPlayerStatsTable } from '../FixedPlayerStatsTables/effects';
+import { getPhase } from '../Phases/effects';
+import { getGamesByFilter } from '../Games/effects';
+import { RequestFilter } from '../Shared/httpClient/requestFilter';
 import { default as FixedPlayerStatsTableForm } from '../FixedPlayerStatsTables/Form';
 import { Form, FormRenderProps } from 'react-final-form';
 import { FixedPlayerStatsTableEntity } from '../FixedPlayerStatsTables/state';
@@ -25,22 +28,24 @@ import {
 import { TournamentEntity } from '../Tournaments/state';
 import { SelectOptionType } from '../Shared/UI/Form/Select';
 
-interface OwnProps extends RouteComponentProps<RouteProps> {
-  basePhaseManageUrl: string;
-  organizationSlug: string;
-  phaseId: string;
-  tournamentSlug: string;
-}
+interface OwnProps extends RouteComponentProps<RouteProps> {}
 
 type StateProps = {
   fixedPlayerStatsTable: FixedPlayerStatsTableEntity;
   isPacthingFixedPlayerStatsTable: boolean;
+  phaseId: string;
   selectInputPlayers: SelectOptionType[];
   selectInputPlayerStats: SelectOptionType[];
   tournament: TournamentEntity;
 };
 
 type DispatchProps = {
+  getGamesByFilter: (
+    where: RequestFilter
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  getPhase: (
+    phaseId: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   patchFixedPlayerStatsTable: (
     fixedPlayerStatsTable: FixedPlayerStatsTableEntity,
     tournamentId: string
@@ -50,6 +55,7 @@ type DispatchProps = {
 const mapStateToProps = (state: StoreState, props: OwnProps) => {
   const {
     fixedPlayerStatsTableId = '',
+    phaseId = '',
     tournamentSlug = ''
   } = props.match.params;
   return {
@@ -60,6 +66,7 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
     isPacthingFixedPlayerStatsTable: patchingFixedPlayerStatsTable(
       state.fixedPlayerStatsTables
     ),
+    phaseId,
     selectInputPlayers: playersForSelectInput(state.players, state.teams),
     selectInputPlayerStats: tournamentPlayerStatsForSelectInput(
       state.tournaments,
@@ -72,6 +79,8 @@ const mapStateToProps = (state: StoreState, props: OwnProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return bindActionCreators(
     {
+      getGamesByFilter,
+      getPhase,
       patchFixedPlayerStatsTable
     },
     dispatch
@@ -81,7 +90,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: OwnProps
 ) => {
   return {
     ...ownProps,

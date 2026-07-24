@@ -25,13 +25,21 @@ import { postingFixedPlayerStatsTable } from '../FixedPlayerStatsTables/selector
 import { Trans } from 'react-i18next';
 import { playersForSelectInput } from '../Players/selectors';
 import { Mutator } from 'final-form';
+import { SelectOptionType } from '../Shared/UI/Form/Select';
 
 type StateProps = {
   isPostingFixedPlayerStatsTable: boolean;
+  selectInputPlayers: SelectOptionType[];
+  selectInputPlayerStats: SelectOptionType[];
   tournament: TournamentEntity;
+  tournamentLoading: boolean;
 };
 
 type DispatchProps = {
+  getTournamentBySlug: (
+    organizationSlug: string,
+    tournamentSlug: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postFixedPlayerStatsTable: (
     fixedPlayerStatsTable: FixedPlayerStatsTableEntity,
     tournamentId: string
@@ -70,7 +78,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const mergeProps = (
   stateProps: StateProps,
   dispatchProps: DispatchProps,
-  ownProps: any
+  ownProps: RouteComponentProps<RouteProps>
 ) => {
   return {
     ...ownProps,
