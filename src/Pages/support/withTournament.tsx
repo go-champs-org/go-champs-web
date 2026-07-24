@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router';
+import { RouteProps } from './routerInterfaces';
 import { AnyAction, Dispatch } from 'redux';
 
 interface WithTournamentProps {
@@ -16,7 +17,7 @@ const withTournament = <T extends object>(
     const { getTournamentBySlug } = props;
     const {
       params: { organizationSlug, tournamentSlug }
-    } = useRouteMatch();
+    } = useRouteMatch<RouteProps>();
     useEffect(() => {
       if (organizationSlug && tournamentSlug) {
         getTournamentBySlug(organizationSlug, tournamentSlug);
