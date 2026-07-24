@@ -65,7 +65,7 @@ function RegistrationResponseFieldDisplay({
     >;
     const value = response[customField.id];
 
-    if (value === undefined) {
+    if (value === undefined || value === '') {
       return <></>;
     }
 
