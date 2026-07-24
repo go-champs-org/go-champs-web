@@ -246,7 +246,11 @@ describe('accountEffects', () => {
         dispatch.mockReset();
 
         jest.spyOn(accountHttpClient, 'signUp').mockResolvedValue({
-          data: { email: 'some@email.com', token: 'some token' }
+          data: {
+            email: 'some@email.com',
+            token: 'some token',
+            username: 'someusername'
+          }
         });
 
         signUp(SIGN_UP, mockHistory)(dispatch);
@@ -257,7 +261,8 @@ describe('accountEffects', () => {
           signUpSuccess({
             data: {
               email: 'some@email.com',
-              token: 'some token'
+              token: 'some token',
+              username: 'someusername'
             }
           })
         );
@@ -318,7 +323,11 @@ describe('accountEffects', () => {
         jest
           .spyOn(accountHttpClient, 'signUpWithRegistration')
           .mockResolvedValue({
-            data: { email: 'some@email.com', token: 'some token' }
+            data: {
+              email: 'some@email.com',
+              token: 'some token',
+              username: 'someusername'
+            }
           });
 
         signUpWithRegistration(
@@ -333,7 +342,8 @@ describe('accountEffects', () => {
           signUpSuccess({
             data: {
               email: 'some@email.com',
-              token: 'some token'
+              token: 'some token',
+              username: 'someusername'
             }
           })
         );
@@ -390,7 +400,11 @@ describe('accountEffects', () => {
         dispatch.mockReset();
 
         jest.spyOn(accountHttpClient, 'facebookSignUp').mockResolvedValue({
-          data: { email: 'some@email.com', token: 'some token' }
+          data: {
+            email: 'some@email.com',
+            token: 'some token',
+            username: 'someusername'
+          }
         });
 
         facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
@@ -401,7 +415,8 @@ describe('accountEffects', () => {
           signUpSuccess({
             data: {
               email: 'some@email.com',
-              token: 'some token'
+              token: 'some token',
+              username: 'someusername'
             }
           })
         );
