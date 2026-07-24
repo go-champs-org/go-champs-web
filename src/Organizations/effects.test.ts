@@ -24,6 +24,7 @@ import {
   deleteOrganizationFailure
 } from './actions';
 import { History } from 'history';
+import { OrganizationEntity } from './state';
 import organizationHttpClient from './organizationHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
@@ -93,22 +94,22 @@ describe('getOrganization', () => {
 
   describe('on success', () => {
     beforeEach(() => {
-      jest.spyOn(organizationHttpClient, 'get').mockResolvedValue({
+      jest.spyOn(organizationHttpClient, 'get').mockResolvedValue(({
         id: 'get-id',
         name: 'get organization',
         slug: 'get-organization-slug'
-      });
+      } as unknown) as OrganizationEntity);
 
       getOrganization('some-id')(dispatch);
     });
 
     it('dispatches get success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        getOrganizationSuccess({
+        getOrganizationSuccess(({
           id: 'get-id',
           name: 'get organization',
           slug: 'get-organization-slug'
-        })
+        } as unknown) as OrganizationEntity)
       );
     });
   });
@@ -145,26 +146,26 @@ describe('getOrganizations', () => {
 
   describe('on success', () => {
     beforeEach(() => {
-      jest.spyOn(organizationHttpClient, 'getAll').mockResolvedValue([
+      jest.spyOn(organizationHttpClient, 'getAll').mockResolvedValue(([
         {
           id: 'get-id',
           name: 'get organization',
           slug: 'get-organization-slug'
         }
-      ]);
+      ] as unknown) as OrganizationEntity[]);
 
       getOrganizations()(dispatch);
     });
 
     it('dispatches get success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        getOrganizationsSuccess([
+        getOrganizationsSuccess(([
           {
             id: 'get-id',
             name: 'get organization',
             slug: 'get-organization-slug'
           }
-        ])
+        ] as unknown) as OrganizationEntity[])
       );
     });
   });
@@ -203,22 +204,22 @@ describe('patchOrganization', () => {
     beforeEach(() => {
       dispatch.mockReset();
 
-      jest.spyOn(organizationHttpClient, 'patch').mockResolvedValue({
+      jest.spyOn(organizationHttpClient, 'patch').mockResolvedValue(({
         id: 'patched-id',
         name: 'patched organization',
         slug: 'patched-organization-slug'
-      });
+      } as unknown) as OrganizationEntity);
 
       patchOrganization(DEFAULT_ORGANIZATION)(dispatch);
     });
 
     it('dispatches patch success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        patchOrganizationSuccess({
+        patchOrganizationSuccess(({
           id: 'patched-id',
           name: 'patched organization',
           slug: 'patched-organization-slug'
-        })
+        } as unknown) as OrganizationEntity)
       );
     });
 
@@ -268,7 +269,7 @@ describe('postOrganization', () => {
   });
 
   it('dispatches start post action', () => {
-    postOrganization(DEFAULT_ORGANIZATION)(dispatch);
+    postOrganization(DEFAULT_ORGANIZATION, mockHistory)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(postOrganizationStart());
   });
@@ -277,22 +278,22 @@ describe('postOrganization', () => {
     beforeEach(() => {
       dispatch.mockReset();
 
-      jest.spyOn(organizationHttpClient, 'post').mockResolvedValue({
+      jest.spyOn(organizationHttpClient, 'post').mockResolvedValue(({
         id: 'posted-id',
         name: 'posted organization',
         slug: 'posted-organization-slug'
-      });
+      } as unknown) as OrganizationEntity);
 
       postOrganization(DEFAULT_ORGANIZATION, mockHistory)(dispatch);
     });
 
     it('dispatches post success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        postOrganizationSuccess({
+        postOrganizationSuccess(({
           id: 'posted-id',
           name: 'posted organization',
           slug: 'posted-organization-slug'
-        })
+        } as unknown) as OrganizationEntity)
       );
     });
 
@@ -323,13 +324,16 @@ describe('postOrganization', () => {
     });
 
     it('dispatches post failure action', async () => {
-      await postOrganization(DEFAULT_ORGANIZATION)(dispatch);
+      await postOrganization(DEFAULT_ORGANIZATION, mockHistory)(dispatch);
 
       expect(dispatch).toHaveBeenCalledWith(postOrganizationFailure(apiError));
     });
 
     it('returns formatted errors', async () => {
-      const result = await postOrganization(DEFAULT_ORGANIZATION)(dispatch);
+      const result = await postOrganization(
+        DEFAULT_ORGANIZATION,
+        mockHistory
+      )(dispatch);
 
       expect(result).toEqual({
         slug: ['has invalid format']
