@@ -6,7 +6,7 @@ jest.mock('../env', () => ({
 }));
 
 // Mock global fetch
-global.fetch = jest.fn();
+(global as any).fetch = jest.fn();
 
 describe('publicHttpClient', () => {
   afterEach(() => {
@@ -23,14 +23,14 @@ describe('publicHttpClient', () => {
     };
 
     it('makes GET request to correct URL', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      ((global as any).fetch as jest.Mock).mockResolvedValue({
         ok: true,
         json: async () => mockAboutStatsResponse
       });
 
       await publicHttpClient.getAboutStats();
 
-      expect(global.fetch).toHaveBeenCalledWith(
+      expect((global as any).fetch).toHaveBeenCalledWith(
         'http://localhost:4000/public/about',
         {
           headers: {
@@ -41,7 +41,7 @@ describe('publicHttpClient', () => {
     });
 
     it('returns data from API response', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      ((global as any).fetch as jest.Mock).mockResolvedValue({
         ok: true,
         json: async () => mockAboutStatsResponse
       });
@@ -52,7 +52,7 @@ describe('publicHttpClient', () => {
     });
 
     it('parses JSON response correctly', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      ((global as any).fetch as jest.Mock).mockResolvedValue({
         ok: true,
         json: async () => mockAboutStatsResponse
       });
@@ -66,7 +66,7 @@ describe('publicHttpClient', () => {
 
     it('throws error on fetch failure', async () => {
       const fetchError = new Error('Network error');
-      (global.fetch as jest.Mock).mockRejectedValue(fetchError);
+      ((global as any).fetch as jest.Mock).mockRejectedValue(fetchError);
 
       await expect(publicHttpClient.getAboutStats()).rejects.toThrow(
         'Network error'
@@ -74,7 +74,7 @@ describe('publicHttpClient', () => {
     });
 
     it('throws error on non-ok response status', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      ((global as any).fetch as jest.Mock).mockResolvedValue({
         ok: false,
         status: 404,
         json: async () => ({})
@@ -86,7 +86,7 @@ describe('publicHttpClient', () => {
     });
 
     it('throws error on 500 response status', async () => {
-      (global.fetch as jest.Mock).mockResolvedValue({
+      ((global as any).fetch as jest.Mock).mockResolvedValue({
         ok: false,
         status: 500,
         json: async () => ({})
