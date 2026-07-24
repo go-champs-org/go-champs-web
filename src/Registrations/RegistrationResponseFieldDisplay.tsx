@@ -59,12 +59,16 @@ function RegistrationResponseFieldDisplay({
   registrationResponse: RegistrationResponseEntity;
 }) {
   if (customField.type in FIELD) {
-    if (!registrationResponse.response[customField.id]) {
+    const response = registrationResponse.response as {
+      [key: string]: string;
+    };
+
+    if (!response[customField.id]) {
       return <></>;
     }
 
     const Field = FIELD[customField.type];
-    const value = registrationResponse.response[customField.id];
+    const value = response[customField.id];
     return <Field value={value} />;
   }
 

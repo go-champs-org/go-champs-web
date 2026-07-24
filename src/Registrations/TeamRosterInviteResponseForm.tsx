@@ -43,7 +43,7 @@ const fieldProps = (field: CustomFieldEntity) => {
   if (field.type === 'consent') {
     return {
       ...commonProps,
-      fileUrl: field.properties.public_url || ''
+      fileUrl: (field.properties as { public_url?: string }).public_url || ''
     };
   }
 
