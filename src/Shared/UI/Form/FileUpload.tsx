@@ -58,7 +58,7 @@ function FileUpload({
         (err as any).response.data &&
         (err as any).response.data.error
       ) {
-        setError(err.response.data.error);
+        setError((err as any).response.data.error);
       } else {
         setError(t('uploadError'));
       }

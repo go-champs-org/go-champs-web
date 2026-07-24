@@ -10,7 +10,7 @@ import {
   ApiUploadFile,
   ApiRegistrationResponseResourcePutApproveRequest
 } from '../Shared/httpClient/apiTypes';
-import { FileReference } from '../Shared/UI/Form/FileUpload';
+import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 import { mapApiTeamToTeamEntity } from '../Teams/dataMappers';
 import { TeamEntity } from '../Teams/state';
 import {
@@ -56,7 +56,7 @@ export const mapApiCustomFieldToCustomFieldEntity = (
   apiCustomField: ApiRegistrationCustomField
 ): CustomFieldEntity => {
   return {
-    id: apiCustomField.id,
+    id: apiCustomField.id ? apiCustomField.id : '',
     label: apiCustomField.label,
     description: apiCustomField.description ? apiCustomField.description : '',
     type: apiCustomField.type,
