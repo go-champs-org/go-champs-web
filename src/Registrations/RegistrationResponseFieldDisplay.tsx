@@ -4,7 +4,7 @@ import { ApiCustomFieldType } from '../Shared/httpClient/apiTypes';
 import { Trans } from 'react-i18next';
 
 interface FieldProps {
-  value: string;
+  value: string | boolean;
 }
 
 function Date({ value }: FieldProps) {
@@ -59,12 +59,17 @@ function RegistrationResponseFieldDisplay({
   registrationResponse: RegistrationResponseEntity;
 }) {
   if (customField.type in FIELD) {
-    if (!registrationResponse.response[customField.id]) {
+    const response = registrationResponse.response as Record<
+      string,
+      string | boolean
+    >;
+    const value = response[customField.id];
+
+    if (value === undefined || value === '') {
       return <></>;
     }
 
     const Field = FIELD[customField.type];
-    const value = registrationResponse.response[customField.id];
     return <Field value={value} />;
   }
 

@@ -55,11 +55,15 @@ function TeamRosterInvites({ match }: TeamRosterInvitesProps) {
       setInvite(
         mapApiRegistrationInviteToRegistrationInviteEntity(invite.data)
       );
-      setTournament(
-        mapApiTournamentToTournamentEntity(
-          invite.data.registration.tournament || DEFAULT_TOURNAMENT
-        )
-      );
+      if (invite.data.registration.tournament) {
+        setTournament(
+          mapApiTournamentToTournamentEntity(
+            invite.data.registration.tournament
+          )
+        );
+      } else {
+        setTournament(DEFAULT_TOURNAMENT);
+      }
       setRegistration(
         mapApiRegistrationToRegistrationEntity(invite.data.registration)
       );
