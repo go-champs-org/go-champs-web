@@ -25,7 +25,6 @@ function RegistrationResponseView({
               ? String(response[customField.id])
               : ''}
           </div>
-
         </div>
       ))}
     </>
