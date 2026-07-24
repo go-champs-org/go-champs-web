@@ -1,5 +1,5 @@
 import { postPlayer, patchPlayer, deletePlayer } from './effects';
-import { DEFAULT_PLAYER } from './state';
+import { DEFAULT_PLAYER, PlayerEntity } from './state';
 import {
   postPlayerStart,
   postPlayerSuccess,
@@ -77,28 +77,28 @@ describe('patchPlayer', () => {
       dispatch.mockReset();
       displayToastSpy.mockReset();
 
-      jest.spyOn(playerHttpClient, 'patch').mockResolvedValue({
+      jest.spyOn(playerHttpClient, 'patch').mockResolvedValue(({
         id: 'patched-id',
         name: 'patched player',
         facebook: 'patched-facebook',
         instagram: 'patched-instagram',
         twitter: 'patched-twitter',
         username: 'patched-username'
-      });
+      } as unknown) as PlayerEntity);
 
       patchPlayer(DEFAULT_PLAYER)(dispatch);
     });
 
     it('dispatches patch success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        patchPlayerSuccess({
+        patchPlayerSuccess(({
           id: 'patched-id',
           name: 'patched player',
           facebook: 'patched-facebook',
           instagram: 'patched-instagram',
           twitter: 'patched-twitter',
           username: 'patched-username'
-        })
+        } as unknown) as PlayerEntity)
       );
     });
 
@@ -154,28 +154,28 @@ describe('postPlayer', () => {
     beforeEach(() => {
       dispatch.mockReset();
 
-      jest.spyOn(playerHttpClient, 'post').mockResolvedValue({
+      jest.spyOn(playerHttpClient, 'post').mockResolvedValue(({
         id: 'posted-id',
         name: 'posted player',
         facebook: 'posted-facebook',
         instagram: 'posted-instagram',
         twitter: 'posted-twitter',
         username: 'posted-username'
-      });
+      } as unknown) as PlayerEntity);
 
       postPlayer(DEFAULT_PLAYER, 'tournament-id')(dispatch);
     });
 
     it('dispatches post success action', () => {
       expect(dispatch).toHaveBeenCalledWith(
-        postPlayerSuccess({
+        postPlayerSuccess(({
           id: 'posted-id',
           name: 'posted player',
           facebook: 'posted-facebook',
           instagram: 'posted-instagram',
           twitter: 'posted-twitter',
           username: 'posted-username'
-        })
+        } as unknown) as PlayerEntity)
       );
     });
 
