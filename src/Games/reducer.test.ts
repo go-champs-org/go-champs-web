@@ -17,6 +17,7 @@ import {
 } from './actions';
 import gameReducer from './reducer';
 import { DEFAULT_GAME, GameEntity, GameState, initialState } from './state';
+import { DEFAULT_TEAM } from '../Teams/state';
 
 describe('deleteGame', () => {
   const action = deleteGameStart();
@@ -37,26 +38,29 @@ describe('deleteGameFailure', () => {
 describe('deleteGameSuccess', () => {
   const action = deleteGameSuccess('first-id');
 
-  const deleteState = ({
+  const deleteState: GameState = {
     ...initialState,
     games: {
       'first-id': {
+        ...DEFAULT_GAME,
         id: 'first-id',
         awayScore: 10,
         awayTeam: {
+          ...DEFAULT_TEAM,
           id: 'first-away-team-id',
           name: 'first-away-team'
         },
         datetime: '2019-05-22T03:21:21.248Z',
         homeScore: 20,
         homeTeam: {
+          ...DEFAULT_TEAM,
           id: 'first-home-team-id',
           name: 'first-home-team'
         },
         location: 'first location'
       }
     }
-  } as unknown) as GameState;
+  };
 
   it('sets isLoadingDeleteGame to false', () => {
     expect(gameReducer(deleteState, action).isLoadingDeleteGame).toBe(false);

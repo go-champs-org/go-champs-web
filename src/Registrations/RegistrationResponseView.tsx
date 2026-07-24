@@ -10,16 +10,22 @@ function RegistrationResponseView({
   registrationResponse,
   registration
 }: RegistrationResponseViewProps): React.ReactElement {
-  const response = registrationResponse.response as {
-    [key: string]: string;
-  };
+  const response = registrationResponse.response as Record<
+    string,
+    string | boolean
+  >;
 
   return (
     <>
       {registration.customFields.map(customField => (
         <div key={customField.id} className="column is-12">
           <label className="label">{customField.label}</label>
-          <div>{response[customField.id] || ''}</div>
+          <div>
+            {response[customField.id] !== undefined
+              ? String(response[customField.id])
+              : ''}
+          </div>
+
         </div>
       ))}
     </>

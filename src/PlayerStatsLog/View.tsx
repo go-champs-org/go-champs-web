@@ -36,9 +36,13 @@ function PlayerStatsLogRow({
   return (
     <tr>
       <td className="player">
-        <Link to={`${playerViewBasePath}${playerStatLog.playerId}`}>
-          {playerName}
-        </Link>
+        {playerStatLog.playerId ? (
+          <Link to={`${playerViewBasePath}${playerStatLog.playerId}`}>
+            {playerName}
+          </Link>
+        ) : (
+          playerName
+        )}
       </td>
 
       <td className="player-span"></td>

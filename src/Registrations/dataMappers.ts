@@ -56,7 +56,7 @@ export const mapApiCustomFieldToCustomFieldEntity = (
   apiCustomField: ApiRegistrationCustomField
 ): CustomFieldEntity => {
   return {
-    id: apiCustomField.id ? apiCustomField.id : '',
+    id: apiCustomField.id ? apiCustomField.id : apiCustomField.label,
     label: apiCustomField.label,
     description: apiCustomField.description ? apiCustomField.description : '',
     type: apiCustomField.type,
