@@ -214,7 +214,8 @@ describe('patchRegistration', () => {
         endDate: 'patched-end-date',
         autoApprove: false,
         customFields: [],
-        type: 'team_roster_invites'
+        type: 'team_roster_invites',
+        registrationInvites: []
       });
 
       patchRegistration(DEFAULT_REGISTRATION)(dispatch);
@@ -229,7 +230,8 @@ describe('patchRegistration', () => {
           endDate: 'patched-end-date',
           autoApprove: false,
           customFields: [],
-          type: 'team_roster_invites'
+          type: 'team_roster_invites',
+          registrationInvites: []
         })
       );
     });
@@ -296,7 +298,8 @@ describe('putRegistrationGenerateInvites', () => {
         endDate: 'patched-end-date',
         autoApprove: false,
         customFields: [],
-        type: 'team_roster_invites'
+        type: 'team_roster_invites',
+        registrationInvites: []
       });
 
       putRegistrationGenerateInvites('some-registration-id')(dispatch);
@@ -311,7 +314,8 @@ describe('putRegistrationGenerateInvites', () => {
           endDate: 'patched-end-date',
           autoApprove: false,
           customFields: [],
-          type: 'team_roster_invites'
+          type: 'team_roster_invites',
+          registrationInvites: []
         })
       );
     });
@@ -451,7 +455,8 @@ describe('postRegistration', () => {
         endDate: 'posted-end-date',
         autoApprove: false,
         customFields: [],
-        type: 'team_roster_invites'
+        type: 'team_roster_invites',
+        registrationInvites: []
       });
 
       postRegistration(DEFAULT_REGISTRATION, 'tournament-id')(dispatch);
@@ -466,7 +471,8 @@ describe('postRegistration', () => {
           endDate: 'posted-end-date',
           autoApprove: false,
           customFields: [],
-          type: 'team_roster_invites'
+          type: 'team_roster_invites',
+          registrationInvites: []
         })
       );
     });
