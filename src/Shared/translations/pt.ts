@@ -644,12 +644,12 @@ export default {
             title: 'Assistências por jogo'
           },
           blocks: {
-            abbreviation: 'BLK',
-            title: 'Bloqueios'
+            abbreviation: 'TOC',
+            title: 'Tocos'
           },
           blocks_per_game: {
-            abbreviation: 'BLK',
-            title: 'Bloqueios por jogo'
+            abbreviation: 'TOC',
+            title: 'Tocos por jogo'
           },
           disqualifications: {
             abbreviation: 'DISQ',
@@ -668,59 +668,59 @@ export default {
             title: 'Eficiência por jogo'
           },
           ejections: {
-            abbreviation: 'EJ',
-            title: 'Expulsoes'
+            abbreviation: 'EXP',
+            title: 'Expulsões'
           },
           ejections_per_game: {
-            abbreviation: 'EJ',
-            title: 'Expulsoes por jogo'
+            abbreviation: 'EXP',
+            title: 'Expulsões por jogo'
           },
           field_goals_missed: {
-            abbreviation: 'FGM',
-            title: 'Arremessos errados'
+            abbreviation: '2PTE',
+            title: 'Arremessos de 2 pontos errados'
           },
           field_goals_missed_per_game: {
-            abbreviation: 'FGM',
+            abbreviation: '2PTE',
             title: 'Arremessos errados por jogo'
           },
           field_goals_made: {
-            abbreviation: 'FGM',
-            title: 'Arremessos certos'
+            abbreviation: '2PTC',
+            title: 'Arremessos de 2 pontos certos'
           },
           field_goals_made_per_game: {
-            abbreviation: 'FGM',
-            title: 'Arremessos certos por jogo'
+            abbreviation: '2PTC',
+            title: 'Arremessos de 2 pontos certos por jogo'
           },
           field_goal_percentage: {
-            abbreviation: 'FG%',
+            abbreviation: '2PT%',
             title: 'Porcentagem de arremessos'
           },
           field_goal_percentage_per_game: {
-            abbreviation: 'FG%',
-            title: 'Porcentagem de arremessos por jogo'
+            abbreviation: '2PT%',
+            title: 'Porcentagem de arremessos de 2 pontos por jogo'
           },
           field_goals_attempted: {
-            abbreviation: 'FGA',
-            title: 'Arremessos tentados'
+            abbreviation: '2PTT',
+            title: 'Arremessos de 2 pontos tentados'
           },
           field_goals_attempted_per_game: {
-            abbreviation: 'FGA',
-            title: 'Arremessos tentados por jogo'
+            abbreviation: '2PTT',
+            title: 'Arremessos de 2 pontos tentados por jogo'
           },
           fouls: {
-            abbreviation: 'FLS',
+            abbreviation: 'FLT',
             title: 'Faltas'
           },
           fouls_per_game: {
-            abbreviation: 'FLS',
+            abbreviation: 'FLT',
             title: 'Faltas por jogo'
           },
           fouls_flagrant: {
-            abbreviation: 'FLS',
+            abbreviation: 'FLT',
             title: 'Faltas flagrantes'
           },
           fouls_flagrant_per_game: {
-            abbreviation: 'FLS',
+            abbreviation: 'FLT',
             title: 'Faltas flagrantes por jogo'
           },
           fouls_technical: {
@@ -740,44 +740,44 @@ export default {
             title: 'Falas pessoais por jogo'
           },
           free_throws_missed: {
-            abbreviation: 'FTM',
+            abbreviation: 'LLE',
             title: 'Lances livres errados'
           },
           free_throws_missed_per_game: {
-            abbreviation: 'FTM',
+            abbreviation: 'LLE',
             title: 'Lances livres errados por jogo'
           },
           free_throws_made: {
-            abbreviation: 'FTM',
-            title: 'Lances livres certos'
+            abbreviation: 'LLC',
+            title: 'Lances livres convertidos'
           },
           free_throws_made_per_game: {
-            abbreviation: 'FTM',
-            title: 'Lances livres certos por jogo'
+            abbreviation: 'LLC',
+            title: 'Lances livres convertidos por jogo'
           },
           free_throw_percentage: {
-            abbreviation: 'FT%',
+            abbreviation: 'LL%',
             title: 'Porcentagem de lances livres'
           },
           free_throw_percentage_per_game: {
-            abbreviation: 'FT%',
+            abbreviation: 'LL%',
             title: 'Porcentagem de lances livres por jogo'
           },
           free_throws_attempted: {
-            abbreviation: 'FTA',
+            abbreviation: 'LLT',
             title: 'Lances livres tentados'
           },
           free_throws_attempted_per_game: {
-            abbreviation: 'FTA',
+            abbreviation: 'LLT',
             title: 'Lances livres tentados por jogo'
           },
           game_played: {
-            abbreviation: 'GP',
+            abbreviation: 'JOG',
             title: 'Jogos'
           },
           game_started: {
-            abbreviation: 'GS',
-            title: 'Jogos iniciados'
+            abbreviation: 'TIT',
+            title: 'Jogos de titularidade'
           },
           minutes_played: {
             abbreviation: 'MIN',
@@ -828,51 +828,51 @@ export default {
             title: 'Rebotes por jogo'
           },
           steals: {
-            abbreviation: 'STL',
+            abbreviation: 'ROU',
             title: 'Roubos'
           },
           steals_per_game: {
-            abbreviation: 'STL',
+            abbreviation: 'ROU',
             title: 'Roubos por jogo'
           },
           three_point_field_goal_percentage: {
-            abbreviation: '3P%',
+            abbreviation: '3PT%',
             title: 'Porcentagem de arremessos de 3 pontos'
           },
           three_point_field_goal_percentage_per_game: {
-            abbreviation: '3P%',
+            abbreviation: '3PT%',
             title: 'Porcentagem de arremessos de 3 pontos por jogo'
           },
           three_point_field_goals_missed: {
-            abbreviation: '3PM',
+            abbreviation: '3PTE',
             title: 'Arremessos de 3 pontos errados'
           },
           three_point_field_goals_missed_per_game: {
-            abbreviation: '3PM',
+            abbreviation: '3PTE',
             title: 'Arremessos de 3 pontos errados por jogo'
           },
           three_point_field_goals_made: {
-            abbreviation: '3PM',
-            title: 'Arremessos de 3 pontos certos'
+            abbreviation: '3PTC',
+            title: 'Arremessos de 3 pontos convertidos'
           },
           three_point_field_goals_made_per_game: {
-            abbreviation: '3PM',
-            title: 'Arremessos de 3 pontos certos por jogo'
+            abbreviation: '3PTC',
+            title: 'Arremessos de 3 pontos convertidos por jogo'
           },
           three_point_field_goals_attempted: {
-            abbreviation: '3PA',
+            abbreviation: '3PTT',
             title: 'Arremessos de 3 pontos tentados'
           },
           three_point_field_goals_attempted_per_game: {
-            abbreviation: '3PA',
+            abbreviation: '3PTT',
             title: 'Arremessos de 3 pontos tentados por jogo'
           },
           turnovers: {
-            abbreviation: 'TO',
+            abbreviation: 'ERR',
             title: 'Erros'
           },
           turnovers_per_game: {
-            abbreviation: 'TO',
+            abbreviation: 'ERR',
             title: 'Erros por jogo'
           }
         },
@@ -882,75 +882,75 @@ export default {
             title: 'Assistências'
           },
           blocks: {
-            abbreviation: 'BLK',
+            abbreviation: 'TOC',
             title: 'Tocos'
           },
           disqualifications: {
-            abbreviation: 'DISQ',
+            abbreviation: 'DESQ',
             title: 'Desqualificações'
           },
           ejections: {
-            abbreviation: 'EJ',
+            abbreviation: 'EXP',
             title: 'Expulsões'
           },
           efficiency: {
-            abbreviation: 'EFF',
+            abbreviation: 'EF',
             title: 'Eficiência'
           },
           field_goal_percentage: {
-            abbreviation: 'FG%',
+            abbreviation: '2PT%',
             title: 'Porcentagem de arremessos'
           },
           field_goals_attempted: {
-            abbreviation: 'FGA',
+            abbreviation: '2PT',
             title: 'Arremessos tentados'
           },
           field_goals_made: {
-            abbreviation: 'FGM',
-            title: 'Arremessos certos'
+            abbreviation: '2PTC',
+            title: 'Arremessos convertidos'
           },
           field_goals_missed: {
-            abbreviation: 'FGMI',
-            title: 'Arremessos errados'
+            abbreviation: '2PTE',
+            title: 'Arremessos não convertidos'
           },
           fouls: {
-            abbreviation: 'FLS',
+            abbreviation: 'FLT',
             title: 'Faltas'
           },
           fouls_flagrant: {
-            abbreviation: 'FLF',
+            abbreviation: 'FF',
             title: 'Faltas flagrantes'
           },
           fouls_personal: {
-            abbreviation: 'FLP',
+            abbreviation: 'FP',
             title: 'Faltas pessoais'
           },
           fouls_technical: {
-            abbreviation: 'FLT',
+            abbreviation: 'FT',
             title: 'Faltas técnicas'
           },
           fouls_unsportsmanlike: {
-            abbreviation: 'FLU',
+            abbreviation: 'FA',
             title: 'Faltas anti-desportivas'
           },
           free_throw_percentage: {
-            abbreviation: 'FT%',
+            abbreviation: 'LL%',
             title: 'Porcentagem de lances livres'
           },
           free_throws_attempted: {
-            abbreviation: 'FTA',
+            abbreviation: 'LLT',
             title: 'Lances livres tentados'
           },
           free_throws_made: {
-            abbreviation: 'FTM',
+            abbreviation: 'LLC',
             title: 'Lances livres certos'
           },
           free_throws_missed: {
-            abbreviation: 'FTMI',
+            abbreviation: 'LLE',
             title: 'Lances livres errados'
           },
           game_played: {
-            abbreviation: 'GP',
+            abbreviation: 'JOG',
             title: 'Jogos disputados'
           },
           points: {
@@ -962,35 +962,35 @@ export default {
             title: 'Rebotes'
           },
           rebounds_defensive: {
-            abbreviation: 'DREB',
+            abbreviation: 'REBD',
             title: 'Rebotes defensivos'
           },
           rebounds_offensive: {
-            abbreviation: 'OREB',
+            abbreviation: 'REBO',
             title: 'Rebotes ofensivos'
           },
           steals: {
-            abbreviation: 'STL',
+            abbreviation: 'ROU',
             title: 'Roubadas'
           },
           three_point_field_goal_percentage: {
-            abbreviation: '3P%',
+            abbreviation: '3PT%',
             title: 'Porcentagem de arremessos de 3 pontos'
           },
           three_point_field_goals_attempted: {
-            abbreviation: '3PA',
+            abbreviation: '3PTT',
             title: 'Arremessos de 3 pontos tentados'
           },
           three_point_field_goals_made: {
-            abbreviation: '3PM',
+            abbreviation: '3PTC',
             title: 'Arremessos de 3 pontos certos'
           },
           three_point_field_goals_missed: {
-            abbreviation: '3PMI',
+            abbreviation: '3PTE',
             title: 'Arremessos de 3 pontos errados'
           },
           turnovers: {
-            abbreviation: 'TO',
+            abbreviation: 'ERR',
             title: 'Erros'
           },
           game_walkover: {
@@ -998,27 +998,27 @@ export default {
             title: 'Walkover'
           },
           fiba_group_points: {
-            abbreviation: 'FGP',
+            abbreviation: 'PF',
             title: 'Pontos FIBA'
           },
           wins: {
-            abbreviation: 'W',
+            abbreviation: 'V',
             title: 'Vitórias'
           },
           losses: {
-            abbreviation: 'L',
+            abbreviation: 'D',
             title: 'Derrotas'
           },
           points_against: {
-            abbreviation: 'PA',
+            abbreviation: 'PS',
             title: 'Pontos sofridos'
           },
           points_balance: {
-            abbreviation: 'PB',
+            abbreviation: 'SP',
             title: 'Saldo de pontos'
           },
           game_walkover_against: {
-            abbreviation: 'WOA',
+            abbreviation: 'WOS',
             title: 'Walkover sofrido'
           }
         }
