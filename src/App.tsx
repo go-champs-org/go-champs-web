@@ -18,6 +18,7 @@ import AccountRecoveryV2 from './PagesV2/AccountRecovery/AccountRecoveryV2';
 import AccountResetV2 from './PagesV2/AccountReset/AccountResetV2';
 import FaqV2 from './PagesV2/FAQ/FaqV2';
 import ContactV2 from './PagesV2/Contact/ContactV2';
+import TournamentHomeV2 from './PagesV2/TournamentHome/TournamentHomeV2';
 import PrivacyPolicyBRV2 from './PagesV2/PrivacyPolicyBR/PrivacyPolicyBRV2';
 import TermsBRV2 from './PagesV2/TermsBR/TermsBRV2';
 import Search from './Pages/Search';
@@ -138,6 +139,12 @@ const App: React.FC = () => {
                   component={AccountResetV2}
                 />
                 <Route exact sensitive path="/Contact" component={ContactV2} />
+                <Route
+                  exact
+                  sensitive
+                  path="/TournamentHomeV2"
+                  component={TournamentHomeV2}
+                />
                 <Route
                   exact
                   sensitive
