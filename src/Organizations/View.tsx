@@ -23,13 +23,15 @@ interface ViewProps {
   organization: OrganizationEntity;
 }
 
-const ListShimmer = (
-  <div className="org-view-grid">
-    {[1, 2, 3].map(i => (
-      <div key={i} className="tournament-mini-card org-view-shimmer" />
-    ))}
-  </div>
-);
+function ListShimmer() {
+  return (
+    <div className="org-view-grid">
+      {[1, 2, 3].map(i => (
+        <div key={i} className="tournament-mini-card org-view-shimmer" />
+      ))}
+    </div>
+  );
+}
 
 function View({ organization }: ViewProps) {
   const [tournaments, setTournaments] = useState<TournamentEntity[]>([]);

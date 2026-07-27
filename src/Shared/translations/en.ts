@@ -1086,6 +1086,7 @@ export default {
     yourEmail: 'Your email',
     yourMessage: 'Your message',
     yourName: 'Your name',
+    yourTournaments: 'Your tournaments',
     welcomeChamps: 'Welcome Champs!',
     manageYourAthleteProfile: 'Manage your Athlete Profile',
     createYourAthleteProfileToGetStarted:

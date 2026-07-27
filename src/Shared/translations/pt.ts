@@ -1094,6 +1094,7 @@ export default {
     yourEmail: 'Seu email',
     yourMessage: 'Sua mensagem',
     yourName: 'Seu nome',
+    yourTournaments: 'Seus campeonatos',
     manageYourAthleteProfile: 'Gerencie seu Perfil de Atleta',
     createYourAthleteProfileToGetStarted:
       'Crie seu Perfil de Atleta para começar!',
