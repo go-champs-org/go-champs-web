@@ -86,7 +86,7 @@ export const FormLoading: React.FC = () => (
 );
 
 interface FieldArrayActions {
-  value: unknown[];
+  value: MemberEntity[];
   remove: (index: number) => void;
   swap: (indexA: number, indexB: number) => void;
 }
