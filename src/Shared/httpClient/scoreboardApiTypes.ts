@@ -32,7 +32,7 @@ interface ApiPlayerStatsValues {
   turnovers: number;
 }
 
-interface ApiPlayer {
+export interface ApiPlayer {
   id: string;
   name: string;
   number: string | null;
@@ -44,8 +44,8 @@ export interface ApiTeam {
   logo_url: string;
   name: string;
   players: ApiPlayer[];
-  stats_values: Record<string, any>;
-  total_player_stats: Record<string, any>;
+  stats_values: Record<string, number>;
+  total_player_stats: Record<string, number>;
   tri_code: string;
 }
 

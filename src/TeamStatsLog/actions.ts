@@ -20,7 +20,7 @@ export const getTeamStatsLogsByFilterSuccess = (
 });
 
 export const getTeamStatsLogsByFilterFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_TEAM_STATS_LOGS_BY_FILTER_FAILURE,
   payload

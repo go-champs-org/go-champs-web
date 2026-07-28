@@ -19,7 +19,7 @@ export const getSportSuccess = (
   payload
 });
 
-export const getSportFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const getSportFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: GET_SPORT_FAILURE,
   payload
 });
@@ -35,7 +35,9 @@ export const getSportsSuccess = (
   payload
 });
 
-export const getSportsFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const getSportsFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: GET_SPORTS_FAILURE,
   payload
 });

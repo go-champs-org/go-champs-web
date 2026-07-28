@@ -51,6 +51,7 @@ describe('Theme Selectors', () => {
         otherModule: {
           someData: 'test'
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- deliberately widening beyond StoreState to test unrelated extra state keys are ignored
       } as any;
 
       const result = currentTheme(state);
@@ -106,6 +107,7 @@ describe('Theme Selectors', () => {
         otherModule: {
           someData: 'test'
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- deliberately widening beyond StoreState to test unrelated extra state keys are ignored
       } as any;
 
       const result = isThemeLoading(state);

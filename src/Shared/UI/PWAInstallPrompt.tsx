@@ -13,6 +13,10 @@ interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
 }
 
+interface NavigatorWithStandalone extends Navigator {
+  standalone?: boolean;
+}
+
 declare global {
   interface WindowEventMap {
     beforeinstallprompt: BeforeInstallPromptEvent;
@@ -32,7 +36,8 @@ const PWAInstallPrompt: React.FC = () => {
     const checkIfInstalled = () => {
       const isStandalone = window.matchMedia('(display-mode: standalone)')
         .matches;
-      const isWebview = (window.navigator as any).standalone === true;
+      const isWebview =
+        (window.navigator as NavigatorWithStandalone).standalone === true;
 
       return isStandalone || isWebview;
     };
@@ -71,7 +76,8 @@ const PWAInstallPrompt: React.FC = () => {
     const timer = setTimeout(() => {
       if (!isInstalled && !deferredPrompt) {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const isInStandaloneMode = (window.navigator as any).standalone;
+        const isInStandaloneMode = (window.navigator as NavigatorWithStandalone)
+          .standalone;
 
         if (isIOS && !isInStandaloneMode) {
           setShowInstallPrompt(true);

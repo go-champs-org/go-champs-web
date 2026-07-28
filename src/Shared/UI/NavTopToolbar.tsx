@@ -107,8 +107,11 @@ class NavTopToolbar extends React.Component<NavTopToolbarProps> {
     );
   }
 
-  close = (event: any) => {
-    if (event && !event.target.classList.contains('navbar-burger')) {
+  close = (event?: globalThis.MouseEvent) => {
+    if (
+      event &&
+      !(event.target as HTMLElement).classList.contains('navbar-burger')
+    ) {
       const menu = document.getElementById('menu');
       menu!.classList.remove('is-active');
 

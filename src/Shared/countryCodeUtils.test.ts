@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- reassigning read-only globals (navigator, Intl) for test mocking */
 import { getCountryCodeFromBrowser } from './countryCodeUtils';
 
 describe('getCountryCodeFromBrowser', () => {

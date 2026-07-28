@@ -31,7 +31,7 @@ export const signInSuccess = (
   payload
 });
 
-export const signInFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const signInFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: SIGN_IN_FAILURE,
   payload
 });
@@ -47,7 +47,7 @@ export const signUpSuccess = (
   payload
 });
 
-export const signUpFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const signUpFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: SIGN_UP_FAILURE,
   payload
 });
@@ -60,7 +60,9 @@ export const accountResetSuccess = (): HttpAction<ActionTypes> => ({
   type: ACCOUNT_RESET_SUCCESS
 });
 
-export const accountResetFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const accountResetFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: ACCOUNT_RESET_FAILURE,
   payload
 });
@@ -74,7 +76,7 @@ export const accountRecoverySuccess = (): HttpAction<ActionTypes> => ({
 });
 
 export const accountRecoveryFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: ACCOUNT_RECOVERY_FAILURE,
   payload
@@ -91,7 +93,9 @@ export const getAccountSuccess = (
   payload
 });
 
-export const getAccountFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const getAccountFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: GET_ACCOUNT_FAILURE,
   payload
 });

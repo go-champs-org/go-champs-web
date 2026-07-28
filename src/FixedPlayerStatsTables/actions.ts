@@ -38,7 +38,7 @@ export const deleteFixedPlayerStatsTableSuccess = (
 });
 
 export const deleteFixedPlayerStatsTableFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_FIXED_PLAYER_STATS_TABLE_FAILURE,
   payload
@@ -56,7 +56,7 @@ export const patchFixedPlayerStatsTableSuccess = (
 });
 
 export const patchFixedPlayerStatsTableFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_FIXED_PLAYER_STATS_TABLE_FAILURE,
   payload
@@ -74,7 +74,7 @@ export const postFixedPlayerStatsTableSuccess = (
 });
 
 export const postFixedPlayerStatsTableFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_FIXED_PLAYER_STATS_TABLE_FAILURE,
   payload
@@ -85,14 +85,14 @@ export const getFixedPlayerStatsTablesByFilterStart = (): HttpAction<ActionTypes
 });
 
 export const getFixedPlayerStatsTablesByFilterSuccess = (
-  payload: any
+  payload: FixedPlayerStatsTableEntity[]
 ): HttpAction<ActionTypes, FixedPlayerStatsTableEntity[]> => ({
   type: GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER_SUCCESS,
   payload
 });
 
 export const getFixedPlayerStatsTablesByFilterFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_FIXED_PLAYER_STATS_TABLES_BY_FILTER_FAILURE,
   payload

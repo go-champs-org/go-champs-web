@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- incomplete fixture objects for entity fields not relevant to these reducer assertions */
 import {
   deleteTournamentFailure,
   deleteTournamentStart,

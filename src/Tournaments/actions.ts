@@ -33,14 +33,14 @@ export const deleteTournamentStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const deleteTournamentSuccess = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_SUCCESS,
   payload
 });
 
 export const deleteTournamentFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_FAILURE,
   payload
@@ -58,7 +58,7 @@ export const patchTournamentSuccess = (
 });
 
 export const patchTournamentFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_FAILURE,
   payload
@@ -76,7 +76,7 @@ export const postTournamentSuccess = (
 });
 
 export const postTournamentFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_FAILURE,
   payload
@@ -94,7 +94,7 @@ export const getTournamentsByFilterSuccess = (
 });
 
 export const getTournamentsByFilterFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENTS_BY_FILTER_FAILURE,
   payload
@@ -112,7 +112,7 @@ export const getTournamentSuccess = (
 });
 
 export const getTournamentFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT_FAILURE,
   payload
@@ -130,7 +130,7 @@ export const getBillingAgreementSuccess = (
 });
 
 export const getBillingAgreementFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_BILLING_AGREEMENT_FAILURE,
   payload

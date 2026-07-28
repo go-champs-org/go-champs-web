@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- simulating malformed API responses that violate the declared (non-nullable) types */
 import {
   ApiGameWithDepedencies,
   ApiGamePostRequest,

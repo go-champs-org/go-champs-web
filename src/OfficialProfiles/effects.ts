@@ -31,7 +31,7 @@ import {
 import officialProfileHttpClient from './officialProfileHttpClient';
 import { OfficialProfileEntity } from './state';
 import { displayToast } from '../Shared/bulma/toast';
-import ApiError from '../Shared/httpClient/ApiError';
+import ApiError, { ApiDataError } from '../Shared/httpClient/ApiError';
 
 export const deleteOfficialProfile = (username: string) => async (
   dispatch: Dispatch
@@ -44,7 +44,7 @@ export const deleteOfficialProfile = (username: string) => async (
     dispatch(deleteOfficialProfileSuccess(username));
     displayToast('Official profile deleted!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err as any);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(deleteOfficialProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -71,7 +71,7 @@ export const patchOfficialProfile = (
     dispatch(patchOfficialProfileSuccess(updatedOfficialProfile));
     displayToast('Official profile updated!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err as any);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(patchOfficialProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -95,7 +95,7 @@ export const patchOfficialProfileSignature = (
     displayToast('Signature updated!', 'is-success');
     history.push(`/Account/EditOfficialProfile/${username}`);
   } catch (err) {
-    const apiError = new ApiError(err as any);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(patchOfficialProfileSignatureFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -121,7 +121,7 @@ export const postOfficialProfile = (
     dispatch(postOfficialProfileSuccess(newOfficialProfile));
     displayToast('Official profile created!', 'is-success');
   } catch (err) {
-    const apiError = new ApiError(err as any);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(postOfficialProfileFailure(err));
     displayToast(apiError.message, 'is-danger');
   }
@@ -174,7 +174,7 @@ export const approveOfficialProfileInvite = (
     // Refresh the official profile to update pending invites
     await requestOfficialProfile(username)(dispatch);
   } catch (err) {
-    const apiError = new ApiError(err as any);
+    const apiError = new ApiError(err as ApiDataError);
     dispatch(approveOfficialProfileInviteFailure(err));
     displayToast(apiError.message, 'is-danger');
   }

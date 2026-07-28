@@ -33,7 +33,9 @@ export const ListLoading: React.FC = () => (
 );
 
 const GameCard: React.FC<{
-  onDeleteGame: any;
+  onDeleteGame: (
+    game: GameEntity
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   url: string;
   game: GameEntity;
 }> = ({ onDeleteGame, url, game }) => {

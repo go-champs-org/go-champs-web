@@ -81,7 +81,7 @@ describe('themeReducer', () => {
   describe('unknown action', () => {
     it('returns the original state unchanged', () => {
       const unknownAction = { type: 'UNKNOWN_ACTION', payload: 'test' };
-      const newState = themeReducer(initialState, unknownAction as any);
+      const newState = themeReducer(initialState, unknownAction);
 
       expect(newState).toBe(initialState);
     });

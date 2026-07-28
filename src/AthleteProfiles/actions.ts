@@ -33,7 +33,7 @@ export const deleteAthleteProfileSuccess = (username: string) => ({
   payload: username
 });
 
-export const deleteAthleteProfileFailure = (error: any) => ({
+export const deleteAthleteProfileFailure = (error: unknown) => ({
   type: DELETE_ATHLETE_PROFILE_FAILURE,
   payload: error
 });
@@ -49,7 +49,7 @@ export const patchAthleteProfileSuccess = (
   payload: athleteProfile
 });
 
-export const patchAthleteProfileFailure = (error: any) => ({
+export const patchAthleteProfileFailure = (error: unknown) => ({
   type: PATCH_ATHLETE_PROFILE_FAILURE,
   payload: error
 });
@@ -65,7 +65,7 @@ export const postAthleteProfileSuccess = (
   payload: athleteProfile
 });
 
-export const postAthleteProfileFailure = (error: any) => ({
+export const postAthleteProfileFailure = (error: unknown) => ({
   type: POST_ATHLETE_PROFILE_FAILURE,
   payload: error
 });
@@ -81,7 +81,7 @@ export const requestAthleteProfileSuccess = (
   payload: athleteProfile
 });
 
-export const requestAthleteProfileFailure = (error: any) => ({
+export const requestAthleteProfileFailure = (error: unknown) => ({
   type: REQUEST_ATHLETE_PROFILE_FAILURE,
   payload: error
 });
@@ -97,7 +97,7 @@ export const requestAthleteProfilesSuccess = (
   payload: athleteProfiles
 });
 
-export const requestAthleteProfilesFailure = (error: any) => ({
+export const requestAthleteProfilesFailure = (error: unknown) => ({
   type: REQUEST_ATHLETE_PROFILES_FAILURE,
   payload: error
 });

@@ -28,12 +28,16 @@ export const deleteGameStart = (): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_GAME
 });
 
-export const deleteGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const deleteGameSuccess = (
+  payload: string
+): HttpAction<ActionTypes, string> => ({
   type: DELETE_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
-export const deleteGameFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const deleteGameFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: DELETE_TOURNAMENT_GAME_FAILURE,
   payload
 });
@@ -49,7 +53,9 @@ export const patchGameSuccess = (
   payload
 });
 
-export const patchGameFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const patchGameFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: PATCH_TOURNAMENT_GAME_FAILURE,
   payload
 });
@@ -58,12 +64,12 @@ export const postGameStart = (): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_GAME
 });
 
-export const postGameSuccess = (payload: any): HttpAction<ActionTypes> => ({
+export const postGameSuccess = (payload: unknown): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_GAME_SUCCESS,
   payload
 });
 
-export const postGameFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const postGameFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_GAME_FAILURE,
   payload
 });
@@ -79,7 +85,7 @@ export const getGameSuccess = (
   payload
 });
 
-export const getGameFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const getGameFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT_GAME_FAILURE,
   payload
 });
@@ -89,14 +95,14 @@ export const getGamesByFilterStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const getGamesByFilterSuccess = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   payload
 });
 
 export const getGamesByFilterFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT_GAMES_BY_FILTER_FAILURE,
   payload

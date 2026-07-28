@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- partial tournament fixtures that intentionally omit unrelated fields */
 import {
   mapApiOfficialProfileToOfficialProfileEntity,
   mapOfficialProfileEntityToApiOfficialProfilePatchRequest,

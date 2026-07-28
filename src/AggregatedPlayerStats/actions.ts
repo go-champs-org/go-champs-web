@@ -20,7 +20,7 @@ export const getAggregatedPlayerStatsLogsByFilterSuccess = (
 });
 
 export const getAggregatedPlayerStatsLogsByFilterFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_AGGREGATED_PLAYER_STATS_LOGS_BY_FILTER_FAILURE,
   payload

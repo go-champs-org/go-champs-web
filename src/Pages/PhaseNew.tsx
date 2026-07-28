@@ -32,6 +32,10 @@ type StateProps = {
 };
 
 type DispatchProps = {
+  getTournamentBySlug: (
+    organizationSlug: string,
+    tournamentSlug: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
   postPhase: (
     phase: PhaseEntity,
     tournamentId: string
@@ -132,4 +136,4 @@ const PhaseNew: React.FC<PhaseNewProps> = ({
   );
 };
 
-export default connector<any>(withTournament<PhaseNewProps>(PhaseNew));
+export default connector(withTournament<PhaseNewProps>(PhaseNew));

@@ -97,7 +97,7 @@ const FixedPlayerStatsRow: React.FC<FixedPlayerStatsRowProps> = ({
 };
 
 interface FieldArrayActions {
-  value: any[];
+  value: unknown[];
   remove: (index: number) => void;
   swap: (indexA: number, indexB: number) => void;
 }

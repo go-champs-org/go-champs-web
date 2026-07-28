@@ -18,7 +18,10 @@ const bootstrap = () => {
   }
 };
 
-const track = (eventName: string, eventProperties?: Record<string, any>) => {
+const track = (
+  eventName: string,
+  eventProperties?: Record<string, unknown>
+) => {
   if (REACT_APP_ENV === 'prod') {
     amplitude.track(eventName, eventProperties);
   } else {

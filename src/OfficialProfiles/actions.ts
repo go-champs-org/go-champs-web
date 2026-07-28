@@ -49,7 +49,7 @@ export const deleteOfficialProfileSuccess = (username: string) => ({
   payload: username
 });
 
-export const deleteOfficialProfileFailure = (error: any) => ({
+export const deleteOfficialProfileFailure = (error: unknown) => ({
   type: DELETE_OFFICIAL_PROFILE_FAILURE,
   payload: error
 });
@@ -65,7 +65,7 @@ export const patchOfficialProfileSuccess = (
   payload: officialProfile
 });
 
-export const patchOfficialProfileFailure = (error: any) => ({
+export const patchOfficialProfileFailure = (error: unknown) => ({
   type: PATCH_OFFICIAL_PROFILE_FAILURE,
   payload: error
 });
@@ -79,7 +79,7 @@ export const patchOfficialProfileSignatureSuccess = (username: string) => ({
   payload: username
 });
 
-export const patchOfficialProfileSignatureFailure = (error: any) => ({
+export const patchOfficialProfileSignatureFailure = (error: unknown) => ({
   type: PATCH_OFFICIAL_PROFILE_SIGNATURE_FAILURE,
   payload: error
 });
@@ -95,7 +95,7 @@ export const postOfficialProfileSuccess = (
   payload: officialProfile
 });
 
-export const postOfficialProfileFailure = (error: any) => ({
+export const postOfficialProfileFailure = (error: unknown) => ({
   type: POST_OFFICIAL_PROFILE_FAILURE,
   payload: error
 });
@@ -111,7 +111,7 @@ export const requestOfficialProfileSuccess = (
   payload: officialProfile
 });
 
-export const requestOfficialProfileFailure = (error: any) => ({
+export const requestOfficialProfileFailure = (error: unknown) => ({
   type: REQUEST_OFFICIAL_PROFILE_FAILURE,
   payload: error
 });
@@ -127,7 +127,7 @@ export const requestOfficialProfilesSuccess = (
   payload: officialProfiles
 });
 
-export const requestOfficialProfilesFailure = (error: any) => ({
+export const requestOfficialProfilesFailure = (error: unknown) => ({
   type: REQUEST_OFFICIAL_PROFILES_FAILURE,
   payload: error
 });
@@ -140,7 +140,7 @@ export const approveOfficialProfileInviteSuccess = () => ({
   type: APPROVE_OFFICIAL_PROFILE_INVITE_SUCCESS
 });
 
-export const approveOfficialProfileInviteFailure = (error: any) => ({
+export const approveOfficialProfileInviteFailure = (error: unknown) => ({
   type: APPROVE_OFFICIAL_PROFILE_INVITE_FAILURE,
   payload: error
 });

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- mocking the read-only global fetch for tests */
 import publicHttpClient from './publicHttpClient';
 
 // Mock environment variable

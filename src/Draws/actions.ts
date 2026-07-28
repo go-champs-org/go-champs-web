@@ -24,7 +24,9 @@ export const deleteDrawSuccess = (
   payload
 });
 
-export const deleteDrawFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const deleteDrawFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: DELETE_DRAW_FAILURE,
   payload
 });
@@ -47,7 +49,9 @@ export const batchPatchDrawSuccess = (
   payload: payload
 });
 
-export const patchDrawFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const patchDrawFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: PATCH_DRAW_FAILURE,
   payload
 });
@@ -63,7 +67,7 @@ export const postDrawSuccess = (
   payload
 });
 
-export const postDrawFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const postDrawFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: POST_DRAW_FAILURE,
   payload
 });

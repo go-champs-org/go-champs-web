@@ -243,7 +243,7 @@ const MatchForm: React.FC<MatchFormProps> = ({
 };
 
 interface FieldArrayActions {
-  value: any[];
+  value: unknown[];
   remove: (index: number) => void;
   swap: (indexA: number, indexB: number) => void;
 }

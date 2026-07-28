@@ -89,13 +89,15 @@ export const mapApiTeamStatToTeamStatEntity = (
   source: apiTeamStat.source
 });
 
-export const mapApiPlanToPlanEntity = (apiPlan: ApiPlan): PlanEntity => ({
+export const mapApiPlanToPlanEntity = (
+  apiPlan: ApiPlan & Partial<Omit<ApiBillingAgreement['plan'], keyof ApiPlan>>
+): PlanEntity => ({
   slug: apiPlan.slug,
   amount: apiPlan.amount,
-  active: (apiPlan as any).active || false,
-  description: (apiPlan as any).description || '',
-  name: (apiPlan as any).name || '',
-  sportId: (apiPlan as any).sport_id || ''
+  active: apiPlan.active || false,
+  description: apiPlan.description || '',
+  name: apiPlan.name || '',
+  sportId: apiPlan.sport_id || ''
 });
 
 export const mapApiBillingAgreementToBillingAgreementEntity = (

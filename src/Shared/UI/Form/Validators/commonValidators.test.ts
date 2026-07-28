@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- deliberately calling string validators with null/undefined to test defensive handling */
 import {
   mustHaveAtLeastTwoWords,
   required,

@@ -1,5 +1,6 @@
 export interface ApiDataError {
   status: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- API error body shape varies per endpoint (errors.base, errors.response, field-keyed errors, ...)
   data: any;
 }
 

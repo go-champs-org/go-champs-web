@@ -1,9 +1,8 @@
 export const mapStringOrDefault = (value: string | undefined) =>
   value ? value : '';
 
-export const returnProperty = (key: string) => (entity: {
-  [key: string]: any;
-}) => entity[key];
+export const returnProperty = (key: string) => <T>(entity: T): string =>
+  String(((entity as unknown) as Record<string, unknown>)[key]);
 
 export const apiDataToEntitiesOverride = <T, E>(
   mapFunc: (apiData: T) => E,
@@ -67,16 +66,19 @@ export const mapEntitiesByKey = <T>(currentEntitiesMap: {
   };
 };
 
-export const entityById = (
-  currentEntitiesMap: { [key: string]: any },
+export const entityById = <T extends { id: string }>(
+  currentEntitiesMap: { [key: string]: T },
   id: string
 ) => (key: string) => {
   return currentEntitiesMap[key].id !== id;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic action.type -> handler dispatch table; each reducer.ts supplies handlers with its own distinct state/action types
 export const createReducer = <T = any>(
   initialState: T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see above
   handlers: { [key: string]: any }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see above
 ) => (state: T = initialState, action: any): T => {
   if (handlers.hasOwnProperty(action.type)) {
     return handlers[action.type](state, action);

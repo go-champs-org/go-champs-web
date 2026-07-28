@@ -974,7 +974,7 @@ export interface ApiBillingAgreement {
     active: boolean;
     description: string;
     name: string;
-    sport: any;
+    sport: { id: string } | null;
     sport_id: string;
   };
   plan_id: string;

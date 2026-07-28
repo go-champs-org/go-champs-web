@@ -1,4 +1,5 @@
 import React from 'react';
+import { GameEntity } from '../Games/state';
 import Banner from '../Teams/Banner';
 import { tournamentBySlug } from '../Tournaments/selectors';
 import { teamById } from '../Teams/selectors';
@@ -88,7 +89,7 @@ function GamesTab({
   baseUrl
 }: {
   gameDates: string[];
-  gamesByDate: Record<string, any[]>;
+  gamesByDate: Record<string, GameEntity[]>;
   gamesLoading: boolean;
   baseUrl: string;
 }) {
