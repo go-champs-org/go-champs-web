@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FieldMetaState, FieldRenderProps } from 'react-final-form';
+import { FieldRenderProps } from 'react-final-form';
 import MetaInput from './MetaInput';
 
 interface TimeInputProps extends FieldRenderProps<number, HTMLInputElement> {
@@ -75,7 +75,7 @@ const TimeInput: React.FunctionComponent<TimeInputProps> = ({
           disabled={disabled}
         />
       )}
-      meta={(meta as unknown) as FieldMetaState<string>}
+      meta={meta}
     />
   );
 };
