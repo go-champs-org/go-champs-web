@@ -22,7 +22,9 @@ export interface GameStatsData {
   error: string | null;
 }
 
-const stringifyStats = (stats: object | undefined): { [id: string]: string } =>
+export const stringifyStats = (
+  stats: object | undefined
+): { [id: string]: string } =>
   Object.entries(stats || {}).reduce(
     (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
     {} as { [id: string]: string }
