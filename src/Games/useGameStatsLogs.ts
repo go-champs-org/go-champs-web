@@ -22,9 +22,7 @@ export interface GameStatsData {
   error: string | null;
 }
 
-const stringifyStats = (
-  stats: Record<string, number> | undefined
-): { [id: string]: string } =>
+const stringifyStats = (stats: object | undefined): { [id: string]: string } =>
   Object.entries(stats || {}).reduce(
     (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
     {} as { [id: string]: string }
@@ -37,9 +35,7 @@ const mapApiPlayerToStatsLogRenderEntity = (
   id: apiPlayer.id,
   playerId: apiPlayer.id,
   teamId,
-  stats: stringifyStats(
-    (apiPlayer.stats_values as unknown) as Record<string, number>
-  )
+  stats: stringifyStats(apiPlayer.stats_values)
 });
 
 const mapApiTeamToStatsLogRenderEntity = (

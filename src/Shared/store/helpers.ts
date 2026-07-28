@@ -1,8 +1,11 @@
 export const mapStringOrDefault = (value: string | undefined) =>
   value ? value : '';
 
-export const returnProperty = (key: string) => <T>(entity: T): string =>
-  String(((entity as unknown) as Record<string, unknown>)[key]);
+export const returnProperty = <K extends string>(key: K) => <
+  T extends Record<K, unknown>
+>(
+  entity: T
+): string => String(entity[key]);
 
 export const apiDataToEntitiesOverride = <T, E>(
   mapFunc: (apiData: T) => E,

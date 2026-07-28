@@ -19,9 +19,9 @@ const useFilteredItemsByDate = <T extends object>(
 
   const filteredItems = filterValue
     ? stateItems.filter((item: T) => {
-        const record = (item as unknown) as Record<string, string>;
+        const record = (item as unknown) as Record<string, unknown>;
         return record.hasOwnProperty(propertyName)
-          ? record[propertyName]
+          ? String(record[propertyName])
               .toLocaleLowerCase()
               .indexOf(filterValue.toLocaleLowerCase()) >= 0
           : true;

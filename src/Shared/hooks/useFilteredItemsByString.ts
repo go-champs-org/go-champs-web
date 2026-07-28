@@ -19,9 +19,9 @@ const useFilteredItemsByString = <T extends object>(
 
   const filteredItems = searchValue
     ? stateItems.filter((item: T) => {
-        const record = (item as unknown) as Record<string, string>;
+        const record = (item as unknown) as Record<string, unknown>;
         return record.hasOwnProperty(propertyName)
-          ? record[propertyName]
+          ? String(record[propertyName])
               .toLocaleLowerCase()
               .indexOf(searchValue.toLocaleLowerCase()) >= 0
           : true;
