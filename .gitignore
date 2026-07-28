@@ -32,3 +32,6 @@ yarn-error.log*
 *.log*
 
 /docs/superpowers
+
+# worktrees
+/.worktrees
