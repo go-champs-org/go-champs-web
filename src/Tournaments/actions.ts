@@ -33,8 +33,8 @@ export const deleteTournamentStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const deleteTournamentSuccess = (
-  payload: unknown
-): HttpAction<ActionTypes> => ({
+  payload: string
+): HttpAction<ActionTypes, string> => ({
   type: DELETE_TOURNAMENT_SUCCESS,
   payload
 });

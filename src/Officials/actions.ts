@@ -1,3 +1,5 @@
+import { OfficialEntity } from './state';
+
 export enum ActionTypes {
   DELETE_OFFICIAL_FAILURE = 'DELETE_OFFICIAL_FAILURE',
   DELETE_OFFICIAL_START = 'DELETE_OFFICIAL_START',
@@ -33,7 +35,7 @@ export const patchOfficialStart = () => ({
   type: ActionTypes.PATCH_OFFICIAL_START
 });
 
-export const patchOfficialSuccess = (payload: unknown) => ({
+export const patchOfficialSuccess = (payload: OfficialEntity) => ({
   type: ActionTypes.PATCH_OFFICIAL_SUCCESS,
   payload
 });
@@ -47,7 +49,7 @@ export const postOfficialStart = () => ({
   type: ActionTypes.POST_OFFICIAL_START
 });
 
-export const postOfficialSuccess = (payload: unknown) => ({
+export const postOfficialSuccess = (payload: OfficialEntity) => ({
   type: ActionTypes.POST_OFFICIAL_SUCCESS,
   payload
 });

@@ -48,7 +48,7 @@ export const patchGameStart = (): HttpAction<ActionTypes> => ({
 
 export const patchGameSuccess = (
   payload: GameEntity
-): HttpAction<ActionTypes> => ({
+): HttpAction<ActionTypes, GameEntity> => ({
   type: PATCH_TOURNAMENT_GAME_SUCCESS,
   payload
 });
@@ -64,7 +64,9 @@ export const postGameStart = (): HttpAction<ActionTypes> => ({
   type: POST_TOURNAMENT_GAME
 });
 
-export const postGameSuccess = (payload: unknown): HttpAction<ActionTypes> => ({
+export const postGameSuccess = (
+  payload: GameEntity
+): HttpAction<ActionTypes, GameEntity> => ({
   type: POST_TOURNAMENT_GAME_SUCCESS,
   payload
 });
@@ -80,7 +82,7 @@ export const getGameStart = (): HttpAction<ActionTypes> => ({
 
 export const getGameSuccess = (
   payload: GameEntity
-): HttpAction<ActionTypes> => ({
+): HttpAction<ActionTypes, GameEntity> => ({
   type: GET_TOURNAMENT_GAME_SUCCESS,
   payload
 });
@@ -95,8 +97,8 @@ export const getGamesByFilterStart = (): HttpAction<ActionTypes> => ({
 });
 
 export const getGamesByFilterSuccess = (
-  payload: unknown
-): HttpAction<ActionTypes> => ({
+  payload: GameEntity[]
+): HttpAction<ActionTypes, GameEntity[]> => ({
   type: GET_TOURNAMENT_GAMES_BY_FILTER_SUCCESS,
   payload
 });

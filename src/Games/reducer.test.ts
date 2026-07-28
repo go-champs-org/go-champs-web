@@ -256,22 +256,23 @@ describe('postGameFailure', () => {
 
 describe('postGameSuccess', () => {
   const action = postGameSuccess({
+    ...DEFAULT_GAME,
     id: 'first-id',
     awayPlaceholder: 'first away placeholder',
     awayScore: 10,
     awayTeam: {
+      ...DEFAULT_TEAM,
       id: 'first-away-team-id',
-      name: 'first-away-team',
-      stats: {}
+      name: 'first-away-team'
     },
     city: 'first city',
     datetime: '2019-05-22T03:21:21.248Z',
     homePlaceholder: 'first home placeholder',
     homeScore: 20,
     homeTeam: {
+      ...DEFAULT_TEAM,
       id: 'first-home-team-id',
-      name: 'first-home-team',
-      stats: {}
+      name: 'first-home-team'
     },
     location: 'first location',
     number: 'first number',
@@ -286,22 +287,23 @@ describe('postGameSuccess', () => {
     const newState = gameReducer(initialState, action);
 
     expect(newState.games['first-id']).toEqual({
+      ...DEFAULT_GAME,
       id: 'first-id',
       awayPlaceholder: 'first away placeholder',
       awayScore: 10,
       awayTeam: {
+        ...DEFAULT_TEAM,
         id: 'first-away-team-id',
-        name: 'first-away-team',
-        stats: {}
+        name: 'first-away-team'
       },
       city: 'first city',
       datetime: '2019-05-22T03:21:21.248Z',
       homePlaceholder: 'first home placeholder',
       homeScore: 20,
       homeTeam: {
+        ...DEFAULT_TEAM,
         id: 'first-home-team-id',
-        name: 'first-home-team',
-        stats: {}
+        name: 'first-home-team'
       },
       location: 'first location',
       number: 'first number',
@@ -442,7 +444,9 @@ describe('getGamesByFilterFailure', () => {
 });
 
 describe('getGamesByFilterSuccess', () => {
-  const action = getGamesByFilterSuccess([
+  // Deliberately partial/null fixtures to exercise the reducer's merge behavior
+  // with incomplete entities, not full GameEntity correctness.
+  const action = getGamesByFilterSuccess(([
     {
       id: 'first-id',
       awayScore: 10,
@@ -487,7 +491,7 @@ describe('getGamesByFilterSuccess', () => {
       location: 'third location',
       number: 'third number'
     }
-  ]);
+  ] as unknown) as GameEntity[]);
 
   it('sets isLoadingRequestGames to false', () => {
     expect(gameReducer(initialState, action).isLoadingRequestGames).toBe(false);
