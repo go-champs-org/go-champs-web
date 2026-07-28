@@ -1,5 +1,9 @@
 import { Dispatch } from 'redux';
 import {
+  ReactFacebookFailureResponse,
+  ReactFacebookLoginInfo
+} from 'react-facebook-login';
+import {
   SignInEntity,
   SignUpEntity,
   AccountRecoveryEntity,
@@ -127,9 +131,9 @@ export const facebookSignUp = (
 };
 
 export const redirectToFacebookSignUp = (history: History) => async (
-  facebookResponse: any
+  facebookResponse: ReactFacebookLoginInfo | ReactFacebookFailureResponse
 ) => {
-  if (facebookResponse.status) {
+  if (!('id' in facebookResponse)) {
     displayToast(`Sign up failed :(`, 'is-primary');
     return;
   }

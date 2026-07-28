@@ -30,7 +30,7 @@ export const deleteScoreboardSettingSuccess = (
 });
 
 export const deleteScoreboardSettingFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_SCOREBOARD_SETTING_FAILURE,
   payload
@@ -48,7 +48,7 @@ export const patchScoreboardSettingSuccess = (
 });
 
 export const patchScoreboardSettingFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_SCOREBOARD_SETTING_FAILURE,
   payload
@@ -66,7 +66,7 @@ export const postScoreboardSettingSuccess = (
 });
 
 export const postScoreboardSettingFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_SCOREBOARD_SETTING_FAILURE,
   payload

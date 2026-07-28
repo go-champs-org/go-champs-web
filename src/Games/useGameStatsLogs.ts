@@ -6,6 +6,7 @@ import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import playerStatsLogHttpClient from '../PlayerStatsLog/playerStatsLogHttpClient';
 import teamStatsLogHttpClient from '../TeamStatsLog/teamStatsLogHttpClient';
 import scoreboardApiHttpClient from '../Shared/httpClient/scoreboardApiHttpClient';
+import { ApiPlayer, ApiTeam } from '../Shared/httpClient/scoreboardApiTypes';
 
 const POLLING_INTERVAL = 10000; // 10 seconds
 
@@ -21,23 +22,31 @@ export interface GameStatsData {
   error: string | null;
 }
 
+export const stringifyStats = (
+  stats: object | undefined
+): { [id: string]: string } =>
+  Object.entries(stats || {}).reduce(
+    (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
+    {} as { [id: string]: string }
+  );
+
 const mapApiPlayerToStatsLogRenderEntity = (
-  apiPlayer: any,
+  apiPlayer: ApiPlayer,
   teamId: string
 ): StatsLogRenderEntity => ({
   id: apiPlayer.id,
   playerId: apiPlayer.id,
   teamId,
-  stats: apiPlayer.stats_values || {}
+  stats: stringifyStats(apiPlayer.stats_values)
 });
 
 const mapApiTeamToStatsLogRenderEntity = (
-  apiTeam: any,
+  apiTeam: ApiTeam,
   teamId: string
 ): StatsLogRenderEntity => ({
   id: teamId,
   teamId,
-  stats: apiTeam.total_player_stats || {}
+  stats: stringifyStats(apiTeam.total_player_stats)
 });
 
 const mapPlayerStatsLogToRenderEntity = (
@@ -137,14 +146,12 @@ export const useGameStatsLogs = (game: GameEntity): GameStatsData => {
       const gameData = await scoreboardApiHttpClient.getGame(game.id);
 
       // Map API data to render entities
-      const awayPlayerStatsLogs = gameData.away_team.players.map(
-        (player: any) =>
-          mapApiPlayerToStatsLogRenderEntity(player, game.awayTeam.id)
+      const awayPlayerStatsLogs = gameData.away_team.players.map(player =>
+        mapApiPlayerToStatsLogRenderEntity(player, game.awayTeam.id)
       );
 
-      const homePlayerStatsLogs = gameData.home_team.players.map(
-        (player: any) =>
-          mapApiPlayerToStatsLogRenderEntity(player, game.homeTeam.id)
+      const homePlayerStatsLogs = gameData.home_team.players.map(player =>
+        mapApiPlayerToStatsLogRenderEntity(player, game.homeTeam.id)
       );
 
       const awayTeamStatsLog = mapApiTeamToStatsLogRenderEntity(

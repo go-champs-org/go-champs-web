@@ -11,16 +11,16 @@ const STRONG_PASSWORD_REGEX = RegExp(
 const USERNAME_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){4,20}$/);
 const PIN_REGEX = RegExp(/^\d{4,}$/);
 
-export type ValidatorFunction = (value: any) => string | undefined;
+export type ValidatorFunction = (value: string) => string | undefined;
 export type AsyncValidatorFunction = (
-  value: any
+  value: string
 ) => Promise<string | undefined>;
 
 export const required = (value: string) =>
   value ? undefined : "Can't be blank";
 
-export const mustBeNumber = (value: any) =>
-  isNaN(value) ? 'Must be a number' : undefined;
+export const mustBeNumber = (value: string | number) =>
+  isNaN(Number(value)) ? 'Must be a number' : undefined;
 
 export const minValue = (min: number) => (value: number) =>
   isNaN(value) || value >= min ? undefined : `Should be greater than ${min}`;
@@ -85,7 +85,7 @@ export const mustHaveAtLeastTwoWords = (value: string) => {
 export const composeValidators = (
   validators: ValidatorFunction[],
   asyncValidators: AsyncValidatorFunction[] = []
-) => async (value: any) => {
+) => async (value: string) => {
   const syncErrors = validators.reduce(
     (errors: string[] | undefined, validator: ValidatorFunction) => {
       const validatorError = validator(value);

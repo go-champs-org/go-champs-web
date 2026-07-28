@@ -26,7 +26,7 @@ export const deleteEliminationSuccess = (
 });
 
 export const deleteEliminationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_ELIMINATION_FAILURE,
   payload
@@ -51,7 +51,7 @@ export const batchPatchEliminationSuccess = (
 });
 
 export const patchEliminationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_ELIMINATION_FAILURE,
   payload
@@ -69,7 +69,7 @@ export const postEliminationSuccess = (
 });
 
 export const postEliminationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_ELIMINATION_FAILURE,
   payload

@@ -4,17 +4,13 @@ import { FieldMetaState } from 'react-final-form';
 import './MetaInput.scss';
 import { isArray } from 'util';
 
-interface MetaInputProps {
+interface MetaInputProps<T> {
   className?: string;
   component: (inputMetaClasses: string) => ReactNode;
-  meta: FieldMetaState<string>;
+  meta: FieldMetaState<T>;
 }
 
-const MetaInput: React.FC<MetaInputProps> = ({
-  className,
-  component,
-  meta
-}) => {
+const MetaInput = <T,>({ className, component, meta }: MetaInputProps<T>) => {
   const shouldSetError =
     meta.touched && !meta.dirtySinceLastSubmit && meta.invalid;
 

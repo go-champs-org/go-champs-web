@@ -1,6 +1,7 @@
 import React from 'react';
 import { default as ReactSelect } from 'react-select';
 import { ValueType } from 'react-select/lib/types';
+import { StylesConfig } from 'react-select/lib/styles';
 import { useTheme } from '../../../Theme/useTheme';
 
 export interface SelectOptionType {
@@ -41,8 +42,8 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
   const selectedOption = value ? findOptionByValue(options, value) : undefined;
 
   // Create styles object using theme colors
-  const selectStyles = {
-    control: (provided: any, state: any) => ({
+  const selectStyles: StylesConfig = {
+    control: (provided, state) => ({
       ...provided,
       backgroundColor: theme.colors.background,
       borderColor: state.isFocused ? theme.colors.primary : theme.colors.border,
@@ -62,7 +63,7 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
         borderColor: state.isFocused ? theme.colors.primary : theme.colors.text
       }
     }),
-    menu: (provided: any) => ({
+    menu: provided => ({
       ...provided,
       backgroundColor: theme.colors.background,
       border: `2px solid ${theme.colors.border}`,
@@ -77,11 +78,11 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
         minWidth: '280px'
       }
     }),
-    menuPortal: (provided: any) => ({
+    menuPortal: provided => ({
       ...provided,
       zIndex: 9999
     }),
-    option: (provided: any, state: any) => ({
+    option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
         ? theme.colors.primary
@@ -95,15 +96,15 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
         backgroundColor: theme.colors.primary
       }
     }),
-    singleValue: (provided: any) => ({
+    singleValue: provided => ({
       ...provided,
       color: theme.colors.text
     }),
-    placeholder: (provided: any) => ({
+    placeholder: provided => ({
       ...provided,
       color: theme.colors.textPlaceholder
     }),
-    dropdownIndicator: (provided: any, state: any) => ({
+    dropdownIndicator: (provided, state) => ({
       ...provided,
       color: state.isFocused
         ? theme.colors.primary
@@ -112,7 +113,7 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
         color: theme.colors.primary
       }
     }),
-    clearIndicator: (provided: any, state: any) => ({
+    clearIndicator: (provided, state) => ({
       ...provided,
       color: state.isFocused
         ? theme.colors.primary

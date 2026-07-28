@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
-const useFilteredItemsByDate = <T extends { [key: string]: any }>(
+const useFilteredItemsByDate = <T extends object>(
   items: T[],
   propertyName: string
 ) => {
@@ -19,8 +19,9 @@ const useFilteredItemsByDate = <T extends { [key: string]: any }>(
 
   const filteredItems = filterValue
     ? stateItems.filter((item: T) => {
-        return item.hasOwnProperty(propertyName)
-          ? item[propertyName]
+        const record = (item as unknown) as Record<string, unknown>;
+        return record.hasOwnProperty(propertyName)
+          ? String(record[propertyName])
               .toLocaleLowerCase()
               .indexOf(filterValue.toLocaleLowerCase()) >= 0
           : true;

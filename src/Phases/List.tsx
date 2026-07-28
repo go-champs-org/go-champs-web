@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import { PhaseEntity } from './state';
 import Shimmer from '../Shared/UI/Shimmer';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
@@ -31,7 +32,7 @@ export const ListLoading: React.FC = () => (
 );
 
 const PhaseCard: React.FC<{
-  onDeletePhase: any;
+  onDeletePhase: (phase: PhaseEntity) => (dispatch: Dispatch) => Promise<void>;
   url: string;
   tournamentPhase: PhaseEntity;
   onMoveDown: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -81,7 +82,7 @@ const PhaseCard: React.FC<{
 };
 
 interface PhaseListProps {
-  deletePhase: any;
+  deletePhase: (phase: PhaseEntity) => (dispatch: Dispatch) => Promise<void>;
   onMoveDown: (
     index: number
   ) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

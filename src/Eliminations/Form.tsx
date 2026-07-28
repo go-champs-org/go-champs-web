@@ -155,7 +155,7 @@ const StatHeader: React.FC<{
 }> = ({ stat }) => <th className="has-text-centered">{stat.title}</th>;
 
 interface FieldArrayActions {
-  value: any[];
+  value: EliminationTeamStatEntity[];
   remove: (index: number) => void;
   swap: (indexA: number, indexB: number) => void;
 }

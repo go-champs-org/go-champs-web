@@ -23,7 +23,9 @@ export const deletePlayerSuccess = (
   payload
 });
 
-export const deletePlayerFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const deletePlayerFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: DELETE_PLAYER_FAILURE,
   payload
 });
@@ -39,7 +41,9 @@ export const patchPlayerSuccess = (
   payload
 });
 
-export const patchPlayerFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const patchPlayerFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: PATCH_PLAYER_FAILURE,
   payload
 });
@@ -55,7 +59,9 @@ export const postPlayerSuccess = (
   payload
 });
 
-export const postPlayerFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const postPlayerFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: POST_PLAYER_FAILURE,
   payload
 });

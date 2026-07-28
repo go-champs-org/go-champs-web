@@ -12,7 +12,8 @@ const ATHLETE_PROFILES_API = `${REACT_APP_API_HOST}v1/athlete-profiles`;
 const slug = (username = '') => `${ATHLETE_PROFILES_API}/username/${username}`;
 
 const athleteProfileHttpClient = {
-  delete: (username: string): Promise<any> => httpClient.delete(slug(username)),
+  delete: (username: string): Promise<string> =>
+    httpClient.delete(slug(username)),
   get: (username: string): Promise<ApiAthleteProfileResponse> =>
     httpClient.get(slug(username)),
   patch: (

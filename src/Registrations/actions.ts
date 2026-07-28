@@ -49,7 +49,7 @@ export const deleteRegistrationSuccess = (
 });
 
 export const deleteRegistrationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_REGISTRATION_FAILURE,
   payload
@@ -67,7 +67,7 @@ export const getRegistrationSuccess = (
 });
 
 export const getRegistrationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_REGISTRATION_FAILURE,
   payload
@@ -85,7 +85,7 @@ export const getRegistrationInviteSuccess = (
 });
 
 export const getRegistrationInviteFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_REGISTRATION_INVITE_FAILURE,
   payload
@@ -103,7 +103,7 @@ export const patchRegistrationSuccess = (
 });
 
 export const patchRegistrationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_REGISTRATION_FAILURE,
   payload
@@ -121,7 +121,7 @@ export const putRegistrationGenerateInvitesSuccess = (
 });
 
 export const putRegistrationGenerateInvitesFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PUT_REGISTRATION_GENERATE_INVITES_FAILURE,
   payload
@@ -146,7 +146,7 @@ export const putRegistrationResponseApproveSuccess = (payload: {
 });
 
 export const putRegistrationResponseApproveFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PUT_REGISTRATION_RESPONSE_APPROVE_FAILURE,
   payload
@@ -164,7 +164,7 @@ export const postRegistrationSuccess = (
 });
 
 export const postRegistrationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_REGISTRATION_FAILURE,
   payload

@@ -32,7 +32,9 @@ export const deletePhaseSuccess = (
   payload
 });
 
-export const deletePhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const deletePhaseFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: DELETE_PHASE_FAILURE,
   payload
 });
@@ -55,7 +57,9 @@ export const batchPatchPhaseSuccess = (
   payload: payload
 });
 
-export const patchPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const patchPhaseFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: PATCH_PHASE_FAILURE,
   payload
 });
@@ -71,7 +75,9 @@ export const postPhaseSuccess = (
   payload
 });
 
-export const postPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const postPhaseFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: POST_PHASE_FAILURE,
   payload
 });
@@ -87,7 +93,7 @@ export const getPhaseSuccess = (
   payload
 });
 
-export const getPhaseFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const getPhaseFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: GET_PHASE_FAILURE,
   payload
 });

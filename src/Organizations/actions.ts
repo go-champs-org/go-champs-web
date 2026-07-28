@@ -30,7 +30,7 @@ export const deleteOrganizationSuccess = (
 });
 
 export const deleteOrganizationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_ORGANIZATION_FAILURE,
   payload
@@ -48,7 +48,7 @@ export const patchOrganizationSuccess = (
 });
 
 export const patchOrganizationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_ORGANIZATION_FAILURE,
   payload
@@ -66,7 +66,7 @@ export const postOrganizationSuccess = (
 });
 
 export const postOrganizationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_ORGANIZATION_FAILURE,
   payload
@@ -84,7 +84,7 @@ export const getOrganizationSuccess = (
 });
 
 export const getOrganizationFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_ORGANIZATION_FAILURE,
   payload
@@ -102,7 +102,7 @@ export const getOrganizationsSuccess = (
 });
 
 export const getOrganizationsFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_ORGANIZATIONS_FAILURE,
   payload

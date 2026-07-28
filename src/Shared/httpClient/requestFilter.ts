@@ -6,7 +6,7 @@ export interface OrCondition {
   [key: string]: string;
 }
 
-export interface ExtendedRequestFilter extends Record<string, any> {
+export interface ExtendedRequestFilter extends Record<string, unknown> {
   or?: OrCondition[];
 }
 

@@ -23,7 +23,9 @@ export const deleteTeamSuccess = (
   payload
 });
 
-export const deleteTeamFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const deleteTeamFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: DELETE_TEAM_FAILURE,
   payload
 });
@@ -39,7 +41,9 @@ export const patchTeamSuccess = (
   payload
 });
 
-export const patchTeamFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const patchTeamFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
   type: PATCH_TEAM_FAILURE,
   payload
 });
@@ -55,7 +59,7 @@ export const postTeamSuccess = (
   payload
 });
 
-export const postTeamFailure = (payload: any): HttpAction<ActionTypes> => ({
+export const postTeamFailure = (payload: unknown): HttpAction<ActionTypes> => ({
   type: POST_TEAM_FAILURE,
   payload
 });

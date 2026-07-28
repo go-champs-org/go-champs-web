@@ -22,6 +22,7 @@ import { ApiCustomFieldType } from '../Shared/httpClient/apiTypes';
 import ConsentInput from '../Shared/UI/Form/ConsentInput';
 
 const FIELD_COMPONENTS: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- registry of field components with incompatible prop shapes (StringInput, DateInput, ConsentInput, Datetime)
   [key in ApiCustomFieldType]: React.ComponentType<any>;
 } = {
   consent: ConsentInput,
@@ -66,6 +67,7 @@ export function CustomField({ field }: CustomFieldProps) {
         <Field
           name={`response.${field.id}`}
           className="has-text-centered"
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- render prop value type varies per field component in FIELD_COMPONENTS
           render={(props: FieldRenderProps<any, any>) => {
             const customProps = {
               ...fieldProps(field),

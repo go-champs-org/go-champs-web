@@ -28,7 +28,7 @@ function FileUpload({
   );
   const { t } = useTranslation();
 
-  const onDrop = async (acceptedFiles: any) => {
+  const onDrop = async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (!file) return;
 
@@ -52,13 +52,12 @@ function FileUpload({
         onError: () => setError(t('uploadError'))
       });
     } catch (err) {
-      if (
-        err &&
-        (err as any).response &&
-        (err as any).response.data &&
-        (err as any).response.data.error
-      ) {
-        setError((err as any).response.data.error);
+      const uploadError = err as {
+        response?: { data?: { error?: string } };
+      };
+
+      if (uploadError?.response?.data?.error) {
+        setError(uploadError.response.data.error);
       } else {
         setError(t('uploadError'));
       }

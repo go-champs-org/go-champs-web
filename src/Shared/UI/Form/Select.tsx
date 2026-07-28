@@ -2,6 +2,7 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { default as ReactSelect } from 'react-select';
 import { ValueType } from 'react-select/lib/types';
+import { StylesConfig } from 'react-select/lib/styles';
 import { useTheme } from '../../../Theme/useTheme';
 import './Select.scss';
 
@@ -40,8 +41,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   const value = findOptionByValue(options, input.value);
 
   // Create styles object using theme colors
-  const selectStyles = {
-    menu: (provided: any) => ({
+  const selectStyles: StylesConfig = {
+    menu: provided => ({
       ...provided,
       backgroundColor: theme.colors.background,
       border: 'none',
@@ -52,11 +53,11 @@ const SelectInput: React.FC<SelectInputProps> = ({
       zIndex: 9999,
       position: 'absolute'
     }),
-    menuPortal: (provided: any) => ({
+    menuPortal: provided => ({
       ...provided,
       zIndex: 9999
     }),
-    option: (provided: any, state: any) => ({
+    option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
         ? theme.colors.primary
@@ -69,15 +70,15 @@ const SelectInput: React.FC<SelectInputProps> = ({
         backgroundColor: theme.colors.primary
       }
     }),
-    singleValue: (provided: any) => ({
+    singleValue: provided => ({
       ...provided,
       color: theme.colors.text
     }),
-    placeholder: (provided: any) => ({
+    placeholder: provided => ({
       ...provided,
       color: theme.colors.textPlaceholder
     }),
-    dropdownIndicator: (provided: any, state: any) => ({
+    dropdownIndicator: (provided, state) => ({
       ...provided,
       color: state.isFocused
         ? theme.colors.primary
@@ -86,7 +87,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         color: theme.colors.primary
       }
     }),
-    clearIndicator: (provided: any, state: any) => ({
+    clearIndicator: (provided, state) => ({
       ...provided,
       color: state.isFocused
         ? theme.colors.primary

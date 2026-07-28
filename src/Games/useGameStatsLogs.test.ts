@@ -1,4 +1,4 @@
-import { FetchingStrategy } from './useGameStatsLogs';
+import { FetchingStrategy, stringifyStats } from './useGameStatsLogs';
 import { GameEntity } from './state';
 import { TeamEntity } from '../Teams/state';
 import { PlayerStatsLogEntity } from '../PlayerStatsLog/state';
@@ -220,6 +220,71 @@ const mockApiGameData = {
   sport_id: 'basketball',
   view_settings_state: {}
 };
+
+describe('stringifyStats', () => {
+  it('converts numeric stat values to strings', () => {
+    expect(stringifyStats({ points: 12, rebounds: 6, assists: 2 })).toEqual({
+      points: '12',
+      rebounds: '6',
+      assists: '2'
+    });
+  });
+
+  it('keeps zero as "0" instead of dropping it', () => {
+    // The scoreboard API sends 0 for stats a player has not recorded, and the
+    // box score must render "0", not a blank cell.
+    const result = stringifyStats({ points: 0, blocks: 0, steals: 3 });
+
+    expect(result).toEqual({ points: '0', blocks: '0', steals: '3' });
+    expect(result.points).not.toBe('');
+  });
+
+  it('handles negative and decimal values', () => {
+    expect(
+      stringifyStats({ plus_minus: -7, field_goal_percentage: 66.7 })
+    ).toEqual({
+      plus_minus: '-7',
+      field_goal_percentage: '66.7'
+    });
+  });
+
+  it('returns an empty object when stats is undefined', () => {
+    expect(stringifyStats(undefined)).toEqual({});
+  });
+
+  it('returns an empty object when stats is empty', () => {
+    expect(stringifyStats({})).toEqual({});
+  });
+
+  it('preserves every key it is given', () => {
+    const stats = { a: 1, b: 2, c: 3, d: 4 };
+
+    expect(Object.keys(stringifyStats(stats))).toEqual(['a', 'b', 'c', 'd']);
+  });
+
+  it('does not mutate the input object', () => {
+    const stats = { points: 12 };
+
+    stringifyStats(stats);
+
+    expect(stats).toEqual({ points: 12 });
+  });
+
+  it('converts a full API stats_values payload', () => {
+    const apiStatsValues = mockApiGameData.away_team.players[0].stats_values;
+
+    const result = stringifyStats(apiStatsValues);
+
+    expect(result.points).toBe('12');
+    expect(result.rebounds).toBe('6');
+    expect(result.minutes_played).toBe('25');
+    expect(result.blocks).toBe('0');
+    expect(Object.keys(result)).toHaveLength(
+      Object.keys(apiStatsValues).length
+    );
+    expect(Object.values(result).every(v => typeof v === 'string')).toBe(true);
+  });
+});
 
 describe('useGameStatsLogs', () => {
   beforeEach(() => {

@@ -20,6 +20,7 @@ class Datetime extends React.Component<FieldRenderProps<string, HTMLElement>> {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- react-datetime ships no types (see react-datetime.d.ts ambient declaration)
   renderInput(props: any, openCalendar: any, closeCalendar: any) {
     const clear = () => {
       props.onChange({ target: { value: '' } });

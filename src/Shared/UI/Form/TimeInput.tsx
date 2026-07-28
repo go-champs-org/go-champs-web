@@ -75,7 +75,7 @@ const TimeInput: React.FunctionComponent<TimeInputProps> = ({
           disabled={disabled}
         />
       )}
-      meta={meta as any}
+      meta={meta}
     />
   );
 };

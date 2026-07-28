@@ -35,7 +35,7 @@ export const deletePlayerStatsLogSuccess = (
 });
 
 export const deletePlayerStatsLogFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: DELETE_PLAYER_STATS_LOG_FAILURE,
   payload
@@ -53,7 +53,7 @@ export const getPlayerStatsLogsByFilterSuccess = (
 });
 
 export const getPlayerStatsLogsByFilterFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: GET_PLAYER_STATS_LOGS_BY_FILTER_FAILURE,
   payload
@@ -71,7 +71,7 @@ export const patchPlayerStatsLogsSuccess = (
 });
 
 export const patchPlayerStatsLogsFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: PATCH_PLAYER_STATS_LOG_FAILURE,
   payload
@@ -89,7 +89,7 @@ export const postPlayerStatsLogsSuccess = (
 });
 
 export const postPlayerStatsLogsFailure = (
-  payload: any
+  payload: unknown
 ): HttpAction<ActionTypes> => ({
   type: POST_PLAYER_STATS_LOG_FAILURE,
   payload

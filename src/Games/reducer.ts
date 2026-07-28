@@ -43,10 +43,10 @@ const deleteGameFailure = (
 
 const deleteGameSuccess = (
   state: GameState,
-  action: HttpAction<ActionTypes>
+  action: HttpAction<ActionTypes, string>
 ) => {
   const games = Object.keys(state.games)
-    .filter(entityById(state.games, action.payload))
+    .filter(entityById(state.games, action.payload || ''))
     .reduce(mapEntitiesByKey(state.games), {});
   return {
     ...state,
