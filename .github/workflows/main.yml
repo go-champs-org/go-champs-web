@@ -108,12 +108,10 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: apps/cms
-          install-command: pnpm install --frozen-lockfile
-          runTests: false
-          package-manager-cache: false
+        run: pnpm install --frozen-lockfile
+      - name: Install Cypress binary
+        working-directory: apps/cms
+        run: pnpm exec cypress install
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
