@@ -165,6 +165,9 @@ importers:
       '@types/gtag.js':
         specifier: ^0.0.20
         version: 0.0.20
+      '@types/history':
+        specifier: 4.7.11
+        version: 4.7.11
       '@types/html2canvas':
         specifier: ^1.0.0
         version: 1.0.0
@@ -1473,10 +1476,6 @@ packages:
 
   '@types/history@4.7.11':
     resolution: {integrity: sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==}
-
-  '@types/history@5.0.0':
-    resolution: {integrity: sha512-hy8b7Y1J8OGe6LbAjj3xniQrj3v6lsivCcrmf4TzSgPzLkhIeKgc5IZnT7ReIqmEuodjfO8EYAuoFvIrHi/+jQ==}
-    deprecated: This is a stub types definition. history provides its own type definitions, so you do not need this installed.
 
   '@types/hoist-non-react-statics@3.3.7':
     resolution: {integrity: sha512-PQTyIulDkIDro8P+IHbKCsw7U2xxBYflVzW/FgWdCAePD9xGSidgA76/GeJ6lBKoblyhf9pBY763gbrN+1dI8g==}
@@ -9558,10 +9557,6 @@ snapshots:
 
   '@types/history@4.7.11': {}
 
-  '@types/history@5.0.0':
-    dependencies:
-      history: 4.10.1
-
   '@types/hoist-non-react-statics@3.3.7(@types/react@16.8.14)':
     dependencies:
       '@types/react': 16.8.14
@@ -9646,7 +9641,7 @@ snapshots:
 
   '@types/react-router-dom@5.1.2':
     dependencies:
-      '@types/history': 5.0.0
+      '@types/history': 4.7.11
       '@types/react': 16.8.14
       '@types/react-router': 5.1.20
 
