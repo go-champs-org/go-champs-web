@@ -107,10 +107,17 @@ jobs:
         with:
           node-version: '20.0.0'
           cache: 'pnpm'
-      - name: Cypress run
+      - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
           install-command: pnpm install --frozen-lockfile
+          runTests: false
+          package-manager-cache: false
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          working-directory: apps/cms
           start: echo "Using deployed staging environment"
           wait-on-timeout: 120
           record: false
@@ -135,8 +142,8 @@ jobs:
         with:
           name: cypress-screenshots-staging
           path: |
-            cypress/screenshots
-            cypress/videos
+            apps/cms/cypress/screenshots
+            apps/cms/cypress/videos
           retention-days: 1
 
   deploy_admin:
@@ -190,10 +197,17 @@ jobs:
         with:
           node-version: '20.0.0'
           cache: 'pnpm'
-      - name: Cypress run
+      - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
           install-command: pnpm install --frozen-lockfile
+          runTests: false
+          package-manager-cache: false
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          working-directory: apps/cms
           start: echo "Using deployed production environment"
           wait-on-timeout: 120
           record: false
@@ -218,8 +232,8 @@ jobs:
         with:
           name: cypress-screenshots-production
           path: |
-            cypress/screenshots
-            cypress/videos
+            apps/cms/cypress/screenshots
+            apps/cms/cypress/videos
           retention-days: 1
 
   deploy_prod:
