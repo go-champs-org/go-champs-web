@@ -110,6 +110,7 @@ jobs:
       - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
+          working-directory: apps/cms
           install-command: pnpm install --frozen-lockfile
           runTests: false
           package-manager-cache: false
@@ -200,6 +201,7 @@ jobs:
       - name: Install dependencies
         uses: cypress-io/github-action@v6
         with:
+          working-directory: apps/cms
           install-command: pnpm install --frozen-lockfile
           runTests: false
           package-manager-cache: false
