@@ -14,7 +14,36 @@ describe('Player Management', () => {
     cy.xpath("//*[contains(text(), 'Atletas')]").click()
   })
 
+  // Defensive cleanup: previous runs that failed mid-way (e.g. a flaky delete
+  // step) can leave stray "Test player (can delete)" records behind, which
+  // makes every xpath below match more than one element on the next run.
+  // Clearing the slate here, at the top of "Add new player", keeps it inside
+  // a regular `it` block so a flake gets Cypress's normal retries (unlike a
+  // `before`/`before all` hook, which never retries).
+  // Uses document.evaluate directly (not cy.xpath) because cy.xpath retries
+  // and fails when nothing matches, and the empty-result case here is the
+  // expected way this recursion ends.
+  const deleteExistingTestPlayers = () => {
+    cy.document().then((doc) => {
+      const result = doc.evaluate(
+        "//*[contains(text(), 'Test player (can delete)')]/../../div/button",
+        doc,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      )
+      const button = result.singleNodeValue
+      if (!button) {
+        return
+      }
+      cy.wrap(button).dblclick()
+      cy.wait(1000)
+      deleteExistingTestPlayers()
+    })
+  }
+
   it('Add new player', () => {
+    deleteExistingTestPlayers()
     cy.title().should('eq', 'Go Champs | Test tournament (cannot delete)')
     cy.get('a[href="/test-organization-cannot-delete/test-tournament-cannot-delete/NewPlayer"]').click()
     cy.wait(1000)

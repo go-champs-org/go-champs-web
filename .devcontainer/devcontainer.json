@@ -14,14 +14,15 @@
 		"dbaeumer.vscode-eslint",
         "rvest.vs-code-prettier-eslint",
 		"GitHub.copilot",
-		"GitHub.copilot-chat"
+		"GitHub.copilot-chat",
+		"anthropic.claude-code"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [3000],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "yarn install && /workspace/.devcontainer/setup-cypress.sh",
+	"postCreateCommand": "pnpm install && /workspace/.devcontainer/setup-cypress.sh",
 
 	// Use 'postStartCommand' to ensure services are running
 	"postStartCommand": "service dbus start > /dev/null 2>&1 && pkill Xvfb > /dev/null 2>&1; export DISPLAY=:99 && Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &",

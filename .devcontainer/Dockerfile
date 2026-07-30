@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
     xfonts-scalable \
     && rm -rf /var/lib/apt/lists/*
 
+# Enable pnpm (matches packageManager pin in root package.json)
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
+
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
