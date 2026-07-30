@@ -9,6 +9,8 @@ services:
     volumes:
       - ..:/workspace:cached
       - node_modules:/workspace/node_modules
+      - cms-node_modules:/workspace/apps/cms/node_modules
+      - pnpm-store:/root/.local/share/pnpm/store
       - vscode-extension:/root/.vscode-server-insiders
 
     # Overrides default command so things don't shut down after the process ends.
@@ -22,4 +24,6 @@ services:
 
 volumes:
   node_modules:
+  cms-node_modules:
+  pnpm-store:
   vscode-extension:

@@ -2,7 +2,7 @@ name: Main CI
 
 on:
   push:
-    branches:    
+    branches:
       - master
   workflow_dispatch:
 jobs:
@@ -10,40 +10,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
       - name: Running lint
-        run: yarn run lint:check
+        run: pnpm --filter @gochamps/cms lint:check
 
   unit_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
       - name: Running test
-        run: yarn test
+        run: pnpm --filter @gochamps/cms test -- --watchAll=false
 
   color_validation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
       - name: Validate SCSS color mapping
-        run: yarn validate-colors
+        run: pnpm --filter @gochamps/cms validate-colors
 
   deploy_staging:
     needs:
@@ -53,12 +62,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
       - name: Build Staging
         env:
           EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
@@ -66,11 +78,11 @@ jobs:
           STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
           STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
-        run: yarn build:staging
+        run: pnpm --filter @gochamps/cms build:staging
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './build'
+          publish-dir: './apps/cms/build'
           production-branch: master
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -88,14 +100,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Cypress binary
+        working-directory: apps/cms
+        run: pnpm exec cypress install
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install-command: yarn install
+          install: false
+          working-directory: apps/cms
           start: echo "Using deployed staging environment"
           wait-on-timeout: 120
           record: false
@@ -120,8 +141,8 @@ jobs:
         with:
           name: cypress-screenshots-staging
           path: |
-            cypress/screenshots
-            cypress/videos
+            apps/cms/cypress/screenshots
+            apps/cms/cypress/videos
           retention-days: 1
 
   deploy_admin:
@@ -129,12 +150,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
       - name: Build Prod
         env:
           EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
@@ -143,11 +167,11 @@ jobs:
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
           PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
-        run: yarn build
+        run: pnpm --filter @gochamps/cms build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './build'
+          publish-dir: './apps/cms/build'
           production-branch: master
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -165,14 +189,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Cypress binary
+        working-directory: apps/cms
+        run: pnpm exec cypress install
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install-command: yarn install
+          install: false
+          working-directory: apps/cms
           start: echo "Using deployed production environment"
           wait-on-timeout: 120
           record: false
@@ -197,8 +230,8 @@ jobs:
         with:
           name: cypress-screenshots-production
           path: |
-            cypress/screenshots
-            cypress/videos
+            apps/cms/cypress/screenshots
+            apps/cms/cypress/videos
           retention-days: 1
 
   deploy_prod:
@@ -206,12 +239,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: '20.0.0'
-          cache: 'yarn'
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
       - name: Build Prod
         env:
           AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
@@ -222,11 +258,11 @@ jobs:
           PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
           PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
-        run: yarn build
+        run: pnpm --filter @gochamps/cms build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './build'
+          publish-dir: './apps/cms/build'
           production-branch: master
           production-deploy: false
           github-token: ${{ secrets.GITHUB_TOKEN }}

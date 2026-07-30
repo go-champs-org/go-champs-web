@@ -1,22 +1,23 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
+.pnpm-store
 
 # testing
-/coverage
-/reports
+coverage
+reports
 
 # cypress
-/cypress/videos
-/cypress/screenshots
-/cypress/downloads
+**/cypress/videos
+**/cypress/screenshots
+**/cypress/downloads
 cypress.env.json
 
 # production
-/build
+build
 
 # misc
 env.local.js
