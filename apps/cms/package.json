@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@amplitude/analytics-browser": "^2.11.1",
+    "@gochamps/domain-types": "workspace:*",
     "@emailjs/browser": "^4.4.1",
     "@types/react-facebook-login": "^4.1.2",
     "animate.css": "^3.7.1",
