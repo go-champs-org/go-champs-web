@@ -42,7 +42,7 @@ This repository is a pnpm/Turborepo monorepo. Commands run from the repo root af
 
 Root-level (all apps, via Turborepo):
   * `pnpm build` - Build all apps for production
-  * `pnpm test` - Run the test suite for all apps
+  * `pnpm test:ci` - Run the test suite for all apps
   * `pnpm lint:check` - Check code linting for all apps
 
 CMS app (`apps/cms`):
