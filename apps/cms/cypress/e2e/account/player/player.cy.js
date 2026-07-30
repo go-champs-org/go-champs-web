@@ -1,5 +1,5 @@
 describe('Player Management', () => {
-  beforeEach(() => {
+  const goToPlayersList = () => {
     cy.visit('/SignIn')
     cy.get('body').should('be.visible')
     cy.get('input[name="username"]').type(Cypress.env('TEST_USERNAME'))
@@ -12,6 +12,41 @@ describe('Player Management', () => {
     cy.xpath("//*[contains(text(), 'Gerenciar')]").click()
     cy.get('.ai-chat-window__close').click();
     cy.xpath("//*[contains(text(), 'Atletas')]").click()
+  }
+
+  // Defensive cleanup: previous runs that failed mid-way (e.g. a flaky delete
+  // step) can leave stray "Test player (can delete)" records behind, which
+  // makes every xpath below match more than one element on the next run.
+  // Clear the slate once before the suite so each run starts from zero.
+  // Uses document.evaluate directly (not cy.xpath) because cy.xpath retries
+  // and fails when nothing matches, and the empty-result case here is the
+  // expected way this recursion ends.
+  const deleteExistingTestPlayers = () => {
+    cy.document().then((doc) => {
+      const result = doc.evaluate(
+        "//*[contains(text(), 'Test player (can delete)')]/../../div/button",
+        doc,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      )
+      const button = result.singleNodeValue
+      if (!button) {
+        return
+      }
+      cy.wrap(button).dblclick()
+      cy.wait(1000)
+      deleteExistingTestPlayers()
+    })
+  }
+
+  before(() => {
+    goToPlayersList()
+    deleteExistingTestPlayers()
+  })
+
+  beforeEach(() => {
+    goToPlayersList()
   })
 
   it('Add new player', () => {
