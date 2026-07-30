@@ -8,6 +8,9 @@
     "test": {
       "dependsOn": ["^build"]
     },
+    "test:ci": {
+      "dependsOn": ["^build"]
+    },
     "lint:check": {},
     "start": {
       "cache": false,

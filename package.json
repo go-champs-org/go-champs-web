@@ -6,6 +6,7 @@
     "build": "turbo run build",
     "start": "turbo run start",
     "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
     "lint:check": "turbo run lint:check"
   },
   "devDependencies": {
