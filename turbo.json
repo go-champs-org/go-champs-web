@@ -8,6 +8,10 @@
     "test": {
       "dependsOn": ["^build"]
     },
-    "lint:check": {}
+    "lint:check": {},
+    "start": {
+      "cache": false,
+      "persistent": true
+    }
   }
 }

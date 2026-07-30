@@ -51,11 +51,11 @@
     "typescript": "4.9.5"
   },
   "scripts": {
-    "start": "env-cmd -f env.local.js react-scripts --openssl-legacy-provider start",
-    "build": "env-cmd -f env.prod.js react-scripts --openssl-legacy-provider build",
-    "build:adm": "env-cmd -f env.prod.js react-scripts --openssl-legacy-provider build",
-    "build:staging": "env-cmd -f env.staging.js react-scripts --openssl-legacy-provider build",
-    "test": "react-scripts test",
+    "start": "env-cmd -f env.local.js craco --openssl-legacy-provider start",
+    "build": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
+    "build:adm": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
+    "build:staging": "env-cmd -f env.staging.js craco --openssl-legacy-provider build",
+    "test": "craco test",
     "test:e2e": "cypress run",
     "test:e2e:headless": "xvfb-run -a cypress run",
     "test:e2e:local": "env-cmd -f env.local.js xvfb-run -a cypress run",
@@ -84,6 +84,11 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.20.7",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@craco/craco": "^6.4.5",
     "@types/classnames": "^2.2.7",
     "@types/dompurify": "^3.2.0",
     "@types/gtag.js": "^0.0.20",
