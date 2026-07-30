@@ -10,7 +10,7 @@ Go Champs is a comprehensive tournament management platform that serves as both 
 
 ### Prerequisites
 - Node.js (recommended version specified in `.nvmrc`)
-- Yarn package manager
+- pnpm package manager (`pnpm@9.15.0`, see `packageManager` in `package.json`)
 
 ### Local Development
 
@@ -32,17 +32,26 @@ This project includes a `.devcontainer` configuration for consistent development
 If you prefer to run locally outside a container:
 
 1. Clone the repository
-2. Install dependencies: `yarn`
-3. Start the development server: `yarn start`
-4. Run tests: `yarn test`
+2. Install dependencies: `pnpm install`
+3. Start the development server: `pnpm --filter @gochamps/cms start`
+4. Run tests: `pnpm test`
 
 ### Available Scripts
 
-After setup, you can run these commands:
-  * `yarn start` - Start the development server
-  * `yarn build` - Build the app for production
-  * `yarn test` - Run the test suite
-  * `yarn lint` - Run code linting
+This repository is a pnpm/Turborepo monorepo. Commands run from the repo root affect all apps (via Turborepo); use `--filter @gochamps/cms` to target the CMS app specifically, or `cd apps/cms` and drop the filter.
+
+Root-level (all apps, via Turborepo):
+  * `pnpm build` - Build all apps for production
+  * `pnpm test` - Run the test suite for all apps
+  * `pnpm lint:check` - Check code linting for all apps
+
+CMS app (`apps/cms`):
+  * `pnpm --filter @gochamps/cms start` - Start the development server
+  * `pnpm --filter @gochamps/cms build` - Build the app for production
+  * `pnpm --filter @gochamps/cms test` - Run the test suite
+  * `pnpm --filter @gochamps/cms test:e2e` - Run Cypress end-to-end tests
+  * `pnpm --filter @gochamps/cms lint` - Fix code linting
+  * `pnpm --filter @gochamps/cms lint:check` - Check code linting
 
 ## Documentation
 
