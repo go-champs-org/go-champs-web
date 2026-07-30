@@ -33,7 +33,7 @@ If you prefer to run locally outside a container:
 
 1. Clone the repository
 2. Install dependencies: `pnpm install`
-3. Start the development server: `pnpm --filter @gochamps/cms start`
+3. Start the development server: `pnpm start`
 4. Run tests: `pnpm test`
 
 ### Available Scripts
