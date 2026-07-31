@@ -1,14 +1,11 @@
 const path = require('path');
 
-// This worktree lives nested inside the main repo checkout
-// (.claude/worktrees/<id>/apps/public), so Next.js's root-inference walks up
-// past this worktree's own pnpm-workspace.yaml and also finds the outer
-// repo's pnpm-workspace.yaml/lockfile, warns about "multiple lockfiles", and
-// (critically) infers the wrong workspace root — which then pollutes
-// TypeScript type resolution (duplicate @types/react from the outer repo's
-// tree colliding with this worktree's own, causing spurious
-// "ReactNode is not assignable to ReactNode" build errors). Pinning the root
-// explicitly to this worktree fixes both the warning and the type errors.
+// If more than one pnpm-workspace.yaml/lockfile is reachable above this
+// directory, Next.js's root-inference can walk up too far, warn about
+// "multiple lockfiles", and infer the wrong workspace root — which then
+// pollutes TypeScript type resolution (duplicate @types/react across the two
+// inferred roots, causing spurious "ReactNode is not assignable to
+// ReactNode" build errors). Pinning the root explicitly avoids both.
 const workspaceRoot = path.join(__dirname, '../..');
 
 /** @type {import('next').NextConfig} */
