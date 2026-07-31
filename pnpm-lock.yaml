@@ -7,6 +7,8 @@ settings:
 overrides:
   react-qr-code: 2.0.7
 
+packageExtensionsChecksum: c7704511e68ae73bdec4493001762012
+
 importers:
 
   .:
@@ -88,28 +90,28 @@ importers:
         version: 16.14.0
       react-datetime:
         specifier: ^2.16.3
-        version: 2.16.3(moment@2.30.1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
+        version: 2.16.3(@types/react@16.8.14)(moment@2.30.1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       react-dnd:
         specifier: ^9.3.4
         version: 9.5.1(@types/react@16.8.14)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       react-dnd-html5-backend:
         specifier: ^9.3.4
-        version: 9.5.1
+        version: 9.5.1(@types/react@16.8.14)
       react-dom:
         specifier: ^16.8.6
         version: 16.14.0(react@16.14.0)
       react-dropzone:
         specifier: ^14.3.8
-        version: 14.4.1(react@16.14.0)
+        version: 14.4.1(@types/react@16.8.14)(react@16.14.0)
       react-facebook-login:
         specifier: ^4.1.1
         version: 4.1.1(react@16.14.0)
       react-final-form:
         specifier: 6.5.1
-        version: 6.5.1(final-form@4.20.10)(react@16.14.0)
+        version: 6.5.1(@types/react@16.8.14)(final-form@4.20.10)(react@16.14.0)
       react-final-form-arrays:
         specifier: ^3.1.2
-        version: 3.1.4(final-form-arrays@1.2.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.1(final-form@4.20.10)(react@16.14.0))(react@16.14.0)
+        version: 3.1.4(@types/react@16.8.14)(final-form-arrays@1.2.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.1(@types/react@16.8.14)(final-form@4.20.10)(react@16.14.0))(react@16.14.0)
       react-google-recaptcha:
         specifier: ^2.0.1
         version: 2.1.0(react@16.14.0)
@@ -118,16 +120,16 @@ importers:
         version: 5.2.1(react@16.14.0)
       react-i18next:
         specifier: ^11.7.0
-        version: 11.18.6(i18next@19.9.2)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
+        version: 11.18.6(@types/react@16.8.14)(i18next@19.9.2)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       react-image-crop:
         specifier: ^11.0.7
-        version: 11.1.2(react@16.14.0)
+        version: 11.1.2(@types/react@16.8.14)(react@16.14.0)
       react-markdown:
         specifier: 8.0.7
         version: 8.0.7(@types/react@16.8.14)(react@16.14.0)
       react-qr-code:
         specifier: 2.0.7
-        version: 2.0.7(react@16.14.0)
+        version: 2.0.7(@types/react@16.8.14)(react@16.14.0)
       react-redux:
         specifier: ^7.0.3
         version: 7.2.9(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
@@ -7430,6 +7432,7 @@ packages:
   react-datetime@2.16.3:
     resolution: {integrity: sha512-amWfb5iGEiyqjLmqCLlPpu2oN415jK8wX1qoTq7qn6EYiU7qQgbNHglww014PT4O/3G5eo/3kbJu/M/IxxTyGw==}
     peerDependencies:
+      '@types/react': '*'
       moment: '>=2.16.0'
       react: '>=0.13'
       react-dom: '>=0.13'
@@ -7446,10 +7449,13 @@ packages:
 
   react-dnd-html5-backend@9.5.1:
     resolution: {integrity: sha512-wUdzjREwLqHxFkA6E+XDVL5IFjRDbBI3SHVKil9n3qrGT5dm2tA2oi1aIALdfMKsu00c+OXA9lz/LuKZCE9KXg==}
+    peerDependencies:
+      '@types/react': '*'
 
   react-dnd@9.5.1:
     resolution: {integrity: sha512-j2MvziPNLsxXkb3kIJzLvvOv/TQ4sysp6U4CmxAXd4C884dXm/9UGdB7K1wkTW3ZxVpI1K7XhKbX0JgNlPfLcA==}
     peerDependencies:
+      '@types/react': '*'
       react: '>= 16.8'
       react-dom: '>= 16.8'
 
@@ -7467,6 +7473,7 @@ packages:
     resolution: {integrity: sha512-QDuV76v3uKbHiH34SpwifZ+gOLi1+RdsCO1kl5vxMT4wW8R82+sthjvBw4th3NHF/XX6FBsqDYZVNN+pnhaw0g==}
     engines: {node: '>= 10.13'}
     peerDependencies:
+      '@types/react': '*'
       react: '>= 16.8 || 18.0.0'
 
   react-error-overlay@6.1.0:
@@ -7483,6 +7490,7 @@ packages:
   react-final-form-arrays@3.1.4:
     resolution: {integrity: sha512-siVFAolUAe29rMR6u8VwepoysUcUdh6MLV2OWnCtKpsPRUdT9VUgECjAPaVMAH2GROZNiVB9On1H9MMrm9gdpg==}
     peerDependencies:
+      '@types/react': '*'
       final-form: ^4.15.0
       final-form-arrays: '>=1.0.4'
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7491,6 +7499,7 @@ packages:
   react-final-form@6.5.1:
     resolution: {integrity: sha512-+Hzd9PqYY1Cv3MnWzw64QOl5BjC5BtSDakx+N7Re49r0FASdFhgpXLFFCJ31fvegq2euP6hz6Ow9K6XM9BSqCA==}
     peerDependencies:
+      '@types/react': '*'
       final-form: ^4.20.0
       react: ^16.8.0
 
@@ -7507,6 +7516,7 @@ packages:
   react-i18next@11.18.6:
     resolution: {integrity: sha512-yHb2F9BiT0lqoQDt8loZ5gWP331GwctHz9tYQ8A2EIEUu+CcEdjBLQWli1USG3RdWQt3W+jqQLg/d4rrQR96LA==}
     peerDependencies:
+      '@types/react': '*'
       i18next: '>= 19.0.0'
       react: '>= 16.8.0'
       react-dom: '*'
@@ -7520,6 +7530,7 @@ packages:
   react-image-crop@11.1.2:
     resolution: {integrity: sha512-+0Pc2fxpwKL4u4oLmdKBw8XSwUceFbXbKEHvFOlsl/MGB1OVNic4uBlAPmEHGXYgoJIq+b63xHbc/aJMG0AVkA==}
     peerDependencies:
+      '@types/react': '*'
       react: '>=16.13.1'
 
   react-input-autosize@3.0.0:
@@ -7554,6 +7565,7 @@ packages:
   react-qr-code@2.0.7:
     resolution: {integrity: sha512-NpknL80p7dWbLdHfBSIxQIqLCu3+kBlyzYD692rO0UnVwfCSziIxc1xn/p3JhPEv1RV1lRD8j0w+hR3L7tawTQ==}
     peerDependencies:
+      '@types/react': '*'
       react: ^16.x || ^17.x || ^18.x
       react-native-svg: '*'
     peerDependenciesMeta:
@@ -18359,8 +18371,9 @@ snapshots:
       prop-types: 15.8.1
       react: 16.14.0
 
-  react-datetime@2.16.3(moment@2.30.1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
+  react-datetime@2.16.3(@types/react@16.8.14)(moment@2.30.1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
     dependencies:
+      '@types/react': 16.8.14
       create-react-class: 15.7.0
       moment: 2.30.1
       object-assign: 3.0.0
@@ -18403,21 +18416,21 @@ snapshots:
       - supports-color
       - vue-template-compiler
 
-  react-dnd-html5-backend@9.5.1:
+  react-dnd-html5-backend@9.5.1(@types/react@16.8.14):
     dependencies:
+      '@types/react': 16.8.14
       dnd-core: 9.5.1
 
   react-dnd@9.5.1(@types/react@16.8.14)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
     dependencies:
       '@types/hoist-non-react-statics': 3.3.7(@types/react@16.8.14)
+      '@types/react': 16.8.14
       '@types/shallowequal': 1.1.5
       dnd-core: 9.5.1
       hoist-non-react-statics: 3.3.2
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
       shallowequal: 1.1.0
-    transitivePeerDependencies:
-      - '@types/react'
 
   react-dom@16.14.0(react@16.14.0):
     dependencies:
@@ -18432,8 +18445,9 @@ snapshots:
       react: 19.2.8
       scheduler: 0.27.0
 
-  react-dropzone@14.4.1(react@16.14.0):
+  react-dropzone@14.4.1(@types/react@16.8.14)(react@16.14.0):
     dependencies:
+      '@types/react': 16.8.14
       attr-accept: 2.2.5
       file-selector: 2.1.2
       prop-types: 15.8.1
@@ -18447,17 +18461,19 @@ snapshots:
 
   react-fast-compare@2.0.4: {}
 
-  react-final-form-arrays@3.1.4(final-form-arrays@1.2.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.1(final-form@4.20.10)(react@16.14.0))(react@16.14.0):
+  react-final-form-arrays@3.1.4(@types/react@16.8.14)(final-form-arrays@1.2.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.1(@types/react@16.8.14)(final-form@4.20.10)(react@16.14.0))(react@16.14.0):
     dependencies:
       '@babel/runtime': 7.29.7
+      '@types/react': 16.8.14
       final-form: 4.20.10
       final-form-arrays: 1.2.0(final-form@4.20.10)
       react: 16.14.0
-      react-final-form: 6.5.1(final-form@4.20.10)(react@16.14.0)
+      react-final-form: 6.5.1(@types/react@16.8.14)(final-form@4.20.10)(react@16.14.0)
 
-  react-final-form@6.5.1(final-form@4.20.10)(react@16.14.0):
+  react-final-form@6.5.1(@types/react@16.8.14)(final-form@4.20.10)(react@16.14.0):
     dependencies:
       '@babel/runtime': 7.29.7
+      '@types/react': 16.8.14
       final-form: 4.20.10
       react: 16.14.0
 
@@ -18475,17 +18491,19 @@ snapshots:
       react-fast-compare: 2.0.4
       react-side-effect: 1.2.0(react@16.14.0)
 
-  react-i18next@11.18.6(i18next@19.9.2)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
+  react-i18next@11.18.6(@types/react@16.8.14)(i18next@19.9.2)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
     dependencies:
       '@babel/runtime': 7.29.7
+      '@types/react': 16.8.14
       html-parse-stringify: 3.1.0
       i18next: 19.9.2
       react: 16.14.0
     optionalDependencies:
       react-dom: 16.14.0(react@16.14.0)
 
-  react-image-crop@11.1.2(react@16.14.0):
+  react-image-crop@11.1.2(@types/react@16.8.14)(react@16.14.0):
     dependencies:
+      '@types/react': 16.8.14
       react: 16.14.0
 
   react-input-autosize@3.0.0(react@16.14.0):
@@ -18528,8 +18546,9 @@ snapshots:
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
 
-  react-qr-code@2.0.7(react@16.14.0):
+  react-qr-code@2.0.7(@types/react@16.8.14)(react@16.14.0):
     dependencies:
+      '@types/react': 16.8.14
       prop-types: 15.8.1
       qr.js: 0.0.0
       react: 16.14.0
