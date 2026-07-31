@@ -1,7 +1,3 @@
-// Value import, but only used in type position (extends below) — Babel's
-// per-file TS transform elides it at build time. Do not add a runtime
-// usage of these bindings here without first verifying the CRA/craco
-// build still resolves the workspace package (see PR discussion).
 import {
   CoachEntity as ImportedCoachEntity,
   TeamEntity as ImportedTeamEntity
