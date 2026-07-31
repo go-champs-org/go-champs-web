@@ -1,17 +1,10 @@
-export interface CoachEntity {
-  id: string;
-  name: string;
-  type: string;
-}
+import {
+  CoachEntity as ImportedCoachEntity,
+  TeamEntity as ImportedTeamEntity
+} from '@gochamps/domain-types';
 
-export interface TeamEntity {
-  id: string;
-  name: string;
-  logoUrl: string;
-  triCode: string;
-  primaryColor: string;
-  coaches: CoachEntity[];
-}
+export interface CoachEntity extends ImportedCoachEntity {}
+export interface TeamEntity extends ImportedTeamEntity {}
 
 export interface TeamState {
   isLoadingDeleteTeam: boolean;
