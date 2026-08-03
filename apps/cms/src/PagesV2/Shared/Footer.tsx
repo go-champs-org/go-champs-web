@@ -70,6 +70,16 @@ function Footer() {
             </a>
             {` ${t('andContributors')}. ${t('allRightsReserved')}.`}
           </p>
+          <p className="footer-v2-attribution">
+            {`${t('apiDocumentationPrefix')} `}
+            <a href="https://api.go-champs.com/docs" className="footer-v2-link">
+              API
+            </a>
+            {t('apiDocumentationSuffix')
+              ? ` ${t('apiDocumentationSuffix')}`
+              : ''}
+            .
+          </p>
           <p className="footer-v2-build">
             Build: <em>1.0.{REACT_APP_BUILD_NUMBER}</em>
           </p>

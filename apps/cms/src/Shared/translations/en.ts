@@ -57,6 +57,8 @@ export default {
     acceptAndSubmit: 'Accept and Submit',
     agreementDetailsBelow: 'The agreement details are shown below.',
     andContributors: 'and contributors',
+    apiDocumentationPrefix: 'Check out the',
+    apiDocumentationSuffix: 'documentation',
     average: 'Average',
     awayTeam: 'Away team',
     awayScore: 'Away score',

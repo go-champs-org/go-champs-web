@@ -58,6 +58,8 @@ export default {
     acceptAndSubmit: 'Aceitar e Enviar',
     agreementDetailsBelow: 'Os detalhes do contrato são mostrados abaixo.',
     andContributors: 'e colaboradores',
+    apiDocumentationPrefix: 'Confira a Documentação da',
+    apiDocumentationSuffix: '',
     average: 'Média',
     awayTeam: 'Equipe visitante',
     awayScore: 'Pontuacao visitante',

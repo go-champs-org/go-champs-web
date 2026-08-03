@@ -58,6 +58,20 @@ const V1Layout: React.FC<V1LayoutProps> = ({ children }) => {
               </p>
 
               <p>
+                <span>{`${t('apiDocumentationPrefix')} `}</span>
+                <a
+                  href="https://api.go-champs.com/docs"
+                  className="has-text-primary"
+                >
+                  API
+                </a>
+                {t('apiDocumentationSuffix') ? (
+                  <span>{` ${t('apiDocumentationSuffix')}`}</span>
+                ) : null}
+                .
+              </p>
+
+              <p>
                 {t('copyright')} &copy; {new Date().getFullYear()}{' '}
                 <a href="https://go-champs.com" className="has-text-primary">
                   Go Champs Tecnologia LTDA
