@@ -18,6 +18,7 @@ cypress.env.json
 
 # production
 build
+.next
 
 # misc
 env.local.js
