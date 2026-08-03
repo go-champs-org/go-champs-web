@@ -127,6 +127,7 @@ jobs:
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           CYPRESS_baseUrl: ${{ secrets.STAGING_APP_HOST }}
+          CYPRESS_E2E_TEST_KEY: ${{ secrets.E2E_TEST_KEY }}
           CYPRESS_defaultCommandTimeout: 15000
           CYPRESS_requestTimeout: 15000
           CYPRESS_responseTimeout: 15000
@@ -216,6 +217,7 @@ jobs:
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           CYPRESS_baseUrl: ${{ secrets.PROD_APP_HOST }}
+          CYPRESS_E2E_TEST_KEY: ${{ secrets.E2E_TEST_KEY }}
           CYPRESS_defaultCommandTimeout: 15000
           CYPRESS_requestTimeout: 15000
           CYPRESS_responseTimeout: 15000
