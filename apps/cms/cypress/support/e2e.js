@@ -27,5 +27,20 @@ beforeEach(() => {
   });
 });
 
+// Cloudflare's WAF rule on api.go-champs.com blocks non-GET requests unless
+// the Origin header matches an allowlist. Cypress's network layer doesn't
+// reliably reproduce that header on headless/CDP-driven requests, so every
+// API call gets blocked in CI even though the same flow works for real users.
+// This header is an allowlisted bypass configured on the Cloudflare rule.
+const E2E_TEST_KEY = Cypress.env('E2E_TEST_KEY');
+
+if (E2E_TEST_KEY) {
+  beforeEach(() => {
+    cy.intercept('**/v1/**', req => {
+      req.headers['x-e2e-test-key'] = E2E_TEST_KEY;
+    });
+  });
+}
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
