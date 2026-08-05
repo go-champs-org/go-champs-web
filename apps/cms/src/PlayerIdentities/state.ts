@@ -11,22 +11,6 @@ export interface PlayerIdentityEntity {
   email: string;
 }
 
-export interface PlayerIdentityState {
-  isLoadingDeletePlayerIdentity: boolean;
-  isLoadingPostPlayerIdentity: boolean;
-  isLoadingPutPlayerIdentity: boolean;
-  isLoadingRequestPlayerIdentity: boolean;
-  playerIdentities: { [playerId: string]: PlayerIdentityEntity };
-}
-
-export const initialState: PlayerIdentityState = {
-  isLoadingDeletePlayerIdentity: false,
-  isLoadingPostPlayerIdentity: false,
-  isLoadingPutPlayerIdentity: false,
-  isLoadingRequestPlayerIdentity: false,
-  playerIdentities: {}
-};
-
 export const DEFAULT_PLAYER_IDENTITY: PlayerIdentityEntity = {
   playerId: '',
   exists: false,

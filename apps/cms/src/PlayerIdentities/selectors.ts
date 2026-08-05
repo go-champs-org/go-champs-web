@@ -1,7 +1,8 @@
-import { DEFAULT_PLAYER_IDENTITY, PlayerIdentityEntity, PlayerIdentityState } from './state';
+import { PlayerState } from '../Players/state';
+import { DEFAULT_PLAYER_IDENTITY, PlayerIdentityEntity } from './state';
 
 export const playerIdentityByPlayerId = (
-  state: PlayerIdentityState,
+  state: PlayerState,
   playerId: string
 ): PlayerIdentityEntity => {
   if (!playerId || !state.playerIdentities[playerId]) {
@@ -11,9 +12,9 @@ export const playerIdentityByPlayerId = (
   return state.playerIdentities[playerId];
 };
 
-export const playerIdentityLoading = (state: PlayerIdentityState): boolean =>
+export const playerIdentityLoading = (state: PlayerState): boolean =>
   state.isLoadingRequestPlayerIdentity;
-export const savingPlayerIdentity = (state: PlayerIdentityState): boolean =>
+export const savingPlayerIdentity = (state: PlayerState): boolean =>
   state.isLoadingPostPlayerIdentity || state.isLoadingPutPlayerIdentity;
-export const deletingPlayerIdentity = (state: PlayerIdentityState): boolean =>
+export const deletingPlayerIdentity = (state: PlayerState): boolean =>
   state.isLoadingDeletePlayerIdentity;

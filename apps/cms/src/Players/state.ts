@@ -1,3 +1,4 @@
+import { PlayerIdentityEntity } from '../PlayerIdentities/state';
 import { RegistrationResponseEntity } from '../Registrations/state';
 import { ApiPlayerState } from '../Shared/httpClient/apiTypes';
 import { TeamEntity, DEFAULT_TEAM } from '../Teams/state';
@@ -25,6 +26,11 @@ export interface PlayerState {
   isLoadingPostPlayer: boolean;
   isLoadingRequestTournament: boolean;
   players: { [key: string]: PlayerEntity };
+  isLoadingDeletePlayerIdentity: boolean;
+  isLoadingPostPlayerIdentity: boolean;
+  isLoadingPutPlayerIdentity: boolean;
+  isLoadingRequestPlayerIdentity: boolean;
+  playerIdentities: { [playerId: string]: PlayerIdentityEntity };
 }
 
 export interface PlayersMap {
@@ -36,7 +42,12 @@ export const initialState: PlayerState = {
   isLoadingPatchPlayer: false,
   isLoadingPostPlayer: false,
   isLoadingRequestTournament: false,
-  players: {}
+  players: {},
+  isLoadingDeletePlayerIdentity: false,
+  isLoadingPostPlayerIdentity: false,
+  isLoadingPutPlayerIdentity: false,
+  isLoadingRequestPlayerIdentity: false,
+  playerIdentities: {}
 };
 
 export const DEFAULT_PLAYER: PlayerEntity = {

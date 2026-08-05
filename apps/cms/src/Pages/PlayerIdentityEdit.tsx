@@ -28,11 +28,11 @@ const mapStateToProps = (
   props: RouteComponentProps<RouteProps>
 ) => ({
   ...props,
-  isDeleting: deletingPlayerIdentity(state.playerIdentities),
-  isLoading: playerIdentityLoading(state.playerIdentities),
-  isSaving: savingPlayerIdentity(state.playerIdentities),
+  isDeleting: deletingPlayerIdentity(state.players),
+  isLoading: playerIdentityLoading(state.players),
+  isSaving: savingPlayerIdentity(state.players),
   playerIdentity: playerIdentityByPlayerId(
-    state.playerIdentities,
+    state.players,
     props.match.params.playerId || ''
   )
 });
@@ -77,6 +77,7 @@ function PlayerIdentityEdit({
     taxId: '',
     governmentId: '',
     dateOfBirth: playerIdentity.dateOfBirth,
+    username: playerIdentity.username,
     email: playerIdentity.email
   };
 

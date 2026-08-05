@@ -25,6 +25,7 @@ export interface PlayerIdentityFormValues {
   taxId: string;
   governmentId: string;
   dateOfBirth: string;
+  username: string;
   email: string;
 }
 
@@ -38,6 +39,7 @@ export const mapFormValuesToApiPlayerIdentityWriteRequest = (
     government_id_type: formValues.governmentId ? 'RG' : undefined,
     government_id: formValues.governmentId || undefined,
     date_of_birth: formValues.dateOfBirth || undefined,
+    username: formValues.username || undefined,
     email: formValues.email || undefined
   }
 });
