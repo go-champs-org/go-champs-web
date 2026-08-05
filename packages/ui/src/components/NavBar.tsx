@@ -18,7 +18,7 @@ export const NavBar = ({ links, logoHref = '/' }: NavBarProps) => (
     <ul className="flex gap-6">
       {links.map(link => (
         <li key={link.href}>
-          <a href={link.href} className="text-neutral-600 hover:text-primary">
+          <a href={link.href} className="text-neutral-500 hover:text-primary">
             {link.label}
           </a>
         </li>

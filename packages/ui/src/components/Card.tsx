@@ -6,7 +6,7 @@ export interface CardProps {
 }
 
 export const Card = ({ title, children }: CardProps) => (
-  <div className="rounded-lg border border-neutral-100 p-4 shadow-sm">
+  <div className="rounded-lg border border-neutral-400 p-4 shadow-sm">
     {title && <h3 className="mb-2 text-lg font-semibold">{title}</h3>}
     {children}
   </div>
