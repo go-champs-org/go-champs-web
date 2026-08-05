@@ -1,8 +1,14 @@
 import {
   ApiPlayerIdentity,
+  ApiPlayerIdentityGovernmentIdType,
+  ApiPlayerIdentityTaxIdType,
   ApiPlayerIdentityWriteRequest
 } from '../Shared/httpClient/apiTypes';
 import { PlayerIdentityEntity } from './state';
+
+export const PLAYER_IDENTITY_TAX_ID_TYPE: ApiPlayerIdentityTaxIdType = 'CPF';
+export const PLAYER_IDENTITY_GOVERNMENT_ID_TYPE: ApiPlayerIdentityGovernmentIdType =
+  'RG';
 
 export const mapApiPlayerIdentityToPlayerIdentityEntity = (
   apiPlayerIdentity: ApiPlayerIdentity,
@@ -11,9 +17,10 @@ export const mapApiPlayerIdentityToPlayerIdentityEntity = (
   playerId,
   exists: true,
   fullLegalName: apiPlayerIdentity.full_legal_name || '',
-  taxIdType: apiPlayerIdentity.tax_id_type || 'CPF',
+  taxIdType: apiPlayerIdentity.tax_id_type || PLAYER_IDENTITY_TAX_ID_TYPE,
   taxIdLast4: apiPlayerIdentity.tax_id_last4 || '',
-  governmentIdType: apiPlayerIdentity.government_id_type || 'RG',
+  governmentIdType:
+    apiPlayerIdentity.government_id_type || PLAYER_IDENTITY_GOVERNMENT_ID_TYPE,
   governmentIdLast4: apiPlayerIdentity.government_id_last4 || '',
   dateOfBirth: apiPlayerIdentity.date_of_birth || '',
   username: apiPlayerIdentity.username || '',
@@ -29,17 +36,40 @@ export interface PlayerIdentityFormValues {
   email: string;
 }
 
+export type PlayerIdentityModifiedFields = Partial<
+  Record<keyof PlayerIdentityFormValues, boolean>
+>;
+
+const modifiedValue = (
+  formValues: PlayerIdentityFormValues,
+  fieldName: keyof PlayerIdentityFormValues,
+  modified: PlayerIdentityModifiedFields
+): string | null | undefined => {
+  if (!modified[fieldName]) return undefined;
+
+  return formValues[fieldName] || null;
+};
+
 export const mapFormValuesToApiPlayerIdentityWriteRequest = (
-  formValues: PlayerIdentityFormValues
+  formValues: PlayerIdentityFormValues,
+  modified: PlayerIdentityModifiedFields
 ): ApiPlayerIdentityWriteRequest => ({
   player_identity: {
-    full_legal_name: formValues.fullLegalName || undefined,
-    tax_id_type: formValues.taxId ? 'CPF' : undefined,
-    tax_id: formValues.taxId || undefined,
-    government_id_type: formValues.governmentId ? 'RG' : undefined,
-    government_id: formValues.governmentId || undefined,
-    date_of_birth: formValues.dateOfBirth || undefined,
-    username: formValues.username || undefined,
-    email: formValues.email || undefined
+    full_legal_name: modifiedValue(formValues, 'fullLegalName', modified),
+    tax_id_type: modified.taxId
+      ? formValues.taxId
+        ? PLAYER_IDENTITY_TAX_ID_TYPE
+        : null
+      : undefined,
+    tax_id: modifiedValue(formValues, 'taxId', modified),
+    government_id_type: modified.governmentId
+      ? formValues.governmentId
+        ? PLAYER_IDENTITY_GOVERNMENT_ID_TYPE
+        : null
+      : undefined,
+    government_id: modifiedValue(formValues, 'governmentId', modified),
+    date_of_birth: modifiedValue(formValues, 'dateOfBirth', modified),
+    username: modifiedValue(formValues, 'username', modified),
+    email: modifiedValue(formValues, 'email', modified)
   }
 });

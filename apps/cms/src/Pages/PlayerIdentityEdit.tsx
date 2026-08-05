@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Form, FormRenderProps } from 'react-final-form';
+import { FormApi } from 'final-form';
 import Helmet from 'react-helmet';
 import { Trans } from 'react-i18next';
 import { StoreState } from '../store';
@@ -18,7 +19,10 @@ import {
   playerIdentityLoading,
   savingPlayerIdentity
 } from '../PlayerIdentities/selectors';
-import { PlayerIdentityFormValues } from '../PlayerIdentities/dataMappers';
+import {
+  PlayerIdentityFormValues,
+  PlayerIdentityModifiedFields
+} from '../PlayerIdentities/dataMappers';
 import { default as PlayerIdentityForm, FormLoading } from '../PlayerIdentities/Form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import AdminMenu from '../Tournaments/AdminMenu';
@@ -81,11 +85,15 @@ function PlayerIdentityEdit({
     email: playerIdentity.email
   };
 
-  const handleSubmit = (formValues: PlayerIdentityFormValues) =>
+  const handleSubmit = (
+    formValues: PlayerIdentityFormValues,
+    form: FormApi<PlayerIdentityFormValues, PlayerIdentityFormValues>
+  ) =>
     savePlayerIdentity(
       playerId,
       playerIdentity.exists,
       formValues,
+      (form.getState().modified || {}) as PlayerIdentityModifiedFields,
       history,
       backUrl
     );

@@ -418,11 +418,14 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
+export type ApiPlayerIdentityTaxIdType = 'CPF';
+export type ApiPlayerIdentityGovernmentIdType = 'RG';
+
 export interface ApiPlayerIdentity {
   full_legal_name: string;
-  tax_id_type: string;
+  tax_id_type: ApiPlayerIdentityTaxIdType;
   tax_id_last4: string;
-  government_id_type: string;
+  government_id_type: ApiPlayerIdentityGovernmentIdType;
   government_id_last4: string;
   date_of_birth: string;
   username: string;
@@ -431,14 +434,14 @@ export interface ApiPlayerIdentity {
 
 export interface ApiPlayerIdentityWriteRequest {
   player_identity: {
-    full_legal_name?: string;
-    tax_id_type?: string;
-    tax_id?: string;
-    government_id_type?: string;
-    government_id?: string;
-    date_of_birth?: string;
-    username?: string;
-    email?: string;
+    full_legal_name?: string | null;
+    tax_id_type?: ApiPlayerIdentityTaxIdType | null;
+    tax_id?: string | null;
+    government_id_type?: ApiPlayerIdentityGovernmentIdType | null;
+    government_id?: string | null;
+    date_of_birth?: string | null;
+    username?: string | null;
+    email?: string | null;
   };
 }
 

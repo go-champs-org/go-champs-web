@@ -1,10 +1,15 @@
+import {
+  ApiPlayerIdentityGovernmentIdType,
+  ApiPlayerIdentityTaxIdType
+} from '../Shared/httpClient/apiTypes';
+
 export interface PlayerIdentityEntity {
   playerId: string;
   exists: boolean;
   fullLegalName: string;
-  taxIdType: string;
+  taxIdType: ApiPlayerIdentityTaxIdType;
   taxIdLast4: string;
-  governmentIdType: string;
+  governmentIdType: ApiPlayerIdentityGovernmentIdType;
   governmentIdLast4: string;
   dateOfBirth: string;
   username: string;

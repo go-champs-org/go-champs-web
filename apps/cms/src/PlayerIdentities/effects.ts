@@ -20,7 +20,8 @@ import {
 import {
   mapApiPlayerIdentityToPlayerIdentityEntity,
   mapFormValuesToApiPlayerIdentityWriteRequest,
-  PlayerIdentityFormValues
+  PlayerIdentityFormValues,
+  PlayerIdentityModifiedFields
 } from './dataMappers';
 import playerIdentityHttpClient from './playerIdentityHttpClient';
 
@@ -51,10 +52,14 @@ export const savePlayerIdentity = (
   playerId: string,
   identityExists: boolean,
   formValues: PlayerIdentityFormValues,
+  modified: PlayerIdentityModifiedFields,
   history: History,
   backUrl: string
 ) => async (dispatch: Dispatch) => {
-  const body = mapFormValuesToApiPlayerIdentityWriteRequest(formValues);
+  const body = mapFormValuesToApiPlayerIdentityWriteRequest(
+    formValues,
+    modified
+  );
 
   dispatch(identityExists ? putPlayerIdentityStart() : postPlayerIdentityStart());
 
