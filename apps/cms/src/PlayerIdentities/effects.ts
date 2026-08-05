@@ -48,44 +48,67 @@ export const requestPlayerIdentity = (playerId: string) => async (
   }
 };
 
-export const savePlayerIdentity = (
+export const postPlayerIdentity = (
   playerId: string,
-  identityId: string,
   formValues: PlayerIdentityFormValues,
   modified: PlayerIdentityModifiedFields,
   history: History,
   backUrl: string
 ) => async (dispatch: Dispatch) => {
-  const identityExists = Boolean(identityId);
   const body = mapFormValuesToApiPlayerIdentityWriteRequest(
     formValues,
     modified
   );
 
-  dispatch(identityExists ? putPlayerIdentityStart() : postPlayerIdentityStart());
+  dispatch(postPlayerIdentityStart());
 
   try {
-    const response = identityExists
-      ? await playerIdentityHttpClient.put(playerId, body)
-      : await playerIdentityHttpClient.post(playerId, body);
+    const response = await playerIdentityHttpClient.post(playerId, body);
 
     const playerIdentity = mapApiPlayerIdentityToPlayerIdentityEntity(
       response.data,
       playerId
     );
-    dispatch(
-      identityExists
-        ? putPlayerIdentitySuccess(playerIdentity)
-        : postPlayerIdentitySuccess(playerIdentity)
-    );
+    dispatch(postPlayerIdentitySuccess(playerIdentity));
     displayToast('Player identity saved!', 'is-success');
     history.push(backUrl);
   } catch (err) {
-    dispatch(
-      identityExists
-        ? putPlayerIdentityFailure(err)
-        : postPlayerIdentityFailure(err)
+    dispatch(postPlayerIdentityFailure(err));
+
+    if (err instanceof ApiError) {
+      return err.payload.data && err.payload.data.errors
+        ? err.payload.data.errors
+        : {};
+    }
+  }
+};
+
+export const putPlayerIdentity = (
+  playerId: string,
+  formValues: PlayerIdentityFormValues,
+  modified: PlayerIdentityModifiedFields,
+  history: History,
+  backUrl: string
+) => async (dispatch: Dispatch) => {
+  const body = mapFormValuesToApiPlayerIdentityWriteRequest(
+    formValues,
+    modified
+  );
+
+  dispatch(putPlayerIdentityStart());
+
+  try {
+    const response = await playerIdentityHttpClient.put(playerId, body);
+
+    const playerIdentity = mapApiPlayerIdentityToPlayerIdentityEntity(
+      response.data,
+      playerId
     );
+    dispatch(putPlayerIdentitySuccess(playerIdentity));
+    displayToast('Player identity saved!', 'is-success');
+    history.push(backUrl);
+  } catch (err) {
+    dispatch(putPlayerIdentityFailure(err));
 
     if (err instanceof ApiError) {
       return err.payload.data && err.payload.data.errors

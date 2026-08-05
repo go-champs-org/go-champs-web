@@ -20,8 +20,9 @@ import {
 import { PlayerIdentityFormValues } from './dataMappers';
 import {
   deletePlayerIdentity,
-  requestPlayerIdentity,
-  savePlayerIdentity
+  postPlayerIdentity,
+  putPlayerIdentity,
+  requestPlayerIdentity
 } from './effects';
 import playerIdentityHttpClient from './playerIdentityHttpClient';
 import { PlayerIdentityEntity } from './state';
@@ -132,170 +133,155 @@ describe('requestPlayerIdentity', () => {
   });
 });
 
-describe('savePlayerIdentity', () => {
-  describe('when the identity does not exist yet', () => {
-    it('dispatches post start action', () => {
+describe('postPlayerIdentity', () => {
+  it('dispatches post start action', () => {
+    jest
+      .spyOn(playerIdentityHttpClient, 'post')
+      .mockResolvedValue({ data: apiPlayerIdentity } as never);
+
+    postPlayerIdentity(
+      'player-1',
+      formValues,
+      { fullLegalName: true },
+      history,
+      '/back'
+    )(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(postPlayerIdentityStart());
+  });
+
+  describe('on success', () => {
+    beforeEach(async () => {
       jest
         .spyOn(playerIdentityHttpClient, 'post')
         .mockResolvedValue({ data: apiPlayerIdentity } as never);
 
-      savePlayerIdentity(
+      await postPlayerIdentity(
         'player-1',
-        '',
+        formValues,
+        { fullLegalName: true },
+        history,
+        '/back'
+      )(dispatch);
+    });
+
+    it('dispatches post success action with the mapped entity', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        postPlayerIdentitySuccess(mappedPlayerIdentity)
+      );
+    });
+
+    it('displays a success toast', () => {
+      expect(displayToastSpy).toHaveBeenCalledWith(
+        'Player identity saved!',
+        'is-success'
+      );
+    });
+
+    it('navigates back', () => {
+      expect(history.push).toHaveBeenCalledWith('/back');
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new ApiError({
+      status: 422,
+      data: { errors: { tax_id: ['is invalid'] } }
+    });
+
+    beforeEach(() => {
+      jest.spyOn(playerIdentityHttpClient, 'post').mockRejectedValue(apiError);
+    });
+
+    it('dispatches post failure action', async () => {
+      await postPlayerIdentity(
+        'player-1',
         formValues,
         { fullLegalName: true },
         history,
         '/back'
       )(dispatch);
 
-      expect(dispatch).toHaveBeenCalledWith(postPlayerIdentityStart());
+      expect(dispatch).toHaveBeenCalledWith(
+        postPlayerIdentityFailure(apiError)
+      );
     });
 
-    describe('on success', () => {
-      beforeEach(async () => {
-        jest
-          .spyOn(playerIdentityHttpClient, 'post')
-          .mockResolvedValue({ data: apiPlayerIdentity } as never);
+    it('returns formatted errors', async () => {
+      const result = await postPlayerIdentity(
+        'player-1',
+        formValues,
+        { fullLegalName: true },
+        history,
+        '/back'
+      )(dispatch);
 
-        await savePlayerIdentity(
-          'player-1',
-          '',
-          formValues,
-          { fullLegalName: true },
-          history,
-          '/back'
-        )(dispatch);
-      });
-
-      it('dispatches post success action with the mapped entity', () => {
-        expect(dispatch).toHaveBeenCalledWith(
-          postPlayerIdentitySuccess(mappedPlayerIdentity)
-        );
-      });
-
-      it('displays a success toast', () => {
-        expect(displayToastSpy).toHaveBeenCalledWith(
-          'Player identity saved!',
-          'is-success'
-        );
-      });
-
-      it('navigates back', () => {
-        expect(history.push).toHaveBeenCalledWith('/back');
-      });
-    });
-
-    describe('on failure', () => {
-      const apiError = new ApiError({
-        status: 422,
-        data: { errors: { tax_id: ['is invalid'] } }
-      });
-
-      beforeEach(() => {
-        jest
-          .spyOn(playerIdentityHttpClient, 'post')
-          .mockRejectedValue(apiError);
-      });
-
-      it('dispatches post failure action', async () => {
-        await savePlayerIdentity(
-          'player-1',
-          '',
-          formValues,
-          { fullLegalName: true },
-          history,
-          '/back'
-        )(dispatch);
-
-        expect(dispatch).toHaveBeenCalledWith(
-          postPlayerIdentityFailure(apiError)
-        );
-      });
-
-      it('returns formatted errors', async () => {
-        const result = await savePlayerIdentity(
-          'player-1',
-          '',
-          formValues,
-          { fullLegalName: true },
-          history,
-          '/back'
-        )(dispatch);
-
-        expect(result).toEqual({ tax_id: ['is invalid'] });
-      });
+      expect(result).toEqual({ tax_id: ['is invalid'] });
     });
   });
+});
 
-  describe('when the identity already exists', () => {
-    it('dispatches put start action', () => {
+describe('putPlayerIdentity', () => {
+  it('dispatches put start action', () => {
+    jest
+      .spyOn(playerIdentityHttpClient, 'put')
+      .mockResolvedValue({ data: apiPlayerIdentity } as never);
+
+    putPlayerIdentity(
+      'player-1',
+      formValues,
+      { fullLegalName: true },
+      history,
+      '/back'
+    )(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(putPlayerIdentityStart());
+  });
+
+  describe('on success', () => {
+    beforeEach(async () => {
       jest
         .spyOn(playerIdentityHttpClient, 'put')
         .mockResolvedValue({ data: apiPlayerIdentity } as never);
 
-      savePlayerIdentity(
+      await putPlayerIdentity(
         'player-1',
-        'identity-1',
+        formValues,
+        { fullLegalName: true },
+        history,
+        '/back'
+      )(dispatch);
+    });
+
+    it('dispatches put success action with the mapped entity', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        putPlayerIdentitySuccess(mappedPlayerIdentity)
+      );
+    });
+
+    it('navigates back', () => {
+      expect(history.push).toHaveBeenCalledWith('/back');
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new ApiError({
+      status: 422,
+      data: { errors: { tax_id: ['is invalid'] } }
+    });
+
+    it('dispatches put failure action', async () => {
+      jest.spyOn(playerIdentityHttpClient, 'put').mockRejectedValue(apiError);
+
+      await putPlayerIdentity(
+        'player-1',
         formValues,
         { fullLegalName: true },
         history,
         '/back'
       )(dispatch);
 
-      expect(dispatch).toHaveBeenCalledWith(putPlayerIdentityStart());
-    });
-
-    describe('on success', () => {
-      beforeEach(async () => {
-        jest
-          .spyOn(playerIdentityHttpClient, 'put')
-          .mockResolvedValue({ data: apiPlayerIdentity } as never);
-
-        await savePlayerIdentity(
-          'player-1',
-          'identity-1',
-          formValues,
-          { fullLegalName: true },
-          history,
-          '/back'
-        )(dispatch);
-      });
-
-      it('dispatches put success action with the mapped entity', () => {
-        expect(dispatch).toHaveBeenCalledWith(
-          putPlayerIdentitySuccess(mappedPlayerIdentity)
-        );
-      });
-
-      it('navigates back', () => {
-        expect(history.push).toHaveBeenCalledWith('/back');
-      });
-    });
-
-    describe('on failure', () => {
-      const apiError = new ApiError({
-        status: 422,
-        data: { errors: { tax_id: ['is invalid'] } }
-      });
-
-      it('dispatches put failure action', async () => {
-        jest
-          .spyOn(playerIdentityHttpClient, 'put')
-          .mockRejectedValue(apiError);
-
-        await savePlayerIdentity(
-          'player-1',
-          'identity-1',
-          formValues,
-          { fullLegalName: true },
-          history,
-          '/back'
-        )(dispatch);
-
-        expect(dispatch).toHaveBeenCalledWith(
-          putPlayerIdentityFailure(apiError)
-        );
-      });
+      expect(dispatch).toHaveBeenCalledWith(putPlayerIdentityFailure(apiError));
     });
   });
 });

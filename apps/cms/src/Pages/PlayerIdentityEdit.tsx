@@ -10,8 +10,9 @@ import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
 import {
   deletePlayerIdentity,
-  requestPlayerIdentity,
-  savePlayerIdentity
+  postPlayerIdentity,
+  putPlayerIdentity,
+  requestPlayerIdentity
 } from '../PlayerIdentities/effects';
 import {
   deletingPlayerIdentity,
@@ -45,8 +46,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       deletePlayerIdentity,
-      requestPlayerIdentity,
-      savePlayerIdentity
+      postPlayerIdentity,
+      putPlayerIdentity,
+      requestPlayerIdentity
     },
     dispatch
   );
@@ -63,8 +65,9 @@ function PlayerIdentityEdit({
   isSaving,
   match,
   playerIdentity,
-  requestPlayerIdentity,
-  savePlayerIdentity
+  postPlayerIdentity,
+  putPlayerIdentity,
+  requestPlayerIdentity
 }: PlayerIdentityEditProps): React.ReactElement {
   const { organizationSlug = '', tournamentSlug = '', playerId = '' } =
     match.params;
@@ -90,15 +93,14 @@ function PlayerIdentityEdit({
   const handleSubmit = (
     formValues: PlayerIdentityFormValues,
     form: FormApi<PlayerIdentityFormValues, PlayerIdentityFormValues>
-  ) =>
-    savePlayerIdentity(
-      playerId,
-      playerIdentity.id,
-      formValues,
-      (form.getState().modified || {}) as PlayerIdentityModifiedFields,
-      history,
-      backUrl
-    );
+  ) => {
+    const modified = (form.getState().modified ||
+      {}) as PlayerIdentityModifiedFields;
+
+    return exists
+      ? putPlayerIdentity(playerId, formValues, modified, history, backUrl)
+      : postPlayerIdentity(playerId, formValues, modified, history, backUrl);
+  };
 
   const handleDelete = () => deletePlayerIdentity(playerId, history, backUrl);
 
