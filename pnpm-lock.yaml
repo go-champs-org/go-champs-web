@@ -365,14 +365,13 @@ importers:
   packages/domain-types: {}
 
   packages/ui:
-    dependencies:
-      react:
-        specifier: 19.2.8
-        version: 19.2.8
     devDependencies:
       '@types/react':
         specifier: 19.2.18
         version: 19.2.18
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
 
 packages:
 
