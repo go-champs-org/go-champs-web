@@ -12,6 +12,7 @@ import {
   patchingPlayer
 } from '../Players/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
+import { Link } from 'react-router-dom';
 import { default as PlayerForm, FormLoading } from '../Players/Form';
 import withTournament from './support/withTournament';
 import { organizationBySlug } from '../Organizations/selectors';
@@ -58,16 +59,36 @@ function PlayerEdit({
   patchPlayer,
   selectInputTeams
 }: PlayerEditProps): React.ReactElement {
-  const { organizationSlug = '', tournamentSlug = '' } = match.params;
+  const {
+    organizationSlug = '',
+    tournamentSlug = '',
+    playerId = ''
+  } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Players`;
   return (
     <Fragment>
       <div className="column">
         <div className="columns is-vcentered is-mobile is-multiline">
-          <div className="column is-12">
+          <div className="column is-4">
             <h2 className="subtitle">
               <Trans>editPlayer</Trans>
             </h2>
+          </div>
+
+          <div className="column is-8 has-text-right">
+            <Link
+              to={`/${organizationSlug}/${tournamentSlug}/EditPlayerIdentity/${playerId}`}
+            >
+              <button className="button is-info is-outlined is-small">
+                <span className="icon">
+                  <i className="fas fa-id-card"></i>
+                </span>
+
+                <span>
+                  <Trans>playerIdentity</Trans>
+                </span>
+              </button>
+            </Link>
           </div>
 
           <div className="column is-12">

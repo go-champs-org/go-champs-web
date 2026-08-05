@@ -418,6 +418,34 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
+export interface ApiPlayerIdentity {
+  full_legal_name: string;
+  tax_id_type: string;
+  tax_id_last4: string;
+  government_id_type: string;
+  government_id_last4: string;
+  date_of_birth: string;
+  username: string;
+  email: string;
+}
+
+export interface ApiPlayerIdentityWriteRequest {
+  player_identity: {
+    full_legal_name?: string;
+    tax_id_type?: string;
+    tax_id?: string;
+    government_id_type?: string;
+    government_id?: string;
+    date_of_birth?: string;
+    username?: string;
+    email?: string;
+  };
+}
+
+export interface ApiPlayerIdentityResponse {
+  data: ApiPlayerIdentity;
+}
+
 export interface ApiOfficial {
   id: string;
   name: string;

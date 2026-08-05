@@ -72,6 +72,36 @@ export const mustBeAccountIdentifier = (value: string) => {
 export const mustBePin = (value: string) =>
   !value || PIN_REGEX.test(value) ? undefined : 'Must be at least 4 digits';
 
+const cpfCheckDigit = (digits: string, length: number) => {
+  const sum = digits
+    .slice(0, length)
+    .split('')
+    .reduce(
+      (total, digit, index) => total + Number(digit) * (length + 1 - index),
+      0
+    );
+  const remainder = (sum * 10) % 11;
+  return remainder === 10 ? 0 : remainder;
+};
+
+export const mustBeCPF = (value: string) => {
+  if (!value) return undefined;
+
+  const digits = value.replace(/\D/g, '');
+
+  if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) {
+    return 'Must be a valid CPF';
+  }
+
+  const firstCheckDigit = cpfCheckDigit(digits, 9);
+  const secondCheckDigit = cpfCheckDigit(digits, 10);
+
+  return digits[9] === String(firstCheckDigit) &&
+    digits[10] === String(secondCheckDigit)
+    ? undefined
+    : 'Must be a valid CPF';
+};
+
 export const mustHaveAtLeastTwoWords = (value: string) => {
   if (!value) return undefined;
 
