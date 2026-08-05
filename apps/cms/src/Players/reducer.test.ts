@@ -14,7 +14,11 @@ import {
   requestPlayerIdentitySuccess
 } from '../PlayerIdentities/actions';
 import { DEFAULT_PLAYER_IDENTITY, PlayerIdentityEntity } from '../PlayerIdentities/state';
-import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
+import {
+  ApiGovTypeIdEnum,
+  ApiTaxIdEnum,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
@@ -444,12 +448,12 @@ describe('getTournamentSuccess', () => {
 });
 
 const mockPlayerIdentity: PlayerIdentityEntity = {
+  id: 'identity-1',
   playerId: 'player-1',
-  exists: true,
   fullLegalName: 'Jane Doe',
-  taxIdType: 'CPF',
+  taxIdType: ApiTaxIdEnum.CPF,
   taxIdLast4: '1234',
-  governmentIdType: 'RG',
+  governmentIdType: ApiGovTypeIdEnum.RG,
   governmentIdLast4: '5678',
   dateOfBirth: '1990-01-01',
   username: 'janedoe',

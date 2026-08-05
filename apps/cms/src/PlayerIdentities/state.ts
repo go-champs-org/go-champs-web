@@ -1,15 +1,15 @@
 import {
-  ApiPlayerIdentityGovernmentIdType,
-  ApiPlayerIdentityTaxIdType
+  ApiGovTypeIdEnum,
+  ApiTaxIdEnum
 } from '../Shared/httpClient/apiTypes';
 
 export interface PlayerIdentityEntity {
+  id: string;
   playerId: string;
-  exists: boolean;
   fullLegalName: string;
-  taxIdType: ApiPlayerIdentityTaxIdType;
+  taxIdType: ApiTaxIdEnum;
   taxIdLast4: string;
-  governmentIdType: ApiPlayerIdentityGovernmentIdType;
+  governmentIdType: ApiGovTypeIdEnum;
   governmentIdLast4: string;
   dateOfBirth: string;
   username: string;
@@ -17,12 +17,12 @@ export interface PlayerIdentityEntity {
 }
 
 export const DEFAULT_PLAYER_IDENTITY: PlayerIdentityEntity = {
+  id: '',
   playerId: '',
-  exists: false,
   fullLegalName: '',
-  taxIdType: 'CPF',
+  taxIdType: ApiTaxIdEnum.CPF,
   taxIdLast4: '',
-  governmentIdType: 'RG',
+  governmentIdType: ApiGovTypeIdEnum.RG,
   governmentIdLast4: '',
   dateOfBirth: '',
   username: '',

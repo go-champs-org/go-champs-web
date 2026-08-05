@@ -1,6 +1,7 @@
 import { History } from 'history';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
+import { ApiGovTypeIdEnum, ApiTaxIdEnum } from '../Shared/httpClient/apiTypes';
 import {
   deletePlayerIdentityFailure,
   deletePlayerIdentityStart,
@@ -41,10 +42,11 @@ const formValues: PlayerIdentityFormValues = {
 };
 
 const apiPlayerIdentity = {
+  id: 'identity-1',
   full_legal_name: 'Jane Doe',
-  tax_id_type: 'CPF',
+  tax_id_type: ApiTaxIdEnum.CPF,
   tax_id_last4: '4725',
-  government_id_type: 'RG',
+  government_id_type: ApiGovTypeIdEnum.RG,
   government_id_last4: '3456',
   date_of_birth: '1990-01-01',
   username: 'janedoe',
@@ -52,12 +54,12 @@ const apiPlayerIdentity = {
 };
 
 const mappedPlayerIdentity: PlayerIdentityEntity = {
+  id: 'identity-1',
   playerId: 'player-1',
-  exists: true,
   fullLegalName: 'Jane Doe',
-  taxIdType: 'CPF',
+  taxIdType: ApiTaxIdEnum.CPF,
   taxIdLast4: '4725',
-  governmentIdType: 'RG',
+  governmentIdType: ApiGovTypeIdEnum.RG,
   governmentIdLast4: '3456',
   dateOfBirth: '1990-01-01',
   username: 'janedoe',
@@ -139,7 +141,7 @@ describe('savePlayerIdentity', () => {
 
       savePlayerIdentity(
         'player-1',
-        false,
+        '',
         formValues,
         { fullLegalName: true },
         history,
@@ -157,7 +159,7 @@ describe('savePlayerIdentity', () => {
 
         await savePlayerIdentity(
           'player-1',
-          false,
+          '',
           formValues,
           { fullLegalName: true },
           history,
@@ -198,7 +200,7 @@ describe('savePlayerIdentity', () => {
       it('dispatches post failure action', async () => {
         await savePlayerIdentity(
           'player-1',
-          false,
+          '',
           formValues,
           { fullLegalName: true },
           history,
@@ -213,7 +215,7 @@ describe('savePlayerIdentity', () => {
       it('returns formatted errors', async () => {
         const result = await savePlayerIdentity(
           'player-1',
-          false,
+          '',
           formValues,
           { fullLegalName: true },
           history,
@@ -233,7 +235,7 @@ describe('savePlayerIdentity', () => {
 
       savePlayerIdentity(
         'player-1',
-        true,
+        'identity-1',
         formValues,
         { fullLegalName: true },
         history,
@@ -251,7 +253,7 @@ describe('savePlayerIdentity', () => {
 
         await savePlayerIdentity(
           'player-1',
-          true,
+          'identity-1',
           formValues,
           { fullLegalName: true },
           history,
@@ -283,7 +285,7 @@ describe('savePlayerIdentity', () => {
 
         await savePlayerIdentity(
           'player-1',
-          true,
+          'identity-1',
           formValues,
           { fullLegalName: true },
           history,

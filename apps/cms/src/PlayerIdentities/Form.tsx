@@ -6,14 +6,12 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import Datetime from '../Shared/UI/Form/Datetime';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { mustBeCPF } from '../Shared/UI/Form/Validators/commonValidators';
+import { stripNonDigits } from '../Shared/UI/Form/parsers';
 import { PlayerIdentityFormValues } from './dataMappers';
 
 export function FormLoading(): React.ReactElement {
   return <div className="columns is-multiline" />;
 }
-
-const stripNonDigits = (value: string) =>
-  value ? value.replace(/\D/g, '') : value;
 
 interface MaskedFieldProps {
   label: string;
@@ -25,7 +23,7 @@ interface MaskedFieldProps {
   validate?: (value: string) => string | undefined;
 }
 
-const MaskedField: React.FC<MaskedFieldProps> = ({
+function MaskedField({
   label,
   fieldName,
   last4,
@@ -33,39 +31,41 @@ const MaskedField: React.FC<MaskedFieldProps> = ({
   onEdit,
   parse,
   validate
-}) => (
-  <div className="field">
-    <label className="label">{label}</label>
+}: MaskedFieldProps): React.ReactElement {
+  return (
+    <div className="field">
+      <label className="label">{label}</label>
 
-    {isEditing ? (
-      <div className="control">
-        <Field
-          name={fieldName}
-          component={StringInput}
-          parse={parse}
-          validate={validate}
-        />
-      </div>
-    ) : (
-      <div className="control is-flex is-align-items-center">
-        <span>
-          <Trans>endingIn</Trans> {last4}
-        </span>
-
-        <button
-          type="button"
-          className="button is-small is-white"
-          style={{ marginLeft: '0.5rem' }}
-          onClick={onEdit}
-        >
-          <span className="icon is-small">
-            <i className="fas fa-pencil-alt"></i>
+      {isEditing ? (
+        <div className="control">
+          <Field
+            name={fieldName}
+            component={StringInput}
+            parse={parse}
+            validate={validate}
+          />
+        </div>
+      ) : (
+        <div className="control is-flex is-align-items-center">
+          <span>
+            <Trans>endingIn</Trans> {last4}
           </span>
-        </button>
-      </div>
-    )}
-  </div>
-);
+
+          <button
+            type="button"
+            className="button is-small is-white"
+            style={{ marginLeft: '0.5rem' }}
+            onClick={onEdit}
+          >
+            <span className="icon is-small">
+              <i className="fas fa-pencil-alt"></i>
+            </span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface PlayerIdentityFormProps
   extends FormRenderProps<PlayerIdentityFormValues> {

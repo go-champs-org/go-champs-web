@@ -1,26 +1,21 @@
 import {
+  ApiGovTypeIdEnum,
   ApiPlayerIdentity,
-  ApiPlayerIdentityGovernmentIdType,
-  ApiPlayerIdentityTaxIdType,
-  ApiPlayerIdentityWriteRequest
+  ApiPlayerIdentityWriteRequest,
+  ApiTaxIdEnum
 } from '../Shared/httpClient/apiTypes';
 import { PlayerIdentityEntity } from './state';
-
-export const PLAYER_IDENTITY_TAX_ID_TYPE: ApiPlayerIdentityTaxIdType = 'CPF';
-export const PLAYER_IDENTITY_GOVERNMENT_ID_TYPE: ApiPlayerIdentityGovernmentIdType =
-  'RG';
 
 export const mapApiPlayerIdentityToPlayerIdentityEntity = (
   apiPlayerIdentity: ApiPlayerIdentity,
   playerId: string
 ): PlayerIdentityEntity => ({
+  id: apiPlayerIdentity.id || '',
   playerId,
-  exists: true,
   fullLegalName: apiPlayerIdentity.full_legal_name || '',
-  taxIdType: apiPlayerIdentity.tax_id_type || PLAYER_IDENTITY_TAX_ID_TYPE,
+  taxIdType: apiPlayerIdentity.tax_id_type || ApiTaxIdEnum.CPF,
   taxIdLast4: apiPlayerIdentity.tax_id_last4 || '',
-  governmentIdType:
-    apiPlayerIdentity.government_id_type || PLAYER_IDENTITY_GOVERNMENT_ID_TYPE,
+  governmentIdType: apiPlayerIdentity.government_id_type || ApiGovTypeIdEnum.RG,
   governmentIdLast4: apiPlayerIdentity.government_id_last4 || '',
   dateOfBirth: apiPlayerIdentity.date_of_birth || '',
   username: apiPlayerIdentity.username || '',
@@ -58,13 +53,13 @@ export const mapFormValuesToApiPlayerIdentityWriteRequest = (
     full_legal_name: modifiedValue(formValues, 'fullLegalName', modified),
     tax_id_type: modified.taxId
       ? formValues.taxId
-        ? PLAYER_IDENTITY_TAX_ID_TYPE
+        ? ApiTaxIdEnum.CPF
         : null
       : undefined,
     tax_id: modifiedValue(formValues, 'taxId', modified),
     government_id_type: modified.governmentId
       ? formValues.governmentId
-        ? PLAYER_IDENTITY_GOVERNMENT_ID_TYPE
+        ? ApiGovTypeIdEnum.RG
         : null
       : undefined,
     government_id: modifiedValue(formValues, 'governmentId', modified),

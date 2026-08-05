@@ -1,20 +1,23 @@
-import { ApiPlayerIdentity } from '../Shared/httpClient/apiTypes';
+import {
+  ApiGovTypeIdEnum,
+  ApiPlayerIdentity,
+  ApiTaxIdEnum
+} from '../Shared/httpClient/apiTypes';
 import {
   mapApiPlayerIdentityToPlayerIdentityEntity,
   mapFormValuesToApiPlayerIdentityWriteRequest,
-  PlayerIdentityFormValues,
-  PLAYER_IDENTITY_GOVERNMENT_ID_TYPE,
-  PLAYER_IDENTITY_TAX_ID_TYPE
+  PlayerIdentityFormValues
 } from './dataMappers';
 
 describe('PlayerIdentities dataMappers', () => {
   describe('mapApiPlayerIdentityToPlayerIdentityEntity', () => {
     it('maps API player identity to entity with all fields', () => {
       const apiPlayerIdentity: ApiPlayerIdentity = {
+        id: 'identity-id',
         full_legal_name: 'Jane Doe',
-        tax_id_type: 'CPF',
+        tax_id_type: ApiTaxIdEnum.CPF,
         tax_id_last4: '1234',
-        government_id_type: 'RG',
+        government_id_type: ApiGovTypeIdEnum.RG,
         government_id_last4: '5678',
         date_of_birth: '1990-01-01',
         username: 'janedoe',
@@ -27,12 +30,12 @@ describe('PlayerIdentities dataMappers', () => {
       );
 
       expect(result).toEqual({
+        id: 'identity-id',
         playerId: 'player-id',
-        exists: true,
         fullLegalName: 'Jane Doe',
-        taxIdType: 'CPF',
+        taxIdType: ApiTaxIdEnum.CPF,
         taxIdLast4: '1234',
-        governmentIdType: 'RG',
+        governmentIdType: ApiGovTypeIdEnum.RG,
         governmentIdLast4: '5678',
         dateOfBirth: '1990-01-01',
         username: 'janedoe',
@@ -49,12 +52,12 @@ describe('PlayerIdentities dataMappers', () => {
       );
 
       expect(result).toEqual({
+        id: '',
         playerId: 'player-id',
-        exists: true,
         fullLegalName: '',
-        taxIdType: PLAYER_IDENTITY_TAX_ID_TYPE,
+        taxIdType: ApiTaxIdEnum.CPF,
         taxIdLast4: '',
-        governmentIdType: PLAYER_IDENTITY_GOVERNMENT_ID_TYPE,
+        governmentIdType: ApiGovTypeIdEnum.RG,
         governmentIdLast4: '',
         dateOfBirth: '',
         username: '',
@@ -106,9 +109,9 @@ describe('PlayerIdentities dataMappers', () => {
       expect(result).toEqual({
         player_identity: {
           full_legal_name: 'Jane Doe',
-          tax_id_type: 'CPF',
+          tax_id_type: ApiTaxIdEnum.CPF,
           tax_id: '52998224725',
-          government_id_type: 'RG',
+          government_id_type: ApiGovTypeIdEnum.RG,
           government_id: '123456',
           date_of_birth: '1990-01-01',
           username: 'janedoe',

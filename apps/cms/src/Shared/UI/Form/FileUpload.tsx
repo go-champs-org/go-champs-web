@@ -57,6 +57,7 @@ function FileUpload({
       };
 
       if (
+        uploadError &&
         uploadError.response &&
         uploadError.response.data &&
         uploadError.response.data.error

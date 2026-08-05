@@ -50,12 +50,13 @@ export const requestPlayerIdentity = (playerId: string) => async (
 
 export const savePlayerIdentity = (
   playerId: string,
-  identityExists: boolean,
+  identityId: string,
   formValues: PlayerIdentityFormValues,
   modified: PlayerIdentityModifiedFields,
   history: History,
   backUrl: string
 ) => async (dispatch: Dispatch) => {
+  const identityExists = Boolean(identityId);
   const body = mapFormValuesToApiPlayerIdentityWriteRequest(
     formValues,
     modified

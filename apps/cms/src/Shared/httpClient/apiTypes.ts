@@ -418,14 +418,20 @@ export interface ApiPlayersResponse {
   data: ApiPlayer[];
 }
 
-export type ApiPlayerIdentityTaxIdType = 'CPF';
-export type ApiPlayerIdentityGovernmentIdType = 'RG';
+export enum ApiTaxIdEnum {
+  CPF = 'CPF'
+}
+
+export enum ApiGovTypeIdEnum {
+  RG = 'RG'
+}
 
 export interface ApiPlayerIdentity {
+  id: string;
   full_legal_name: string;
-  tax_id_type: ApiPlayerIdentityTaxIdType;
+  tax_id_type: ApiTaxIdEnum;
   tax_id_last4: string;
-  government_id_type: ApiPlayerIdentityGovernmentIdType;
+  government_id_type: ApiGovTypeIdEnum;
   government_id_last4: string;
   date_of_birth: string;
   username: string;
@@ -435,9 +441,9 @@ export interface ApiPlayerIdentity {
 export interface ApiPlayerIdentityWriteRequest {
   player_identity: {
     full_legal_name?: string | null;
-    tax_id_type?: ApiPlayerIdentityTaxIdType | null;
+    tax_id_type?: ApiTaxIdEnum | null;
     tax_id?: string | null;
-    government_id_type?: ApiPlayerIdentityGovernmentIdType | null;
+    government_id_type?: ApiGovTypeIdEnum | null;
     government_id?: string | null;
     date_of_birth?: string | null;
     username?: string | null;

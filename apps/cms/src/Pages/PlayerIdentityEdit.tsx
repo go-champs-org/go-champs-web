@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -70,11 +70,13 @@ function PlayerIdentityEdit({
     match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/EditPlayer/${playerId}`;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (playerId) {
       requestPlayerIdentity(playerId);
     }
   }, [playerId, requestPlayerIdentity]);
+
+  const exists = Boolean(playerIdentity.id);
 
   const initialValues: PlayerIdentityFormValues = {
     fullLegalName: playerIdentity.fullLegalName,
@@ -91,7 +93,7 @@ function PlayerIdentityEdit({
   ) =>
     savePlayerIdentity(
       playerId,
-      playerIdentity.exists,
+      playerIdentity.id,
       formValues,
       (form.getState().modified || {}) as PlayerIdentityModifiedFields,
       history,
@@ -119,7 +121,7 @@ function PlayerIdentityEdit({
                   <PlayerIdentityForm
                     {...props}
                     backUrl={backUrl}
-                    exists={playerIdentity.exists}
+                    exists={exists}
                     isLoading={isSaving}
                     isDeleting={isDeleting}
                     taxIdLast4={playerIdentity.taxIdLast4}
