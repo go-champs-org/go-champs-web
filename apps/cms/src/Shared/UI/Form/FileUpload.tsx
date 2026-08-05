@@ -56,7 +56,12 @@ function FileUpload({
         response?: { data?: { error?: string } };
       };
 
-      if (uploadError?.response?.data?.error) {
+      if (
+        uploadError &&
+        uploadError.response &&
+        uploadError.response.data &&
+        uploadError.response.data.error
+      ) {
         setError(uploadError.response.data.error);
       } else {
         setError(t('uploadError'));

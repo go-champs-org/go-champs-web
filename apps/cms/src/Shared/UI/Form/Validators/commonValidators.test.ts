@@ -9,7 +9,8 @@ import {
   maxLength,
   mustBeSlug,
   mustBeUsername,
-  mustBePin
+  mustBePin,
+  mustBeCPF
 } from './commonValidators';
 
 describe('mustHaveAtLeastTwoWords', () => {
@@ -203,5 +204,29 @@ describe('mustBePin', () => {
   it('returns undefined for empty or undefined values', () => {
     expect(mustBePin('')).toBeUndefined();
     expect(mustBePin(undefined as any)).toBeUndefined();
+  });
+});
+
+describe('mustBeCPF', () => {
+  it('returns undefined for a valid CPF', () => {
+    expect(mustBeCPF('52998224725')).toBeUndefined();
+    expect(mustBeCPF('529.982.247-25')).toBeUndefined();
+  });
+
+  it('returns error message for an invalid checksum', () => {
+    expect(mustBeCPF('52998224700')).toBe('Must be a valid CPF');
+  });
+
+  it('returns error message for all-same-digit CPFs', () => {
+    expect(mustBeCPF('11111111111')).toBe('Must be a valid CPF');
+  });
+
+  it('returns error message for wrong-length values', () => {
+    expect(mustBeCPF('123')).toBe('Must be a valid CPF');
+  });
+
+  it('returns undefined for empty or undefined values', () => {
+    expect(mustBeCPF('')).toBeUndefined();
+    expect(mustBeCPF(undefined as any)).toBeUndefined();
   });
 });

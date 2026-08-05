@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libxtst6 \
     xauth \
-    xfonts-cyrillic \
     xfonts-100dpi \
     xfonts-75dpi \
     xfonts-base \

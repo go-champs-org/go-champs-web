@@ -1,4 +1,27 @@
-import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
+import {
+  deletePlayerIdentityFailure,
+  deletePlayerIdentityStart,
+  deletePlayerIdentitySuccess,
+  postPlayerIdentityFailure,
+  postPlayerIdentityStart,
+  postPlayerIdentitySuccess,
+  putPlayerIdentityFailure,
+  putPlayerIdentityStart,
+  putPlayerIdentitySuccess,
+  requestPlayerIdentityFailure,
+  requestPlayerIdentityNotFound,
+  requestPlayerIdentityStart,
+  requestPlayerIdentitySuccess
+} from '../PlayerIdentities/actions';
+import {
+  DEFAULT_PLAYER_IDENTITY,
+  PlayerIdentityEntity
+} from '../PlayerIdentities/state';
+import {
+  ApiGovTypeIdEnum,
+  ApiTaxIdEnum,
+  ApiTournamentWithDependecies
+} from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
@@ -424,5 +447,218 @@ describe('getTournamentSuccess', () => {
     const newState = playerReducer(initialState, emptyResponseAction);
 
     expect(newState).toEqual(initialState);
+  });
+});
+
+const mockPlayerIdentity: PlayerIdentityEntity = {
+  id: 'identity-1',
+  playerId: 'player-1',
+  fullLegalName: 'Jane Doe',
+  taxIdType: ApiTaxIdEnum.CPF,
+  taxIdLast4: '1234',
+  governmentIdType: ApiGovTypeIdEnum.RG,
+  governmentIdLast4: '5678',
+  dateOfBirth: '1990-01-01',
+  username: 'janedoe',
+  email: 'jane@example.com'
+};
+
+describe('deletePlayerIdentity', () => {
+  const action = deletePlayerIdentityStart();
+
+  it('sets isLoadingDeletePlayerIdentity to true', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingDeletePlayerIdentity
+    ).toBe(true);
+  });
+});
+
+describe('deletePlayerIdentityFailure', () => {
+  const action = deletePlayerIdentityFailure('error');
+
+  it('sets isLoadingDeletePlayerIdentity to false', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingDeletePlayerIdentity
+    ).toBe(false);
+  });
+});
+
+describe('deletePlayerIdentitySuccess', () => {
+  const action = deletePlayerIdentitySuccess('player-1');
+
+  const deleteState: PlayerState = {
+    ...initialState,
+    playerIdentities: {
+      'player-1': mockPlayerIdentity
+    }
+  };
+
+  it('sets isLoadingDeletePlayerIdentity to false', () => {
+    expect(
+      playerReducer(deleteState, action).isLoadingDeletePlayerIdentity
+    ).toBe(false);
+  });
+
+  it('removes entity', () => {
+    const newState = playerReducer(deleteState, action);
+
+    expect(newState.playerIdentities['player-1']).toBeUndefined();
+  });
+
+  it('keeps other entities', () => {
+    const someState: PlayerState = {
+      ...initialState,
+      playerIdentities: {
+        'player-2': { ...mockPlayerIdentity, playerId: 'player-2' },
+        ...deleteState.playerIdentities
+      }
+    };
+
+    const newState = playerReducer(someState, action);
+
+    expect(newState.playerIdentities['player-2']).toEqual({
+      ...mockPlayerIdentity,
+      playerId: 'player-2'
+    });
+  });
+});
+
+describe('postPlayerIdentity', () => {
+  const action = postPlayerIdentityStart();
+
+  it('sets isLoadingPostPlayerIdentity to true', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingPostPlayerIdentity
+    ).toBe(true);
+  });
+});
+
+describe('postPlayerIdentityFailure', () => {
+  const action = postPlayerIdentityFailure('error');
+
+  it('sets isLoadingPostPlayerIdentity to false', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingPostPlayerIdentity
+    ).toBe(false);
+  });
+});
+
+describe('postPlayerIdentitySuccess', () => {
+  const action = postPlayerIdentitySuccess(mockPlayerIdentity);
+
+  it('sets isLoadingPostPlayerIdentity to false', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingPostPlayerIdentity
+    ).toBe(false);
+  });
+
+  it('sets entity', () => {
+    const newState = playerReducer(initialState, action);
+
+    expect(newState.playerIdentities['player-1']).toEqual(mockPlayerIdentity);
+  });
+});
+
+describe('putPlayerIdentity', () => {
+  const action = putPlayerIdentityStart();
+
+  it('sets isLoadingPutPlayerIdentity to true', () => {
+    expect(playerReducer(initialState, action).isLoadingPutPlayerIdentity).toBe(
+      true
+    );
+  });
+});
+
+describe('putPlayerIdentityFailure', () => {
+  const action = putPlayerIdentityFailure('error');
+
+  it('sets isLoadingPutPlayerIdentity to false', () => {
+    expect(playerReducer(initialState, action).isLoadingPutPlayerIdentity).toBe(
+      false
+    );
+  });
+});
+
+describe('putPlayerIdentitySuccess', () => {
+  const updatedPlayerIdentity: PlayerIdentityEntity = {
+    ...mockPlayerIdentity,
+    fullLegalName: 'Jane Updated Doe'
+  };
+  const action = putPlayerIdentitySuccess(updatedPlayerIdentity);
+
+  const updateState: PlayerState = {
+    ...initialState,
+    playerIdentities: {
+      'player-1': mockPlayerIdentity
+    }
+  };
+
+  it('sets isLoadingPutPlayerIdentity to false', () => {
+    expect(playerReducer(updateState, action).isLoadingPutPlayerIdentity).toBe(
+      false
+    );
+  });
+
+  it('sets entity', () => {
+    const newState = playerReducer(updateState, action);
+
+    expect(newState.playerIdentities['player-1']).toEqual(
+      updatedPlayerIdentity
+    );
+  });
+});
+
+describe('requestPlayerIdentity', () => {
+  const action = requestPlayerIdentityStart();
+
+  it('sets isLoadingRequestPlayerIdentity to true', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingRequestPlayerIdentity
+    ).toBe(true);
+  });
+});
+
+describe('requestPlayerIdentityFailure', () => {
+  const action = requestPlayerIdentityFailure('error');
+
+  it('sets isLoadingRequestPlayerIdentity to false', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingRequestPlayerIdentity
+    ).toBe(false);
+  });
+});
+
+describe('requestPlayerIdentitySuccess', () => {
+  const action = requestPlayerIdentitySuccess(mockPlayerIdentity);
+
+  it('sets isLoadingRequestPlayerIdentity to false', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingRequestPlayerIdentity
+    ).toBe(false);
+  });
+
+  it('sets entity', () => {
+    const newState = playerReducer(initialState, action);
+
+    expect(newState.playerIdentities['player-1']).toEqual(mockPlayerIdentity);
+  });
+});
+
+describe('requestPlayerIdentityNotFound', () => {
+  const action = requestPlayerIdentityNotFound('player-1');
+
+  it('sets isLoadingRequestPlayerIdentity to false', () => {
+    expect(
+      playerReducer(initialState, action).isLoadingRequestPlayerIdentity
+    ).toBe(false);
+  });
+
+  it('sets a default, non-existent entity for the playerId', () => {
+    const newState = playerReducer(initialState, action);
+
+    expect(newState.playerIdentities['player-1']).toEqual({
+      ...DEFAULT_PLAYER_IDENTITY,
+      playerId: 'player-1'
+    });
   });
 });

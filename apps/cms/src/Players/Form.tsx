@@ -204,16 +204,6 @@ function Form({
           </div>
         </div>
 
-        <div className="field">
-          <label className="label">Username</label>
-
-          <div className="control">
-            <Field name="username" component={StringInput} type="text" />
-          </div>
-
-          <p className="help is-info">Go Champs Username</p>
-        </div>
-
         <div className="control">
           <label className="label">
             <Trans>photo</Trans>

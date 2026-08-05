@@ -27,6 +27,7 @@ import { organizationBySlug } from '../Organizations/selectors';
 import AuthenticatedRoute from '../Accounts/AuthenticatedRoute';
 import PlayerNew from './PlayerNew';
 import PlayerEdit from './PlayerEdit';
+import PlayerIdentityEdit from './PlayerIdentityEdit';
 import GameView from './GameView';
 import PlayerStatsView from './PlayerStatsView';
 import PlayerStatsSummaryView from './PlayerStatsSummaryView';
@@ -145,6 +146,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <PhaseEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/EditPlayerIdentity/:playerId`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <PlayerIdentityEdit {...props} />
             </AuthenticatedRoute>
           )}
         />

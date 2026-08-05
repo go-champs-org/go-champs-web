@@ -5,15 +5,20 @@ import 'react-datetime/css/react-datetime.css';
 import { FieldRenderProps } from 'react-final-form';
 import './Datetime.scss';
 
-class Datetime extends React.Component<FieldRenderProps<string, HTMLElement>> {
+interface DatetimeProps extends FieldRenderProps<string, HTMLElement> {
+  timeFormat?: boolean | string;
+}
+
+class Datetime extends React.Component<DatetimeProps> {
   render() {
-    const { input } = this.props;
+    const { input, timeFormat } = this.props;
     return (
       <DateTimePicker
         {...input}
         name={input.name}
         inputProps={{ className: 'input' }}
         utc
+        timeFormat={timeFormat}
         value={moment(input.value)}
         renderInput={this.renderInput}
       />
