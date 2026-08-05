@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,16 +10,18 @@ const VARIANT_CLASSES: Record<NonNullable<ButtonProps['variant']>, string> = {
   secondary: 'bg-secondary text-neutral-900 hover:opacity-90'
 };
 
-export const Button = ({
+export function Button({
   variant = 'primary',
   className = '',
   children,
   ...rest
-}: ButtonProps) => (
-  <button
-    className={`rounded px-4 py-2 font-medium transition-colors ${VARIANT_CLASSES[variant]} ${className}`}
-    {...rest}
-  >
-    {children}
-  </button>
-);
+}: ButtonProps) {
+  return (
+    <button
+      className={`rounded px-4 py-2 font-medium transition-colors ${VARIANT_CLASSES[variant]} ${className}`}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
