@@ -1,7 +1,4 @@
-import {
-  ApiGovTypeIdEnum,
-  ApiTaxIdEnum
-} from '../Shared/httpClient/apiTypes';
+import { ApiGovTypeIdEnum, ApiTaxIdEnum } from '../Shared/httpClient/apiTypes';
 
 export interface PlayerIdentityEntity {
   id: string;

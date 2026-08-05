@@ -13,7 +13,10 @@ import {
   requestPlayerIdentityStart,
   requestPlayerIdentitySuccess
 } from '../PlayerIdentities/actions';
-import { DEFAULT_PLAYER_IDENTITY, PlayerIdentityEntity } from '../PlayerIdentities/state';
+import {
+  DEFAULT_PLAYER_IDENTITY,
+  PlayerIdentityEntity
+} from '../PlayerIdentities/state';
 import {
   ApiGovTypeIdEnum,
   ApiTaxIdEnum,
@@ -560,9 +563,9 @@ describe('putPlayerIdentity', () => {
   const action = putPlayerIdentityStart();
 
   it('sets isLoadingPutPlayerIdentity to true', () => {
-    expect(
-      playerReducer(initialState, action).isLoadingPutPlayerIdentity
-    ).toBe(true);
+    expect(playerReducer(initialState, action).isLoadingPutPlayerIdentity).toBe(
+      true
+    );
   });
 });
 
@@ -570,9 +573,9 @@ describe('putPlayerIdentityFailure', () => {
   const action = putPlayerIdentityFailure('error');
 
   it('sets isLoadingPutPlayerIdentity to false', () => {
-    expect(
-      playerReducer(initialState, action).isLoadingPutPlayerIdentity
-    ).toBe(false);
+    expect(playerReducer(initialState, action).isLoadingPutPlayerIdentity).toBe(
+      false
+    );
   });
 });
 
@@ -591,9 +594,9 @@ describe('putPlayerIdentitySuccess', () => {
   };
 
   it('sets isLoadingPutPlayerIdentity to false', () => {
-    expect(
-      playerReducer(updateState, action).isLoadingPutPlayerIdentity
-    ).toBe(false);
+    expect(playerReducer(updateState, action).isLoadingPutPlayerIdentity).toBe(
+      false
+    );
   });
 
   it('sets entity', () => {

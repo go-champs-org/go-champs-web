@@ -21,8 +21,7 @@ const playerIdentityHttpClient = {
   put: (
     playerId: string,
     body: ApiPlayerIdentityWriteRequest
-  ): Promise<ApiPlayerIdentityResponse> =>
-    httpClient.put(slug(playerId), body)
+  ): Promise<ApiPlayerIdentityResponse> => httpClient.put(slug(playerId), body)
 };
 
 export default playerIdentityHttpClient;

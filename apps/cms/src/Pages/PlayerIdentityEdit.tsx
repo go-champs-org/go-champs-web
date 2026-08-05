@@ -24,7 +24,10 @@ import {
   PlayerIdentityFormValues,
   PlayerIdentityModifiedFields
 } from '../PlayerIdentities/dataMappers';
-import { default as PlayerIdentityForm, FormLoading } from '../PlayerIdentities/Form';
+import {
+  default as PlayerIdentityForm,
+  FormLoading
+} from '../PlayerIdentities/Form';
 import ComponentLoader from '../Shared/UI/ComponentLoader';
 import AdminMenu from '../Tournaments/AdminMenu';
 
@@ -69,8 +72,11 @@ function PlayerIdentityEdit({
   putPlayerIdentity,
   requestPlayerIdentity
 }: PlayerIdentityEditProps): React.ReactElement {
-  const { organizationSlug = '', tournamentSlug = '', playerId = '' } =
-    match.params;
+  const {
+    organizationSlug = '',
+    tournamentSlug = '',
+    playerId = ''
+  } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/EditPlayer/${playerId}`;
 
   useEffect(() => {
