@@ -17,7 +17,8 @@
     "next": "16.2.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "@gochamps/domain-types": "workspace:*"
+    "@gochamps/domain-types": "workspace:*",
+    "@gochamps/ui": "workspace:*"
   },
   "devDependencies": {
     "@jest/core": "30.4.1",
