@@ -1,3 +1,4 @@
+import ApiError from '../ApiError';
 import { getApiHost } from '../env';
 import httpClient from '../httpClient';
 import {
@@ -16,6 +17,13 @@ export const getTournamentBySlug = async (
   const { data: matches } = await httpClient.get<ApiTournamentsResponse>(
     filterUrl.toString()
   );
+
+  if (matches.length === 0) {
+    throw new ApiError({
+      status: 404,
+      data: `Tournament not found for organizationSlug="${organizationSlug}", tournamentSlug="${tournamentSlug}"`
+    });
+  }
 
   const url = new URL(`v1/tournaments/${matches[0].id}`, getApiHost());
   const { data } = await httpClient.get<ApiTournamentResponse>(url.toString());
