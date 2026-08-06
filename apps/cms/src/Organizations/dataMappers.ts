@@ -2,6 +2,7 @@ import {
   ApiOrganization,
   ApiOrganizationRequest
 } from '../Shared/httpClient/apiTypes';
+import { mapApiOrganizationSettingToOrganizationSettingEntity } from '../OrganizationSettings/dataMappers';
 import {
   OrganizationEntity,
   MemberEntity,
@@ -17,7 +18,12 @@ export const mapApiOrganizationToOrganizationEntity = (
   name: apiOrganization.name,
   slug: apiOrganization.slug,
   logoUrl: apiOrganization.logo_url || '',
-  members: apiOrganization.members || []
+  members: apiOrganization.members || [],
+  organizationSetting: apiOrganization.organization_setting
+    ? mapApiOrganizationSettingToOrganizationSettingEntity(
+        apiOrganization.organization_setting
+      )
+    : undefined
 });
 
 export const mapMemberEntityToApiOrganizationMember = (

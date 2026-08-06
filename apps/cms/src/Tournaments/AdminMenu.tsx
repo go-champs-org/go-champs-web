@@ -194,6 +194,13 @@ const AdminMenu: React.FC<AdminMenuProps> = ({
             <Trans>scoreboardSettings</Trans>
           </Link>
         </li>
+        <li>
+          <Link
+            to={`/${organizationSlug}/${tournamentSlug}/TournamentSettings`}
+          >
+            <Trans>nameFormatSettings</Trans>
+          </Link>
+        </li>
       </ul>
       {PhaseMenu}
     </aside>

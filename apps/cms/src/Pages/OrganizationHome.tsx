@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import OrganizationEdit from './OrganizationEdit';
+import OrganizationSettingEdit from './OrganizationSettingEdit';
 import TournamentList from './TournamentList';
 import TournamentNew from './TournamentNew';
 import { StoreState } from '../store';
@@ -67,6 +68,14 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
               )}
             />
             <Route
+              path={`/Organization/:organizationSlug/Settings`}
+              render={(props: RouteComponentProps<RouteProps>) => (
+                <AuthenticatedRoute>
+                  <OrganizationSettingEdit {...props} />
+                </AuthenticatedRoute>
+              )}
+            />
+            <Route
               path={`/Organization/:organizationSlug/NewTournament`}
               render={(props: RouteComponentProps<RouteProps>) => (
                 <AuthenticatedRoute>
@@ -109,6 +118,12 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
               <li>
                 <a href={`/Organization/${organizationSlug}/Tournaments`}>
                   <Trans>tournaments</Trans>
+                </a>
+              </li>
+
+              <li>
+                <a href={`/Organization/${organizationSlug}/Settings`}>
+                  <Trans>nameFormatSettings</Trans>
                 </a>
               </li>
             </ul>

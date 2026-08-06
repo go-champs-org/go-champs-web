@@ -234,6 +234,7 @@ export interface ApiOrganization {
   name: string;
   slug: string;
   members?: ApiOrganizationMember[];
+  organization_setting?: ApiOrganizationSetting;
 }
 
 export interface ApiPhaseRequest {
@@ -582,6 +583,7 @@ export interface ApiTournamentWithDependecies extends ApiTournament {
   officials: ApiOfficial[];
   registrations: ApiRegistration[];
   scoreboard_setting: ApiScoreboardSetting;
+  tournament_setting?: ApiTournamentSetting;
 }
 
 export interface ApiTournamentWithDependeciesIds extends ApiTournament {
@@ -933,6 +935,63 @@ export interface ApiScoreboardSettingResponse {
 
 export interface ApiScoreboardSettingsResponse {
   data: ApiScoreboardSetting[];
+}
+
+export type ApiNameFormat = 'full' | 'first_last';
+export type ApiNameCase = 'original' | 'upper';
+
+export interface ApiTournamentSetting {
+  id: string;
+  name_format: ApiNameFormat;
+  name_case: ApiNameCase;
+}
+
+export interface ApiTournamentSettingWithDependencies
+  extends ApiTournamentSetting {
+  tournament_id: string;
+}
+
+export interface ApiTournamentSettingPatchRequest {
+  tournament_setting: ApiTournamentSetting;
+}
+
+export interface ApiTournamentSettingPostRequest {
+  tournament_setting: ApiTournamentSettingWithDependencies;
+}
+
+export interface ApiTournamentSettingResponse {
+  data: ApiTournamentSetting;
+}
+
+export interface ApiTournamentSettingsResponse {
+  data: ApiTournamentSetting[];
+}
+
+export interface ApiOrganizationSetting {
+  id: string;
+  name_format: ApiNameFormat;
+  name_case: ApiNameCase;
+}
+
+export interface ApiOrganizationSettingWithDependencies
+  extends ApiOrganizationSetting {
+  organization_id: string;
+}
+
+export interface ApiOrganizationSettingPatchRequest {
+  organization_setting: ApiOrganizationSetting;
+}
+
+export interface ApiOrganizationSettingPostRequest {
+  organization_setting: ApiOrganizationSettingWithDependencies;
+}
+
+export interface ApiOrganizationSettingResponse {
+  data: ApiOrganizationSetting;
+}
+
+export interface ApiOrganizationSettingsResponse {
+  data: ApiOrganizationSetting[];
 }
 
 export interface ApiTeamStatsLog {

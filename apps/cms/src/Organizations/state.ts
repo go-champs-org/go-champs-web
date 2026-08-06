@@ -1,3 +1,5 @@
+import { OrganizationSettingEntity } from '../OrganizationSettings/state';
+
 export interface MemberEntity {
   username: string;
 }
@@ -8,6 +10,7 @@ export interface OrganizationEntity {
   slug: string;
   logoUrl: string;
   members: MemberEntity[];
+  organizationSetting?: OrganizationSettingEntity;
 }
 
 export interface OrganizationState {
