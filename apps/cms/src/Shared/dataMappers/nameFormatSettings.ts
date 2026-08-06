@@ -1,14 +1,17 @@
 import { TranslateSelectOptionType } from '../hooks/useTranslatedSelectOptions';
+import { ApiNameCase, ApiNameFormat } from '../httpClient/apiTypes';
 
-export enum NameFormat {
-  FULL = 'full',
-  FIRST_LAST = 'first_last'
-}
+export type NameFormat = ApiNameFormat;
+export const NameFormat: Record<'FULL' | 'FIRST_LAST', ApiNameFormat> = {
+  FULL: 'full',
+  FIRST_LAST: 'first_last'
+};
 
-export enum NameCase {
-  ORIGINAL = 'original',
-  UPPER = 'upper'
-}
+export type NameCase = ApiNameCase;
+export const NameCase: Record<'ORIGINAL' | 'UPPER', ApiNameCase> = {
+  ORIGINAL: 'original',
+  UPPER: 'upper'
+};
 
 export const NAME_FORMAT_OPTIONS: TranslateSelectOptionType[] = [
   {

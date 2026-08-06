@@ -1,4 +1,3 @@
-import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
 import {
   ApiTournamentSetting,
   ApiTournamentSettingPatchRequest,
@@ -37,7 +36,7 @@ export const mapApiTournamentSettingToTournamentSettingEntity = (
 ): TournamentSettingEntity => {
   return {
     id: apiTournamentSetting.id,
-    nameFormat: apiTournamentSetting.name_format as NameFormat,
-    nameCase: apiTournamentSetting.name_case as NameCase
+    nameFormat: apiTournamentSetting.name_format,
+    nameCase: apiTournamentSetting.name_case
   };
 };

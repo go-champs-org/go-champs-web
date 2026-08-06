@@ -1,4 +1,3 @@
-import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
 import {
   ApiOrganizationSetting,
   ApiOrganizationSettingPatchRequest,
@@ -37,7 +36,7 @@ export const mapApiOrganizationSettingToOrganizationSettingEntity = (
 ): OrganizationSettingEntity => {
   return {
     id: apiOrganizationSetting.id,
-    nameFormat: apiOrganizationSetting.name_format as NameFormat,
-    nameCase: apiOrganizationSetting.name_case as NameCase
+    nameFormat: apiOrganizationSetting.name_format,
+    nameCase: apiOrganizationSetting.name_case
   };
 };
