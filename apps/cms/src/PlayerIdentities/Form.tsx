@@ -5,66 +5,13 @@ import { Trans } from 'react-i18next';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Datetime from '../Shared/UI/Form/Datetime';
 import LoadingButton from '../Shared/UI/LoadingButton';
+import MaskedField from '../Shared/UI/Form/MaskedField';
 import { mustBeCPF } from '../Shared/UI/Form/Validators/commonValidators';
 import { stripNonDigits } from '../Shared/UI/Form/parsers';
 import { PlayerIdentityFormValues } from './dataMappers';
 
 export function FormLoading(): React.ReactElement {
   return <div className="columns is-multiline" />;
-}
-
-interface MaskedFieldProps {
-  label: string;
-  fieldName: 'taxId' | 'governmentId';
-  last4: string;
-  isEditing: boolean;
-  onEdit: () => void;
-  parse?: (value: string) => string;
-  validate?: (value: string) => string | undefined;
-}
-
-function MaskedField({
-  label,
-  fieldName,
-  last4,
-  isEditing,
-  onEdit,
-  parse,
-  validate
-}: MaskedFieldProps): React.ReactElement {
-  return (
-    <div className="field">
-      <label className="label">{label}</label>
-
-      {isEditing ? (
-        <div className="control">
-          <Field
-            name={fieldName}
-            component={StringInput}
-            parse={parse}
-            validate={validate}
-          />
-        </div>
-      ) : (
-        <div className="control is-flex is-align-items-center">
-          <span>
-            <Trans>endingIn</Trans> {last4}
-          </span>
-
-          <button
-            type="button"
-            className="button is-small is-white"
-            style={{ marginLeft: '0.5rem' }}
-            onClick={onEdit}
-          >
-            <span className="icon is-small">
-              <i className="fas fa-pencil-alt"></i>
-            </span>
-          </button>
-        </div>
-      )}
-    </div>
-  );
 }
 
 interface PlayerIdentityFormProps

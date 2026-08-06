@@ -4,6 +4,7 @@ import {
   ApiGovTypeIdEnum,
   ApiTaxIdEnum
 } from '../Shared/httpClient/apiTypes';
+import { modifiedValue } from '../Shared/dataMappers/modifiedValue';
 import { AccountIdentityEntity } from './state';
 
 export const mapApiAccountIdentityToAccountIdentityEntity = (
@@ -29,16 +30,6 @@ export interface AccountIdentityFormValues {
 export type AccountIdentityModifiedFields = Partial<
   Record<keyof AccountIdentityFormValues, boolean>
 >;
-
-const modifiedValue = (
-  formValues: AccountIdentityFormValues,
-  fieldName: keyof AccountIdentityFormValues,
-  modified: AccountIdentityModifiedFields
-): string | null | undefined => {
-  if (!modified[fieldName]) return undefined;
-
-  return formValues[fieldName] || null;
-};
 
 export const mapFormValuesToApiAccountIdentityWriteRequest = (
   formValues: AccountIdentityFormValues,
