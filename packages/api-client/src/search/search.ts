@@ -1,4 +1,4 @@
-import { API_HOST } from '../env';
+import { getApiHost } from '../env';
 import httpClient from '../httpClient';
 import {
   mapApiSearchTournamentToSearchResultEntity,
@@ -7,7 +7,11 @@ import {
 import { ApiSearchTournamentsResponse } from './apiTypes';
 
 export const search = async (term: string): Promise<SearchResultEntity[]> => {
-  const url = `${API_HOST}v1/search?term=${encodeURIComponent(term)}`;
-  const { data } = await httpClient.get<ApiSearchTournamentsResponse>(url);
+  const url = new URL('v1/search', getApiHost());
+  url.searchParams.set('term', term);
+
+  const { data } = await httpClient.get<ApiSearchTournamentsResponse>(
+    url.toString()
+  );
   return data.map(mapApiSearchTournamentToSearchResultEntity);
 };
