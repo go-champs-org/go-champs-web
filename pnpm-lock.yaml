@@ -264,6 +264,9 @@ importers:
 
   apps/public:
     dependencies:
+      '@gochamps/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@gochamps/domain-types':
         specifier: workspace:*
         version: link:../../packages/domain-types
@@ -361,6 +364,8 @@ importers:
       typescript:
         specifier: 7.0.2
         version: 7.0.2
+
+  packages/api-client: {}
 
   packages/domain-types: {}
 

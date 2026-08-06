@@ -18,7 +18,8 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "@gochamps/domain-types": "workspace:*",
-    "@gochamps/ui": "workspace:*"
+    "@gochamps/ui": "workspace:*",
+    "@gochamps/api-client": "workspace:*"
   },
   "devDependencies": {
     "@jest/core": "30.4.1",
