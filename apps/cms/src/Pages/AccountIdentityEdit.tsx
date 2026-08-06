@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Form, FormRenderProps } from 'react-final-form';
@@ -67,6 +67,17 @@ function AccountIdentityEdit({
   const exists = Boolean(accountIdentity.id);
   const backUrl = '/Account';
 
+  const [isEditingTaxId, setIsEditingTaxId] = useState(!exists);
+  const [isEditingGovernmentId, setIsEditingGovernmentId] = useState(!exists);
+
+  useEffect(() => {
+    if (accountIdentity.taxIdLast4) setIsEditingTaxId(false);
+  }, [accountIdentity.taxIdLast4]);
+
+  useEffect(() => {
+    if (accountIdentity.governmentIdLast4) setIsEditingGovernmentId(false);
+  }, [accountIdentity.governmentIdLast4]);
+
   const initialValues: AccountIdentityFormValues = {
     fullLegalName: accountIdentity.fullLegalName,
     taxId: '',
@@ -78,8 +89,17 @@ function AccountIdentityEdit({
     formValues: AccountIdentityFormValues,
     form: FormApi<AccountIdentityFormValues, AccountIdentityFormValues>
   ) => {
-    const modified = (form.getState().modified ||
+    const formModified = (form.getState().modified ||
       {}) as AccountIdentityModifiedFields;
+
+    // A field left open for edit counts as modified even without a keystroke,
+    // so blanking a masked value out and saving clears it instead of being a
+    // no-op (final-form only flags a field dirty on an actual value change).
+    const modified: AccountIdentityModifiedFields = {
+      ...formModified,
+      taxId: formModified.taxId || isEditingTaxId,
+      governmentId: formModified.governmentId || isEditingGovernmentId
+    };
 
     return exists
       ? putAccountIdentity(formValues, modified)
@@ -111,6 +131,10 @@ function AccountIdentityEdit({
                   isDeleting={isDeleting}
                   taxIdLast4={accountIdentity.taxIdLast4}
                   governmentIdLast4={accountIdentity.governmentIdLast4}
+                  isEditingTaxId={isEditingTaxId}
+                  onEditTaxId={() => setIsEditingTaxId(true)}
+                  isEditingGovernmentId={isEditingGovernmentId}
+                  onEditGovernmentId={() => setIsEditingGovernmentId(true)}
                   onDelete={handleDelete}
                 />
               )}

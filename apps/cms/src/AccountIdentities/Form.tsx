@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { Trans } from 'react-i18next';
@@ -25,6 +25,10 @@ interface AccountIdentityFormProps
   isDeleting: boolean;
   taxIdLast4: string;
   governmentIdLast4: string;
+  isEditingTaxId: boolean;
+  onEditTaxId: () => void;
+  isEditingGovernmentId: boolean;
+  onEditGovernmentId: () => void;
   onDelete: () => void;
 }
 
@@ -35,6 +39,10 @@ function Form({
   isDeleting,
   taxIdLast4,
   governmentIdLast4,
+  isEditingTaxId,
+  onEditTaxId,
+  isEditingGovernmentId,
+  onEditGovernmentId,
   onDelete,
   handleSubmit,
   submitting,
@@ -42,16 +50,12 @@ function Form({
   validating,
   valid
 }: AccountIdentityFormProps): React.ReactElement {
-  const [isEditingTaxId, setIsEditingTaxId] = useState(!exists);
-  const [isEditingGovernmentId, setIsEditingGovernmentId] = useState(!exists);
-
-  useEffect(() => {
-    if (taxIdLast4) setIsEditingTaxId(false);
-  }, [taxIdLast4]);
-
-  useEffect(() => {
-    if (governmentIdLast4) setIsEditingGovernmentId(false);
-  }, [governmentIdLast4]);
+  // Clearing a masked value back to its original blank state makes the
+  // form pristine again, which would otherwise re-disable Save before the
+  // clear can be submitted — opening a masked field on an existing
+  // identity is itself an explicit intent to change (or clear) it.
+  const clearingMaskedField =
+    exists && (isEditingTaxId || isEditingGovernmentId);
 
   return (
     <div>
@@ -76,7 +80,7 @@ function Form({
             fieldName="taxId"
             last4={taxIdLast4}
             isEditing={isEditingTaxId}
-            onEdit={() => setIsEditingTaxId(true)}
+            onEdit={onEditTaxId}
             parse={stripNonDigits}
             validate={mustBeCPF}
           />
@@ -101,7 +105,7 @@ function Form({
             fieldName="governmentId"
             last4={governmentIdLast4}
             isEditing={isEditingGovernmentId}
-            onEdit={() => setIsEditingGovernmentId(true)}
+            onEdit={onEditGovernmentId}
           />
         ) : (
           <div className="field">
@@ -127,7 +131,12 @@ function Form({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine || validating || !valid}
+          disabled={
+            submitting ||
+            (pristine && !clearingMaskedField) ||
+            validating ||
+            !valid
+          }
         >
           <Trans>save</Trans>
         </LoadingButton>
