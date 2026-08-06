@@ -46,9 +46,11 @@ function MaskedField({
             className="button is-small is-white"
             style={{ marginLeft: '0.5rem' }}
             onClick={onEdit}
+            aria-label={`Edit ${label}`}
+            title={`Edit ${label}`}
           >
-            <span className="icon is-small">
-              <i className="fas fa-pencil-alt"></i>
+            <span className="icon is-small" aria-hidden="true">
+              <i className="fas fa-pencil-alt" aria-hidden="true"></i>
             </span>
           </button>
         </div>
