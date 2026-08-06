@@ -20,6 +20,9 @@ cypress.env.json
 build
 .next
 
+# typescript incremental build cache
+*.tsbuildinfo
+
 # misc
 env.local.js
 .DS_Store
