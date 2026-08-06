@@ -365,7 +365,11 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
 
-  packages/api-client: {}
+  packages/api-client:
+    dependencies:
+      '@gochamps/domain-types':
+        specifier: workspace:*
+        version: link:../domain-types
 
   packages/domain-types: {}
 
