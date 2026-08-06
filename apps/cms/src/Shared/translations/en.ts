@@ -163,6 +163,7 @@ export default {
     here: 'here',
     homeTeam: 'Home team',
     homeScore: 'Home score',
+    identity: 'Identity',
     informations: 'Informations',
     initialPeriodTime: 'Initial period time (seconds)',
     initialExtraPeriodTime: 'Initial extra period time (seconds)',

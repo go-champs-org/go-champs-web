@@ -23,6 +23,7 @@ import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { requestOfficialProfile } from '../OfficialProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import ProfileHome from './ProfileHome';
+import AccountIdentityEdit from './AccountIdentityEdit';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
@@ -91,6 +92,7 @@ function AccountHome({ athleteProfile, officialProfile }: AccountHomeProps) {
               path="/Account/NewOfficialProfile"
               component={OfficialProfileNew}
             />
+            <Route path="/Account/Identity" component={AccountIdentityEdit} />
           </Switch>
         </div>
 
@@ -143,6 +145,12 @@ function AccountHome({ athleteProfile, officialProfile }: AccountHomeProps) {
             </p>
 
             <ul className="menu-list">
+              <li>
+                <a href="/Account/Identity">
+                  <Trans>identity</Trans>
+                </a>
+              </li>
+
               <li>
                 <a href="/" onClick={signOut}>
                   <Trans>signOut</Trans>
