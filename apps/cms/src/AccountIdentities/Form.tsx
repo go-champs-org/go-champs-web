@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { Trans } from 'react-i18next';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Datetime from '../Shared/UI/Form/Datetime';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { mustBeCPF } from '../Shared/UI/Form/Validators/commonValidators';
+import {
+  mustBeCPF,
+  mustHaveAtLeastTwoWords
+} from '../Shared/UI/Form/Validators/commonValidators';
 import { stripNonDigits } from '../Shared/UI/Form/parsers';
 import { AccountIdentityFormValues } from './dataMappers';
 
@@ -88,10 +91,20 @@ function Form({
   onDelete,
   handleSubmit,
   submitting,
-  pristine
+  pristine,
+  validating,
+  valid
 }: AccountIdentityFormProps): React.ReactElement {
   const [isEditingTaxId, setIsEditingTaxId] = useState(!exists);
   const [isEditingGovernmentId, setIsEditingGovernmentId] = useState(!exists);
+
+  useEffect(() => {
+    if (taxIdLast4) setIsEditingTaxId(false);
+  }, [taxIdLast4]);
+
+  useEffect(() => {
+    if (governmentIdLast4) setIsEditingGovernmentId(false);
+  }, [governmentIdLast4]);
 
   return (
     <div>
@@ -102,7 +115,11 @@ function Form({
           </label>
 
           <div className="control">
-            <Field name="fullLegalName" component={StringInput} />
+            <Field
+              name="fullLegalName"
+              component={StringInput}
+              validate={mustHaveAtLeastTwoWords}
+            />
           </div>
         </div>
 
@@ -163,7 +180,7 @@ function Form({
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={submitting || pristine || validating || !valid}
         >
           <Trans>save</Trans>
         </LoadingButton>
