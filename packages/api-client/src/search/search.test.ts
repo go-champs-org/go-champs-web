@@ -11,7 +11,7 @@ describe('search', () => {
   it('requests /v1/search with the term as a query param', async () => {
     process.env.API_HOST = 'https://api.example.com';
     jest.resetModules();
-    const { search } = await import('@gochamps/api-client');
+    const { search } = await import('./search');
 
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -29,7 +29,7 @@ describe('search', () => {
   it('normalizes a missing trailing slash on API_HOST', async () => {
     process.env.API_HOST = 'https://api.example.com/api';
     jest.resetModules();
-    const { search } = await import('@gochamps/api-client');
+    const { search } = await import('./search');
 
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -47,7 +47,7 @@ describe('search', () => {
   it('maps the response data through the search result mapper', async () => {
     process.env.API_HOST = 'https://api.example.com';
     jest.resetModules();
-    const { search } = await import('@gochamps/api-client');
+    const { search } = await import('./search');
 
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -81,7 +81,7 @@ describe('search', () => {
   it('throws when API_HOST is not configured', async () => {
     delete process.env.API_HOST;
     jest.resetModules();
-    const { search } = await import('@gochamps/api-client');
+    const { search } = await import('./search');
 
     await expect(search('term')).rejects.toThrow(
       'API_HOST environment variable is not configured'

@@ -4,7 +4,17 @@
   "private": true,
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --ci"
+  },
   "dependencies": {
     "@gochamps/domain-types": "workspace:*"
+  },
+  "devDependencies": {
+    "@swc/core": "1.15.47",
+    "@swc/jest": "0.2.39",
+    "@types/jest": "30.0.0",
+    "jest": "30.4.1"
   }
 }

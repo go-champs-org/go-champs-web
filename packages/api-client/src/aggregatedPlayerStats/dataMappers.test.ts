@@ -1,4 +1,4 @@
-import { mapApiAggregatedPlayerStatsLogToEntity } from '@gochamps/api-client';
+import { mapApiAggregatedPlayerStatsLogToEntity } from './dataMappers';
 
 describe('mapApiAggregatedPlayerStatsLogToEntity', () => {
   it('maps snake_case API fields to camelCase entity fields', () => {

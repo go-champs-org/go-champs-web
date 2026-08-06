@@ -1,4 +1,4 @@
-import { mapApiSearchTournamentToSearchResultEntity } from '@gochamps/api-client';
+import { mapApiSearchTournamentToSearchResultEntity } from './dataMappers';
 
 describe('mapApiSearchTournamentToSearchResultEntity', () => {
   it('maps snake_case API fields to camelCase entity fields', () => {

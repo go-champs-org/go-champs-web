@@ -1,4 +1,4 @@
-import { mapApiTournamentToTournamentWithTeamsEntity } from '@gochamps/api-client';
+import { mapApiTournamentToTournamentWithTeamsEntity } from './dataMappers';
 
 describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
   it('maps snake_case API tournament fields, including nested teams', () => {
