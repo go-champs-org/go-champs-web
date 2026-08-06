@@ -4,6 +4,7 @@ import {
   ApiPlayerIdentityWriteRequest,
   ApiTaxIdEnum
 } from '../Shared/httpClient/apiTypes';
+import { modifiedValue } from '../Shared/dataMappers/modifiedValue';
 import { PlayerIdentityEntity } from './state';
 
 export const mapApiPlayerIdentityToPlayerIdentityEntity = (
@@ -34,16 +35,6 @@ export interface PlayerIdentityFormValues {
 export type PlayerIdentityModifiedFields = Partial<
   Record<keyof PlayerIdentityFormValues, boolean>
 >;
-
-const modifiedValue = (
-  formValues: PlayerIdentityFormValues,
-  fieldName: keyof PlayerIdentityFormValues,
-  modified: PlayerIdentityModifiedFields
-): string | null | undefined => {
-  if (!modified[fieldName]) return undefined;
-
-  return formValues[fieldName] || null;
-};
 
 export const mapFormValuesToApiPlayerIdentityWriteRequest = (
   formValues: PlayerIdentityFormValues,

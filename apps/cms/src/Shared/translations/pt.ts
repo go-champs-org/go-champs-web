@@ -166,6 +166,7 @@ export default {
     here: 'aqui',
     homeTeam: 'Equipe casa',
     homeScore: 'Pontuacao casa',
+    identity: 'Identidade',
     informations: 'Informacões',
     initialPeriodTime: 'Tempo inicial (em segundos)',
     initialExtraPeriodTime: 'Tempo inicial prorrogação (em segundos)',

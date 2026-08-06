@@ -3,6 +3,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { default as accountReducer } from './Accounts/reducer';
 import { AccountState } from './Accounts/state';
+import { default as accountIdentityReducer } from './AccountIdentities/reducer';
+import { AccountIdentityState } from './AccountIdentities/state';
 import { default as athleteProfilesReducer } from './AthleteProfiles/reducer';
 import { AthleteProfileState } from './AthleteProfiles/state';
 import { default as drawsReducer } from './Draws/reducer';
@@ -47,6 +49,7 @@ import { NODE_ENV } from './Shared/env';
 
 export interface StoreState {
   account: AccountState;
+  accountIdentity: AccountIdentityState;
   aggregatedPlayerStatsLogs: AggregatedPlayerStatsLogState;
   athleteProfiles: AthleteProfileState;
   draws: DrawState;
@@ -72,6 +75,7 @@ export interface StoreState {
 export default createStore(
   combineReducers({
     account: accountReducer,
+    accountIdentity: accountIdentityReducer,
     aggregatedPlayerStatsLogs: aggregatedPlayerStatsLogsReducer,
     athleteProfiles: athleteProfilesReducer,
     draws: drawsReducer,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Field, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { Trans } from 'react-i18next';
@@ -6,22 +6,29 @@ import StringInput from '../Shared/UI/Form/StringInput';
 import Datetime from '../Shared/UI/Form/Datetime';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import MaskedField from '../Shared/UI/Form/MaskedField';
-import { mustBeCPF } from '../Shared/UI/Form/Validators/commonValidators';
+import {
+  mustBeCPF,
+  mustHaveAtLeastTwoWords
+} from '../Shared/UI/Form/Validators/commonValidators';
 import { stripNonDigits } from '../Shared/UI/Form/parsers';
-import { PlayerIdentityFormValues } from './dataMappers';
+import { AccountIdentityFormValues } from './dataMappers';
 
 export function FormLoading(): React.ReactElement {
   return <div className="columns is-multiline" />;
 }
 
-interface PlayerIdentityFormProps
-  extends FormRenderProps<PlayerIdentityFormValues> {
+interface AccountIdentityFormProps
+  extends FormRenderProps<AccountIdentityFormValues> {
   backUrl: string;
   exists: boolean;
   isLoading: boolean;
   isDeleting: boolean;
   taxIdLast4: string;
   governmentIdLast4: string;
+  isEditingTaxId: boolean;
+  onEditTaxId: () => void;
+  isEditingGovernmentId: boolean;
+  onEditGovernmentId: () => void;
   onDelete: () => void;
 }
 
@@ -32,13 +39,23 @@ function Form({
   isDeleting,
   taxIdLast4,
   governmentIdLast4,
+  isEditingTaxId,
+  onEditTaxId,
+  isEditingGovernmentId,
+  onEditGovernmentId,
   onDelete,
   handleSubmit,
   submitting,
-  pristine
-}: PlayerIdentityFormProps): React.ReactElement {
-  const [isEditingTaxId, setIsEditingTaxId] = useState(!exists);
-  const [isEditingGovernmentId, setIsEditingGovernmentId] = useState(!exists);
+  pristine,
+  validating,
+  valid
+}: AccountIdentityFormProps): React.ReactElement {
+  // Clearing a masked value back to its original blank state makes the
+  // form pristine again, which would otherwise re-disable Save before the
+  // clear can be submitted — opening a masked field on an existing
+  // identity is itself an explicit intent to change (or clear) it.
+  const clearingMaskedField =
+    exists && (isEditingTaxId || isEditingGovernmentId);
 
   return (
     <div>
@@ -49,7 +66,11 @@ function Form({
           </label>
 
           <div className="control">
-            <Field name="fullLegalName" component={StringInput} />
+            <Field
+              name="fullLegalName"
+              component={StringInput}
+              validate={mustHaveAtLeastTwoWords}
+            />
           </div>
         </div>
 
@@ -59,7 +80,7 @@ function Form({
             fieldName="taxId"
             last4={taxIdLast4}
             isEditing={isEditingTaxId}
-            onEdit={() => setIsEditingTaxId(true)}
+            onEdit={onEditTaxId}
             parse={stripNonDigits}
             validate={mustBeCPF}
           />
@@ -84,7 +105,7 @@ function Form({
             fieldName="governmentId"
             last4={governmentIdLast4}
             isEditing={isEditingGovernmentId}
-            onEdit={() => setIsEditingGovernmentId(true)}
+            onEdit={onEditGovernmentId}
           />
         ) : (
           <div className="field">
@@ -106,27 +127,16 @@ function Form({
           </div>
         </div>
 
-        <div className="field">
-          <label className="label">Username</label>
-
-          <div className="control">
-            <Field name="username" component={StringInput} type="text" />
-          </div>
-        </div>
-
-        <div className="field">
-          <label className="label">Email</label>
-
-          <div className="control">
-            <Field name="email" component={StringInput} type="text" />
-          </div>
-        </div>
-
         <LoadingButton
           isLoading={isLoading}
           className="button is-primary"
           type="submit"
-          disabled={submitting || pristine}
+          disabled={
+            submitting ||
+            (pristine && !clearingMaskedField) ||
+            validating ||
+            !valid
+          }
         >
           <Trans>save</Trans>
         </LoadingButton>
