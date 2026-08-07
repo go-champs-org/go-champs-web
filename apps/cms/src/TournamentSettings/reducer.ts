@@ -14,6 +14,9 @@ import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import {
   ActionTypes,
+  APPLY_NAME_FORMAT,
+  APPLY_NAME_FORMAT_FAILURE,
+  APPLY_NAME_FORMAT_SUCCESS,
   DELETE_TOURNAMENT_SETTING,
   DELETE_TOURNAMENT_SETTING_FAILURE,
   DELETE_TOURNAMENT_SETTING_SUCCESS,
@@ -39,6 +42,30 @@ const apiTournamentSettingToEntitiesNoOverride = apiDataToEntities<
   ApiTournamentSetting,
   TournamentSettingEntity
 >(mapApiTournamentSettingToTournamentSettingEntity, returnProperty('id'));
+
+const applyNameFormat = (
+  state: TournamentSettingState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingApplyNameFormat: true
+});
+
+const applyNameFormatFailure = (
+  state: TournamentSettingState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingApplyNameFormat: false
+});
+
+const applyNameFormatSuccess = (
+  state: TournamentSettingState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingApplyNameFormat: false
+});
 
 const deleteTournamentSetting = (
   state: TournamentSettingState,
@@ -141,6 +168,9 @@ const getTournamentSuccess = (
 });
 
 export default createReducer(initialState, {
+  [APPLY_NAME_FORMAT]: applyNameFormat,
+  [APPLY_NAME_FORMAT_FAILURE]: applyNameFormatFailure,
+  [APPLY_NAME_FORMAT_SUCCESS]: applyNameFormatSuccess,
   [DELETE_TOURNAMENT_SETTING]: deleteTournamentSetting,
   [DELETE_TOURNAMENT_SETTING_FAILURE]: deleteTournamentSettingFailure,
   [DELETE_TOURNAMENT_SETTING_SUCCESS]: deleteTournamentSettingSuccess,

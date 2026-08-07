@@ -14,18 +14,23 @@ import { getTournamentBySlug } from '../Tournaments/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import { default as TournamentSettingForm } from '../TournamentSettings/Form';
 import {
+  applyNameFormat,
   patchTournamentSetting,
   postTournamentSetting
 } from '../TournamentSettings/effects';
 import { TournamentSettingEntity } from '../TournamentSettings/state';
 import { Form, FormRenderProps } from 'react-final-form';
 import withTournament from './support/withTournament';
-import { tournamentSetting } from '../TournamentSettings/selectors';
+import {
+  isLoadingApplyNameFormat,
+  tournamentSetting
+} from '../TournamentSettings/selectors';
 
 interface StateProps extends RouteComponentProps<RouteProps> {
   tournamentSetting: TournamentSettingEntity;
   tournament: TournamentEntity;
   tournamentLoading: boolean;
+  isApplyingNameFormat: boolean;
 }
 
 type DispatchProps = {
@@ -40,6 +45,9 @@ type DispatchProps = {
     tournamentSetting: TournamentSettingEntity,
     tournamentId: string
   ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
+  applyNameFormat: (
+    tournamentId: string
+  ) => (dispatch: Dispatch<AnyAction>) => Promise<void>;
 };
 
 const mapStateToProps = (
@@ -51,7 +59,10 @@ const mapStateToProps = (
     ...props,
     tournamentSetting: tournamentSetting(state.tournaments.tournamentSettings),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
-    tournamentLoading: tournamentLoading(state.tournaments)
+    tournamentLoading: tournamentLoading(state.tournaments),
+    isApplyingNameFormat: isLoadingApplyNameFormat(
+      state.tournaments.tournamentSettings
+    )
   };
 };
 
@@ -60,7 +71,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     {
       getTournamentBySlug,
       postTournamentSetting,
-      patchTournamentSetting
+      patchTournamentSetting,
+      applyNameFormat
     },
     dispatch
   );
@@ -76,7 +88,9 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps) => {
       dispatchProps.postTournamentSetting(
         tournamentSetting,
         stateProps.tournament.id
-      )
+      ),
+    applyNameFormat: () =>
+      dispatchProps.applyNameFormat(stateProps.tournament.id)
   };
 };
 const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps);
@@ -89,7 +103,9 @@ function TournamentSettingEdit({
   match,
   tournamentLoading,
   postTournamentSetting,
-  patchTournamentSetting
+  patchTournamentSetting,
+  applyNameFormat,
+  isApplyingNameFormat
 }: TournamentSettingEditProps) {
   const { organizationSlug = '', tournamentSlug = '' } = match.params;
   const backUrl = `/${organizationSlug}/${tournamentSlug}/Manage`;
@@ -122,6 +138,8 @@ function TournamentSettingEdit({
                     backUrl={backUrl}
                     isLoading={tournamentLoading}
                     organizationSetting={tournament.organizationSetting}
+                    applyNameFormat={applyNameFormat}
+                    isApplyingNameFormat={isApplyingNameFormat}
                   />
                 )}
               />

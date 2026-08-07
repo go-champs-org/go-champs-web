@@ -4,6 +4,9 @@ import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import { DEFAULT_TOURNAMENT } from '../Tournaments/state';
 import {
   ActionTypes,
+  applyNameFormatFailure,
+  applyNameFormatStart,
+  applyNameFormatSuccess,
   deleteTournamentSettingFailure,
   deleteTournamentSettingStart,
   deleteTournamentSettingSuccess,
@@ -17,6 +20,42 @@ import {
 import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
 import tournamentSettingReducer from './reducer';
 import { initialState, TournamentSettingState } from './state';
+
+describe('applyNameFormat', () => {
+  const action = applyNameFormatStart();
+
+  it('sets isLoadingApplyNameFormat to true', () => {
+    expect(
+      tournamentSettingReducer(initialState, action).isLoadingApplyNameFormat
+    ).toBe(true);
+  });
+});
+
+describe('applyNameFormatFailure', () => {
+  const action = applyNameFormatFailure('error');
+
+  it('sets isLoadingApplyNameFormat to false', () => {
+    expect(
+      tournamentSettingReducer(initialState, action).isLoadingApplyNameFormat
+    ).toBe(false);
+  });
+});
+
+describe('applyNameFormatSuccess', () => {
+  const action = applyNameFormatSuccess({
+    players_updated: 3,
+    teams_updated: 2
+  });
+
+  it('sets isLoadingApplyNameFormat to false', () => {
+    expect(
+      tournamentSettingReducer(
+        { ...initialState, isLoadingApplyNameFormat: true },
+        action
+      ).isLoadingApplyNameFormat
+    ).toBe(false);
+  });
+});
 
 describe('deleteTournamentSetting', () => {
   const action = deleteTournamentSettingStart();

@@ -1,7 +1,11 @@
+import { ApiApplyNameFormatResponse } from '../Shared/httpClient/apiTypes';
 import { HttpAction } from '../Shared/store/interfaces';
 import { GET_TOURNAMENT_SUCCESS } from '../Tournaments/actions';
 import { TournamentSettingEntity } from './state';
 
+export const APPLY_NAME_FORMAT = 'API_APPLY_NAME_FORMAT';
+export const APPLY_NAME_FORMAT_SUCCESS = 'API_APPLY_NAME_FORMAT_SUCCESS';
+export const APPLY_NAME_FORMAT_FAILURE = 'API_APPLY_NAME_FORMAT_FAILURE';
 export const DELETE_TOURNAMENT_SETTING = 'API_DELETE_TOURNAMENT_SETTING';
 export const DELETE_TOURNAMENT_SETTING_SUCCESS =
   'API_DELETE_TOURNAMENT_SETTING_SUCCESS';
@@ -72,7 +76,28 @@ export const postTournamentSettingFailure = (
   payload
 });
 
+export const applyNameFormatStart = (): HttpAction<ActionTypes> => ({
+  type: APPLY_NAME_FORMAT
+});
+
+export const applyNameFormatSuccess = (
+  payload: ApiApplyNameFormatResponse
+): HttpAction<ActionTypes, ApiApplyNameFormatResponse> => ({
+  type: APPLY_NAME_FORMAT_SUCCESS,
+  payload
+});
+
+export const applyNameFormatFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
+  type: APPLY_NAME_FORMAT_FAILURE,
+  payload
+});
+
 export type ActionTypes =
+  | typeof APPLY_NAME_FORMAT
+  | typeof APPLY_NAME_FORMAT_SUCCESS
+  | typeof APPLY_NAME_FORMAT_FAILURE
   | typeof DELETE_TOURNAMENT_SETTING
   | typeof DELETE_TOURNAMENT_SETTING_SUCCESS
   | typeof DELETE_TOURNAMENT_SETTING_FAILURE
