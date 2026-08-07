@@ -31,7 +31,9 @@ const mapStateToProps = (
     state.organizations,
     props.match.params.organizationSlug
   ),
-  organizationSetting: organizationSetting(state.organizationSettings),
+  organizationSetting: organizationSetting(
+    state.organizations.organizationSettings
+  ),
   organizationsLoading: organizationsLoading(state.organizations)
 });
 

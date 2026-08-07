@@ -3,6 +3,7 @@ import {
   ApiOrganizationSettingPatchRequest,
   ApiOrganizationSettingPostRequest
 } from '../Shared/httpClient/apiTypes';
+import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
 import { OrganizationSettingEntity } from './state';
 
 export const mapOrganizationSettingEntityToApiOrganizationSettingPatchRequest = (
@@ -36,7 +37,11 @@ export const mapApiOrganizationSettingToOrganizationSettingEntity = (
 ): OrganizationSettingEntity => {
   return {
     id: apiOrganizationSetting.id,
-    nameFormat: apiOrganizationSetting.name_format,
+    nameFormat: apiOrganizationSetting.name_format
+      ? apiOrganizationSetting.name_format
+      : NameFormat.FULL,
     nameCase: apiOrganizationSetting.name_case
+      ? apiOrganizationSetting.name_case
+      : NameCase.ORIGINAL
   };
 };

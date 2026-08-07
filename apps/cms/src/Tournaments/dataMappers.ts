@@ -1,4 +1,5 @@
 import {
+  ApiOrganization,
   ApiTournament,
   ApiTournamentRequest,
   ApiTournamentWithDependecies,
@@ -24,6 +25,7 @@ import {
 import { TranslateSelectOptionType } from '../Shared/hooks/useTranslatedSelectOptions';
 import { SportEntity } from '../Sports/state';
 import { FileReference } from '../Shared/httpClient/uploadHttpClient';
+import { mapApiOrganizationSettingToOrganizationSettingEntity } from '../OrganizationSettings/dataMappers';
 
 export const PRIVATE_STAT_SLUGS = [
   'disqualifications',
@@ -160,7 +162,7 @@ export const mapFileReferenceToApiSponsorLogo = (
 ) => fileReference.publicUrl;
 
 export const mapApiTournamentToTournamentEntity = (
-  apiTournament: ApiTournament
+  apiTournament: ApiTournament & { organization?: ApiOrganization }
 ): TournamentEntity => ({
   id: apiTournament.id,
   name: apiTournament.name,
@@ -184,7 +186,14 @@ export const mapApiTournamentToTournamentEntity = (
     : [],
   sportName: apiTournament.sport_name ? apiTournament.sport_name : '',
   sportSlug: apiTournament.sport_slug ? apiTournament.sport_slug : '',
-  visibility: apiTournament.visibility
+  visibility: apiTournament.visibility,
+  organizationSetting:
+    apiTournament.organization &&
+    apiTournament.organization.organization_setting
+      ? mapApiOrganizationSettingToOrganizationSettingEntity(
+          apiTournament.organization.organization_setting
+        )
+      : undefined
 });
 
 export const mapTournamentEntityToApiTournamentRequest = (
