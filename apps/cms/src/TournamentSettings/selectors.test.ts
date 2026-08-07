@@ -1,5 +1,5 @@
 import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
-import { tournamentSetting } from './selectors';
+import { isLoadingApplyNameFormat, tournamentSetting } from './selectors';
 import {
   DEFAULT_TOURNAMENT_SETTING,
   initialState,
@@ -48,5 +48,18 @@ describe('tournamentSetting', () => {
     };
 
     expect(tournamentSetting(state)).toEqual(DEFAULT_TOURNAMENT_SETTING);
+  });
+});
+
+describe('isLoadingApplyNameFormat', () => {
+  it('returns the isLoadingApplyNameFormat flag from state', () => {
+    expect(
+      isLoadingApplyNameFormat({
+        ...initialState,
+        isLoadingApplyNameFormat: true
+      })
+    ).toBe(true);
+
+    expect(isLoadingApplyNameFormat(initialState)).toBe(false);
   });
 });

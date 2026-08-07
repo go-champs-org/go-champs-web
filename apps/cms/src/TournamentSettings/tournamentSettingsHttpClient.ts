@@ -56,9 +56,9 @@ const post = async (
 const applyNameFormat = (
   tournamentId: string
 ): Promise<ApiApplyNameFormatResponse> => {
-  const url = `${REACT_APP_API_HOST}v1/tournament-settings/${tournamentId}/apply-name-format`;
+  const url = `${TOURNAMENT_SETTING_API}/${tournamentId}/apply-name-format`;
 
-  return httpClient.post<undefined, ApiApplyNameFormatResponse>(url, undefined);
+  return httpClient.post<{}, ApiApplyNameFormatResponse>(url, {});
 };
 
 export default {

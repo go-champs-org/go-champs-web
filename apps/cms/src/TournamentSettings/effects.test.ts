@@ -1,10 +1,14 @@
 import {
+  applyNameFormat,
   postTournamentSetting,
   patchTournamentSetting,
   deleteTournamentSetting
 } from './effects';
 import { DEFAULT_TOURNAMENT_SETTING, TournamentSettingEntity } from './state';
 import {
+  applyNameFormatStart,
+  applyNameFormatSuccess,
+  applyNameFormatFailure,
   postTournamentSettingStart,
   postTournamentSettingSuccess,
   postTournamentSettingFailure,
@@ -19,10 +23,84 @@ import tournamentSettingsHttpClient from './tournamentSettingsHttpClient';
 import * as toast from '../Shared/bulma/toast';
 import ApiError from '../Shared/httpClient/ApiError';
 import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
+import i18n from 'i18next';
 
 const displayToastSpy = jest.spyOn(toast, 'displayToast');
 
 let dispatch: jest.Mock;
+
+describe('applyNameFormat', () => {
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start action', () => {
+    applyNameFormat('tournament-id')(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(applyNameFormatStart());
+  });
+
+  describe('on success', () => {
+    beforeEach(async () => {
+      dispatch.mockReset();
+      displayToastSpy.mockReset();
+
+      jest
+        .spyOn(tournamentSettingsHttpClient, 'applyNameFormat')
+        .mockResolvedValue({ players_updated: 3, teams_updated: 2 });
+
+      await applyNameFormat('tournament-id')(dispatch);
+    });
+
+    it('dispatches success action', () => {
+      expect(dispatch).toHaveBeenCalledWith(
+        applyNameFormatSuccess({ players_updated: 3, teams_updated: 2 })
+      );
+    });
+
+    it('displays success toast with the updated counts', () => {
+      const expectedMessage = i18n.t(
+        'nameFormatSettingsForm.applyNameFormatSuccess',
+        { playersUpdated: 3, teamsUpdated: 2 }
+      );
+
+      expect(displayToastSpy).toHaveBeenCalledWith(
+        expectedMessage,
+        'is-success'
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    const apiError = new Error('some-error');
+
+    beforeEach(async () => {
+      dispatch.mockReset();
+      displayToastSpy.mockReset();
+
+      jest
+        .spyOn(tournamentSettingsHttpClient, 'applyNameFormat')
+        .mockRejectedValue(apiError);
+
+      await applyNameFormat('tournament-id')(dispatch);
+    });
+
+    it('dispatches failure action', () => {
+      expect(dispatch).toHaveBeenCalledWith(applyNameFormatFailure(apiError));
+    });
+
+    it('displays error toast', () => {
+      const expectedMessage = i18n.t(
+        'nameFormatSettingsForm.applyNameFormatFailure'
+      );
+
+      expect(displayToastSpy).toHaveBeenCalledWith(
+        expectedMessage,
+        'is-danger'
+      );
+    });
+  });
+});
 
 describe('deleteTournamentSetting', () => {
   beforeEach(() => {
