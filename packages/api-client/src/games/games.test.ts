@@ -4,7 +4,11 @@ describe('getGame', () => {
 
   afterEach(() => {
     global.fetch = originalFetch;
-    process.env.API_HOST = originalApiHost;
+    if (originalApiHost === undefined) {
+      delete process.env.API_HOST;
+    } else {
+      process.env.API_HOST = originalApiHost;
+    }
     jest.resetModules();
   });
 
