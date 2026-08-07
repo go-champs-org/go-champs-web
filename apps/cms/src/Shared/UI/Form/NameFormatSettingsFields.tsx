@@ -19,9 +19,7 @@ interface NameFormatSettingsFieldsProps {
   organizationNameCase?: NameCase | null;
 }
 
-const SourceTag: React.FC<{ source: NameFormatSettingSource }> = ({
-  source
-}) => {
+function SourceTag({ source }: { source: NameFormatSettingSource }) {
   const { t } = useTranslation();
 
   return (
@@ -29,7 +27,7 @@ const SourceTag: React.FC<{ source: NameFormatSettingSource }> = ({
       {t(`nameFormatSettingsForm.${source}`)}
     </span>
   );
-};
+}
 
 export const inheritPlaceholder = (
   t: TFunction,
@@ -51,12 +49,12 @@ export const inheritPlaceholder = (
   });
 };
 
-const NameFormatSettingsFields: React.FC<NameFormatSettingsFieldsProps> = ({
+function NameFormatSettingsFields({
   nameFormatSource,
   nameCaseSource,
   organizationNameFormat,
   organizationNameCase
-}) => {
+}: NameFormatSettingsFieldsProps) {
   const { t } = useTranslation();
   const translatedNameFormatOptions = useTranslatedSelectOptions(
     NAME_FORMAT_OPTIONS
@@ -84,14 +82,13 @@ const NameFormatSettingsFields: React.FC<NameFormatSettingsFieldsProps> = ({
                 options={translatedNameFormatOptions}
                 isClearable={!!nameFormatSource}
                 placeholder={
-                  nameFormatSource
-                    ? inheritPlaceholder(
-                        t,
-                        translatedNameFormatOptions,
-                        organizationNameFormat,
-                        NameFormat.FULL
-                      )
-                    : undefined
+                  nameFormatSource &&
+                  inheritPlaceholder(
+                    t,
+                    translatedNameFormatOptions,
+                    organizationNameFormat,
+                    NameFormat.FULL
+                  )
                 }
               />
             )}
@@ -116,14 +113,13 @@ const NameFormatSettingsFields: React.FC<NameFormatSettingsFieldsProps> = ({
                 options={translatedNameCaseOptions}
                 isClearable={!!nameCaseSource}
                 placeholder={
-                  nameCaseSource
-                    ? inheritPlaceholder(
-                        t,
-                        translatedNameCaseOptions,
-                        organizationNameCase,
-                        NameCase.ORIGINAL
-                      )
-                    : undefined
+                  nameCaseSource &&
+                  inheritPlaceholder(
+                    t,
+                    translatedNameCaseOptions,
+                    organizationNameCase,
+                    NameCase.ORIGINAL
+                  )
                 }
               />
             )}
@@ -132,6 +128,6 @@ const NameFormatSettingsFields: React.FC<NameFormatSettingsFieldsProps> = ({
       </div>
     </React.Fragment>
   );
-};
+}
 
 export default NameFormatSettingsFields;
