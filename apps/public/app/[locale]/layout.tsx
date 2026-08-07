@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { routing } from '../../src/i18n/routing';
+import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
+import { Amplitude } from '../analytics/Amplitude';
 import '../globals.css';
 
 export const metadata = {
@@ -30,6 +32,8 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        <Amplitude apiKey={process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || ''} />
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

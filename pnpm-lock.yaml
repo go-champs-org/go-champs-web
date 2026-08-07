@@ -267,6 +267,9 @@ importers:
 
   apps/public:
     dependencies:
+      '@amplitude/analytics-browser':
+        specifier: 2.11.1
+        version: 2.11.1
       '@gochamps/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
