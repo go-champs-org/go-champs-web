@@ -223,7 +223,7 @@ export default {
         original: 'Original',
         upper: 'MAIÚSCULO'
       },
-      applyNameFormatTitle: 'Aplicar formato aos atletas e coaches existentes',
+      applyNameFormatTitle: 'Aplicar formato aos atletas e técnicos existentes',
       applyNameFormatDescription:
         'Isso vai renomear imediatamente todos os atletas e técnicos já cadastrados neste campeonato para o formato acima. Essa ação não pode ser desfeita.',
       applyNameFormatButton: 'Aplicar formato agora',
