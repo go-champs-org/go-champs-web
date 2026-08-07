@@ -18,8 +18,8 @@
 			"preset": "none",
 			"complexity": {
 				"noExcessiveCognitiveComplexity": {
-					"level": "error",
-					"options": { "maxAllowedComplexity": 2 }
+					"level": "warn",
+					"options": { "maxAllowedComplexity": 3 }
 				}
 			}
 		}

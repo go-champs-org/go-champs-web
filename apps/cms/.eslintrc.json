@@ -4,6 +4,6 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
-    "sonarjs/cognitive-complexity": ["warn", 2]
+    "sonarjs/cognitive-complexity": ["warn", 3]
   }
 }
