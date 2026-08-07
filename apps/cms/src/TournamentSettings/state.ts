@@ -7,6 +7,7 @@ export interface TournamentSettingEntity {
 }
 
 export interface TournamentSettingState {
+  isLoadingApplyNameFormat: boolean;
   isLoadingDeleteTournamentSetting: boolean;
   isLoadingPatchTournamentSetting: boolean;
   isLoadingPostTournamentSetting: boolean;
@@ -15,6 +16,7 @@ export interface TournamentSettingState {
 }
 
 export const initialState: TournamentSettingState = {
+  isLoadingApplyNameFormat: false,
   isLoadingDeleteTournamentSetting: false,
   isLoadingPatchTournamentSetting: false,
   isLoadingPostTournamentSetting: false,

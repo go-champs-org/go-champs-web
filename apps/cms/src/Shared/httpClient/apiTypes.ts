@@ -963,6 +963,11 @@ export interface ApiTournamentSettingResponse {
   data: ApiTournamentSetting;
 }
 
+export interface ApiApplyNameFormatResponse {
+  players_updated: number;
+  teams_updated: number;
+}
+
 export interface ApiTournamentSettingsResponse {
   data: ApiTournamentSetting[];
 }

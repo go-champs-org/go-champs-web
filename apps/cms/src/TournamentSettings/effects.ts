@@ -1,5 +1,9 @@
+import i18n from 'i18next';
 import { displayToast } from '../Shared/bulma/toast';
 import {
+  applyNameFormatFailure,
+  applyNameFormatStart,
+  applyNameFormatSuccess,
   deleteTournamentSettingFailure,
   deleteTournamentSettingStart,
   deleteTournamentSettingSuccess,
@@ -14,6 +18,33 @@ import { TournamentSettingEntity } from './state';
 import tournamentSettingsHttpClient from './tournamentSettingsHttpClient';
 import { Dispatch } from 'redux';
 import ApiError from '../Shared/httpClient/ApiError';
+
+export const applyNameFormat = (tournamentId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(applyNameFormatStart());
+
+  try {
+    const response = await tournamentSettingsHttpClient.applyNameFormat(
+      tournamentId
+    );
+
+    dispatch(applyNameFormatSuccess(response));
+    displayToast(
+      i18n.t('nameFormatSettingsForm.applyNameFormatSuccess', {
+        playersUpdated: response.players_updated,
+        teamsUpdated: response.teams_updated
+      }),
+      'is-success'
+    );
+  } catch (err) {
+    dispatch(applyNameFormatFailure(err));
+    displayToast(
+      i18n.t('nameFormatSettingsForm.applyNameFormatFailure'),
+      'is-danger'
+    );
+  }
+};
 
 export const deleteTournamentSetting = (
   tournamentSetting: TournamentSettingEntity

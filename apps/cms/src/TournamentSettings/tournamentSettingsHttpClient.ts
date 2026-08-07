@@ -1,5 +1,6 @@
 import { REACT_APP_API_HOST } from '../Shared/env';
 import {
+  ApiApplyNameFormatResponse,
   ApiTournamentSettingPatchRequest,
   ApiTournamentSettingPostRequest,
   ApiTournamentSettingResponse
@@ -52,8 +53,17 @@ const post = async (
   return mapApiTournamentSettingToTournamentSettingEntity(data);
 };
 
+const applyNameFormat = (
+  tournamentId: string
+): Promise<ApiApplyNameFormatResponse> => {
+  const url = `${REACT_APP_API_HOST}v1/tournament-settings/${tournamentId}/apply-name-format`;
+
+  return httpClient.post<undefined, ApiApplyNameFormatResponse>(url, undefined);
+};
+
 export default {
   delete: deleteRequest,
   patch,
-  post
+  post,
+  applyNameFormat
 };

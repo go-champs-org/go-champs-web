@@ -219,7 +219,14 @@ export default {
       nameCaseOptions: {
         original: 'Original',
         upper: 'UPPERCASE'
-      }
+      },
+      applyNameFormatTitle: 'Apply format to existing players and coaches',
+      applyNameFormatDescription:
+        'This will immediately rename every existing player and coach in this tournament to match the format above. This cannot be undone.',
+      applyNameFormatButton: 'Apply format now',
+      applyNameFormatSuccess:
+        'Format applied! {{playersUpdated}} player(s) and {{teamsUpdated}} coach(es) updated.',
+      applyNameFormatFailure: 'Failed to apply name format.'
     },
     new: 'New',
     newAthleteProfile: 'New athlete profile',

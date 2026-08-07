@@ -222,7 +222,14 @@ export default {
       nameCaseOptions: {
         original: 'Original',
         upper: 'MAIÚSCULO'
-      }
+      },
+      applyNameFormatTitle: 'Aplicar formato aos atletas e coaches existentes',
+      applyNameFormatDescription:
+        'Isso vai renomear imediatamente todos os atletas e coaches já cadastrados neste campeonato para o formato acima. Essa ação não pode ser desfeita.',
+      applyNameFormatButton: 'Aplicar formato agora',
+      applyNameFormatSuccess:
+        'Formato aplicado! {{playersUpdated}} atleta(s) e {{teamsUpdated}} coach(es) atualizados.',
+      applyNameFormatFailure: 'Falha ao aplicar o formato de nome.'
     },
     new: 'Novo',
     newAthleteProfile: 'Novo perfil do atleta',
