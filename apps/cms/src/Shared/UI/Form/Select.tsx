@@ -11,7 +11,8 @@ export interface SelectOptionType {
   label: string;
 }
 
-interface SelectInputProps extends FieldRenderProps<string, HTMLSelectElement> {
+interface SelectInputProps
+  extends FieldRenderProps<string | null, HTMLSelectElement> {
   isClearable?: boolean;
   isDisabled?: boolean;
   options: SelectOptionType[];
@@ -20,7 +21,10 @@ interface SelectInputProps extends FieldRenderProps<string, HTMLSelectElement> {
 
 const getOptionValue = (option: SelectOptionType) => option.value;
 
-const findOptionByValue = (options: SelectOptionType[], value: string) => {
+const findOptionByValue = (
+  options: SelectOptionType[],
+  value: string | null
+) => {
   for (const option of options) {
     if (option.value === value) {
       return option;

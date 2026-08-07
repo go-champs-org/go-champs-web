@@ -19,14 +19,10 @@ interface NameFormatSettingsFieldsProps {
   organizationNameCase?: NameCase | null;
 }
 
-const SourceTag: React.FC<{ source?: NameFormatSettingSource }> = ({
+const SourceTag: React.FC<{ source: NameFormatSettingSource }> = ({
   source
 }) => {
   const { t } = useTranslation();
-
-  if (!source) {
-    return null;
-  }
 
   return (
     <span className={`tag ${source === 'inherited' ? 'is-light' : 'is-info'}`}>
@@ -41,9 +37,13 @@ export const inheritPlaceholder = (
   organizationValue: string | null | undefined,
   defaultValue: string
 ) => {
+  const resolvedOrganizationValue =
+    organizationValue !== null && organizationValue !== undefined
+      ? organizationValue
+      : defaultValue;
+
   const matchedOption = options.find(
-    option =>
-      option.value === (organizationValue ? organizationValue : defaultValue)
+    option => option.value === resolvedOrganizationValue
   );
 
   return t('nameFormatSettingsForm.inheritPlaceholder', {
@@ -69,13 +69,16 @@ const NameFormatSettingsFields: React.FC<NameFormatSettingsFieldsProps> = ({
     <React.Fragment>
       <div className="field">
         <label className="label">
-          <Trans>nameFormat</Trans> <SourceTag source={nameFormatSource} />
+          <Trans>nameFormat</Trans>{' '}
+          {nameFormatSource && <SourceTag source={nameFormatSource} />}
         </label>
 
         <div className="control">
           <Field
             name="nameFormat"
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            render={(
+              props: FieldRenderProps<string | null, HTMLSelectElement>
+            ) => (
               <SelectInput
                 {...props}
                 options={translatedNameFormatOptions}
@@ -98,13 +101,16 @@ const NameFormatSettingsFields: React.FC<NameFormatSettingsFieldsProps> = ({
 
       <div className="field">
         <label className="label">
-          <Trans>nameCase</Trans> <SourceTag source={nameCaseSource} />
+          <Trans>nameCase</Trans>{' '}
+          {nameCaseSource && <SourceTag source={nameCaseSource} />}
         </label>
 
         <div className="control">
           <Field
             name="nameCase"
-            render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+            render={(
+              props: FieldRenderProps<string | null, HTMLSelectElement>
+            ) => (
               <SelectInput
                 {...props}
                 options={translatedNameCaseOptions}
