@@ -9,7 +9,7 @@ import NameFormatSettingsFields from '../Shared/UI/Form/NameFormatSettingsFields
 import { OrganizationSettingEntity } from '../OrganizationSettings/state';
 import classNames from 'classnames';
 
-interface FromProps extends FormRenderProps<TournamentSettingEntity> {
+interface FormProps extends FormRenderProps<TournamentSettingEntity> {
   backUrl: string;
   isLoading: boolean;
   organizationSetting?: OrganizationSettingEntity;
@@ -27,7 +27,7 @@ function Form({
   organizationSetting,
   isApplyingNameFormat,
   applyNameFormat
-}: FromProps) {
+}: FormProps) {
   const { t } = useTranslation();
 
   return (
