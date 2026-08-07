@@ -122,7 +122,7 @@ export default {
     editPlayer: 'Edit player',
     editOfficial: 'Edit official',
     editRegistration: 'Edit registration',
-    editNameFormatSettings: 'Edit name format settings',
+    editSettings: 'Edit settings',
     editScoreboardSettings: 'Edit scoreboard settings',
     editTeam: 'Edit team',
     editTournament: 'Edit tournament',
@@ -208,7 +208,6 @@ export default {
     name: 'Name',
     nameCase: 'Name case',
     nameFormat: 'Name format',
-    nameFormatSettings: 'Name format settings',
     nameFormatSettingsForm: {
       nameFormatOptions: {
         full: 'Full name',
@@ -328,6 +327,7 @@ export default {
       }
     },
     search: 'Search',
+    settings: 'Settings',
     searching: 'Searching',
     searchTournaments: 'Search tournaments',
     searchOfficialProfile: 'Search official profile',

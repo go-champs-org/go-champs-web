@@ -2,12 +2,14 @@ import { TranslateSelectOptionType } from '../hooks/useTranslatedSelectOptions';
 import { ApiNameCase, ApiNameFormat } from '../httpClient/apiTypes';
 
 export type NameFormat = ApiNameFormat;
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentional type+value merge, keeps NameFormat tied to ApiNameFormat
 export const NameFormat: Record<'FULL' | 'FIRST_LAST', ApiNameFormat> = {
   FULL: 'full',
   FIRST_LAST: 'first_last'
 };
 
 export type NameCase = ApiNameCase;
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- intentional type+value merge, keeps NameCase tied to ApiNameCase
 export const NameCase: Record<'ORIGINAL' | 'UPPER', ApiNameCase> = {
   ORIGINAL: 'original',
   UPPER: 'upper'

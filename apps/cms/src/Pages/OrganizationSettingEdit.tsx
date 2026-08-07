@@ -11,9 +11,7 @@ import {
 } from '../Organizations/selectors';
 import { organizationSetting } from '../OrganizationSettings/selectors';
 import { Form, FormRenderProps } from 'react-final-form';
-import {
-  default as OrganizationSettingForm
-} from '../OrganizationSettings/Form';
+import { default as OrganizationSettingForm } from '../OrganizationSettings/Form';
 import { FormLoading } from '../Organizations/Form';
 import {
   patchOrganizationSetting,
@@ -84,7 +82,7 @@ const OrganizationSettingEdit: React.FC<OrganizationSettingEditProps> = ({
       <div className="columns is-vcentered is-mobile is-multiline">
         <div className="column is-12">
           <h2 className="subtitle">
-            <Trans>editNameFormatSettings</Trans>
+            <Trans>editSettings</Trans>
           </h2>
         </div>
 

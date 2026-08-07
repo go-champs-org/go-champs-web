@@ -120,12 +120,6 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
                   <Trans>tournaments</Trans>
                 </a>
               </li>
-
-              <li>
-                <a href={`/Organization/${organizationSlug}/Settings`}>
-                  <Trans>nameFormatSettings</Trans>
-                </a>
-              </li>
             </ul>
           </aside>
         </div>

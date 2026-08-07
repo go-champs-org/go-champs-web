@@ -103,7 +103,7 @@ function TournamentSettingEdit({
         <div className="columns is-vcentered is-mobile is-multiline">
           <div className="column is-12">
             <h2 className="subtitle">
-              <Trans>editNameFormatSettings</Trans>
+              <Trans>editSettings</Trans>
             </h2>
           </div>
 

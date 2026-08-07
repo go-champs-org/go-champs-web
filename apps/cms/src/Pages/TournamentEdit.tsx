@@ -116,6 +116,21 @@ const TournamentEdit: React.FC<TournamentEditProps> = ({
           </div>
 
           <div className="column is-8 has-text-right">
+            <Link
+              to={`${backUrl}/TournamentSettings`}
+              style={{ marginRight: '1rem' }}
+            >
+              <button className="button is-info is-outlined is-small">
+                <span className="icon">
+                  <i className="fas fa-cog"></i>
+                </span>
+
+                <span>
+                  <Trans>settings</Trans>
+                </span>
+              </button>
+            </Link>
+
             {shouldTournamentHaveLicensingBilling(tournament) && (
               <Link to={`${backUrl}/LicensingBilling`}>
                 <button className="button is-info is-outlined is-small">
