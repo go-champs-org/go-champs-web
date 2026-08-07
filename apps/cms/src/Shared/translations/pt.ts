@@ -228,7 +228,7 @@ export default {
         'Isso vai renomear imediatamente todos os atletas e técnicos já cadastrados neste campeonato para o formato acima. Essa ação não pode ser desfeita.',
       applyNameFormatButton: 'Aplicar formato agora',
       applyNameFormatSuccess:
-        'Formato aplicado! {{playersUpdated}} atleta(s) e {{teamsUpdated}} coach(es) atualizados.',
+        'Formato aplicado! {{playersUpdated}} atleta(s) e {{teamsUpdated}} técnico(s) atualizados.',
       applyNameFormatFailure: 'Falha ao aplicar o formato de nome.'
     },
     new: 'Novo',
