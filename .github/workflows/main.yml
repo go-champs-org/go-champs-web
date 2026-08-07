@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Running test
-        run: pnpm --filter @gochamps/cms test -- --watchAll=false
+        run: pnpm test:ci
 
   color_validation:
     runs-on: ubuntu-latest

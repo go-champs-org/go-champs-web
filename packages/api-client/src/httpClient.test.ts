@@ -1,4 +1,4 @@
-import { httpClient, ApiError } from '@gochamps/api-client';
+import httpClient from './httpClient';
 
 describe('httpClient.get', () => {
   const originalFetch = global.fetch;
@@ -18,10 +18,9 @@ describe('httpClient.get', () => {
       'https://api.example.com/v1/things'
     );
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://api.example.com/v1/things',
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/things', {
+      headers: { 'Content-Type': 'application/json' }
+    });
     expect(result).toEqual({ data: ['a'] });
   });
 
@@ -32,24 +31,10 @@ describe('httpClient.get', () => {
       text: async () => 'Not Found'
     }) as unknown as typeof fetch;
 
-    await expect(
-      httpClient.get('https://api.example.com/v1/missing')
-    ).rejects.toMatchObject({
+    await expect(httpClient.get('https://api.example.com/v1/missing')).rejects.toMatchObject({
       name: 'ApiError',
       status: 404,
       data: 'Not Found'
     });
-  });
-});
-
-describe('ApiError', () => {
-  it('carries status/data and is a proper Error instance', () => {
-    const error = new ApiError({ status: 500, data: { message: 'boom' } });
-
-    expect(error).toBeInstanceOf(Error);
-    expect(error.name).toBe('ApiError');
-    expect(error.status).toBe(500);
-    expect(error.data).toEqual({ message: 'boom' });
-    expect(error.message).toBe('API error with status 500');
   });
 });

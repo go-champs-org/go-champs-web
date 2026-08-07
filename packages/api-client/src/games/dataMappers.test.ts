@@ -1,4 +1,4 @@
-import { mapApiGameToGameEntity } from '@gochamps/api-client';
+import { mapApiGameToGameEntity } from './dataMappers';
 
 describe('mapApiGameToGameEntity', () => {
   it('maps snake_case API game fields to camelCase entity fields', () => {

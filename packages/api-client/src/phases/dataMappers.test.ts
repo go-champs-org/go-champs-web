@@ -1,4 +1,4 @@
-import { mapApiPhaseToPhaseEntity } from '@gochamps/api-client';
+import { mapApiPhaseToPhaseEntity } from './dataMappers';
 
 describe('mapApiPhaseToPhaseEntity', () => {
   it('maps snake_case API phase fields to camelCase entity fields', () => {
