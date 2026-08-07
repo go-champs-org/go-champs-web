@@ -1,7 +1,9 @@
 {
   "extends": "react-app",
+  "plugins": ["sonarjs"],
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/no-explicit-any": "error"
+    "@typescript-eslint/no-explicit-any": "error",
+    "sonarjs/cognitive-complexity": ["error", 2]
   }
 }
