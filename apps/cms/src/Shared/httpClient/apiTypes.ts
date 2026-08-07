@@ -942,8 +942,8 @@ export type ApiNameCase = 'original' | 'upper';
 
 export interface ApiTournamentSetting {
   id: string;
-  name_format: ApiNameFormat;
-  name_case: ApiNameCase;
+  name_format: ApiNameFormat | null;
+  name_case: ApiNameCase | null;
 }
 
 export interface ApiTournamentSettingWithDependencies
@@ -969,8 +969,8 @@ export interface ApiTournamentSettingsResponse {
 
 export interface ApiOrganizationSetting {
   id: string;
-  name_format: ApiNameFormat;
-  name_case: ApiNameCase;
+  name_format: ApiNameFormat | null;
+  name_case: ApiNameCase | null;
 }
 
 export interface ApiOrganizationSettingWithDependencies

@@ -2,8 +2,8 @@ import { NameCase, NameFormat } from '../Shared/dataMappers/nameFormatSettings';
 
 export interface TournamentSettingEntity {
   id: string;
-  nameFormat: NameFormat;
-  nameCase: NameCase;
+  nameFormat: NameFormat | null;
+  nameCase: NameCase | null;
 }
 
 export interface TournamentSettingState {
@@ -24,6 +24,6 @@ export const initialState: TournamentSettingState = {
 
 export const DEFAULT_TOURNAMENT_SETTING: TournamentSettingEntity = {
   id: '',
-  nameFormat: NameFormat.FULL,
-  nameCase: NameCase.ORIGINAL
+  nameFormat: null,
+  nameCase: null
 };

@@ -1,3 +1,5 @@
+import { OrganizationSettingEntity } from '../OrganizationSettings/state';
+
 export type PlayerStatVisibility = 'public' | 'private';
 
 export type TournamentVisibility = 'public' | 'private';
@@ -29,6 +31,7 @@ export interface TournamentEntity {
   sportName: string;
   sportSlug: string;
   visibility: TournamentVisibility;
+  organizationSetting?: OrganizationSettingEntity;
 }
 
 export interface PlayerStatEntity {

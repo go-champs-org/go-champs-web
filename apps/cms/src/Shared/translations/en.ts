@@ -209,6 +209,9 @@ export default {
     nameCase: 'Name case',
     nameFormat: 'Name format',
     nameFormatSettingsForm: {
+      inherited: 'Inherited',
+      overridden: 'Overridden',
+      inheritPlaceholder: 'Use organization default ({{value}})',
       nameFormatOptions: {
         full: 'Full name',
         first_last: 'First and last name'

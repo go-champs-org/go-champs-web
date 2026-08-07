@@ -23,6 +23,22 @@ describe('mapApiTournamentSettingToTournamentSettingEntity', () => {
       nameCase: NameCase.UPPER
     });
   });
+
+  it('preserves null fields as null, rather than defaulting them, so a partial override can be told apart from an inherited value', () => {
+    const apiTournamentSetting: ApiTournamentSetting = {
+      id: 'setting-id',
+      name_format: 'first_last',
+      name_case: null
+    };
+
+    expect(
+      mapApiTournamentSettingToTournamentSettingEntity(apiTournamentSetting)
+    ).toEqual({
+      id: 'setting-id',
+      nameFormat: NameFormat.FIRST_LAST,
+      nameCase: null
+    });
+  });
 });
 
 describe('mapTournamentSettingEntityToApiTournamentSettingPatchRequest', () => {

@@ -212,6 +212,9 @@ export default {
     nameCase: 'Caixa do nome',
     nameFormat: 'Formato do nome',
     nameFormatSettingsForm: {
+      inherited: 'Herdado',
+      overridden: 'Sobrescrito',
+      inheritPlaceholder: 'Usar padrão da organização ({{value}})',
       nameFormatOptions: {
         full: 'Nome completo',
         first_last: 'Primeiro e último nome'

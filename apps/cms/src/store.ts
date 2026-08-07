@@ -1,4 +1,9 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import {
+  AnyAction,
+  applyMiddleware,
+  combineReducers,
+  createStore
+} from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { default as accountReducer } from './Accounts/reducer';
@@ -62,8 +67,9 @@ export interface StoreState {
   games: GameState;
   officials: OfficialState;
   officialProfiles: OfficialProfileState;
-  organizations: OrganizationState;
-  organizationSettings: OrganizationSettingState;
+  organizations: OrganizationState & {
+    organizationSettings: OrganizationSettingState;
+  };
   phases: PhaseState;
   players: PlayerState;
   playerStatsLogs: PlayerStatsLogState;
@@ -74,9 +80,38 @@ export interface StoreState {
   teamStatsLogs: TeamStatsLogState;
   theme: ThemeState;
   themeV2: ThemeV2State;
-  tournaments: TournamentState;
-  tournamentSettings: TournamentSettingState;
+  tournaments: TournamentState & { tournamentSettings: TournamentSettingState };
 }
+
+type TournamentsWithSettingsState = TournamentState & {
+  tournamentSettings: TournamentSettingState;
+};
+
+const tournamentsWithSettingsReducer = (
+  state: TournamentsWithSettingsState | undefined,
+  action: AnyAction
+): TournamentsWithSettingsState => ({
+  ...tournamentReducer(state, action),
+  tournamentSettings: tournamentSettingsReducer(
+    state ? state.tournamentSettings : undefined,
+    action
+  )
+});
+
+type OrganizationsWithSettingsState = OrganizationState & {
+  organizationSettings: OrganizationSettingState;
+};
+
+const organizationsWithSettingsReducer = (
+  state: OrganizationsWithSettingsState | undefined,
+  action: AnyAction
+): OrganizationsWithSettingsState => ({
+  ...organizationReducer(state, action),
+  organizationSettings: organizationSettingsReducer(
+    state ? state.organizationSettings : undefined,
+    action
+  )
+});
 
 export default createStore(
   combineReducers({
@@ -90,8 +125,7 @@ export default createStore(
     games: tournamentGameReducer,
     officials: officialsReducer,
     officialProfiles: officialProfilesReducer,
-    organizations: organizationReducer,
-    organizationSettings: organizationSettingsReducer,
+    organizations: organizationsWithSettingsReducer,
     phases: tournamentPhaseReducer,
     players: playerReducer,
     playerStatsLogs: playerStatsLogReducer,
@@ -102,8 +136,7 @@ export default createStore(
     teamStatsLogs: teamStatsLogReducer,
     theme: themeReducer,
     themeV2: themeV2Reducer,
-    tournaments: tournamentReducer,
-    tournamentSettings: tournamentSettingsReducer
+    tournaments: tournamentsWithSettingsReducer
   }),
   NODE_ENV === 'production'
     ? applyMiddleware(thunk)

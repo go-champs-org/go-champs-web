@@ -49,7 +49,7 @@ const mapStateToProps = (
   const { tournamentSlug } = props.match.params;
   return {
     ...props,
-    tournamentSetting: tournamentSetting(state.tournamentSettings),
+    tournamentSetting: tournamentSetting(state.tournaments.tournamentSettings),
     tournament: tournamentBySlug(state.tournaments, tournamentSlug),
     tournamentLoading: tournamentLoading(state.tournaments)
   };
@@ -85,6 +85,7 @@ type TournamentSettingEditProps = ConnectedProps<typeof connector>;
 
 function TournamentSettingEdit({
   tournamentSetting,
+  tournament,
   match,
   tournamentLoading,
   postTournamentSetting,
@@ -120,6 +121,7 @@ function TournamentSettingEdit({
                     {...props}
                     backUrl={backUrl}
                     isLoading={tournamentLoading}
+                    organizationSetting={tournament.organizationSetting}
                   />
                 )}
               />

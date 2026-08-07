@@ -15,6 +15,7 @@ interface SelectInputProps extends FieldRenderProps<string, HTMLSelectElement> {
   isClearable?: boolean;
   isDisabled?: boolean;
   options: SelectOptionType[];
+  placeholder?: string;
 }
 
 const getOptionValue = (option: SelectOptionType) => option.value;
@@ -35,7 +36,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   meta,
   isClearable,
   isDisabled = false,
-  options
+  options,
+  placeholder
 }) => {
   const { theme } = useTheme();
   const value = findOptionByValue(options, input.value);
@@ -115,6 +117,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       isClearable={isClearable}
       getOptionValue={getOptionValue}
       options={options}
+      placeholder={placeholder}
       onChange={onChange}
       onBlur={event =>
         input.onBlur(event as React.FocusEvent<HTMLSelectElement>)
