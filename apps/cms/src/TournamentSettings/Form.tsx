@@ -61,7 +61,7 @@ function Form({
           <DoubleClickButton
             key={String(isApplyingNameFormat)}
             type="button"
-            className={classNames('button is-warning', {
+            className={classNames('button is-info', {
               'is-loading': isApplyingNameFormat
             })}
             disabled={isApplyingNameFormat || !pristine}
