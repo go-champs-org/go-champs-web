@@ -15,6 +15,8 @@ import { default as tournamentGameReducer } from './Games/reducer';
 import { GameState } from './Games/state';
 import { default as organizationReducer } from './Organizations/reducer';
 import { OrganizationState } from './Organizations/state';
+import { default as organizationSettingsReducer } from './OrganizationSettings/reducer';
+import { OrganizationSettingState } from './OrganizationSettings/state';
 import { default as tournamentPhaseReducer } from './Phases/reducer';
 import { PhaseState } from './Phases/state';
 import { default as teamReducer } from './Teams/reducer';
@@ -33,6 +35,8 @@ import { default as fixedPlayerStatsTablesReducer } from './FixedPlayerStatsTabl
 import { FixedPlayerStatsTableState } from './FixedPlayerStatsTables/state';
 import { ScoreboardSettingState } from './ScoreboardSettings/state';
 import { default as scoreboardSettingsReducer } from './ScoreboardSettings/reducer';
+import { TournamentSettingState } from './TournamentSettings/state';
+import { default as tournamentSettingsReducer } from './TournamentSettings/reducer';
 import { SportState } from './Sports/state';
 import { default as sportReducer } from './Sports/reducer';
 import { RegistrationState } from './Registrations/state';
@@ -59,6 +63,7 @@ export interface StoreState {
   officials: OfficialState;
   officialProfiles: OfficialProfileState;
   organizations: OrganizationState;
+  organizationSettings: OrganizationSettingState;
   phases: PhaseState;
   players: PlayerState;
   playerStatsLogs: PlayerStatsLogState;
@@ -70,6 +75,7 @@ export interface StoreState {
   theme: ThemeState;
   themeV2: ThemeV2State;
   tournaments: TournamentState;
+  tournamentSettings: TournamentSettingState;
 }
 
 export default createStore(
@@ -85,6 +91,7 @@ export default createStore(
     officials: officialsReducer,
     officialProfiles: officialProfilesReducer,
     organizations: organizationReducer,
+    organizationSettings: organizationSettingsReducer,
     phases: tournamentPhaseReducer,
     players: playerReducer,
     playerStatsLogs: playerStatsLogReducer,
@@ -95,7 +102,8 @@ export default createStore(
     teamStatsLogs: teamStatsLogReducer,
     theme: themeReducer,
     themeV2: themeV2Reducer,
-    tournaments: tournamentReducer
+    tournaments: tournamentReducer,
+    tournamentSettings: tournamentSettingsReducer
   }),
   NODE_ENV === 'production'
     ? applyMiddleware(thunk)

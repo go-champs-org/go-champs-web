@@ -25,6 +25,7 @@ import Helmet from 'react-helmet';
 import { OrganizationEntity } from '../Organizations/state';
 import withOrganization from './support/withOrganization';
 import { Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = (
   state: StoreState,
@@ -61,10 +62,24 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
-        <div className="column is-12">
+        <div className="column is-4">
           <h2 className="subtitle">
             <Trans>editOrganization</Trans>
           </h2>
+        </div>
+
+        <div className="column is-8 has-text-right">
+          <Link to={`${backUrl}/Settings`}>
+            <button className="button is-info is-outlined is-small">
+              <span className="icon">
+                <i className="fas fa-cog"></i>
+              </span>
+
+              <span>
+                <Trans>settings</Trans>
+              </span>
+            </button>
+          </Link>
         </div>
 
         <div className="column is-12">

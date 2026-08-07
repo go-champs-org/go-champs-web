@@ -122,6 +122,7 @@ export default {
     editPlayer: 'Edit player',
     editOfficial: 'Edit official',
     editRegistration: 'Edit registration',
+    editSettings: 'Edit settings',
     editScoreboardSettings: 'Edit scoreboard settings',
     editTeam: 'Edit team',
     editTournament: 'Edit tournament',
@@ -205,6 +206,18 @@ export default {
     mustBeAtLeast4Digits: 'Must be at least 4 digits',
     chooseFromSportsList: 'Choose from sports list',
     name: 'Name',
+    nameCase: 'Name case',
+    nameFormat: 'Name format',
+    nameFormatSettingsForm: {
+      nameFormatOptions: {
+        full: 'Full name',
+        first_last: 'First and last name'
+      },
+      nameCaseOptions: {
+        original: 'Original',
+        upper: 'UPPERCASE'
+      }
+    },
     new: 'New',
     newAthleteProfile: 'New athlete profile',
     newCoach: 'New coach',
@@ -314,6 +327,7 @@ export default {
       }
     },
     search: 'Search',
+    settings: 'Settings',
     searching: 'Searching',
     searchTournaments: 'Search tournaments',
     searchOfficialProfile: 'Search official profile',

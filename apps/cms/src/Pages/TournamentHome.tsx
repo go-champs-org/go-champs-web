@@ -38,6 +38,7 @@ import RegistrationEdit from './RegistrationEdit';
 import RegistrationInvitesRoot from './RegistrationInvitesRoot';
 import PlayerView from './PlayerView';
 import ScoreboardSettingEdit from './ScoreboardSettingEdit';
+import TournamentSettingEdit from './TournamentSettingEdit';
 import TeamEditRoster from './TeamEditRoster';
 import TeamView from './TeamView';
 import OfficialList from './OfficialList';
@@ -130,6 +131,14 @@ const TournamentHome: React.FC<TournamentHomeProps> = ({
           render={(props: RouteComponentProps<RouteProps>) => (
             <AuthenticatedRoute>
               <ScoreboardSettingEdit {...props} />
+            </AuthenticatedRoute>
+          )}
+        />
+        <Route
+          path={`/:organizationSlug/:tournamentSlug/TournamentSettings`}
+          render={(props: RouteComponentProps<RouteProps>) => (
+            <AuthenticatedRoute>
+              <TournamentSettingEdit {...props} />
             </AuthenticatedRoute>
           )}
         />

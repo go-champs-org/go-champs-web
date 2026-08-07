@@ -123,6 +123,7 @@ export default {
     editPhase: 'Editar fase',
     editPlayer: 'Editar atleta',
     editOfficial: 'Editar árbitro',
+    editSettings: 'Editar configurações',
     editScoreboardSettings: 'Editar configuracões de scoreboard',
     editRegistration: 'Editar inscricão',
     editTeam: 'Editar equipe',
@@ -208,6 +209,18 @@ export default {
     mustBeAtLeast4Digits: 'Deve ter pelo menos 4 dígitos',
     chooseFromSportsList: 'Escolher da lista de esportes',
     name: 'Nome',
+    nameCase: 'Caixa do nome',
+    nameFormat: 'Formato do nome',
+    nameFormatSettingsForm: {
+      nameFormatOptions: {
+        full: 'Nome completo',
+        first_last: 'Primeiro e último nome'
+      },
+      nameCaseOptions: {
+        original: 'Original',
+        upper: 'MAIÚSCULO'
+      }
+    },
     new: 'Novo',
     newAthleteProfile: 'Novo perfil do atleta',
     newCoach: 'Novo treinador',
@@ -319,6 +332,7 @@ export default {
       }
     },
     search: 'Pesquisar',
+    settings: 'Configurações',
     searching: 'Pesquisando',
     searchTournaments: 'Busca de campeonatos',
     searchOfficialProfile: 'Buscar perfil de oficial',
