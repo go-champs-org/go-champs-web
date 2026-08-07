@@ -11,17 +11,18 @@
     "start": "next start",
     "test": "jest",
     "test:ci": "jest --ci",
-    "lint:check": "next lint"
+    "lint:check": "biome lint ."
   },
   "dependencies": {
-    "next": "16.2.12",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "@gochamps/api-client": "workspace:*",
     "@gochamps/domain-types": "workspace:*",
     "@gochamps/ui": "workspace:*",
-    "@gochamps/api-client": "workspace:*"
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "@jest/core": "30.4.1",
     "@jest/environment": "30.4.1",
     "@jest/reporters": "30.4.1",
