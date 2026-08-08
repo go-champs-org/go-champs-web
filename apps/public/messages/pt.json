@@ -1,0 +1,21 @@
+{
+  "common": {
+    "siteName": "Go Champs",
+    "navAbout": "Sobre",
+    "navFaq": "FAQ",
+    "navContact": "Contato"
+  },
+  "contact": {
+    "contactUs": "Fale com a gente",
+    "contactSubtitle": "Tem alguma dúvida ou sugestão? Adoraríamos ouvir você.",
+    "name": "Nome",
+    "email": "Email",
+    "message": "Mensagem",
+    "yourName": "Seu nome",
+    "yourEmail": "Seu email",
+    "yourMessage": "Sua mensagem",
+    "send": "Enviar",
+    "sendYourFeedbackSuccessMsg": "Mensagem enviada com sucesso!",
+    "sendYourFeedbackFailMsg": "Problema ao enviar, tente mais tarde!"
+  }
+}

@@ -1,4 +1,7 @@
 const path = require('path');
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin();
 
 // If more than one pnpm-workspace.yaml/lockfile is reachable above this
 // directory, Next.js's root-inference can walk up too far, warn about
@@ -12,6 +15,20 @@ const workspaceRoot = path.join(__dirname, '../..');
 const nextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: workspaceRoot,
+  // next-intl and its transitive dependencies (use-intl, intl-messageformat,
+  // the @formatjs/* packages) ship ESM-only builds. Listing them here makes
+  // both `next build` and `next/jest` (via its pnpm-aware
+  // transformIgnorePatterns) transpile these packages instead of leaving
+  // their `export` syntax untouched under node_modules.
+  transpilePackages: [
+    'next-intl',
+    'use-intl',
+    'intl-messageformat',
+    '@formatjs/fast-memoize',
+    '@formatjs/icu-messageformat-parser',
+    '@formatjs/icu-skeleton-parser',
+    '@formatjs/intl-localematcher'
+  ],
   turbopack: {
     root: workspaceRoot
   },
@@ -26,4 +43,4 @@ const nextConfig = {
   }
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);
