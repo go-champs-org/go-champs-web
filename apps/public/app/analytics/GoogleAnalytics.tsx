@@ -1,4 +1,4 @@
-export const GoogleAnalytics = ({ gaId }: { gaId: string }) => {
+export function GoogleAnalytics({ gaId }: { gaId: string }) {
   if (!gaId) return null;
 
   return (
@@ -14,10 +14,10 @@ export const GoogleAnalytics = ({ gaId }: { gaId: string }) => {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${gaId}');
+          gtag('config', ${JSON.stringify(gaId)});
         `
         }}
       />
     </>
   );
-};
+}

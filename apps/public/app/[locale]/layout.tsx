@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -20,7 +21,7 @@ export default async function LocaleLayout({
   children,
   params
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
@@ -42,7 +43,7 @@ export default async function LocaleLayout({
             links={[
               { href: `/${locale}/sobre`, label: t('navAbout') },
               { href: `/${locale}/faq`, label: t('navFaq') },
-              { href: `/${locale}/contato`, label: t('navContact') }
+              { href: `/${locale}/contact`, label: t('navContact') }
             ]}
             logoHref={`/${locale}`}
           />

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
 import LocaleLayout from './layout';
 
@@ -15,8 +16,7 @@ jest.mock('next/navigation', () => ({
 // Stub it to a passthrough so this test focuses on layout composition.
 jest.mock('next-intl', () => ({
   ...jest.requireActual('next-intl'),
-  NextIntlClientProvider: ({ children }: { children: React.ReactNode }) =>
-    children
+  NextIntlClientProvider: ({ children }: { children: ReactNode }) => children
 }));
 
 jest.mock('next-intl/server', () => ({
