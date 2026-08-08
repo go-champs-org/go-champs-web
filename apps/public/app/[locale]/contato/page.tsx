@@ -1,9 +1,15 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Card } from '@gochamps/ui';
 import { EmailForm } from './EmailForm';
 
-export default function ContactPage() {
-  const t = useTranslations('contact');
+export default async function ContactPage({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations('contact');
 
   return (
     <main className="py-12 px-6">

@@ -1,6 +1,9 @@
 {
   "common": {
-    "siteName": "Go Champs"
+    "siteName": "Go Champs",
+    "navAbout": "Sobre",
+    "navFaq": "FAQ",
+    "navContact": "Contato"
   },
   "contact": {
     "contactUs": "Fale com a gente",

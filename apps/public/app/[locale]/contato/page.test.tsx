@@ -11,20 +11,33 @@ jest.mock('@emailjs/browser', () => ({
   }
 }));
 
+jest.mock('next-intl/server', () => ({
+  setRequestLocale: jest.fn(),
+  getTranslations: async (namespace: string) => {
+    const dict = (
+      require('../../../messages/pt.json') as Record<
+        string,
+        Record<string, string>
+      >
+    )[namespace];
+    return (key: string) => dict[key];
+  }
+}));
+
 describe('ContactPage', () => {
-  it('renders the contact heading', () => {
+  it('renders the contact heading', async () => {
     render(
       <NextIntlClientProvider locale="pt" messages={messages}>
-        <ContactPage />
+        {await ContactPage({ params: Promise.resolve({ locale: 'pt' }) })}
       </NextIntlClientProvider>
     );
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
   });
 
-  it('renders the email form fields and submit button', () => {
+  it('renders the email form fields and submit button', async () => {
     render(
       <NextIntlClientProvider locale="pt" messages={messages}>
-        <ContactPage />
+        {await ContactPage({ params: Promise.resolve({ locale: 'pt' }) })}
       </NextIntlClientProvider>
     );
 

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { NavBar, Footer } from '@gochamps/ui';
 import { routing } from '../../src/i18n/routing';
 import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
@@ -30,6 +30,8 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
 
+  const t = await getTranslations('common');
+
   return (
     <html lang={locale}>
       <body>
@@ -38,9 +40,9 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <NavBar
             links={[
-              { href: `/${locale}/sobre`, label: 'Sobre' },
-              { href: `/${locale}/faq`, label: 'FAQ' },
-              { href: `/${locale}/contato`, label: 'Contato' }
+              { href: `/${locale}/sobre`, label: t('navAbout') },
+              { href: `/${locale}/faq`, label: t('navFaq') },
+              { href: `/${locale}/contato`, label: t('navContact') }
             ]}
             logoHref={`/${locale}`}
           />
