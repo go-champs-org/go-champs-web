@@ -1,5 +1,9 @@
 {
   "common": {
     "siteName": "Go Champs"
+  },
+  "contact": {
+    "contactUs": "Contact us",
+    "contactSubtitle": "Have a question or feedback? We'd love to hear from you."
   }
 }

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
+import { NavBar, Footer } from '@gochamps/ui';
 import { routing } from '../../src/i18n/routing';
 import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
 import { Amplitude } from '../analytics/Amplitude';
@@ -34,7 +35,18 @@ export default async function LocaleLayout({
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
         <Amplitude apiKey={process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || ''} />
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <NavBar
+            links={[
+              { href: `/${locale}/sobre`, label: 'Sobre' },
+              { href: `/${locale}/faq`, label: 'FAQ' },
+              { href: `/${locale}/contato`, label: 'Contato' }
+            ]}
+            logoHref={`/${locale}`}
+          />
+          {children}
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
