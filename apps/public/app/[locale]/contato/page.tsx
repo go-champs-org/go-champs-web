@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { Card } from '@gochamps/ui';
+import { EmailForm } from './EmailForm';
 
 export default function ContactPage() {
   const t = useTranslations('contact');
@@ -10,6 +11,7 @@ export default function ContactPage() {
         <Card>
           <h1 className="text-2xl font-bold">{t('contactUs')}</h1>
           <p className="mt-2 text-neutral-500">{t('contactSubtitle')}</p>
+          <EmailForm />
         </Card>
       </div>
     </main>

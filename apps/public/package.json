@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "2.11.1",
+    "@emailjs/browser": "^4.4.1",
     "@gochamps/api-client": "workspace:*",
     "@gochamps/domain-types": "workspace:*",
     "@gochamps/ui": "workspace:*",

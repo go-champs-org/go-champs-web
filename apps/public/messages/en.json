@@ -4,6 +4,15 @@
   },
   "contact": {
     "contactUs": "Contact us",
-    "contactSubtitle": "Have a question or feedback? We'd love to hear from you."
+    "contactSubtitle": "Have a question or feedback? We'd love to hear from you.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "yourMessage": "Your message",
+    "send": "Send it",
+    "sendYourFeedbackSuccessMsg": "Thank you for your message!",
+    "sendYourFeedbackFailMsg": "Something went wrong, please try again later!"
   }
 }

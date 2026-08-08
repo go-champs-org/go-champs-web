@@ -3,6 +3,14 @@ import { NextIntlClientProvider } from 'next-intl';
 import ContactPage from './page';
 import messages from '../../../messages/pt.json';
 
+jest.mock('@emailjs/browser', () => ({
+  __esModule: true,
+  default: {
+    init: jest.fn(),
+    sendForm: jest.fn().mockResolvedValue({ status: 200, text: 'OK' })
+  }
+}));
+
 describe('ContactPage', () => {
   it('renders the contact heading', () => {
     render(
@@ -11,5 +19,22 @@ describe('ContactPage', () => {
       </NextIntlClientProvider>
     );
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
+  });
+
+  it('renders the email form fields and submit button', () => {
+    render(
+      <NextIntlClientProvider locale="pt" messages={messages}>
+        <ContactPage />
+      </NextIntlClientProvider>
+    );
+
+    expect(screen.getByLabelText(messages.contact.name)).toBeInTheDocument();
+    expect(screen.getByLabelText(messages.contact.email)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(messages.contact.message)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: messages.contact.send })
+    ).toBeInTheDocument();
   });
 });
