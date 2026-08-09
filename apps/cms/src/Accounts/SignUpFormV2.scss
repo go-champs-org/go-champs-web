@@ -23,6 +23,24 @@
   }
 }
 
+// The reCAPTCHA widget renders at a fixed 304px. On narrow phones the card
+// content box is smaller than that, so scale it down to keep it fully tappable.
+.signup-form-v2-recaptcha {
+  align-items: center;
+  transform: scale(0.8);
+  transform-origin: center;
+  margin: -0.75rem 0;
+
+  @media (min-width: 384px) {
+    transform: none;
+    margin: 0;
+  }
+
+  iframe {
+    max-height: 80px;
+  }
+}
+
 .signup-form-v2-submit {
   width: 100%;
   padding: 0.75rem;
