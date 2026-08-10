@@ -12,6 +12,9 @@
     "test": "jest",
     "test:ci": "jest --ci"
   },
+  "dependencies": {
+    "react-icons": "5.7.0"
+  },
   "peerDependencies": {
     "react": ">=19"
   },

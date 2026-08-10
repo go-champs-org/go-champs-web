@@ -52,14 +52,17 @@ export function EmailForm() {
   };
 
   return (
-    <form className="mt-4 flex flex-col gap-4" onSubmit={sendEmail}>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="contact-name" className="font-medium">
+    <form className="mt-8 flex flex-col gap-8" onSubmit={sendEmail}>
+      <div className="flex flex-col rounded-t border-b border-[#131f00]/50 bg-surface-input px-4 py-1">
+        <label
+          htmlFor="contact-name"
+          className="text-xs tracking-[0.4px] text-muted"
+        >
           {t('name')}
         </label>
         <input
           id="contact-name"
-          className="rounded border border-neutral-400 p-2"
+          className="bg-transparent py-1 text-base tracking-[0.5px] text-[#131f00] placeholder:text-[#131f00]/35 focus:outline-none"
           type="text"
           placeholder={t('yourName')}
           name="name"
@@ -67,13 +70,16 @@ export function EmailForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="contact-email" className="font-medium">
+      <div className="flex flex-col rounded-t border-b border-[#131f00]/50 bg-surface-input px-4 py-1">
+        <label
+          htmlFor="contact-email"
+          className="text-xs tracking-[0.4px] text-muted"
+        >
           {t('email')}
         </label>
         <input
           id="contact-email"
-          className="rounded border border-neutral-400 p-2"
+          className="bg-transparent py-1 text-base tracking-[0.5px] text-[#131f00] placeholder:text-[#131f00]/35 focus:outline-none"
           type="email"
           placeholder={t('yourEmail')}
           name="email"
@@ -81,13 +87,16 @@ export function EmailForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="contact-message" className="font-medium">
+      <div className="flex flex-col rounded-t border-b border-[#131f00]/50 bg-surface-input px-4 py-1">
+        <label
+          htmlFor="contact-message"
+          className="text-xs tracking-[0.4px] text-muted"
+        >
           {t('message')}
         </label>
         <textarea
           id="contact-message"
-          className="rounded border border-neutral-400 p-2"
+          className="bg-transparent py-1 text-base tracking-[0.5px] text-[#131f00] placeholder:text-[#131f00]/35 focus:outline-none"
           placeholder={t('yourMessage')}
           name="message"
           rows={5}
@@ -97,7 +106,7 @@ export function EmailForm() {
 
       <div>
         <button
-          className="rounded bg-neutral-900 px-4 py-2 text-white disabled:opacity-50"
+          className="w-full rounded-2xl bg-primary px-6 py-4 font-medium text-white transition-colors hover:bg-primary-dark disabled:opacity-50"
           type="submit"
           disabled={isSubmitting}
         >

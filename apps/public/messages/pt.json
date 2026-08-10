@@ -1,9 +1,10 @@
 {
   "common": {
     "siteName": "Go Champs",
-    "navAbout": "Sobre",
-    "navFaq": "FAQ",
-    "navContact": "Contato"
+    "navAbout": "Sobre nós",
+    "navFaq": "Perguntas Frequentes",
+    "navContact": "Fale com a gente",
+    "navLogin": "Fazer login"
   },
   "contact": {
     "contactUs": "Fale com a gente",
@@ -17,5 +18,17 @@
     "send": "Enviar",
     "sendYourFeedbackSuccessMsg": "Mensagem enviada com sucesso!",
     "sendYourFeedbackFailMsg": "Problema ao enviar, tente mais tarde!"
+  },
+  "footer": {
+    "with": "com",
+    "byGoChampsTeam": "pela equipe Go Champs",
+    "theSourceCodeIsLicensed": "Esse código-fonte é licenciado",
+    "privacyPolicyBR": "Política de Privacidade (BR)",
+    "termsBR": "Termos de Uso (BR)",
+    "copyright": "Copyright",
+    "andContributors": "e colaboradores",
+    "allRightsReserved": "Todos os direitos reservados",
+    "apiDocumentationPrefix": "Confira a Documentação da",
+    "apiDocumentationSuffix": ""
   }
 }

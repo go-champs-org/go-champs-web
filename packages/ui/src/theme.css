@@ -1,4 +1,52 @@
+/* Proxima Nova files are referenced by root-absolute path because Next.js
+   only serves static assets from a consuming app's own public/ dir — this
+   package has no build step to publish them. Canonical copies live in
+   packages/ui/assets/fonts/; any app importing this theme.css must copy
+   them into its own public/fonts/ (as apps/public does). */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_extrabold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_boldit.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
+  --font-sans: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Helvetica Neue', Arial, sans-serif;
+
   --color-primary: #A6CD63;
   --color-primary-dark: #7A9949;
   --color-secondary: #F4D35E;
@@ -10,4 +58,29 @@
   --color-neutral-700: #2C2C2C;
   --color-neutral-900: #1D1D1B;
   --color-neutral-950: #12140E;
+
+  --color-background: var(--color-neutral-300);
+  --color-foreground: #131F00;
+  --color-muted: #45483D;
+  --color-surface-input: #E3E3D8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-primary: #7A9949;
+    --color-background: var(--color-neutral-950);
+    --color-foreground: var(--color-neutral-100);
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-primary: #7A9949;
+  --color-background: var(--color-neutral-950);
+  --color-foreground: var(--color-neutral-100);
+}
+
+:root[data-theme="light"] {
+  --color-primary: #A6CD63;
+  --color-background: var(--color-neutral-300);
+  --color-foreground: #131F00;
 }

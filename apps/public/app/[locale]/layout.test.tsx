@@ -70,11 +70,20 @@ describe('LocaleLayout', () => {
       { container: document.documentElement }
     );
 
-    expect(screen.getByRole('link', { name: 'Sobre' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'FAQ' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Contato' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sobre nós' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Perguntas Frequentes' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Fale com a gente' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Fazer login' })
+    ).toBeInTheDocument();
     expect(screen.getByTestId('child')).toBeInTheDocument();
-    expect(screen.getByText(/© \d{4} Go Champs/)).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Política de Privacidade (BR)' })
+    ).toBeInTheDocument();
   });
 
   it('renders analytics scripts when NEXT_PUBLIC_GA_ID is set', async () => {
