@@ -1,4 +1,10 @@
+import { ComponentType } from 'react';
 import { FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa';
+
+type SocialIconProps = { size?: number; className?: string };
+const Instagram = FaInstagram as unknown as ComponentType<SocialIconProps>;
+const YouTube = FaYoutube as unknown as ComponentType<SocialIconProps>;
+const LinkedIn = FaLinkedin as unknown as ComponentType<SocialIconProps>;
 
 export interface FooterTranslations {
   with: string;
@@ -32,7 +38,7 @@ export function Footer({ t, privacyHref, termsHref, buildNumber }: FooterProps) 
             aria-label="Instagram"
             className="flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:text-primary md:size-10"
           >
-            <FaInstagram size={20} className="md:size-6" />
+            <Instagram size={20} className="md:size-6" />
           </a>
           <a
             href="https://www.youtube.com/@GoChampsApp"
@@ -41,7 +47,7 @@ export function Footer({ t, privacyHref, termsHref, buildNumber }: FooterProps) 
             aria-label="YouTube"
             className="flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:text-primary md:size-10"
           >
-            <FaYoutube size={20} className="md:size-6" />
+            <YouTube size={20} className="md:size-6" />
           </a>
           <a
             href="https://www.linkedin.com/company/go-champs"
@@ -50,7 +56,7 @@ export function Footer({ t, privacyHref, termsHref, buildNumber }: FooterProps) 
             aria-label="LinkedIn"
             className="flex size-9 items-center justify-center rounded-full text-muted transition-colors hover:text-primary md:size-10"
           >
-            <FaLinkedin size={20} className="md:size-6" />
+            <LinkedIn size={20} className="md:size-6" />
           </a>
         </div>
 
