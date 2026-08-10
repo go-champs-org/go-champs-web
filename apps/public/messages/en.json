@@ -1,0 +1,34 @@
+{
+  "common": {
+    "siteName": "Go Champs",
+    "navAbout": "About us",
+    "navFaq": "FAQ",
+    "navContact": "Get in touch",
+    "navLogin": "Log in"
+  },
+  "contact": {
+    "contactUs": "Contact us",
+    "contactSubtitle": "Have a question or feedback? We'd love to hear from you.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "yourMessage": "Your message",
+    "send": "Send it",
+    "sendYourFeedbackSuccessMsg": "Thank you for your message!",
+    "sendYourFeedbackFailMsg": "Something went wrong, please try again later!"
+  },
+  "footer": {
+    "with": "with",
+    "byGoChampsTeam": "by Go Champs team",
+    "theSourceCodeIsLicensed": "The source code is licensed",
+    "privacyPolicyBR": "Privacy Policy (BR)",
+    "termsBR": "Terms of Use (BR)",
+    "copyright": "Copyright",
+    "andContributors": "and contributors",
+    "allRightsReserved": "All rights reserved",
+    "apiDocumentationPrefix": "Check out the",
+    "apiDocumentationSuffix": "documentation"
+  }
+}

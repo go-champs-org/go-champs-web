@@ -1,3 +1,9 @@
 @import "tailwindcss";
 @import "@gochamps/ui/theme.css";
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
