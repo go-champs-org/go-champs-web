@@ -11,7 +11,7 @@ function readCurrentTheme(): ThemeMode {
   }
   const prefersDark = window.matchMedia?.(
     '(prefers-color-scheme: dark)'
-  ).matches;
+  )?.matches;
   return prefersDark ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 }
 
