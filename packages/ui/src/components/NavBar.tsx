@@ -34,8 +34,13 @@ export function NavBar({
       }
     };
 
-    document.addEventListener('click', handleOutsideClick);
-    return () => document.removeEventListener('click', handleOutsideClick);
+    // mousedown (not click) — the burger button swaps icon on click and
+    // React re-renders synchronously mid-bubble, detaching event.target
+    // before a document-level 'click' listener would see it, which made
+    // `contains()` wrongly report false and close the menu right after
+    // it opened.
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
   return (

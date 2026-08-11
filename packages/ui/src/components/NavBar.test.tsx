@@ -10,7 +10,7 @@ describe('NavBar', () => {
     fireEvent.click(screen.getByRole('button', { name: 'menu' }));
     expect(screen.getAllByRole('link', { name: 'About' })).toHaveLength(2);
 
-    fireEvent.click(document.body);
+    fireEvent.mouseDown(document.body);
     expect(screen.getAllByRole('link', { name: 'About' })).toHaveLength(1);
   });
 
