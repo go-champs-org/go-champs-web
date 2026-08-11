@@ -52,6 +52,7 @@ export default async function LocaleLayout({
             ]}
             logoHref={`/${locale}`}
             logoSrc="/logo/logo-white-name.png"
+            logoSrcMobile="/logo/logo-green.png"
             loginHref={process.env.NEXT_PUBLIC_CMS_URL || '/SignIn'}
             loginLabel={t('navLogin')}
           />

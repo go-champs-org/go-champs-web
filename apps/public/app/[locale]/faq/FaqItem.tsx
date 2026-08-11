@@ -12,8 +12,8 @@ export function FaqItem({ question, answer }: FaqItemProps) {
 
   return (
     <div
-      className={`overflow-hidden rounded-xl border border-neutral-400 bg-surface transition-shadow ${
-        isOpen ? 'shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]' : ''
+      className={`overflow-hidden rounded-xl border border-border bg-surface transition-shadow ${
+        isOpen ? 'shadow-[0_4px_16px_var(--shadow-elevated)]' : ''
       }`}
     >
       <button
@@ -25,7 +25,7 @@ export function FaqItem({ question, answer }: FaqItemProps) {
         <span className="w-6 flex-shrink-0 text-xl font-bold leading-none text-primary-dark">
           {isOpen ? '−' : '+'}
         </span>
-        <span className="text-base font-semibold leading-snug text-foreground md:text-[1.0625rem]">
+        <span className="text-base font-semibold leading-[1.4] text-foreground md:text-[1.0625rem]">
           {question}
         </span>
       </button>

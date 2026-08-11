@@ -65,7 +65,9 @@
   --color-surface-input: #E3E3D8;
   --color-surface: var(--color-neutral-100);
   --color-navbar: var(--color-neutral-950);
+  --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
+  --shadow-strong: rgba(29, 29, 27, 0.15);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,9 +76,12 @@
     --color-background: var(--color-neutral-900);
     --color-foreground: var(--color-neutral-100);
     --color-muted: var(--color-neutral-100);
+    --color-surface-input: var(--color-neutral-700);
     --color-surface: var(--color-neutral-700);
     --color-navbar: var(--color-neutral-900);
+    --color-border: var(--color-neutral-500);
     --shadow-elevated: rgba(0, 0, 0, 0.2);
+    --shadow-strong: rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -85,9 +90,12 @@
   --color-background: var(--color-neutral-900);
   --color-foreground: var(--color-neutral-100);
   --color-muted: var(--color-neutral-100);
+  --color-surface-input: var(--color-neutral-700);
   --color-surface: var(--color-neutral-700);
   --color-navbar: var(--color-neutral-900);
+  --color-border: var(--color-neutral-500);
   --shadow-elevated: rgba(0, 0, 0, 0.2);
+  --shadow-strong: rgba(0, 0, 0, 0.5);
 }
 
 :root[data-theme="light"] {
@@ -97,5 +105,7 @@
   --color-muted: #45483D;
   --color-surface: var(--color-neutral-100);
   --color-navbar: var(--color-neutral-950);
+  --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
+  --shadow-strong: rgba(29, 29, 27, 0.15);
 }

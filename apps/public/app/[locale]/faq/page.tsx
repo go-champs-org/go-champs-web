@@ -20,11 +20,11 @@ export default async function FaqPage({
           src="/illustrations/girl-on-smartphone.svg"
           alt=""
           width={440}
-          height={440}
+          height={622}
           priority
           className="mx-auto hidden h-auto w-full max-w-[440px] lg:block"
         />
-        <div className="mx-auto w-full max-w-[543px] rounded-xl border border-neutral-400 px-4 py-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] dark:shadow-[0px_4px_4px_0px_rgba(255,255,255,0.25)] sm:rounded-2xl sm:px-6 sm:py-8 md:p-10 lg:p-12">
+        <div className="mx-auto w-full max-w-[543px] rounded-xl border border-border px-4 py-6 shadow-[0_4px_20px_var(--shadow-elevated)] sm:rounded-2xl sm:px-6 sm:py-8 md:p-10 lg:p-12">
           <h1 className="mb-3 text-center text-[1.375rem] font-bold leading-tight text-foreground sm:text-[1.5rem] md:mb-4 md:text-left md:text-[1.75rem] lg:text-[2rem]">
             {t('faq')}
           </h1>
