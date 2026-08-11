@@ -27,7 +27,7 @@ export function NavBar({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="relative bg-neutral-950 px-6 py-4 lg:px-[101px] lg:py-8">
+    <nav className="relative bg-neutral-950 px-6 py-4 shadow-[0_2px_8px_var(--shadow-elevated)] lg:px-[101px] lg:py-8">
       <div className="flex items-center justify-between">
         <a href={logoHref} className="block shrink-0">
           {logoSrc ? (
