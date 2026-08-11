@@ -64,6 +64,7 @@
   --color-muted: #45483D;
   --color-surface-input: #E3E3D8;
   --color-surface: var(--color-neutral-100);
+  --color-navbar: var(--color-neutral-950);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
 }
 
@@ -74,6 +75,7 @@
     --color-foreground: var(--color-neutral-100);
     --color-muted: var(--color-neutral-100);
     --color-surface: var(--color-neutral-700);
+    --color-navbar: var(--color-neutral-900);
     --shadow-elevated: rgba(0, 0, 0, 0.2);
   }
 }
@@ -84,6 +86,7 @@
   --color-foreground: var(--color-neutral-100);
   --color-muted: var(--color-neutral-100);
   --color-surface: var(--color-neutral-700);
+  --color-navbar: var(--color-neutral-900);
   --shadow-elevated: rgba(0, 0, 0, 0.2);
 }
 
@@ -93,5 +96,6 @@
   --color-foreground: #131F00;
   --color-muted: #45483D;
   --color-surface: var(--color-neutral-100);
+  --color-navbar: var(--color-neutral-950);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
 }
