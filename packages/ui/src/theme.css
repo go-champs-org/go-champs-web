@@ -71,6 +71,7 @@
     --color-primary: #7A9949;
     --color-background: var(--color-neutral-950);
     --color-foreground: var(--color-neutral-100);
+    --color-muted: var(--color-neutral-100);
     --color-surface: var(--color-neutral-700);
   }
 }
@@ -79,6 +80,7 @@
   --color-primary: #7A9949;
   --color-background: var(--color-neutral-950);
   --color-foreground: var(--color-neutral-100);
+  --color-muted: var(--color-neutral-100);
   --color-surface: var(--color-neutral-700);
 }
 
@@ -86,5 +88,6 @@
   --color-primary: #A6CD63;
   --color-background: var(--color-neutral-300);
   --color-foreground: #131F00;
+  --color-muted: #45483D;
   --color-surface: var(--color-neutral-100);
 }
