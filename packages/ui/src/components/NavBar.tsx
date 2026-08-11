@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -25,26 +25,9 @@ export function NavBar({
   loginLabel
 }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    // mousedown (not click) — the burger button swaps icon on click and
-    // React re-renders synchronously mid-bubble, detaching event.target
-    // before a document-level 'click' listener would see it, which made
-    // `contains()` wrongly report false and close the menu right after
-    // it opened.
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
 
   return (
-    <nav ref={navRef} className="relative bg-neutral-950 px-6 py-4 lg:px-[101px] lg:py-8">
+    <nav className="relative bg-neutral-950 px-6 py-4 lg:px-[101px] lg:py-8">
       <div className="flex items-center justify-between">
         <a href={logoHref} className="block shrink-0">
           {logoSrc ? (
