@@ -78,7 +78,7 @@ const SignUpForm: React.FC<FormProps> = ({
                   }
                 }}
                 meta={meta}
-                placeholder="Name"
+                placeholder="meuemail@gmail.com"
                 className="has-text-centered"
               />
             )}

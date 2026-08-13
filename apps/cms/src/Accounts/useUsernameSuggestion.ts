@@ -64,8 +64,6 @@ export const suggestUsernameFromEmail = async ({
       trimmedEmail
     );
 
-    onSettled();
-
     if (requestId !== lastRequestId.current) {
       return;
     }
@@ -80,6 +78,7 @@ export const suggestUsernameFromEmail = async ({
   } catch (err) {
     // A failed suggestion degrades to the previous behavior: an empty
     // username field the user fills in themselves.
+  } finally {
     onSettled();
   }
 };
