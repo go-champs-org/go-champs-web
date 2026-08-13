@@ -13,6 +13,7 @@ import {
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
+import useUsernameSuggestion from './useUsernameSuggestion';
 import './SignUpFormV2.scss';
 
 interface FormProps extends FormRenderProps<SignUpEntity> {
@@ -27,9 +28,35 @@ function SignUpFormV2({
   valid
 }: FormProps) {
   const recaptchaField = useField('recaptcha');
+  const { isUsernameDisabled, suggestUsername } = useUsernameSuggestion();
 
   return (
     <form onSubmit={handleSubmit} className="signup-form-v2">
+      <div className="signup-form-v2-field">
+        <label className="signup-form-v2-label">
+          <Trans>email</Trans>
+        </label>
+        <Field
+          name="email"
+          type="text"
+          validate={composeValidators([required, mustBeEmail])}
+        >
+          {({ input, meta }) => (
+            <StringInputV2
+              input={{
+                ...input,
+                onBlur: (event?: React.FocusEvent<HTMLElement>) => {
+                  input.onBlur(event);
+                  suggestUsername(input.value);
+                }
+              }}
+              meta={meta}
+              placeholder="meuemail@gmail.com"
+            />
+          )}
+        </Field>
+      </div>
+
       <div className="signup-form-v2-field">
         <label className="signup-form-v2-label">
           <Trans>username</Trans>
@@ -39,20 +66,8 @@ function SignUpFormV2({
           component={StringInputV2}
           type="text"
           placeholder="username"
+          disabled={isUsernameDisabled}
           validate={composeValidators([required, mustBeUsername])}
-        />
-      </div>
-
-      <div className="signup-form-v2-field">
-        <label className="signup-form-v2-label">
-          <Trans>email</Trans>
-        </label>
-        <Field
-          name="email"
-          component={StringInputV2}
-          type="text"
-          placeholder="meuemail@gmail.com"
-          validate={composeValidators([required, mustBeEmail])}
         />
       </div>
 
