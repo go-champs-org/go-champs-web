@@ -7,7 +7,9 @@ import {
   ApiAccountRecoveryRequest,
   ApiAccountResponse,
   ApiFacebookSignUpRequest,
-  ApiFacebookSignInRequest
+  ApiFacebookSignInRequest,
+  ApiUsernameSuggestionRequest,
+  ApiUsernameSuggestionResponse
 } from '../Shared/httpClient/apiTypes';
 import {
   SignInEntity,
@@ -62,6 +64,17 @@ const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
   });
 };
 
+const getUsernameSuggestion = async (
+  email: string
+): Promise<ApiUsernameSuggestionResponse> => {
+  const url = `${ACCOUNT_API}/username-suggestion`;
+
+  return await httpClient.post<
+    ApiUsernameSuggestionRequest,
+    ApiUsernameSuggestionResponse
+  >(url, { email });
+};
+
 const signUpWithRegistration = async (
   user: SignUpEntity,
   registrationResponseId: string
@@ -109,6 +122,7 @@ export default {
   facebookSignIn,
   facebookSignUp,
   getAccount,
+  getUsernameSuggestion,
   recovery,
   reset,
   signIn,

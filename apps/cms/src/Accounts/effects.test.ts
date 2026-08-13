@@ -297,6 +297,35 @@ describe('accountEffects', () => {
         );
       });
     });
+
+    describe('on username already taken', () => {
+      let result: unknown;
+
+      beforeEach(async () => {
+        dispatch.mockReset();
+
+        jest.spyOn(accountHttpClient, 'signUp').mockRejectedValue(
+          new ApiError({
+            status: 422,
+            data: { errors: { username: ['has already been taken'] } }
+          })
+        );
+
+        result = await signUp(SIGN_UP, mockHistory)(dispatch);
+      });
+
+      it('returns the error on the username field', () => {
+        expect(result).toEqual({ username: ['has already been taken'] });
+      });
+
+      it('does not display toast', () => {
+        expect(toast.displayToast).not.toHaveBeenCalled();
+      });
+
+      it('does not redirect', () => {
+        expect(mockHistory.push).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('signUpWithRegistration', () => {

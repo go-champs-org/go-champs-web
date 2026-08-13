@@ -13,6 +13,7 @@ import {
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Trans } from 'react-i18next';
 import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
+import useUsernameSuggestion from './useUsernameSuggestion';
 
 export const signUpValidor = (formValues: SignUpEntity) => {
   if (
@@ -52,9 +53,39 @@ const SignUpForm: React.FC<FormProps> = ({
   valid
 }) => {
   const recaptchaField = useField('recaptcha');
+  const { isUsernameDisabled, suggestUsername } = useUsernameSuggestion();
 
   return (
     <form onSubmit={handleSubmit} className="form no-border-botton">
+      <div className="field">
+        <label className="label">
+          <Trans>email</Trans>
+        </label>
+
+        <div className="control">
+          <Field
+            name="email"
+            type="text"
+            validate={composeValidators([required, mustBeEmail])}
+          >
+            {({ input, meta }) => (
+              <StringInput
+                input={{
+                  ...input,
+                  onBlur: (event?: React.FocusEvent<HTMLElement>) => {
+                    input.onBlur(event);
+                    suggestUsername(input.value);
+                  }
+                }}
+                meta={meta}
+                placeholder="meuemail@gmail.com"
+                className="has-text-centered"
+              />
+            )}
+          </Field>
+        </div>
+      </div>
+
       <div className="field">
         <label className="label">
           <Trans>username</Trans>
@@ -67,24 +98,8 @@ const SignUpForm: React.FC<FormProps> = ({
             type="text"
             placeholder="username"
             className="has-text-centered"
+            disabled={isUsernameDisabled}
             validate={composeValidators([required, mustBeUsername])}
-          />
-        </div>
-      </div>
-
-      <div className="field">
-        <label className="label">
-          <Trans>email</Trans>
-        </label>
-
-        <div className="control">
-          <Field
-            name="email"
-            component={StringInput}
-            type="text"
-            placeholder="Name"
-            className="has-text-centered"
-            validate={composeValidators([required, mustBeEmail])}
           />
         </div>
       </div>

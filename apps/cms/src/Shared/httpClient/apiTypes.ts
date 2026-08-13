@@ -660,6 +660,16 @@ export interface ApiUserResponse {
   };
 }
 
+export interface ApiUsernameSuggestionRequest {
+  email: string;
+}
+
+export interface ApiUsernameSuggestionResponse {
+  data: {
+    username: string;
+  };
+}
+
 export interface ApiAccountResponse {
   data: {
     email: string;

@@ -76,6 +76,35 @@ export const signIn = (
   }
 };
 
+const SIGN_UP_FIELDS = ['email', 'password', 'username'];
+
+/**
+ * Turns a sign up rejection into field level errors react-final-form can
+ * display, so that a taken username lands on the username field instead of a
+ * generic toast. Anything that is not a field error keeps the toast.
+ */
+const signUpSubmitErrors = (err: unknown) => {
+  if (err instanceof ApiError && err.payload.data && err.payload.data.errors) {
+    const { errors } = err.payload.data;
+    const fieldErrors = Object.keys(errors)
+      .filter(field => SIGN_UP_FIELDS.includes(field))
+      .reduce(
+        (acc, field) => ({
+          ...acc,
+          [field]: ([] as string[]).concat(errors[field])
+        }),
+        {}
+      );
+
+    if (Object.keys(fieldErrors).length) {
+      return fieldErrors;
+    }
+  }
+
+  displayToast(`Sign up failed :(`, 'is-primary');
+  return undefined;
+};
+
 export const signUp = (user: SignUpEntity, history: History) => async (
   dispatch: Dispatch
 ) => {
@@ -88,7 +117,7 @@ export const signUp = (user: SignUpEntity, history: History) => async (
     history.push('/SignIn');
   } catch (err) {
     dispatch(signUpFailure(err));
-    displayToast(`Sign up failed :(`, 'is-primary');
+    return signUpSubmitErrors(err);
   }
 };
 
@@ -109,7 +138,7 @@ export const signUpWithRegistration = (
     history.push('/SignIn');
   } catch (err) {
     dispatch(signUpFailure(err));
-    displayToast(`Sign up failed :(`, 'is-primary');
+    return signUpSubmitErrors(err);
   }
 };
 
