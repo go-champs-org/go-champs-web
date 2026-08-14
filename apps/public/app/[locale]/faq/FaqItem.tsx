@@ -18,7 +18,7 @@ export function FaqItem({ question, answer }: FaqItemProps) {
     >
       <button
         type="button"
-        className="flex w-full items-center gap-4 px-6 py-5 text-left hover:bg-black/[0.02]"
+        className="flex w-full cursor-pointer items-center gap-4 px-6 py-5 text-left hover:bg-black/[0.02]"
         onClick={() => setIsOpen(prev => !prev)}
         aria-expanded={isOpen}
       >

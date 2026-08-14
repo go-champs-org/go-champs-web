@@ -106,7 +106,7 @@ export function EmailForm() {
 
       <div>
         <button
-          className="w-full rounded-2xl bg-primary px-6 py-4 font-medium text-white transition-colors hover:bg-primary-dark disabled:opacity-50"
+          className="w-full cursor-pointer rounded-2xl bg-primary px-6 py-4 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:bg-primary-dark"
           type="submit"
           disabled={isSubmitting}
         >

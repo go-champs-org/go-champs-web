@@ -49,7 +49,7 @@ export function NavBar({
         <button
           type="button"
           onClick={() => setIsOpen(open => !open)}
-          className="flex size-10 items-center justify-center text-white lg:hidden"
+          className="flex size-10 cursor-pointer items-center justify-center text-white lg:hidden"
           aria-label="menu"
           aria-expanded={isOpen}
           aria-controls="nav-menu-mobile"
