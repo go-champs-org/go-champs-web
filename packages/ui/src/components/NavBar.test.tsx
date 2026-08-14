@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { NavBar } from './NavBar';
 
 describe('NavBar', () => {
-  it('opens the mobile menu on burger click and closes it on outside click', () => {
+  it('toggles the mobile menu open and closed on burger click', () => {
     render(<NavBar links={[{ href: '/about', label: 'About' }]} />);
 
     expect(screen.getAllByRole('link', { name: 'About' })).toHaveLength(1);
@@ -10,7 +10,7 @@ describe('NavBar', () => {
     fireEvent.click(screen.getByRole('button', { name: 'menu' }));
     expect(screen.getAllByRole('link', { name: 'About' })).toHaveLength(2);
 
-    fireEvent.click(document.body);
+    fireEvent.click(screen.getByRole('button', { name: 'menu' }));
     expect(screen.getAllByRole('link', { name: 'About' })).toHaveLength(1);
   });
 

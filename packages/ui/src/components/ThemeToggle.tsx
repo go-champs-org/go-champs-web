@@ -47,7 +47,7 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
     <button
       type="button"
       onClick={toggle}
-      className={`flex size-10 items-center justify-center rounded-full text-white hover:opacity-80 ${className}`}
+      className={`flex size-10 cursor-pointer items-center justify-center rounded-full text-white hover:opacity-80 ${className}`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
       title={`Switch to ${isDark ? 'light' : 'dark'} theme`}
     >

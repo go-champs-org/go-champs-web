@@ -23,7 +23,7 @@ export interface FooterProps {
 export function Footer({ t, privacyHref, termsHref, buildNumber }: FooterProps) {
   return (
     <footer className="mt-auto bg-background px-4 py-8 md:px-8 md:py-12">
-      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 border-t border-neutral-400 pt-8 text-center md:gap-8 md:pt-16">
+      <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 border-t border-border pt-8 text-center md:gap-8 md:pt-16">
         <div className="flex items-center gap-6 md:gap-8">
           <a
             href="https://www.instagram.com/gochampsapp"

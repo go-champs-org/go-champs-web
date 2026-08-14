@@ -53,7 +53,7 @@ export function EmailForm() {
 
   return (
     <form className="mt-8 flex flex-col gap-8" onSubmit={sendEmail}>
-      <div className="flex flex-col rounded-t border-b border-[#131f00]/50 bg-surface-input px-4 py-1">
+      <div className="flex flex-col rounded-t border-b border-foreground/50 bg-surface-input px-4 py-1">
         <label
           htmlFor="contact-name"
           className="text-xs tracking-[0.4px] text-muted"
@@ -62,7 +62,7 @@ export function EmailForm() {
         </label>
         <input
           id="contact-name"
-          className="bg-transparent py-1 text-base tracking-[0.5px] text-[#131f00] placeholder:text-[#131f00]/35 focus:outline-none"
+          className="bg-transparent py-1 text-base tracking-[0.5px] text-foreground placeholder:text-foreground/35 focus:outline-none"
           type="text"
           placeholder={t('yourName')}
           name="name"
@@ -70,7 +70,7 @@ export function EmailForm() {
         />
       </div>
 
-      <div className="flex flex-col rounded-t border-b border-[#131f00]/50 bg-surface-input px-4 py-1">
+      <div className="flex flex-col rounded-t border-b border-foreground/50 bg-surface-input px-4 py-1">
         <label
           htmlFor="contact-email"
           className="text-xs tracking-[0.4px] text-muted"
@@ -79,7 +79,7 @@ export function EmailForm() {
         </label>
         <input
           id="contact-email"
-          className="bg-transparent py-1 text-base tracking-[0.5px] text-[#131f00] placeholder:text-[#131f00]/35 focus:outline-none"
+          className="bg-transparent py-1 text-base tracking-[0.5px] text-foreground placeholder:text-foreground/35 focus:outline-none"
           type="email"
           placeholder={t('yourEmail')}
           name="email"
@@ -87,7 +87,7 @@ export function EmailForm() {
         />
       </div>
 
-      <div className="flex flex-col rounded-t border-b border-[#131f00]/50 bg-surface-input px-4 py-1">
+      <div className="flex flex-col rounded-t border-b border-foreground/50 bg-surface-input px-4 py-1">
         <label
           htmlFor="contact-message"
           className="text-xs tracking-[0.4px] text-muted"
@@ -96,7 +96,7 @@ export function EmailForm() {
         </label>
         <textarea
           id="contact-message"
-          className="bg-transparent py-1 text-base tracking-[0.5px] text-[#131f00] placeholder:text-[#131f00]/35 focus:outline-none"
+          className="bg-transparent py-1 text-base tracking-[0.5px] text-foreground placeholder:text-foreground/35 focus:outline-none"
           placeholder={t('yourMessage')}
           name="message"
           rows={5}
@@ -106,7 +106,7 @@ export function EmailForm() {
 
       <div>
         <button
-          className="w-full rounded-2xl bg-primary px-6 py-4 font-medium text-white transition-colors hover:bg-primary-dark disabled:opacity-50"
+          className="w-full cursor-pointer rounded-2xl bg-primary px-6 py-4 font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:bg-primary-dark"
           type="submit"
           disabled={isSubmitting}
         >

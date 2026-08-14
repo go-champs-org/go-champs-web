@@ -20,13 +20,13 @@ export default async function ContactPage({
           width={518}
           height={732}
           priority
-          className="hidden w-full max-w-[420px] lg:block"
+          className="hidden w-full max-w-[440px] lg:block"
         />
-        <div className="w-full max-w-[543px] rounded-xl border border-neutral-400 p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] dark:shadow-[0px_4px_4px_0px_rgba(255,255,255,0.25)] sm:p-14">
-          <h1 className="text-[28px] font-extrabold text-foreground">
+        <div className="w-full max-w-[543px] rounded-xl border border-border px-4 py-6 shadow-[0_4px_20px_var(--shadow-elevated)] sm:px-6 sm:py-8 md:p-10 lg:p-12">
+          <h1 className="mb-3 text-center text-[1.375rem] font-bold leading-tight text-foreground sm:text-[1.5rem] md:mb-4 md:text-left md:text-[1.75rem] lg:text-[2rem]">
             {t('contactUs')}
           </h1>
-          <p className="mt-2 text-base font-medium text-muted dark:text-foreground">
+          <p className="mb-6 text-center text-[0.9375rem] leading-normal text-muted md:mb-7 md:text-left">
             {t('contactSubtitle')}
           </p>
           <EmailForm />

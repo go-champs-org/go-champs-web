@@ -15,6 +15,15 @@ const workspaceRoot = path.join(__dirname, '../..');
 const nextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: workspaceRoot,
+  // `next dev` only serves its internal endpoints (/_next/*, /__nextjs*, the HMR
+  // socket) to `localhost` and its own hostname; every other origin is blocked by
+  // blockCrossSiteDEV. Reaching the dev server from a phone on the LAN therefore
+  // returns the SSR HTML but no hydration chunks — the page looks right and no
+  // event handler ever fires, with nothing logged client-side. Set DEV_LAN_HOST to
+  // this machine's LAN IP (`ipconfig` / `ip addr`) when testing on a real device.
+  allowedDevOrigins: process.env.DEV_LAN_HOST
+    ? [process.env.DEV_LAN_HOST]
+    : [],
   // next-intl and its transitive dependencies (use-intl, intl-messageformat,
   // the @formatjs/* packages) ship ESM-only builds. Listing them here makes
   // both `next build` and `next/jest` (via its pnpm-aware
