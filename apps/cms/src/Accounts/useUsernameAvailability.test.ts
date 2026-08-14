@@ -60,6 +60,23 @@ describe('validateUsernameAvailabilityFor', () => {
     expect(context.statuses).toContain('available');
   });
 
+  it('stops trusting the suggestion once the user edits the field', async () => {
+    const check = jest
+      .spyOn(accountHttpClient, 'checkUsernameAvailability')
+      .mockResolvedValue(availabilityResponse('joaosilva', false));
+    const context = buildContext({
+      suggestedUsername: { current: 'joaosilva' }
+    });
+
+    await validateUsernameAvailabilityFor('mariasilva', context);
+    // Typing the suggestion back in is a handle like any other by then: it may
+    // have been claimed since it was suggested.
+    const error = await validateUsernameAvailabilityFor('joaosilva', context);
+
+    expect(check).toHaveBeenCalledWith('joaosilva');
+    expect(error).toBe(USERNAME_TAKEN_MESSAGE);
+  });
+
   it('returns no error for a free username', async () => {
     jest
       .spyOn(accountHttpClient, 'checkUsernameAvailability')

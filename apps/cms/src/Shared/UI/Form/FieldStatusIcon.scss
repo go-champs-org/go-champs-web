@@ -1,12 +1,25 @@
 @import '../../styles/colorsV2.scss';
 
 .field-status-icon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 1rem;
   height: 1rem;
   line-height: 1;
+}
+
+.field-status-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .field-status-spinner {

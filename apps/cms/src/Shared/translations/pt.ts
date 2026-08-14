@@ -1072,6 +1072,8 @@ export default {
     uploadFiles: 'Arquivos enviados',
     username: 'Usuário',
     usernameOrEmail: 'Usuário/E-mail',
+    checkingUsernameAvailability: 'Verificando disponibilidade',
+    usernameAvailable: 'Username disponível',
     usernameTooShort: 'Deve ter no mínimo 4 caracteres',
     usernameTooLong: 'Deve ter no máximo 20 caracteres',
     usernameInvalidCharacters: 'Use apenas letras, números, pontos e hifens',

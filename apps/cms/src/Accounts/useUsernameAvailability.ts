@@ -43,9 +43,14 @@ export interface UsernameAvailabilityContext {
   cache: MutableRef<Map<string, boolean>>;
   lastRequestId: MutableRef<number>;
   /**
-   * The handle the suggestion endpoint pre-filled. It came back free, so it
-   * needs no check of its own: a user who never edits the field triggers no
-   * availability call at all.
+   * The handle the suggestion endpoint pre-filled, while the user has not
+   * touched it. It came back free, so it needs no check of its own: a user who
+   * never edits the field triggers no availability call at all.
+   *
+   * The first edit clears it. From then on the field is whatever the user
+   * typed, and typing the suggestion back in is checked like any other handle
+   * — by then it is only a value someone else may have claimed in the
+   * meantime, not a verdict this session still holds.
    */
   suggestedUsername: MutableRef<string | null>;
   onStatusChange: (status: UsernameStatus) => void;
@@ -89,6 +94,8 @@ export const validateUsernameAvailabilityFor = async (
     onStatusChange('available');
     return undefined;
   }
+
+  suggestedUsername.current = null;
 
   const cachedAvailability = cache.current.get(candidate);
 
@@ -203,12 +210,18 @@ const useUsernameAvailability = (suggestedUsername: string | null) => {
   const cache = useRef(new Map<string, boolean>());
   const lastRequestId = useRef(0);
   const suggestedUsernameRef = useRef<string | null>(suggestedUsername);
+  const lastSuggestion = useRef<string | null>(suggestedUsername);
   const isMounted = useRef(true);
   const pendingRuns = useRef(0);
   const statusRef = useRef<UsernameStatus>('idle');
   const [usernameStatus, setUsernameStatus] = useState<UsernameStatus>('idle');
 
-  suggestedUsernameRef.current = suggestedUsername;
+  // Only a suggestion that just arrived is trusted. Re-syncing on every render
+  // would hand back a suggestion the first edit deliberately dropped.
+  if (suggestedUsername !== lastSuggestion.current) {
+    lastSuggestion.current = suggestedUsername;
+    suggestedUsernameRef.current = suggestedUsername;
+  }
 
   useEffect(
     () => () => {
