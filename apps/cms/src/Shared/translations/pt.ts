@@ -176,6 +176,10 @@ export default {
     isGameFinished: 'Jogo encerrado',
     isInProgress: 'Em progresso',
     gameNumber: 'Número do jogo',
+    gotIt: 'Entendi',
+    teamOrderChangeTitle: 'Equipe da casa agora vem primeiro',
+    teamOrderChangeDescription:
+      'Os jogos agora aparecem como equipe da casa contra equipe visitante. Confira os placares antes de salvar.',
     games: 'Partidas',
     gamesRemaining: 'Jogos restantes',
     gameResultType: {

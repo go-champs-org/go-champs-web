@@ -173,6 +173,10 @@ export default {
     isGameFinished: 'Is finished',
     isInProgress: 'Is in progress',
     gameNumber: 'Game number',
+    gotIt: 'Got it',
+    teamOrderChangeTitle: 'Home team now comes first',
+    teamOrderChangeDescription:
+      'Games are now shown as home team versus away team. Double check the scores before saving.',
     games: 'Games',
     gamesRemaining: 'Games remaining',
     gameResultType: {
