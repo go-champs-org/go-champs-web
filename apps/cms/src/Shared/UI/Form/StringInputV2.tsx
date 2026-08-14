@@ -1,11 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import { FieldRenderProps } from 'react-final-form';
+import { useTranslation } from 'react-i18next';
+import FieldStatusIcon, { FieldStatus } from './FieldStatusIcon';
 import './StringInputV2.scss';
+
+export type InputStatus = FieldStatus;
 
 interface StringInputV2Props extends FieldRenderProps<string, HTMLElement> {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  status?: InputStatus;
   type?: 'text' | 'email' | 'password';
 }
 
@@ -15,9 +20,14 @@ const StringInputV2: React.FC<StringInputV2Props> = ({
   className,
   disabled = false,
   placeholder,
+  status = 'idle',
   type = 'text'
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  // Validation messages travel through the form as translation keys. Anything
+  // that is not a key comes back from i18next unchanged, so the messages that
+  // are still plain sentences keep rendering as they are.
+  const { t } = useTranslation();
 
   const fieldType = (input.type || type) as 'text' | 'email' | 'password';
   const isPassword = fieldType === 'password';
@@ -33,10 +43,14 @@ const StringInputV2: React.FC<StringInputV2Props> = ({
 
   const inputType = isPassword && showPassword ? 'text' : fieldType;
 
+  const hasStatusIcon = status !== 'idle';
+
   return (
     <Fragment>
       <div
-        className={`string-input-v2-wrapper${isPassword ? ' has-toggle' : ''}`}
+        className={`string-input-v2-wrapper${isPassword ? ' has-toggle' : ''}${
+          hasStatusIcon ? ' has-status' : ''
+        }`}
       >
         <input
           {...input}
@@ -47,6 +61,11 @@ const StringInputV2: React.FC<StringInputV2Props> = ({
             className ? ` ${className}` : ''
           }`}
         />
+        {hasStatusIcon && (
+          <span className={`string-input-v2-status is-${status}`}>
+            <FieldStatusIcon status={status} />
+          </span>
+        )}
         {isPassword && (
           <button
             type="button"
@@ -61,12 +80,12 @@ const StringInputV2: React.FC<StringInputV2Props> = ({
 
       {errors.map(err => (
         <p key={err} className="string-input-v2-error">
-          {err}
+          {t(err)}
         </p>
       ))}
       {submitErrors.map(err => (
         <p key={err} className="string-input-v2-error">
-          {err}
+          {t(err)}
         </p>
       ))}
     </Fragment>

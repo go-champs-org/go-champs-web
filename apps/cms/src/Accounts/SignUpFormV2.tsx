@@ -7,13 +7,14 @@ import {
   composeValidators,
   required,
   mustBeEmail,
-  mustBeUsername,
   mustBeSimplePassword
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
 import useUsernameSuggestion from './useUsernameSuggestion';
+import useUsernameAvailability from './useUsernameAvailability';
+import useUsernameCollisionSuggestion from './useUsernameCollisionSuggestion';
 import './SignUpFormV2.scss';
 
 interface FormProps extends FormRenderProps<SignUpEntity> {
@@ -27,8 +28,21 @@ function SignUpFormV2({
   pristine,
   valid
 }: FormProps) {
+  const { t } = useTranslation();
   const recaptchaField = useField('recaptcha');
-  const { isUsernameDisabled, suggestUsername } = useUsernameSuggestion();
+  const {
+    isSuggesting,
+    isUsernameDisabled,
+    suggestedUsername,
+    suggestUsername
+  } = useUsernameSuggestion();
+  const { usernameStatus, validateUsername } = useUsernameAvailability(
+    suggestedUsername
+  );
+  const {
+    collisionSuggestion,
+    applyCollisionSuggestion
+  } = useUsernameCollisionSuggestion();
 
   return (
     <form onSubmit={handleSubmit} className="signup-form-v2">
@@ -61,14 +75,27 @@ function SignUpFormV2({
         <label className="signup-form-v2-label">
           <Trans>username</Trans>
         </label>
-        <Field
-          name="username"
-          component={StringInputV2}
-          type="text"
-          placeholder="username"
-          disabled={isUsernameDisabled}
-          validate={composeValidators([required, mustBeUsername])}
-        />
+        <Field name="username" type="text" validate={validateUsername}>
+          {({ input, meta }) => (
+            <StringInputV2
+              input={input}
+              meta={meta}
+              placeholder="username"
+              disabled={isUsernameDisabled}
+              status={isSuggesting ? 'checking' : usernameStatus}
+            />
+          )}
+        </Field>
+
+        {collisionSuggestion && (
+          <button
+            type="button"
+            className="signup-form-v2-username-suggestion"
+            onClick={applyCollisionSuggestion}
+          >
+            {t('usernameSuggestionOffer', { username: collisionSuggestion })}
+          </button>
+        )}
       </div>
 
       <div className="signup-form-v2-field">

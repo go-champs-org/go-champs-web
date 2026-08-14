@@ -10,8 +10,13 @@ import {
   mustBeSlug,
   mustBeUsername,
   mustBePin,
-  mustBeCPF
+  mustBeCPF,
+  usernameFormatReason,
+  USERNAME_MIN_LENGTH,
+  USERNAME_MAX_LENGTH
 } from './commonValidators';
+import pt from '../../../translations/pt';
+import en from '../../../translations/en';
 
 describe('mustHaveAtLeastTwoWords', () => {
   it('returns undefined for valid full names with two words', () => {
@@ -184,9 +189,63 @@ describe('mustBeUsername', () => {
     expect(mustBeUsername('User1234')).toBeUndefined();
   });
 
-  it('returns error message for usernames that are too short', () => {
-    expect(mustBeUsername('usr')).toBe('Must be between 4 and 20 characters');
-    expect(mustBeUsername('a')).toBe('Must be between 4 and 20 characters');
+  it('returns the message of the rule that was broken', () => {
+    expect(mustBeUsername('usr')).toBe('usernameTooShort');
+    expect(mustBeUsername('a'.repeat(21))).toBe('usernameTooLong');
+    expect(mustBeUsername('joao silva')).toBe('usernameInvalidCharacters');
+  });
+});
+
+describe('usernameFormatReason', () => {
+  it('keeps the same length limits the API validates against', () => {
+    expect(USERNAME_MIN_LENGTH).toBe(4);
+    expect(USERNAME_MAX_LENGTH).toBe(20);
+  });
+
+  // Mirrors the cases GoChampsApi.Accounts.UsernameAvailability is tested
+  // against. The client must accept and refuse exactly the same set: a handle
+  // the form accepts and the API refuses is a promise the sign up breaks.
+  const apiParityCases: [string, string | undefined][] = [
+    ['joaosilva', undefined],
+    ['joao.silva', undefined],
+    ['joao-silva', undefined],
+    ['Joao.Silva-1', undefined],
+    ['user', undefined],
+    ['a'.repeat(20), undefined],
+    ['abc', 'too_short'],
+    ['', 'too_short'],
+    ['a'.repeat(21), 'too_long'],
+    ['joao_silva', 'invalid_characters'],
+    ['joao silva', 'invalid_characters'],
+    ['joão.silva', 'invalid_characters'],
+    ['joao@silva', 'invalid_characters']
+  ];
+
+  apiParityCases.forEach(([username, reason]) => {
+    it(`reports ${reason || 'no violation'} for "${username}"`, () => {
+      expect(usernameFormatReason(username)).toBe(reason);
+    });
+  });
+
+  it('checks length before characters, like the API does', () => {
+    expect(usernameFormatReason('jo ')).toBe('too_short');
+  });
+});
+
+describe('username messages', () => {
+  it('is translated in every supported language', () => {
+    const keys = [
+      'usernameTooShort',
+      'usernameTooLong',
+      'usernameInvalidCharacters',
+      'usernameTaken',
+      'usernameSuggestionOffer'
+    ];
+
+    keys.forEach(key => {
+      expect(pt.translation).toHaveProperty(key);
+      expect(en.translation).toHaveProperty(key);
+    });
   });
 });
 

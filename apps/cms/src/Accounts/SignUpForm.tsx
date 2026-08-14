@@ -7,13 +7,14 @@ import {
   composeValidators,
   required,
   mustBeEmail,
-  mustBeUsername,
   mustBeSimplePassword
 } from '../Shared/UI/Form/Validators/commonValidators';
 import LoadingButton from '../Shared/UI/LoadingButton';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
 import useUsernameSuggestion from './useUsernameSuggestion';
+import useUsernameAvailability from './useUsernameAvailability';
+import useUsernameCollisionSuggestion from './useUsernameCollisionSuggestion';
 
 export const signUpValidor = (formValues: SignUpEntity) => {
   if (
@@ -52,8 +53,21 @@ const SignUpForm: React.FC<FormProps> = ({
   pristine,
   valid
 }) => {
+  const { t } = useTranslation();
   const recaptchaField = useField('recaptcha');
-  const { isUsernameDisabled, suggestUsername } = useUsernameSuggestion();
+  const {
+    isSuggesting,
+    isUsernameDisabled,
+    suggestedUsername,
+    suggestUsername
+  } = useUsernameSuggestion();
+  const { usernameStatus, validateUsername } = useUsernameAvailability(
+    suggestedUsername
+  );
+  const {
+    collisionSuggestion,
+    applyCollisionSuggestion
+  } = useUsernameCollisionSuggestion();
 
   return (
     <form onSubmit={handleSubmit} className="form no-border-botton">
@@ -92,15 +106,27 @@ const SignUpForm: React.FC<FormProps> = ({
         </label>
 
         <div className="control">
-          <Field
-            name="username"
-            component={StringInput}
-            type="text"
-            placeholder="username"
-            className="has-text-centered"
-            disabled={isUsernameDisabled}
-            validate={composeValidators([required, mustBeUsername])}
-          />
+          <Field name="username" type="text" validate={validateUsername}>
+            {({ input, meta }) => (
+              <StringInput
+                input={input}
+                meta={meta}
+                className="has-text-centered"
+                disabled={isUsernameDisabled}
+                status={isSuggesting ? 'checking' : usernameStatus}
+              />
+            )}
+          </Field>
+
+          {collisionSuggestion && (
+            <button
+              type="button"
+              className="button is-text is-small"
+              onClick={applyCollisionSuggestion}
+            >
+              {t('usernameSuggestionOffer', { username: collisionSuggestion })}
+            </button>
+          )}
         </div>
       </div>
 
