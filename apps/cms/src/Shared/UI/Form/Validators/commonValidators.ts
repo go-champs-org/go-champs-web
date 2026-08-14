@@ -8,8 +8,26 @@ const SIMPLE_PASSWORD_REGEX = RegExp(
 const STRONG_PASSWORD_REGEX = RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
 );
-const USERNAME_REGEX = RegExp(/^([A-Za-z0-9]+(?:.-[a-z0-9]+)*){4,20}$/);
 const PIN_REGEX = RegExp(/^\d{4,}$/);
+
+// Username format rules, kept in sync with GoChampsApi.Validators.UsernameValidator,
+// the single source of truth the API validates account creation and username
+// availability against. A change here without a change there makes the form accept
+// what the API refuses.
+export const USERNAME_MIN_LENGTH = 4;
+export const USERNAME_MAX_LENGTH = 20;
+const USERNAME_CHARS_REGEX = RegExp(/^[A-Za-z0-9.-]+$/);
+
+export type UsernameFormatReason =
+  | 'too_short'
+  | 'too_long'
+  | 'invalid_characters';
+
+const USERNAME_REASON_MESSAGES: Record<UsernameFormatReason, string> = {
+  too_short: 'usernameTooShort',
+  too_long: 'usernameTooLong',
+  invalid_characters: 'usernameInvalidCharacters'
+};
 
 export type ValidatorFunction = (value: string) => string | undefined;
 export type AsyncValidatorFunction = (
@@ -40,10 +58,38 @@ export const mustBeSlug = (value: string) =>
     ? undefined
     : 'Must be all lowercase and only alphanumeric or dash characters are accepted';
 
-export const mustBeUsername = (value: string) =>
-  USERNAME_REGEX.test(value)
-    ? undefined
-    : 'Must be between 4 and 20 characters';
+/**
+ * Which format rule a candidate username breaks, or undefined when it breaks
+ * none.
+ *
+ * Rules are evaluated in the same order as the API does — length first,
+ * characters after — so both sides report the same reason for the same handle.
+ */
+export const usernameFormatReason = (
+  value: string
+): UsernameFormatReason | undefined => {
+  const username = value || '';
+
+  if (username.length < USERNAME_MIN_LENGTH) {
+    return 'too_short';
+  }
+
+  if (username.length > USERNAME_MAX_LENGTH) {
+    return 'too_long';
+  }
+
+  if (!USERNAME_CHARS_REGEX.test(username)) {
+    return 'invalid_characters';
+  }
+
+  return undefined;
+};
+
+export const mustBeUsername = (value: string) => {
+  const reason = usernameFormatReason(value);
+
+  return reason ? USERNAME_REASON_MESSAGES[reason] : undefined;
+};
 
 export const mustBeEmail = (value: string) =>
   EMAIL_REGEX.test(value) ? undefined : 'Must be an email';

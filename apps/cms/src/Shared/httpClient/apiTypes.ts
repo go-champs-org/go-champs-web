@@ -670,6 +670,19 @@ export interface ApiUsernameSuggestionResponse {
   };
 }
 
+export interface ApiUsernameAvailabilityRequest {
+  username: string;
+}
+
+export interface ApiUsernameAvailabilityResponse {
+  data: {
+    username: string;
+    valid: boolean;
+    available: boolean;
+    reason: string | null;
+  };
+}
+
 export interface ApiAccountResponse {
   data: {
     email: string;

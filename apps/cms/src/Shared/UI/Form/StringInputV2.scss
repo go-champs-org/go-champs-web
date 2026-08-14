@@ -34,8 +34,24 @@
     border-color: $status-error;
   }
 
-  .has-toggle & {
+  .has-toggle &,
+  .has-status & {
     padding-right: 2.75rem;
+  }
+}
+
+.string-input-v2-status {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  line-height: 1;
+  pointer-events: none;
+  color: var(--theme-v2-textSecondary);
+
+  &.is-available {
+    color: $status-success;
   }
 }
 

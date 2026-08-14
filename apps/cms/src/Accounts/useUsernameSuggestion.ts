@@ -3,6 +3,10 @@ import { useForm } from 'react-final-form';
 import accountHttpClient from './accountHttpClient';
 import { SignUpEntity } from './entity';
 import { mustBeEmail } from '../Shared/UI/Form/Validators/commonValidators';
+import {
+  USERNAME_REQUEST_TIMEOUT_MS,
+  withTimeout
+} from './usernameRequestTimeout';
 
 interface MutableRef<T> {
   current: T;
@@ -22,7 +26,10 @@ interface SuggestUsernameOptions {
   form: UsernameSuggestionForm;
   requestedEmail: MutableRef<string | null>;
   lastRequestId: MutableRef<number>;
+  onRequestStart?: () => void;
+  onSuggested?: (username: string) => void;
   onSettled: () => void;
+  timeoutMs?: number;
 }
 
 /**
@@ -43,7 +50,10 @@ export const suggestUsernameFromEmail = async ({
   form,
   requestedEmail,
   lastRequestId,
-  onSettled
+  onRequestStart,
+  onSuggested,
+  onSettled,
+  timeoutMs = USERNAME_REQUEST_TIMEOUT_MS
 }: SuggestUsernameOptions): Promise<void> => {
   const trimmedEmail = (email || '').trim();
 
@@ -60,11 +70,22 @@ export const suggestUsernameFromEmail = async ({
   const requestId = lastRequestId.current;
 
   try {
-    const response = await accountHttpClient.getUsernameSuggestion(
-      trimmedEmail
+    if (onRequestStart) {
+      onRequestStart();
+    }
+
+    const response = await withTimeout(
+      accountHttpClient.getUsernameSuggestion(trimmedEmail),
+      timeoutMs
     );
 
     if (requestId !== lastRequestId.current) {
+      return;
+    }
+
+    // Nothing came back before the deadline: no suggestion to write, and an
+    // editable field the user fills in themselves.
+    if (!response) {
       return;
     }
 
@@ -75,6 +96,10 @@ export const suggestUsernameFromEmail = async ({
     }
 
     form.changeUsername(response.data.username);
+
+    if (onSuggested) {
+      onSuggested(response.data.username);
+    }
   } catch (err) {
     // A failed suggestion degrades to the previous behavior: an empty
     // username field the user fills in themselves.
@@ -87,16 +112,23 @@ export const suggestUsernameFromEmail = async ({
  * Pre-fills the username field of a sign up form with a suggestion derived
  * from the informed email.
  *
- * `isUsernameDisabled` starts `true` and is turned off by the first suggestion
- * request that finishes, so the user is never offered an empty username field
- * to fill in while the suggestion is still coming.
+ * The field is disabled only while a suggestion is actually on its way, so the
+ * user is never offered an empty username field to fill in while the
+ * suggestion is still coming — and never left waiting on a request that was
+ * never made, which is what happens on a sign up opened without an email.
  */
 const useUsernameSuggestion = () => {
   const form = useForm<SignUpEntity>();
   const requestedEmail = useRef<string | null>(null);
   const lastRequestId = useRef(0);
   const isMounted = useRef(true);
-  const [isUsernameDisabled, setIsUsernameDisabled] = useState(true);
+  const [isUsernameDisabled, setIsUsernameDisabled] = useState(() =>
+    Boolean(form.getState().values.email)
+  );
+  const [isSuggesting, setIsSuggesting] = useState(false);
+  const [suggestedUsername, setSuggestedUsername] = useState<string | null>(
+    null
+  );
 
   useEffect(
     () => () => {
@@ -115,9 +147,21 @@ const useUsernameSuggestion = () => {
         },
         requestedEmail,
         lastRequestId,
+        onRequestStart: () => {
+          if (isMounted.current) {
+            setIsSuggesting(true);
+            setIsUsernameDisabled(true);
+          }
+        },
+        onSuggested: username => {
+          if (isMounted.current) {
+            setSuggestedUsername(username);
+          }
+        },
         onSettled: () => {
           if (isMounted.current) {
             setIsUsernameDisabled(false);
+            setIsSuggesting(false);
           }
         }
       }),
@@ -135,7 +179,12 @@ const useUsernameSuggestion = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { isUsernameDisabled, suggestUsername };
+  return {
+    isSuggesting,
+    isUsernameDisabled,
+    suggestedUsername,
+    suggestUsername
+  };
 };
 
 export default useUsernameSuggestion;

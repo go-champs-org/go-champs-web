@@ -9,7 +9,9 @@ import {
   ApiFacebookSignUpRequest,
   ApiFacebookSignInRequest,
   ApiUsernameSuggestionRequest,
-  ApiUsernameSuggestionResponse
+  ApiUsernameSuggestionResponse,
+  ApiUsernameAvailabilityRequest,
+  ApiUsernameAvailabilityResponse
 } from '../Shared/httpClient/apiTypes';
 import {
   SignInEntity,
@@ -75,6 +77,17 @@ const getUsernameSuggestion = async (
   >(url, { email });
 };
 
+const checkUsernameAvailability = async (
+  username: string
+): Promise<ApiUsernameAvailabilityResponse> => {
+  const url = `${ACCOUNT_API}/username-availability`;
+
+  return await httpClient.post<
+    ApiUsernameAvailabilityRequest,
+    ApiUsernameAvailabilityResponse
+  >(url, { username });
+};
+
 const signUpWithRegistration = async (
   user: SignUpEntity,
   registrationResponseId: string
@@ -119,6 +132,7 @@ const facebookSignIn = async (
 };
 
 export default {
+  checkUsernameAvailability,
   facebookSignIn,
   facebookSignUp,
   getAccount,

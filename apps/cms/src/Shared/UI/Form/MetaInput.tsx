@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { Fragment, ReactNode } from 'react';
 import { FieldMetaState } from 'react-final-form';
+import { useTranslation } from 'react-i18next';
 import './MetaInput.scss';
 import { isArray } from 'util';
 
@@ -11,6 +12,10 @@ interface MetaInputProps<T> {
 }
 
 const MetaInput = <T,>({ className, component, meta }: MetaInputProps<T>) => {
+  // Validation messages travel through the form as translation keys. i18next
+  // returns anything that is not a key unchanged, so messages that are still
+  // plain sentences keep rendering as they are.
+  const { t } = useTranslation();
   const shouldSetError =
     meta.touched && !meta.dirtySinceLastSubmit && meta.invalid;
 
@@ -32,11 +37,11 @@ const MetaInput = <T,>({ className, component, meta }: MetaInputProps<T>) => {
               .filter((err: string | undefined) => !!err)
               .map(err => (
                 <p key={err} className="help is-warning">
-                  {err}
+                  {t(err)}
                 </p>
               ))
           ) : (
-            <p className="help is-warning">{meta.error}</p>
+            <p className="help is-warning">{t(meta.error)}</p>
           )}
         </Fragment>
       )}
@@ -44,7 +49,7 @@ const MetaInput = <T,>({ className, component, meta }: MetaInputProps<T>) => {
       {meta.submitError &&
         meta.submitError.map((error: string) => (
           <p key={error} className="help is-warning">
-            {error}
+            {t(error)}
           </p>
         ))}
     </Fragment>

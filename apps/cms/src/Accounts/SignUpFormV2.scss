@@ -23,6 +23,27 @@
   }
 }
 
+// Offered after account creation rejects a handle someone else claimed first:
+// a handle that is free right now, applied only when the user clicks it.
+.signup-form-v2-username-suggestion {
+  align-self: center;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $accent-c;
+  cursor: pointer;
+
+  @media (min-width: 769px) {
+    align-self: flex-start;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 // The reCAPTCHA widget renders at a fixed 304px. On narrow phones the card
 // content box is smaller than that, so scale it down to keep it fully tappable.
 .signup-form-v2-recaptcha {
