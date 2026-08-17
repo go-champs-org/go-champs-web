@@ -87,7 +87,7 @@ export default async function AboutPage({
           alt=""
           aria-hidden="true"
           width={440}
-          height={440}
+          height={622}
           priority
           className="mx-auto hidden h-auto w-full max-w-[440px] lg:block"
         />
