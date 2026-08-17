@@ -52,16 +52,23 @@ const PLACEHOLDER = '---';
 // them fresh without paying for a request to the API on every page view.
 export const revalidate = 3600;
 
-const StatCounter = ({ value, label }: { value: string; label: string }) => (
-  <div className="flex flex-col items-center gap-1">
-    <span className="text-[2rem] font-bold leading-[1.1] text-primary md:text-[2.75rem]">
-      {value}
-    </span>
-    <span className="text-[0.875rem] font-medium uppercase tracking-[0.05em] text-muted md:text-base">
-      {label}
-    </span>
-  </div>
-);
+interface StatCounterProps {
+  value: string;
+  label: string;
+}
+
+function StatCounter({ value, label }: StatCounterProps) {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className="text-[2rem] font-bold leading-[1.1] text-primary md:text-[2.75rem]">
+        {value}
+      </span>
+      <span className="text-[0.875rem] font-medium uppercase tracking-[0.05em] text-muted md:text-base">
+        {label}
+      </span>
+    </div>
+  );
+}
 
 export default async function AboutPage({
   params
