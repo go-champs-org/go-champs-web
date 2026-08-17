@@ -46,7 +46,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <NavBar
             links={[
-              { href: `/${locale}/sobre`, label: t('navAbout') },
+              { href: `/${locale}/about`, label: t('navAbout') },
               { href: `/${locale}/faq`, label: t('navFaq') },
               { href: `/${locale}/contact`, label: t('navContact') }
             ]}
