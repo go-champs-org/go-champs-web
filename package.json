@@ -40,6 +40,9 @@
       "react-final-form-arrays@*": {
         "peerDependencies": { "@types/react": "*" }
       },
+      "react-icons@*": {
+        "peerDependencies": { "@types/react": "*" }
+      },
       "react-i18next@*": {
         "peerDependencies": { "@types/react": "*" }
       },
