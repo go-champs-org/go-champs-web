@@ -24,6 +24,7 @@ import {
 import CollapsibleCard from '../Shared/UI/CollapsibleCard';
 import { FieldArray } from 'react-final-form-arrays';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import BeamNotice from '../Shared/UI/BeamNotice';
 import './Form.scss';
 
 function GameAssetForm({
@@ -228,52 +229,11 @@ const Form: React.FC<FormProps> = ({
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
-        <div className="field">
-          <label className="label">
-            <Trans>awayTeam</Trans> / <Trans>placeholder</Trans>
-          </label>
-
-          <div className="control">
-            <div className="columns is-mobile is-vcentered">
-              <div className="column">
-                {state.useAwayPlaceholder ? (
-                  <Field
-                    name="awayPlaceholder"
-                    component={StringInput}
-                    type="text"
-                    placeholder="Some information"
-                  />
-                ) : (
-                  <Field
-                    name="awayTeam.id"
-                    render={(
-                      props: FieldRenderProps<string, HTMLSelectElement>
-                    ) => (
-                      <SelectInput
-                        {...props}
-                        isDisabled={
-                          values.liveState === GAME_LIVE_STATE.IN_PROGRESS
-                        }
-                        options={selectInputTeams}
-                        isClearable
-                      />
-                    )}
-                  ></Field>
-                )}
-              </div>
-
-              <div className="column is-2 has-text-right">
-                <button
-                  className="button is-text has-tooltip-left"
-                  data-tooltip="Use team / placeholder"
-                  onClick={toggleAwayPlaceholder}
-                >
-                  <i className="fas fa-history" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BeamNotice
+          noticeKey="game-form-team-order-home-first"
+          title={<Trans>teamOrderChangeTitle</Trans>}
+          description={<Trans>teamOrderChangeDescription</Trans>}
+        />
 
         <div className="field">
           <label className="label">
@@ -322,6 +282,53 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
+        <div className="field">
+          <label className="label">
+            <Trans>awayTeam</Trans> / <Trans>placeholder</Trans>
+          </label>
+
+          <div className="control">
+            <div className="columns is-mobile is-vcentered">
+              <div className="column">
+                {state.useAwayPlaceholder ? (
+                  <Field
+                    name="awayPlaceholder"
+                    component={StringInput}
+                    type="text"
+                    placeholder="Some information"
+                  />
+                ) : (
+                  <Field
+                    name="awayTeam.id"
+                    render={(
+                      props: FieldRenderProps<string, HTMLSelectElement>
+                    ) => (
+                      <SelectInput
+                        {...props}
+                        isDisabled={
+                          values.liveState === GAME_LIVE_STATE.IN_PROGRESS
+                        }
+                        options={selectInputTeams}
+                        isClearable
+                      />
+                    )}
+                  ></Field>
+                )}
+              </div>
+
+              <div className="column is-2 has-text-right">
+                <button
+                  className="button is-text has-tooltip-left"
+                  data-tooltip="Use team / placeholder"
+                  onClick={toggleAwayPlaceholder}
+                >
+                  <i className="fas fa-history" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {values.id && (
           <div className="field">
             <label className="label">
@@ -349,21 +356,21 @@ const Form: React.FC<FormProps> = ({
           <>
             <div className="field">
               <label className="label">
-                <Trans>awayScore</Trans>
-              </label>
-
-              <div className="control">
-                <Field name="awayScore" component={StringInput} type="number" />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">
                 <Trans>homeScore</Trans>
               </label>
 
               <div className="control">
                 <Field name="homeScore" component={StringInput} type="number" />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">
+                <Trans>awayScore</Trans>
+              </label>
+
+              <div className="control">
+                <Field name="awayScore" component={StringInput} type="number" />
               </div>
             </div>
           </>

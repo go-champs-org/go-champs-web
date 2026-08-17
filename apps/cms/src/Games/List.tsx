@@ -4,6 +4,7 @@ import { GameEntity } from './state';
 import { Dispatch, AnyAction } from 'redux';
 import Shimmer from '../Shared/UI/Shimmer';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
+import BeamNotice from '../Shared/UI/BeamNotice';
 import { Trans } from 'react-i18next';
 
 const LoadingCard: React.FC = () => (
@@ -46,18 +47,18 @@ const GameCard: React.FC<{
           <div className="columns" style={{ flex: '1' }}>
             <div className="column is-4 has-text-centered">
               <span className="title is-6">
-                {game.awayTeam.id ? game.awayTeam.name : game.awayPlaceholder}
+                {game.homeTeam.id ? game.homeTeam.name : game.homePlaceholder}
               </span>
-            </div>
-            <div className="column is-2 has-text-centered">
-              <span className="title is-7">{game.awayScore}</span>
             </div>
             <div className="column is-2 has-text-centered">
               <span className="title is-7">{game.homeScore}</span>
             </div>
+            <div className="column is-2 has-text-centered">
+              <span className="title is-7">{game.awayScore}</span>
+            </div>
             <div className="column is-4 has-text-centered">
               <span className="title is-6">
-                {game.homeTeam.id ? game.homeTeam.name : game.homePlaceholder}
+                {game.awayTeam.id ? game.awayTeam.name : game.awayPlaceholder}
               </span>
             </div>
           </div>
@@ -99,6 +100,12 @@ const List: React.FC<{
 }> = ({ baseUrl, deleteGame, games }) => {
   return (
     <div>
+      <BeamNotice
+        noticeKey="game-team-order-home-first"
+        title={<Trans>teamOrderChangeTitle</Trans>}
+        description={<Trans>teamOrderChangeDescription</Trans>}
+      />
+
       {games.map((game: GameEntity) => (
         <GameCard
           key={game.id}

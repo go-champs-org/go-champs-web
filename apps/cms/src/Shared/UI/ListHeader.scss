@@ -17,6 +17,7 @@
 
   .filters-wrapper {
     padding: 0;
+    overflow: hidden;
     transition: height 400ms linear, margin 400ms linear;
   }
 }
