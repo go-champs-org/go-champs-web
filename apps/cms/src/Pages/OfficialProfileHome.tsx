@@ -15,8 +15,8 @@ import { approveOfficialProfileInvite } from '../OfficialProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../OfficialProfiles/Banner';
 import PendingInvitesList from '../OfficialProfiles/PendingInvitesList';
-import MiniCard from '../Tournaments/MiniCard';
-import { Trans } from 'react-i18next';
+import Schedule from '../OfficialProfiles/Schedules/Schedule';
+import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
 
 interface OfficialProfileHomeParams extends RouteProps {
   username: string;
@@ -70,6 +70,17 @@ function OfficialProfileHome({
     approveOfficialProfileInvite(inviteId, match.params.username);
   };
 
+  // The schedule endpoint is scoped to the authenticated user, so it is only
+  // rendered when the profile being viewed is the viewer's own.
+  const isOwnProfile =
+    match.params.username === localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY);
+
+  const hasLinkedTournaments = !!(
+    officialProfile &&
+    officialProfile.tournaments &&
+    officialProfile.tournaments.length > 0
+  );
+
   return (
     <div className="columns is-multiline">
       <div className="column is-12 slide-fade-content">
@@ -85,31 +96,9 @@ function OfficialProfileHome({
         </div>
       )}
 
-      <div className="column is-12 slide-fade-content delay-1">
-        <h2 className="title is-5">
-          <Trans>tournaments</Trans>
-        </h2>
-      </div>
-
-      {officialProfile &&
-      officialProfile.tournaments &&
-      officialProfile.tournaments.length > 0 ? (
-        officialProfile.tournaments.map(tournament => (
-          <div key={tournament.id} className="column is-12">
-            <MiniCard tournament={tournament} />
-          </div>
-        ))
-      ) : (
-        <div className="column is-12 slide-fade-content delay-2">
-          <div className="hero is-dark is-small">
-            <div className="hero-body">
-              <div className="container">
-                <p className="subtitle has-text-centered">
-                  <Trans>noTournamentsYet</Trans>
-                </p>
-              </div>
-            </div>
-          </div>
+      {isOwnProfile && (
+        <div className="column is-12 slide-fade-content delay-1">
+          <Schedule hasLinkedTournaments={hasLinkedTournaments} />
         </div>
       )}
     </div>

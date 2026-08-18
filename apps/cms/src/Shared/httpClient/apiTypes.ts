@@ -1217,3 +1217,29 @@ export interface ApiCampaignValidationData {
 export interface ApiCampaignValidationResponse {
   data: ApiCampaignValidationData;
 }
+
+export interface ApiOfficialProfileScheduleTournament {
+  id: string;
+  name: string;
+  slug: string;
+  organization: ApiOrganization | null;
+}
+
+export interface ApiOfficialProfileScheduleGame {
+  id: string;
+  datetime: string | null;
+  location: string | null;
+  city: string | null;
+  is_finished: boolean;
+  live_state: string | null;
+  phase_id: string;
+  away_placeholder: string | null;
+  away_team: ApiTeam | null;
+  home_placeholder: string | null;
+  home_team: ApiTeam | null;
+  tournament: ApiOfficialProfileScheduleTournament | null;
+}
+
+export interface ApiOfficialProfileSchedulesResponse {
+  data: ApiOfficialProfileScheduleGame[];
+}

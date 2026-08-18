@@ -50,6 +50,8 @@ import { default as officialsReducer } from './Officials/reducer';
 import { OfficialState } from './Officials/state';
 import { default as officialProfilesReducer } from './OfficialProfiles/reducer';
 import { OfficialProfileState } from './OfficialProfiles/state';
+import { default as officialProfileSchedulesReducer } from './OfficialProfiles/Schedules/reducer';
+import { ScheduleState } from './OfficialProfiles/Schedules/state';
 import { default as themeReducer } from './Theme/reducer';
 import { ThemeState } from './Theme/types';
 import { default as themeV2Reducer } from './ThemeV2/reducer';
@@ -66,7 +68,7 @@ export interface StoreState {
   fixedPlayerStatsTables: FixedPlayerStatsTableState;
   games: GameState;
   officials: OfficialState;
-  officialProfiles: OfficialProfileState;
+  officialProfiles: OfficialProfileState & { schedules: ScheduleState };
   organizations: OrganizationState & {
     organizationSettings: OrganizationSettingState;
   };
@@ -82,6 +84,21 @@ export interface StoreState {
   themeV2: ThemeV2State;
   tournaments: TournamentState & { tournamentSettings: TournamentSettingState };
 }
+
+type OfficialProfilesWithSchedulesState = OfficialProfileState & {
+  schedules: ScheduleState;
+};
+
+const officialProfilesWithSchedulesReducer = (
+  state: OfficialProfilesWithSchedulesState | undefined,
+  action: AnyAction
+): OfficialProfilesWithSchedulesState => ({
+  ...officialProfilesReducer(state, action),
+  schedules: officialProfileSchedulesReducer(
+    state ? state.schedules : undefined,
+    action
+  )
+});
 
 type TournamentsWithSettingsState = TournamentState & {
   tournamentSettings: TournamentSettingState;
@@ -124,7 +141,7 @@ export default createStore(
     fixedPlayerStatsTables: fixedPlayerStatsTablesReducer,
     games: tournamentGameReducer,
     officials: officialsReducer,
-    officialProfiles: officialProfilesReducer,
+    officialProfiles: officialProfilesWithSchedulesReducer,
     organizations: organizationsWithSettingsReducer,
     phases: tournamentPhaseReducer,
     players: playerReducer,
