@@ -8,12 +8,14 @@ import './ScheduleGameCard.scss';
 const teamLabel = (name: string, placeholder: string) =>
   name || placeholder || '-';
 
-const TeamRow: React.FC<{
+interface TeamRowProps {
   canDisplayScore: boolean;
   isWinning: boolean;
   label: string;
   score: number;
-}> = ({ canDisplayScore, isWinning, label, score }) => {
+}
+
+function TeamRow({ canDisplayScore, isWinning, label, score }: TeamRowProps) {
   const rowClasses = classNames('columns', 'is-mobile', 'schedule-team-row', {
     'has-text-weight-bold': isWinning
   });
@@ -26,9 +28,9 @@ const TeamRow: React.FC<{
       </div>
     </div>
   );
-};
+}
 
-const ScheduleGameCard: React.FC<{ game: ScheduleGameEntity }> = ({ game }) => {
+function ScheduleGameCard({ game }: { game: ScheduleGameEntity }) {
   const place = [game.location, game.city].filter(Boolean).join(' - ');
   // Scores only mean something once the game has been played or is under way.
   const canDisplayScore = game.isFinished || game.liveState === 'in_progress';
@@ -80,6 +82,6 @@ const ScheduleGameCard: React.FC<{ game: ScheduleGameEntity }> = ({ game }) => {
       )}
     </article>
   );
-};
+}
 
 export default ScheduleGameCard;

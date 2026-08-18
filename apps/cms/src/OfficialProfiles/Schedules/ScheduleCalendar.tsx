@@ -13,13 +13,13 @@ interface ScheduleCalendarProps {
 /** Day-by-day navigation over the schedule, in the shape of
  * `Games/ListByCalendar`. The arrows never disable: reaching the edge of the
  * loaded window asks the page for the adjacent range instead. */
-const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
+function ScheduleCalendar({
   children,
   isLoading,
   onNextDate,
   onPreviousDate,
   selectedDate
-}) => {
+}: ScheduleCalendarProps) {
   const { t } = useTranslation();
 
   const buttonClasses = classNames('button', { 'is-loading': isLoading });
@@ -63,6 +63,6 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
       {children}
     </Fragment>
   );
-};
+}
 
 export default ScheduleCalendar;

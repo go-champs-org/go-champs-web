@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
 
@@ -7,7 +7,11 @@ export const canAccessOfficialProfile = (
   currentUsername: string | null
 ): boolean => !!currentUsername && requestedUsername === currentUsername;
 
-const AuthenticatedAuthorizedOfficialProfile: React.FC = ({ children }) => {
+function AuthenticatedAuthorizedOfficialProfile({
+  children
+}: {
+  children?: ReactNode;
+}) {
   const { username } = useParams<{ username: string }>();
   const currentUsername = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY);
 
@@ -16,6 +20,6 @@ const AuthenticatedAuthorizedOfficialProfile: React.FC = ({ children }) => {
   }
 
   return <Fragment>{children}</Fragment>;
-};
+}
 
 export default AuthenticatedAuthorizedOfficialProfile;
