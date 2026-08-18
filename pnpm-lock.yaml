@@ -8,7 +8,7 @@ overrides:
   react-qr-code: 2.0.7
   babel-preset-jest@26.6.2>babel-preset-current-node-syntax: 1.0.1
 
-packageExtensionsChecksum: c7704511e68ae73bdec4493001762012
+packageExtensionsChecksum: 8e325d591197bd8c0bca8ba673b95182
 
 importers:
 
@@ -405,7 +405,7 @@ importers:
     dependencies:
       react-icons:
         specifier: 5.7.0
-        version: 5.7.0(react@19.2.8)
+        version: 5.7.0(@types/react@19.2.18)(react@19.2.8)
     devDependencies:
       '@swc/core':
         specifier: 1.15.47
@@ -7816,6 +7816,7 @@ packages:
   react-icons@5.7.0:
     resolution: {integrity: sha512-LBLy340Rzqy6+/yVhZKT3B/QpP1BZaesGqasf09HPOBzRarcDIFH0WwXlXQfE7q7ipxK4MSiC5DIBWURCny6fw==}
     peerDependencies:
+      '@types/react': '*'
       react: '*'
 
   react-image-crop@11.1.2:
@@ -16342,7 +16343,7 @@ snapshots:
       jest-environment-jsdom: 26.6.2
       jest-environment-node: 26.6.2
       jest-get-type: 26.3.0
-      jest-jasmine2: 26.6.3
+      jest-jasmine2: 26.6.3(ts-node@10.9.2(@swc/core@1.15.47)(@types/node@11.13.8)(typescript@4.9.5))
       jest-regex-util: 26.0.0
       jest-resolve: 26.6.2
       jest-util: 26.6.2
@@ -16539,7 +16540,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  jest-jasmine2@26.6.3:
+  jest-jasmine2@26.6.3(ts-node@10.9.2(@swc/core@1.15.47)(@types/node@11.13.8)(typescript@4.9.5)):
     dependencies:
       '@babel/traverse': 7.29.7
       '@jest/environment': 26.6.2
@@ -16560,7 +16561,11 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:
@@ -19052,8 +19057,9 @@ snapshots:
     optionalDependencies:
       react-dom: 16.14.0(react@16.14.0)
 
-  react-icons@5.7.0(react@19.2.8):
+  react-icons@5.7.0(@types/react@19.2.18)(react@19.2.8):
     dependencies:
+      '@types/react': 19.2.18
       react: 19.2.8
 
   react-image-crop@11.1.2(@types/react@16.8.14)(react@16.14.0):
