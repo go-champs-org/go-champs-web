@@ -1,0 +1,131 @@
+@import '../Shared/styles/colors.scss';
+@import '../Shared/styles/colorsV2.scss';
+
+// Light theme only, on purpose: the official profile follows the brand
+// artwork, which is drawn for a light page.
+.official-profile-page {
+  .slide-fade-content {
+    animation: officialProfileSlideInFade 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+
+    &.delay-1 {
+      animation-delay: 0.15s;
+    }
+
+    &.delay-2 {
+      animation-delay: 0.3s;
+    }
+  }
+
+  &__section {
+    background-color: $neutral-100;
+    border: 1px solid $neutral-400;
+    border-radius: 18px;
+    box-shadow: 0 2px 10px rgba(29, 29, 27, 0.06);
+    padding: 1.25rem;
+  }
+
+  // Every section leads with a title marked by the brand green bar.
+  &__section-title.title {
+    align-items: center;
+    color: $neutral-900;
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+
+    &::before {
+      background-color: $accent-a;
+      border-radius: 999px;
+      content: '';
+      display: inline-block;
+      height: 1.1rem;
+      width: 4px;
+    }
+  }
+
+  // Day-by-day header of the schedule: arrows and date on one centered line.
+  .columns.is-vcentered .title.is-5 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+    min-height: 2.25rem;
+  }
+
+  // The list brings its own trailing space, which the section padding already
+  // provides.
+  .official-profile-pending-invites-list {
+    margin-bottom: 0;
+  }
+
+  .card {
+    background-color: $neutral-100;
+    border-radius: 12px;
+    color: $neutral-900;
+  }
+
+  .card.item:hover {
+    border-color: $accent-a;
+  }
+
+  // Games of the same tournament read as one list: only the outer corners of
+  // the stack are rounded.
+  .card.schedule-game-card {
+    border-radius: 0;
+
+    // The tournament heading is the group's first child, so the stack is
+    // measured by type instead.
+    &:first-of-type {
+      border-radius: 12px 12px 0 0;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 12px 12px;
+    }
+
+    &:first-of-type:last-of-type {
+      border-radius: 12px;
+    }
+  }
+
+  .title.is-6 {
+    color: $accent-c;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero.is-dark {
+    background-color: $neutral-300;
+    border-radius: 12px;
+
+    .subtitle {
+      color: $neutral-500;
+    }
+  }
+
+  .button {
+    border-radius: 999px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .official-profile-page {
+    &__section {
+      padding: 1.75rem 2rem;
+    }
+  }
+}
+
+@keyframes officialProfileSlideInFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

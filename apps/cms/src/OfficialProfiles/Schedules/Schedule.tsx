@@ -203,7 +203,7 @@ function Schedule({
 
   return (
     <div>
-      <h2 className="title is-5">
+      <h2 className="title is-5 official-profile-page__section-title">
         <Trans>mySchedule</Trans>
       </h2>
 

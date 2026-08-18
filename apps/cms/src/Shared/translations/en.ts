@@ -261,6 +261,7 @@ export default {
     onGoingTournaments: 'Ongoing tournaments',
     open: 'Open',
     official: 'Official',
+    officialHighlights: 'Official milestones',
     officials: 'Officials',
     pendingOfficialInvites: 'Pending Official Invites',
     pending: 'Pending',

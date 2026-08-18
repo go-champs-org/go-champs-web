@@ -10,6 +10,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../OfficialProfiles/Banner';
 import MiniCard from '../Tournaments/MiniCard';
 import { Trans } from 'react-i18next';
+import './OfficialProfilePage.scss';
 
 interface OfficialProfileTournamentsParams extends RouteProps {
   username: string;
@@ -50,13 +51,13 @@ function OfficialProfileTournaments({
   }, [match.params.username, requestOfficialProfile]);
 
   return (
-    <div className="columns is-multiline">
+    <div className="columns is-multiline official-profile-page">
       <div className="column is-12 slide-fade-content">
         <Banner officialProfile={officialProfile} />
       </div>
 
       <div className="column is-12 slide-fade-content delay-1">
-        <h2 className="title is-5">
+        <h2 className="title is-5 official-profile-page__section-title">
           <Trans>tournaments</Trans>
         </h2>
       </div>
