@@ -16,7 +16,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../OfficialProfiles/Banner';
 import PendingInvitesList from '../OfficialProfiles/PendingInvitesList';
 import Schedule from '../OfficialProfiles/Schedules/Schedule';
-import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
 
 interface OfficialProfileHomeParams extends RouteProps {
   username: string;
@@ -70,11 +69,6 @@ function OfficialProfileHome({
     approveOfficialProfileInvite(inviteId, match.params.username);
   };
 
-  // The schedule endpoint is scoped to the authenticated user, so it is only
-  // rendered when the profile being viewed is the viewer's own.
-  const isOwnProfile =
-    match.params.username === localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY);
-
   const hasLinkedTournaments = !!(
     officialProfile &&
     officialProfile.tournaments &&
@@ -96,11 +90,9 @@ function OfficialProfileHome({
         </div>
       )}
 
-      {isOwnProfile && (
-        <div className="column is-12 slide-fade-content delay-1">
-          <Schedule hasLinkedTournaments={hasLinkedTournaments} />
-        </div>
-      )}
+      <div className="column is-12 slide-fade-content delay-1">
+        <Schedule hasLinkedTournaments={hasLinkedTournaments} />
+      </div>
     </div>
   );
 }

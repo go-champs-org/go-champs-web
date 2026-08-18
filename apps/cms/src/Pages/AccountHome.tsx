@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import OrganizationList from './OrganizationList';
 import OrganizationNew from './OrganizationNew';
 import OrganizationEdit from './OrganizationEdit';
@@ -12,6 +12,7 @@ import OfficialProfileEdit from './OfficialProfileEdit';
 import OfficialProfileHome from './OfficialProfileHome';
 import OfficialProfileNew from './OfficialProfileNew';
 import OfficialProfileTournaments from './OfficialProfileTournaments';
+import AuthenticatedAuthorizedOfficialProfile from '../OfficialProfiles/AuthenticatedAuthorizedOfficialProfile';
 import OfficialProfileSignatureEdit from './OfficialProfileSignatureEdit';
 import withAccount from './support/withAccount';
 import { StoreState } from '../store';
@@ -25,6 +26,10 @@ import { requestOfficialProfile } from '../OfficialProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import ProfileHome from './ProfileHome';
 import AccountIdentityEdit from './AccountIdentityEdit';
+
+interface OfficialProfileParams {
+  username: string;
+}
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
@@ -79,20 +84,36 @@ function AccountHome({ athleteProfile, officialProfile }: AccountHomeProps) {
             <Route path="/Account/NewProfile" component={ProfileNew} />
             <Route
               path="/Account/EditOfficialProfile/:username"
-              component={OfficialProfileEdit}
+              render={(props: RouteComponentProps<OfficialProfileParams>) => (
+                <AuthenticatedAuthorizedOfficialProfile>
+                  <OfficialProfileEdit {...props} />
+                </AuthenticatedAuthorizedOfficialProfile>
+              )}
             />
             <Route
               path="/Account/EditOfficialProfileSignature/:username"
-              component={OfficialProfileSignatureEdit}
+              render={(props: RouteComponentProps<OfficialProfileParams>) => (
+                <AuthenticatedAuthorizedOfficialProfile>
+                  <OfficialProfileSignatureEdit {...props} />
+                </AuthenticatedAuthorizedOfficialProfile>
+              )}
             />
             <Route
               path="/Account/OfficialProfile/:username/Tournaments"
-              component={OfficialProfileTournaments}
+              render={(props: RouteComponentProps<OfficialProfileParams>) => (
+                <AuthenticatedAuthorizedOfficialProfile>
+                  <OfficialProfileTournaments {...props} />
+                </AuthenticatedAuthorizedOfficialProfile>
+              )}
             />
             <Route
               exact
               path="/Account/OfficialProfile/:username"
-              component={OfficialProfileHome}
+              render={(props: RouteComponentProps<OfficialProfileParams>) => (
+                <AuthenticatedAuthorizedOfficialProfile>
+                  <OfficialProfileHome {...props} />
+                </AuthenticatedAuthorizedOfficialProfile>
+              )}
             />
             <Route
               path="/Account/NewOfficialProfile"
