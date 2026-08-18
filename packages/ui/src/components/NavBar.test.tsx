@@ -15,12 +15,13 @@ describe('NavBar', () => {
   });
 
   it('stays pinned to the top of the viewport while the page scrolls', () => {
-    const { container } = render(
-      <NavBar links={[{ href: '/about', label: 'About' }]} />
-    );
+    render(<NavBar links={[{ href: '/about', label: 'About' }]} />);
 
-    const nav = container.querySelector('nav');
-    expect(nav).toHaveClass('sticky', 'top-0', 'z-50');
+    expect(screen.getByRole('navigation')).toHaveClass(
+      'sticky',
+      'top-0',
+      'z-50'
+    );
   });
 
   it('renders a theme toggle button', () => {
