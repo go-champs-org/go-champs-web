@@ -16,6 +16,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../OfficialProfiles/Banner';
 import PendingInvitesList from '../OfficialProfiles/PendingInvitesList';
 import Schedule from '../OfficialProfiles/Schedules/Schedule';
+import './OfficialProfilePage.scss';
 
 interface OfficialProfileHomeParams extends RouteProps {
   username: string;
@@ -76,22 +77,26 @@ function OfficialProfileHome({
   );
 
   return (
-    <div className="columns is-multiline">
+    <div className="columns is-multiline official-profile-page">
       <div className="column is-12 slide-fade-content">
         <Banner officialProfile={officialProfile} />
       </div>
       {pendingInvites.length > 0 && (
-        <div className="column is-12 slide-fade-content">
-          <PendingInvitesList
-            invites={pendingInvites}
-            onApprove={handleApproveInvite}
-            isApproving={isApprovingInvite}
-          />
+        <div className="column is-12 slide-fade-content delay-1">
+          <div className="official-profile-page__section">
+            <PendingInvitesList
+              invites={pendingInvites}
+              onApprove={handleApproveInvite}
+              isApproving={isApprovingInvite}
+            />
+          </div>
         </div>
       )}
 
-      <div className="column is-12 slide-fade-content delay-1">
-        <Schedule hasLinkedTournaments={hasLinkedTournaments} />
+      <div className="column is-12 slide-fade-content delay-2">
+        <div className="official-profile-page__section">
+          <Schedule hasLinkedTournaments={hasLinkedTournaments} />
+        </div>
       </div>
     </div>
   );

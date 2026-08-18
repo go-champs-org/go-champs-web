@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Trans } from 'react-i18next';
 import { OfficialProfileEntity } from './state';
 import PlayerPhotoPlaceholder from '../Players/PlayerPhotoPlaceholder.png';
-import '../AthleteProfiles/Banner.scss';
+import './Banner.scss';
 
 function Banner({
   officialProfile
@@ -12,41 +12,103 @@ function Banner({
 }) {
   const imageSrc = officialProfile.photoUrl || PlayerPhotoPlaceholder;
   const profileUrl = `/Account/OfficialProfile/${officialProfile.username}`;
+  const tournamentsCount = officialProfile.tournaments
+    ? officialProfile.tournaments.length
+    : 0;
+  const pendingInvitesCount = officialProfile.pendingInvites
+    ? officialProfile.pendingInvites.length
+    : 0;
 
   return (
-    <section className="athlete-profile-banner">
-      <div className="body">
-        <div className="container">
-          <div className="columns">
-            <div className="column is-3 has-text-centered">
-              <img
-                src={imageSrc}
-                alt={`${officialProfile.name} profile`}
-                className={officialProfile.photoUrl ? `photo custom` : 'photo'}
-              />
-            </div>
-            <div className="column has-text-centered-mobile">
-              <p className="name">{officialProfile.name}</p>
+    <section className="official-profile-banner">
+      <div className="official-profile-banner__accessory" aria-hidden="true" />
 
-              {officialProfile.username && (
-                <nav className="buttons">
-                  <NavLink
-                    exact
-                    to={profileUrl}
-                    className="button is-small"
-                    activeClassName="is-link"
-                  >
-                    <Trans>home</Trans>
-                  </NavLink>
-                  <NavLink
-                    to={`${profileUrl}/Tournaments`}
-                    className="button is-small"
-                    activeClassName="is-link"
-                  >
-                    <Trans>myTournaments</Trans>
-                  </NavLink>
-                </nav>
-              )}
+      <div className="official-profile-banner__content">
+        <header className="official-profile-banner__header">
+          <p className="official-profile-banner__overline">
+            <Trans>official</Trans>
+          </p>
+          {officialProfile.username && (
+            <p className="official-profile-banner__username notranslate">
+              @{officialProfile.username}
+            </p>
+          )}
+        </header>
+
+        <div className="official-profile-banner__identity">
+          <img
+            src={imageSrc}
+            alt={`${officialProfile.name} profile`}
+            className="official-profile-banner__photo"
+          />
+
+          <div className="official-profile-banner__identity-body">
+            <p className="official-profile-banner__name">
+              {officialProfile.name}
+            </p>
+
+            <div className="official-profile-banner__details">
+              <div className="official-profile-banner__details-main">
+                <div className="official-profile-banner__meta">
+                  {officialProfile.category && (
+                    <span className="official-profile-banner__badge">
+                      {officialProfile.category}
+                    </span>
+                  )}
+                  {officialProfile.licenseNumber && (
+                    <span className="official-profile-banner__meta-item">
+                      <Trans>licenseNumber</Trans>:{' '}
+                      {officialProfile.licenseNumber}
+                    </span>
+                  )}
+                </div>
+
+                {officialProfile.username && (
+                  <nav className="official-profile-banner__nav">
+                    <NavLink
+                      exact
+                      to={profileUrl}
+                      className="button official-profile-banner__nav-link"
+                      activeClassName="is-active"
+                    >
+                      <Trans>home</Trans>
+                    </NavLink>
+                    <NavLink
+                      to={`${profileUrl}/Tournaments`}
+                      className="button official-profile-banner__nav-link"
+                      activeClassName="is-active"
+                    >
+                      <Trans>myTournaments</Trans>
+                    </NavLink>
+                  </nav>
+                )}
+              </div>
+
+              <div className="official-profile-banner__highlights">
+                <p className="official-profile-banner__highlights-title">
+                  <Trans>officialHighlights</Trans>
+                </p>
+
+                <div className="official-profile-banner__highlight-grid">
+                  <div className="official-profile-banner__highlight">
+                    <p className="official-profile-banner__highlight-value">
+                      {tournamentsCount}
+                    </p>
+                    <p className="official-profile-banner__highlight-label">
+                      <Trans>tournaments</Trans>
+                    </p>
+                  </div>
+
+                  <div className="official-profile-banner__highlight">
+                    <p className="official-profile-banner__highlight-value">
+                      {pendingInvitesCount}
+                    </p>
+                    <p className="official-profile-banner__highlight-label">
+                      <Trans>pendingInvites</Trans>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

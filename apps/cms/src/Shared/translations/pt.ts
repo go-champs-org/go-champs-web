@@ -264,6 +264,7 @@ export default {
     onGoingTournaments: 'Campeonatos em andamento',
     open: 'Abrir',
     official: 'Oficial',
+    officialHighlights: 'Marcos do oficial',
     officials: 'Oficiais',
     pendingOfficialInvites: 'Convites de Oficiais Pendentes',
     pending: 'Pendente',
