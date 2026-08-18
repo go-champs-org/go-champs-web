@@ -68,6 +68,18 @@
   --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
   --shadow-strong: rgba(29, 29, 27, 0.15);
+
+  /* Height of the sticky NavBar. It is the NavBar's own padding + logo size,
+     declared here so pages that must clear it (sticky illustrations, anchor
+     offsets) never hard-code the pixel value. NavBar applies it as min-height,
+     so changing it here moves the bar and every offset together. */
+  --navbar-height: 4.125rem;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --navbar-height: 8.5rem;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

@@ -14,6 +14,16 @@ describe('NavBar', () => {
     expect(screen.getAllByRole('link', { name: 'About' })).toHaveLength(1);
   });
 
+  it('stays pinned to the top of the viewport while the page scrolls', () => {
+    render(<NavBar links={[{ href: '/about', label: 'About' }]} />);
+
+    expect(screen.getByRole('navigation')).toHaveClass(
+      'sticky',
+      'top-0',
+      'z-50'
+    );
+  });
+
   it('renders a theme toggle button', () => {
     render(<NavBar links={[{ href: '/about', label: 'About' }]} />);
 
