@@ -252,6 +252,13 @@ export default {
     newTournament: 'Novo campeonato',
     noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
+    previousDate: 'Dia anterior',
+    nextDate: 'Próximo dia',
+    mySchedule: 'Minha agenda',
+    notInvitedToTournamentsYet:
+      'Você ainda não foi convidado para nenhum campeonato',
+    scheduleLoadError: 'Não foi possível carregar sua agenda',
+    tryAgain: 'Tentar novamente',
     noPlansAvailable: 'Nenhum plano disponível',
     noTournamentsYet: 'Nenhum campeonato ainda',
     onGoingTournaments: 'Campeonatos em andamento',
@@ -1110,6 +1117,8 @@ export default {
       }
     },
     tournaments: 'Campeonatos',
+    myTournaments: 'Meus campeonatos',
+    home: 'Início',
     tournamentNotFound: 'Campeonato não encontrado',
     totals: 'Totais',
     trialActive: 'Teste ativo',

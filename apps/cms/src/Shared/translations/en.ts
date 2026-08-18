@@ -249,6 +249,13 @@ export default {
     newTournament: 'New tournament',
     noGames: 'No games',
     noGamesScheduled: 'No games scheduled',
+    previousDate: 'Previous day',
+    nextDate: 'Next day',
+    mySchedule: 'My schedule',
+    notInvitedToTournamentsYet:
+      'You have not been invited to any tournament yet',
+    scheduleLoadError: 'We could not load your schedule',
+    tryAgain: 'Try again',
     noPlansAvailable: 'No plans available',
     noTournamentsYet: 'No tournaments yet',
     onGoingTournaments: 'Ongoing tournaments',
@@ -1102,6 +1109,8 @@ export default {
       }
     },
     tournaments: 'Tournaments',
+    myTournaments: 'My tournaments',
+    home: 'Home',
     tournamentNotFound: 'Tournament not found',
     totals: 'Totals',
     trialActive: 'Trial active',
