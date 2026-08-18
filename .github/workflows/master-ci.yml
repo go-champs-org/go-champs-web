@@ -71,6 +71,14 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+        run: |
+          if [ -z "$STAGING_API_HOST" ]; then
+            echo "::error::STAGING_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
       - name: Build Staging
         env:
           EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
@@ -79,6 +87,15 @@ jobs:
           STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: pnpm --filter @gochamps/cms build:staging
+      - name: Verify Netlify credentials
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "::error::Netlify credentials are missing - the deploy would silently no-op"
+            exit 1
+          fi
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
@@ -160,6 +177,14 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+        run: |
+          if [ -z "$PROD_API_HOST" ]; then
+            echo "::error::PROD_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
       - name: Build Prod
         env:
           EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
@@ -169,6 +194,15 @@ jobs:
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
           PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
         run: pnpm --filter @gochamps/cms build
+      - name: Verify Netlify credentials
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.ADMIN_SITE_ID }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "::error::Netlify credentials are missing - the deploy would silently no-op"
+            exit 1
+          fi
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
@@ -250,6 +284,14 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+        run: |
+          if [ -z "$PROD_API_HOST" ]; then
+            echo "::error::PROD_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
       - name: Build Prod
         env:
           AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
@@ -261,6 +303,15 @@ jobs:
           PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
           PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
         run: pnpm --filter @gochamps/cms build
+      - name: Verify Netlify credentials
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.PROD_SITE_ID }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "::error::Netlify credentials are missing - the deploy would silently no-op"
+            exit 1
+          fi
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
