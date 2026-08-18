@@ -252,11 +252,9 @@ export default {
     newTournament: 'Novo campeonato',
     noGames: 'Sem jogos',
     noGamesScheduled: 'Sem jogos agendados',
+    previousDate: 'Dia anterior',
+    nextDate: 'Próximo dia',
     mySchedule: 'Minha agenda',
-    upcomingGames: 'Próximos jogos',
-    pastGames: 'Jogos passados',
-    noScheduledGames: 'Você não tem jogos agendados para os próximos dias',
-    noPastGames: 'Você não tem jogos nos últimos dias',
     notInvitedToTournamentsYet:
       'Você ainda não foi convidado para nenhum campeonato',
     scheduleLoadError: 'Não foi possível carregar sua agenda',

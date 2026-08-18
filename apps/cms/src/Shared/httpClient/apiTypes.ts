@@ -1234,8 +1234,10 @@ export interface ApiOfficialProfileScheduleGame {
   live_state: string | null;
   phase_id: string;
   away_placeholder: string | null;
+  away_score: number | null;
   away_team: ApiTeam | null;
   home_placeholder: string | null;
+  home_score: number | null;
   home_team: ApiTeam | null;
   tournament: ApiOfficialProfileScheduleTournament | null;
 }

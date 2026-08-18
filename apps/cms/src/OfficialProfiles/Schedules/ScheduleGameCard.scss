@@ -1,0 +1,29 @@
+.schedule-game-card {
+  margin-bottom: 0;
+
+  .card-content {
+    padding: 0.75rem;
+  }
+
+  // Bulma pulls .columns out by -0.75rem on every side, which eats the card's
+  // vertical padding once the column padding is this small.
+  .columns {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .column {
+    padding: 0.125rem 0.75rem;
+  }
+
+  .schedule-team-row {
+    .column {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}

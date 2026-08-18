@@ -37,9 +37,9 @@ const requestScheduleSuccess = (
   ...state,
   isLoadingRequestSchedule: false,
   hasErrorRequestSchedule: false,
-  // The window toggle reuses this slice, so the previous window is replaced
-  // rather than merged.
-  games: action.payload!.reduce(scheduleGameMapEntities, {})
+  // The calendar walks past the edges of the loaded window by fetching the
+  // adjacent range, so each response is merged into what is already loaded.
+  games: action.payload!.reduce(scheduleGameMapEntities, state.games)
 });
 
 export default createReducer(initialState, {

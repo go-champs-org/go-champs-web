@@ -11,12 +11,14 @@ describe('mapApiScheduleGameToScheduleGameEntity', () => {
     live_state: 'not_started',
     phase_id: 'phase-id',
     away_placeholder: 'Vencedor A',
+    away_score: 78,
     away_team: {
       id: 'away-id',
       name: 'Away Team',
       primary_color: null
     },
     home_placeholder: 'Vencedor B',
+    home_score: 82,
     home_team: {
       id: 'home-id',
       name: 'Home Team',
@@ -45,8 +47,10 @@ describe('mapApiScheduleGameToScheduleGameEntity', () => {
       phaseId: 'phase-id',
       awayTeamName: 'Away Team',
       awayPlaceholder: 'Vencedor A',
+      awayScore: 78,
       homeTeamName: 'Home Team',
       homePlaceholder: 'Vencedor B',
+      homeScore: 82,
       tournamentId: 'tournament-id',
       tournamentName: 'Tournament',
       tournamentSlug: 'tournament-slug',
@@ -62,8 +66,10 @@ describe('mapApiScheduleGameToScheduleGameEntity', () => {
       city: null,
       live_state: null,
       away_placeholder: null,
+      away_score: null,
       away_team: null,
       home_placeholder: null,
+      home_score: null,
       home_team: null
     });
 
@@ -75,6 +81,8 @@ describe('mapApiScheduleGameToScheduleGameEntity', () => {
     expect(entity.awayPlaceholder).toEqual('');
     expect(entity.homeTeamName).toEqual('');
     expect(entity.homePlaceholder).toEqual('');
+    expect(entity.awayScore).toEqual(0);
+    expect(entity.homeScore).toEqual(0);
   });
 
   it('maps a game without a tournament', () => {

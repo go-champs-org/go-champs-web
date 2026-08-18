@@ -249,11 +249,9 @@ export default {
     newTournament: 'New tournament',
     noGames: 'No games',
     noGamesScheduled: 'No games scheduled',
+    previousDate: 'Previous day',
+    nextDate: 'Next day',
     mySchedule: 'My schedule',
-    upcomingGames: 'Upcoming games',
-    pastGames: 'Past games',
-    noScheduledGames: 'You have no games scheduled for the coming days',
-    noPastGames: 'You have no games in the past days',
     notInvitedToTournamentsYet:
       'You have not been invited to any tournament yet',
     scheduleLoadError: 'We could not load your schedule',

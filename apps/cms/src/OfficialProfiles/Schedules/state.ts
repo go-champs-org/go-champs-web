@@ -8,8 +8,10 @@ export interface ScheduleGameEntity {
   phaseId: string;
   awayTeamName: string;
   awayPlaceholder: string;
+  awayScore: number;
   homeTeamName: string;
   homePlaceholder: string;
+  homeScore: number;
   tournamentId: string;
   tournamentName: string;
   tournamentSlug: string;
@@ -32,8 +34,10 @@ export const DEFAULT_SCHEDULE_GAME: ScheduleGameEntity = {
   phaseId: '',
   awayTeamName: '',
   awayPlaceholder: '',
+  awayScore: 0,
   homeTeamName: '',
   homePlaceholder: '',
+  homeScore: 0,
   tournamentId: '',
   tournamentName: '',
   tournamentSlug: '',

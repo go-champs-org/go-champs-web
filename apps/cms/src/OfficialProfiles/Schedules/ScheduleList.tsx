@@ -1,7 +1,8 @@
 import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import Shimmer from '../../Shared/UI/Shimmer';
 import ScheduleGameCard from './ScheduleGameCard';
+import { ScheduleTournamentGroup, groupGamesByTournament } from './selectors';
 import { ScheduleGameEntity } from './state';
 
 const LoadingCard: React.FC = () => (
@@ -56,19 +57,21 @@ export const ScheduleListEmpty: React.FC<{ messageKey: string }> = ({
 );
 
 interface ScheduleListProps {
-  dates: string[];
-  gamesByDate: { [date: string]: ScheduleGameEntity[] };
+  games: ScheduleGameEntity[];
 }
 
-const ScheduleList: React.FC<ScheduleListProps> = ({ dates, gamesByDate }) => {
-  const { t } = useTranslation();
+/** The games of a single day, grouped by tournament. */
+const ScheduleList: React.FC<ScheduleListProps> = ({ games }) => {
+  if (games.length === 0) {
+    return <ScheduleListEmpty messageKey="noGamesScheduled" />;
+  }
 
   return (
     <div>
-      {dates.map((date: string) => (
-        <section key={date} style={{ marginBottom: '1.5rem' }}>
-          <h3 className="title is-6">{t('date', { date })}</h3>
-          {gamesByDate[date].map((game: ScheduleGameEntity) => (
+      {groupGamesByTournament(games).map((group: ScheduleTournamentGroup) => (
+        <section key={group.tournamentId} style={{ marginBottom: '1.5rem' }}>
+          <h4 className="title is-6">{group.tournamentName}</h4>
+          {group.games.map((game: ScheduleGameEntity) => (
             <ScheduleGameCard key={game.id} game={game} />
           ))}
         </section>

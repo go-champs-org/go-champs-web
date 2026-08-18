@@ -64,29 +64,32 @@ describe('schedule reducer', () => {
     });
   });
 
-  it('replaces the previous window instead of merging it', () => {
-    const previous = gameWith('game-1', '2026-08-20T19:30:00Z');
-    const next = gameWith('game-2', '2026-05-01T19:30:00Z');
+  it('merges an adjacent window into the games already loaded', () => {
+    const loaded = gameWith('game-1', '2026-08-20T19:30:00Z');
+    const olderWindow = gameWith('game-2', '2026-05-01T19:30:00Z');
 
     const state = reducer(
-      { ...initialState, games: { 'game-1': previous } },
+      { ...initialState, games: { 'game-1': loaded } },
       {
         type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS,
-        payload: [next]
+        payload: [olderWindow]
       }
     );
 
-    expect(state.games).toEqual({ 'game-2': next });
+    expect(state.games).toEqual({
+      'game-1': loaded,
+      'game-2': olderWindow
+    });
   });
 
-  it('empties the games when the API returns none', () => {
-    const previous = gameWith('game-1', '2026-08-20T19:30:00Z');
+  it('keeps the loaded games when a window comes back empty', () => {
+    const loaded = gameWith('game-1', '2026-08-20T19:30:00Z');
 
     const state = reducer(
-      { ...initialState, games: { 'game-1': previous } },
+      { ...initialState, games: { 'game-1': loaded } },
       { type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS, payload: [] }
     );
 
-    expect(state.games).toEqual({});
+    expect(state.games).toEqual({ 'game-1': loaded });
   });
 });
