@@ -20,6 +20,9 @@ export default async function PrivacyPolicyPage({
   return (
     <main className="bg-background py-12 px-6">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-12 lg:grid-cols-2">
+        {/* The sticky offset clears the NavBar, which is `sticky top-0` and
+            136px tall on lg (72px logo + 2×32px padding) — with a smaller top
+            the illustration slides under the bar as the page scrolls. */}
         <Image
           src="/illustrations/smartphone.svg"
           alt=""
@@ -27,7 +30,7 @@ export default async function PrivacyPolicyPage({
           width={440}
           height={622}
           priority
-          className="mx-auto hidden h-auto w-full max-w-[440px] lg:sticky lg:top-8 lg:block"
+          className="mx-auto hidden h-auto w-full max-w-[440px] lg:sticky lg:top-[152px] lg:block"
         />
 
         <div className="mx-auto w-full max-w-[560px] rounded-xl border border-border px-4 py-6 shadow-[0_4px_20px_var(--shadow-elevated)] sm:rounded-2xl sm:px-6 sm:py-8 md:p-10 lg:p-12">
