@@ -59,6 +59,9 @@ jobs:
       - unit_test
       - lint_check
       - color_validation
+    # Dependabot PRs run with the Dependabot secret store, so every secret used
+    # below is empty. Skipping keeps them off a deploy that cannot work.
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -71,6 +74,14 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+        run: |
+          if [ -z "$STAGING_API_HOST" ]; then
+            echo "::error::STAGING_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
       - name: Build Staging
         env:
           EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
@@ -79,6 +90,15 @@ jobs:
           STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: pnpm --filter @gochamps/cms build:staging
+      - name: Verify Netlify credentials
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
+          NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "::error::Netlify credentials are missing - the deploy would silently no-op"
+            exit 1
+          fi
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
@@ -97,6 +117,7 @@ jobs:
 
   staging_e2e_test:
     needs: deploy_staging
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
