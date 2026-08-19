@@ -12,8 +12,14 @@ export default async function RootPage({
   setRequestLocale(locale);
   const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL || '';
 
+  // The CMS pairs a fixed NavBar with a 100px offset here; ours is sticky and
+  // stays in the flow, so the page only needs the CMS own padding: 1.5rem on
+  // phones, 2rem from tablets up.
   return (
-    <main data-testid="root-page" className="bg-background px-6 py-8 md:py-12">
+    <main
+      data-testid="root-page"
+      className="bg-background px-4 py-6 md:px-6 md:py-8"
+    >
       <AdBanner />
       <div className="mx-auto flex w-full max-w-[560px] flex-col gap-8 md:max-w-[1320px] md:flex-row md:items-start">
         {/* The CMS keeps this sidebar off small screens, where the tournament
