@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { AdBanner, AD_LOADER_SRC } from './AdBanner';
 
@@ -53,8 +53,8 @@ describe('AdBanner', () => {
   });
 
   it('gives the slot a full-width block box so AdSense can measure it', () => {
-    // A zero-width slot makes adsbygoogle.push() fail with
-    // "No slot size for availableWidth=0".
+    // AdSense measures the slot width when the request is queued; a zero-width
+    // box fails with "No slot size for availableWidth=0".
     const { container } = render(<AdBanner />);
 
     expect(container.querySelector('ins.adsbygoogle')).toHaveClass(
@@ -63,13 +63,31 @@ describe('AdBanner', () => {
     );
   });
 
-  it('carries its own bottom margin so an unfilled slot leaves no gap', () => {
-    // AdSense marks an unfilled slot with data-ad-status="unfilled". The margin
-    // lives on the <ins> itself, so hiding it takes the whitespace with it.
+  it('reserves no height until AdSense fills the slot', () => {
+    const { container } = render(<AdBanner />);
+
+    expect(container.firstElementChild).toHaveClass('grid-rows-[0fr]');
+  });
+
+  it('expands once the slot is filled', async () => {
     const { container } = render(<AdBanner />);
 
     const slot = container.querySelector('ins.adsbygoogle');
-    expect(slot).toHaveClass('mb-8', 'data-[ad-status=unfilled]:hidden');
-    expect(slot?.parentElement?.className).not.toMatch(/(^|\s)mb-/);
+    await act(async () => {
+      slot?.setAttribute('data-ad-status', 'filled');
+    });
+
+    expect(container.firstElementChild).toHaveClass('grid-rows-[1fr]');
+  });
+
+  it('stays collapsed when the slot goes unfilled', async () => {
+    const { container } = render(<AdBanner />);
+
+    const slot = container.querySelector('ins.adsbygoogle');
+    await act(async () => {
+      slot?.setAttribute('data-ad-status', 'unfilled');
+    });
+
+    expect(container.firstElementChild).toHaveClass('grid-rows-[0fr]');
   });
 });

@@ -28,6 +28,8 @@ export const AdBanner = () => {
   // those nodes rendered by React would hydrate against markup a third party
   // already changed, which React reports as a mismatch it cannot patch up.
   const [isSlotMounted, setIsSlotMounted] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+  const slotRef = useRef<HTMLModElement>(null);
   // React strict mode runs effects twice; a second push on the same <ins>
   // makes AdSense throw "All ins elements already have ads in them".
   const hasRequestedAd = useRef(false);
@@ -49,22 +51,46 @@ export const AdBanner = () => {
     adsWindow.adsbygoogle.push({});
   }, [isSlotMounted]);
 
+  useEffect(() => {
+    const slot = slotRef.current;
+    if (!slot) return;
+
+    // AdSense reports the outcome on the slot itself: "filled" once an ad is
+    // rendered, "unfilled" when it has nothing to show. Watching it is what
+    // keeps the banner from reserving height it may never use.
+    const observer = new MutationObserver(() => {
+      setIsFilled(slot.getAttribute('data-ad-status') === 'filled');
+    });
+    observer.observe(slot, {
+      attributes: true,
+      attributeFilter: ['data-ad-status']
+    });
+
+    return () => observer.disconnect();
+  }, [isSlotMounted]);
+
   return (
-    <div className="mx-auto w-full max-w-[560px] md:max-w-[1320px]">
-      {/* AdSense measures the slot when the request is queued: a zero-width box
-          fails with "No slot size for availableWidth=0", so the <ins> must be a
-          full-width block. It also carries its own bottom margin — an unfilled
-          slot is marked data-ad-status="unfilled" and hidden, and the gap goes
-          with it. */}
-      {isSlotMounted && (
-        <ins
-          className="adsbygoogle mb-8 block w-full data-[ad-status=unfilled]:hidden md:mb-12"
-          data-ad-client={AD_CLIENT}
-          data-ad-slot={AD_SLOT}
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      )}
+    // The banner occupies no vertical space until an ad actually arrives, then
+    // grows into it: a grid row animates from 0fr to 1fr, which transitions to
+    // the content's own height without the page jumping. The slot keeps its
+    // full width throughout, which is the measurement AdSense needs.
+    <div
+      className={`mx-auto grid w-full max-w-[560px] transition-[grid-template-rows] duration-300 ease-out md:max-w-[1320px] ${
+        isFilled ? 'mb-8 grid-rows-[1fr] md:mb-12' : 'grid-rows-[0fr]'
+      }`}
+    >
+      <div className="overflow-hidden">
+        {isSlotMounted && (
+          <ins
+            ref={slotRef}
+            className="adsbygoogle block w-full"
+            data-ad-client={AD_CLIENT}
+            data-ad-slot={AD_SLOT}
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+        )}
+      </div>
     </div>
   );
 };
