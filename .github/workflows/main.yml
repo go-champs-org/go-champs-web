@@ -38,6 +38,28 @@ jobs:
       - name: Running test
         run: pnpm test:ci
 
+  build_public:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          # apps/public declares engines >=20.9.0 and Next 16 enforces it, so
+          # this job cannot ride the 20.0.0 the older jobs pin.
+          node-version: '20.18.1'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      # Jest runs through SWC and never checks types, so `next build` is the
+      # only thing that type-checks apps/public. It needs no secrets: without
+      # API_HOST the page loaders fall back to empty lists, which is the same
+      # path a failing API takes in production.
+      - name: Build public app
+        run: pnpm --filter @gochamps/public build
+
   color_validation:
     runs-on: ubuntu-latest
     steps:
