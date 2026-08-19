@@ -5,7 +5,7 @@ import {
   getRecentlyViews
 } from '@gochamps/api-client';
 import RootPage from './page';
-import messages from '../../messages/pt.json';
+import messages from '../../../messages/pt.json';
 
 jest.mock('next-intl/server', () => ({
   setRequestLocale: jest.fn(),

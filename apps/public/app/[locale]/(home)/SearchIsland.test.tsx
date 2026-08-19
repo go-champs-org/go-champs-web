@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import type { RecentlyViewEntity } from '@gochamps/api-client';
 import { SearchIsland } from './SearchIsland';
-import messages from '../../messages/pt.json';
+import messages from '../../../messages/pt.json';
 
 const ligaTeste = {
   id: '1',

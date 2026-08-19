@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { StructuredData } from './StructuredData';
-import { SITE_URL } from '../../src/seo/metadata';
+import { SITE_URL } from '../../../src/seo/metadata';
 
 const parsedGraph = (container: HTMLElement) =>
   JSON.parse(

@@ -6,7 +6,7 @@ jest.mock('next-intl/server', () => ({
 }));
 
 const PAGES: Array<{ path: string; load: () => Promise<unknown> }> = [
-  { path: '', load: () => import('./page') },
+  { path: '', load: () => import('./(home)/page') },
   { path: '/about', load: () => import('./about/page') },
   { path: '/faq', load: () => import('./faq/page') },
   { path: '/contact', load: () => import('./contact/page') },

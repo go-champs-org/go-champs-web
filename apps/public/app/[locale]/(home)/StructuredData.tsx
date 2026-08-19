@@ -1,5 +1,5 @@
 import type { RecentlyViewEntity } from '@gochamps/api-client';
-import { pageUrl, SITE_NAME, SITE_URL } from '../../src/seo/metadata';
+import { pageUrl, SITE_NAME, SITE_URL } from '../../../src/seo/metadata';
 
 const MAX_LISTED_TOURNAMENTS = 15;
 

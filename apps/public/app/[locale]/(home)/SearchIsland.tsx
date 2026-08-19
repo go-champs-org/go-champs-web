@@ -7,8 +7,8 @@ import type {
   SearchResultEntity
 } from '@gochamps/api-client';
 import { RecentTournaments } from './RecentTournaments';
-import { TournamentGrid, TournamentGridShimmer } from './TournamentGrid';
-import { TournamentMiniCard } from './TournamentMiniCard';
+import { TournamentGrid, TournamentGridShimmer } from '../../../src/components/tournaments/TournamentGrid';
+import { TournamentMiniCard } from '../../../src/components/tournaments/TournamentMiniCard';
 
 const DEBOUNCE_MS = 500;
 const MAX_RESULTS = 15;

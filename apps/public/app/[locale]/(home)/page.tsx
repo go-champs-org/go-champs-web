@@ -6,8 +6,8 @@ import {
   type OrganizationEntity,
   type RecentlyViewEntity
 } from '@gochamps/api-client';
-import { CMS_URL } from '../../src/config/cms';
-import { buildPageMetadata } from '../../src/seo/metadata';
+import { CMS_URL } from '../../../src/config/cms';
+import { buildPageMetadata } from '../../../src/seo/metadata';
 import { AdBanner } from './AdBanner';
 import { OrganizationsSidebar } from './OrganizationsSidebar';
 import { SearchIsland } from './SearchIsland';

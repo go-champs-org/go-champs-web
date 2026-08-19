@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import type { OrganizationEntity } from '@gochamps/api-client';
 import { OrganizationsSidebar } from './OrganizationsSidebar';
-import messages from '../../messages/pt.json';
+import messages from '../../../messages/pt.json';
 
 const organization = (id: string): OrganizationEntity => ({
   id,

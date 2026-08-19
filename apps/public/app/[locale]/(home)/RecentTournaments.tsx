@@ -2,9 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 import type { RecentlyViewEntity } from '@gochamps/api-client';
-import { TournamentGrid } from './TournamentGrid';
-import { TournamentMiniCard } from './TournamentMiniCard';
-import { usePinnedRecentlyViews } from './usePinnedRecentlyViews';
+import { TournamentGrid } from '../../../src/components/tournaments/TournamentGrid';
+import { TournamentMiniCard } from '../../../src/components/tournaments/TournamentMiniCard';
+import { usePinnedRecentlyViews } from '../../../src/hooks/usePinnedRecentlyViews';
 
 const MAX_TOURNAMENTS = 15;
 

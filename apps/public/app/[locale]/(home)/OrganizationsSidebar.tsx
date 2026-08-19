@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { OrganizationEntity } from '@gochamps/api-client';
-import { initials } from './TournamentMiniCard';
+import { initials } from '../../../src/components/tournaments/initials';
 
 const MAX_ORGANIZATIONS = 15;
 

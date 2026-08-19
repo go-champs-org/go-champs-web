@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import type { RecentlyViewEntity } from '@gochamps/api-client';
 import { RecentTournaments } from './RecentTournaments';
-import { PINNED_RECENTLY_VIEWS_KEY } from './usePinnedRecentlyViews';
-import messages from '../../messages/pt.json';
+import { PINNED_RECENTLY_VIEWS_KEY } from '../../../src/hooks/usePinnedRecentlyViews';
+import messages from '../../../messages/pt.json';
 
 const recentlyView = (id: string): RecentlyViewEntity => ({
   tournamentId: id,
