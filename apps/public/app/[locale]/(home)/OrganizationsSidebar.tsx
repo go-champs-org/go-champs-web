@@ -2,34 +2,21 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { FaChevronDown } from 'react-icons/fa';
 import type { OrganizationEntity } from '@gochamps/api-client';
 import { initials } from '../../../src/components/tournaments/initials';
 
 const MAX_ORGANIZATIONS = 15;
-
-const ChevronIcon = ({ isExpanded }: { isExpanded: boolean }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-    aria-hidden="true"
-  >
-    <path d="m6 9 6 6 6-6" />
-  </svg>
-);
 
 interface OrganizationsSidebarProps {
   cmsUrl: string;
   organizations: OrganizationEntity[];
 }
 
-export const OrganizationsSidebar = ({
+export function OrganizationsSidebar({
   cmsUrl,
   organizations
-}: OrganizationsSidebarProps) => {
+}: OrganizationsSidebarProps) {
   const t = useTranslations('home');
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -45,7 +32,12 @@ export const OrganizationsSidebar = ({
           {t('organizations')}
         </span>
         <span className="p-2 text-muted md:hidden">
-          <ChevronIcon isExpanded={isExpanded} />
+          <FaChevronDown
+            className={`h-4 w-4 transition-transform ${
+              isExpanded ? 'rotate-180' : ''
+            }`}
+            aria-hidden="true"
+          />
         </span>
       </button>
 

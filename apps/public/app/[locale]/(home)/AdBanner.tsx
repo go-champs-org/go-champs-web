@@ -1,86 +1,33 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useAdSlot } from '../../../src/hooks/useAdSlot';
 
 const AD_CLIENT = 'ca-pub-8429375868019921';
 const AD_SLOT = '7176219418';
 
 export const AD_LOADER_SRC = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT}`;
 
-interface AdsByGoogleWindow extends Window {
-  adsbygoogle?: unknown[];
-}
+// The banner occupies no vertical space until an ad actually arrives, then
+// grows into it: the grid row animates from 0fr to 1fr, which transitions to
+// the content's own height without the page jumping.
+const bannerClassName = (isFilled: string) =>
+  `mx-auto grid w-full max-w-[560px] transition-[grid-template-rows] duration-300 ease-out md:max-w-[1320px] ${isFilled}`;
 
-const appendLoaderOnce = () => {
-  if (document.querySelector(`script[src="${AD_LOADER_SRC}"]`)) return;
+const FILLED_CLASS = 'mb-8 grid-rows-[1fr] md:mb-12';
+const COLLAPSED_CLASS = 'grid-rows-[0fr]';
 
-  const script = document.createElement('script');
-  script.async = true;
-  script.crossOrigin = 'anonymous';
-  script.src = AD_LOADER_SRC;
-  document.head.appendChild(script);
-};
-
-export const AdBanner = () => {
-  // Everything AdSense touches is created after hydration, on purpose. The
-  // loader stamps data-checked-head="true" on its own <script> tag and rewrites
-  // the <ins> (status attributes, inline styles, an injected iframe). Any of
-  // those nodes rendered by React would hydrate against markup a third party
-  // already changed, which React reports as a mismatch it cannot patch up.
-  const [isSlotMounted, setIsSlotMounted] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-  const slotRef = useRef<HTMLModElement>(null);
-  // React strict mode runs effects twice; a second push on the same <ins>
-  // makes AdSense throw "All ins elements already have ads in them".
-  const hasRequestedAd = useRef(false);
-
-  useEffect(() => {
-    setIsSlotMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isSlotMounted || hasRequestedAd.current) return;
-    hasRequestedAd.current = true;
-
-    appendLoaderOnce();
-
-    const adsWindow = window as AdsByGoogleWindow;
-    // The loader drains this queue once it arrives, so queueing before the
-    // script loads is the documented way to request a render.
-    adsWindow.adsbygoogle = adsWindow.adsbygoogle || [];
-    adsWindow.adsbygoogle.push({});
-  }, [isSlotMounted]);
-
-  useEffect(() => {
-    const slot = slotRef.current;
-    if (!slot) return;
-
-    // AdSense reports the outcome on the slot itself: "filled" once an ad is
-    // rendered, "unfilled" when it has nothing to show. Watching it is what
-    // keeps the banner from reserving height it may never use.
-    const observer = new MutationObserver(() => {
-      setIsFilled(slot.getAttribute('data-ad-status') === 'filled');
-    });
-    observer.observe(slot, {
-      attributes: true,
-      attributeFilter: ['data-ad-status']
-    });
-
-    return () => observer.disconnect();
-  }, [isSlotMounted]);
+export function AdBanner() {
+  const { isSlotMounted, isFilled, slotRef } = useAdSlot(AD_LOADER_SRC);
 
   return (
-    // The banner occupies no vertical space until an ad actually arrives, then
-    // grows into it: a grid row animates from 0fr to 1fr, which transitions to
-    // the content's own height without the page jumping. The slot keeps its
-    // full width throughout, which is the measurement AdSense needs.
     <div
-      className={`mx-auto grid w-full max-w-[560px] transition-[grid-template-rows] duration-300 ease-out md:max-w-[1320px] ${
-        isFilled ? 'mb-8 grid-rows-[1fr] md:mb-12' : 'grid-rows-[0fr]'
-      }`}
+      className={bannerClassName(isFilled ? FILLED_CLASS : COLLAPSED_CLASS)}
     >
       <div className="overflow-hidden">
         {isSlotMounted && (
+          // The slot keeps its full width throughout: that is the measurement
+          // AdSense needs, and a zero-width box fails with "No slot size for
+          // availableWidth=0".
           <ins
             ref={slotRef}
             className="adsbygoogle block w-full"
@@ -93,4 +40,4 @@ export const AdBanner = () => {
       </div>
     </div>
   );
-};
+}

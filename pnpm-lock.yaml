@@ -294,6 +294,9 @@ importers:
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
+      react-icons:
+        specifier: 5.7.0
+        version: 5.7.0(@types/react@19.2.18)(react@19.2.8)
     devDependencies:
       '@biomejs/biome':
         specifier: 2.5.7

@@ -62,7 +62,25 @@ describe('TournamentMiniCard', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
-  it('toggles the pin without following the link', async () => {
+  it('keeps the pin out of the link, so the controls do not nest', () => {
+    render(
+      <TournamentMiniCard
+        name="Liga Teste"
+        organizationName="Org Teste"
+        organizationLogoUrl=""
+        href="#"
+        isPinned={false}
+        pinLabel="Fixar"
+        onTogglePin={jest.fn()}
+      />
+    );
+
+    expect(
+      screen.getByRole('button', { name: 'Fixar' }).closest('a')
+    ).toBeNull();
+  });
+
+  it('toggles the pin', async () => {
     const user = userEvent.setup();
     const onTogglePin = jest.fn();
 

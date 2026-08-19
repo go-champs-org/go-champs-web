@@ -1,17 +1,33 @@
 'use client';
 
+import { FaThumbtack } from 'react-icons/fa';
 import { initials } from './initials';
 
-const PinIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-3 w-3"
-    aria-hidden="true"
-  >
-    <path d="M14 2 9.5 6.5 5 8l11 11 1.5-4.5L22 10 14 2ZM4 20l5-5" />
-  </svg>
-);
+interface OrganizationAvatarProps {
+  name: string;
+  logoUrl: string;
+}
+
+function OrganizationAvatar({ name, logoUrl }: OrganizationAvatarProps) {
+  return logoUrl ? (
+    // Organization logos are arbitrary user-uploaded URLs, so they stay on a
+    // plain <img> — next/image would need every host allow-listed in
+    // next.config.js.
+    <img
+      src={logoUrl}
+      alt={name}
+      width={40}
+      height={40}
+      loading="lazy"
+      decoding="async"
+      className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
+    />
+  ) : (
+    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-base text-foreground">
+      {initials(name)}
+    </div>
+  );
+}
 
 export interface TournamentMiniCardProps {
   name: string;
@@ -23,7 +39,7 @@ export interface TournamentMiniCardProps {
   onTogglePin?: () => void;
 }
 
-export const TournamentMiniCard = ({
+export function TournamentMiniCard({
   name,
   organizationName,
   organizationLogoUrl,
@@ -31,53 +47,39 @@ export const TournamentMiniCard = ({
   isPinned = false,
   pinLabel,
   onTogglePin
-}: TournamentMiniCardProps) => (
-  <a
-    href={href}
-    className="flex flex-col rounded-xl border border-border bg-surface p-4 transition-shadow hover:shadow-[0_4px_16px_var(--shadow-elevated)]"
-  >
-    <header className="flex h-12 w-full items-center font-semibold text-foreground">
-      {organizationLogoUrl ? (
-        // Organization logos are arbitrary user-uploaded URLs, so they stay on
-        // a plain <img> — next/image would need every host allow-listed in
-        // next.config.js.
-        <img
-          src={organizationLogoUrl}
-          alt={organizationName}
-          width={40}
-          height={40}
-          loading="lazy"
-          decoding="async"
-          className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
-        />
-      ) : (
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-base text-foreground">
-          {initials(organizationName)}
-        </div>
-      )}
-      <span className="ml-2 line-clamp-2 flex-1">{name}</span>
-      {onTogglePin && (
-        <button
-          type="button"
-          // The card is a link, so the pin must not navigate.
-          onClick={event => {
-            event.preventDefault();
-            event.stopPropagation();
-            onTogglePin();
-          }}
-          className={`flex cursor-pointer items-center gap-1 rounded-full px-2 py-1 text-[0.65rem] font-semibold transition-opacity hover:opacity-90 ${
-            isPinned
-              ? 'bg-secondary text-neutral-900'
-              : 'bg-primary text-foreground'
-          }`}
+}: TournamentMiniCardProps) {
+  return (
+    // The card is not an anchor: a <button> inside an <a> is nested
+    // interactive content, which is invalid HTML and leaves keyboard and
+    // screen-reader users with two overlapping controls. The link covers the
+    // card through its ::after overlay instead, and the pin sits above it.
+    <div className="relative flex flex-col rounded-xl border border-border bg-surface p-4 transition-shadow hover:shadow-[0_4px_16px_var(--shadow-elevated)]">
+      <header className="flex h-12 w-full items-center font-semibold text-foreground">
+        <OrganizationAvatar name={organizationName} logoUrl={organizationLogoUrl} />
+        <a
+          href={href}
+          className="ml-2 line-clamp-2 flex-1 after:absolute after:inset-0 after:content-['']"
         >
-          <PinIcon />
-          <span>{pinLabel}</span>
-        </button>
-      )}
-    </header>
-    <span className="my-4 block w-full truncate font-semibold text-primary-dark">
-      {organizationName}
-    </span>
-  </a>
-);
+          {name}
+        </a>
+        {onTogglePin && (
+          <button
+            type="button"
+            onClick={onTogglePin}
+            className={`relative z-10 flex cursor-pointer items-center gap-1 rounded-full px-2 py-1 text-[0.65rem] font-semibold transition-opacity hover:opacity-90 ${
+              isPinned
+                ? 'bg-secondary text-neutral-900'
+                : 'bg-primary text-foreground'
+            }`}
+          >
+            <FaThumbtack className="h-3 w-3" aria-hidden="true" />
+            <span>{pinLabel}</span>
+          </button>
+        )}
+      </header>
+      <span className="my-4 block w-full truncate font-semibold text-primary-dark">
+        {organizationName}
+      </span>
+    </div>
+  );
+}

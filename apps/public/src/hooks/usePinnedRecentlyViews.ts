@@ -21,6 +21,21 @@ const writeStoredPins = (pins: RecentlyViewEntity[]) => {
 };
 
 /**
+ * What still needs writing: nothing for an empty list, and nothing when the
+ * last write already holds this exact content — which is what keeps the effect
+ * from firing on every new array identity the caller passes in.
+ */
+const pinsToPersist = (
+  pins: RecentlyViewEntity[],
+  lastPersisted: string | null
+): string | null => {
+  const serialized = JSON.stringify(pins);
+  const isWorthWriting = pins.length > 0 && serialized !== lastPersisted;
+
+  return isWorthWriting ? serialized : null;
+};
+
+/**
  * Keeps the tournaments the visitor pinned on the home page. They live in
  * localStorage: the API's recently viewed list is global, so pinning is the
  * only per-visitor state the public app has.
@@ -49,13 +64,10 @@ export const usePinnedRecentlyViews = (
   );
 
   useEffect(() => {
-    if (pinnedRecentlyViews.length === 0) return;
-
     // Persist the refreshed copies so a visitor who comes back offline still
-    // sees current names. Comparing against the last write keeps this effect
-    // from re-running on every new array identity from the caller.
-    const serialized = JSON.stringify(pinnedRecentlyViews);
-    if (serialized === lastPersisted.current) return;
+    // sees current names.
+    const serialized = pinsToPersist(pinnedRecentlyViews, lastPersisted.current);
+    if (!serialized) return;
 
     lastPersisted.current = serialized;
     localStorage.setItem(PINNED_RECENTLY_VIEWS_KEY, serialized);

@@ -2,13 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { FaSearch } from 'react-icons/fa';
 import type {
   RecentlyViewEntity,
   SearchResultEntity
 } from '@gochamps/api-client';
-import { RecentTournaments } from './RecentTournaments';
-import { TournamentGrid, TournamentGridShimmer } from '../../../src/components/tournaments/TournamentGrid';
+import {
+  TournamentGrid,
+  TournamentGridShimmer
+} from '../../../src/components/tournaments/TournamentGrid';
 import { TournamentMiniCard } from '../../../src/components/tournaments/TournamentMiniCard';
+import { RecentTournaments } from './RecentTournaments';
 
 const DEBOUNCE_MS = 500;
 const MAX_RESULTS = 15;
@@ -24,20 +28,10 @@ const useDebouncedValue = (value: string, delayMs: number) => {
   return debounced;
 };
 
-const SearchIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    className="h-5 w-5"
-    aria-hidden="true"
-  >
-    <circle cx="11" cy="11" r="7" />
-    <path d="m20 20-3.5-3.5" />
-  </svg>
-);
+const searchResultsState = (isSearching: boolean, resultCount: number) => {
+  if (isSearching) return 'searching';
+  return resultCount > 0 ? 'results' : 'empty';
+};
 
 interface SearchResultsProps {
   isSearching: boolean;
@@ -46,48 +40,43 @@ interface SearchResultsProps {
   emptyMessage: string;
 }
 
-const SearchResults = ({
+function SearchResults({
   isSearching,
   results,
   cmsUrl,
   emptyMessage
-}: SearchResultsProps) => {
-  if (isSearching) {
-    return <TournamentGridShimmer />;
-  }
-
-  if (results.length === 0) {
-    return (
+}: SearchResultsProps) {
+  const views = {
+    searching: () => <TournamentGridShimmer />,
+    empty: () => (
       <div className="px-4 py-12 text-center md:px-8 md:py-16">
         <p className="text-xl text-muted md:text-2xl">{emptyMessage}</p>
       </div>
-    );
-  }
+    ),
+    results: () => (
+      <TournamentGrid>
+        {results.slice(0, MAX_RESULTS).map(tournament => (
+          <TournamentMiniCard
+            key={tournament.id}
+            name={tournament.name}
+            organizationName={tournament.organizationName}
+            organizationLogoUrl={tournament.organizationLogoUrl}
+            href={`${cmsUrl}/${tournament.organizationSlug}/${tournament.slug}`}
+          />
+        ))}
+      </TournamentGrid>
+    )
+  };
 
-  return (
-    <TournamentGrid>
-      {results.slice(0, MAX_RESULTS).map(tournament => (
-        <TournamentMiniCard
-          key={tournament.id}
-          name={tournament.name}
-          organizationName={tournament.organizationName}
-          organizationLogoUrl={tournament.organizationLogoUrl}
-          href={`${cmsUrl}/${tournament.organizationSlug}/${tournament.slug}`}
-        />
-      ))}
-    </TournamentGrid>
-  );
-};
+  return views[searchResultsState(isSearching, results.length)]();
+}
 
 interface SearchIslandProps {
   cmsUrl: string;
   recentlyViews: RecentlyViewEntity[];
 }
 
-export const SearchIsland = ({
-  cmsUrl,
-  recentlyViews
-}: SearchIslandProps) => {
+export function SearchIsland({ cmsUrl, recentlyViews }: SearchIslandProps) {
   const t = useTranslations('home');
   const [term, setTerm] = useState('');
   const [results, setResults] = useState<SearchResultEntity[]>([]);
@@ -143,7 +132,7 @@ export const SearchIsland = ({
               className="w-full max-w-[600px] rounded-lg border border-border bg-surface-input px-3.5 py-3 pr-11 text-[0.9375rem] text-foreground outline-none transition focus:border-primary focus:shadow-[0_0_0_3px_var(--shadow-elevated)] md:max-w-[400px] md:px-4 md:py-3.5 md:pr-12 md:text-base"
             />
             <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-muted">
-              <SearchIcon />
+              <FaSearch className="h-5 w-5" aria-hidden="true" />
             </span>
           </div>
         </div>
@@ -165,4 +154,4 @@ export const SearchIsland = ({
       </section>
     </div>
   );
-};
+}

@@ -67,9 +67,11 @@ describe('RootPage', () => {
     // /pt/org-recente/torneio-recente matches nothing on either app.
     await renderPage();
 
-    for (const link of screen.getAllByRole('link')) {
-      expect(link.getAttribute('href')).toMatch(/^https?:\/\//);
-    }
+    screen
+      .getAllByRole('link')
+      .forEach(link =>
+        expect(link.getAttribute('href')).toMatch(/^https?:\/\//)
+      );
   });
 
   it('still renders when the API is unreachable', async () => {

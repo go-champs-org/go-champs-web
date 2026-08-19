@@ -13,11 +13,11 @@ interface StructuredDataProps {
  * Schema.org description of the site: the brand and site name behind the
  * results, plus the tournaments the home page is currently showing.
  */
-export const StructuredData = ({
+export function StructuredData({
   locale,
   cmsUrl = '',
   recentlyViews = []
-}: StructuredDataProps) => {
+}: StructuredDataProps) {
   const tournaments = recentlyViews.slice(0, MAX_LISTED_TOURNAMENTS);
 
   const graph: Record<string, unknown>[] = [
