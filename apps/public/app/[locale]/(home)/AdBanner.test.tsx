@@ -15,16 +15,12 @@ describe('AdBanner', () => {
   });
 
   it('keeps the ad slot out of the server-rendered HTML', () => {
-    // AdSense rewrites the <ins> (status attributes, inline styles, an
-    // injected iframe) the moment its loader runs. A server-rendered slot
-    // therefore hydrates against a node a third party already changed, and
-    // React reports a mismatch it cannot patch up.
+    // Guards the hydration mismatch documented in useAdSlot.
     expect(renderToStaticMarkup(<AdBanner />)).not.toContain('<ins');
   });
 
   it('keeps the loader script out of React and out of the server HTML', () => {
-    // The loader stamps data-checked-head="true" on its own tag, so React must
-    // not own that element either — same mismatch, different node.
+    // Same mismatch, one node up: the loader stamps its own <script> tag.
     expect(renderToStaticMarkup(<AdBanner />)).not.toContain('<script');
   });
 

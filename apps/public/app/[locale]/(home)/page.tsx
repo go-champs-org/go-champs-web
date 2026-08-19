@@ -40,8 +40,7 @@ export async function generateMetadata({
   };
 }
 
-// The home page is worth serving without them if the API is down, so a failure
-// degrades to an empty list instead of an error page.
+// A failing API degrades to an empty list instead of an error page.
 const loadHomeData = async (): Promise<{
   recentlyViews: RecentlyViewEntity[];
   organizations: OrganizationEntity[];

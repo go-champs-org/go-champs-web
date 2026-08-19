@@ -7,10 +7,9 @@ const CACHE_HEADERS = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
 };
 
-// The search box is a client island, but `API_HOST` is a server-only env var
-// (see packages/api-client/src/env.ts) — the browser would read `undefined`
-// and `getApiHost()` would throw. This handler keeps the API host on the
-// server and gives the island a same-origin endpoint to call.
+// The search box is a client island and `API_HOST` is server-only (see
+// packages/api-client/src/env.ts), so the browser gets a same-origin endpoint
+// instead of the API host.
 export async function GET(request: Request): Promise<Response> {
   const term = new URL(request.url).searchParams.get('term');
 

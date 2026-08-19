@@ -10,9 +10,8 @@ interface OrganizationAvatarProps {
 
 function OrganizationAvatar({ name, logoUrl }: OrganizationAvatarProps) {
   return logoUrl ? (
-    // Organization logos are arbitrary user-uploaded URLs, so they stay on a
-    // plain <img> — next/image would need every host allow-listed in
-    // next.config.js.
+    // Arbitrary user-uploaded hosts: next/image would need each one
+    // allow-listed in next.config.js.
     <img
       src={logoUrl}
       alt={name}
@@ -49,10 +48,9 @@ export function TournamentMiniCard({
   onTogglePin
 }: TournamentMiniCardProps) {
   return (
-    // The card is not an anchor: a <button> inside an <a> is nested
-    // interactive content, which is invalid HTML and leaves keyboard and
-    // screen-reader users with two overlapping controls. The link covers the
-    // card through its ::after overlay instead, and the pin sits above it.
+    // A <button> inside an <a> is nested interactive content: invalid HTML,
+    // and two overlapping controls for keyboard and screen-reader users. The
+    // link covers the card through its ::after overlay instead.
     <div className="relative flex flex-col rounded-xl border border-border bg-surface p-4 transition-shadow hover:shadow-[0_4px_16px_var(--shadow-elevated)]">
       <header className="flex h-12 w-full items-center font-semibold text-foreground">
         <OrganizationAvatar name={organizationName} logoUrl={organizationLogoUrl} />

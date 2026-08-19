@@ -6,8 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      // The route handlers only proxy the API for the client islands; there is
-      // nothing there for a crawler to index.
+      // Proxy routes for the client islands: nothing to index.
       disallow: '/api/'
     },
     sitemap: `${SITE_URL}/sitemap.xml`

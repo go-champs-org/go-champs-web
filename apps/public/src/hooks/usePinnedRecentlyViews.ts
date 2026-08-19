@@ -20,11 +20,8 @@ const writeStoredPins = (pins: RecentlyViewEntity[]) => {
   localStorage.setItem(PINNED_RECENTLY_VIEWS_KEY, JSON.stringify(pins));
 };
 
-/**
- * What still needs writing: nothing for an empty list, and nothing when the
- * last write already holds this exact content — which is what keeps the effect
- * from firing on every new array identity the caller passes in.
- */
+// Returns null when there is nothing new to write, which is what keeps the
+// effect from firing on every new array identity the caller passes in.
 const pinsToPersist = (
   pins: RecentlyViewEntity[],
   lastPersisted: string | null
@@ -64,8 +61,7 @@ export const usePinnedRecentlyViews = (
   );
 
   useEffect(() => {
-    // Persist the refreshed copies so a visitor who comes back offline still
-    // sees current names.
+    // Refreshed copies, so an offline visit still shows current names.
     const serialized = pinsToPersist(pinnedRecentlyViews, lastPersisted.current);
     if (!serialized) return;
 

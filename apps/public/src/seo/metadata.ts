@@ -10,7 +10,6 @@ export const SITE_URL = (
 
 export const SITE_NAME = 'Go Champs';
 
-/** Every locale-prefixed page the site publishes, home first. */
 export const PUBLIC_ROUTES = [
   '',
   '/about',
@@ -57,8 +56,6 @@ export const buildPageMetadata = ({
       canonical: url,
       languages: {
         ...localeUrls(path),
-        // Portuguese is the default locale of the routing config, so it is what
-        // an unmatched language should land on.
         'x-default': pageUrl(routing.defaultLocale, path)
       }
     },

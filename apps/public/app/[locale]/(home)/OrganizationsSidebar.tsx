@@ -56,9 +56,7 @@ export function OrganizationsSidebar({
               >
                 <span className="h-8 w-8 flex-shrink-0">
                   {organization.logoUrl ? (
-                    // Logos are arbitrary user-uploaded URLs, so they stay on a
-                    // plain <img> — next/image would need every host
-                    // allow-listed in next.config.js.
+                    // Arbitrary user-uploaded hosts, as in TournamentMiniCard.
                     <img
                       src={organization.logoUrl}
                       alt={organization.name}
