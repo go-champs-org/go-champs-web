@@ -1,7 +1,31 @@
-import { setRequestLocale } from 'next-intl/server';
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '../../src/seo/metadata';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AdBanner } from './AdBanner';
 import { OrganizationsSidebar } from './OrganizationsSidebar';
 import { SearchIsland } from './SearchIsland';
+import { StructuredData } from './StructuredData';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    ...buildPageMetadata({
+      locale,
+      path: '',
+      title: t('homeTitle'),
+      description: t('homeDescription')
+    }),
+    // The layout appends "| Go Champs" to every page title; the home title
+    // already carries the brand.
+    title: { absolute: t('homeTitle') }
+  };
+}
 
 export default async function RootPage({
   params
@@ -20,6 +44,7 @@ export default async function RootPage({
       data-testid="root-page"
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
+      <StructuredData locale={locale} />
       <AdBanner />
       <div className="mx-auto flex w-full max-w-[560px] flex-col gap-8 md:max-w-[1320px] md:flex-row md:items-start">
         {/* The CMS keeps this sidebar off small screens, where the tournament

@@ -1,0 +1,70 @@
+import { buildPageMetadata, PUBLIC_ROUTES, SITE_URL } from './metadata';
+
+describe('buildPageMetadata', () => {
+  it('points the canonical URL at the current locale', () => {
+    const metadata = buildPageMetadata({
+      locale: 'en',
+      path: '/about',
+      title: 'About us',
+      description: 'Who we are'
+    });
+
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/en/about`);
+  });
+
+  it('declares one hreflang per locale plus x-default', () => {
+    const metadata = buildPageMetadata({
+      locale: 'pt',
+      path: '/faq',
+      title: 'FAQ',
+      description: 'Questions'
+    });
+
+    expect(metadata.alternates?.languages).toEqual({
+      pt: `${SITE_URL}/pt/faq`,
+      en: `${SITE_URL}/en/faq`,
+      'x-default': `${SITE_URL}/pt/faq`
+    });
+  });
+
+  it('keeps the home page free of a trailing slash', () => {
+    const metadata = buildPageMetadata({
+      locale: 'pt',
+      path: '',
+      title: 'Go Champs',
+      description: 'Tournaments'
+    });
+
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/pt`);
+  });
+
+  it('carries the title and description into Open Graph and Twitter', () => {
+    const metadata = buildPageMetadata({
+      locale: 'pt',
+      path: '',
+      title: 'Go Champs',
+      description: 'Tournaments'
+    });
+
+    expect(metadata.openGraph).toMatchObject({
+      title: 'Go Champs',
+      description: 'Tournaments',
+      url: `${SITE_URL}/pt`,
+      siteName: 'Go Champs',
+      locale: 'pt_BR',
+      type: 'website'
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: 'summary_large_image',
+      title: 'Go Champs',
+      description: 'Tournaments'
+    });
+  });
+
+  it('lists every public route, home first', () => {
+    expect(PUBLIC_ROUTES[0]).toBe('');
+    expect(PUBLIC_ROUTES).toEqual(
+      expect.arrayContaining(['/about', '/faq', '/contact', '/privacy', '/terms'])
+    );
+  });
+});

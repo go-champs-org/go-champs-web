@@ -4,12 +4,16 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { NavBar, Footer, noFlashThemeScript } from '@gochamps/ui';
 import { routing } from '../../src/i18n/routing';
+import { SITE_NAME, SITE_URL } from '../../src/seo/metadata';
 import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
 import { Amplitude } from '../analytics/Amplitude';
 import '../globals.css';
 
 export const metadata = {
-  title: 'Go Champs',
+  // Resolves every relative URL the pages put in their metadata (canonical,
+  // Open Graph images) against the live domain.
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
   description: 'Go Champs — campeonatos, times e jogadores'
 };
 

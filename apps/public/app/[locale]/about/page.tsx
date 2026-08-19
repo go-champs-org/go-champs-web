@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '../../../src/seo/metadata';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getAboutStats } from '@gochamps/api-client';
@@ -68,6 +70,24 @@ function StatCounter({ value, label }: StatCounterProps) {
       </span>
     </div>
   );
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    ...buildPageMetadata({
+      locale,
+      path: '/about',
+      title: t('aboutTitle'),
+      description: t('aboutDescription')
+    })
+  };
 }
 
 export default async function AboutPage({
