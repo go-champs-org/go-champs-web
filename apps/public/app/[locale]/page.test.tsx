@@ -4,22 +4,21 @@ import RootPage from './page';
 import messages from '../../messages/pt.json';
 
 jest.mock('next-intl/server', () => ({
-  setRequestLocale: jest.fn(),
-  getTranslations: async (namespace: string) => {
-    const dict = (
-      require('../../messages/pt.json') as Record<string, Record<string, string>>
-    )[namespace];
-    return (key: string) => dict[key];
-  }
+  setRequestLocale: jest.fn()
 }));
 
 describe('RootPage', () => {
-  it('renders the site name from messages', async () => {
+  it('renders the search island', async () => {
     render(
       <NextIntlClientProvider locale="pt" messages={messages}>
         {await RootPage({ params: Promise.resolve({ locale: 'pt' }) })}
       </NextIntlClientProvider>
     );
-    expect(screen.getByTestId('root-page')).toHaveTextContent('Go Champs');
+
+    expect(screen.getByTestId('root-page')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Campeonatos em andamento' })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('searchbox')).toBeInTheDocument();
   });
 });

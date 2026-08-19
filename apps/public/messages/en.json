@@ -60,6 +60,13 @@
     "sendYourFeedbackSuccessMsg": "Thank you for your message!",
     "sendYourFeedbackFailMsg": "Something went wrong, please try again later!"
   },
+  "home": {
+    "onGoingTournaments": "Ongoing tournaments",
+    "checkTheMostUpToDateGameResults": "Check the most up-to-date game results",
+    "searchPlaceholder": "Search tournaments...",
+    "startTyping": "Type something to begin search...",
+    "tournamentNotFound": "Tournament not found."
+  },
   "footer": {
     "with": "with",
     "byGoChampsTeam": "by Go Champs team",

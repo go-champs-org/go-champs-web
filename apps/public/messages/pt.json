@@ -60,6 +60,13 @@
     "sendYourFeedbackSuccessMsg": "Mensagem enviada com sucesso!",
     "sendYourFeedbackFailMsg": "Problema ao enviar, tente mais tarde!"
   },
+  "home": {
+    "onGoingTournaments": "Campeonatos em andamento",
+    "checkTheMostUpToDateGameResults": "Acompanhe os resultados de jogos mais recentes",
+    "searchPlaceholder": "Busca de campeonatos...",
+    "startTyping": "Digite para pesquisar...",
+    "tournamentNotFound": "Campeonato não encontrado."
+  },
   "footer": {
     "with": "com",
     "byGoChampsTeam": "pela equipe Go Champs",
