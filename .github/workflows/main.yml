@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Running lint
-        run: pnpm --filter @gochamps/cms lint:check
+        run: pnpm lint:check
 
   unit_test:
     runs-on: ubuntu-latest

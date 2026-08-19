@@ -90,6 +90,17 @@ export async function generateMetadata({
   };
 }
 
+// The page is worth serving without the counters, so a failure falls back to
+// the placeholders instead of an error page.
+const loadAboutStats = async () => {
+  try {
+    return await getAboutStats();
+  } catch (error) {
+    console.error('Failed to fetch about stats:', error);
+    return null;
+  }
+};
+
 export default async function AboutPage({
   params
 }: {
@@ -99,12 +110,7 @@ export default async function AboutPage({
   setRequestLocale(locale);
   const t = await getTranslations('about');
 
-  let stats: Awaited<ReturnType<typeof getAboutStats>> | null = null;
-  try {
-    stats = await getAboutStats();
-  } catch (error) {
-    console.error('Failed to fetch about stats:', error);
-  }
+  const stats = await loadAboutStats();
 
   return (
     <main className="bg-background py-12 px-6">

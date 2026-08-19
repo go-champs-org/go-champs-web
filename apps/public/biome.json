@@ -7,7 +7,15 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+		"includes": [
+			"**/*.js",
+			"**/*.jsx",
+			"**/*.ts",
+			"**/*.tsx",
+			"!**/node_modules/**",
+			"!**/.next/**",
+			"!**/coverage/**"
+		]
 	},
 	"formatter": {
 		"enabled": false
@@ -18,8 +26,10 @@
 			"preset": "none",
 			"complexity": {
 				"noExcessiveCognitiveComplexity": {
-					"level": "warn",
-					"options": { "maxAllowedComplexity": 3 }
+					"level": "error",
+					"options": {
+						"maxAllowedComplexity": 3
+					}
 				}
 			}
 		}

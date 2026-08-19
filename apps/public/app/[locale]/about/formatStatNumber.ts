@@ -14,26 +14,21 @@
  * - 5 -> "+10"
  * - 0 -> "+0"
  */
+// Smaller numbers round to a smaller step, so "+90" never reads as "+100".
+const ROUNDING_STEPS = [
+  { upTo: 100, step: 10 },
+  { upTo: 1000, step: 100 },
+  { upTo: Infinity, step: 1000 }
+];
+
 export const formatStatNumber = (value: number): string => {
-  let rounded: number;
+  if (value === 0) return '+0';
 
-  if (value === 0) {
-    return '+0';
-  }
+  const { step } = ROUNDING_STEPS.find(({ upTo }) => value < upTo) as {
+    step: number;
+  };
+  const rounded = Math.round(value / step) * step;
 
-  if (value < 100) {
-    // Round to nearest 10
-    rounded = Math.round(value / 10) * 10;
-  } else if (value < 1000) {
-    // Round to nearest 100
-    rounded = Math.round(value / 100) * 100;
-  } else {
-    // Round to nearest 1000
-    rounded = Math.round(value / 1000) * 1000;
-  }
-
-  // Format with locale separator (e.g., 3000 -> "3.000")
-  const formatted = rounded.toLocaleString('de-DE');
-
-  return `+${formatted}`;
+  // German separators match the pt-BR format: 3000 -> "3.000"
+  return `+${rounded.toLocaleString('de-DE')}`;
 };
