@@ -86,6 +86,9 @@ export function SearchIsland({ cmsUrl, recentlyViews }: SearchIslandProps) {
 
   useEffect(() => {
     if (!debouncedTerm) {
+      // A request may still be in flight; leaving isSearching set would show
+      // the shimmer over the next debounce window, before anything is asked.
+      setIsSearching(false);
       setHaveSearched(false);
       setResults([]);
       return;

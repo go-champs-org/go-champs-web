@@ -82,6 +82,32 @@ describe('usePinnedRecentlyViews', () => {
     ).toBe(99);
   });
 
+  it('never stores the same tournament twice', () => {
+    localStorage.setItem(
+      PINNED_RECENTLY_VIEWS_KEY,
+      JSON.stringify([recentlyView('t1')])
+    );
+    const { result } = renderHook(() => usePinnedRecentlyViews([]));
+
+    act(() => result.current.pinRecentlyView(recentlyView('t1')));
+
+    expect(storedIds()).toEqual(['t1']);
+    expect(result.current.pinnedRecentlyViews).toHaveLength(1);
+  });
+
+  it('drops stored entries that are not pins', () => {
+    localStorage.setItem(
+      PINNED_RECENTLY_VIEWS_KEY,
+      JSON.stringify([recentlyView('t1'), { name: 'no id' }, null, 'nope'])
+    );
+
+    const { result } = renderHook(() => usePinnedRecentlyViews([]));
+
+    expect(
+      result.current.pinnedRecentlyViews.map(view => view.tournamentId)
+    ).toEqual(['t1']);
+  });
+
   it('survives corrupted storage', () => {
     localStorage.setItem(PINNED_RECENTLY_VIEWS_KEY, 'not json');
 

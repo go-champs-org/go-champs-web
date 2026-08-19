@@ -103,6 +103,25 @@ describe('SearchIsland', () => {
     expect(screen.getByText('Torneio Recente')).toBeInTheDocument();
   });
 
+  it('drops the in-flight state when the term is cleared', async () => {
+    // A request that never settles: the island is left mid-search.
+    fetchMock.mockImplementationOnce(() => new Promise(() => {}));
+    const user = setupUser();
+    renderIsland();
+
+    const searchbox = screen.getByRole('searchbox');
+    await user.type(searchbox, 'Liga');
+    await advanceTimers(500);
+
+    await user.clear(searchbox);
+    await advanceTimers(500);
+    await user.type(searchbox, 'Copa');
+
+    // Nothing has been asked for 'Copa' yet, so the prompt shows instead of the
+    // shimmer left behind by the abandoned request.
+    expect(screen.getByText('Digite para pesquisar...')).toBeInTheDocument();
+  });
+
   it('reports when the search returns nothing', async () => {
     const user = setupUser();
     renderIsland();

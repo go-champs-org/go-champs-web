@@ -5,19 +5,37 @@ import type { RecentlyViewEntity } from '@gochamps/api-client';
 
 export const PINNED_RECENTLY_VIEWS_KEY = 'pinnedRecentlyViews';
 
-const readStoredPins = (): RecentlyViewEntity[] => {
+// Storage is outside this app's control: an older release, another tab or a
+// hand edit can leave entries that no longer look like a pin.
+const isPin = (value: unknown): value is RecentlyViewEntity =>
+  typeof (value as RecentlyViewEntity)?.tournamentId === 'string';
+
+const uniqueById = (pins: RecentlyViewEntity[]): RecentlyViewEntity[] => [
+  ...new Map(pins.map(pin => [pin.tournamentId, pin])).values()
+];
+
+const parseStoredPins = (stored: string | null): unknown[] => {
   try {
-    const stored = localStorage.getItem(PINNED_RECENTLY_VIEWS_KEY);
     const parsed = stored ? JSON.parse(stored) : [];
-    return Array.isArray(parsed) ? (parsed as RecentlyViewEntity[]) : [];
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    // A hand-edited or half-written entry must not take the home page down.
+    // A half-written entry must not take the home page down.
     return [];
   }
 };
 
+const readStoredPins = (): RecentlyViewEntity[] =>
+  uniqueById(
+    parseStoredPins(localStorage.getItem(PINNED_RECENTLY_VIEWS_KEY)).filter(
+      isPin
+    )
+  );
+
 const writeStoredPins = (pins: RecentlyViewEntity[]) => {
-  localStorage.setItem(PINNED_RECENTLY_VIEWS_KEY, JSON.stringify(pins));
+  localStorage.setItem(
+    PINNED_RECENTLY_VIEWS_KEY,
+    JSON.stringify(uniqueById(pins))
+  );
 };
 
 // Returns null when there is nothing new to write, which is what keeps the
@@ -70,7 +88,9 @@ export const usePinnedRecentlyViews = (
   }, [pinnedRecentlyViews]);
 
   const pinRecentlyView = (recentlyView: RecentlyViewEntity) => {
-    const newPins = [...readStoredPins(), recentlyView];
+    // Pinning the same tournament twice is possible in the window before the
+    // stored pins land in state, and duplicates would render twice.
+    const newPins = uniqueById([...readStoredPins(), recentlyView]);
     writeStoredPins(newPins);
     setStoredPins(newPins);
   };
