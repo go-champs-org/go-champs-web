@@ -7,6 +7,7 @@ export interface SearchResultEntity {
   logoUrl: string;
   organizationName: string;
   organizationSlug: string;
+  organizationLogoUrl: string;
 }
 
 export const mapApiSearchTournamentToSearchResultEntity = (
@@ -17,5 +18,6 @@ export const mapApiSearchTournamentToSearchResultEntity = (
   slug: apiTournament.slug,
   logoUrl: apiTournament.logo_url || '',
   organizationName: apiTournament.organization.name,
-  organizationSlug: apiTournament.organization.slug
+  organizationSlug: apiTournament.organization.slug,
+  organizationLogoUrl: apiTournament.organization.logo_url || ''
 });

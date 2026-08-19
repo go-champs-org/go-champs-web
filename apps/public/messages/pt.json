@@ -65,7 +65,11 @@
     "checkTheMostUpToDateGameResults": "Acompanhe os resultados de jogos mais recentes",
     "searchPlaceholder": "Busca de campeonatos...",
     "startTyping": "Digite para pesquisar...",
-    "tournamentNotFound": "Campeonato não encontrado."
+    "tournamentNotFound": "Campeonato não encontrado.",
+    "organizations": "Organizações",
+    "noOrganizationsViewedYet": "Nenhuma organização vista ainda",
+    "pin": "Fixar",
+    "unpin": "Desfixar"
   },
   "footer": {
     "with": "com",

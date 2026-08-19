@@ -3,27 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { SearchResultEntity } from '@gochamps/api-client';
+import { RecentTournaments } from './RecentTournaments';
+import { TournamentGrid, TournamentGridShimmer } from './TournamentGrid';
+import { TournamentMiniCard } from './TournamentMiniCard';
 
 const DEBOUNCE_MS = 500;
 const MAX_RESULTS = 15;
-const MAX_INITIALS = 3;
-const CAPITAL_LETTER_REGEX = /^[A-Z]$/;
-
-const initials = (name: string): string => {
-  const capitalLetters = name
-    .split('')
-    .filter(char => CAPITAL_LETTER_REGEX.test(char));
-  if (capitalLetters.length > 0) {
-    return capitalLetters.slice(0, MAX_INITIALS).join('');
-  }
-
-  return name
-    .split(' ')
-    .filter(word => word.length > 0)
-    .map(word => word[0].toUpperCase())
-    .slice(0, MAX_INITIALS)
-    .join('');
-};
 
 const useDebouncedValue = (value: string, delayMs: number) => {
   const [debounced, setDebounced] = useState(value);
@@ -51,56 +36,6 @@ const SearchIcon = () => (
   </svg>
 );
 
-const ResultShimmer = () => (
-  <div className="flex animate-pulse flex-col rounded-xl border border-border bg-surface p-4">
-    <div className="flex h-12 w-full items-center gap-2">
-      <div className="h-10 w-10 flex-shrink-0 rounded-full bg-border" />
-      <div className="h-4 flex-1 rounded bg-border" />
-    </div>
-    <div className="my-4 h-4 w-2/3 rounded bg-border" />
-  </div>
-);
-
-const ResultGrid = ({ children }: { children: React.ReactNode }) => (
-  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-    {children}
-  </div>
-);
-
-interface TournamentMiniCardProps {
-  tournament: SearchResultEntity;
-  href: string;
-}
-
-const TournamentMiniCard = ({ tournament, href }: TournamentMiniCardProps) => (
-  <a
-    href={href}
-    className="flex flex-col rounded-xl border border-border bg-surface p-4 transition-shadow hover:shadow-[0_4px_16px_var(--shadow-elevated)]"
-  >
-    <header className="flex h-12 w-full items-center font-semibold text-foreground">
-      {tournament.logoUrl ? (
-        // Tournament logos are arbitrary user-uploaded URLs, so they stay on a
-        // plain <img> — next/image would need every host allow-listed in
-        // next.config.js.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={tournament.logoUrl}
-          alt=""
-          className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
-        />
-      ) : (
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-border text-base">
-          {initials(tournament.name)}
-        </div>
-      )}
-      <span className="ml-2 line-clamp-2 flex-1">{tournament.name}</span>
-    </header>
-    <span className="my-4 block w-full truncate font-semibold text-primary-dark">
-      {tournament.organizationName}
-    </span>
-  </a>
-);
-
 interface SearchResultsProps {
   isSearching: boolean;
   results: SearchResultEntity[];
@@ -115,13 +50,7 @@ const SearchResults = ({
   emptyMessage
 }: SearchResultsProps) => {
   if (isSearching) {
-    return (
-      <ResultGrid>
-        <ResultShimmer />
-        <ResultShimmer />
-        <ResultShimmer />
-      </ResultGrid>
-    );
+    return <TournamentGridShimmer />;
   }
 
   if (results.length === 0) {
@@ -133,15 +62,17 @@ const SearchResults = ({
   }
 
   return (
-    <ResultGrid>
+    <TournamentGrid>
       {results.slice(0, MAX_RESULTS).map(tournament => (
         <TournamentMiniCard
           key={tournament.id}
-          tournament={tournament}
+          name={tournament.name}
+          organizationName={tournament.organizationName}
+          organizationLogoUrl={tournament.organizationLogoUrl}
           href={`${cmsUrl}/${tournament.organizationSlug}/${tournament.slug}`}
         />
       ))}
-    </ResultGrid>
+    </TournamentGrid>
   );
 };
 
@@ -212,16 +143,18 @@ export const SearchIsland = ({ cmsUrl }: SearchIslandProps) => {
       </section>
 
       <section className="mt-8 md:mt-12">
-        <SearchResults
-          isSearching={isSearching}
-          results={results}
-          cmsUrl={cmsUrl}
-          emptyMessage={
-            isSearchMode && haveSearched
-              ? t('tournamentNotFound')
-              : t('startTyping')
-          }
-        />
+        {isSearchMode ? (
+          <SearchResults
+            isSearching={isSearching}
+            results={results}
+            cmsUrl={cmsUrl}
+            emptyMessage={
+              haveSearched ? t('tournamentNotFound') : t('startTyping')
+            }
+          />
+        ) : (
+          <RecentTournaments cmsUrl={cmsUrl} />
+        )}
       </section>
     </div>
   );

@@ -65,7 +65,11 @@
     "checkTheMostUpToDateGameResults": "Check the most up-to-date game results",
     "searchPlaceholder": "Search tournaments...",
     "startTyping": "Type something to begin search...",
-    "tournamentNotFound": "Tournament not found."
+    "tournamentNotFound": "Tournament not found.",
+    "organizations": "Organizations",
+    "noOrganizationsViewedYet": "No organizations viewed yet",
+    "pin": "Pin",
+    "unpin": "Unpin"
   },
   "footer": {
     "with": "with",

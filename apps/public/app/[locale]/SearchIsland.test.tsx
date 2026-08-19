@@ -10,10 +10,27 @@ const ligaTeste = {
   slug: 'liga-teste',
   logoUrl: '',
   organizationName: 'Org Teste',
-  organizationSlug: 'org-teste'
+  organizationSlug: 'org-teste',
+  organizationLogoUrl: ''
 };
 
+const recentlyViewed = {
+  tournamentId: 'r1',
+  tournamentName: 'Torneio Recente',
+  tournamentSlug: 'torneio-recente',
+  organizationName: 'Org Recente',
+  organizationSlug: 'org-recente',
+  organizationLogoUrl: '',
+  views: 3
+};
+
+const searchResults: unknown[] = [];
 const fetchMock = jest.fn();
+
+const jsonResponse = (payload: unknown) => ({
+  ok: true,
+  json: async () => payload
+});
 
 const renderIsland = () =>
   render(
@@ -21,6 +38,13 @@ const renderIsland = () =>
       <SearchIsland cmsUrl="https://cms.example" />
     </NextIntlClientProvider>
   );
+
+// The recently viewed board loads on mount; letting it settle first keeps
+// its state updates inside act().
+const renderIslandLoaded = async () => {
+  renderIsland();
+  await screen.findByText('Torneio Recente');
+};
 
 const advanceTimers = async (ms: number) => {
   await act(async () => {
@@ -33,13 +57,24 @@ const setupUser = () =>
     advanceTimers: ms => act(() => jest.advanceTimersByTime(ms))
   });
 
-const respondWith = (results: unknown[]) =>
-  fetchMock.mockResolvedValue({ ok: true, json: async () => results });
+const searchCalls = () =>
+  fetchMock.mock.calls.filter(([url]: [string]) =>
+    url.startsWith('/api/search')
+  );
 
 describe('SearchIsland', () => {
   beforeEach(() => {
     jest.useFakeTimers();
+    localStorage.clear();
+    searchResults.length = 0;
     fetchMock.mockReset();
+    fetchMock.mockImplementation((url: string) =>
+      Promise.resolve(
+        jsonResponse(
+          url.startsWith('/api/search') ? searchResults : [recentlyViewed]
+        )
+      )
+    );
     global.fetch = fetchMock as unknown as typeof fetch;
   });
 
@@ -47,33 +82,33 @@ describe('SearchIsland', () => {
     jest.useRealTimers();
   });
 
-  it('prompts for a term before anything is typed', () => {
+  it('shows the recently viewed tournaments before anything is typed', async () => {
     renderIsland();
 
-    expect(screen.getByText('Digite para pesquisar...')).toBeInTheDocument();
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(await screen.findByText('Torneio Recente')).toBeInTheDocument();
+    expect(searchCalls()).toHaveLength(0);
   });
 
   it('waits for the debounce before querying', async () => {
-    respondWith([ligaTeste]);
+    searchResults.push(ligaTeste);
     const user = setupUser();
-    renderIsland();
+    await renderIslandLoaded();
 
     await user.type(screen.getByRole('searchbox'), 'Liga');
     await advanceTimers(400);
 
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(searchCalls()).toHaveLength(0);
 
     await advanceTimers(100);
 
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
-    expect(fetchMock).toHaveBeenCalledWith('/api/search?term=Liga');
+    await waitFor(() => expect(searchCalls()).toHaveLength(1));
+    expect(searchCalls()[0][0]).toBe('/api/search?term=Liga');
   });
 
   it('renders each result as a link to the tournament on the CMS', async () => {
-    respondWith([ligaTeste]);
+    searchResults.push(ligaTeste);
     const user = setupUser();
-    renderIsland();
+    await renderIslandLoaded();
 
     await user.type(screen.getByRole('searchbox'), 'Liga');
     await advanceTimers(500);
@@ -87,9 +122,8 @@ describe('SearchIsland', () => {
   });
 
   it('reports when the search returns nothing', async () => {
-    respondWith([]);
     const user = setupUser();
-    renderIsland();
+    await renderIslandLoaded();
 
     await user.type(screen.getByRole('searchbox'), 'Liga');
     await advanceTimers(500);
@@ -100,9 +134,13 @@ describe('SearchIsland', () => {
   });
 
   it('keeps the results empty when the request fails', async () => {
-    fetchMock.mockRejectedValue(new Error('offline'));
+    fetchMock.mockImplementation((url: string) =>
+      url.startsWith('/api/search')
+        ? Promise.reject(new Error('offline'))
+        : Promise.resolve(jsonResponse([recentlyViewed]))
+    );
     const user = setupUser();
-    renderIsland();
+    await renderIslandLoaded();
 
     await user.type(screen.getByRole('searchbox'), 'Liga');
     await advanceTimers(500);
