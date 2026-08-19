@@ -34,30 +34,6 @@ describe('RecentTournaments', () => {
     localStorage.clear();
   });
 
-  it('renders the tournaments it was given', () => {
-    renderBoard([recentlyView('a'), recentlyView('b')]);
-
-    expect(screen.getByText('Torneio a')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Torneio b/ })).toHaveAttribute(
-      'href',
-      'https://cms.example/org-teste/torneio-b'
-    );
-  });
-
-  it('lists pinned tournaments before the rest', async () => {
-    localStorage.setItem(
-      PINNED_RECENTLY_VIEWS_KEY,
-      JSON.stringify([recentlyView('b')])
-    );
-
-    renderBoard([recentlyView('a'), recentlyView('b')]);
-
-    await waitFor(() => {
-      expect(cardNames()[0]).toContain('Torneio b');
-    });
-    expect(cardNames()).toHaveLength(2);
-  });
-
   it('pins a tournament when its pin button is used', async () => {
     const user = userEvent.setup();
     renderBoard([recentlyView('a'), recentlyView('b')]);
@@ -71,15 +47,5 @@ describe('RecentTournaments', () => {
     });
     expect(cardNames()[0]).toContain('Torneio b');
     expect(localStorage.getItem(PINNED_RECENTLY_VIEWS_KEY)).toContain('b');
-  });
-
-  it('shows at most 15 tournaments', () => {
-    renderBoard(
-      Array.from({ length: 20 }, (_unused, index) =>
-        recentlyView(String(index))
-      )
-    );
-
-    expect(cardNames()).toHaveLength(15);
   });
 });

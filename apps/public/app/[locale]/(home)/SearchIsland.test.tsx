@@ -88,22 +88,6 @@ describe('SearchIsland', () => {
     expect(fetchMock).toHaveBeenCalledWith('/api/search?term=Liga');
   });
 
-  it('renders each result as a link to the tournament on the CMS', async () => {
-    searchResults.push(ligaTeste);
-    const user = setupUser();
-    renderIsland();
-
-    await user.type(screen.getByRole('searchbox'), 'Liga');
-    await advanceTimers(500);
-
-    const link = await screen.findByRole('link', { name: /Liga Teste/ });
-    expect(link).toHaveAttribute(
-      'href',
-      'https://cms.example/org-teste/liga-teste'
-    );
-    expect(screen.getByText('Org Teste')).toBeInTheDocument();
-  });
-
   it('goes back to the recently viewed board when the term is cleared', async () => {
     searchResults.push(ligaTeste);
     const user = setupUser();

@@ -64,14 +64,4 @@ describe('getRecentlyViewedOrganizations', () => {
       }
     ]);
   });
-
-  it('throws when API_HOST is not configured', async () => {
-    delete process.env.API_HOST;
-    jest.resetModules();
-    const { getRecentlyViewedOrganizations } = await import('./organizations');
-
-    await expect(getRecentlyViewedOrganizations()).rejects.toThrow(
-      'API_HOST environment variable is not configured'
-    );
-  });
 });

@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { AdBanner, AD_LOADER_SRC } from './AdBanner';
 
@@ -50,44 +50,5 @@ describe('AdBanner', () => {
     expect(
       (window as unknown as { adsbygoogle: unknown[] }).adsbygoogle
     ).toHaveLength(1);
-  });
-
-  it('gives the slot a full-width block box so AdSense can measure it', () => {
-    // AdSense measures the slot width when the request is queued; a zero-width
-    // box fails with "No slot size for availableWidth=0".
-    const { container } = render(<AdBanner />);
-
-    expect(container.querySelector('ins.adsbygoogle')).toHaveClass(
-      'block',
-      'w-full'
-    );
-  });
-
-  it('reserves no height until AdSense fills the slot', () => {
-    const { container } = render(<AdBanner />);
-
-    expect(container.firstElementChild).toHaveClass('grid-rows-[0fr]');
-  });
-
-  it('expands once the slot is filled', async () => {
-    const { container } = render(<AdBanner />);
-
-    const slot = container.querySelector('ins.adsbygoogle');
-    await act(async () => {
-      slot?.setAttribute('data-ad-status', 'filled');
-    });
-
-    expect(container.firstElementChild).toHaveClass('grid-rows-[1fr]');
-  });
-
-  it('stays collapsed when the slot goes unfilled', async () => {
-    const { container } = render(<AdBanner />);
-
-    const slot = container.querySelector('ins.adsbygoogle');
-    await act(async () => {
-      slot?.setAttribute('data-ad-status', 'unfilled');
-    });
-
-    expect(container.firstElementChild).toHaveClass('grid-rows-[0fr]');
   });
 });

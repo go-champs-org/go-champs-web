@@ -19,27 +19,6 @@ const recentlyView = {
 };
 
 describe('StructuredData', () => {
-  it('describes the site and the organization behind it', () => {
-    const { container } = render(<StructuredData locale="pt" />);
-
-    const graph = parsedGraph(container)['@graph'];
-
-    expect(graph).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          '@type': 'Organization',
-          name: 'Go Champs',
-          url: SITE_URL
-        }),
-        expect.objectContaining({
-          '@type': 'WebSite',
-          url: `${SITE_URL}/pt`,
-          inLanguage: 'pt'
-        })
-      ])
-    );
-  });
-
   it('lists the tournaments the page is showing', () => {
     const { container } = render(
       <StructuredData

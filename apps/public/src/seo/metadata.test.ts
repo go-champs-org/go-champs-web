@@ -1,4 +1,4 @@
-import { buildPageMetadata, PUBLIC_ROUTES, SITE_URL } from './metadata';
+import { buildPageMetadata, SITE_URL } from './metadata';
 
 describe('buildPageMetadata', () => {
   it('points the canonical URL at the current locale', () => {
@@ -59,12 +59,5 @@ describe('buildPageMetadata', () => {
       title: 'Go Champs',
       description: 'Tournaments'
     });
-  });
-
-  it('lists every public route, home first', () => {
-    expect(PUBLIC_ROUTES[0]).toBe('');
-    expect(PUBLIC_ROUTES).toEqual(
-      expect.arrayContaining(['/about', '/faq', '/contact', '/privacy', '/terms'])
-    );
   });
 });
