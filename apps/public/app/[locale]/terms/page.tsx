@@ -60,8 +60,8 @@ export default async function TermsPage({
             </p>
 
             <section className={SECTION_CLASS}>
-              {/* `.terms-br-section:first-of-type h2` zeroes the top margin in
-                  the CMS SCSS — the intro paragraphs already provide the gap. */}
+              {/* First section heading drops the top margin: the intro
+                  paragraphs above it already provide the spacing. */}
               <h2 className={`${HEADING_CLASS} mt-0`}>1. Sobre a plataforma</h2>
               <p className="mb-4">
                 A Go Champs é uma plataforma digital que permite a criação,
