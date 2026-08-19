@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { SearchResultEntity } from '@gochamps/api-client';
+import type {
+  RecentlyViewEntity,
+  SearchResultEntity
+} from '@gochamps/api-client';
 import { RecentTournaments } from './RecentTournaments';
 import { TournamentGrid, TournamentGridShimmer } from './TournamentGrid';
 import { TournamentMiniCard } from './TournamentMiniCard';
@@ -78,9 +81,13 @@ const SearchResults = ({
 
 interface SearchIslandProps {
   cmsUrl: string;
+  recentlyViews: RecentlyViewEntity[];
 }
 
-export const SearchIsland = ({ cmsUrl }: SearchIslandProps) => {
+export const SearchIsland = ({
+  cmsUrl,
+  recentlyViews
+}: SearchIslandProps) => {
   const t = useTranslations('home');
   const [term, setTerm] = useState('');
   const [results, setResults] = useState<SearchResultEntity[]>([]);
@@ -153,7 +160,7 @@ export const SearchIsland = ({ cmsUrl }: SearchIslandProps) => {
             }
           />
         ) : (
-          <RecentTournaments cmsUrl={cmsUrl} />
+          <RecentTournaments cmsUrl={cmsUrl} recentlyViews={recentlyViews} />
         )}
       </section>
     </div>

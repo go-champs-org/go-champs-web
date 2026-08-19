@@ -8,6 +8,16 @@ const parsedGraph = (container: HTMLElement) =>
       ?.textContent || 'null'
   );
 
+const recentlyView = {
+  tournamentId: 't1',
+  tournamentName: 'Liga Teste',
+  tournamentSlug: 'liga-teste',
+  organizationName: 'Org Teste',
+  organizationSlug: 'org-teste',
+  organizationLogoUrl: '',
+  views: 3
+};
+
 describe('StructuredData', () => {
   it('describes the site and the organization behind it', () => {
     const { container } = render(<StructuredData locale="pt" />);
@@ -28,6 +38,39 @@ describe('StructuredData', () => {
         })
       ])
     );
+  });
+
+  it('lists the tournaments the page is showing', () => {
+    const { container } = render(
+      <StructuredData
+        locale="pt"
+        cmsUrl="https://cms.example"
+        recentlyViews={[recentlyView]}
+      />
+    );
+
+    const list = parsedGraph(container)['@graph'].find(
+      (node: { '@type': string }) => node['@type'] === 'ItemList'
+    );
+
+    expect(list.itemListElement).toEqual([
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Liga Teste',
+        url: 'https://cms.example/org-teste/liga-teste'
+      }
+    ]);
+  });
+
+  it('leaves the list out when there is nothing to show', () => {
+    const { container } = render(<StructuredData locale="pt" />);
+
+    expect(
+      parsedGraph(container)['@graph'].some(
+        (node: { '@type': string }) => node['@type'] === 'ItemList'
+      )
+    ).toBe(false);
   });
 
   it('escapes a closing script tag so the JSON cannot break out', () => {

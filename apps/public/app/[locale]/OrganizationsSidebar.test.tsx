@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import type { OrganizationEntity } from '@gochamps/api-client';
@@ -12,78 +12,57 @@ const organization = (id: string): OrganizationEntity => ({
   logoUrl: ''
 });
 
-const fetchMock = jest.fn();
-
-const renderSidebar = () =>
+const renderSidebar = (organizations: OrganizationEntity[]) =>
   render(
     <NextIntlClientProvider locale="pt" messages={messages}>
-      <OrganizationsSidebar cmsUrl="https://cms.example" />
+      <OrganizationsSidebar
+        cmsUrl="https://cms.example"
+        organizations={organizations}
+      />
     </NextIntlClientProvider>
   );
 
-const respondWith = (organizations: OrganizationEntity[]) =>
-  fetchMock.mockResolvedValue({ ok: true, json: async () => organizations });
-
 describe('OrganizationsSidebar', () => {
-  beforeEach(() => {
-    fetchMock.mockReset();
-    global.fetch = fetchMock as unknown as typeof fetch;
-  });
+  it('lists the organizations it was given, linked to the CMS', () => {
+    renderSidebar([organization('a'), organization('b')]);
 
-  it('lists the recently viewed organizations, linked to the CMS', async () => {
-    respondWith([organization('a'), organization('b')]);
-
-    renderSidebar();
-
-    expect(await screen.findByText('Org a')).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/api/organizations/recently-viewed'
-    );
+    expect(screen.getByText('Org a')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Org b/ })).toHaveAttribute(
       'href',
       'https://cms.example/org-b'
     );
   });
 
-  it('shows at most 15 organizations', async () => {
-    respondWith(
+  it('shows at most 15 organizations', () => {
+    renderSidebar(
       Array.from({ length: 20 }, (_unused, index) =>
         organization(String(index))
       )
     );
 
-    renderSidebar();
-    await screen.findByText('Org 0');
-
     expect(screen.getAllByRole('link')).toHaveLength(15);
   });
 
-  it('tells the visitor when nothing has been viewed yet', async () => {
-    respondWith([]);
-
-    renderSidebar();
+  it('tells the visitor when nothing has been viewed yet', () => {
+    renderSidebar([]);
 
     expect(
-      await screen.findByText('Nenhuma organização vista ainda')
+      screen.getByText('Nenhuma organização vista ainda')
     ).toBeInTheDocument();
   });
 
-  it('renders nothing when the request fails', async () => {
-    fetchMock.mockRejectedValue(new Error('offline'));
+  it('sizes the logos so the list does not shift as they load', () => {
+    renderSidebar([{ ...organization('a'), logoUrl: 'https://x/logo.png' }]);
 
-    const { container } = renderSidebar();
-
-    await waitFor(() => {
-      expect(container).toBeEmptyDOMElement();
-    });
+    const logo = screen.getByRole('img', { name: 'Org a' });
+    expect(logo).toHaveAttribute('width', '32');
+    expect(logo).toHaveAttribute('height', '32');
+    expect(logo).toHaveAttribute('loading', 'lazy');
   });
 
   it('expands and collapses the list on small screens', async () => {
     const user = userEvent.setup();
-    respondWith([organization('a')]);
-
-    renderSidebar();
-    await screen.findByText('Org a');
+    renderSidebar([organization('a')]);
 
     const toggle = screen.getByRole('button', { name: 'Organizações' });
     expect(toggle).toHaveAttribute('aria-expanded', 'false');

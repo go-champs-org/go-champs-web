@@ -48,6 +48,28 @@ describe('GET /api/search', () => {
     await expect(response.json()).resolves.toEqual([]);
   });
 
+  it('lets the edge cache a term for a minute', async () => {
+    searchMock.mockResolvedValue([]);
+
+    const response = await GET(
+      new Request('http://localhost/api/search?term=Liga')
+    );
+
+    expect(response.headers.get('Cache-Control')).toBe(
+      'public, s-maxage=60, stale-while-revalidate=300'
+    );
+  });
+
+  it('never caches an upstream failure', async () => {
+    searchMock.mockRejectedValue(new Error('boom'));
+
+    const response = await GET(
+      new Request('http://localhost/api/search?term=Liga')
+    );
+
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
+  });
+
   it('returns 502 when the upstream API fails', async () => {
     searchMock.mockRejectedValue(new Error('boom'));
 

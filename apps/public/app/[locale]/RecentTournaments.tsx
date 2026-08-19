@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { RecentlyViewEntity } from '@gochamps/api-client';
-import { TournamentGrid, TournamentGridShimmer } from './TournamentGrid';
+import { TournamentGrid } from './TournamentGrid';
 import { TournamentMiniCard } from './TournamentMiniCard';
 import { usePinnedRecentlyViews } from './usePinnedRecentlyViews';
 
@@ -11,35 +10,16 @@ const MAX_TOURNAMENTS = 15;
 
 interface RecentTournamentsProps {
   cmsUrl: string;
+  recentlyViews: RecentlyViewEntity[];
 }
 
-export const RecentTournaments = ({ cmsUrl }: RecentTournamentsProps) => {
+export const RecentTournaments = ({
+  cmsUrl,
+  recentlyViews
+}: RecentTournamentsProps) => {
   const t = useTranslations('home');
-  const [recentlyViews, setRecentlyViews] = useState<RecentlyViewEntity[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { pinnedRecentlyViews, pinRecentlyView, removeRecentlyView } =
     usePinnedRecentlyViews(recentlyViews);
-
-  useEffect(() => {
-    let isCurrent = true;
-
-    fetch('/api/recently-views')
-      .then(response => (response.ok ? response.json() : []))
-      .catch(() => [])
-      .then((views: RecentlyViewEntity[]) => {
-        if (!isCurrent) return;
-        setRecentlyViews(views);
-        setIsLoading(false);
-      });
-
-    return () => {
-      isCurrent = false;
-    };
-  }, []);
-
-  if (isLoading) {
-    return <TournamentGridShimmer />;
-  }
 
   const pinnedIds = new Set(
     pinnedRecentlyViews.map(recentlyView => recentlyView.tournamentId)

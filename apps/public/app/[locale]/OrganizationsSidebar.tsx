@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { OrganizationEntity } from '@gochamps/api-client';
 import { initials } from './TournamentMiniCard';
@@ -21,51 +21,17 @@ const ChevronIcon = ({ isExpanded }: { isExpanded: boolean }) => (
   </svg>
 );
 
-const OrganizationShimmer = () => (
-  <div className="flex animate-pulse items-center gap-2 border-b border-border px-3 py-2.5 last:border-b-0 md:px-0 md:py-3">
-    <div className="h-8 w-8 flex-shrink-0 rounded-full bg-border" />
-    <div className="h-3.5 flex-1 rounded bg-border" />
-  </div>
-);
-
 interface OrganizationsSidebarProps {
   cmsUrl: string;
+  organizations: OrganizationEntity[];
 }
 
-export const OrganizationsSidebar = ({ cmsUrl }: OrganizationsSidebarProps) => {
+export const OrganizationsSidebar = ({
+  cmsUrl,
+  organizations
+}: OrganizationsSidebarProps) => {
   const t = useTranslations('home');
-  const [organizations, setOrganizations] = useState<OrganizationEntity[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasFailed, setHasFailed] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    let isCurrent = true;
-
-    fetch('/api/organizations/recently-viewed')
-      .then(response => {
-        if (!response.ok) throw new Error('request failed');
-        return response.json();
-      })
-      .then((results: OrganizationEntity[]) => {
-        if (!isCurrent) return;
-        setOrganizations(results);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        if (!isCurrent) return;
-        // The sidebar is a nice-to-have next to the tournaments, so a failure
-        // takes it off the page instead of showing an error.
-        setHasFailed(true);
-        setIsLoading(false);
-      });
-
-    return () => {
-      isCurrent = false;
-    };
-  }, []);
-
-  if (hasFailed) return null;
 
   return (
     <div className="w-full overflow-hidden rounded-xl border border-border bg-surface p-6">
@@ -88,13 +54,7 @@ export const OrganizationsSidebar = ({ cmsUrl }: OrganizationsSidebarProps) => {
           isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        {isLoading ? (
-          <>
-            <OrganizationShimmer />
-            <OrganizationShimmer />
-            <OrganizationShimmer />
-          </>
-        ) : organizations.length > 0 ? (
+        {organizations.length > 0 ? (
           <div className="flex flex-col">
             {organizations.slice(0, MAX_ORGANIZATIONS).map(organization => (
               <a
@@ -110,6 +70,10 @@ export const OrganizationsSidebar = ({ cmsUrl }: OrganizationsSidebarProps) => {
                     <img
                       src={organization.logoUrl}
                       alt={organization.name}
+                      width={32}
+                      height={32}
+                      loading="lazy"
+                      decoding="async"
                       className="h-8 w-8 rounded-full object-cover"
                     />
                   ) : (
