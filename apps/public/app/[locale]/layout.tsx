@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { NavBar, Footer, noFlashThemeScript } from '@gochamps/ui';
 import { routing } from '../../src/i18n/routing';
+import { cmsPath } from '../../src/config/cms';
 import { SITE_NAME, SITE_URL } from '../../src/seo/metadata';
 import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
 import { Amplitude } from '../analytics/Amplitude';
@@ -37,7 +38,6 @@ export default async function LocaleLayout({
 
   const t = await getTranslations('common');
   const tFooter = await getTranslations('footer');
-  const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL || '';
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -57,7 +57,7 @@ export default async function LocaleLayout({
             logoHref={`/${locale}`}
             logoSrc="/logo/logo-white-name.png"
             logoSrcMobile="/logo/logo-green.png"
-            loginHref={process.env.NEXT_PUBLIC_CMS_URL || '/SignIn'}
+            loginHref={cmsPath('/SignIn')}
             loginLabel={t('navLogin')}
           />
           {children}
@@ -74,8 +74,8 @@ export default async function LocaleLayout({
               apiDocumentationPrefix: tFooter('apiDocumentationPrefix'),
               apiDocumentationSuffix: tFooter('apiDocumentationSuffix')
             }}
-            privacyHref={`${cmsUrl}/PrivacyPolicyBR`}
-            termsHref={`${cmsUrl}/TermsBR`}
+            privacyHref={cmsPath('/PrivacyPolicyBR')}
+            termsHref={cmsPath('/TermsBR')}
             buildNumber={process.env.NEXT_PUBLIC_BUILD_NUMBER}
           />
         </NextIntlClientProvider>

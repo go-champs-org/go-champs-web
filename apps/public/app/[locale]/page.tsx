@@ -6,6 +6,7 @@ import {
   type OrganizationEntity,
   type RecentlyViewEntity
 } from '@gochamps/api-client';
+import { CMS_URL } from '../../src/config/cms';
 import { buildPageMetadata } from '../../src/seo/metadata';
 import { AdBanner } from './AdBanner';
 import { OrganizationsSidebar } from './OrganizationsSidebar';
@@ -60,7 +61,6 @@ export default async function RootPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL || '';
   const { recentlyViews, organizations } = await loadHomeData();
 
   // The CMS pairs a fixed NavBar with a 100px offset here; ours is sticky and
@@ -73,7 +73,7 @@ export default async function RootPage({
     >
       <StructuredData
         locale={locale}
-        cmsUrl={cmsUrl}
+        cmsUrl={CMS_URL}
         recentlyViews={recentlyViews}
       />
       <AdBanner />
@@ -81,10 +81,10 @@ export default async function RootPage({
         {/* The CMS keeps this sidebar off small screens, where the tournament
             grid already fills the viewport. */}
         <aside className="hidden w-full md:sticky md:top-[calc(var(--navbar-height)+1rem)] md:block md:w-[280px] md:flex-shrink-0">
-          <OrganizationsSidebar cmsUrl={cmsUrl} organizations={organizations} />
+          <OrganizationsSidebar cmsUrl={CMS_URL} organizations={organizations} />
         </aside>
         <div className="w-full min-w-0 flex-1">
-          <SearchIsland cmsUrl={cmsUrl} recentlyViews={recentlyViews} />
+          <SearchIsland cmsUrl={CMS_URL} recentlyViews={recentlyViews} />
         </div>
       </div>
     </main>

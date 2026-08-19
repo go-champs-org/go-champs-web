@@ -62,6 +62,16 @@ describe('RootPage', () => {
     ).toBeInTheDocument();
   });
 
+  it('links out with absolute URLs, never a locale-prefixed path', async () => {
+    // A relative href gets the locale prefixed onto it by the middleware, and
+    // /pt/org-recente/torneio-recente matches nothing on either app.
+    await renderPage();
+
+    for (const link of screen.getAllByRole('link')) {
+      expect(link.getAttribute('href')).toMatch(/^https?:\/\//);
+    }
+  });
+
   it('still renders when the API is unreachable', async () => {
     getRecentlyViewsMock.mockRejectedValue(new Error('offline'));
     getRecentlyViewedOrganizationsMock.mockRejectedValue(new Error('offline'));
