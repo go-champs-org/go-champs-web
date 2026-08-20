@@ -62,7 +62,12 @@ describe('search', () => {
             name: 'Test League',
             slug: 'test-league',
             logo_url: 'https://example.com/logo.png',
-            organization: { id: 'o1', name: 'Test Organization', slug: 'test-organization' }
+            organization: {
+              id: 'o1',
+              name: 'Test Organization',
+              slug: 'test-organization',
+              logo_url: 'https://example.com/org-logo.png'
+            }
           }
         ]
       })
@@ -77,7 +82,8 @@ describe('search', () => {
         slug: 'test-league',
         logoUrl: 'https://example.com/logo.png',
         organizationName: 'Test Organization',
-        organizationSlug: 'test-organization'
+        organizationSlug: 'test-organization',
+        organizationLogoUrl: 'https://example.com/org-logo.png'
       }
     ]);
   });

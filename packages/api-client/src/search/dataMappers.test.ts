@@ -10,7 +10,8 @@ describe('mapApiSearchTournamentToSearchResultEntity', () => {
       organization: {
         id: 'o1',
         name: 'Test Organization',
-        slug: 'test-organization'
+        slug: 'test-organization',
+        logo_url: 'https://example.com/org-logo.png'
       }
     });
 
@@ -20,7 +21,8 @@ describe('mapApiSearchTournamentToSearchResultEntity', () => {
       slug: 'test-league',
       logoUrl: 'https://example.com/logo.png',
       organizationName: 'Test Organization',
-      organizationSlug: 'test-organization'
+      organizationSlug: 'test-organization',
+      organizationLogoUrl: 'https://example.com/org-logo.png'
     });
   });
 
@@ -37,5 +39,6 @@ describe('mapApiSearchTournamentToSearchResultEntity', () => {
     });
 
     expect(result.logoUrl).toBe('');
+    expect(result.organizationLogoUrl).toBe('');
   });
 });

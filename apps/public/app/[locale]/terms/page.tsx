@@ -1,6 +1,8 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '../../../src/seo/metadata';
 import Image from 'next/image';
 import Link from 'next/link';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 // Ported verbatim from apps/cms/src/PagesV2/TermsBR/TermsBRV2.tsx:
 // the text is hardcoded PT-BR in the CMS too (no i18n keys), so there is nothing
@@ -10,6 +12,24 @@ const HEADING_CLASS =
 const SECTION_CLASS = 'mb-8 last:mb-0';
 const LINK_CLASS = 'text-primary transition-colors hover:underline';
 const STRONG_CLASS = 'font-semibold text-foreground';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    ...buildPageMetadata({
+      locale,
+      path: '/terms',
+      title: t('termsTitle'),
+      description: t('termsDescription')
+    })
+  };
+}
 
 export default async function TermsPage({
   params

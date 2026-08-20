@@ -7,7 +7,8 @@
     "start": "turbo run start",
     "test": "turbo run test",
     "test:ci": "turbo run test:ci",
-    "lint:check": "turbo run lint:check"
+    "lint:check": "turbo run lint:check",
+    "dev": "turbo run dev"
   },
   "devDependencies": {
     "turbo": "^2.0.0"

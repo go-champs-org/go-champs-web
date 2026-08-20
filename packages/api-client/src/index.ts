@@ -1,6 +1,10 @@
 export { default as httpClient } from './httpClient';
 export { default as ApiError } from './ApiError';
 export * from './about/about';
+export * from './organizations/dataMappers';
+export * from './organizations/organizations';
+export * from './recentlyViews/dataMappers';
+export * from './recentlyViews/recentlyViews';
 export * from './search/dataMappers';
 export * from './search/search';
 export * from './teams/dataMappers';

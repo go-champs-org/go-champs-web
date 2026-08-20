@@ -1,8 +1,28 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '../../../src/seo/metadata';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { FaqItem } from './FaqItem';
 
 const FAQ_KEYS = ['faqQ1', 'faqQ2', 'faqQ3', 'faqQ4', 'faqQ5'] as const;
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    ...buildPageMetadata({
+      locale,
+      path: '/faq',
+      title: t('faqTitle'),
+      description: t('faqDescription')
+    })
+  };
+}
 
 export default async function FaqPage({
   params

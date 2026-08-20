@@ -60,6 +60,17 @@
     "sendYourFeedbackSuccessMsg": "Mensagem enviada com sucesso!",
     "sendYourFeedbackFailMsg": "Problema ao enviar, tente mais tarde!"
   },
+  "home": {
+    "onGoingTournaments": "Campeonatos em andamento",
+    "checkTheMostUpToDateGameResults": "Acompanhe os resultados de jogos mais recentes",
+    "searchPlaceholder": "Busca de campeonatos...",
+    "startTyping": "Digite para pesquisar...",
+    "tournamentNotFound": "Campeonato não encontrado.",
+    "organizations": "Organizações",
+    "noOrganizationsViewedYet": "Nenhuma organização vista ainda",
+    "pin": "Fixar",
+    "unpin": "Desfixar"
+  },
   "footer": {
     "with": "com",
     "byGoChampsTeam": "pela equipe Go Champs",
@@ -71,5 +82,19 @@
     "allRightsReserved": "Todos os direitos reservados",
     "apiDocumentationPrefix": "Confira a Documentação da",
     "apiDocumentationSuffix": ""
+  },
+  "metadata": {
+    "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",
+    "homeDescription": "Acompanhe campeonatos, times, jogos e estatísticas do amador ao semiprofissional. Resultados em tempo real, súmulas eletrônicas e tabelas atualizadas.",
+    "aboutTitle": "Sobre nós",
+    "aboutDescription": "Conheça a GO CHAMPS: a plataforma que transforma a gestão de campeonatos com simplicidade e dados confiáveis.",
+    "faqTitle": "Perguntas Frequentes",
+    "faqDescription": "Dúvidas sobre como acompanhar campeonatos, jogos e estatísticas na GO CHAMPS.",
+    "contactTitle": "Fale com a gente",
+    "contactDescription": "Envie sua mensagem para o time da GO CHAMPS: dúvidas, sugestões e parcerias.",
+    "privacyTitle": "Política de Privacidade",
+    "privacyDescription": "Como a GO CHAMPS coleta, usa e protege os seus dados pessoais.",
+    "termsTitle": "Termos de Uso",
+    "termsDescription": "Os termos que regem o uso da plataforma GO CHAMPS."
   }
 }

@@ -53,6 +53,7 @@
   },
   "scripts": {
     "start": "env-cmd -f env.local.js craco --openssl-legacy-provider start",
+    "dev": "env-cmd -f env.local.js craco --openssl-legacy-provider start",
     "build": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
     "build:adm": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
     "build:staging": "env-cmd -f env.staging.js craco --openssl-legacy-provider build",

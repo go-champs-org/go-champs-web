@@ -1,5 +1,7 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '../../../src/seo/metadata';
 import Image from 'next/image';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 // Ported verbatim from apps/cms/src/PagesV2/PrivacyPolicyBR/PrivacyPolicyBRV2.tsx:
 // the text is hardcoded PT-BR in the CMS too (no i18n keys), so there is nothing
@@ -8,6 +10,24 @@ const HEADING_CLASS =
   'mb-4 mt-8 text-[1.375rem] font-bold text-foreground md:text-[1.5rem]';
 const SECTION_CLASS = 'mb-8 last:mb-0';
 const LINK_CLASS = 'text-primary transition-colors hover:underline';
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    ...buildPageMetadata({
+      locale,
+      path: '/privacy',
+      title: t('privacyTitle'),
+      description: t('privacyDescription')
+    })
+  };
+}
 
 export default async function PrivacyPolicyPage({
   params

@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata } from '../../../src/seo/metadata';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getAboutStats } from '@gochamps/api-client';
@@ -70,6 +72,35 @@ function StatCounter({ value, label }: StatCounterProps) {
   );
 }
 
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  return {
+    ...buildPageMetadata({
+      locale,
+      path: '/about',
+      title: t('aboutTitle'),
+      description: t('aboutDescription')
+    })
+  };
+}
+
+// The page is worth serving without the counters, so a failure falls back to
+// the placeholders instead of an error page.
+const loadAboutStats = async () => {
+  try {
+    return await getAboutStats();
+  } catch (error) {
+    console.error('Failed to fetch about stats:', error);
+    return null;
+  }
+};
+
 export default async function AboutPage({
   params
 }: {
@@ -79,12 +110,7 @@ export default async function AboutPage({
   setRequestLocale(locale);
   const t = await getTranslations('about');
 
-  let stats: Awaited<ReturnType<typeof getAboutStats>> | null = null;
-  try {
-    stats = await getAboutStats();
-  } catch (error) {
-    console.error('Failed to fetch about stats:', error);
-  }
+  const stats = await loadAboutStats();
 
   return (
     <main className="bg-background py-12 px-6">

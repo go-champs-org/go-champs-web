@@ -29,6 +29,9 @@ jest.mock('next-intl/server', () => ({
   }
 }));
 
+const isNestedHtmlWarning = (message: unknown) =>
+  typeof message === 'string' && message.includes('cannot be a child of');
+
 describe('LocaleLayout', () => {
   const originalGaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -45,12 +48,7 @@ describe('LocaleLayout', () => {
     consoleErrorSpy = jest
       .spyOn(console, 'error')
       .mockImplementation((message, ...args) => {
-        if (
-          typeof message === 'string' &&
-          message.includes('cannot be a child of')
-        ) {
-          return;
-        }
+        if (isNestedHtmlWarning(message)) return;
         originalConsoleError(message, ...args);
       });
   });
