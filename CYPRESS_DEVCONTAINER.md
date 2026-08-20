@@ -1,6 +1,6 @@
 # Cypress DevContainer Setup
 
-This document describes how to run Cypress e2e tests in the devcontainer environment.
+This document describes how to run Cypress e2e tests in the devcontainer environment. These tests live in `apps/cms` — run all commands below with `pnpm --filter @gochamps/cms <script>` from the repo root, or `cd apps/cms` and drop the filter.
 
 ## Setup
 
@@ -21,18 +21,18 @@ The devcontainer is configured with all necessary dependencies for running Cypre
 
 ```bash
 # Run all Cypress tests (headless)
-yarn test:e2e
+pnpm --filter @gochamps/cms test:e2e
 
 # Run with explicit Xvfb (recommended in devcontainer)
-yarn test:e2e:headless
+pnpm --filter @gochamps/cms test:e2e:headless
 
 # Environment-specific test runs
-yarn test:e2e:local    # Using local environment configuration  
-yarn test:e2e:staging  # Using staging environment configuration
-yarn test:e2e:prod     # Using production environment configuration
+pnpm --filter @gochamps/cms test:e2e:local    # Using local environment configuration
+pnpm --filter @gochamps/cms test:e2e:staging  # Using staging environment configuration
+pnpm --filter @gochamps/cms test:e2e:prod     # Using production environment configuration
 
 # Open Cypress Test Runner (requires X11 forwarding)
-yarn test:e2e:open
+pnpm --filter @gochamps/cms test:e2e:open
 ```
 
 ### Running Specific Test Sets
@@ -40,33 +40,33 @@ yarn test:e2e:open
 #### Run tests by folder/category:
 ```bash
 # Public tests (no authentication required)
-yarn test:e2e:headless --spec "cypress/e2e/home/**,cypress/e2e/search/**,cypress/e2e/tournament/**"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/home/**,cypress/e2e/search/**,cypress/e2e/tournament/**"
 
 # Account/authenticated tests only
-yarn test:e2e:headless --spec "cypress/e2e/account/**"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/account/**"
 
 # Specific functionality tests
-yarn test:e2e:headless --spec "cypress/e2e/account/elimination/**"
-yarn test:e2e:headless --spec "cypress/e2e/account/tournament/**"  
-yarn test:e2e:headless --spec "cypress/e2e/account/organization/**"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/account/elimination/**"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/account/tournament/**"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/account/organization/**"
 ```
 
 #### Run specific test files:
 ```bash
 # Single test file
-yarn test:e2e:headless --spec "cypress/e2e/home/homepage.cy.js"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/home/homepage.cy.js"
 
 # Multiple specific files
-yarn test:e2e:headless --spec "cypress/e2e/home/homepage.cy.js,cypress/e2e/search/searchpage.cy.js"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/home/homepage.cy.js,cypress/e2e/search/searchpage.cy.js"
 ```
 
 #### Run tests by pattern:
 ```bash
 # All tests with "tournament" in the path
-yarn test:e2e:headless --spec "**/*tournament*"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "**/*tournament*"
 
 # All account management tests
-yarn test:e2e:headless --spec "cypress/e2e/account/*/*.cy.js"
+pnpm --filter @gochamps/cms test:e2e:headless --spec "cypress/e2e/account/*/*.cy.js"
 ```
 
 ### Test Categories
@@ -119,7 +119,7 @@ Option 1 - Environment variables:
 ```bash
 export TEST_USERNAME="your-test-username"
 export TEST_PASSWORD="your-test-password"
-yarn test:e2e:headless
+pnpm --filter @gochamps/cms test:e2e:headless
 ```
 
 Option 2 - Create `cypress.env.json` file:
@@ -132,7 +132,7 @@ Option 2 - Create `cypress.env.json` file:
 
 Option 3 - Inline with command:
 ```bash
-TEST_USERNAME="user" TEST_PASSWORD="pass" yarn test:e2e:headless
+TEST_USERNAME="user" TEST_PASSWORD="pass" pnpm --filter @gochamps/cms test:e2e:headless
 ```
 
 ## Troubleshooting
@@ -140,7 +140,7 @@ TEST_USERNAME="user" TEST_PASSWORD="pass" yarn test:e2e:headless
 ### Common Issues
 
 1. **Error: spawn Xvfb ENOENT**
-   - Solution: Run `yarn install` to ensure Cypress is properly installed
+   - Solution: Run `pnpm install` (from the repo root) to ensure Cypress is properly installed
    - Or run `/workspace/.devcontainer/setup-cypress.sh`
 
 2. **Display not found**
@@ -148,7 +148,7 @@ TEST_USERNAME="user" TEST_PASSWORD="pass" yarn test:e2e:headless
    - Check with: `ps aux | grep Xvfb`
 
 3. **Browser launch issues**
-   - Solution: Use `yarn test:e2e:headless` instead of `yarn test:e2e`
+   - Solution: Use `pnpm --filter @gochamps/cms test:e2e:headless` instead of `test:e2e`
    - This uses `xvfb-run` wrapper for better stability
 
 ### Debugging
@@ -156,13 +156,13 @@ TEST_USERNAME="user" TEST_PASSWORD="pass" yarn test:e2e:headless
 To debug test failures:
 - Videos are saved to `cypress/videos/`
 - Screenshots are saved to `cypress/screenshots/`
-- Enable verbose logging: `DEBUG=cypress:* yarn test:e2e`
+- Enable verbose logging: `DEBUG=cypress:* pnpm --filter @gochamps/cms test:e2e`
 
 ## CI Integration
 
 The CI workflows automatically:
 1. Install Cypress system dependencies
 2. Set up environment variables
-3. Run tests with `xvfb-run -a yarn test:e2e`
+3. Run tests with `xvfb-run -a pnpm --filter @gochamps/cms test:e2e`
 
 No manual setup required in GitHub Actions.

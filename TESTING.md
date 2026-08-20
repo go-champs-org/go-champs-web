@@ -4,23 +4,26 @@ This document outlines the testing practices and conventions for the Go Champs f
 
 ## Running Tests
 
-We use **Yarn** as our package manager for running tests:
+We use **pnpm** as our package manager. Run tests from the repo root with `--filter`, or `cd` into the app/package first:
 
 ```bash
-# Run all tests
-yarn test
+# Run all tests across every app/package (via Turborepo)
+pnpm test
 
-# Run tests in watch mode (default for development)
-yarn test --watchAll
+# Run tests for a single app, e.g. the CMS
+pnpm --filter @gochamps/cms test
+
+# Run tests in watch mode (default for CMS development)
+pnpm --filter @gochamps/cms test --watchAll
 
 # Run tests for a specific file
-yarn test -- --testPathPattern=Games/dataMappers.test.ts
+pnpm --filter @gochamps/cms test -- --testPathPattern=Games/dataMappers.test.ts
 
-# Run tests without watch mode
-yarn test --watchAll=false
+# Run tests without watch mode (CI mode)
+pnpm --filter @gochamps/cms test:ci
 
 # Run tests with coverage
-yarn test --coverage
+pnpm --filter @gochamps/cms test --coverage
 ```
 
 ## Testing Conventions
