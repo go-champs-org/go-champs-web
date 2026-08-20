@@ -1,8 +1,8 @@
-import { ApiOfficialProfileScheduleGame } from '../../Shared/httpClient/apiTypes';
+import { ApiProfileScheduleGame } from '../httpClient/apiTypes';
 import { mapApiScheduleGameToScheduleGameEntity } from './dataMappers';
 
 describe('mapApiScheduleGameToScheduleGameEntity', () => {
-  const apiGame: ApiOfficialProfileScheduleGame = {
+  const apiGame: ApiProfileScheduleGame = {
     id: 'game-id',
     datetime: '2026-08-20T19:30:00Z',
     location: 'Ginásio Central',

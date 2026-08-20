@@ -25,7 +25,13 @@ import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { requestOfficialProfile } from '../OfficialProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import ProfileHome from './ProfileHome';
+import ProfileTournaments from './ProfileTournaments';
+import AuthenticatedAuthorizedAthleteProfile from '../AthleteProfiles/AuthenticatedAuthorizedAthleteProfile';
 import AccountIdentityEdit from './AccountIdentityEdit';
+
+interface ProfileParams {
+  username: string;
+}
 
 interface OfficialProfileParams {
   username: string;
@@ -78,9 +84,29 @@ function AccountHome({ athleteProfile, officialProfile }: AccountHomeProps) {
             <Route path="/Account/Organizations" component={OrganizationList} />
             <Route
               path="/Account/EditProfile/:username"
-              component={ProfileEdit}
+              render={(props: RouteComponentProps<ProfileParams>) => (
+                <AuthenticatedAuthorizedAthleteProfile>
+                  <ProfileEdit {...props} />
+                </AuthenticatedAuthorizedAthleteProfile>
+              )}
             />
-            <Route path="/Account/Profile/:username" component={ProfileHome} />
+            <Route
+              path="/Account/Profile/:username/Tournaments"
+              render={(props: RouteComponentProps<ProfileParams>) => (
+                <AuthenticatedAuthorizedAthleteProfile>
+                  <ProfileTournaments {...props} />
+                </AuthenticatedAuthorizedAthleteProfile>
+              )}
+            />
+            <Route
+              exact
+              path="/Account/Profile/:username"
+              render={(props: RouteComponentProps<ProfileParams>) => (
+                <AuthenticatedAuthorizedAthleteProfile>
+                  <ProfileHome {...props} />
+                </AuthenticatedAuthorizedAthleteProfile>
+              )}
+            />
             <Route path="/Account/NewProfile" component={ProfileNew} />
             <Route
               path="/Account/EditOfficialProfile/:username"

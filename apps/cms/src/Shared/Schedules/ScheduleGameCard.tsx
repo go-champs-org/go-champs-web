@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { timeFromDate } from '../../Shared/datetime/format';
+import { timeFromDate } from '../datetime/format';
 import { ScheduleGameEntity } from './state';
 import './ScheduleGameCard.scss';
 

@@ -1,8 +1,8 @@
 import * as toast from '../../Shared/bulma/toast';
 import {
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE,
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE_FAILURE,
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS
+  REQUEST_ATHLETE_PROFILE_SCHEDULE,
+  REQUEST_ATHLETE_PROFILE_SCHEDULE_FAILURE,
+  REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS
 } from './actions';
 import { requestSchedule } from './effects';
 import scheduleHttpClient from './scheduleHttpClient';
@@ -30,10 +30,10 @@ describe('requestSchedule', () => {
 
     expect(getByFilter).toHaveBeenCalledWith({});
     expect(dispatch).toHaveBeenCalledWith({
-      type: REQUEST_OFFICIAL_PROFILE_SCHEDULE
+      type: REQUEST_ATHLETE_PROFILE_SCHEDULE
     });
     expect(dispatch).toHaveBeenCalledWith({
-      type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS,
+      type: REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS,
       payload: [game]
     });
   });
@@ -63,7 +63,7 @@ describe('requestSchedule', () => {
     await requestSchedule()(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith({
-      type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_FAILURE,
+      type: REQUEST_ATHLETE_PROFILE_SCHEDULE_FAILURE,
       payload: error
     });
     expect(toast.displayToast).toHaveBeenCalledWith(

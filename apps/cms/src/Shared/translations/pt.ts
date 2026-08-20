@@ -257,6 +257,11 @@ export default {
     mySchedule: 'Minha agenda',
     notInvitedToTournamentsYet:
       'Você ainda não foi convidado para nenhum campeonato',
+    notPlayingInTournamentsYet: 'Você ainda não joga em nenhum campeonato',
+    careerStats: 'Estatísticas da carreira',
+    athleteHighlights: 'Marcos do atleta',
+    athlete: 'Atleta',
+    sportsPlayed: 'Modalidades',
     scheduleLoadError: 'Não foi possível carregar sua agenda',
     tryAgain: 'Tentar novamente',
     noPlansAvailable: 'Nenhum plano disponível',

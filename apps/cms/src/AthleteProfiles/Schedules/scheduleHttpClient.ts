@@ -9,7 +9,7 @@ import {
 import { mapApiScheduleGameToScheduleGameEntity } from '../../Shared/Schedules/dataMappers';
 import { ScheduleGameEntity } from '../../Shared/Schedules/state';
 
-const SCHEDULES_API = `${REACT_APP_API_HOST}v1/official-profiles/me/schedules`;
+const SCHEDULES_API = `${REACT_APP_API_HOST}v1/athlete-profiles/me/schedules`;
 
 const getByFilter = async (
   where: RequestFilter = {}

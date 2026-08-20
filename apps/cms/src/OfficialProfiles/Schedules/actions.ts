@@ -1,4 +1,4 @@
-import { ScheduleGameEntity } from './state';
+import { ScheduleGameEntity } from '../../Shared/Schedules/state';
 
 export const REQUEST_OFFICIAL_PROFILE_SCHEDULE =
   'REQUEST_OFFICIAL_PROFILE_SCHEDULE';

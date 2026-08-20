@@ -12,6 +12,7 @@ import { default as accountIdentityReducer } from './AccountIdentities/reducer';
 import { AccountIdentityState } from './AccountIdentities/state';
 import { default as athleteProfilesReducer } from './AthleteProfiles/reducer';
 import { AthleteProfileState } from './AthleteProfiles/state';
+import { default as athleteProfileSchedulesReducer } from './AthleteProfiles/Schedules/reducer';
 import { default as drawsReducer } from './Draws/reducer';
 import { DrawState } from './Draws/state';
 import { default as eliminationsReducer } from './Eliminations/reducer';
@@ -51,7 +52,7 @@ import { OfficialState } from './Officials/state';
 import { default as officialProfilesReducer } from './OfficialProfiles/reducer';
 import { OfficialProfileState } from './OfficialProfiles/state';
 import { default as officialProfileSchedulesReducer } from './OfficialProfiles/Schedules/reducer';
-import { ScheduleState } from './OfficialProfiles/Schedules/state';
+import { ScheduleState } from './Shared/Schedules/state';
 import { default as themeReducer } from './Theme/reducer';
 import { ThemeState } from './Theme/types';
 import { default as themeV2Reducer } from './ThemeV2/reducer';
@@ -62,7 +63,7 @@ export interface StoreState {
   account: AccountState;
   accountIdentity: AccountIdentityState;
   aggregatedPlayerStatsLogs: AggregatedPlayerStatsLogState;
-  athleteProfiles: AthleteProfileState;
+  athleteProfiles: AthleteProfileState & { schedules: ScheduleState };
   draws: DrawState;
   eliminations: EliminationState;
   fixedPlayerStatsTables: FixedPlayerStatsTableState;
@@ -84,6 +85,21 @@ export interface StoreState {
   themeV2: ThemeV2State;
   tournaments: TournamentState & { tournamentSettings: TournamentSettingState };
 }
+
+type AthleteProfilesWithSchedulesState = AthleteProfileState & {
+  schedules: ScheduleState;
+};
+
+const athleteProfilesWithSchedulesReducer = (
+  state: AthleteProfilesWithSchedulesState | undefined,
+  action: AnyAction
+): AthleteProfilesWithSchedulesState => ({
+  ...athleteProfilesReducer(state, action),
+  schedules: athleteProfileSchedulesReducer(
+    state ? state.schedules : undefined,
+    action
+  )
+});
 
 type OfficialProfilesWithSchedulesState = OfficialProfileState & {
   schedules: ScheduleState;
@@ -135,7 +151,7 @@ export default createStore(
     account: accountReducer,
     accountIdentity: accountIdentityReducer,
     aggregatedPlayerStatsLogs: aggregatedPlayerStatsLogsReducer,
-    athleteProfiles: athleteProfilesReducer,
+    athleteProfiles: athleteProfilesWithSchedulesReducer,
     draws: drawsReducer,
     eliminations: eliminationsReducer,
     fixedPlayerStatsTables: fixedPlayerStatsTablesReducer,

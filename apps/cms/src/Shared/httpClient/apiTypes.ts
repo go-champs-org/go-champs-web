@@ -1218,14 +1218,14 @@ export interface ApiCampaignValidationResponse {
   data: ApiCampaignValidationData;
 }
 
-export interface ApiOfficialProfileScheduleTournament {
+export interface ApiProfileScheduleTournament {
   id: string;
   name: string;
   slug: string;
   organization: ApiOrganization | null;
 }
 
-export interface ApiOfficialProfileScheduleGame {
+export interface ApiProfileScheduleGame {
   id: string;
   datetime: string | null;
   location: string | null;
@@ -1239,9 +1239,9 @@ export interface ApiOfficialProfileScheduleGame {
   home_placeholder: string | null;
   home_score: number | null;
   home_team: ApiTeam | null;
-  tournament: ApiOfficialProfileScheduleTournament | null;
+  tournament: ApiProfileScheduleTournament | null;
 }
 
-export interface ApiOfficialProfileSchedulesResponse {
-  data: ApiOfficialProfileScheduleGame[];
+export interface ApiProfileSchedulesResponse {
+  data: ApiProfileScheduleGame[];
 }

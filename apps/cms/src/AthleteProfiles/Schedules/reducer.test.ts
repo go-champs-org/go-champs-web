@@ -1,7 +1,7 @@
 import {
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE,
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE_FAILURE,
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS
+  REQUEST_ATHLETE_PROFILE_SCHEDULE,
+  REQUEST_ATHLETE_PROFILE_SCHEDULE_FAILURE,
+  REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS
 } from './actions';
 import reducer from './reducer';
 import {
@@ -23,13 +23,11 @@ describe('schedule reducer', () => {
       hasErrorRequestSchedule: true
     };
 
-    expect(reducer(state, { type: REQUEST_OFFICIAL_PROFILE_SCHEDULE })).toEqual(
-      {
-        ...initialState,
-        isLoadingRequestSchedule: true,
-        hasErrorRequestSchedule: false
-      }
-    );
+    expect(reducer(state, { type: REQUEST_ATHLETE_PROFILE_SCHEDULE })).toEqual({
+      ...initialState,
+      isLoadingRequestSchedule: true,
+      hasErrorRequestSchedule: false
+    });
   });
 
   it('flags the error and stops loading on failure', () => {
@@ -40,7 +38,7 @@ describe('schedule reducer', () => {
 
     expect(
       reducer(state, {
-        type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_FAILURE,
+        type: REQUEST_ATHLETE_PROFILE_SCHEDULE_FAILURE,
         payload: new Error('boom')
       })
     ).toEqual({
@@ -57,7 +55,7 @@ describe('schedule reducer', () => {
       reducer(
         { ...initialState, isLoadingRequestSchedule: true },
         {
-          type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS,
+          type: REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS,
           payload: [game]
         }
       )
@@ -75,7 +73,7 @@ describe('schedule reducer', () => {
     const state = reducer(
       { ...initialState, games: { 'game-1': loaded } },
       {
-        type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS,
+        type: REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS,
         payload: [olderWindow]
       }
     );
@@ -91,7 +89,7 @@ describe('schedule reducer', () => {
 
     const state = reducer(
       { ...initialState, games: { 'game-1': loaded } },
-      { type: REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS, payload: [] }
+      { type: REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS, payload: [] }
     );
 
     expect(state.games).toEqual({ 'game-1': loaded });
