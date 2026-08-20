@@ -5,7 +5,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import {
   athleteProfileByUsername,
-  athleteProfileLoading,
   hasCareerStats
 } from '../AthleteProfiles/selectors';
 import { bindActionCreators, Dispatch } from 'redux';
@@ -13,9 +12,9 @@ import { requestAthleteProfile } from '../AthleteProfiles/effects';
 import { connect, ConnectedProps } from 'react-redux';
 import Banner from '../AthleteProfiles/Banner';
 import CareerStats from '../AthleteProfiles/CareerStats';
-import './ProfileHome.scss';
+import Schedule from '../AthleteProfiles/Schedules/Schedule';
 import { Trans } from 'react-i18next';
-import MiniCard from '../Tournaments/MiniCard';
+import './AthleteProfilePage.scss';
 
 interface ProfileHomeParams extends RouteProps {
   username: string;
@@ -28,8 +27,7 @@ const mapStateToProps = (
   athleteProfile: athleteProfileByUsername(
     state.athleteProfiles,
     props.match.params.username
-  ),
-  athleteProfileLoading: athleteProfileLoading(state.athleteProfiles)
+  )
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -48,8 +46,7 @@ type ProfileHomeProps = ConnectedProps<typeof connector> &
 function ProfileHome({
   match,
   requestAthleteProfile,
-  athleteProfile,
-  athleteProfileLoading
+  athleteProfile
 }: ProfileHomeProps) {
   React.useEffect(() => {
     if (match.params.username) {
@@ -57,59 +54,35 @@ function ProfileHome({
     }
   }, [match.params.username, requestAthleteProfile]);
 
+  const hasLinkedTournaments = !!(
+    athleteProfile &&
+    athleteProfile.tournaments &&
+    athleteProfile.tournaments.length > 0
+  );
+
   return (
-    <div className="columns is-multiline profile-home">
+    <div className="columns is-multiline athlete-profile-page">
       <div className="column is-12 slide-fade-content">
         <Banner athleteProfile={athleteProfile} />
       </div>
 
       {hasCareerStats(athleteProfile) && (
         <div className="column is-12 slide-fade-content delay-1">
-          <CareerStats careerStats={athleteProfile.careerStats || []} />
-        </div>
-      )}
+          <div className="athlete-profile-page__section">
+            <h2 className="title is-5 athlete-profile-page__section-title">
+              <Trans>careerStats</Trans>
+            </h2>
 
-      <div className="column is-12 slide-fade-content delay-1">
-        <h2 className="title is-5">
-          <Trans>yourTournaments</Trans>
-        </h2>
-      </div>
-
-      {athleteProfileLoading ? (
-        <div className="column is-12">
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
+            <CareerStats careerStats={athleteProfile.careerStats || []} />
           </div>
         </div>
-      ) : (
-        <>
-          {athleteProfile &&
-          athleteProfile.tournaments &&
-          athleteProfile.tournaments.length > 0 ? (
-            athleteProfile.tournaments.map((tournament, index) => (
-              <div key={tournament.id} className="tournament-result column">
-                <div className="columns">
-                  <div className="column is-12">
-                    <MiniCard tournament={tournament} />
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="column is-12 slide-fade-content delay-2">
-              <div className="hero is-dark is-small">
-                <div className="hero-body">
-                  <div className="container">
-                    <p className="subtitle has-text-centered">
-                      <Trans>noTournamentsYet</Trans>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </>
       )}
+
+      <div className="column is-12 slide-fade-content delay-2">
+        <div className="athlete-profile-page__section">
+          <Schedule hasLinkedTournaments={hasLinkedTournaments} />
+        </div>
+      </div>
     </div>
   );
 }

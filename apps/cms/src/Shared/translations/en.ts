@@ -254,6 +254,11 @@ export default {
     mySchedule: 'My schedule',
     notInvitedToTournamentsYet:
       'You have not been invited to any tournament yet',
+    notPlayingInTournamentsYet: 'You are not playing in any tournament yet',
+    careerStats: 'Career stats',
+    athleteHighlights: 'Athlete milestones',
+    athlete: 'Athlete',
+    sportsPlayed: 'Sports',
     scheduleLoadError: 'We could not load your schedule',
     tryAgain: 'Try again',
     noPlansAvailable: 'No plans available',

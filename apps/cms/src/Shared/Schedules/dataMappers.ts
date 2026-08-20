@@ -1,8 +1,8 @@
-import { ApiOfficialProfileScheduleGame } from '../../Shared/httpClient/apiTypes';
+import { ApiProfileScheduleGame } from '../httpClient/apiTypes';
 import { ScheduleGameEntity } from './state';
 
 export const mapApiScheduleGameToScheduleGameEntity = (
-  apiGame: ApiOfficialProfileScheduleGame
+  apiGame: ApiProfileScheduleGame
 ): ScheduleGameEntity => ({
   id: apiGame.id,
   datetime: apiGame.datetime || '',

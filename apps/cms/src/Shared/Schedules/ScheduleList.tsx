@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
-import Shimmer from '../../Shared/UI/Shimmer';
+import Shimmer from '../UI/Shimmer';
 import ScheduleGameCard from './ScheduleGameCard';
 import { ScheduleTournamentGroup, groupGamesByTournament } from './selectors';
 import { ScheduleGameEntity } from './state';

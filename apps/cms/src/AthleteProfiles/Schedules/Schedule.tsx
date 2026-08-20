@@ -14,10 +14,10 @@ import {
 import { requestSchedule } from './effects';
 
 const mapStateToProps = (state: StoreState) => ({
-  dates: scheduleDates(state.officialProfiles.schedules),
-  gamesByDate: scheduleGamesByDate(state.officialProfiles.schedules),
-  hasError: scheduleHasError(state.officialProfiles.schedules),
-  isLoading: scheduleLoading(state.officialProfiles.schedules)
+  dates: scheduleDates(state.athleteProfiles.schedules),
+  gamesByDate: scheduleGamesByDate(state.athleteProfiles.schedules),
+  hasError: scheduleHasError(state.athleteProfiles.schedules),
+  isLoading: scheduleLoading(state.athleteProfiles.schedules)
 });
 
 // Typed as a thunk dispatch so the effect's promise survives: the calendar
@@ -41,8 +41,8 @@ function Schedule(props: ScheduleProps) {
   return (
     <ScheduleView
       {...props}
-      notLinkedMessageKey="notInvitedToTournamentsYet"
-      sectionTitleClassName="title is-5 official-profile-page__section-title"
+      notLinkedMessageKey="notPlayingInTournamentsYet"
+      sectionTitleClassName="title is-5 athlete-profile-page__section-title"
     />
   );
 }

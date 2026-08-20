@@ -5,9 +5,9 @@ import {
 } from '../../Shared/store/helpers';
 import { HttpAction } from '../../Shared/store/interfaces';
 import {
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE,
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE_FAILURE,
-  REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS
+  REQUEST_ATHLETE_PROFILE_SCHEDULE,
+  REQUEST_ATHLETE_PROFILE_SCHEDULE_FAILURE,
+  REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS
 } from './actions';
 import {
   ScheduleGameEntity,
@@ -47,7 +47,7 @@ const requestScheduleSuccess = (
 });
 
 export default createReducer(initialState, {
-  [REQUEST_OFFICIAL_PROFILE_SCHEDULE]: requestSchedule,
-  [REQUEST_OFFICIAL_PROFILE_SCHEDULE_FAILURE]: requestScheduleFailure,
-  [REQUEST_OFFICIAL_PROFILE_SCHEDULE_SUCCESS]: requestScheduleSuccess
+  [REQUEST_ATHLETE_PROFILE_SCHEDULE]: requestSchedule,
+  [REQUEST_ATHLETE_PROFILE_SCHEDULE_FAILURE]: requestScheduleFailure,
+  [REQUEST_ATHLETE_PROFILE_SCHEDULE_SUCCESS]: requestScheduleSuccess
 });
