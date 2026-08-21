@@ -13,15 +13,31 @@ interface ScoreboardApiTeam {
   total_player_stats: Record<string, number>;
 }
 
+interface ScoreboardApiLiveState {
+  state: string;
+}
+
 export interface ScoreboardApiGameResponse {
   data: {
     home_team: ScoreboardApiTeam;
     away_team: ScoreboardApiTeam;
+    live_state?: ScoreboardApiLiveState;
   };
 }
 
 export const isLiveGame = (liveState: string): boolean =>
   liveState === IN_PROGRESS;
+
+// The scoreboard knows a game ended before the API the page was rendered from
+// does. A response without the field keeps polling on, so an older scoreboard
+// release never freezes a running score.
+export const scoreboardGameEnded = (
+  response: ScoreboardApiGameResponse
+): boolean => {
+  const state = response.data.live_state?.state;
+
+  return state !== undefined && !isLiveGame(state);
+};
 
 export const scoreboardGameUrl = (baseUrl: string, gameId: string): string =>
   `${baseUrl.replace(/\/$/, '')}/v1/games/${gameId}`;

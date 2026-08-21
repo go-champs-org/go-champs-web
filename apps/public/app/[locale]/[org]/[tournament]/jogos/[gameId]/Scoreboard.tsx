@@ -25,7 +25,10 @@ export function Scoreboard({
   });
 
   return (
-    <div className="flex items-center justify-center gap-3 text-3xl font-bold text-foreground md:gap-4 md:text-5xl">
+    <div
+      aria-live={isLive ? 'polite' : 'off'}
+      className="flex items-center justify-center gap-3 text-3xl font-bold text-foreground md:gap-4 md:text-5xl"
+    >
       <span data-testid="home-score">{score.homeScore}</span>
       <span className="text-xl text-muted md:text-2xl">x</span>
       <span data-testid="away-score">{score.awayScore}</span>

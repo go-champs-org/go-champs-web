@@ -1,6 +1,7 @@
 import {
   isLiveGame,
   mapScoreboardGameToLiveScore,
+  scoreboardGameEnded,
   scoreboardGameUrl
 } from './liveScore';
 
@@ -48,5 +49,28 @@ describe('mapScoreboardGameToLiveScore', () => {
         }
       })
     ).toEqual({ homeScore: 0, awayScore: 0 });
+  });
+});
+
+describe('scoreboardGameEnded', () => {
+  const responseWith = (liveState?: string) => ({
+    data: {
+      home_team: { total_player_stats: { points: 62 } },
+      away_team: { total_player_stats: { points: 58 } },
+      ...(liveState === undefined ? {} : { live_state: { state: liveState } })
+    }
+  });
+
+  it('ends on any state other than in progress', () => {
+    expect(scoreboardGameEnded(responseWith('ended'))).toBe(true);
+    expect(scoreboardGameEnded(responseWith('not_started'))).toBe(true);
+  });
+
+  it('keeps a running game going', () => {
+    expect(scoreboardGameEnded(responseWith('in_progress'))).toBe(false);
+  });
+
+  it('keeps polling when the scoreboard sends no live state', () => {
+    expect(scoreboardGameEnded(responseWith())).toBe(false);
   });
 });

@@ -165,7 +165,10 @@ function GameCard({
 
       <div className="mt-6 grid grid-cols-3 items-center gap-2 md:gap-6">
         <TeamIdentity name={names.homeTeam} logoUrl={game.homeTeam.logoUrl} />
+        {/* Keyed by the game: navigating between two game pages reuses this
+            client island, and a finished game never polls to correct itself. */}
         <Scoreboard
+          key={game.id}
           gameId={game.id}
           scoreboardUrl={scoreboardUrl}
           isLive={isLive}
