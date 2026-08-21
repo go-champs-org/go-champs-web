@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { ApiError, getGame, getTournamentBySlug } from '@gochamps/api-client';
 import { notFound } from 'next/navigation';
-import GamePage, { generateMetadata } from './page';
+import GamePage, { generateMetadata, revalidate } from './page';
 import { SITE_URL } from '../../../../../../src/seo/metadata';
 import messages from '../../../../../../messages/pt.json';
 
@@ -103,6 +103,17 @@ describe('GamePage', () => {
       screen.getByText('Ginásio Municipal — São Paulo')
     ).toBeInTheDocument();
     expect(screen.getByText('01/08/2026, 20:00')).toBeInTheDocument();
+  });
+
+  it('reads each score out with the team it belongs to', async () => {
+    await renderPage();
+
+    expect(screen.getByLabelText('Time Casa: 82')).toBeInTheDocument();
+    expect(screen.getByLabelText('Time Visitante: 74')).toBeInTheDocument();
+  });
+
+  it('serves the page from cache for a short window', () => {
+    expect(revalidate).toBe(30);
   });
 
   it('links back to the tournament on the CMS, with an absolute URL', async () => {

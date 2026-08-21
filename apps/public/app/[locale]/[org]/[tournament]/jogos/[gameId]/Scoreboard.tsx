@@ -8,6 +8,8 @@ interface ScoreboardProps {
   isLive: boolean;
   homeScore: number;
   awayScore: number;
+  homeTeamName: string;
+  awayTeamName: string;
 }
 
 export function Scoreboard({
@@ -15,7 +17,9 @@ export function Scoreboard({
   scoreboardUrl,
   isLive,
   homeScore,
-  awayScore
+  awayScore,
+  homeTeamName,
+  awayTeamName
 }: ScoreboardProps) {
   const score = useLiveScore({
     gameId,
@@ -29,9 +33,17 @@ export function Scoreboard({
       aria-live={isLive ? 'polite' : 'off'}
       className="flex items-center justify-center gap-3 text-3xl font-bold text-foreground md:gap-4 md:text-5xl"
     >
-      <span data-testid="home-score">{score.homeScore}</span>
-      <span className="text-xl text-muted md:text-2xl">x</span>
-      <span data-testid="away-score">{score.awayScore}</span>
+      {/* The digits alone say nothing out loud: each side carries the team it
+          belongs to so a live update is announced as a readable sentence. */}
+      <span aria-label={`${homeTeamName}: ${score.homeScore}`} data-testid="home-score">
+        {score.homeScore}
+      </span>
+      <span aria-hidden="true" className="text-xl text-muted md:text-2xl">
+        x
+      </span>
+      <span aria-label={`${awayTeamName}: ${score.awayScore}`} data-testid="away-score">
+        {score.awayScore}
+      </span>
     </div>
   );
 }
