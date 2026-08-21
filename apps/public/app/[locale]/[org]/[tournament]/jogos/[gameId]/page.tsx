@@ -23,8 +23,6 @@ import { Scoreboard } from './Scoreboard';
 // the brand palette, so it stays out of the theme tokens.
 const LIVE_RED = '#FF4136';
 
-// Live scores come from the scoreboard app, which is the only service that
-// knows the running total of a game still being played.
 const SCOREBOARD_URL = process.env.NEXT_PUBLIC_SCOREBOARD_APP_URL || '';
 
 interface GamePageParams {

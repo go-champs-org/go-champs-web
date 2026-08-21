@@ -34,11 +34,7 @@ const fetchLiveScore = async (
   }
 };
 
-/**
- * Keeps the score of a game in progress up to date by polling the scoreboard
- * app, which is the only source that knows the running total. Finished games
- * never poll: their score is already final in the page HTML.
- */
+// Finished games never poll: their score is already final in the page HTML.
 export const useLiveScore = ({
   gameId,
   scoreboardUrl,

@@ -9,8 +9,6 @@ const LOCALE_TAGS: Record<string, string> = {
   en: 'en-US'
 };
 
-// Returns an empty string for a game with no date yet (the API sends "") so
-// the caller can decide whether to render the line at all.
 export const formatGameDateTime = (datetime: string, locale: string): string => {
   const parsed = new Date(datetime);
 

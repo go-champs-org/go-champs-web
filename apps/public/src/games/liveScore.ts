@@ -1,6 +1,4 @@
-// The scoreboard app keeps the live state of a game in progress: the API the
-// rest of this app reads only gets the final numbers once the game is closed.
-// Same endpoint and 10s cadence the CMS already polls
+// Same endpoint and cadence the CMS already polls
 // (apps/cms/src/Games/MiniLiveGameCard.tsx).
 export const LIVE_SCORE_POLLING_INTERVAL_MS = 10000;
 
