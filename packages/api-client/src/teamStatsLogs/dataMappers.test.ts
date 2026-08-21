@@ -40,6 +40,20 @@ describe('mapApiTeamStatsLogToEntity', () => {
     });
   });
 
+  it('keeps totals that already arrive as strings, as the CMS contract declares them', () => {
+    const entity = mapApiTeamStatsLogToEntity({
+      id: 'log1',
+      game_id: 'g1',
+      phase_id: 'ph1',
+      team_id: 't1',
+      against_team_id: 't2',
+      tournament_id: 'tour1',
+      stats: { points: '82' }
+    });
+
+    expect(entity.stats).toEqual({ points: '82' });
+  });
+
   it('falls back to an empty stats map when the API sends none', () => {
     const entity = mapApiTeamStatsLogToEntity({
       id: 'log1',
@@ -48,7 +62,7 @@ describe('mapApiTeamStatsLogToEntity', () => {
       team_id: 't1',
       against_team_id: 't2',
       tournament_id: 'tour1',
-      stats: undefined as unknown as Record<string, number>
+      stats: undefined as unknown as Record<string, string | number>
     });
 
     expect(entity.stats).toEqual({});

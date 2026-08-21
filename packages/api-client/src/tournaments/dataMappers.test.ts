@@ -83,6 +83,20 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
     });
   });
 
+  it('gives each tournament without settings its own default object', () => {
+    const apiTournament = {
+      id: 'tour1',
+      name: 'Test League',
+      slug: 'test-league',
+      teams: []
+    };
+
+    const first = mapApiTournamentToTournamentWithTeamsEntity(apiTournament);
+    const second = mapApiTournamentToTournamentWithTeamsEntity(apiTournament);
+
+    expect(first.scoreboardSetting).not.toBe(second.scoreboardSetting);
+  });
+
   it('treats a tournament without scoreboard settings as fully live, like the CMS', () => {
     const result = mapApiTournamentToTournamentWithTeamsEntity({
       id: 'tour1',

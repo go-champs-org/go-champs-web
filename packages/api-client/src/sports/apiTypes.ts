@@ -9,7 +9,9 @@ export interface ApiPlayerStatistic {
 export interface ApiSport {
   slug: string;
   name: string;
-  player_statistics: ApiPlayerStatistic[];
+  // A sport with no catalogue of statistics is a valid response, and the CMS
+  // contract declares it optional too.
+  player_statistics?: ApiPlayerStatistic[];
 }
 
 export interface ApiSportResponse {

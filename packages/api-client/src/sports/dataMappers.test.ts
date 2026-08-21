@@ -50,11 +50,7 @@ describe('mapApiSportToEntity', () => {
   });
 
   it('handles a sport with no statistics catalogue', () => {
-    const entity = mapApiSportToEntity({
-      slug: 'unknown',
-      name: 'Unknown',
-      player_statistics: undefined as unknown as []
-    });
+    const entity = mapApiSportToEntity({ slug: 'unknown', name: 'Unknown' });
 
     expect(entity.playerStatistics).toEqual([]);
   });

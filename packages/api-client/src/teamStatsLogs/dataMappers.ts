@@ -12,7 +12,9 @@ export interface TeamStatsLogEntity {
 
 // Player logs arrive as strings and team logs as numbers, for the same stats
 // and the same table. Normalizing here keeps that split out of the box score.
-const stringifyStats = (stats: Record<string, number>): Record<string, string> =>
+const stringifyStats = (
+  stats: Record<string, string | number>
+): Record<string, string> =>
   Object.fromEntries(
     Object.entries(stats || {}).map(([slug, value]) => [slug, String(value)])
   );

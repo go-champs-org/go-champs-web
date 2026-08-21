@@ -5,9 +5,9 @@ export interface ApiTeamStatsLog {
   team_id: string;
   against_team_id: string;
   tournament_id: string;
-  // Team totals come back as numbers, unlike the player logs, which are
-  // already strings.
-  stats: Record<string, number>;
+  // Staging returns team totals as numbers while the CMS contract declares
+  // them as strings, and the same endpoint has to serve both.
+  stats: Record<string, string | number>;
 }
 
 export interface ApiTeamStatsLogsResponse {

@@ -49,10 +49,11 @@ export interface ScoreboardSettingEntity {
 }
 
 // A tournament with no scoreboard settings behaves as fully live, same
-// default the CMS applies.
-const DEFAULT_SCOREBOARD_SETTING: ScoreboardSettingEntity = {
+// default the CMS applies. Built per call so two mapped tournaments never
+// share one settings object.
+const defaultScoreboardSetting = (): ScoreboardSettingEntity => ({
   liveSiteUpdate: 'full-live-update'
-};
+});
 
 export interface TournamentEntity {
   id: string;
@@ -86,7 +87,7 @@ export const mapApiScoreboardSettingToEntity = (
 ): ScoreboardSettingEntity =>
   apiScoreboardSetting
     ? { liveSiteUpdate: apiScoreboardSetting.live_site_update as LiveSiteUpdate }
-    : DEFAULT_SCOREBOARD_SETTING;
+    : defaultScoreboardSetting();
 
 export const playerStatThatIsVisible = (playerStat: PlayerStatEntity): boolean =>
   playerStat.visibility === 'public';
