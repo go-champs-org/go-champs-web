@@ -44,6 +44,12 @@ export type LiveSiteUpdate =
   | 'team-score-live-update'
   | 'full-live-update';
 
+const LIVE_SITE_UPDATES: LiveSiteUpdate[] = [
+  'no-live-update',
+  'team-score-live-update',
+  'full-live-update'
+];
+
 export interface ScoreboardSettingEntity {
   liveSiteUpdate: LiveSiteUpdate;
 }
@@ -75,18 +81,29 @@ const statVisibility = (slug: string): PlayerStatVisibility =>
 
 export const mapApiPlayerStatToEntity = (
   apiPlayerStat: ApiPlayerStat
-): PlayerStatEntity => ({
-  id: apiPlayerStat.id,
-  title: apiPlayerStat.title,
-  slug: apiPlayerStat.slug || '',
-  visibility: statVisibility(apiPlayerStat.slug || '')
-});
+): PlayerStatEntity => {
+  const slug = apiPlayerStat.slug || '';
+
+  return {
+    id: apiPlayerStat.id,
+    title: apiPlayerStat.title,
+    slug,
+    visibility: statVisibility(slug)
+  };
+};
+
+// A mode this release does not know about is treated as the default rather
+// than trusted into the union, where it would match no branch of the box
+// score gate and fail silently.
+const toLiveSiteUpdate = (value: string): LiveSiteUpdate =>
+  LIVE_SITE_UPDATES.find(mode => mode === value) ||
+  defaultScoreboardSetting().liveSiteUpdate;
 
 export const mapApiScoreboardSettingToEntity = (
   apiScoreboardSetting?: ApiScoreboardSetting
 ): ScoreboardSettingEntity =>
   apiScoreboardSetting
-    ? { liveSiteUpdate: apiScoreboardSetting.live_site_update as LiveSiteUpdate }
+    ? { liveSiteUpdate: toLiveSiteUpdate(apiScoreboardSetting.live_site_update) }
     : defaultScoreboardSetting();
 
 export const playerStatThatIsVisible = (playerStat: PlayerStatEntity): boolean =>

@@ -83,6 +83,23 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
     });
   });
 
+  it('falls back to the default for a live-update mode it does not know', () => {
+    const result = mapApiTournamentToTournamentWithTeamsEntity({
+      id: 'tour1',
+      name: 'Test League',
+      slug: 'test-league',
+      teams: [],
+      scoreboard_setting: {
+        id: 'sb1',
+        live_site_update: 'some-future-mode'
+      }
+    });
+
+    expect(result.scoreboardSetting).toEqual({
+      liveSiteUpdate: 'full-live-update'
+    });
+  });
+
   it('gives each tournament without settings its own default object', () => {
     const apiTournament = {
       id: 'tour1',

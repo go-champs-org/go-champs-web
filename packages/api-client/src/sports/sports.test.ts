@@ -56,4 +56,22 @@ describe('getSportBySlug', () => {
       ]
     });
   });
+
+  it('encodes the slug instead of letting it walk the path', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getSportBySlug } = await import('./sports');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: { slug: 'x', name: 'X', player_statistics: [] } })
+    }) as unknown as typeof fetch;
+
+    await getSportBySlug('../tournaments/tour1');
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/sports/..%2Ftournaments%2Ftour1',
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  });
 });

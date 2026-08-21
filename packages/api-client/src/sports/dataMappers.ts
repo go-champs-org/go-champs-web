@@ -1,8 +1,12 @@
 import { ApiPlayerStatistic, ApiSport } from './apiTypes';
 
 // The level a statistic belongs to: 'game' are the ones a box score shows,
-// the others aggregate across a tournament.
-export const GAME_STATISTIC_LEVEL = 'game';
+// 'tournament' aggregate across the whole competition. The entity keeps the
+// raw API strings — a level the API adds later must not be forced into this
+// union — but callers filtering by level are held to the known ones.
+export type StatisticLevel = 'game' | 'tournament';
+
+export const GAME_STATISTIC_LEVEL: StatisticLevel = 'game';
 
 export interface PlayerStatisticEntity {
   slug: string;
@@ -38,6 +42,6 @@ export const mapApiSportToEntity = (apiSport: ApiSport): SportEntity => ({
 
 export const playerStatisticsByLevel = (
   sport: SportEntity,
-  level: string
+  level: StatisticLevel
 ): PlayerStatisticEntity[] =>
   sport.playerStatistics.filter(statistic => statistic.level === level);
