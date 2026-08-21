@@ -1,6 +1,6 @@
 'use client';
 
-import { useLiveScore } from '../../../../../../src/hooks/useLiveScore';
+import { useLiveScore } from '@/src/hooks/useLiveScore';
 
 interface ScoreboardProps {
   gameId: string;

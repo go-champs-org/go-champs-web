@@ -7,16 +7,17 @@ import {
   getTournamentBySlug,
   type GameEntity
 } from '@gochamps/api-client';
-import { isNotFoundError } from '../../../../../../src/api/isNotFoundError';
-import { CMS_URL } from '../../../../../../src/config/cms';
-import { formatGameDateTime } from '../../../../../../src/games/gameDateTime';
+import { isNotFoundError } from '@/src/api/isNotFoundError';
+import { CMS_URL } from '@/src/config/cms';
+import { formatGameDateTime } from '@/src/games/gameDateTime';
 import {
-  gameTeamNames,
-  type GameTeamNames
-} from '../../../../../../src/games/gameTeams';
-import { gameVenue } from '../../../../../../src/games/gameVenue';
-import { isLiveGame } from '../../../../../../src/games/liveScore';
-import { buildPageMetadata } from '../../../../../../src/seo/metadata';
+  gameStructuredData,
+  serializeStructuredData
+} from '@/src/games/gameStructuredData';
+import { gameTeamNames, type GameTeamNames } from '@/src/games/gameTeams';
+import { gameVenue } from '@/src/games/gameVenue';
+import { isLiveGame } from '@/src/games/liveScore';
+import { buildPageMetadata, pageUrl } from '@/src/seo/metadata';
 import { Scoreboard } from './Scoreboard';
 
 // The same red the CMS live indicator uses; it is a status signal, not part of
@@ -45,6 +46,9 @@ interface GamePageParams {
   gameId: string;
 }
 
+const gamePagePath = ({ org, tournament, gameId }: GamePageParams): string =>
+  `/${org}/${tournament}/jogos/${gameId}`;
+
 // generateMetadata and the page both need the game; cache() keeps that to a
 // single request instead of fetching it twice per view.
 const loadGame = cache(async (gameId: string): Promise<GameEntity | null> => {
@@ -67,7 +71,8 @@ export async function generateMetadata({
 }: {
   params: Promise<GamePageParams>;
 }): Promise<Metadata> {
-  const { locale, org, tournament, gameId } = await params;
+  const routeParams = await params;
+  const { locale, gameId } = routeParams;
   const [game, t, tGame] = await Promise.all([
     loadGame(gameId),
     getTranslations({ locale, namespace: 'metadata' }),
@@ -78,10 +83,22 @@ export async function generateMetadata({
 
   return buildPageMetadata({
     locale,
-    path: `/${org}/${tournament}/jogos/${gameId}`,
+    path: gamePagePath(routeParams),
     title: t('gameTitle', names),
-    description: t('gameDescription', names)
+    description: t('gameDescription', names),
+    // A game the API no longer has renders as a 404; keeping that URL out of
+    // the index stops the crawler from re-serving a dead fixture.
+    noIndex: !game
   });
+}
+
+function GameStructuredData({ schema }: { schema: object }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: serializeStructuredData(schema) }}
+    />
+  );
 }
 
 interface TeamIdentityProps {
@@ -206,7 +223,8 @@ export default async function GamePage({
 }: {
   params: Promise<GamePageParams>;
 }) {
-  const { locale, org, tournament, gameId } = await params;
+  const routeParams = await params;
+  const { locale, org, tournament, gameId } = routeParams;
   setRequestLocale(locale);
 
   const [game, tournamentEntity, t] = await Promise.all([
@@ -217,11 +235,23 @@ export default async function GamePage({
 
   if (!game) notFound();
 
+  const names = gameTeamNames(game, t('undecidedTeam'));
+  const venue = gameVenue(game.location, game.city);
+
   return (
     <main
       data-testid="game-page"
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
+      <GameStructuredData
+        schema={gameStructuredData({
+          game,
+          names,
+          url: pageUrl(locale, gamePagePath(routeParams)),
+          venue
+        })}
+      />
+
       <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6">
         {/* Tournament pages still live in the CMS until the _redirects rollout
             moves them here, so this link must stay absolute. */}
@@ -234,9 +264,9 @@ export default async function GamePage({
 
         <GameCard
           game={game}
-          names={gameTeamNames(game, t('undecidedTeam'))}
+          names={names}
           datetime={formatGameDateTime(game.datetime, locale)}
-          venue={gameVenue(game.location, game.city)}
+          venue={venue}
           liveLabel={t('live')}
           scoreboardUrl={SCOREBOARD_URL}
         />
