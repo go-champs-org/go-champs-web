@@ -32,6 +32,8 @@ export interface TournamentEntity {
   sportSlug: string;
   visibility: TournamentVisibility;
   organizationSetting?: OrganizationSettingEntity;
+  /** Workspace archive timestamp. Null when the tournament is active. */
+  archivedAt?: string | null;
 }
 
 export interface PlayerStatEntity {
@@ -82,6 +84,7 @@ export interface TournamentState {
   isLoadingRequestTournament: boolean;
   isLoadingRequestTournaments: boolean;
   isLoadingBillingAgreement: boolean;
+  isLoadingArchiveTournament: boolean;
   tournaments: { [key: string]: TournamentEntity };
   billingAgreements: { [tournamentId: string]: BillingAgreementEntity | null };
 }
@@ -93,6 +96,7 @@ export const initialState: TournamentState = {
   isLoadingRequestTournament: false,
   isLoadingRequestTournaments: false,
   isLoadingBillingAgreement: false,
+  isLoadingArchiveTournament: false,
   tournaments: {},
   billingAgreements: {}
 };

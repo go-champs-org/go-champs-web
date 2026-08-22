@@ -1,5 +1,7 @@
 import { REACT_APP_API_HOST } from '../Shared/env';
 import {
+  ApiAdminTournament,
+  ApiAdminTournamentsResponse,
   ApiTournament,
   ApiTournamentRequest,
   ApiTournamentResponse,
@@ -13,7 +15,9 @@ import {
   ApiOfficialInviteRequest,
   ApiOfficialInviteResponse,
   ApiOfficialInviteWithDetails,
-  ApiOfficialInvitesResponse
+  ApiOfficialInvitesResponse,
+  ApiTournamentArchive,
+  ApiTournamentArchiveResponse
 } from '../Shared/httpClient/apiTypes';
 import httpClient from '../Shared/httpClient/httpClient';
 import {
@@ -24,6 +28,7 @@ import { mapTournamentEntityToApiTournamentRequest } from './dataMappers';
 import { TournamentEntity } from './state';
 
 const TOURNAMENT_API = `${REACT_APP_API_HOST}v1/tournaments`;
+const ADMIN_TOURNAMENT_API = `${REACT_APP_API_HOST}v1/admin/tournaments`;
 
 const deleteRequest = (tournamentId: string): Promise<string> => {
   const url = `${TOURNAMENT_API}/${tournamentId}`;
@@ -146,8 +151,51 @@ const getOfficialInvites = async (
   return data;
 };
 
+/**
+ * Lists the organization tournaments in its workspace, filtered by archive state.
+ * Requires an organization id (uuid), not a slug.
+ */
+const getAdminByOrganization = async (
+  organizationId: string,
+  archived: boolean
+): Promise<ApiAdminTournament[]> => {
+  const url = `${ADMIN_TOURNAMENT_API}?organization_id=${organizationId}&archived=${archived}`;
+
+  const { data } = await httpClient.get<ApiAdminTournamentsResponse>(url);
+  return data;
+};
+
+/** Archives a tournament in its organization's workspace. Idempotent. */
+const archive = async (
+  tournamentId: string
+): Promise<ApiTournamentArchive> => {
+  const url = `${TOURNAMENT_API}/${tournamentId}/archive`;
+
+  const { data } = await httpClient.patch<
+    Record<string, never>,
+    ApiTournamentArchiveResponse
+  >(url, {});
+  return data;
+};
+
+/** Unarchives a tournament in its organization's workspace. Idempotent. */
+const unarchive = async (
+  tournamentId: string
+): Promise<ApiTournamentArchive> => {
+  const url = `${TOURNAMENT_API}/${tournamentId}/unarchive`;
+
+  const { data } = await httpClient.patch<
+    Record<string, never>,
+    ApiTournamentArchiveResponse
+  >(url, {});
+  return data;
+};
+
 const tournamentHttpClient = {
   delete: deleteRequest,
+  archive,
+  unarchive,
+  getAdminByOrganization,
   getAll,
   getByFilter,
   get,

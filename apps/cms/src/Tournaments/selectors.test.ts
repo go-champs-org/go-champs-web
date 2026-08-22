@@ -1,4 +1,7 @@
 import {
+  activeTournaments,
+  archivedTournaments,
+  archivingTournament,
   tournamentBySlug,
   shouldTournamentHaveLicensingBilling,
   tournaments,
@@ -340,5 +343,35 @@ describe('tournaments', () => {
     const result = tournaments(state);
 
     expect(result).toEqual([]);
+  });
+});
+
+describe('workspace archive selectors', () => {
+  const state: TournamentState = {
+    ...initialState,
+    tournaments: {
+      active: { ...DEFAULT_TOURNAMENT, id: 'id-1', slug: 'active' },
+      archived: {
+        ...DEFAULT_TOURNAMENT,
+        id: 'id-2',
+        slug: 'archived',
+        archivedAt: '2026-08-22T00:00:00Z'
+      }
+    }
+  };
+
+  it('activeTournaments returns only tournaments without archivedAt', () => {
+    expect(activeTournaments(state).map(t => t.id)).toEqual(['id-1']);
+  });
+
+  it('archivedTournaments returns only tournaments with archivedAt', () => {
+    expect(archivedTournaments(state).map(t => t.id)).toEqual(['id-2']);
+  });
+
+  it('archivingTournament returns the archive loading flag', () => {
+    expect(archivingTournament(initialState)).toBe(false);
+    expect(
+      archivingTournament({ ...initialState, isLoadingArchiveTournament: true })
+    ).toBe(true);
   });
 });

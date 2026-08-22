@@ -4,6 +4,7 @@ import {
   ApiPlan
 } from '../Shared/httpClient/apiTypes';
 import {
+  mapApiAdminTournamentToTournamentEntity,
   mapApiPlayerStatResponseToPlayerStatEntity,
   PRIVATE_STAT_SLUGS,
   mapApiPlanToPlanEntity,
@@ -191,5 +192,38 @@ describe('mapApiBillingAgreementToBillingAgreementEntity', () => {
 
     expect(result.trialActive).toBe(false);
     expect(result.gamesRemaining).toBeNull();
+  });
+});
+
+describe('mapApiAdminTournamentToTournamentEntity', () => {
+  it('maps the workspace fields', () => {
+    const result = mapApiAdminTournamentToTournamentEntity({
+      id: 'some-id',
+      name: 'some-name',
+      slug: 'some-slug',
+      logo_url: 'some-logo-url',
+      archived_at: '2026-08-22T00:00:00Z'
+    });
+
+    expect(result.id).toBe('some-id');
+    expect(result.name).toBe('some-name');
+    expect(result.slug).toBe('some-slug');
+    expect(result.logoUrl).toBe('some-logo-url');
+    expect(result.archivedAt).toBe('2026-08-22T00:00:00Z');
+  });
+
+  it('defaults the fields missing from the admin payload', () => {
+    const result = mapApiAdminTournamentToTournamentEntity({
+      id: 'some-id',
+      name: 'some-name',
+      slug: 'some-slug',
+      archived_at: null
+    });
+
+    expect(result.archivedAt).toBeNull();
+    expect(result.logoUrl).toBe('');
+    expect(result.playerStats).toEqual([]);
+    expect(result.teamStats).toEqual([]);
+    expect(result.organizationSetting).toBeUndefined();
   });
 });
