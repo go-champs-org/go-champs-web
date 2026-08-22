@@ -781,7 +781,10 @@ describe('getBillingAgreementSuccess', () => {
 
 describe('getAdminTournaments', () => {
   it('sets isLoadingRequestTournaments to true', () => {
-    const newState = tournamentReducer(initialState, getAdminTournamentsStart());
+    const newState = tournamentReducer(
+      initialState,
+      getAdminTournamentsStart()
+    );
 
     expect(newState.isLoadingRequestTournaments).toBe(true);
   });

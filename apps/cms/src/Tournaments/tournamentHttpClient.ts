@@ -166,9 +166,7 @@ const getAdminByOrganization = async (
 };
 
 /** Archives a tournament in its organization's workspace. Idempotent. */
-const archive = async (
-  tournamentId: string
-): Promise<ApiTournamentArchive> => {
+const archive = async (tournamentId: string): Promise<ApiTournamentArchive> => {
   const url = `${TOURNAMENT_API}/${tournamentId}/archive`;
 
   const { data } = await httpClient.patch<
