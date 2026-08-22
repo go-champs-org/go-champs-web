@@ -83,6 +83,12 @@
     "apiDocumentationPrefix": "Confira a Documentação da",
     "apiDocumentationSuffix": ""
   },
+  "game": {
+    "live": "Ao vivo",
+    "undecidedTeam": "A definir",
+    "backToTournament": "Voltar para o campeonato",
+    "videoTitle": "Vídeo do jogo"
+  },
   "metadata": {
     "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",
     "homeDescription": "Acompanhe campeonatos, times, jogos e estatísticas do amador ao semiprofissional. Resultados em tempo real, súmulas eletrônicas e tabelas atualizadas.",
@@ -95,6 +101,8 @@
     "privacyTitle": "Política de Privacidade",
     "privacyDescription": "Como a GO CHAMPS coleta, usa e protege os seus dados pessoais.",
     "termsTitle": "Termos de Uso",
-    "termsDescription": "Os termos que regem o uso da plataforma GO CHAMPS."
+    "termsDescription": "Os termos que regem o uso da plataforma GO CHAMPS.",
+    "gameTitle": "{homeTeam} x {awayTeam}",
+    "gameDescription": "Placar, data e local de {homeTeam} x {awayTeam} na Go Champs."
   }
 }

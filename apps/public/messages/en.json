@@ -83,6 +83,12 @@
     "apiDocumentationPrefix": "Check out the",
     "apiDocumentationSuffix": "documentation"
   },
+  "game": {
+    "live": "Live",
+    "undecidedTeam": "TBD",
+    "backToTournament": "Back to the tournament",
+    "videoTitle": "Game video"
+  },
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",
     "homeDescription": "Follow tournaments, teams, games and statistics from amateur to semi-professional. Live results, electronic scoresheets and up-to-date standings.",
@@ -95,6 +101,8 @@
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "How GO CHAMPS collects, uses and protects your personal data.",
     "termsTitle": "Terms of Use",
-    "termsDescription": "The terms that govern the use of the GO CHAMPS platform."
+    "termsDescription": "The terms that govern the use of the GO CHAMPS platform.",
+    "gameTitle": "{homeTeam} x {awayTeam}",
+    "gameDescription": "Score, date and venue for {homeTeam} x {awayTeam} on Go Champs."
   }
 }
