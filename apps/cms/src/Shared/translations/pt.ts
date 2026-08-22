@@ -1,6 +1,9 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   translation: {
+    archived: 'Arquivados',
+    archive: 'Arquivar',
+    unarchive: 'Desarquivar',
     aboutUs: 'Sobre nós',
     aboutUsParagraph1:
       'O esporte não para, e a gente também não. A GO CHAMPS nasceu para transformar a gestão de campeonatos com simplicidade e dados confiáveis. Esqueça planilhas confusas e estatísticas perdidas.',

@@ -4,7 +4,9 @@ import {
   getTournament,
   getTournamentsByFilter,
   deleteTournament,
-  getTournamentBySlug
+  getTournamentBySlug,
+  getAdminTournaments,
+  patchTournamentArchive
 } from './effects';
 import * as fixedPlayerStatsTablesEffects from '../FixedPlayerStatsTables/effects';
 import * as recentlyViewsEffects from '../RecentlyViews/effects';
@@ -25,7 +27,13 @@ import {
   getTournamentsByFilterStart,
   deleteTournamentStart,
   deleteTournamentSuccess,
-  deleteTournamentFailure
+  deleteTournamentFailure,
+  getAdminTournamentsStart,
+  getAdminTournamentsSuccess,
+  getAdminTournamentsFailure,
+  patchTournamentArchiveStart,
+  patchTournamentArchiveSuccess,
+  patchTournamentArchiveFailure
 } from './actions';
 import tournamentHttpClient from './tournamentHttpClient';
 import * as toast from '../Shared/bulma/toast';
@@ -499,6 +507,185 @@ describe('postTournament', () => {
       expect(result).toEqual({
         slug: ['has invalid format']
       });
+    });
+  });
+});
+
+describe('getAdminTournaments', () => {
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start action', () => {
+    getAdminTournaments('some-organization-id', false)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(getAdminTournamentsStart());
+  });
+
+  describe('on success', () => {
+    const apiAdminTournaments = [
+      {
+        id: 'some-id',
+        name: 'some-name',
+        slug: 'some-slug',
+        archived_at: null
+      }
+    ];
+
+    beforeEach(() => {
+      jest
+        .spyOn(tournamentHttpClient, 'getAdminByOrganization')
+        .mockResolvedValue(apiAdminTournaments);
+    });
+
+    it('requests the selected archive state', async () => {
+      await getAdminTournaments('some-organization-id', true)(dispatch);
+
+      expect(tournamentHttpClient.getAdminByOrganization).toHaveBeenCalledWith(
+        'some-organization-id',
+        true
+      );
+    });
+
+    it('dispatches success action', async () => {
+      await getAdminTournaments('some-organization-id', false)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        getAdminTournamentsSuccess(apiAdminTournaments)
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(tournamentHttpClient, 'getAdminByOrganization')
+        .mockRejectedValue(new Error('some-error'));
+    });
+
+    it('dispatches failure action', async () => {
+      await getAdminTournaments('some-organization-id', false)(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        getAdminTournamentsFailure(new Error('some-error'))
+      );
+    });
+  });
+});
+
+describe('patchTournamentArchive', () => {
+  const apiArchive = {
+    tournament_id: 'some-id',
+    archived_at: '2026-08-22T00:00:00Z'
+  };
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  it('dispatches start action', () => {
+    jest.spyOn(tournamentHttpClient, 'archive').mockResolvedValue(apiArchive);
+
+    patchTournamentArchive(
+      DEFAULT_TOURNAMENT,
+      'some-organization-id',
+      true
+    )(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith(patchTournamentArchiveStart());
+  });
+
+  describe('when archiving', () => {
+    beforeEach(() => {
+      jest.spyOn(tournamentHttpClient, 'archive').mockResolvedValue(apiArchive);
+      jest
+        .spyOn(tournamentHttpClient, 'getAdminByOrganization')
+        .mockResolvedValue([]);
+    });
+
+    it('dispatches success action', async () => {
+      await patchTournamentArchive(
+        DEFAULT_TOURNAMENT,
+        'some-organization-id',
+        true
+      )(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        patchTournamentArchiveSuccess(apiArchive)
+      );
+    });
+
+    it('refetches the active listing', async () => {
+      await patchTournamentArchive(
+        DEFAULT_TOURNAMENT,
+        'some-organization-id',
+        true
+      )(dispatch);
+
+      expect(tournamentHttpClient.getAdminByOrganization).toHaveBeenCalledWith(
+        'some-organization-id',
+        false
+      );
+    });
+  });
+
+  describe('when unarchiving', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(tournamentHttpClient, 'unarchive')
+        .mockResolvedValue({ ...apiArchive, archived_at: null });
+      jest
+        .spyOn(tournamentHttpClient, 'getAdminByOrganization')
+        .mockResolvedValue([]);
+    });
+
+    it('calls the unarchive endpoint', async () => {
+      await patchTournamentArchive(
+        DEFAULT_TOURNAMENT,
+        'some-organization-id',
+        false
+      )(dispatch);
+
+      expect(tournamentHttpClient.unarchive).toHaveBeenCalledWith(
+        DEFAULT_TOURNAMENT.id
+      );
+    });
+
+    it('refetches the archived listing', async () => {
+      await patchTournamentArchive(
+        DEFAULT_TOURNAMENT,
+        'some-organization-id',
+        false
+      )(dispatch);
+
+      expect(tournamentHttpClient.getAdminByOrganization).toHaveBeenCalledWith(
+        'some-organization-id',
+        true
+      );
+    });
+  });
+
+  describe('on failure', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(tournamentHttpClient, 'archive')
+        .mockRejectedValue(new Error('some-error'));
+    });
+
+    it('dispatches failure action and displays an error toast', async () => {
+      await patchTournamentArchive(
+        DEFAULT_TOURNAMENT,
+        'some-organization-id',
+        true
+      )(dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith(
+        patchTournamentArchiveFailure(new Error('some-error'))
+      );
+      expect(toast.displayToast).toHaveBeenCalledWith(
+        `Could not archive ${DEFAULT_TOURNAMENT.name}`,
+        'is-danger'
+      );
     });
   });
 });
