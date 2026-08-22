@@ -48,7 +48,11 @@ describe('getTournamentBySlug', () => {
       name: 'Test League',
       slug: 'test-league',
       logoUrl: '',
-      teams: []
+      teams: [],
+      sportSlug: '',
+      sportName: '',
+      playerStats: [],
+      scoreboardSetting: { liveSiteUpdate: 'full-live-update' }
     });
   });
 
