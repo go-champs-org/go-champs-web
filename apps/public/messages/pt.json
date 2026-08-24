@@ -93,9 +93,12 @@
     "coachingStaff": "Comissão técnica",
     "headCoach": "Treinador principal",
     "assistantCoach": "Assistente",
-    "backToTournament": "Voltar para o campeonato",
     "unknownTeam": "Time",
-    "unknownTournament": "campeonato"
+    "unknownTournament": "campeonato",
+    "roster": "Elenco",
+    "playerName": "Nome",
+    "shirtName": "Nome na camisa",
+    "shirtNumber": "Nº"
   },
   "metadata": {
     "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",

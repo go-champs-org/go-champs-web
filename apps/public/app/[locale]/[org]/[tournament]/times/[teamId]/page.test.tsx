@@ -43,6 +43,17 @@ const team = (id: string, name: string, overrides = {}) => ({
   ...overrides
 });
 
+const player = (id: string, name: string, overrides = {}) => ({
+  id,
+  name,
+  shirtName: '',
+  shirtNumber: '',
+  teamId: 't2',
+  photoUrl: '',
+  licenseNumber: '',
+  ...overrides
+});
+
 const tournament = (overrides = {}) => ({
   id: 'tour1',
   name: 'Torneio Teste',
@@ -53,6 +64,7 @@ const tournament = (overrides = {}) => ({
   playerStats: [],
   scoreboardSetting: { liveSiteUpdate: 'full-live-update' },
   teams: [team('t1', 'Time A'), team('t2', 'Time B')],
+  players: [],
   ...overrides
 });
 
@@ -100,6 +112,32 @@ describe('TeamPage', () => {
     await renderPage();
 
     expect(screen.getByText('Treinador Um')).toBeInTheDocument();
+  });
+
+  it('renders the roster of that team, in shirt number order', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [
+          player('p10', 'Camisa Dez', { shirtNumber: '10' }),
+          player('p4', 'Camisa Quatro', { shirtNumber: '4' }),
+          player('other', 'Jogador do Time A', { teamId: 't1' })
+        ]
+      })
+    );
+
+    await renderPage();
+
+    const rosterNames = screen
+      .getAllByTestId('roster-player-name')
+      .map(cell => cell.textContent);
+    expect(rosterNames).toEqual(['Camisa Quatro', 'Camisa Dez']);
+    expect(screen.queryByText('Jogador do Time A')).not.toBeInTheDocument();
+  });
+
+  it('omits the roster section when the team has no players', async () => {
+    await renderPage();
+
+    expect(screen.queryByTestId('roster')).not.toBeInTheDocument();
   });
 
   it('renders a 404 when the tournament has no team with that id', async () => {

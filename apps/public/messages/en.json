@@ -93,9 +93,12 @@
     "coachingStaff": "Coaching staff",
     "headCoach": "Head coach",
     "assistantCoach": "Assistant coach",
-    "backToTournament": "Back to the tournament",
     "unknownTeam": "Team",
-    "unknownTournament": "tournament"
+    "unknownTournament": "tournament",
+    "roster": "Roster",
+    "playerName": "Name",
+    "shirtName": "Shirt name",
+    "shirtNumber": "No."
   },
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",

@@ -6,10 +6,13 @@ import {
   getTournamentBySlug,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
+import type { PlayerEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
+import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { teamRoster } from '@/src/teams/roster';
 
 // A roster barely moves during a tournament and none of it is live, so the
 // rendered HTML can be reused for minutes at a time instead of hitting the API
@@ -93,13 +96,23 @@ const COACH_TYPE_KEYS: Record<string, string> = {
   assistant_coach: 'assistantCoach'
 };
 
+const coachTypeLabeller =
+  (t: (key: string) => string) =>
+  (type: string): string => {
+    const key = COACH_TYPE_KEYS[type];
+    return key ? t(key) : '';
+  };
+
 interface TeamBannerProps {
   team: TeamEntity;
 }
 
 function TeamBanner({ team }: TeamBannerProps) {
   return (
-    <header className="flex flex-col items-center gap-3 rounded-xl border border-border bg-surface p-6 text-center md:flex-row md:gap-6 md:text-left">
+    <Surface
+      as="header"
+      className="flex flex-col items-center gap-3 p-6 text-center md:flex-row md:gap-6 md:text-left"
+    >
       {team.logoUrl && (
         // Team logos live on arbitrary user-uploaded hosts: next/image would
         // need each one allow-listed in next.config.js.
@@ -122,7 +135,7 @@ function TeamBanner({ team }: TeamBannerProps) {
           </p>
         )}
       </div>
-    </header>
+    </Surface>
   );
 }
 
@@ -133,8 +146,10 @@ interface CoachingStaffProps {
 }
 
 function CoachingStaff({ team, title, coachTypeLabel }: CoachingStaffProps) {
+  if (team.coaches.length === 0) return null;
+
   return (
-    <section className="rounded-xl border border-border bg-surface p-6">
+    <Surface as="section" className="p-6">
       <h2 className="text-lg font-semibold text-foreground">{title}</h2>
       <ul className="mt-4 flex flex-col gap-2">
         {team.coaches.map(coach => (
@@ -146,7 +161,65 @@ function CoachingStaff({ team, title, coachTypeLabel }: CoachingStaffProps) {
           </li>
         ))}
       </ul>
-    </section>
+    </Surface>
+  );
+}
+
+interface RosterProps {
+  players: PlayerEntity[];
+  title: string;
+  numberLabel: string;
+  nameLabel: string;
+  shirtNameLabel: string;
+}
+
+function Roster({
+  players,
+  title,
+  numberLabel,
+  nameLabel,
+  shirtNameLabel
+}: RosterProps) {
+  if (players.length === 0) return null;
+
+  return (
+    <Surface as="section" className="p-6" data-testid="roster">
+      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+      {/* Narrow screens scroll the table instead of the page. */}
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full border-collapse text-left text-sm">
+          <thead>
+            <tr className="border-b border-border text-muted">
+              <th scope="col" className="w-12 py-2 pr-3 font-medium">
+                {numberLabel}
+              </th>
+              <th scope="col" className="py-2 pr-3 font-medium">
+                {nameLabel}
+              </th>
+              <th scope="col" className="py-2 font-medium">
+                {shirtNameLabel}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {players.map(player => (
+              <tr key={player.id} className="border-b border-border last:border-0">
+                <td className="py-2 pr-3 tabular-nums text-muted">
+                  {player.shirtNumber}
+                </td>
+                <td
+                  className="py-2 pr-3 font-medium text-foreground"
+                  data-testid="roster-player-name"
+                >
+                  {player.name}
+                </td>
+                <td className="py-2 text-muted">{player.shirtName}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Surface>
   );
 }
 
@@ -166,12 +239,12 @@ export default async function TeamPage({
 
   const team = findTeam(tournament, teamId);
 
-  if (!team) notFound();
+  // A team is only ever found inside a tournament, so the null tournament and
+  // the missing team are the same 404 — and narrowing both here keeps the
+  // markup below free of fallbacks that could never render.
+  if (!tournament || !team) notFound();
 
-  const coachTypeLabel = (type: string) => {
-    const key = COACH_TYPE_KEYS[type];
-    return key ? t(key) : '';
-  };
+  const roster = teamRoster(tournament.players, team.id);
 
   return (
     <main
@@ -185,18 +258,24 @@ export default async function TeamPage({
           href={`${CMS_URL}/${org}/${tournamentSlug}`}
           className="text-sm font-semibold text-primary-dark hover:underline"
         >
-          {tournament ? tournament.name : t('backToTournament')}
+          {tournament.name}
         </a>
 
         <TeamBanner team={team} />
 
-        {team.coaches.length > 0 && (
-          <CoachingStaff
-            team={team}
-            title={t('coachingStaff')}
-            coachTypeLabel={coachTypeLabel}
-          />
-        )}
+        <Roster
+          players={roster}
+          title={t('roster')}
+          numberLabel={t('shirtNumber')}
+          nameLabel={t('playerName')}
+          shirtNameLabel={t('shirtName')}
+        />
+
+        <CoachingStaff
+          team={team}
+          title={t('coachingStaff')}
+          coachTypeLabel={coachTypeLabeller(t)}
+        />
       </div>
     </main>
   );
