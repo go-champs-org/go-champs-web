@@ -22,46 +22,48 @@ export interface GamesFilterOrCondition {
  * backend expects a disjunction.
  */
 export interface GamesRequestFilter {
-  [key: string]: string | number | boolean | GamesFilterOrCondition[] | undefined;
+  [key: string]: string | GamesFilterOrCondition[] | undefined;
   or?: GamesFilterOrCondition[];
 }
 
+const isDefined = ([, value]: [string, unknown]): boolean =>
+  value !== undefined;
+
+// The CMS interpolates filter values into the URL unescaped
+// (apps/cms/src/Shared/httpClient/requestFilter.ts); encoding them here is the
+// one deliberate difference, and for the ids this endpoint is called with the
+// bytes on the wire are identical. Keys keep their literal brackets: the
+// backend reads `where[or][0][home_team_id]`, and URLSearchParams would
+// percent-encode the brackets into a filter the API does not recognise.
+const equalityParam = ([key, value]: [string, unknown]): string =>
+  `where[${key}]=${encodeURIComponent(String(value))}`;
+
+const equalityParams = (filter: GamesRequestFilter): string[] =>
+  Object.entries(filter)
+    .filter(([key]) => key !== 'or')
+    .filter(isDefined)
+    .map(equalityParam);
+
+const orConditionParams = (
+  condition: GamesFilterOrCondition,
+  index: number
+): string[] =>
+  Object.entries(condition)
+    .filter(isDefined)
+    .map(
+      ([key, value]) =>
+        `where[or][${index}][${key}]=${encodeURIComponent(String(value))}`
+    );
+
+// The CMS emits every plain key before the whole `or` group rather than in the
+// order the object was written, and that ordering is visible on the wire.
 const mapGamesRequestFilterToQueryString = (
   filter: GamesRequestFilter
-): string => {
-  const regularParams: string[] = [];
-  const orParams: string[] = [];
-
-  Object.keys(filter).forEach((key: string) => {
-    const value = filter[key];
-
-    if (value === undefined) {
-      return;
-    }
-
-    if (key === 'or' && Array.isArray(value)) {
-      value.forEach((condition: GamesFilterOrCondition, index: number) => {
-        Object.keys(condition).forEach((conditionKey: string) => {
-          const conditionValue =
-            condition[conditionKey as keyof GamesFilterOrCondition];
-
-          if (conditionValue === undefined) {
-            return;
-          }
-
-          orParams.push(
-            `where[or][${index}][${conditionKey}]=${encodeURIComponent(conditionValue)}`
-          );
-        });
-      });
-      return;
-    }
-
-    regularParams.push(`where[${key}]=${encodeURIComponent(String(value))}`);
-  });
-
-  return [...regularParams, ...orParams].join('&');
-};
+): string =>
+  [
+    ...equalityParams(filter),
+    ...(filter.or || []).flatMap(orConditionParams)
+  ].join('&');
 
 export const getGame = async (gameId: string): Promise<GameEntity> => {
   const url = new URL(`v1/games/${gameId}`, getApiHost());
@@ -73,11 +75,7 @@ export const getGamesByFilter = async (
   filter: GamesRequestFilter
 ): Promise<GameEntity[]> => {
   const url = new URL('v1/games', getApiHost());
-  const queryString = mapGamesRequestFilterToQueryString(filter);
-
-  if (queryString) {
-    url.search = queryString;
-  }
+  url.search = mapGamesRequestFilterToQueryString(filter);
 
   const { data } = await httpClient.get<ApiGamesResponse>(url.toString());
   return data.map(mapApiGameToGameEntity);

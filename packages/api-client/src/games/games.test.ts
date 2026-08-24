@@ -99,6 +99,24 @@ describe('getGamesByFilter', () => {
     );
   });
 
+  it('requests /v1/games with no query string when the filter is empty', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getGamesByFilter } = await import('./games');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [] })
+    }) as unknown as typeof fetch;
+
+    await getGamesByFilter({});
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/games',
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  });
+
   it('maps the response array to game entities', async () => {
     process.env.API_HOST = 'https://api.example.com';
     jest.resetModules();
