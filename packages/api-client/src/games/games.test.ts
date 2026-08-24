@@ -73,7 +73,7 @@ describe('getGamesByFilter', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://api.example.com/v1/games?where[or][0][home_team_id]=team-1&where[or][1][away_team_id]=team-1',
+      'https://api.example.com/v1/games?where%5Bor%5D%5B0%5D%5Bhome_team_id%5D=team-1&where%5Bor%5D%5B1%5D%5Baway_team_id%5D=team-1',
       { headers: { 'Content-Type': 'application/json' } }
     );
   });
@@ -94,11 +94,13 @@ describe('getGamesByFilter', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://api.example.com/v1/games?where[phase_id]=ph1&where[or][0][home_team_id]=team-1&where[or][1][away_team_id]=team-1',
+      'https://api.example.com/v1/games?where%5Bphase_id%5D=ph1&where%5Bor%5D%5B0%5D%5Bhome_team_id%5D=team-1&where%5Bor%5D%5B1%5D%5Baway_team_id%5D=team-1',
       { headers: { 'Content-Type': 'application/json' } }
     );
   });
 
+  // A space arrives as `+`, which the API decodes back to a space — verified
+  // on the live endpoint against a real venue name.
   it('encodes filter values that would otherwise corrupt the query string', async () => {
     process.env.API_HOST = 'https://api.example.com';
     jest.resetModules();
@@ -115,7 +117,7 @@ describe('getGamesByFilter', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      'https://api.example.com/v1/games?where[location]=Gin%C3%A1sio%20A%20%26%20B&where[or][0][home_team_id]=team%201',
+      'https://api.example.com/v1/games?where%5Blocation%5D=Gin%C3%A1sio+A+%26+B&where%5Bor%5D%5B0%5D%5Bhome_team_id%5D=team+1',
       { headers: { 'Content-Type': 'application/json' } }
     );
   });
@@ -134,6 +136,24 @@ describe('getGamesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games',
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  });
+
+  it('serializes a non-string filter value', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getGamesByFilter } = await import('./games');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [] })
+    }) as unknown as typeof fetch;
+
+    await getGamesByFilter({ phase_id: 'ph1', is_finished: true });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/games?where%5Bphase_id%5D=ph1&where%5Bis_finished%5D=true',
       { headers: { 'Content-Type': 'application/json' } }
     );
   });
