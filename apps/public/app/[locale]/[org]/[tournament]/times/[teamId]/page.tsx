@@ -12,6 +12,7 @@ import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
 
 // A roster barely moves during a tournament and none of it is live, so the
@@ -114,21 +115,6 @@ export async function generateMetadata({
   });
 }
 
-// The API stores the raw coach type; the CMS labels the same two values
-// (apps/cms/src/Shared/translations). An unknown type renders with no label
-// rather than leaking the raw slug.
-const COACH_TYPE_KEYS: Record<string, string> = {
-  head_coach: 'headCoach',
-  assistant_coach: 'assistantCoach'
-};
-
-const coachTypeLabeller =
-  (t: (key: string) => string) =>
-  (type: string): string => {
-    const key = COACH_TYPE_KEYS[type];
-    return key ? t(key) : '';
-  };
-
 interface TeamBannerProps {
   team: TeamEntity;
 }
@@ -166,22 +152,23 @@ function TeamBanner({ team }: TeamBannerProps) {
 }
 
 interface CoachingStaffProps {
-  team: TeamEntity;
+  coaches: LabelledCoach[];
   title: string;
-  coachTypeLabel: (type: string) => string;
 }
 
-function CoachingStaff({ team, title, coachTypeLabel }: CoachingStaffProps) {
+function CoachingStaff({ coaches, title }: CoachingStaffProps) {
   return (
     <Surface as="section" className="p-6">
       <h2 className="text-lg font-semibold text-foreground">{title}</h2>
       <ul className="mt-4 flex flex-col gap-2">
-        {team.coaches.map(coach => (
+        {coaches.map(coach => (
           <li key={coach.id} className="flex flex-wrap items-baseline gap-2">
             <span className="font-medium text-foreground">{coach.name}</span>
-            <span className="text-sm text-muted">
-              {coachTypeLabel(coach.type)}
-            </span>
+            {/* An unlabelled coach must not leave an empty flex item behind:
+                the row gap would render as trailing space after the name. */}
+            {coach.label && (
+              <span className="text-sm text-muted">{coach.label}</span>
+            )}
           </li>
         ))}
       </ul>
@@ -288,9 +275,8 @@ export default async function TeamPage({
 
         {team.coaches.length > 0 && (
           <CoachingStaff
-            team={team}
+            coaches={labelCoaches(team.coaches, t)}
             title={t('coachingStaff')}
-            coachTypeLabel={coachTypeLabeller(t)}
           />
         )}
       </div>

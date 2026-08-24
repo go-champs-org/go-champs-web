@@ -114,6 +114,23 @@ describe('TeamPage', () => {
     expect(screen.getByText('Treinador Um')).toBeInTheDocument();
   });
 
+  it('renders no label element for a coach type it cannot label', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        teams: [
+          team('t2', 'Time B', {
+            coaches: [{ id: 'c1', name: 'Preparador', type: 'strength_coach' }]
+          })
+        ]
+      })
+    );
+
+    await renderPage();
+
+    const coachRow = screen.getByText('Preparador').closest('li');
+    expect(coachRow?.children).toHaveLength(1);
+  });
+
   it('renders the roster of that team, in shirt number order', async () => {
     getTournamentBySlugMock.mockResolvedValue(
       tournament({
