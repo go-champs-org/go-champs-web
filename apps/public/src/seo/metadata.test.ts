@@ -60,4 +60,28 @@ describe('buildPageMetadata', () => {
       description: 'Tournaments'
     });
   });
+
+  it('leaves a normal page indexable', () => {
+    const metadata = buildPageMetadata({
+      locale: 'pt',
+      path: '/faq',
+      title: 'FAQ',
+      description: 'Questions'
+    });
+
+    expect(metadata.robots).toBeUndefined();
+  });
+
+  it('asks robots not to index a page flagged as noIndex', () => {
+    const metadata = buildPageMetadata({
+      locale: 'pt',
+      path: '/faq',
+      title: 'FAQ',
+      description: 'Questions',
+      noIndex: true
+    });
+
+    expect(metadata.robots).toEqual({ index: false });
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/pt/faq`);
+  });
 });

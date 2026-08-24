@@ -39,17 +39,25 @@ interface PageMetadataInput {
   path: string;
   title: string;
   description: string;
+  noIndex?: boolean;
 }
+
+// A page that answers with a 404 still renders metadata, and without this the
+// crawler would keep the dead URL in the index.
+const robotsField = (noIndex: boolean) =>
+  noIndex ? { robots: { index: false } } : {};
 
 export const buildPageMetadata = ({
   locale,
   path,
   title,
-  description
+  description,
+  noIndex = false
 }: PageMetadataInput): Metadata => {
   const url = pageUrl(locale, path);
 
   return {
+    ...robotsField(noIndex),
     title,
     description,
     alternates: {

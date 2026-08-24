@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { ApiError, getGame, getTournamentBySlug } from '@gochamps/api-client';
 import { notFound } from 'next/navigation';
 import GamePage, { generateMetadata, revalidate } from './page';
-import { SITE_URL } from '../../../../../../src/seo/metadata';
-import messages from '../../../../../../messages/pt.json';
+import { SITE_URL } from '@/src/seo/metadata';
+import messages from '@/messages/pt.json';
 
 jest.mock('@gochamps/api-client', () => ({
   ...jest.requireActual('@gochamps/api-client'),
@@ -22,7 +22,7 @@ jest.mock('next-intl/server', () => ({
   getTranslations: async (input: string | { namespace: string }) => {
     const namespace = typeof input === 'string' ? input : input.namespace;
     const dictionary = (
-      require('../../../../../../messages/pt.json') as Record<
+      require('@/messages/pt.json') as Record<
         string,
         Record<string, string>
       >
@@ -77,6 +77,12 @@ const params = Promise.resolve({
 });
 
 const renderPage = async () => render(await GamePage({ params }));
+
+const parsedStructuredData = (container: HTMLElement) =>
+  JSON.parse(
+    container.querySelector('script[type="application/ld+json"]')
+      ?.textContent || 'null'
+  );
 
 describe('GamePage', () => {
   beforeEach(() => {
@@ -177,6 +183,24 @@ describe('GamePage', () => {
 
     await expect(renderPage()).rejects.toThrow('API error with status 500');
   });
+
+  it('describes the game to search engines as a SportsEvent', async () => {
+    const { container } = await renderPage();
+
+    expect(parsedStructuredData(container)).toMatchObject({
+      '@context': 'https://schema.org',
+      '@type': 'SportsEvent',
+      name: 'Time Casa x Time Visitante',
+      url: `${SITE_URL}/pt/org/torneio/jogos/g1`,
+      startDate: '2026-08-01T23:00:00Z',
+      location: {
+        '@type': 'Place',
+        name: 'Ginásio Municipal — São Paulo'
+      },
+      homeTeam: { '@type': 'SportsTeam', name: 'Time Casa' },
+      awayTeam: { '@type': 'SportsTeam', name: 'Time Visitante' }
+    });
+  });
 });
 
 describe('GamePage metadata', () => {
@@ -196,5 +220,17 @@ describe('GamePage metadata', () => {
       `${SITE_URL}/en/org/torneio/jogos/g1`
     );
     expect(metadata.description).toContain('Time Casa x Time Visitante');
+    expect(metadata.robots).toBeUndefined();
+  });
+
+  it('tells robots not to index a game that does not exist', async () => {
+    getGameMock.mockRejectedValue(new ApiError({ status: 404, data: 'nope' }));
+
+    const metadata = await generateMetadata({ params });
+
+    expect(metadata.robots).toEqual({ index: false });
+    expect(metadata.alternates?.canonical).toBe(
+      `${SITE_URL}/pt/org/torneio/jogos/g1`
+    );
   });
 });
