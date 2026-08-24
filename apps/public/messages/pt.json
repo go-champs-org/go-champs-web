@@ -89,6 +89,14 @@
     "backToTournament": "Voltar para o campeonato",
     "videoTitle": "Vídeo do jogo"
   },
+  "team": {
+    "coachingStaff": "Comissão técnica",
+    "headCoach": "Treinador principal",
+    "assistantCoach": "Assistente",
+    "backToTournament": "Voltar para o campeonato",
+    "unknownTeam": "Time",
+    "unknownTournament": "campeonato"
+  },
   "metadata": {
     "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",
     "homeDescription": "Acompanhe campeonatos, times, jogos e estatísticas do amador ao semiprofissional. Resultados em tempo real, súmulas eletrônicas e tabelas atualizadas.",
@@ -103,6 +111,8 @@
     "termsTitle": "Termos de Uso",
     "termsDescription": "Os termos que regem o uso da plataforma GO CHAMPS.",
     "gameTitle": "{homeTeam} x {awayTeam}",
-    "gameDescription": "Placar, data e local de {homeTeam} x {awayTeam} na Go Champs."
+    "gameDescription": "Placar, data e local de {homeTeam} x {awayTeam} na Go Champs.",
+    "teamTitle": "{team} — {tournament}",
+    "teamDescription": "Informações e comissão técnica de {team} no {tournament} na Go Champs."
   }
 }

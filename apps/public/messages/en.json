@@ -89,6 +89,14 @@
     "backToTournament": "Back to the tournament",
     "videoTitle": "Game video"
   },
+  "team": {
+    "coachingStaff": "Coaching staff",
+    "headCoach": "Head coach",
+    "assistantCoach": "Assistant coach",
+    "backToTournament": "Back to the tournament",
+    "unknownTeam": "Team",
+    "unknownTournament": "tournament"
+  },
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",
     "homeDescription": "Follow tournaments, teams, games and statistics from amateur to semi-professional. Live results, electronic scoresheets and up-to-date standings.",
@@ -103,6 +111,8 @@
     "termsTitle": "Terms of Use",
     "termsDescription": "The terms that govern the use of the GO CHAMPS platform.",
     "gameTitle": "{homeTeam} x {awayTeam}",
-    "gameDescription": "Score, date and venue for {homeTeam} x {awayTeam} on Go Champs."
+    "gameDescription": "Score, date and venue for {homeTeam} x {awayTeam} on Go Champs.",
+    "teamTitle": "{team} — {tournament}",
+    "teamDescription": "Team information and coaching staff for {team} in {tournament} on Go Champs."
   }
 }
