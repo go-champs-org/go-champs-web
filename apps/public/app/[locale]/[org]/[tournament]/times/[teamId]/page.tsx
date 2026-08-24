@@ -58,6 +58,32 @@ const findTeam = (
   teamId: string
 ): TeamEntity | undefined => tournament?.teams.find(team => team.id === teamId);
 
+interface TeamView {
+  tournament: TournamentWithTeamsEntity;
+  team: TeamEntity;
+  roster: PlayerEntity[];
+}
+
+// A team is only ever found inside a tournament, so a missing tournament and a
+// missing team are the same 404. Resolving both here is what keeps the page
+// component free of fallbacks that could never render.
+const loadTeamView = async (
+  org: string,
+  tournamentSlug: string,
+  teamId: string
+): Promise<TeamView> => {
+  const tournament = await loadTournament(org, tournamentSlug);
+  const team = findTeam(tournament, teamId);
+
+  if (!tournament || !team) notFound();
+
+  return {
+    tournament,
+    team,
+    roster: teamRoster(tournament.players, team.id)
+  };
+};
+
 export async function generateMetadata({
   params
 }: {
@@ -146,8 +172,6 @@ interface CoachingStaffProps {
 }
 
 function CoachingStaff({ team, title, coachTypeLabel }: CoachingStaffProps) {
-  if (team.coaches.length === 0) return null;
-
   return (
     <Surface as="section" className="p-6">
       <h2 className="text-lg font-semibold text-foreground">{title}</h2>
@@ -180,8 +204,6 @@ function Roster({
   nameLabel,
   shirtNameLabel
 }: RosterProps) {
-  if (players.length === 0) return null;
-
   return (
     <Surface as="section" className="p-6" data-testid="roster">
       <h2 className="text-lg font-semibold text-foreground">{title}</h2>
@@ -232,19 +254,10 @@ export default async function TeamPage({
   const { locale, org, tournament: tournamentSlug, teamId } = routeParams;
   setRequestLocale(locale);
 
-  const [tournament, t] = await Promise.all([
-    loadTournament(org, tournamentSlug),
+  const [{ tournament, team, roster }, t] = await Promise.all([
+    loadTeamView(org, tournamentSlug, teamId),
     getTranslations('team')
   ]);
-
-  const team = findTeam(tournament, teamId);
-
-  // A team is only ever found inside a tournament, so the null tournament and
-  // the missing team are the same 404 — and narrowing both here keeps the
-  // markup below free of fallbacks that could never render.
-  if (!tournament || !team) notFound();
-
-  const roster = teamRoster(tournament.players, team.id);
 
   return (
     <main
@@ -263,19 +276,23 @@ export default async function TeamPage({
 
         <TeamBanner team={team} />
 
-        <Roster
-          players={roster}
-          title={t('roster')}
-          numberLabel={t('shirtNumber')}
-          nameLabel={t('playerName')}
-          shirtNameLabel={t('shirtName')}
-        />
+        {roster.length > 0 && (
+          <Roster
+            players={roster}
+            title={t('roster')}
+            numberLabel={t('shirtNumber')}
+            nameLabel={t('playerName')}
+            shirtNameLabel={t('shirtName')}
+          />
+        )}
 
-        <CoachingStaff
-          team={team}
-          title={t('coachingStaff')}
-          coachTypeLabel={coachTypeLabeller(t)}
-        />
+        {team.coaches.length > 0 && (
+          <CoachingStaff
+            team={team}
+            title={t('coachingStaff')}
+            coachTypeLabel={coachTypeLabeller(t)}
+          />
+        )}
       </div>
     </main>
   );
