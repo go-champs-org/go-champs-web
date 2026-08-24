@@ -1,5 +1,7 @@
 import {
+  ApiAdminTournament,
   ApiTournament,
+  ApiTournamentArchive,
   ApiTournamentWithDependecies,
   ApiBillingAgreement
 } from '../Shared/httpClient/apiTypes';
@@ -14,6 +16,12 @@ import { HttpAction } from '../Shared/store/interfaces';
 import {
   ActionTypes,
   DELETE_TOURNAMENT,
+  GET_ADMIN_TOURNAMENTS,
+  GET_ADMIN_TOURNAMENTS_FAILURE,
+  GET_ADMIN_TOURNAMENTS_SUCCESS,
+  PATCH_TOURNAMENT_ARCHIVE,
+  PATCH_TOURNAMENT_ARCHIVE_FAILURE,
+  PATCH_TOURNAMENT_ARCHIVE_SUCCESS,
   DELETE_TOURNAMENT_FAILURE,
   DELETE_TOURNAMENT_SUCCESS,
   GET_TOURNAMENT,
@@ -33,6 +41,7 @@ import {
   GET_BILLING_AGREEMENT_SUCCESS
 } from './actions';
 import {
+  mapApiAdminTournamentToTournamentEntity,
   mapApiTournamentToTournamentEntity,
   mapApiBillingAgreementToBillingAgreementEntity
 } from './dataMappers';
@@ -42,6 +51,11 @@ const apiTournamentToEntities = apiDataToEntitiesOverride<
   ApiTournament,
   TournamentEntity
 >(mapApiTournamentToTournamentEntity, returnProperty('slug'));
+
+const apiAdminTournamentToEntities = apiDataToEntitiesOverride<
+  ApiAdminTournament,
+  TournamentEntity
+>(mapApiAdminTournamentToTournamentEntity, returnProperty('slug'));
 
 const deleteTournament = (
   state: TournamentState,
@@ -155,6 +169,76 @@ const getTournamentsByFilterSuccess = (
   tournaments: action.payload!.reduce(apiTournamentToEntities, {})
 });
 
+const getAdminTournaments = (
+  state: TournamentState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestTournaments: true
+});
+
+const getAdminTournamentsFailure = (
+  state: TournamentState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingRequestTournaments: false
+});
+
+const getAdminTournamentsSuccess = (
+  state: TournamentState,
+  action: HttpAction<ActionTypes, ApiAdminTournament[]>
+) => ({
+  ...state,
+  isLoadingRequestTournaments: false,
+  tournaments: action.payload!.reduce(apiAdminTournamentToEntities, {})
+});
+
+const patchTournamentArchive = (
+  state: TournamentState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingArchiveTournament: true
+});
+
+const patchTournamentArchiveFailure = (
+  state: TournamentState,
+  action: HttpAction<ActionTypes>
+) => ({
+  ...state,
+  isLoadingArchiveTournament: false
+});
+
+const patchTournamentArchiveSuccess = (
+  state: TournamentState,
+  action: HttpAction<ActionTypes, ApiTournamentArchive>
+) => {
+  const { tournament_id, archived_at } = action.payload!;
+  const slug = Object.keys(state.tournaments).find(
+    (key: string) => state.tournaments[key].id === tournament_id
+  );
+
+  if (!slug) {
+    return {
+      ...state,
+      isLoadingArchiveTournament: false
+    };
+  }
+
+  return {
+    ...state,
+    isLoadingArchiveTournament: false,
+    tournaments: {
+      ...state.tournaments,
+      [slug]: {
+        ...state.tournaments[slug],
+        archivedAt: archived_at
+      }
+    }
+  };
+};
+
 const getTournament = (
   state: TournamentState,
   action: HttpAction<ActionTypes>
@@ -238,6 +322,12 @@ export default createReducer(initialState, {
   [GET_TOURNAMENTS_BY_FILTER]: getTournamentsByFilter,
   [GET_TOURNAMENTS_BY_FILTER_FAILURE]: getTournamentsByFilterFailure,
   [GET_TOURNAMENTS_BY_FILTER_SUCCESS]: getTournamentsByFilterSuccess,
+  [GET_ADMIN_TOURNAMENTS]: getAdminTournaments,
+  [GET_ADMIN_TOURNAMENTS_FAILURE]: getAdminTournamentsFailure,
+  [GET_ADMIN_TOURNAMENTS_SUCCESS]: getAdminTournamentsSuccess,
+  [PATCH_TOURNAMENT_ARCHIVE]: patchTournamentArchive,
+  [PATCH_TOURNAMENT_ARCHIVE_FAILURE]: patchTournamentArchiveFailure,
+  [PATCH_TOURNAMENT_ARCHIVE_SUCCESS]: patchTournamentArchiveSuccess,
   [GET_TOURNAMENT]: getTournament,
   [GET_TOURNAMENT_FAILURE]: getTournamentFailure,
   [GET_TOURNAMENT_SUCCESS]: getTournamentSuccess,

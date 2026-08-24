@@ -1,5 +1,7 @@
 import {
+  ApiAdminTournament,
   ApiTournament,
+  ApiTournamentArchive,
   ApiTournamentWithDependecies,
   ApiBillingAgreement
 } from '../Shared/httpClient/apiTypes';
@@ -19,6 +21,16 @@ export const GET_TOURNAMENTS_BY_FILTER_SUCCESS =
   'API_GET_TOURNAMENTS_BY_FILTER_SUCCESS';
 export const GET_TOURNAMENTS_BY_FILTER_FAILURE =
   'API_GET_TOURNAMENTS_BY_FILTER_FAILURE';
+export const GET_ADMIN_TOURNAMENTS = 'API_GET_ADMIN_TOURNAMENTS';
+export const GET_ADMIN_TOURNAMENTS_SUCCESS =
+  'API_GET_ADMIN_TOURNAMENTS_SUCCESS';
+export const GET_ADMIN_TOURNAMENTS_FAILURE =
+  'API_GET_ADMIN_TOURNAMENTS_FAILURE';
+export const PATCH_TOURNAMENT_ARCHIVE = 'API_PATCH_TOURNAMENT_ARCHIVE';
+export const PATCH_TOURNAMENT_ARCHIVE_SUCCESS =
+  'API_PATCH_TOURNAMENT_ARCHIVE_SUCCESS';
+export const PATCH_TOURNAMENT_ARCHIVE_FAILURE =
+  'API_PATCH_TOURNAMENT_ARCHIVE_FAILURE';
 export const GET_TOURNAMENT = 'API_GET_TOURNAMENT';
 export const GET_TOURNAMENT_SUCCESS = 'API_GET_TOURNAMENT_SUCCESS';
 export const GET_TOURNAMENT_FAILURE = 'API_GET_TOURNAMENT_FAILURE';
@@ -100,6 +112,42 @@ export const getTournamentsByFilterFailure = (
   payload
 });
 
+export const getAdminTournamentsStart = (): HttpAction<ActionTypes> => ({
+  type: GET_ADMIN_TOURNAMENTS
+});
+
+export const getAdminTournamentsSuccess = (
+  payload: ApiAdminTournament[]
+): HttpAction<ActionTypes, ApiAdminTournament[]> => ({
+  type: GET_ADMIN_TOURNAMENTS_SUCCESS,
+  payload
+});
+
+export const getAdminTournamentsFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
+  type: GET_ADMIN_TOURNAMENTS_FAILURE,
+  payload
+});
+
+export const patchTournamentArchiveStart = (): HttpAction<ActionTypes> => ({
+  type: PATCH_TOURNAMENT_ARCHIVE
+});
+
+export const patchTournamentArchiveSuccess = (
+  payload: ApiTournamentArchive
+): HttpAction<ActionTypes, ApiTournamentArchive> => ({
+  type: PATCH_TOURNAMENT_ARCHIVE_SUCCESS,
+  payload
+});
+
+export const patchTournamentArchiveFailure = (
+  payload: unknown
+): HttpAction<ActionTypes> => ({
+  type: PATCH_TOURNAMENT_ARCHIVE_FAILURE,
+  payload
+});
+
 export const getTournamentStart = (): HttpAction<ActionTypes> => ({
   type: GET_TOURNAMENT
 });
@@ -149,6 +197,12 @@ export type ActionTypes =
   | typeof GET_TOURNAMENTS_BY_FILTER
   | typeof GET_TOURNAMENTS_BY_FILTER_FAILURE
   | typeof GET_TOURNAMENTS_BY_FILTER_SUCCESS
+  | typeof GET_ADMIN_TOURNAMENTS
+  | typeof GET_ADMIN_TOURNAMENTS_FAILURE
+  | typeof GET_ADMIN_TOURNAMENTS_SUCCESS
+  | typeof PATCH_TOURNAMENT_ARCHIVE
+  | typeof PATCH_TOURNAMENT_ARCHIVE_FAILURE
+  | typeof PATCH_TOURNAMENT_ARCHIVE_SUCCESS
   | typeof GET_TOURNAMENT
   | typeof GET_TOURNAMENT_FAILURE
   | typeof GET_TOURNAMENT_SUCCESS

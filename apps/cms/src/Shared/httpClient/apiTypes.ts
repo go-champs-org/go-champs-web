@@ -602,6 +602,28 @@ export interface ApiTournamentsResponse {
   data: ApiTournament[];
 }
 
+export interface ApiAdminTournament {
+  id: string;
+  name: string;
+  slug: string;
+  logo_url?: string;
+  organization?: ApiOrganization;
+  archived_at: string | null;
+}
+
+export interface ApiAdminTournamentsResponse {
+  data: ApiAdminTournament[];
+}
+
+export interface ApiTournamentArchive {
+  tournament_id: string;
+  archived_at: string | null;
+}
+
+export interface ApiTournamentArchiveResponse {
+  data: ApiTournamentArchive;
+}
+
 export interface ApiSearchTournamentsResponse {
   data: ApiTournamentWithDependecies[];
 }

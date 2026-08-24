@@ -1,4 +1,5 @@
 import {
+  ApiAdminTournament,
   ApiOrganization,
   ApiTournament,
   ApiTournamentRequest,
@@ -13,6 +14,7 @@ import {
   ApiTournamentSponsor
 } from '../Shared/httpClient/apiTypes';
 import {
+  DEFAULT_TOURNAMENT,
   TournamentEntity,
   PlayerStatEntity,
   TeamStatEntity,
@@ -187,6 +189,29 @@ export const mapApiTournamentToTournamentEntity = (
   sportName: apiTournament.sport_name ? apiTournament.sport_name : '',
   sportSlug: apiTournament.sport_slug ? apiTournament.sport_slug : '',
   visibility: apiTournament.visibility,
+  organizationSetting:
+    apiTournament.organization &&
+    apiTournament.organization.organization_setting
+      ? mapApiOrganizationSettingToOrganizationSettingEntity(
+          apiTournament.organization.organization_setting
+        )
+      : undefined
+});
+
+/**
+ * Maps the reduced payload returned by `GET /v1/admin/tournaments`.
+ * The admin listing only carries workspace-relevant fields, so the remaining
+ * TournamentEntity fields fall back to the DEFAULT_TOURNAMENT values.
+ */
+export const mapApiAdminTournamentToTournamentEntity = (
+  apiTournament: ApiAdminTournament
+): TournamentEntity => ({
+  ...DEFAULT_TOURNAMENT,
+  id: apiTournament.id,
+  name: apiTournament.name,
+  slug: apiTournament.slug,
+  logoUrl: apiTournament.logo_url ? apiTournament.logo_url : '',
+  archivedAt: apiTournament.archived_at,
   organizationSetting:
     apiTournament.organization &&
     apiTournament.organization.organization_setting

@@ -82,6 +82,19 @@ export const shouldTournamentHaveLicensingBilling = (
 export const tournaments = (state: TournamentState) =>
   Object.keys(state.tournaments).map((key: string) => state.tournaments[key]);
 
+export const activeTournaments = (state: TournamentState) =>
+  tournaments(state).filter(
+    (tournament: TournamentEntity) => !tournament.archivedAt
+  );
+
+export const archivedTournaments = (state: TournamentState) =>
+  tournaments(state).filter(
+    (tournament: TournamentEntity) => !!tournament.archivedAt
+  );
+
+export const archivingTournament = (state: TournamentState): boolean =>
+  state.isLoadingArchiveTournament;
+
 export const tournamentsLoading = (state: TournamentState) =>
   state.isLoadingRequestTournaments;
 export const tournamentLoading = (state: TournamentState) =>

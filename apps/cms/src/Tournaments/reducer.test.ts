@@ -19,6 +19,14 @@ import {
   getBillingAgreementSuccess,
   getBillingAgreementFailure
 } from './actions';
+import {
+  getAdminTournamentsStart,
+  getAdminTournamentsSuccess,
+  getAdminTournamentsFailure,
+  patchTournamentArchiveStart,
+  patchTournamentArchiveSuccess,
+  patchTournamentArchiveFailure
+} from './actions';
 import tournamentReducer from './reducer';
 import {
   DEFAULT_TOURNAMENT,
@@ -768,5 +776,111 @@ describe('getBillingAgreementSuccess', () => {
       otherAgreement
     );
     expect(newState.billingAgreements['tournament-id-123']).toBeDefined();
+  });
+});
+
+describe('getAdminTournaments', () => {
+  it('sets isLoadingRequestTournaments to true', () => {
+    const newState = tournamentReducer(
+      initialState,
+      getAdminTournamentsStart()
+    );
+
+    expect(newState.isLoadingRequestTournaments).toBe(true);
+  });
+
+  it('sets isLoadingRequestTournaments to false on failure', () => {
+    const newState = tournamentReducer(
+      { ...initialState, isLoadingRequestTournaments: true },
+      getAdminTournamentsFailure('some-error')
+    );
+
+    expect(newState.isLoadingRequestTournaments).toBe(false);
+  });
+
+  it('replaces the tournaments keyed by slug', () => {
+    const state: TournamentState = {
+      ...initialState,
+      tournaments: {
+        'old-slug': { ...DEFAULT_TOURNAMENT, id: 'old-id', slug: 'old-slug' }
+      }
+    };
+
+    const newState = tournamentReducer(
+      state,
+      getAdminTournamentsSuccess([
+        {
+          id: 'some-id',
+          name: 'some-name',
+          slug: 'some-slug',
+          archived_at: '2026-08-22T00:00:00Z'
+        }
+      ])
+    );
+
+    expect(Object.keys(newState.tournaments)).toEqual(['some-slug']);
+    expect(newState.tournaments['some-slug'].archivedAt).toBe(
+      '2026-08-22T00:00:00Z'
+    );
+    expect(newState.isLoadingRequestTournaments).toBe(false);
+  });
+});
+
+describe('patchTournamentArchive', () => {
+  const stateWithTournament: TournamentState = {
+    ...initialState,
+    tournaments: {
+      'some-slug': {
+        ...DEFAULT_TOURNAMENT,
+        id: 'some-id',
+        slug: 'some-slug'
+      }
+    }
+  };
+
+  it('sets isLoadingArchiveTournament to true', () => {
+    const newState = tournamentReducer(
+      initialState,
+      patchTournamentArchiveStart()
+    );
+
+    expect(newState.isLoadingArchiveTournament).toBe(true);
+  });
+
+  it('sets isLoadingArchiveTournament to false on failure', () => {
+    const newState = tournamentReducer(
+      { ...initialState, isLoadingArchiveTournament: true },
+      patchTournamentArchiveFailure('some-error')
+    );
+
+    expect(newState.isLoadingArchiveTournament).toBe(false);
+  });
+
+  it('updates archivedAt of the matching tournament', () => {
+    const newState = tournamentReducer(
+      stateWithTournament,
+      patchTournamentArchiveSuccess({
+        tournament_id: 'some-id',
+        archived_at: '2026-08-22T00:00:00Z'
+      })
+    );
+
+    expect(newState.tournaments['some-slug'].archivedAt).toBe(
+      '2026-08-22T00:00:00Z'
+    );
+    expect(newState.isLoadingArchiveTournament).toBe(false);
+  });
+
+  it('keeps the state untouched when the tournament is not in the store', () => {
+    const newState = tournamentReducer(
+      stateWithTournament,
+      patchTournamentArchiveSuccess({
+        tournament_id: 'unknown-id',
+        archived_at: null
+      })
+    );
+
+    expect(newState.tournaments).toEqual(stateWithTournament.tournaments);
+    expect(newState.isLoadingArchiveTournament).toBe(false);
   });
 });

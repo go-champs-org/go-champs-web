@@ -16,6 +16,12 @@ import {
   postTournamentFailure,
   postTournamentStart,
   postTournamentSuccess,
+  getAdminTournamentsStart,
+  getAdminTournamentsSuccess,
+  getAdminTournamentsFailure,
+  patchTournamentArchiveStart,
+  patchTournamentArchiveSuccess,
+  patchTournamentArchiveFailure,
   getBillingAgreementStart,
   getBillingAgreementSuccess,
   getBillingAgreementFailure
@@ -107,6 +113,69 @@ export const getTournamentsByFilter = (where: RequestFilter) => async (
     dispatch(getTournamentsByFilterSuccess(response));
   } catch (err) {
     dispatch(getTournamentsByFilterFailure(err));
+  }
+};
+
+/**
+ * Loads the organization workspace tournaments filtered by archive state.
+ * Replaces the tournaments in the store, so the listing always reflects the
+ * currently selected tab.
+ */
+export const getAdminTournaments = (
+  organizationId: string,
+  archived: boolean
+) => async (dispatch: Dispatch) => {
+  dispatch(getAdminTournamentsStart());
+
+  try {
+    const response = await tournamentHttpClient.getAdminByOrganization(
+      organizationId,
+      archived
+    );
+
+    dispatch(getAdminTournamentsSuccess(response));
+  } catch (err) {
+    dispatch(getAdminTournamentsFailure(err));
+    displayToast(`Could not load tournaments`, 'is-danger');
+  }
+};
+
+/**
+ * Archives or unarchives a tournament in the organization workspace and
+ * refetches the currently displayed list, so the card leaves the tab it no
+ * longer belongs to without a manual reload.
+ */
+export const patchTournamentArchive = (
+  tournament: TournamentEntity,
+  organizationId: string,
+  archived: boolean
+) => async (dispatch: Dispatch) => {
+  dispatch(patchTournamentArchiveStart());
+
+  try {
+    const response = archived
+      ? await tournamentHttpClient.archive(tournament.id)
+      : await tournamentHttpClient.unarchive(tournament.id);
+
+    dispatch(patchTournamentArchiveSuccess(response));
+    displayToast(
+      archived
+        ? `${tournament.name} archived!`
+        : `${tournament.name} unarchived!`,
+      'is-success'
+    );
+
+    // The tournament just left the current tab, so refetch that same tab
+    // (active listing when archiving, archived listing when unarchiving).
+    await getAdminTournaments(organizationId, !archived)(dispatch);
+  } catch (err) {
+    dispatch(patchTournamentArchiveFailure(err));
+    displayToast(
+      archived
+        ? `Could not archive ${tournament.name}`
+        : `Could not unarchive ${tournament.name}`,
+      'is-danger'
+    );
   }
 };
 

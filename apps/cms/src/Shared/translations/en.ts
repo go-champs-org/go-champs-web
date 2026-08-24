@@ -1,5 +1,8 @@
 export default {
   translation: {
+    archived: 'Archived',
+    archive: 'Archive',
+    unarchive: 'Unarchive',
     aboutUs: 'About us',
     aboutUsParagraph1:
       'Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.',
