@@ -60,6 +60,16 @@ describe('gamesByDate', () => {
     expect(days[0]).toEqual({ key: '', label: '', games: [expect.objectContaining({ id: 'undated' })] });
   });
 
+  // The key is a machine string the page sorts and reacts on, not something a
+  // reader ever sees: it has to stay ISO-shaped whatever locale data the
+  // runtime ships with.
+  it('keys every day as a plain calendar date', () => {
+    const [day] = gamesByDate([game('g1', '2026-08-12T18:00:00Z')], 'pt');
+
+    expect(day.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(day.key).toBe('2026-08-12');
+  });
+
   it('has no days for a team with no games', () => {
     expect(gamesByDate([], 'pt')).toEqual([]);
   });

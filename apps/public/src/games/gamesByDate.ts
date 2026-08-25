@@ -9,34 +9,45 @@ export interface GameDay {
   games: GameEntity[];
 }
 
-// en-CA renders a plain YYYY-MM-DD, which sorts as a string and doubles as the
-// day key. The CMS slices the raw UTC timestamp instead
-// (apps/cms/src/Games/selectors.ts), which files a 22:30 game in São Paulo
-// under the following day.
-const DAY_KEY_FORMAT = new Intl.DateTimeFormat('en-CA', {
+// Read as parts, not as a formatted string: every locale pattern puts the year,
+// month and day somewhere else, and the ICU build behind Intl is not the same
+// on a developer machine and on CI. The part types are the same everywhere.
+const DAY_PARTS_FORMAT = new Intl.DateTimeFormat('en-US', {
   timeZone: GAME_TIME_ZONE,
   year: 'numeric',
   month: '2-digit',
   day: '2-digit'
 });
 
+const datePart = (
+  parts: Intl.DateTimeFormatPart[],
+  type: Intl.DateTimeFormatPartTypes
+): string => parts.find(part => part.type === type)?.value || '';
+
+// The CMS slices the raw UTC timestamp instead
+// (apps/cms/src/Games/selectors.ts), which files a 22:30 game in São Paulo
+// under the following day.
 const dayKey = (datetime: string): string => {
   const parsed = new Date(datetime);
 
   if (Number.isNaN(parsed.getTime())) return '';
 
-  return DAY_KEY_FORMAT.format(parsed);
+  const parts = DAY_PARTS_FORMAT.formatToParts(parsed);
+
+  return `${datePart(parts, 'year')}-${datePart(parts, 'month')}-${datePart(parts, 'day')}`;
 };
 
-const dayLabel = (key: string, locale: string): string => {
-  if (!key) return '';
+// Labelled from the kickoff of the day's first game, which is already a valid
+// instant — the day key is a machine string and never has to be parsed back.
+const dayLabel = (datetime: string, locale: string): string => {
+  const parsed = new Date(datetime);
 
-  // The key is a calendar day with no time of its own: reading it back at
-  // midday UTC keeps the São Paulo offset from rolling it to the day before.
+  if (Number.isNaN(parsed.getTime())) return '';
+
   return new Intl.DateTimeFormat(localeTag(locale), {
     dateStyle: 'long',
     timeZone: GAME_TIME_ZONE
-  }).format(new Date(`${key}T12:00:00Z`));
+  }).format(parsed);
 };
 
 const byDatetime = (gameA: GameEntity, gameB: GameEntity): number =>
@@ -56,9 +67,13 @@ const groupByDay = (games: GameEntity[]): Map<string, GameEntity[]> =>
 export const gamesByDate = (games: GameEntity[], locale: string): GameDay[] => {
   const days = groupByDay([...games].sort(byDatetime));
 
-  return [...days.keys()].sort().map(key => ({
-    key,
-    label: dayLabel(key, locale),
-    games: days.get(key) as GameEntity[]
-  }));
+  return [...days.keys()].sort().map(key => {
+    const dayGames = days.get(key) as GameEntity[];
+
+    return {
+      key,
+      label: dayLabel(dayGames[0].datetime, locale),
+      games: dayGames
+    };
+  });
 };

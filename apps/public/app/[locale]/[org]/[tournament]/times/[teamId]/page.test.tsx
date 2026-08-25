@@ -487,6 +487,9 @@ describe('TeamPage tabs', () => {
     await renderPage();
 
     expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+    // Nothing labels a panel when no tab bar was rendered, so the block keeps
+    // no tab semantics either.
+    expect(screen.queryByRole('tabpanel')).not.toBeInTheDocument();
     expect(screen.getByTestId('games')).toBeVisible();
   });
 });

@@ -31,6 +31,23 @@ const tabClass = (isActive: boolean): string =>
     ? `${TAB_CLASS} border-neutral-100 bg-neutral-100 text-[#4d6b2c]`
     : `${TAB_CLASS} border-neutral-100/35 bg-neutral-100/15 hover:bg-neutral-100/30`;
 
+// Tab semantics only hold where a tab bar exists: a lone section would point
+// aria-labelledby at a button that was never rendered, which reads as a broken
+// tab to assistive tech rather than as the plain block it is.
+const panelProps = (
+  id: string,
+  activeId: string | undefined,
+  isTabbed: boolean
+) =>
+  isTabbed
+    ? {
+        role: 'tabpanel',
+        id: `panel-${id}`,
+        'aria-labelledby': `tab-${id}`,
+        hidden: id !== activeId
+      }
+    : {};
+
 const hashTabId = (tabs: TeamTab[]): string | undefined => {
   const id = window.location.hash.replace('#', '');
 
@@ -102,10 +119,7 @@ export function TeamSections({ identity, tabs, label }: TeamSectionsProps) {
       {tabs.map(tab => (
         <div
           key={tab.id}
-          role="tabpanel"
-          id={`panel-${tab.id}`}
-          aria-labelledby={`tab-${tab.id}`}
-          hidden={isTabbed && tab.id !== activeId}
+          {...panelProps(tab.id, activeId, isTabbed)}
           className="slide-fade-in slide-fade-in-delay-2 flex flex-col gap-6"
         >
           {tab.panel}
