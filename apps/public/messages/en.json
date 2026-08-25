@@ -103,8 +103,27 @@
     "highlights": "Highlights",
     "sections": "Team sections",
     "playerName": "Name",
-    "shirtName": "Shirt name",
-    "shirtNumber": "No."
+    "shirtNumber": "No.",
+    "statsScope": "Statistics",
+    "scopeAggregate": "Totals",
+    "scopePerGame": "Per game",
+    "sortByStat": "Sort by {stat}",
+    "statColumns": {
+      "points": "PTS",
+      "rebounds": "REB",
+      "rebounds_offensive": "OREB",
+      "rebounds_defensive": "DREB",
+      "assists": "AST",
+      "blocks": "BLK",
+      "steals": "STL",
+      "turnovers": "TO",
+      "free_throws_made": "FTM",
+      "free_throw_percentage": "FT%",
+      "field_goals_made": "FGM",
+      "field_goal_percentage": "FG%",
+      "three_point_field_goals_made": "3PM",
+      "three_point_field_goal_percentage": "3P%"
+    }
   },
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",
