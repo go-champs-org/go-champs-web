@@ -529,6 +529,14 @@ describe('TeamPage roster stats', () => {
     expect(rosterCells('Camisa Quatro')).toEqual(['4', 'Camisa Quatro', '5.3']);
   });
 
+  it('closes the table with the totals of the counting columns', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    expect(rosterCells('Total')).toEqual(['', 'Total', '32', '11']);
+  });
+
   it('keeps the glossary closed until the visitor asks for it', async () => {
     withRosterStats();
 

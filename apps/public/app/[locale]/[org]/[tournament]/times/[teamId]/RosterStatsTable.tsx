@@ -6,6 +6,7 @@ import { MdChromeReaderMode } from 'react-icons/md';
 import {
   formatStatValue,
   sortRosterRows,
+  statTotals,
   type RosterStatRow,
   type SortDirection,
   type StatScope
@@ -13,9 +14,7 @@ import {
 
 export interface StatColumnView {
   slug: string;
-  // The abbreviation the column is headed with — 'PTS', 'REB'.
   label: string;
-  // What the abbreviation stands for, for the glossary and the screen reader.
   description: string;
 }
 
@@ -29,6 +28,7 @@ interface RosterStatsTableProps {
   glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
+  totalLabel: string;
   sortLabel: string;
 }
 
@@ -39,8 +39,8 @@ interface SortState {
 
 const NO_SORT: SortState = { slug: null, direction: 'desc' };
 
-// A first click ranks the column, the best mark first — that is what a table
-// of statistics is read for. Clicking the same column again turns it around.
+// A first click ranks the column, the best mark first. The same column again
+// turns it around.
 const nextSort = (sort: SortState, slug: string): SortState =>
   sort.slug === slug
     ? { slug, direction: sort.direction === 'desc' ? 'asc' : 'desc' }
@@ -56,6 +56,24 @@ const ariaSort = (
   slug: string
 ): 'ascending' | 'descending' | 'none' =>
   sort.slug === slug ? ARIA_SORT[sort.direction] : 'none';
+
+// Opaque mixes rather than translucent tints: the first two columns freeze
+// over the scrolling ones, and anything see-through lets the numbers slide
+// underneath them.
+const HEADER_BAND =
+  'bg-[color-mix(in_srgb,var(--color-primary)_40%,var(--color-surface))]';
+const TOTALS_BAND =
+  'bg-[color-mix(in_srgb,var(--color-primary)_60%,var(--color-surface))]';
+
+// The shirt number and the name stay put while the statistics scroll under
+// them, the pair the CMS pins too. The width of the first cell is what the
+// offset of the second is measured against, so the two move together.
+const NUMBER_CELL = 'sticky left-0 z-20 w-12 pl-4 pr-2 md:w-16 md:pl-6';
+const NAME_CELL =
+  'sticky left-12 z-20 whitespace-nowrap pr-6 shadow-[8px_0_6px_-6px_var(--shadow-elevated)] md:left-16';
+const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
+const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
+const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
 
 const SCOPE_CLASS =
   'cursor-pointer rounded-full border px-3 py-1 text-xs font-semibold transition-colors';
@@ -73,8 +91,7 @@ interface ScopeFilterProps {
   onSelect: (scope: StatScope) => void;
 }
 
-// The scope filter of the CMS team view, which is a select there and a pair of
-// pills here: two options never earn a dropdown.
+// A select in the CMS, a pair of pills here: two options never earn a dropdown.
 function ScopeFilter({
   scopes,
   scopeLabels,
@@ -110,9 +127,6 @@ interface GlossaryToggleProps {
   onToggle: () => void;
 }
 
-// The abbreviations are only readable to someone who already knows the sport,
-// so the design puts their meaning behind a toggle in the card header — closed
-// until the visitor asks for it.
 function GlossaryToggle({ label, isOpen, onToggle }: GlossaryToggleProps) {
   return (
     <button
@@ -143,8 +157,8 @@ interface GlossaryListProps {
 
 function GlossaryList({ columns, isOpen }: GlossaryListProps) {
   return (
-    // Kept in the DOM either way: what a column means is content a crawler and
-    // a find-in-page should reach without a click.
+    // Kept in the DOM while collapsed: what a column means is content a
+    // crawler and a find-in-page should reach without a click.
     <ul
       id="stats-glossary"
       hidden={!isOpen}
@@ -160,12 +174,13 @@ function GlossaryList({ columns, isOpen }: GlossaryListProps) {
   );
 }
 
-// A scope with no columns of its own still renders its table: the roster is
-// the point of the panel, the numbers are what it carries.
 const columnsFor = (
   columnsByScope: Record<string, StatColumnView[]>,
   scope: StatScope
 ): StatColumnView[] => columnsByScope[scope] || [];
+
+const columnSlugs = (columns: StatColumnView[]): string[] =>
+  columns.map(column => column.slug);
 
 interface StatsCardHeaderProps {
   title: string;
@@ -180,8 +195,6 @@ interface StatsCardHeaderProps {
   onToggleGlossary: () => void;
 }
 
-// What sits above the table: the name of the panel on one side, the controls
-// on the other, and the glossary unfolding underneath both.
 function StatsCardHeader({
   title,
   columns,
@@ -195,7 +208,7 @@ function StatsCardHeader({
   onToggleGlossary
 }: StatsCardHeaderProps) {
   return (
-    <div className="flex flex-col gap-4 p-6">
+    <div className="flex flex-col gap-4 p-4 md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h2 className="text-xl font-bold text-foreground md:text-2xl">
           {title}
@@ -241,14 +254,14 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
     <th
       scope="col"
       aria-sort={ariaSort(sort, column.slug)}
-      className="px-2 py-2 text-right font-bold last:pr-6"
+      className={`${STAT_CELL} text-xs font-bold uppercase tracking-[0.5px]`}
     >
       <button
         type="button"
         onClick={() => onSort(column.slug)}
         title={column.description}
         aria-label={sortLabel.replace('{stat}', column.description)}
-        className="cursor-pointer uppercase tracking-[0.5px] hover:underline"
+        className="cursor-pointer hover:underline"
       >
         {column.label}
       </button>
@@ -263,12 +276,14 @@ interface StatRowProps {
 
 function StatRow({ row, columns }: StatRowProps) {
   return (
-    <tr className="border-b border-border/60 last:border-0">
-      <td className="py-2.5 pl-6 pr-3 text-xs tabular-nums text-muted">
+    <tr className={`${ROW_HEIGHT} border-b border-border/60`}>
+      <td
+        className={`${NUMBER_CELL} bg-surface text-xs tabular-nums text-muted`}
+      >
         {row.shirtNumber}
       </td>
       <td
-        className="py-2.5 pr-3 text-sm font-semibold text-foreground"
+        className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}
         data-testid="roster-player-name"
       >
         {row.name}
@@ -276,7 +291,7 @@ function StatRow({ row, columns }: StatRowProps) {
       {columns.map(column => (
         <td
           key={column.slug}
-          className="notranslate px-2 py-2.5 text-right text-xs tabular-nums last:pr-6"
+          className={`${STAT_CELL} notranslate text-xs tabular-nums`}
         >
           {formatStatValue(column.slug, row.stats[column.slug])}
         </td>
@@ -285,9 +300,33 @@ function StatRow({ row, columns }: StatRowProps) {
   );
 }
 
+interface TotalsRowProps {
+  totals: Record<string, string>;
+  columns: StatColumnView[];
+  label: string;
+}
+
+// Only counts add up, so a percentage and a per game average arrive missing
+// from `totals` and read as a dash.
+function TotalsRow({ totals, columns, label }: TotalsRowProps) {
+  return (
+    <tr className={`${ROW_HEIGHT} ${TOTALS_BAND} font-bold text-foreground`}>
+      <td className={`${NUMBER_CELL} ${TOTALS_BAND}`} />
+      <td className={`${NAME_CELL} ${TOTALS_BAND} text-sm`}>{label}</td>
+      {columns.map(column => (
+        <td
+          key={column.slug}
+          className={`${STAT_CELL} notranslate text-xs tabular-nums`}
+        >
+          {totals[column.slug] || '-'}
+        </td>
+      ))}
+    </tr>
+  );
+}
+
 // The roster and its numbers are one table: the CMS team view has no plain
-// list of names to keep them apart, and repeating every player twice on the
-// same panel is what splitting them would cost.
+// list of names to keep them apart.
 export function RosterStatsTable({
   rows,
   columnsByScope,
@@ -298,6 +337,7 @@ export function RosterStatsTable({
   glossaryLabel,
   numberLabel,
   nameLabel,
+  totalLabel,
   sortLabel
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
@@ -307,8 +347,8 @@ export function RosterStatsTable({
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = sortRosterRows(rows, sort.slug, sort.direction);
 
-  // The column a scope was ranked by does not exist in the other one: the per
-  // game slugs are their own. Switching scopes drops back to roster order.
+  // The per game slugs are their own, so the column a scope was ranked by
+  // does not exist in the other one.
   const selectScope = (next: StatScope) => {
     setScope(next);
     setSort(NO_SORT);
@@ -333,16 +373,16 @@ export function RosterStatsTable({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left">
           <thead>
-            <tr className="bg-primary/40 text-xs text-foreground">
+            <tr className={`${HEADER_BAND} ${ROW_HEIGHT} text-foreground`}>
               <th
                 scope="col"
-                className="w-12 py-2.5 pl-6 pr-3 font-bold uppercase tracking-[0.5px]"
+                className={`${NUMBER_CELL} ${HEADER_BAND} ${BAND_LABEL}`}
               >
                 {numberLabel}
               </th>
               <th
                 scope="col"
-                className="py-2.5 pr-3 font-bold uppercase tracking-[0.5px]"
+                className={`${NAME_CELL} ${HEADER_BAND} ${BAND_LABEL}`}
               >
                 {nameLabel}
               </th>
@@ -362,6 +402,13 @@ export function RosterStatsTable({
               <StatRow key={row.playerId} row={row} columns={columns} />
             ))}
           </tbody>
+          <tfoot>
+            <TotalsRow
+              totals={statTotals(rows, columnSlugs(columns))}
+              columns={columns}
+              label={totalLabel}
+            />
+          </tfoot>
         </table>
       </div>
     </div>

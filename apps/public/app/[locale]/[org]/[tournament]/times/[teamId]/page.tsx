@@ -63,8 +63,8 @@ const teamPagePath = ({ org, tournament, teamId }: TeamPageParams): string =>
 // background, so this is only the elevation it does not carry.
 const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
 
-// The stats card is the same elevated panel without the padding: its table
-// header and total band have to reach the edges of the card.
+// The stats card is the same elevated panel without the padding: its header
+// and totals bands have to reach the edges of the card.
 const FLUSH_SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
 const gamePageHref = (
@@ -334,14 +334,14 @@ interface RosterProps {
   glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
+  totalLabel: string;
   sortLabel: string;
 }
 
 // The roster of the CMS team view is the aggregated stats table, not a list of
 // names: routing this page without the columns would take data away from the
 // visitor (apps/cms/src/Pages/TeamView.tsx). The card carries no padding of
-// its own — the header row of the table runs edge to edge, the way the design
-// draws it.
+// its own — the header band and the totals band of the table run edge to edge.
 function Roster(rosterProps: RosterProps) {
   return (
     <Surface
@@ -646,6 +646,7 @@ export default async function TeamPage({
           coachingStaffTitle={t('coachingStaff')}
           scopeLegend={t('statsScope')}
           glossaryLabel={t('glossary')}
+          totalLabel={t('total')}
           numberLabel={t('shirtNumber')}
           nameLabel={t('playerName')}
           sortLabel={sortLabel}
@@ -675,7 +676,7 @@ export default async function TeamPage({
       data-testid="team-page"
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
-      <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-[1242px] flex-col gap-6">
         {/* Tournament pages still live in the CMS until the _redirects rollout
             moves them here, so this link must stay absolute. */}
         <a

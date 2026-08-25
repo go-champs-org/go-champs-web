@@ -5,6 +5,7 @@ import {
   rosterStatRows,
   sortRosterRows,
   statColumnsByScope,
+  statTotals,
   statColumnsForScope,
   type RosterStatRow
 } from './rosterStats';
@@ -77,6 +78,19 @@ describe('statColumnsForScope', () => {
 
   it('orders the columns the way the sport reads them, not the way the API listed them', () => {
     const columns = statColumnsForScope(tournamentStats, basketball, 'aggregate');
+
+    expect(columns.map(column => column.slug)).toEqual(['points', 'assists']);
+  });
+
+  it('leaves out a stat the table of the sport does not carry', () => {
+    const columns = statColumnsForScope(
+      [...tournamentStats, playerStat('custom_stat', 'Estatística da casa')],
+      sport([
+        ...basketball.playerStatistics,
+        sportStatistic('custom_stat', 'aggregate')
+      ]),
+      'aggregate'
+    );
 
     expect(columns.map(column => column.slug)).toEqual(['points', 'assists']);
   });
@@ -208,5 +222,38 @@ describe('sortRosterRows', () => {
 
   it('keeps the roster order when no column is chosen', () => {
     expect(sortRosterRows(rows, null, 'desc')).toBe(rows);
+  });
+});
+
+describe('statTotals', () => {
+  const rows: RosterStatRow[] = [
+    {
+      playerId: 'p1',
+      name: 'Ana',
+      shirtNumber: '7',
+      stats: { points: '10', free_throw_percentage: '50', points_per_game: '5' }
+    },
+    {
+      playerId: 'p2',
+      name: 'Bia',
+      shirtNumber: '9',
+      stats: { points: '22', free_throw_percentage: '80', points_per_game: '11' }
+    }
+  ];
+
+  it('adds up a column of counts', () => {
+    expect(statTotals(rows, ['points']).points).toBe('32');
+  });
+
+  it('leaves a percentage column out: it is not the sum of its cells', () => {
+    expect(statTotals(rows, ['free_throw_percentage'])).toEqual({});
+  });
+
+  it('leaves a per game average out for the same reason', () => {
+    expect(statTotals(rows, ['points_per_game'])).toEqual({});
+  });
+
+  it('leaves out a column no player has a number for', () => {
+    expect(statTotals(rows, ['blocks'])).toEqual({});
   });
 });

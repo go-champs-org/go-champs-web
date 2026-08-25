@@ -41,8 +41,14 @@ const bySportOrder =
   (left: PlayerStatEntity, right: PlayerStatEntity): number =>
     orderIndex(order, left.slug) - orderIndex(order, right.slug);
 
+// A sport with a table of its own shows that table and nothing else, the way
+// the CMS does: a statistic the tournament configured outside it is not a
+// column the reader of this sport expects.
+const inSportTable = (order: string[], stat: PlayerStatEntity): boolean =>
+  order.length === 0 || order.includes(baseStatSlug(stat.slug));
+
 // The columns of the table: the tournament's own statistics, minus the ones
-// it keeps private, narrowed to one scope and read in the sport's order.
+// it keeps private, narrowed to one scope and to the table of the sport.
 // A tournament whose sport could not be loaded still gets its visible
 // statistics — one column each, in the order the API sent them.
 export const statColumnsForScope = (
@@ -55,10 +61,11 @@ export const statColumnsForScope = (
   if (!sport) return visible;
 
   const scoped = slugsInScope(sport, scope);
+  const order = sportStatOrder(sport.slug);
 
   return visible
-    .filter(stat => scoped.has(stat.slug))
-    .sort(bySportOrder(sportStatOrder(sport.slug)));
+    .filter(stat => scoped.has(stat.slug) && inSportTable(order, stat))
+    .sort(bySportOrder(order));
 };
 
 // Only a scope with columns of its own is worth offering: a tournament that
@@ -131,6 +138,37 @@ export const formatStatValue = (
 
   return formatBySlug(slug, parsed);
 };
+
+// Only counts add up. A percentage of the whole team is not the sum of the
+// column, and neither is a per game average — the design draws the band, the
+// arithmetic decides which of its cells can be filled.
+const isSummable = (slug: string): boolean =>
+  !slug.endsWith(PER_GAME_SUFFIX) &&
+  !baseStatSlug(slug).endsWith(PERCENTAGE_SUFFIX);
+
+const statSum = (rows: RosterStatRow[], slug: string): number | null => {
+  const values = rows
+    .map(row => Number(row.stats[slug]))
+    .filter(value => Number.isFinite(value));
+
+  // A column no player has a number for stays empty rather than reading zero,
+  // which would look like a team that scored none of it.
+  return values.length > 0 ? values.reduce((sum, value) => sum + value, 0) : null;
+};
+
+// The totals band of the table, keyed by slug. A column missing from the
+// result is a column the band leaves blank.
+export const statTotals = (
+  rows: RosterStatRow[],
+  slugs: string[]
+): Record<string, string> =>
+  Object.fromEntries(
+    slugs
+      .filter(isSummable)
+      .map(slug => [slug, statSum(rows, slug)] as const)
+      .filter(([, total]) => total !== null)
+      .map(([slug, total]) => [slug, (total as number).toFixed(0)])
+  );
 
 const MISSING = Number.NEGATIVE_INFINITY;
 

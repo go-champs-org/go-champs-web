@@ -109,6 +109,7 @@
     "scopePerGame": "Per game",
     "sortByStat": "Sort by {stat}",
     "glossary": "Glossary",
+    "total": "Total",
     "statColumns": {
       "points": "PTS",
       "rebounds": "REB",
