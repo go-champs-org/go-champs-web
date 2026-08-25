@@ -38,9 +38,41 @@ describe('Tournament Management', () => {
     cy.xpath("//h1[contains(text(), 'Test tournament (can delete) edited') and contains(@class, 'title')]").should('be.visible')
   })
 
-  it('Delete tournament', () => {
-    cy.xpath("//*[contains(text(), 'Test tournament (can delete) edited')]/../../div/button").dblclick()
+  it('Archive and unarchive tournament', () => {
+    cy.get(
+      'button[aria-label="Arquivar: Test tournament (can delete) edited"]'
+    ).click()
     cy.wait(1000)
-    cy.xpath("//*[contains(text(), 'Test tournement (can delete) edited') and contains(@class, 'title')]").should('not.exist')
+    cy.get(
+      'button[aria-label="Arquivar: Test tournament (can delete) edited"]'
+    ).should('not.exist')
+
+    cy.xpath("//button[contains(., 'Arquivados')]").click()
+    cy.wait(1000)
+    cy.get(
+      'button[aria-label="Desarquivar: Test tournament (can delete) edited"]'
+    )
+      .should('be.visible')
+      .click()
+    cy.wait(1000)
+    cy.get(
+      'button[aria-label="Desarquivar: Test tournament (can delete) edited"]'
+    ).should('not.exist')
+
+    cy.xpath("//button[contains(., 'Arquivados')]").click()
+    cy.wait(1000)
+    cy.get(
+      'button[aria-label="Arquivar: Test tournament (can delete) edited"]'
+    ).should('be.visible')
+  })
+
+  it('Delete tournament', () => {
+    cy.get(
+      'button[aria-label="Remover: Test tournament (can delete) edited"]'
+    ).dblclick()
+    cy.wait(1000)
+    cy.get(
+      'button[aria-label="Remover: Test tournament (can delete) edited"]'
+    ).should('not.exist')
   })
 })

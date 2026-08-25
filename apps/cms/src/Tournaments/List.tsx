@@ -92,8 +92,10 @@ const TournamentCard: React.FC<{
           </button>
 
           <DoubleClickButton
+            aria-label={`${t('remove')}: ${tournament.name}`}
             className="button is-text"
             onClick={() => deleteTournament(tournament)}
+            title={t('remove')}
           >
             <i aria-hidden="true" className="fas fa-trash" />
           </DoubleClickButton>
