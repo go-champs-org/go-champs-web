@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
+  getGamesByFilter,
   getTournamentBySlug,
+  type GameEntity,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
 import type { PlayerEntity } from '@gochamps/api-client';
@@ -11,6 +14,9 @@ import type { TeamEntity } from '@gochamps/domain-types';
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
+import { formatGameTime } from '@/src/games/gameDateTime';
+import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
+import { teamDisplayName } from '@/src/games/gameTeams';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
@@ -36,6 +42,11 @@ interface TeamPageParams {
 const teamPagePath = ({ org, tournament, teamId }: TeamPageParams): string =>
   `/${org}/${tournament}/times/${teamId}`;
 
+const gamePageHref = (
+  { locale, org, tournament }: TeamPageParams,
+  gameId: string
+): string => `/${locale}/${org}/${tournament}/jogos/${gameId}`;
+
 // generateMetadata and the page both need the tournament; cache() keeps that to
 // a single request instead of fetching it twice per view.
 const loadTournament = cache(
@@ -59,10 +70,21 @@ const findTeam = (
   teamId: string
 ): TeamEntity | undefined => tournament?.teams.find(team => team.id === teamId);
 
+// A team plays at home or away, so its schedule is the union of both sides —
+// the `or` group the games filter exists for. The schedule is a companion to
+// the roster, not the page itself: an unreachable endpoint leaves the roster
+// standing instead of taking the page down, same shape the game page uses for
+// the tournament it links back to.
+const loadTeamGames = (teamId: string): Promise<GameEntity[]> =>
+  getGamesByFilter({
+    or: [{ home_team_id: teamId }, { away_team_id: teamId }]
+  }).catch(() => []);
+
 interface TeamView {
   tournament: TournamentWithTeamsEntity;
   team: TeamEntity;
   roster: PlayerEntity[];
+  games: GameEntity[];
 }
 
 // A team is only ever found inside a tournament, so a missing tournament and a
@@ -73,7 +95,12 @@ const loadTeamView = async (
   tournamentSlug: string,
   teamId: string
 ): Promise<TeamView> => {
-  const tournament = await loadTournament(org, tournamentSlug);
+  // The route already carries the team id, so the schedule does not have to
+  // wait for the tournament to resolve the team.
+  const [tournament, games] = await Promise.all([
+    loadTournament(org, tournamentSlug),
+    loadTeamGames(teamId)
+  ]);
   const team = findTeam(tournament, teamId);
 
   if (!tournament || !team) notFound();
@@ -81,7 +108,8 @@ const loadTeamView = async (
   return {
     tournament,
     team,
-    roster: teamRoster(tournament.players, team.id)
+    roster: teamRoster(tournament.players, team.id),
+    games
   };
 };
 
@@ -232,6 +260,86 @@ function Roster({
   );
 }
 
+interface GameRowProps {
+  game: GameEntity;
+  href: string;
+  time: string;
+  undecidedLabel: string;
+}
+
+function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
+  return (
+    <Link
+      href={href}
+      data-testid="game-row"
+      className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-md border border-border px-3 py-2 text-sm hover:border-primary-dark"
+    >
+      <span className="text-right font-medium text-foreground">
+        {teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel)}
+      </span>
+      <span className="flex flex-col items-center">
+        <span className="font-semibold tabular-nums text-foreground">
+          {game.homeScore} x {game.awayScore}
+        </span>
+        {/* The kickoff time is a formatted number: machine translation of the
+            page must leave it alone, same as on the game page. */}
+        <span className="notranslate text-xs text-muted">{time}</span>
+      </span>
+      <span className="font-medium text-foreground">
+        {teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel)}
+      </span>
+    </Link>
+  );
+}
+
+interface GamesScheduleProps {
+  days: GameDay[];
+  title: string;
+  locale: string;
+  gameHref: (gameId: string) => string;
+  undecidedLabel: string;
+}
+
+function GamesSchedule({
+  days,
+  title,
+  locale,
+  gameHref,
+  undecidedLabel
+}: GamesScheduleProps) {
+  return (
+    <Surface as="section" className="p-6" data-testid="games">
+      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+      <div className="mt-4 flex flex-col gap-6">
+        {days.map(day => (
+          <div
+            key={day.key}
+            data-testid="games-day"
+            className="flex flex-col gap-2"
+          >
+            {/* A game the organizer has not scheduled yet has no day to head
+                its group with. */}
+            {day.label && (
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">
+                {day.label}
+              </h3>
+            )}
+            {day.games.map(game => (
+              <GameRow
+                key={game.id}
+                game={game}
+                href={gameHref(game.id)}
+                time={formatGameTime(game.datetime, locale)}
+                undecidedLabel={undecidedLabel}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </Surface>
+  );
+}
+
 export default async function TeamPage({
   params
 }: {
@@ -241,10 +349,16 @@ export default async function TeamPage({
   const { locale, org, tournament: tournamentSlug, teamId } = routeParams;
   setRequestLocale(locale);
 
-  const [{ tournament, team, roster }, t] = await Promise.all([
+  const [{ tournament, team, roster, games }, t, tGame] = await Promise.all([
     loadTeamView(org, tournamentSlug, teamId),
-    getTranslations('team')
+    getTranslations('team'),
+    getTranslations('game')
   ]);
+
+  // Newest day first, the order the CMS team view already shows: a visitor
+  // opening a team mid-tournament is looking for the last result, not the
+  // opening round.
+  const days = gamesByDate(games, locale).reverse();
 
   return (
     <main
@@ -277,6 +391,16 @@ export default async function TeamPage({
           <CoachingStaff
             coaches={labelCoaches(team.coaches, t)}
             title={t('coachingStaff')}
+          />
+        )}
+
+        {days.length > 0 && (
+          <GamesSchedule
+            days={days}
+            title={t('games')}
+            locale={locale}
+            gameHref={gameId => gamePageHref(routeParams, gameId)}
+            undecidedLabel={tGame('undecidedTeam')}
           />
         )}
       </div>

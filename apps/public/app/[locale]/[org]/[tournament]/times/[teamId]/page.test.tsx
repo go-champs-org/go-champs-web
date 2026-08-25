@@ -1,11 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import { ApiError, getTournamentBySlug } from '@gochamps/api-client';
+import {
+  ApiError,
+  getGamesByFilter,
+  getTournamentBySlug
+} from '@gochamps/api-client';
 import { notFound } from 'next/navigation';
 import TeamPage, { generateMetadata, revalidate } from './page';
 import { SITE_URL } from '@/src/seo/metadata';
 
 jest.mock('@gochamps/api-client', () => ({
   ...jest.requireActual('@gochamps/api-client'),
+  getGamesByFilter: jest.fn(),
   getTournamentBySlug: jest.fn()
 }));
 
@@ -32,6 +37,7 @@ jest.mock('next-intl/server', () => ({
 }));
 
 const getTournamentBySlugMock = getTournamentBySlug as jest.Mock;
+const getGamesByFilterMock = getGamesByFilter as jest.Mock;
 
 const team = (id: string, name: string, overrides = {}) => ({
   id,
@@ -51,6 +57,27 @@ const player = (id: string, name: string, overrides = {}) => ({
   teamId: 't2',
   photoUrl: '',
   licenseNumber: '',
+  ...overrides
+});
+
+const game = (id: string, datetime: string, overrides = {}) => ({
+  id,
+  datetime,
+  homeTeam: team('t2', 'Time B'),
+  awayTeam: team('t1', 'Time A'),
+  homePlaceholder: '',
+  awayPlaceholder: '',
+  homeScore: 0,
+  awayScore: 0,
+  info: '',
+  isFinished: false,
+  location: '',
+  city: '',
+  number: '',
+  phaseId: 'ph1',
+  youTubeCode: '',
+  liveState: '',
+  resultType: '',
   ...overrides
 });
 
@@ -81,6 +108,7 @@ describe('TeamPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getTournamentBySlugMock.mockResolvedValue(tournament());
+    getGamesByFilterMock.mockResolvedValue([]);
   });
 
   it('renders the team name from the tournament roster', async () => {
@@ -174,6 +202,80 @@ describe('TeamPage', () => {
     await expect(renderPage()).rejects.toThrow('NEXT_NOT_FOUND');
   });
 
+  it('asks for every game the team plays, at home or away', async () => {
+    await renderPage();
+
+    expect(getGamesByFilterMock).toHaveBeenCalledWith({
+      or: [{ home_team_id: 't2' }, { away_team_id: 't2' }]
+    });
+  });
+
+  it('renders the games grouped by date, most recent day first', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z'),
+      game('g2', '2026-08-20T22:00:00Z')
+    ]);
+
+    await renderPage();
+
+    const days = screen
+      .getAllByTestId('games-day')
+      .map(day => day.textContent || '');
+    expect(days).toHaveLength(2);
+    expect(days[0]).toContain('20 de agosto de 2026');
+    expect(days[1]).toContain('12 de agosto de 2026');
+  });
+
+  it('links each game to its page and shows the opponents and the score', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', { homeScore: 88, awayScore: 74 })
+    ]);
+
+    await renderPage();
+
+    const link = screen.getByTestId('game-row');
+    expect(link).toHaveAttribute(
+      'href',
+      '/pt/org/torneio-teste/jogos/g1'
+    );
+    expect(link.textContent).toContain('Time A');
+    expect(link.textContent).toContain('88');
+    expect(link.textContent).toContain('74');
+  });
+
+  it('names an undecided opponent instead of leaving the row blank', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', {
+        awayTeam: team('', ''),
+        awayPlaceholder: ''
+      })
+    ]);
+
+    await renderPage();
+
+    expect(screen.getByTestId('game-row').textContent).toContain('A definir');
+  });
+
+  // The roster is the page; an API that cannot answer the schedule must not
+  // take it down with it.
+  it('still renders the roster when the games request fails', async () => {
+    getGamesByFilterMock.mockRejectedValue(new Error('network'));
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({ players: [player('p10', 'Camisa Dez', { shirtNumber: '10' })] })
+    );
+
+    await renderPage();
+
+    expect(screen.getByTestId('roster')).toBeInTheDocument();
+    expect(screen.queryByTestId('games')).not.toBeInTheDocument();
+  });
+
+  it('omits the games section when the team has no games', async () => {
+    await renderPage();
+
+    expect(screen.queryByTestId('games')).not.toBeInTheDocument();
+  });
+
   it('revalidates the page instead of rendering it per request', () => {
     expect(revalidate).toBeGreaterThan(0);
   });
@@ -183,6 +285,7 @@ describe('generateMetadata', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getTournamentBySlugMock.mockResolvedValue(tournament());
+    getGamesByFilterMock.mockResolvedValue([]);
   });
 
   it('titles the page with the team and canonicalizes the locale url', async () => {
