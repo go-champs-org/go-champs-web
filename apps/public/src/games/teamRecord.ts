@@ -5,7 +5,7 @@ export interface TeamRecord {
   wins: number;
 }
 
-type GameSide = 'home' | 'away';
+export type GameSide = 'home' | 'away';
 
 // A walkover is awarded, not played: the result type names the winner and the
 // scoreline says nothing (apps/cms/src/Games/state.ts).
@@ -20,7 +20,11 @@ const playedWinner = (game: GameEntity): GameSide | undefined => {
   return game.homeScore > game.awayScore ? 'home' : 'away';
 };
 
-const gameWinner = (game: GameEntity): GameSide | undefined => {
+/**
+ * Which side won, or undefined while the game is undecided — still to be
+ * played, in progress, or drawn.
+ */
+export const gameWinner = (game: GameEntity): GameSide | undefined => {
   const awarded = WALKOVER_WINNER[game.resultType];
 
   if (awarded) return awarded;

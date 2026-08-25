@@ -278,6 +278,58 @@ describe('TeamPage', () => {
     ).toHaveLength(1);
   });
 
+  it('marks the side that won the game', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', {
+        homeScore: 60,
+        awayScore: 75,
+        isFinished: true
+      })
+    ]);
+
+    await renderPage();
+
+    const row = within(screen.getByTestId('game-row'));
+    expect(row.getByText('Vencedor').parentElement).toHaveTextContent(
+      'Time A'
+    );
+  });
+
+  it('marks the side a walkover was awarded to', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', {
+        resultType: 'home_team_walkover',
+        isFinished: false
+      })
+    ]);
+
+    await renderPage();
+
+    const row = within(screen.getByTestId('game-row'));
+    expect(row.getByText('Vencedor').parentElement).toHaveTextContent(
+      'Time B'
+    );
+  });
+
+  it('marks no winner while the game is undecided', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', {
+        homeScore: 60,
+        awayScore: 75,
+        isFinished: false
+      }),
+      game('g2', '2026-08-13T21:00:00Z', {
+        homeScore: 70,
+        awayScore: 70,
+        isFinished: true
+      })
+    ]);
+
+    await renderPage();
+
+    expect(screen.queryByText('Vencedor')).not.toBeInTheDocument();
+  });
+
   it('names an undecided opponent instead of leaving the row blank', async () => {
     getGamesByFilterMock.mockResolvedValue([
       game('g1', '2026-08-12T21:00:00Z', {

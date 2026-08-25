@@ -17,7 +17,11 @@ import { CMS_URL } from '@/src/config/cms';
 import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
-import { teamRecord } from '@/src/games/teamRecord';
+import {
+  gameWinner,
+  teamRecord,
+  type GameSide
+} from '@/src/games/teamRecord';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { TeamSections, type TeamTab } from './TeamSections';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
@@ -344,39 +348,93 @@ interface GameRowProps {
   href: string;
   time: string;
   undecidedLabel: string;
+  winnerLabel: string;
+}
+
+// The winner carries the row: it is the only side in full weight, and the side
+// it beat steps back into the muted tone. A game still to be decided leaves
+// both where they are.
+const EMPHASIS_CLASS = {
+  winner: 'font-bold text-foreground',
+  loser: 'font-medium text-muted',
+  neutral: 'font-medium text-foreground'
+};
+
+type Emphasis = keyof typeof EMPHASIS_CLASS;
+
+const sideEmphasis = (
+  winner: GameSide | undefined,
+  side: GameSide
+): Emphasis => {
+  if (!winner) return 'neutral';
+
+  return winner === side ? 'winner' : 'loser';
+};
+
+function TeamCrest({
+  logoUrl,
+  isDimmed
+}: {
+  logoUrl: string;
+  isDimmed: boolean;
+}) {
+  return (
+    // Team logos live on arbitrary user-uploaded hosts: next/image would need
+    // each one allow-listed in next.config.js.
+    <img
+      src={logoUrl}
+      alt=""
+      width={28}
+      height={28}
+      decoding="async"
+      className={`h-7 w-7 shrink-0 rounded-full object-cover ${isDimmed ? 'opacity-60' : ''}`}
+    />
+  );
 }
 
 interface GameTeamProps {
   logoUrl: string;
   name: string;
+  emphasis: Emphasis;
+  winnerLabel: string;
   isHome?: boolean;
 }
 
 // Both crests face the score in the middle of the row, which is the reading
 // order the CMS game card already uses: the home team runs right to left.
-function GameTeam({ logoUrl, name, isHome = false }: GameTeamProps) {
+function GameTeam({
+  logoUrl,
+  name,
+  emphasis,
+  winnerLabel,
+  isHome = false
+}: GameTeamProps) {
   return (
     <span
       className={`flex min-w-0 items-center gap-2 ${isHome ? 'flex-row-reverse' : ''}`}
     >
       {logoUrl && (
-        // Team logos live on arbitrary user-uploaded hosts: next/image would
-        // need each one allow-listed in next.config.js.
-        <img
-          src={logoUrl}
-          alt=""
-          width={28}
-          height={28}
-          decoding="async"
-          className="h-7 w-7 shrink-0 rounded-full object-cover"
-        />
+        <TeamCrest logoUrl={logoUrl} isDimmed={emphasis === 'loser'} />
       )}
-      <span className="truncate font-medium text-foreground">{name}</span>
+      <span className={`truncate ${EMPHASIS_CLASS[emphasis]}`}>{name}</span>
+      {/* Weight and tone are the whole signal on screen; the winner has to be
+          announced too. */}
+      {emphasis === 'winner' && <span className="sr-only">{winnerLabel}</span>}
     </span>
   );
 }
 
-function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
+function GameRow({
+  game,
+  href,
+  time,
+  undecidedLabel,
+  winnerLabel
+}: GameRowProps) {
+  const winner = gameWinner(game);
+  const home = sideEmphasis(winner, 'home');
+  const away = sideEmphasis(winner, 'away');
+
   return (
     <Link
       href={href}
@@ -390,11 +448,15 @@ function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
           game.homePlaceholder,
           undecidedLabel
         )}
+        emphasis={home}
+        winnerLabel={winnerLabel}
         isHome
       />
       <span className="flex flex-col items-center">
-        <span className="font-semibold tabular-nums text-foreground">
-          {game.homeScore} x {game.awayScore}
+        <span className="flex items-center gap-1 tabular-nums">
+          <span className={EMPHASIS_CLASS[home]}>{game.homeScore}</span>
+          <span className="text-muted">x</span>
+          <span className={EMPHASIS_CLASS[away]}>{game.awayScore}</span>
         </span>
         {/* The kickoff time is a formatted number: machine translation of the
             page must leave it alone, same as on the game page. */}
@@ -407,6 +469,8 @@ function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
           game.awayPlaceholder,
           undecidedLabel
         )}
+        emphasis={away}
+        winnerLabel={winnerLabel}
       />
     </Link>
   );
@@ -418,6 +482,7 @@ interface GamesScheduleProps {
   locale: string;
   gameHref: (gameId: string) => string;
   undecidedLabel: string;
+  winnerLabel: string;
 }
 
 function GamesSchedule({
@@ -425,7 +490,8 @@ function GamesSchedule({
   title,
   locale,
   gameHref,
-  undecidedLabel
+  undecidedLabel,
+  winnerLabel
 }: GamesScheduleProps) {
   return (
     <Surface as="section" className={SECTION_CLASS} data-testid="games">
@@ -455,6 +521,7 @@ function GamesSchedule({
                   href={gameHref(game.id)}
                   time={formatGameTime(game.datetime, locale)}
                   undecidedLabel={undecidedLabel}
+                  winnerLabel={winnerLabel}
                 />
               ))}
             </div>
@@ -566,6 +633,7 @@ export default async function TeamPage({
           locale={locale}
           gameHref={gameId => gamePageHref(routeParams, gameId)}
           undecidedLabel={tGame('undecidedTeam')}
+          winnerLabel={t('winner')}
         />
       ),
       hasContent: days.length > 0
