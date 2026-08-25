@@ -7,6 +7,7 @@ import {
   getTournamentBySlug,
   type GameEntity
 } from '@gochamps/api-client';
+import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import { formatGameDateTime } from '@/src/games/gameDateTime';
@@ -152,7 +153,7 @@ interface GameVideoProps {
 
 function GameVideo({ youTubeCode, title }: GameVideoProps) {
   return (
-    <div className="aspect-video w-full overflow-hidden rounded-xl border border-border bg-surface">
+    <Surface className="aspect-video w-full overflow-hidden">
       <iframe
         src={`https://www.youtube.com/embed/${youTubeCode}`}
         title={title}
@@ -162,7 +163,7 @@ function GameVideo({ youTubeCode, title }: GameVideoProps) {
         allowFullScreen
         className="h-full w-full"
       />
-    </div>
+    </Surface>
   );
 }
 
@@ -186,7 +187,7 @@ function GameCard({
   const isLive = isLiveGame(game.liveState);
 
   return (
-    <article className="rounded-xl border border-border bg-surface p-4 md:p-8">
+    <Surface as="article" className="p-4 md:p-8">
       <header className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted">
         <span className="notranslate">{datetime}</span>
         <span>{venue}</span>
@@ -214,7 +215,7 @@ function GameCard({
       {game.info && (
         <p className="mt-6 text-center text-sm text-muted">{game.info}</p>
       )}
-    </article>
+    </Surface>
   );
 }
 

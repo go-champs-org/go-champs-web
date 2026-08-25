@@ -1,4 +1,5 @@
 import { TeamEntity } from '@gochamps/domain-types';
+import { mapApiPlayerToPlayerEntity, PlayerEntity } from '../players/dataMappers';
 import { mapApiTeamToTeamEntity } from '../teams/dataMappers';
 import {
   ApiPlayerStat,
@@ -70,6 +71,9 @@ export interface TournamentEntity {
 
 export interface TournamentWithTeamsEntity extends TournamentEntity {
   teams: TeamEntity[];
+  // Every player in the tournament, each carrying its own teamId: a team's
+  // roster is this list filtered, not a request of its own.
+  players: PlayerEntity[];
   sportSlug: string;
   sportName: string;
   playerStats: PlayerStatEntity[];
@@ -117,6 +121,7 @@ export const mapApiTournamentToTournamentWithTeamsEntity = (
   slug: apiTournament.slug,
   logoUrl: apiTournament.logo_url || '',
   teams: apiTournament.teams.map(mapApiTeamToTeamEntity),
+  players: (apiTournament.players || []).map(mapApiPlayerToPlayerEntity),
   sportSlug: apiTournament.sport_slug || '',
   sportName: apiTournament.sport_name || '',
   playerStats: (apiTournament.player_stats || []).map(mapApiPlayerStatToEntity),

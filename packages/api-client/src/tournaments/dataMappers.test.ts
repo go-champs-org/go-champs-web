@@ -29,6 +29,7 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       sportSlug: 'basketball_5x5',
       sportName: 'Basketball 5x5',
       playerStats: [],
+      players: [],
       scoreboardSetting: { liveSiteUpdate: 'full-live-update' },
       teams: [
         {
@@ -41,6 +42,40 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
         }
       ]
     });
+  });
+
+  it('maps the roster the tournament payload already carries', () => {
+    const result = mapApiTournamentToTournamentWithTeamsEntity({
+      id: 'tour1',
+      name: 'Test League',
+      slug: 'test-league',
+      teams: [{ id: 't1', name: 'Team A' }],
+      players: [
+        {
+          id: 'p1',
+          name: 'Player One',
+          shirt_number: '10',
+          team_id: 't1'
+        }
+      ]
+    });
+
+    expect(result.players).toEqual([
+      {
+        id: 'p1',
+        name: 'Player One',
+        shirtName: '',
+        shirtNumber: '10',
+        instagram: undefined,
+        facebook: undefined,
+        twitter: undefined,
+        username: undefined,
+        teamId: 't1',
+        state: undefined,
+        photoUrl: '',
+        licenseNumber: ''
+      }
+    ]);
   });
 
   it('maps the stat columns and marks the CMS-private slugs as private', () => {

@@ -49,6 +49,7 @@ describe('getTournamentBySlug', () => {
       slug: 'test-league',
       logoUrl: '',
       teams: [],
+      players: [],
       sportSlug: '',
       sportName: '',
       playerStats: [],
