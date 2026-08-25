@@ -7,3 +7,40 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans);
 }
+
+/* The entrance the CMS athlete and official profiles use
+   (apps/cms/src/Pages/AthleteProfilePage.scss): each block slides up into
+   place, staggered so the page reads top to bottom. `both` holds the opening
+   frame, which is what keeps a delayed block from flashing at full opacity
+   before its turn. */
+@keyframes slide-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-fade-in {
+  animation: slide-fade-in 0.6s ease-out both;
+}
+
+.slide-fade-in-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.slide-fade-in-delay-2 {
+  animation-delay: 0.3s;
+}
+
+/* Motion is decoration here: without it the content is already in its final
+   position, so the whole animation is dropped rather than shortened. */
+@media (prefers-reduced-motion: reduce) {
+  .slide-fade-in {
+    animation: none;
+  }
+}
