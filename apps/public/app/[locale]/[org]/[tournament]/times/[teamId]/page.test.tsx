@@ -529,6 +529,28 @@ describe('TeamPage roster stats', () => {
     expect(rosterCells('Camisa Quatro')).toEqual(['4', 'Camisa Quatro', '5.3']);
   });
 
+  it('keeps the glossary closed until the visitor asks for it', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    expect(screen.getByTestId('stats-glossary')).not.toBeVisible();
+  });
+
+  it('spells out every abbreviation once the glossary is open', async () => {
+    withRosterStats();
+
+    await renderPage();
+    await userEvent.click(screen.getByRole('button', { name: 'Glossário' }));
+
+    const glossary = screen.getByTestId('stats-glossary');
+    expect(glossary).toBeVisible();
+    expect(within(glossary).getAllByRole('listitem').map(item => item.textContent)).toEqual([
+      'PTS - Pontos',
+      'REB - Rebotes'
+    ]);
+  });
+
   it('offers no scope filter to a tournament that publishes a single scope', async () => {
     getTournamentBySlugMock.mockResolvedValue(
       tournament({

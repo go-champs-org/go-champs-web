@@ -63,6 +63,10 @@ const teamPagePath = ({ org, tournament, teamId }: TeamPageParams): string =>
 // background, so this is only the elevation it does not carry.
 const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
 
+// The stats card is the same elevated panel without the padding: its table
+// header and total band have to reach the edges of the card.
+const FLUSH_SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
+
 const gamePageHref = (
   { locale, org, tournament }: TeamPageParams,
   gameId: string
@@ -327,6 +331,7 @@ interface RosterProps {
   scopeLabels: Record<string, string>;
   title: string;
   scopeLegend: string;
+  glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
   sortLabel: string;
@@ -334,33 +339,17 @@ interface RosterProps {
 
 // The roster of the CMS team view is the aggregated stats table, not a list of
 // names: routing this page without the columns would take data away from the
-// visitor (apps/cms/src/Pages/TeamView.tsx).
-function Roster({
-  rows,
-  columnsByScope,
-  scopes,
-  scopeLabels,
-  title,
-  scopeLegend,
-  numberLabel,
-  nameLabel,
-  sortLabel
-}: RosterProps) {
+// visitor (apps/cms/src/Pages/TeamView.tsx). The card carries no padding of
+// its own — the header row of the table runs edge to edge, the way the design
+// draws it.
+function Roster(rosterProps: RosterProps) {
   return (
-    <Surface as="section" className={SECTION_CLASS} data-testid="roster">
-      {/* The tab bar already names this panel; the heading stays for the
-          document outline and for a single-section team with no tab bar. */}
-      <h2 className="sr-only">{title}</h2>
-      <RosterStatsTable
-        rows={rows}
-        columnsByScope={columnsByScope}
-        scopes={scopes}
-        scopeLabels={scopeLabels}
-        scopeLegend={scopeLegend}
-        numberLabel={numberLabel}
-        nameLabel={nameLabel}
-        sortLabel={sortLabel}
-      />
+    <Surface
+      as="section"
+      className={`${FLUSH_SECTION_CLASS} overflow-hidden`}
+      data-testid="roster"
+    >
+      <RosterStatsTable {...rosterProps} />
     </Surface>
   );
 }
@@ -656,6 +645,7 @@ export default async function TeamPage({
           title={t('roster')}
           coachingStaffTitle={t('coachingStaff')}
           scopeLegend={t('statsScope')}
+          glossaryLabel={t('glossary')}
           numberLabel={t('shirtNumber')}
           nameLabel={t('playerName')}
           sortLabel={sortLabel}

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { MdChromeReaderMode } from 'react-icons/md';
 import {
   formatStatValue,
   sortRosterRows,
@@ -13,7 +15,7 @@ export interface StatColumnView {
   slug: string;
   // The abbreviation the column is headed with — 'PTS', 'REB'.
   label: string;
-  // What the abbreviation stands for, for the tooltip and the screen reader.
+  // What the abbreviation stands for, for the glossary and the screen reader.
   description: string;
 }
 
@@ -22,7 +24,9 @@ interface RosterStatsTableProps {
   columnsByScope: Record<string, StatColumnView[]>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
+  title: string;
   scopeLegend: string;
+  glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
   sortLabel: string;
@@ -58,7 +62,7 @@ const SCOPE_CLASS =
 
 const scopeClass = (isActive: boolean): string =>
   isActive
-    ? `${SCOPE_CLASS} border-primary bg-primary text-white`
+    ? `${SCOPE_CLASS} border-primary-dark bg-primary-dark text-neutral-100`
     : `${SCOPE_CLASS} border-border text-muted hover:bg-background`;
 
 interface ScopeFilterProps {
@@ -100,6 +104,131 @@ function ScopeFilter({
   );
 }
 
+interface GlossaryToggleProps {
+  label: string;
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+// The abbreviations are only readable to someone who already knows the sport,
+// so the design puts their meaning behind a toggle in the card header — closed
+// until the visitor asks for it.
+function GlossaryToggle({ label, isOpen, onToggle }: GlossaryToggleProps) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-expanded={isOpen}
+      aria-controls="stats-glossary"
+      className="flex cursor-pointer items-center gap-2 text-base font-semibold text-foreground"
+    >
+      <MdChromeReaderMode
+        aria-hidden="true"
+        className="h-6 w-6 text-primary-dark"
+      />
+      {label}
+      {isOpen ? (
+        <FaChevronUp aria-hidden="true" className="h-5 w-5" />
+      ) : (
+        <FaChevronDown aria-hidden="true" className="h-5 w-5" />
+      )}
+    </button>
+  );
+}
+
+interface GlossaryListProps {
+  columns: StatColumnView[];
+  isOpen: boolean;
+}
+
+function GlossaryList({ columns, isOpen }: GlossaryListProps) {
+  return (
+    // Kept in the DOM either way: what a column means is content a crawler and
+    // a find-in-page should reach without a click.
+    <ul
+      id="stats-glossary"
+      hidden={!isOpen}
+      data-testid="stats-glossary"
+      className="columns-1 list-disc gap-8 pl-5 text-xs font-bold leading-6 text-foreground sm:columns-2 lg:columns-4"
+    >
+      {columns.map(column => (
+        <li key={column.slug} className="break-inside-avoid">
+          {column.label} - {column.description}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// A scope with no columns of its own still renders its table: the roster is
+// the point of the panel, the numbers are what it carries.
+const columnsFor = (
+  columnsByScope: Record<string, StatColumnView[]>,
+  scope: StatScope
+): StatColumnView[] => columnsByScope[scope] || [];
+
+interface StatsCardHeaderProps {
+  title: string;
+  columns: StatColumnView[];
+  scopes: StatScope[];
+  scopeLabels: Record<string, string>;
+  scopeLegend: string;
+  glossaryLabel: string;
+  activeScope: StatScope;
+  onSelectScope: (scope: StatScope) => void;
+  isGlossaryOpen: boolean;
+  onToggleGlossary: () => void;
+}
+
+// What sits above the table: the name of the panel on one side, the controls
+// on the other, and the glossary unfolding underneath both.
+function StatsCardHeader({
+  title,
+  columns,
+  scopes,
+  scopeLabels,
+  scopeLegend,
+  glossaryLabel,
+  activeScope,
+  onSelectScope,
+  isGlossaryOpen,
+  onToggleGlossary
+}: StatsCardHeaderProps) {
+  return (
+    <div className="flex flex-col gap-4 p-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h2 className="text-xl font-bold text-foreground md:text-2xl">
+          {title}
+        </h2>
+
+        <div className="flex flex-wrap items-center gap-4">
+          {scopes.length > 1 && (
+            <ScopeFilter
+              scopes={scopes}
+              scopeLabels={scopeLabels}
+              legend={scopeLegend}
+              activeScope={activeScope}
+              onSelect={onSelectScope}
+            />
+          )}
+
+          {columns.length > 0 && (
+            <GlossaryToggle
+              label={glossaryLabel}
+              isOpen={isGlossaryOpen}
+              onToggle={onToggleGlossary}
+            />
+          )}
+        </div>
+      </div>
+
+      {columns.length > 0 && (
+        <GlossaryList columns={columns} isOpen={isGlossaryOpen} />
+      )}
+    </div>
+  );
+}
+
 interface StatHeaderProps {
   column: StatColumnView;
   sort: SortState;
@@ -112,14 +241,14 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
     <th
       scope="col"
       aria-sort={ariaSort(sort, column.slug)}
-      className="py-2 px-2 text-center font-medium"
+      className="px-2 py-2 text-right font-bold last:pr-6"
     >
       <button
         type="button"
         onClick={() => onSort(column.slug)}
         title={column.description}
         aria-label={sortLabel.replace('{stat}', column.description)}
-        className="cursor-pointer font-semibold uppercase tracking-wide hover:text-foreground"
+        className="cursor-pointer uppercase tracking-[0.5px] hover:underline"
       >
         {column.label}
       </button>
@@ -134,10 +263,12 @@ interface StatRowProps {
 
 function StatRow({ row, columns }: StatRowProps) {
   return (
-    <tr className="border-b border-border last:border-0">
-      <td className="py-2 pr-3 tabular-nums text-muted">{row.shirtNumber}</td>
+    <tr className="border-b border-border/60 last:border-0">
+      <td className="py-2.5 pl-6 pr-3 text-xs tabular-nums text-muted">
+        {row.shirtNumber}
+      </td>
       <td
-        className="py-2 pr-3 font-medium text-foreground"
+        className="py-2.5 pr-3 text-sm font-semibold text-foreground"
         data-testid="roster-player-name"
       >
         {row.name}
@@ -145,7 +276,7 @@ function StatRow({ row, columns }: StatRowProps) {
       {columns.map(column => (
         <td
           key={column.slug}
-          className="py-2 px-2 text-center tabular-nums notranslate"
+          className="notranslate px-2 py-2.5 text-right text-xs tabular-nums last:pr-6"
         >
           {formatStatValue(column.slug, row.stats[column.slug])}
         </td>
@@ -162,15 +293,18 @@ export function RosterStatsTable({
   columnsByScope,
   scopes,
   scopeLabels,
+  title,
   scopeLegend,
+  glossaryLabel,
   numberLabel,
   nameLabel,
   sortLabel
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(NO_SORT);
+  const [isGlossaryOpen, setGlossaryOpen] = useState(false);
 
-  const columns = columnsByScope[scope] || [];
+  const columns = columnsFor(columnsByScope, scope);
   const sortedRows = sortRosterRows(rows, sort.slug, sort.direction);
 
   // The column a scope was ranked by does not exist in the other one: the per
@@ -181,26 +315,35 @@ export function RosterStatsTable({
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      {scopes.length > 1 && (
-        <ScopeFilter
-          scopes={scopes}
-          scopeLabels={scopeLabels}
-          legend={scopeLegend}
-          activeScope={scope}
-          onSelect={selectScope}
-        />
-      )}
+    <div className="flex flex-col">
+      <StatsCardHeader
+        title={title}
+        columns={columns}
+        scopes={scopes}
+        scopeLabels={scopeLabels}
+        scopeLegend={scopeLegend}
+        glossaryLabel={glossaryLabel}
+        activeScope={scope}
+        onSelectScope={selectScope}
+        isGlossaryOpen={isGlossaryOpen}
+        onToggleGlossary={() => setGlossaryOpen(!isGlossaryOpen)}
+      />
 
       {/* Narrow screens scroll the table instead of the page. */}
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-left text-sm">
+        <table className="w-full border-collapse text-left">
           <thead>
-            <tr className="border-b border-border text-muted">
-              <th scope="col" className="w-12 py-2 pr-3 font-medium">
+            <tr className="bg-primary/40 text-xs text-foreground">
+              <th
+                scope="col"
+                className="w-12 py-2.5 pl-6 pr-3 font-bold uppercase tracking-[0.5px]"
+              >
                 {numberLabel}
               </th>
-              <th scope="col" className="py-2 pr-3 font-medium">
+              <th
+                scope="col"
+                className="py-2.5 pr-3 font-bold uppercase tracking-[0.5px]"
+              >
                 {nameLabel}
               </th>
               {columns.map(column => (
