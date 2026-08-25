@@ -18,6 +18,7 @@ import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { TeamTabs, type TeamTab } from './TeamTabs';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
 
@@ -41,6 +42,11 @@ interface TeamPageParams {
 
 const teamPagePath = ({ org, tournament, teamId }: TeamPageParams): string =>
   `/${org}/${tournament}/times/${teamId}`;
+
+// The athlete and official profile pages of the CMS lift every block off the
+// page with a soft shadow; Surface already owns the radius, border and
+// background, so this is only the elevation it does not carry.
+const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
 
 const gamePageHref = (
   { locale, org, tournament }: TeamPageParams,
@@ -151,7 +157,7 @@ function TeamBanner({ team }: TeamBannerProps) {
   return (
     <Surface
       as="header"
-      className="flex flex-col items-center gap-3 p-6 text-center md:flex-row md:gap-6 md:text-left"
+      className={`slide-fade-in ${SECTION_CLASS} flex flex-col items-center gap-3 text-center md:flex-row md:gap-6 md:text-left`}
     >
       {team.logoUrl && (
         // Team logos live on arbitrary user-uploaded hosts: next/image would
@@ -179,6 +185,21 @@ function TeamBanner({ team }: TeamBannerProps) {
   );
 }
 
+// The green bar the profile pages put before every section title
+// (apps/cms/src/Pages/AthleteProfilePage.scss). It is decoration: the heading
+// text alone is what a screen reader announces.
+function SectionTitle({ children }: { children: string }) {
+  return (
+    <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+      <span
+        aria-hidden="true"
+        className="inline-block h-[1.1rem] w-1 rounded-full bg-primary"
+      />
+      {children}
+    </h2>
+  );
+}
+
 interface CoachingStaffProps {
   coaches: LabelledCoach[];
   title: string;
@@ -186,8 +207,8 @@ interface CoachingStaffProps {
 
 function CoachingStaff({ coaches, title }: CoachingStaffProps) {
   return (
-    <Surface as="section" className="p-6">
-      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    <Surface as="section" className={SECTION_CLASS}>
+      <SectionTitle>{title}</SectionTitle>
       <ul className="mt-4 flex flex-col gap-2">
         {coaches.map(coach => (
           <li key={coach.id} className="flex flex-wrap items-baseline gap-2">
@@ -220,10 +241,12 @@ function Roster({
   shirtNameLabel
 }: RosterProps) {
   return (
-    <Surface as="section" className="p-6" data-testid="roster">
-      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    <Surface as="section" className={SECTION_CLASS} data-testid="roster">
+      {/* The tab bar already names this panel; the heading stays for the
+          document outline and for a single-section team with no tab bar. */}
+      <h2 className="sr-only">{title}</h2>
       {/* Narrow screens scroll the table instead of the page. */}
-      <div className="mt-4 overflow-x-auto">
+      <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-border text-muted">
@@ -272,7 +295,7 @@ function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
     <Link
       href={href}
       data-testid="game-row"
-      className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-md border border-border px-3 py-2 text-sm hover:border-primary-dark"
+      className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-border px-3 py-3 text-sm transition-colors last:border-0 hover:bg-background"
     >
       <span className="text-right font-medium text-foreground">
         {teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel)}
@@ -308,9 +331,9 @@ function GamesSchedule({
   undecidedLabel
 }: GamesScheduleProps) {
   return (
-    <Surface as="section" className="p-6" data-testid="games">
-      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-      <div className="mt-4 flex flex-col gap-6">
+    <Surface as="section" className={SECTION_CLASS} data-testid="games">
+      <h2 className="sr-only">{title}</h2>
+      <div className="flex flex-col gap-6">
         {days.map(day => (
           <div
             key={day.key}
@@ -324,21 +347,75 @@ function GamesSchedule({
                 {day.label}
               </h3>
             )}
-            {day.games.map(game => (
-              <GameRow
-                key={game.id}
-                game={game}
-                href={gameHref(game.id)}
-                time={formatGameTime(game.datetime, locale)}
-                undecidedLabel={undecidedLabel}
-              />
-            ))}
+            {/* Games of the same day read as one block: the rows share their
+                borders and only the outer corners are rounded, the way the
+                profile schedule stacks a tournament's games. */}
+            <div className="overflow-hidden rounded-xl border border-border">
+              {day.games.map(game => (
+                <GameRow
+                  key={game.id}
+                  game={game}
+                  href={gameHref(game.id)}
+                  time={formatGameTime(game.datetime, locale)}
+                  undecidedLabel={undecidedLabel}
+                />
+              ))}
+            </div>
           </div>
         ))}
       </div>
     </Surface>
   );
 }
+
+interface RosterPanelProps {
+  players: PlayerEntity[];
+  coaches: LabelledCoach[];
+  rosterTitle: string;
+  coachingStaffTitle: string;
+  numberLabel: string;
+  nameLabel: string;
+  shirtNameLabel: string;
+}
+
+// The roster tab of the CMS team view carries the coaching staff too: they are
+// the same answer to "who is this team".
+function RosterPanel({
+  players,
+  coaches,
+  rosterTitle,
+  coachingStaffTitle,
+  numberLabel,
+  nameLabel,
+  shirtNameLabel
+}: RosterPanelProps) {
+  return (
+    <>
+      {players.length > 0 && (
+        <Roster
+          players={players}
+          title={rosterTitle}
+          numberLabel={numberLabel}
+          nameLabel={nameLabel}
+          shirtNameLabel={shirtNameLabel}
+        />
+      )}
+
+      {coaches.length > 0 && (
+        <CoachingStaff coaches={coaches} title={coachingStaffTitle} />
+      )}
+    </>
+  );
+}
+
+interface CandidateTab extends TeamTab {
+  hasContent: boolean;
+}
+
+// A section with nothing in it earns no tab, which is what keeps the panels
+// free of empty states.
+const withContent = (candidates: CandidateTab[]): TeamTab[] =>
+  candidates.filter(tab => tab.hasContent);
 
 export default async function TeamPage({
   params
@@ -360,6 +437,43 @@ export default async function TeamPage({
   // opening round.
   const days = gamesByDate(games, locale).reverse();
 
+  // The CMS team view splits the roster from the schedule into tabs; stacking
+  // them instead would make the public page a different screen. A section with
+  // nothing in it earns no tab, which is what keeps the panels free of empty
+  // states.
+  const tabs = withContent([
+    {
+      id: 'roster',
+      label: t('roster'),
+      panel: (
+        <RosterPanel
+          players={roster}
+          coaches={labelCoaches(team.coaches, t)}
+          rosterTitle={t('roster')}
+          coachingStaffTitle={t('coachingStaff')}
+          numberLabel={t('shirtNumber')}
+          nameLabel={t('playerName')}
+          shirtNameLabel={t('shirtName')}
+        />
+      ),
+      hasContent: roster.length + team.coaches.length > 0
+    },
+    {
+      id: 'games',
+      label: t('games'),
+      panel: (
+        <GamesSchedule
+          days={days}
+          title={t('games')}
+          locale={locale}
+          gameHref={gameId => gamePageHref(routeParams, gameId)}
+          undecidedLabel={tGame('undecidedTeam')}
+        />
+      ),
+      hasContent: days.length > 0
+    }
+  ]);
+
   return (
     <main
       data-testid="team-page"
@@ -377,32 +491,7 @@ export default async function TeamPage({
 
         <TeamBanner team={team} />
 
-        {roster.length > 0 && (
-          <Roster
-            players={roster}
-            title={t('roster')}
-            numberLabel={t('shirtNumber')}
-            nameLabel={t('playerName')}
-            shirtNameLabel={t('shirtName')}
-          />
-        )}
-
-        {team.coaches.length > 0 && (
-          <CoachingStaff
-            coaches={labelCoaches(team.coaches, t)}
-            title={t('coachingStaff')}
-          />
-        )}
-
-        {days.length > 0 && (
-          <GamesSchedule
-            days={days}
-            title={t('games')}
-            locale={locale}
-            gameHref={gameId => gamePageHref(routeParams, gameId)}
-            undecidedLabel={tGame('undecidedTeam')}
-          />
-        )}
+        {tabs.length > 0 && <TeamTabs tabs={tabs} label={t('sections')} />}
       </div>
     </main>
   );

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   ApiError,
   getGamesByFilter,
@@ -278,6 +279,82 @@ describe('TeamPage', () => {
 
   it('revalidates the page instead of rendering it per request', () => {
     expect(revalidate).toBeGreaterThan(0);
+  });
+});
+
+describe('TeamPage tabs', () => {
+  const withRosterAndGames = () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p10', 'Camisa Dez', { shirtNumber: '10' })]
+      })
+    );
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z')
+    ]);
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    window.history.replaceState(null, '', '/');
+    getTournamentBySlugMock.mockResolvedValue(tournament());
+    getGamesByFilterMock.mockResolvedValue([]);
+  });
+
+  it('opens on the roster and keeps the games panel hidden', async () => {
+    withRosterAndGames();
+
+    await renderPage();
+
+    expect(screen.getByRole('tab', { name: 'Elenco' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    );
+    expect(screen.getByTestId('roster')).toBeVisible();
+    expect(screen.getByTestId('games')).not.toBeVisible();
+  });
+
+  it('swaps the panels when the games tab is clicked', async () => {
+    withRosterAndGames();
+
+    await renderPage();
+    await userEvent.click(screen.getByRole('tab', { name: 'Jogos' }));
+
+    expect(screen.getByTestId('games')).toBeVisible();
+    expect(screen.getByTestId('roster')).not.toBeVisible();
+  });
+
+  // The CMS team view hands out #roster / #games links; they have to keep
+  // landing on the tab they name.
+  it('opens on the tab named in the url hash', async () => {
+    withRosterAndGames();
+    window.history.replaceState(null, '', '#games');
+
+    await renderPage();
+
+    expect(screen.getByTestId('games')).toBeVisible();
+    expect(screen.getByTestId('roster')).not.toBeVisible();
+  });
+
+  it('leaves the clicked tab in the url so it can be shared', async () => {
+    withRosterAndGames();
+
+    await renderPage();
+    await userEvent.click(screen.getByRole('tab', { name: 'Jogos' }));
+
+    expect(window.location.hash).toBe('#games');
+  });
+
+  // A team with games but no roster has nothing to switch between.
+  it('renders no tablist when the team has a single section', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z')
+    ]);
+
+    await renderPage();
+
+    expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+    expect(screen.getByTestId('games')).toBeVisible();
   });
 });
 
