@@ -244,6 +244,40 @@ describe('TeamPage', () => {
     expect(link.textContent).toContain('74');
   });
 
+  it('shows the crest of each side that has one', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', {
+        homeTeam: team('t2', 'Time B', { logoUrl: 'https://cdn/b.png' }),
+        awayTeam: team('t1', 'Time A', { logoUrl: 'https://cdn/a.png' })
+      })
+    ]);
+
+    await renderPage();
+
+    const crests = within(screen.getByTestId('game-row')).getAllByRole(
+      'presentation'
+    );
+    expect(crests.map(crest => crest.getAttribute('src'))).toEqual([
+      'https://cdn/b.png',
+      'https://cdn/a.png'
+    ]);
+  });
+
+  // A team without a logo leaves the name alone rather than a broken image.
+  it('renders no crest for a team without a logo', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', {
+        homeTeam: team('t2', 'Time B', { logoUrl: 'https://cdn/b.png' })
+      })
+    ]);
+
+    await renderPage();
+
+    expect(
+      within(screen.getByTestId('game-row')).getAllByRole('presentation')
+    ).toHaveLength(1);
+  });
+
   it('names an undecided opponent instead of leaving the row blank', async () => {
     getGamesByFilterMock.mockResolvedValue([
       game('g1', '2026-08-12T21:00:00Z', {

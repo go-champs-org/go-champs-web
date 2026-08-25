@@ -346,6 +346,36 @@ interface GameRowProps {
   undecidedLabel: string;
 }
 
+interface GameTeamProps {
+  logoUrl: string;
+  name: string;
+  isHome?: boolean;
+}
+
+// Both crests face the score in the middle of the row, which is the reading
+// order the CMS game card already uses: the home team runs right to left.
+function GameTeam({ logoUrl, name, isHome = false }: GameTeamProps) {
+  return (
+    <span
+      className={`flex min-w-0 items-center gap-2 ${isHome ? 'flex-row-reverse' : ''}`}
+    >
+      {logoUrl && (
+        // Team logos live on arbitrary user-uploaded hosts: next/image would
+        // need each one allow-listed in next.config.js.
+        <img
+          src={logoUrl}
+          alt=""
+          width={28}
+          height={28}
+          decoding="async"
+          className="h-7 w-7 shrink-0 rounded-full object-cover"
+        />
+      )}
+      <span className="truncate font-medium text-foreground">{name}</span>
+    </span>
+  );
+}
+
 function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
   return (
     <Link
@@ -353,9 +383,15 @@ function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
       data-testid="game-row"
       className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-border px-3 py-3 text-sm transition-colors last:border-0 hover:bg-background"
     >
-      <span className="text-right font-medium text-foreground">
-        {teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel)}
-      </span>
+      <GameTeam
+        logoUrl={game.homeTeam.logoUrl}
+        name={teamDisplayName(
+          game.homeTeam,
+          game.homePlaceholder,
+          undecidedLabel
+        )}
+        isHome
+      />
       <span className="flex flex-col items-center">
         <span className="font-semibold tabular-nums text-foreground">
           {game.homeScore} x {game.awayScore}
@@ -364,9 +400,14 @@ function GameRow({ game, href, time, undecidedLabel }: GameRowProps) {
             page must leave it alone, same as on the game page. */}
         <span className="notranslate text-xs text-muted">{time}</span>
       </span>
-      <span className="font-medium text-foreground">
-        {teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel)}
-      </span>
+      <GameTeam
+        logoUrl={game.awayTeam.logoUrl}
+        name={teamDisplayName(
+          game.awayTeam,
+          game.awayPlaceholder,
+          undecidedLabel
+        )}
+      />
     </Link>
   );
 }
