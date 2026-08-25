@@ -17,11 +17,8 @@ import { CMS_URL } from '@/src/config/cms';
 import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
-import {
-  gameWinner,
-  teamRecord,
-  type GameSide
-} from '@/src/games/teamRecord';
+import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
+import { gameWinner, teamRecord } from '@/src/games/teamRecord';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { TeamSections, type TeamTab } from './TeamSections';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
@@ -354,21 +351,10 @@ interface GameRowProps {
 // The winner carries the row: it is the only side in full weight, and the side
 // it beat steps back into the muted tone. A game still to be decided leaves
 // both where they are.
-const EMPHASIS_CLASS = {
+const EMPHASIS_CLASS: Record<SideEmphasis, string> = {
   winner: 'font-bold text-foreground',
   loser: 'font-medium text-muted',
   neutral: 'font-medium text-foreground'
-};
-
-type Emphasis = keyof typeof EMPHASIS_CLASS;
-
-const sideEmphasis = (
-  winner: GameSide | undefined,
-  side: GameSide
-): Emphasis => {
-  if (!winner) return 'neutral';
-
-  return winner === side ? 'winner' : 'loser';
 };
 
 function TeamCrest({
@@ -395,7 +381,7 @@ function TeamCrest({
 interface GameTeamProps {
   logoUrl: string;
   name: string;
-  emphasis: Emphasis;
+  emphasis: SideEmphasis;
   winnerLabel: string;
   isHome?: boolean;
 }
@@ -554,7 +540,7 @@ function RosterPanel({
   shirtNameLabel
 }: RosterPanelProps) {
   return (
-    <>
+    <div className="flex flex-col gap-6">
       {players.length > 0 && (
         <Roster
           players={players}
@@ -568,7 +554,7 @@ function RosterPanel({
       {coaches.length > 0 && (
         <CoachingStaff coaches={coaches} title={coachingStaffTitle} />
       )}
-    </>
+    </div>
   );
 }
 
@@ -599,7 +585,7 @@ export default async function TeamPage({
   // Newest day first, the order the CMS team view already shows: a visitor
   // opening a team mid-tournament is looking for the last result, not the
   // opening round.
-  const days = gamesByDate(games, locale).reverse();
+  const days = [...gamesByDate(games, locale)].reverse();
   const record = teamRecord(games, team.id);
 
   // The CMS team view splits the roster from the schedule into tabs; stacking
