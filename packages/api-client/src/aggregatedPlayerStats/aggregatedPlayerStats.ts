@@ -6,12 +6,26 @@ import {
 } from './dataMappers';
 import { ApiAggregatedPlayerStatsLogsResponse } from './apiTypes';
 
-export const getAggregatedPlayerStatsByFilter = async (
-  tournamentId: string,
-  playerId?: string
-): Promise<AggregatedPlayerStatsLogEntity[]> => {
+// The tournament is the only filter the endpoint requires; the others narrow
+// it down to one team's roster or to a single player. Named rather than
+// positional because a third optional argument is where a call site starts
+// passing `undefined` to reach the one it wants.
+export interface AggregatedPlayerStatsFilter {
+  tournamentId: string;
+  teamId?: string;
+  playerId?: string;
+}
+
+export const getAggregatedPlayerStatsByFilter = async ({
+  tournamentId,
+  teamId,
+  playerId
+}: AggregatedPlayerStatsFilter): Promise<AggregatedPlayerStatsLogEntity[]> => {
   const url = new URL('v1/aggregated-player-stats-by-tournament', getApiHost());
   url.searchParams.set('where[tournament_id]', tournamentId);
+  if (teamId) {
+    url.searchParams.set('where[team_id]', teamId);
+  }
   if (playerId) {
     url.searchParams.set('where[player_id]', playerId);
   }
