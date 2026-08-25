@@ -17,8 +17,9 @@ import { CMS_URL } from '@/src/config/cms';
 import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
+import { teamRecord } from '@/src/games/teamRecord';
 import { buildPageMetadata } from '@/src/seo/metadata';
-import { TeamTabs, type TeamTab } from './TeamTabs';
+import { TeamSections, type TeamTab } from './TeamSections';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
 
@@ -149,39 +150,94 @@ export async function generateMetadata({
   });
 }
 
-interface TeamBannerProps {
-  team: TeamEntity;
+interface Highlight {
+  value: number;
+  label: string;
 }
 
-function TeamBanner({ team }: TeamBannerProps) {
+// The milestone box of the athlete banner: a dark plate over the artwork with
+// the two numbers that describe the profile at a glance. It is the first thing
+// a narrow screen drops, so it never competes with the name.
+function Highlights({
+  title,
+  highlights
+}: {
+  title: string;
+  highlights: Highlight[];
+}) {
   return (
-    <Surface
-      as="header"
-      className={`slide-fade-in ${SECTION_CLASS} flex flex-col items-center gap-3 text-center md:flex-row md:gap-6 md:text-left`}
+    <div
+      data-testid="team-highlights"
+      className="hidden w-[220px] shrink-0 rounded-xl bg-[#12140e]/55 p-3 md:block"
     >
-      {team.logoUrl && (
-        // Team logos live on arbitrary user-uploaded hosts: next/image would
-        // need each one allow-listed in next.config.js.
-        <img
-          src={team.logoUrl}
-          alt=""
-          width={96}
-          height={96}
-          decoding="async"
-          className="h-20 w-20 rounded-full object-cover md:h-24 md:w-24"
-        />
-      )}
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold text-foreground md:text-3xl">
-          {team.name}
-        </h1>
-        {team.triCode && (
-          <p className="text-sm font-semibold uppercase tracking-wide text-muted">
-            {team.triCode}
-          </p>
-        )}
+      <p className="mb-3 rounded-lg bg-[#12140e]/75 px-3 py-1 text-center text-[0.6rem] font-bold uppercase tracking-[0.08em]">
+        {title}
+      </p>
+      <div className="grid grid-cols-2 gap-2">
+        {highlights.map(highlight => (
+          <div key={highlight.label} className="text-center">
+            <p className="text-2xl font-extrabold leading-none tabular-nums">
+              {highlight.value}
+            </p>
+            <p className="text-[0.55rem] font-semibold uppercase tracking-[0.06em] opacity-85">
+              {highlight.label}
+            </p>
+          </div>
+        ))}
       </div>
-    </Surface>
+    </div>
+  );
+}
+
+interface TeamIdentityProps {
+  team: TeamEntity;
+  overline: string;
+  highlightsTitle: string;
+  highlights: Highlight[];
+}
+
+// What sits inside the banner card: the identity of the team, with the tab
+// buttons the client island adds underneath it.
+function TeamIdentity({
+  team,
+  overline,
+  highlightsTitle,
+  highlights
+}: TeamIdentityProps) {
+  return (
+    <div className="flex flex-col gap-3">
+      {/* A narrow screen keeps the card to the essentials — logo, name, tabs —
+          the same trim the athlete banner makes. */}
+      <p className="hidden text-sm font-bold md:block">{overline}</p>
+
+      <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-6 md:text-left">
+        {team.logoUrl && (
+          // Team logos live on arbitrary user-uploaded hosts: next/image would
+          // need each one allow-listed in next.config.js.
+          <img
+            src={team.logoUrl}
+            alt=""
+            width={120}
+            height={120}
+            decoding="async"
+            className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[120px] md:w-[120px]"
+          />
+        )}
+
+        <div className="min-w-0 flex-1">
+          <h1 className="text-2xl font-extrabold leading-tight md:text-3xl">
+            {team.name}
+          </h1>
+          {team.triCode && (
+            <p className="text-sm font-semibold uppercase tracking-wide opacity-80">
+              {team.triCode}
+            </p>
+          )}
+        </div>
+
+        <Highlights title={highlightsTitle} highlights={highlights} />
+      </div>
+    </div>
   );
 }
 
@@ -436,6 +492,7 @@ export default async function TeamPage({
   // opening a team mid-tournament is looking for the last result, not the
   // opening round.
   const days = gamesByDate(games, locale).reverse();
+  const record = teamRecord(games, team.id);
 
   // The CMS team view splits the roster from the schedule into tabs; stacking
   // them instead would make the public page a different screen. A section with
@@ -489,9 +546,21 @@ export default async function TeamPage({
           {tournament.name}
         </a>
 
-        <TeamBanner team={team} />
-
-        {tabs.length > 0 && <TeamTabs tabs={tabs} label={t('sections')} />}
+        <TeamSections
+          label={t('sections')}
+          tabs={tabs}
+          identity={
+            <TeamIdentity
+              team={team}
+              overline={t('badge')}
+              highlightsTitle={t('highlights')}
+              highlights={[
+                { value: record.games, label: t('games') },
+                { value: record.wins, label: t('wins') }
+              ]}
+            />
+          }
+        />
       </div>
     </main>
   );

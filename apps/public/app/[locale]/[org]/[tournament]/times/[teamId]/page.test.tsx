@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   ApiError,
@@ -299,6 +299,53 @@ describe('TeamPage tabs', () => {
     window.history.replaceState(null, '', '/');
     getTournamentBySlugMock.mockResolvedValue(tournament());
     getGamesByFilterMock.mockResolvedValue([]);
+  });
+
+  it('puts the tabs inside the banner, next to the logo and the name', async () => {
+    withRosterAndGames();
+
+    await renderPage();
+
+    const banner = screen.getByTestId('team-banner');
+    expect(within(banner).getByRole('heading', { name: 'Time B' })).toBeInTheDocument();
+    expect(within(banner).getByRole('tablist')).toBeInTheDocument();
+  });
+
+  it('counts the games and the wins in the banner highlights', async () => {
+    getTournamentBySlugMock.mockResolvedValue(tournament());
+    getGamesByFilterMock.mockResolvedValue([
+      game('won', '2026-08-12T21:00:00Z', {
+        homeScore: 80,
+        awayScore: 70,
+        isFinished: true
+      }),
+      game('lost', '2026-08-20T22:00:00Z', {
+        homeScore: 60,
+        awayScore: 75,
+        isFinished: true
+      })
+    ]);
+
+    await renderPage();
+
+    const highlights = screen.getByTestId('team-highlights');
+
+    expect(
+      within(highlights).getByText('Jogos').closest('div')
+    ).toHaveTextContent('2Jogos');
+    expect(
+      within(highlights).getByText('Vitórias').closest('div')
+    ).toHaveTextContent('1Vitórias');
+  });
+
+  // A team with no players, no staff and no games is still a team: the banner
+  // is the page, and nothing below it has to render.
+  it('renders the banner for a team with nothing to show', async () => {
+    await renderPage();
+
+    expect(screen.getByTestId('team-banner')).toBeInTheDocument();
+    expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+    expect(screen.queryByRole('tabpanel')).not.toBeInTheDocument();
   });
 
   it('opens on the roster and keeps the games panel hidden', async () => {
