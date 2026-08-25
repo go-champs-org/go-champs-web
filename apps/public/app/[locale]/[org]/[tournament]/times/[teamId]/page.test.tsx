@@ -2,7 +2,9 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   ApiError,
+  getAggregatedPlayerStatsByFilter,
   getGamesByFilter,
+  getSportBySlug,
   getTournamentBySlug
 } from '@gochamps/api-client';
 import { notFound } from 'next/navigation';
@@ -11,7 +13,9 @@ import { SITE_URL } from '@/src/seo/metadata';
 
 jest.mock('@gochamps/api-client', () => ({
   ...jest.requireActual('@gochamps/api-client'),
+  getAggregatedPlayerStatsByFilter: jest.fn(),
   getGamesByFilter: jest.fn(),
+  getSportBySlug: jest.fn(),
   getTournamentBySlug: jest.fn()
 }));
 
@@ -21,24 +25,42 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
+interface Messages {
+  [key: string]: string | Messages;
+}
+
+// The team namespace nests the column abbreviations, so the stand-in has to
+// walk a dotted key the way next-intl does, and answer `raw` with the node it
+// lands on rather than a formatted string.
+const messageAt = (dictionary: Messages, key: string): unknown =>
+  key
+    .split('.')
+    .reduce<unknown>((node, part) => (node as Messages)[part], dictionary);
+
 jest.mock('next-intl/server', () => ({
   setRequestLocale: jest.fn(),
   getTranslations: async (input: string | { namespace: string }) => {
     const namespace = typeof input === 'string' ? input : input.namespace;
-    const dictionary = (
-      require('@/messages/pt.json') as Record<string, Record<string, string>>
-    )[namespace];
+    const dictionary = (require('@/messages/pt.json') as Messages)[
+      namespace
+    ] as Messages;
 
-    return (key: string, values?: Record<string, string>) =>
-      Object.entries(values || {}).reduce(
-        (message, [name, value]) => message.replace(`{${name}}`, value),
-        dictionary[key]
-      );
+    return Object.assign(
+      (key: string, values?: Record<string, string>) =>
+        Object.entries(values || {}).reduce(
+          (message, [name, value]) => message.replace(`{${name}}`, value),
+          messageAt(dictionary, key) as string
+        ),
+      { raw: (key: string) => messageAt(dictionary, key) }
+    );
   }
 }));
 
 const getTournamentBySlugMock = getTournamentBySlug as jest.Mock;
 const getGamesByFilterMock = getGamesByFilter as jest.Mock;
+const getSportBySlugMock = getSportBySlug as jest.Mock;
+const getAggregatedPlayerStatsByFilterMock =
+  getAggregatedPlayerStatsByFilter as jest.Mock;
 
 const team = (id: string, name: string, overrides = {}) => ({
   id,
@@ -82,6 +104,38 @@ const game = (id: string, datetime: string, overrides = {}) => ({
   ...overrides
 });
 
+const playerStat = (slug: string, title: string) => ({
+  id: `stat-${slug}`,
+  title,
+  slug,
+  visibility: 'public'
+});
+
+const sportStatistic = (slug: string, scope: string) => ({
+  slug,
+  name: slug,
+  level: 'tournament',
+  scope,
+  valueType: 'calculated'
+});
+
+const sport = (overrides = {}) => ({
+  slug: 'basketball_5x5',
+  name: 'Basquete 5x5',
+  playerStatistics: [
+    sportStatistic('points', 'aggregate'),
+    sportStatistic('rebounds', 'aggregate'),
+    sportStatistic('points_per_game', 'per_game')
+  ],
+  ...overrides
+});
+
+const statsLog = (playerId: string, stats: Record<string, string>) => ({
+  id: `log-${playerId}`,
+  playerId,
+  stats
+});
+
 const tournament = (overrides = {}) => ({
   id: 'tour1',
   name: 'Torneio Teste',
@@ -110,6 +164,8 @@ describe('TeamPage', () => {
     jest.clearAllMocks();
     getTournamentBySlugMock.mockResolvedValue(tournament());
     getGamesByFilterMock.mockResolvedValue([]);
+    getSportBySlugMock.mockResolvedValue(sport());
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
   });
 
   it('renders the team name from the tournament roster', async () => {
@@ -368,6 +424,164 @@ describe('TeamPage', () => {
   });
 });
 
+describe('TeamPage roster stats', () => {
+  const withRosterStats = () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [
+          player('p4', 'Camisa Quatro', { shirtNumber: '4' }),
+          player('p10', 'Camisa Dez', { shirtNumber: '10' })
+        ],
+        playerStats: [
+          playerStat('points', 'Pontos'),
+          playerStat('rebounds', 'Rebotes'),
+          playerStat('points_per_game', 'Pontos por jogo')
+        ]
+      })
+    );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p4', { points: '10', rebounds: '8', points_per_game: '5.25' }),
+      statsLog('p10', { points: '22', rebounds: '3', points_per_game: '11' })
+    ]);
+  };
+
+  const rosterCells = (playerName: string) =>
+    within(screen.getByText(playerName).closest('tr') as HTMLElement)
+      .getAllByRole('cell')
+      .map(cell => cell.textContent);
+
+  const rosterOrder = () =>
+    screen.getAllByTestId('roster-player-name').map(cell => cell.textContent);
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    getTournamentBySlugMock.mockResolvedValue(tournament());
+    getGamesByFilterMock.mockResolvedValue([]);
+    getSportBySlugMock.mockResolvedValue(sport());
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
+  });
+
+  it('asks for the aggregated stats of that team alone', async () => {
+    await renderPage();
+
+    expect(getAggregatedPlayerStatsByFilterMock).toHaveBeenCalledWith({
+      tournamentId: 'tour1',
+      teamId: 't2'
+    });
+  });
+
+  it('heads every column of the scope with the abbreviation of the sport', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    const headers = within(screen.getByTestId('roster'))
+      .getAllByRole('columnheader')
+      .map(header => header.textContent);
+    expect(headers).toEqual(['Nº', 'Nome', 'PTS', 'REB']);
+  });
+
+  it('renders the numbers of each player next to his name', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    expect(rosterCells('Camisa Quatro')).toEqual(['4', 'Camisa Quatro', '10', '8']);
+  });
+
+  it('keeps a player the stats endpoint returned nothing for', async () => {
+    withRosterStats();
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p4', { points: '10', rebounds: '8' })
+    ]);
+
+    await renderPage();
+
+    expect(rosterCells('Camisa Dez')).toEqual(['10', 'Camisa Dez', '-', '-']);
+  });
+
+  it('ranks the roster by the column whose header was clicked', async () => {
+    withRosterStats();
+
+    await renderPage();
+    await userEvent.click(screen.getByRole('button', { name: /Pontos/ }));
+
+    expect(rosterOrder()).toEqual(['Camisa Dez', 'Camisa Quatro']);
+  });
+
+  it('turns the ranking around on a second click of the same column', async () => {
+    withRosterStats();
+
+    await renderPage();
+    const pointsHeader = screen.getByRole('button', { name: /Pontos/ });
+    await userEvent.click(pointsHeader);
+    await userEvent.click(pointsHeader);
+
+    expect(rosterOrder()).toEqual(['Camisa Quatro', 'Camisa Dez']);
+  });
+
+  it('switches the columns to the per game averages', async () => {
+    withRosterStats();
+
+    await renderPage();
+    await userEvent.click(screen.getByRole('button', { name: 'Por jogo' }));
+
+    expect(rosterCells('Camisa Quatro')).toEqual(['4', 'Camisa Quatro', '5.3']);
+  });
+
+  it('closes the table with the totals of the counting columns', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    expect(rosterCells('Total')).toEqual(['', 'Total', '32', '11']);
+  });
+
+  it('keeps the glossary closed until the visitor asks for it', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    expect(screen.getByTestId('stats-glossary')).not.toBeVisible();
+  });
+
+  it('spells out every abbreviation once the glossary is open', async () => {
+    withRosterStats();
+
+    await renderPage();
+    await userEvent.click(screen.getByRole('button', { name: 'Glossário' }));
+
+    const glossary = screen.getByTestId('stats-glossary');
+    expect(glossary).toBeVisible();
+    expect(within(glossary).getAllByRole('listitem').map(item => item.textContent)).toEqual([
+      'PTS - Pontos',
+      'REB - Rebotes'
+    ]);
+  });
+
+  it('offers no scope filter to a tournament that publishes a single scope', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p4', 'Camisa Quatro', { shirtNumber: '4' })],
+        playerStats: [playerStat('points', 'Pontos')]
+      })
+    );
+
+    await renderPage();
+
+    expect(screen.queryByTestId('stats-scope')).not.toBeInTheDocument();
+  });
+
+  it('still lists the roster when the sport catalogue is unreachable', async () => {
+    withRosterStats();
+    getSportBySlugMock.mockRejectedValue(new Error('offline'));
+
+    await renderPage();
+
+    expect(rosterOrder()).toEqual(['Camisa Quatro', 'Camisa Dez']);
+  });
+});
+
 describe('TeamPage tabs', () => {
   const withRosterAndGames = () => {
     getTournamentBySlugMock.mockResolvedValue(
@@ -385,6 +599,8 @@ describe('TeamPage tabs', () => {
     window.history.replaceState(null, '', '/');
     getTournamentBySlugMock.mockResolvedValue(tournament());
     getGamesByFilterMock.mockResolvedValue([]);
+    getSportBySlugMock.mockResolvedValue(sport());
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
   });
 
   it('puts the tabs inside the banner, next to the logo and the name', async () => {
@@ -499,6 +715,8 @@ describe('generateMetadata', () => {
     jest.clearAllMocks();
     getTournamentBySlugMock.mockResolvedValue(tournament());
     getGamesByFilterMock.mockResolvedValue([]);
+    getSportBySlugMock.mockResolvedValue(sport());
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
   });
 
   it('titles the page with the team and canonicalizes the locale url', async () => {

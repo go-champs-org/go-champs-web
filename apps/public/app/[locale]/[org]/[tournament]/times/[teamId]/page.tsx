@@ -4,12 +4,16 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
+  getAggregatedPlayerStatsByFilter,
   getGamesByFilter,
+  getSportBySlug,
   getTournamentBySlug,
+  type AggregatedPlayerStatsLogEntity,
   type GameEntity,
+  type SportEntity,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
-import type { PlayerEntity } from '@gochamps/api-client';
+import type { PlayerEntity, PlayerStatEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
@@ -21,8 +25,19 @@ import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
 import { gameWinner, teamRecord } from '@/src/games/teamRecord';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { TeamSections, type TeamTab } from './TeamSections';
+import { RosterStatsTable } from './RosterStatsTable';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
+import {
+  availableScopes,
+  columnViewsByScope,
+  rosterStatRows,
+  statTotalsByScope,
+  statColumnsByScope,
+  type RosterStatRow,
+  type StatColumnView,
+  type StatScope
+} from '@/src/stats/rosterStats';
 
 // A roster barely moves during a tournament and none of it is live, so the
 // rendered HTML can be reused for minutes at a time instead of hitting the API
@@ -49,6 +64,10 @@ const teamPagePath = ({ org, tournament, teamId }: TeamPageParams): string =>
 // page with a soft shadow; Surface already owns the radius, border and
 // background, so this is only the elevation it does not carry.
 const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
+
+// The stats card is the same elevated panel without the padding: its header
+// and totals bands have to reach the edges of the card.
+const FLUSH_SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
 const gamePageHref = (
   { locale, org, tournament }: TeamPageParams,
@@ -88,11 +107,27 @@ const loadTeamGames = (teamId: string): Promise<GameEntity[]> =>
     or: [{ home_team_id: teamId }, { away_team_id: teamId }]
   }).catch(() => []);
 
+// The tournament only names its statistics; which of them are totals and
+// which are per game averages is the sport's own catalogue. Without it the
+// table still renders, as the single list of statistics the tournament named.
+const loadSport = (sportSlug: string): Promise<SportEntity | null> =>
+  sportSlug ? getSportBySlug(sportSlug).catch(() => null) : Promise.resolve(null);
+
+// The numbers are a companion to the roster, same as the schedule: an
+// unreachable endpoint leaves the names standing with a dash in every column.
+const loadTeamStats = (
+  tournamentId: string,
+  teamId: string
+): Promise<AggregatedPlayerStatsLogEntity[]> =>
+  getAggregatedPlayerStatsByFilter({ tournamentId, teamId }).catch(() => []);
+
 interface TeamView {
   tournament: TournamentWithTeamsEntity;
   team: TeamEntity;
   roster: PlayerEntity[];
   games: GameEntity[];
+  sport: SportEntity | null;
+  statsLogs: AggregatedPlayerStatsLogEntity[];
 }
 
 // A team is only ever found inside a tournament, so a missing tournament and a
@@ -113,11 +148,20 @@ const loadTeamView = async (
 
   if (!tournament || !team) notFound();
 
+  // Both of these need the tournament first — one for its sport, the other for
+  // its id — so they are the second round trip rather than a third.
+  const [sport, statsLogs] = await Promise.all([
+    loadSport(tournament.sportSlug),
+    loadTeamStats(tournament.id, team.id)
+  ]);
+
   return {
     tournament,
     team,
     roster: teamRoster(tournament.players, team.id),
-    games
+    games,
+    sport,
+    statsLogs
   };
 };
 
@@ -283,59 +327,32 @@ function CoachingStaff({ coaches, title }: CoachingStaffProps) {
 }
 
 interface RosterProps {
-  players: PlayerEntity[];
+  rows: RosterStatRow[];
+  columnsByScope: Record<string, StatColumnView[]>;
+  totalsByScope: Record<string, Record<string, string>>;
+  scopes: StatScope[];
+  scopeLabels: Record<string, string>;
   title: string;
+  scopeLegend: string;
+  glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
-  shirtNameLabel: string;
+  totalLabel: string;
+  sortLabel: string;
 }
 
-function Roster({
-  players,
-  title,
-  numberLabel,
-  nameLabel,
-  shirtNameLabel
-}: RosterProps) {
+// The roster of the CMS team view is the aggregated stats table, not a list of
+// names: routing this page without the columns would take data away from the
+// visitor (apps/cms/src/Pages/TeamView.tsx). The card carries no padding of
+// its own — the header band and the totals band of the table run edge to edge.
+function Roster(rosterProps: RosterProps) {
   return (
-    <Surface as="section" className={SECTION_CLASS} data-testid="roster">
-      {/* The tab bar already names this panel; the heading stays for the
-          document outline and for a single-section team with no tab bar. */}
-      <h2 className="sr-only">{title}</h2>
-      {/* Narrow screens scroll the table instead of the page. */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-left text-sm">
-          <thead>
-            <tr className="border-b border-border text-muted">
-              <th scope="col" className="w-12 py-2 pr-3 font-medium">
-                {numberLabel}
-              </th>
-              <th scope="col" className="py-2 pr-3 font-medium">
-                {nameLabel}
-              </th>
-              <th scope="col" className="py-2 font-medium">
-                {shirtNameLabel}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {players.map(player => (
-              <tr key={player.id} className="border-b border-border last:border-0">
-                <td className="py-2 pr-3 tabular-nums text-muted">
-                  {player.shirtNumber}
-                </td>
-                <td
-                  className="py-2 pr-3 font-medium text-foreground"
-                  data-testid="roster-player-name"
-                >
-                  {player.name}
-                </td>
-                <td className="py-2 text-muted">{player.shirtName}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <Surface
+      as="section"
+      className={`${FLUSH_SECTION_CLASS} overflow-hidden`}
+      data-testid="roster"
+    >
+      <RosterStatsTable {...rosterProps} />
     </Surface>
   );
 }
@@ -518,38 +535,21 @@ function GamesSchedule({
   );
 }
 
-interface RosterPanelProps {
-  players: PlayerEntity[];
+interface RosterPanelProps extends RosterProps {
   coaches: LabelledCoach[];
-  rosterTitle: string;
   coachingStaffTitle: string;
-  numberLabel: string;
-  nameLabel: string;
-  shirtNameLabel: string;
 }
 
 // The roster tab of the CMS team view carries the coaching staff too: they are
 // the same answer to "who is this team".
 function RosterPanel({
-  players,
   coaches,
-  rosterTitle,
   coachingStaffTitle,
-  numberLabel,
-  nameLabel,
-  shirtNameLabel
+  ...rosterProps
 }: RosterPanelProps) {
   return (
     <div className="flex flex-col gap-6">
-      {players.length > 0 && (
-        <Roster
-          players={players}
-          title={rosterTitle}
-          numberLabel={numberLabel}
-          nameLabel={nameLabel}
-          shirtNameLabel={shirtNameLabel}
-        />
-      )}
+      {rosterProps.rows.length > 0 && <Roster {...rosterProps} />}
 
       {coaches.length > 0 && (
         <CoachingStaff coaches={coaches} title={coachingStaffTitle} />
@@ -576,11 +576,29 @@ export default async function TeamPage({
   const { locale, org, tournament: tournamentSlug, teamId } = routeParams;
   setRequestLocale(locale);
 
-  const [{ tournament, team, roster, games }, t, tGame] = await Promise.all([
-    loadTeamView(org, tournamentSlug, teamId),
-    getTranslations('team'),
-    getTranslations('game')
-  ]);
+  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame] =
+    await Promise.all([
+      loadTeamView(org, tournamentSlug, teamId),
+      getTranslations('team'),
+      getTranslations('game')
+    ]);
+
+  // Which scopes the table offers, and the columns of each, are decided here:
+  // the client island only switches between what the page resolved.
+  const scopes = availableScopes(tournament.playerStats, sport);
+  const columnsByScope = columnViewsByScope(
+    statColumnsByScope(tournament.playerStats, sport, scopes),
+    t.raw('statColumns') as Record<string, string>
+  );
+  const rows = rosterStatRows(roster, statsLogs);
+  const totalsByScope = statTotalsByScope(rows, columnsByScope);
+  const scopeLabels = {
+    aggregate: t('scopeAggregate'),
+    per_game: t('scopePerGame')
+  };
+  // Which statistic a header sorts by is only known per column, so the island
+  // fills the placeholder itself and the pattern crosses the boundary raw.
+  const sortLabel = t.raw('sortByStat') as string;
 
   // Newest day first, the order the CMS team view already shows: a visitor
   // opening a team mid-tournament is looking for the last result, not the
@@ -598,16 +616,23 @@ export default async function TeamPage({
       label: t('roster'),
       panel: (
         <RosterPanel
-          players={roster}
+          rows={rows}
+          columnsByScope={columnsByScope}
+          totalsByScope={totalsByScope}
+          scopes={scopes}
+          scopeLabels={scopeLabels}
           coaches={labelCoaches(team.coaches, t)}
-          rosterTitle={t('roster')}
+          title={t('roster')}
           coachingStaffTitle={t('coachingStaff')}
+          scopeLegend={t('statsScope')}
+          glossaryLabel={t('glossary')}
+          totalLabel={t('total')}
           numberLabel={t('shirtNumber')}
           nameLabel={t('playerName')}
-          shirtNameLabel={t('shirtName')}
+          sortLabel={sortLabel}
         />
       ),
-      hasContent: roster.length + team.coaches.length > 0
+      hasContent: rows.length + team.coaches.length > 0
     },
     {
       id: 'games',
@@ -631,7 +656,7 @@ export default async function TeamPage({
       data-testid="team-page"
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
-      <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-[1242px] flex-col gap-6">
         {/* Tournament pages still live in the CMS until the _redirects rollout
             moves them here, so this link must stay absolute. */}
         <a
