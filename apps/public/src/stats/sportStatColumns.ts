@@ -1,18 +1,14 @@
-// The order a sport reads its own box score in. The API lists a tournament's
-// statistics in whatever order they were configured, which is why the CMS
-// hard-codes a column order per sport
+// The column order of the CMS table for the sport, minus the statistics the
+// tournament keeps private
 // (apps/cms/src/Sports/Basketball5x5/AggregatedPlayerStatsTableViewer.tsx).
-// A dictionary keyed by sport slug rather than a chain of ifs: a sport that is
-// not here falls back to the tournament's own order, which is what keeps every
-// other sport rendering.
+// A dictionary keyed by sport slug: a sport that is not here falls back to the
+// order the API sent, which is what keeps every other sport rendering.
 //
 // Only the aggregate slugs are listed: the per game column of a statistic is
 // the same slug with a `_per_game` suffix, so one list orders both scopes.
 const BASKETBALL_5X5_ORDER = [
   'points',
   'rebounds',
-  'rebounds_offensive',
-  'rebounds_defensive',
   'assists',
   'blocks',
   'steals',
@@ -22,7 +18,9 @@ const BASKETBALL_5X5_ORDER = [
   'field_goals_made',
   'field_goal_percentage',
   'three_point_field_goals_made',
-  'three_point_field_goal_percentage'
+  'three_point_field_goal_percentage',
+  'rebounds_offensive',
+  'rebounds_defensive'
 ];
 
 const SPORT_STAT_ORDER: Record<string, string[]> = {
