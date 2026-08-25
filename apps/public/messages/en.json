@@ -96,6 +96,12 @@
     "unknownTeam": "Team",
     "unknownTournament": "tournament",
     "roster": "Roster",
+    "games": "Games",
+    "badge": "Team",
+    "wins": "Wins",
+    "winner": "Winner",
+    "highlights": "Highlights",
+    "sections": "Team sections",
     "playerName": "Name",
     "shirtName": "Shirt name",
     "shirtNumber": "No."

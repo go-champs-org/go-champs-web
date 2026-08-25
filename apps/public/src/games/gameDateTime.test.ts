@@ -1,4 +1,4 @@
-import { formatGameDateTime } from './gameDateTime';
+import { formatGameDateTime, formatGameTime } from './gameDateTime';
 
 describe('formatGameDateTime', () => {
   it('formats a UTC instant in Brazilian time for pt', () => {
@@ -27,5 +27,19 @@ describe('formatGameDateTime', () => {
 
   it('returns an empty string for an unparseable date', () => {
     expect(formatGameDateTime('not-a-date', 'pt')).toBe('');
+  });
+});
+
+describe('formatGameTime', () => {
+  it('formats only the kickoff time, in Brazilian time', () => {
+    expect(formatGameTime('2026-08-01T23:00:00Z', 'pt')).toBe('20:00');
+  });
+
+  it('formats the same instant with the en-US conventions', () => {
+    expect(formatGameTime('2026-08-01T23:00:00Z', 'en')).toBe('8:00 PM');
+  });
+
+  it('returns an empty string for a game without a date', () => {
+    expect(formatGameTime('', 'pt')).toBe('');
   });
 });
