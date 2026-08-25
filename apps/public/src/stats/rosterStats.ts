@@ -78,9 +78,14 @@ export const availableScopes = (
 ): StatScope[] => {
   if (!sport) return ['aggregate'];
 
-  return STAT_SCOPES.filter(
+  const scopes = STAT_SCOPES.filter(
     scope => statColumnsForScope(playerStats, sport, scope).length > 0
   );
+
+  // A tournament that publishes no statistic at all still has a scope: the
+  // table is then the roster it always was, and the island has a scope to
+  // hold rather than `undefined`.
+  return scopes.length > 0 ? scopes : ['aggregate'];
 };
 
 // The table switches scopes in the browser, so every scope it offers has to
@@ -115,6 +120,16 @@ export const rosterStatRows = (
 
 const PERCENTAGE_SUFFIX = '_percentage';
 
+// Every statistic arrives as a string and an unrecorded one arrives empty,
+// which `Number` would read as a real zero: the whole table reads a cell
+// through here so the dash, the totals and the ranking agree on what missing
+// means.
+const parseStat = (value: string | undefined): number | null => {
+  const parsed = Number(value);
+
+  return value && Number.isFinite(parsed) ? parsed : null;
+};
+
 // A percentage is a whole number with a sign, an average carries one decimal,
 // and everything else is a count — the same three cells the CMS renders
 // (apps/cms/src/Shared/UI/TableCells.tsx).
@@ -130,13 +145,9 @@ export const formatStatValue = (
   slug: string,
   value: string | undefined
 ): string => {
-  const parsed = Number(value);
+  const parsed = parseStat(value);
 
-  // An empty string parses as 0, so the missing value has to be caught before
-  // the number is trusted.
-  if (!value || !Number.isFinite(parsed)) return '-';
-
-  return formatBySlug(slug, parsed);
+  return parsed === null ? '-' : formatBySlug(slug, parsed);
 };
 
 // Only counts add up. A percentage of the whole team is not the sum of the
@@ -148,8 +159,8 @@ const isSummable = (slug: string): boolean =>
 
 const statSum = (rows: RosterStatRow[], slug: string): number | null => {
   const values = rows
-    .map(row => Number(row.stats[slug]))
-    .filter(value => Number.isFinite(value));
+    .map(row => parseStat(row.stats[slug]))
+    .filter((value): value is number => value !== null);
 
   // A column no player has a number for stays empty rather than reading zero,
   // which would look like a team that scored none of it.
@@ -172,10 +183,8 @@ export const statTotals = (
 
 const MISSING = Number.NEGATIVE_INFINITY;
 
-const statNumber = (row: RosterStatRow, slug: string): number => {
-  const parsed = Number(row.stats[slug]);
-  return Number.isFinite(parsed) ? parsed : MISSING;
-};
+const statNumber = (row: RosterStatRow, slug: string): number =>
+  parseStat(row.stats[slug]) ?? MISSING;
 
 const DIRECTION_SIGN: Record<SortDirection, number> = { asc: 1, desc: -1 };
 

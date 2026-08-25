@@ -134,6 +134,15 @@ describe('availableScopes', () => {
     expect(scopes).toEqual(['aggregate']);
   });
 
+  it('offers the aggregate scope when no statistic of the tournament is on the table', () => {
+    const scopes = availableScopes(
+      [playerStat('efficiency', 'Eficiência')],
+      sport([sportStatistic('efficiency', 'aggregate')])
+    );
+
+    expect(scopes).toEqual(['aggregate']);
+  });
+
   it('offers the aggregate scope alone when the sport is unavailable', () => {
     expect(availableScopes([playerStat('points', 'Pontos')], null)).toEqual([
       'aggregate'
@@ -202,6 +211,10 @@ describe('formatStatValue', () => {
   it('renders a value that is not a number as a dash', () => {
     expect(formatStatValue('points', 'n/a')).toBe('-');
   });
+
+  it('renders an unrecorded value as a dash, not as a zero', () => {
+    expect(formatStatValue('points', '')).toBe('-');
+  });
 });
 
 describe('sortRosterRows', () => {
@@ -221,6 +234,17 @@ describe('sortRosterRows', () => {
     expect(
       sortRosterRows(rows, 'points', 'asc').map(row => row.playerId)
     ).toEqual(['p1', 'p3', 'p2']);
+  });
+
+  it('ranks an unrecorded value as missing rather than as a zero', () => {
+    const withEmpty: RosterStatRow[] = [
+      { playerId: 'p1', name: 'Ana', shirtNumber: '7', stats: { points: '' } },
+      { playerId: 'p2', name: 'Bia', shirtNumber: '9', stats: { points: '-3' } }
+    ];
+
+    expect(
+      sortRosterRows(withEmpty, 'points', 'desc').map(row => row.playerId)
+    ).toEqual(['p2', 'p1']);
   });
 
   it('keeps the roster order when no column is chosen', () => {
@@ -258,6 +282,14 @@ describe('statTotals', () => {
 
   it('leaves out a column no player has a number for', () => {
     expect(statTotals(rows, ['blocks'])).toEqual({});
+  });
+
+  it('leaves out a column every player left unrecorded', () => {
+    const unrecorded: RosterStatRow[] = [
+      { playerId: 'p1', name: 'Ana', shirtNumber: '7', stats: { points: '' } }
+    ];
+
+    expect(statTotals(unrecorded, ['points'])).toEqual({});
   });
 });
 
