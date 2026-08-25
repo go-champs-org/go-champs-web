@@ -6,21 +6,16 @@ import { MdChromeReaderMode } from 'react-icons/md';
 import {
   formatStatValue,
   sortRosterRows,
-  statTotals,
   type RosterStatRow,
+  type StatColumnView,
   type SortDirection,
   type StatScope
 } from '@/src/stats/rosterStats';
 
-export interface StatColumnView {
-  slug: string;
-  label: string;
-  description: string;
-}
-
 interface RosterStatsTableProps {
   rows: RosterStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
+  totalsByScope: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   title: string;
@@ -179,9 +174,6 @@ const columnsFor = (
   scope: StatScope
 ): StatColumnView[] => columnsByScope[scope] || [];
 
-const columnSlugs = (columns: StatColumnView[]): string[] =>
-  columns.map(column => column.slug);
-
 interface StatsCardHeaderProps {
   title: string;
   columns: StatColumnView[];
@@ -330,6 +322,7 @@ function TotalsRow({ totals, columns, label }: TotalsRowProps) {
 export function RosterStatsTable({
   rows,
   columnsByScope,
+  totalsByScope,
   scopes,
   scopeLabels,
   title,
@@ -404,7 +397,7 @@ export function RosterStatsTable({
           </tbody>
           <tfoot>
             <TotalsRow
-              totals={statTotals(rows, columnSlugs(columns))}
+              totals={totalsByScope[scope] || {}}
               columns={columns}
               label={totalLabel}
             />

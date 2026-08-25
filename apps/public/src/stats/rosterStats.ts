@@ -210,3 +210,51 @@ export const sortRosterRows = (
   slug: string | null,
   direction: SortDirection
 ): RosterStatRow[] => (slug ? [...rows].sort(byStat(slug, direction)) : rows);
+
+export interface StatColumnView {
+  slug: string;
+  label: string;
+  description: string;
+}
+
+// The header of a column is the abbreviation its sport is read in — PTS, REB —
+// and the tournament's own title of the statistic is what the tooltip, the
+// glossary and the screen reader get. A statistic with no abbreviation of its
+// own is headed by that title instead.
+export const statColumnViews = (
+  columns: PlayerStatEntity[],
+  abbreviations: Record<string, string>
+): StatColumnView[] =>
+  columns.map(column => ({
+    slug: column.slug,
+    label: abbreviations[baseStatSlug(column.slug)] || column.title,
+    description: column.title
+  }));
+
+export const columnViewsByScope = (
+  columnsByScope: Record<string, PlayerStatEntity[]>,
+  abbreviations: Record<string, string>
+): Record<string, StatColumnView[]> =>
+  Object.fromEntries(
+    Object.entries(columnsByScope).map(([scope, columns]) => [
+      scope,
+      statColumnViews(columns, abbreviations)
+    ])
+  );
+
+// The totals of a column do not change with the sort or the scope the visitor
+// picks, so they are resolved once on the server instead of on every render of
+// the island.
+export const statTotalsByScope = (
+  rows: RosterStatRow[],
+  columnsByScope: Record<string, StatColumnView[]>
+): Record<string, Record<string, string>> =>
+  Object.fromEntries(
+    Object.entries(columnsByScope).map(([scope, columns]) => [
+      scope,
+      statTotals(
+        rows,
+        columns.map(column => column.slug)
+      )
+    ])
+  );

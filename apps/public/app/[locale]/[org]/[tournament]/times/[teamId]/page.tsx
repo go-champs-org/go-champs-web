@@ -25,17 +25,19 @@ import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
 import { gameWinner, teamRecord } from '@/src/games/teamRecord';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { TeamSections, type TeamTab } from './TeamSections';
-import { RosterStatsTable, type StatColumnView } from './RosterStatsTable';
+import { RosterStatsTable } from './RosterStatsTable';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
 import {
   availableScopes,
+  columnViewsByScope,
   rosterStatRows,
+  statTotalsByScope,
   statColumnsByScope,
   type RosterStatRow,
+  type StatColumnView,
   type StatScope
 } from '@/src/stats/rosterStats';
-import { baseStatSlug } from '@/src/stats/sportStatColumns';
 
 // A roster barely moves during a tournament and none of it is live, so the
 // rendered HTML can be reused for minutes at a time instead of hitting the API
@@ -327,6 +329,7 @@ function CoachingStaff({ coaches, title }: CoachingStaffProps) {
 interface RosterProps {
   rows: RosterStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
+  totalsByScope: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   title: string;
@@ -555,31 +558,6 @@ function RosterPanel({
   );
 }
 
-// The header of a column is the abbreviation its sport is read in — PTS, REB —
-// and the tournament's own title of the statistic is what the tooltip and the
-// screen reader get. A sport with no abbreviations of its own is headed by
-// those titles instead.
-const statColumnViews = (
-  columns: PlayerStatEntity[],
-  abbreviations: Record<string, string>
-): StatColumnView[] =>
-  columns.map(column => ({
-    slug: column.slug,
-    label: abbreviations[baseStatSlug(column.slug)] || column.title,
-    description: column.title
-  }));
-
-const columnViewsByScope = (
-  columnsByScope: Record<string, PlayerStatEntity[]>,
-  abbreviations: Record<string, string>
-): Record<string, StatColumnView[]> =>
-  Object.fromEntries(
-    Object.entries(columnsByScope).map(([scope, columns]) => [
-      scope,
-      statColumnViews(columns, abbreviations)
-    ])
-  );
-
 interface CandidateTab extends TeamTab {
   hasContent: boolean;
 }
@@ -613,6 +591,7 @@ export default async function TeamPage({
     t.raw('statColumns') as Record<string, string>
   );
   const rows = rosterStatRows(roster, statsLogs);
+  const totalsByScope = statTotalsByScope(rows, columnsByScope);
   const scopeLabels = {
     aggregate: t('scopeAggregate'),
     per_game: t('scopePerGame')
@@ -639,6 +618,7 @@ export default async function TeamPage({
         <RosterPanel
           rows={rows}
           columnsByScope={columnsByScope}
+          totalsByScope={totalsByScope}
           scopes={scopes}
           scopeLabels={scopeLabels}
           coaches={labelCoaches(team.coaches, t)}

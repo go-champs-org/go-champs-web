@@ -4,8 +4,11 @@ import {
   formatStatValue,
   rosterStatRows,
   sortRosterRows,
+  columnViewsByScope,
   statColumnsByScope,
+  statColumnViews,
   statTotals,
+  statTotalsByScope,
   statColumnsForScope,
   type RosterStatRow
 } from './rosterStats';
@@ -255,5 +258,74 @@ describe('statTotals', () => {
 
   it('leaves out a column no player has a number for', () => {
     expect(statTotals(rows, ['blocks'])).toEqual({});
+  });
+});
+
+describe('statColumnViews', () => {
+  const abbreviations = { points: 'PTS' };
+
+  it('heads a column with the abbreviation of its sport', () => {
+    const [column] = statColumnViews(
+      [playerStat('points', 'Pontos')],
+      abbreviations
+    );
+
+    expect(column).toEqual({
+      slug: 'points',
+      label: 'PTS',
+      description: 'Pontos'
+    });
+  });
+
+  it('reads a per game column by the abbreviation of its total', () => {
+    const [column] = statColumnViews(
+      [playerStat('points_per_game', 'Pontos por jogo')],
+      abbreviations
+    );
+
+    expect(column.label).toBe('PTS');
+  });
+
+  it('falls back to the title of a statistic with no abbreviation', () => {
+    const [column] = statColumnViews(
+      [playerStat('custom_stat', 'Estatística da casa')],
+      abbreviations
+    );
+
+    expect(column.label).toBe('Estatística da casa');
+  });
+});
+
+describe('columnViewsByScope', () => {
+  it('resolves the headers of every scope', () => {
+    const views = columnViewsByScope(
+      {
+        aggregate: [playerStat('points', 'Pontos')],
+        per_game: [playerStat('points_per_game', 'Pontos por jogo')]
+      },
+      { points: 'PTS' }
+    );
+
+    expect(views.aggregate[0].label).toBe('PTS');
+    expect(views.per_game[0].slug).toBe('points_per_game');
+  });
+});
+
+describe('statTotalsByScope', () => {
+  it('adds up each scope against its own columns', () => {
+    const rows: RosterStatRow[] = [
+      { playerId: 'p1', name: 'Ana', shirtNumber: '7', stats: { points: '10', points_per_game: '5' } },
+      { playerId: 'p2', name: 'Bia', shirtNumber: '9', stats: { points: '22', points_per_game: '11' } }
+    ];
+
+    const totals = statTotalsByScope(rows, {
+      aggregate: [{ slug: 'points', label: 'PTS', description: 'Pontos' }],
+      per_game: [
+        { slug: 'points_per_game', label: 'PTS', description: 'Pontos por jogo' }
+      ]
+    });
+
+    expect(totals.aggregate).toEqual({ points: '32' });
+    expect(totals.per_game).toEqual({});
   });
 });
