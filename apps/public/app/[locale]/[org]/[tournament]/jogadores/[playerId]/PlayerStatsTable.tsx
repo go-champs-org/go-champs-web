@@ -188,7 +188,7 @@ export function PlayerStatsTable({
               columns={columns}
               label={glossaryLabel}
               isOpen={isGlossaryOpen}
-              onToggle={() => setGlossaryOpen(!isGlossaryOpen)}
+              onToggle={() => setGlossaryOpen(open => !open)}
             />
           </div>
         </div>
