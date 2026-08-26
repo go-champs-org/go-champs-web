@@ -48,7 +48,18 @@ const nextConfig = {
   // fail immediately with "TypeScript 7.0.2 does not provide the compiler
   // API required by Next.js."
   experimental: {
-    useTypeScriptCli: true
+    useTypeScriptCli: true,
+    // Barrel packages: rewrite `import { X } from 'pkg'` to the direct module
+    // path at build so an island pulling one icon or one component does not
+    // drag the whole package into its client chunk (bundle-barrel-imports,
+    // Vercel React best practices). The two workspace barrels
+    // (@gochamps/ui/@gochamps/api-client) are the ones that reach client
+    // islands; react-icons is listed for the same reason.
+    optimizePackageImports: [
+      '@gochamps/ui',
+      '@gochamps/api-client',
+      'react-icons'
+    ]
   }
 };
 

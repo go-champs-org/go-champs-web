@@ -1,5 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { ApiError, getGame, getTournamentBySlug } from '@gochamps/api-client';
+import {
+  ApiError,
+  getGame,
+  getPlayerStatsLogsByGame,
+  getSportBySlug,
+  getTeamStatsLogsByGame,
+  getTournamentBySlug
+} from '@gochamps/api-client';
 import { notFound } from 'next/navigation';
 import GamePage, { generateMetadata, revalidate } from './page';
 import { SITE_URL } from '@/src/seo/metadata';
@@ -8,6 +15,9 @@ import messages from '@/messages/pt.json';
 jest.mock('@gochamps/api-client', () => ({
   ...jest.requireActual('@gochamps/api-client'),
   getGame: jest.fn(),
+  getPlayerStatsLogsByGame: jest.fn(),
+  getSportBySlug: jest.fn(),
+  getTeamStatsLogsByGame: jest.fn(),
   getTournamentBySlug: jest.fn()
 }));
 
@@ -17,27 +27,42 @@ jest.mock('next/navigation', () => ({
   })
 }));
 
+interface Messages {
+  [key: string]: string | Messages;
+}
+
+// The team namespace nests the column abbreviations, so the stand-in has to
+// walk a dotted key the way next-intl does, and answer `raw` with the node it
+// lands on rather than a formatted string.
+const messageAt = (dictionary: Messages, key: string): unknown =>
+  key
+    .split('.')
+    .reduce<unknown>((node, part) => (node as Messages)[part], dictionary);
+
 jest.mock('next-intl/server', () => ({
   setRequestLocale: jest.fn(),
   getTranslations: async (input: string | { namespace: string }) => {
     const namespace = typeof input === 'string' ? input : input.namespace;
-    const dictionary = (
-      require('@/messages/pt.json') as Record<
-        string,
-        Record<string, string>
-      >
-    )[namespace];
+    const dictionary = (require('@/messages/pt.json') as Messages)[
+      namespace
+    ] as Messages;
 
-    return (key: string, values?: Record<string, string>) =>
-      Object.entries(values || {}).reduce(
-        (message, [name, value]) => message.replace(`{${name}}`, value),
-        dictionary[key]
-      );
+    return Object.assign(
+      (key: string, values?: Record<string, string>) =>
+        Object.entries(values || {}).reduce(
+          (message, [name, value]) => message.replace(`{${name}}`, value),
+          messageAt(dictionary, key) as string
+        ),
+      { raw: (key: string) => messageAt(dictionary, key) }
+    );
   }
 }));
 
 const getGameMock = getGame as jest.Mock;
 const getTournamentBySlugMock = getTournamentBySlug as jest.Mock;
+const getPlayerStatsLogsByGameMock = getPlayerStatsLogsByGame as jest.Mock;
+const getTeamStatsLogsByGameMock = getTeamStatsLogsByGame as jest.Mock;
+const getSportBySlugMock = getSportBySlug as jest.Mock;
 
 const team = (id: string, name: string) => ({
   id,
@@ -88,14 +113,27 @@ describe('GamePage', () => {
   beforeEach(() => {
     getGameMock.mockReset();
     getTournamentBySlugMock.mockReset();
+    getPlayerStatsLogsByGameMock.mockReset();
+    getTeamStatsLogsByGameMock.mockReset();
+    getSportBySlugMock.mockReset();
     getGameMock.mockResolvedValue(game());
     getTournamentBySlugMock.mockResolvedValue({
       id: 'tour1',
       name: 'Liga Teste',
       slug: 'torneio',
       logoUrl: '',
-      teams: []
+      teams: [],
+      sportSlug: '',
+      sportName: '',
+      playerStats: [],
+      players: [],
+      scoreboardSetting: { liveSiteUpdate: 'full-live-update' }
     });
+    // No box score by default: most tests are not about it, and the API
+    // never carries logs for a game with none recorded yet.
+    getPlayerStatsLogsByGameMock.mockResolvedValue([]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+    getSportBySlugMock.mockResolvedValue(null);
   });
 
   it('renders both teams, the score and the venue', async () => {
@@ -200,6 +238,114 @@ describe('GamePage', () => {
       homeTeam: { '@type': 'SportsTeam', name: 'Time Casa' },
       awayTeam: { '@type': 'SportsTeam', name: 'Time Visitante' }
     });
+  });
+});
+
+describe('GamePage box score', () => {
+  const playerStat = (slug: string, title: string) => ({
+    id: `stat-${slug}`,
+    title,
+    slug,
+    visibility: 'public'
+  });
+
+  const playerLog = (
+    playerId: string,
+    teamId: string,
+    stats: Record<string, string>
+  ) => ({
+    id: `log-${playerId}`,
+    gameId: 'g1',
+    phaseId: 'ph1',
+    playerId,
+    teamId,
+    tournamentId: 'tour1',
+    stats
+  });
+
+  beforeEach(() => {
+    getGameMock.mockReset();
+    getTournamentBySlugMock.mockReset();
+    getPlayerStatsLogsByGameMock.mockReset();
+    getTeamStatsLogsByGameMock.mockReset();
+    getSportBySlugMock.mockReset();
+    getGameMock.mockResolvedValue(game());
+    getTournamentBySlugMock.mockResolvedValue({
+      id: 'tour1',
+      name: 'Liga Teste',
+      slug: 'torneio',
+      logoUrl: '',
+      teams: [],
+      sportSlug: '',
+      sportName: '',
+      playerStats: [playerStat('points', 'Pontos')],
+      players: [
+        { id: 'p1', name: 'Ana Silva', shirtName: 'Ana', teamId: 't1' },
+        { id: 'p2', name: 'Bia Souza', shirtName: '', teamId: 't2' }
+      ],
+      scoreboardSetting: { liveSiteUpdate: 'full-live-update' }
+    });
+    getSportBySlugMock.mockResolvedValue(null);
+  });
+
+  it('renders each side of a finished game with logs', async () => {
+    getPlayerStatsLogsByGameMock.mockResolvedValue([
+      playerLog('p1', 't1', { points: '20' }),
+      playerLog('p2', 't2', { points: '15' })
+    ]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    expect(screen.getByTestId('box-score')).toBeInTheDocument();
+    expect(screen.getByText('Ana')).toBeInTheDocument();
+    expect(screen.getByText('Bia Souza')).toBeInTheDocument();
+    expect(screen.getByText(messages.boxScore.title)).toBeInTheDocument();
+  });
+
+  it('hides the box score when a finished game has no logs', async () => {
+    getPlayerStatsLogsByGameMock.mockResolvedValue([]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    expect(screen.queryByTestId('box-score')).not.toBeInTheDocument();
+  });
+
+  it('hides the box score of a live game the tournament does not fully publish', async () => {
+    getGameMock.mockResolvedValue(game({ liveState: 'in_progress' }));
+    getTournamentBySlugMock.mockResolvedValue({
+      id: 'tour1',
+      name: 'Liga Teste',
+      slug: 'torneio',
+      logoUrl: '',
+      teams: [],
+      sportSlug: '',
+      sportName: '',
+      playerStats: [playerStat('points', 'Pontos')],
+      players: [],
+      scoreboardSetting: { liveSiteUpdate: 'team-score-live-update' }
+    });
+    getPlayerStatsLogsByGameMock.mockResolvedValue([
+      playerLog('p1', 't1', { points: '20' })
+    ]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    expect(screen.queryByTestId('box-score')).not.toBeInTheDocument();
+  });
+
+  it('shows the box score of a live game the tournament fully publishes', async () => {
+    getGameMock.mockResolvedValue(game({ liveState: 'in_progress' }));
+    getPlayerStatsLogsByGameMock.mockResolvedValue([
+      playerLog('p1', 't1', { points: '20' })
+    ]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    expect(screen.getByTestId('box-score')).toBeInTheDocument();
   });
 });
 
