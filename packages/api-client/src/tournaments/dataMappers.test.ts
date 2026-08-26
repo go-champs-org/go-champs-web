@@ -30,6 +30,7 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       sportName: 'Basketball 5x5',
       playerStats: [],
       players: [],
+      phases: [],
       scoreboardSetting: { liveSiteUpdate: 'full-live-update' },
       teams: [
         {

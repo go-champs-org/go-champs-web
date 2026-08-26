@@ -50,6 +50,7 @@ describe('getTournamentBySlug', () => {
       logoUrl: '',
       teams: [],
       players: [],
+      phases: [],
       sportSlug: '',
       sportName: '',
       playerStats: [],
