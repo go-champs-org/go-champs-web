@@ -99,12 +99,19 @@
   "player": {
     "unknownPlayer": "Jogador",
     "unknownTournament": "campeonato",
-    "statsTitle": "Estatísticas",
+    "profile": "Perfil do jogador",
+    "breadcrumbHome": "Home",
+    "breadcrumbTournament": "Campeonato",
+    "fullProfile": "Ver perfil de atleta completo",
+    "gamesPlayedCount": "{count} jogos disputados",
+    "detailedStats": "Estatísticas detalhadas",
+    "phaseColumn": "Fase",
+    "gamesColumn": "JG",
+    "total": "Total",
     "scopeAggregate": "Totais",
     "scopePerGame": "Por jogo",
     "glossary": "Glossário",
-    "sortByStat": "Ordenar por {stat}",
-    "gamesPlayed": "Jogos",
+    "statsScope": "Estatísticas",
     "noStats": "Sem estatísticas para este atleta ainda."
   },
   "team": {

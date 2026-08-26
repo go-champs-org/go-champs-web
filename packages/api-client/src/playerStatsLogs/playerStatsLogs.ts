@@ -16,3 +16,18 @@ export const getPlayerStatsLogsByGame = async (
   );
   return data.map(mapApiPlayerStatsLogToEntity);
 };
+
+// Every game log a player has in the tournament, each carrying its phase: the
+// player profile groups these by phase to build its stats table, since there
+// is no aggregated-by-phase endpoint.
+export const getPlayerStatsLogsByPlayer = async (
+  playerId: string
+): Promise<PlayerStatsLogEntity[]> => {
+  const url = new URL('v1/player-stats-logs', getApiHost());
+  url.searchParams.set('where[player_id]', playerId);
+
+  const { data } = await httpClient.get<ApiPlayerStatsLogsResponse>(
+    url.toString()
+  );
+  return data.map(mapApiPlayerStatsLogToEntity);
+};

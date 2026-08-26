@@ -99,12 +99,19 @@
   "player": {
     "unknownPlayer": "Player",
     "unknownTournament": "tournament",
-    "statsTitle": "Statistics",
+    "profile": "Player profile",
+    "breadcrumbHome": "Home",
+    "breadcrumbTournament": "Tournament",
+    "fullProfile": "View full athlete profile",
+    "gamesPlayedCount": "{count} games played",
+    "detailedStats": "Detailed statistics",
+    "phaseColumn": "Phase",
+    "gamesColumn": "GP",
+    "total": "Total",
     "scopeAggregate": "Totals",
     "scopePerGame": "Per game",
     "glossary": "Glossary",
-    "sortByStat": "Sort by {stat}",
-    "gamesPlayed": "Games",
+    "statsScope": "Statistics",
     "noStats": "No statistics for this athlete yet."
   },
   "team": {

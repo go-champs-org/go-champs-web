@@ -1,40 +1,37 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
-  getAggregatedPlayerStatsByFilter,
   getPlayer,
+  getPlayerStatsLogsByPlayer,
   getSportBySlug,
   getTournamentBySlug,
-  type AggregatedPlayerStatsLogEntity,
+  type PhaseEntity,
   type PlayerEntity,
+  type PlayerStatEntity,
+  type PlayerStatsLogEntity,
   type SportEntity,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
+import { FaUser } from 'react-icons/fa';
 import { Surface } from '@gochamps/ui';
-import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
-import type { IconType } from 'react-icons';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
 import {
-  availableScopes,
-  columnViewsByScope,
-  statColumnsByScope,
-  type StatColumnView,
-  type StatScope
-} from '@/src/stats/rosterStats';
-import { firstPlayerStats, hasAnyColumns } from '@/src/stats/playerAggregatedStats';
-import { AggregatedStats } from './AggregatedStats';
+  playerPhaseTable,
+  playerProfileColumns,
+  type PlayerPhaseTable
+} from '@/src/stats/playerPhaseStats';
+import { PlayerStatsTable } from './PlayerStatsTable';
 
 // A player's profile moves as rarely as a team's roster, so the rendered HTML
-// can be reused for minutes at a time instead of hitting the API on every
-// view.
+// can be reused for minutes at a time.
 export const revalidate = 300;
 
-// The player list is unbounded, so nothing is prerendered at build time —
-// declaring the params is what puts this route on the ISR path.
 export async function generateStaticParams() {
   return [];
 }
@@ -52,10 +49,18 @@ const playerPagePath = ({
   playerId
 }: PlayerPageParams): string => `/${org}/${tournament}/jogadores/${playerId}`;
 
-const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
+// The stats card carries no padding of its own — its header band and totals
+// band run edge to edge; the banner and its shadow are the elevated block.
+const SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
-// generateMetadata and the page both need the player; cache() keeps that to a
-// single request instead of fetching it twice per view.
+// The fixed dark-green artwork of the CMS athlete profile banner
+// (apps/cms/src/AthleteProfiles/Banner.scss): literal colors, so the card stays
+// green whether the page is in its light or dark theme.
+const BANNER_CLASS =
+  'relative overflow-hidden rounded-2xl bg-[linear-gradient(115deg,#2f4419_0%,#4d6b2c_55%,#7a9949_130%)] p-5 text-neutral-100 md:px-8 md:py-6';
+
+// generateMetadata and the page both need the player and tournament; cache()
+// keeps each to a single request per view.
 const loadPlayer = cache(
   async (playerId: string): Promise<PlayerEntity | null> => {
     try {
@@ -67,9 +72,6 @@ const loadPlayer = cache(
   }
 );
 
-// The tournament only names the team on the banner and the statistic
-// catalogue the aggregated log is read against; a missing tournament still
-// leaves a player worth showing, so it is not what decides the 404 here.
 const loadTournament = cache(
   async (
     org: string,
@@ -84,31 +86,70 @@ const loadTournament = cache(
   }
 );
 
+// The sport's game-level catalogue orders the stat columns; without it the
+// table still renders, as the statistics the tournament named in API order.
 const loadSport = (sportSlug: string): Promise<SportEntity | null> =>
   sportSlug ? getSportBySlug(sportSlug).catch(() => null) : Promise.resolve(null);
 
-// The aggregated log is a companion to the banner, not the page itself: an
-// unreachable endpoint leaves the profile standing without its numbers
-// instead of taking the page down.
-const loadPlayerStats = (
-  tournamentId: string,
-  playerId: string
-): Promise<AggregatedPlayerStatsLogEntity[]> =>
-  getAggregatedPlayerStatsByFilter({ tournamentId, playerId }).catch(() => []);
+// The per-game logs are what the phase table is built from — an unreachable
+// endpoint leaves the banner standing with an empty table.
+const loadLogs = (playerId: string): Promise<PlayerStatsLogEntity[]> =>
+  getPlayerStatsLogsByPlayer(playerId).catch(() => []);
 
-// The sport and the aggregated log both need the tournament first — one for
-// its statistic catalogue, the other for its id — so this waits for the
-// tournament instead of racing it. Without one there is neither to load.
-const loadSportAndPlayerStats = (
+const teamNameOf = (
   tournament: TournamentWithTeamsEntity | null,
-  player: PlayerEntity
-): Promise<[SportEntity | null, AggregatedPlayerStatsLogEntity[]]> =>
-  tournament
-    ? Promise.all([
-        loadSport(tournament.sportSlug),
-        loadPlayerStats(tournament.id, player.id)
-      ])
-    : Promise.resolve([null, []]);
+  teamId: string
+): string => tournament?.teams.find(team => team.id === teamId)?.name || '';
+
+const sportSlugOf = (
+  tournament: TournamentWithTeamsEntity | null
+): string => tournament?.sportSlug || '';
+
+// The fields the table reads off the tournament, each defaulted so a missing
+// tournament leaves the banner standing with an empty stats section.
+const tournamentFields = (
+  tournament: TournamentWithTeamsEntity | null
+): { tournamentName: string; playerStats: PlayerStatEntity[]; phases: PhaseEntity[] } => ({
+  tournamentName: tournament ? tournament.name : '',
+  playerStats: tournament ? tournament.playerStats : [],
+  phases: tournament ? tournament.phases : []
+});
+
+interface PlayerView {
+  player: PlayerEntity;
+  tournamentName: string;
+  teamName: string;
+  sport: SportEntity | null;
+  logs: PlayerStatsLogEntity[];
+  playerStats: PlayerStatEntity[];
+  phases: PhaseEntity[];
+}
+
+const loadPlayerView = async (
+  org: string,
+  tournamentSlug: string,
+  playerId: string
+): Promise<PlayerView> => {
+  // The logs need only the player id from the route, so they start alongside
+  // the player and tournament rather than waiting on either.
+  const [player, tournament, logs] = await Promise.all([
+    loadPlayer(playerId),
+    loadTournament(org, tournamentSlug),
+    loadLogs(playerId)
+  ]);
+
+  if (!player) notFound();
+
+  const sport = await loadSport(sportSlugOf(tournament));
+
+  return {
+    player,
+    teamName: teamNameOf(tournament, player.teamId),
+    sport,
+    logs,
+    ...tournamentFields(tournament)
+  };
+};
 
 export async function generateMetadata({
   params
@@ -134,228 +175,173 @@ export async function generateMetadata({
     path: playerPagePath(routeParams),
     title: t('playerTitle', values),
     description: t('playerDescription', values),
-    // A player the API no longer has renders as a 404; keeping that URL out
-    // of the index stops the crawler from re-serving a dead profile.
     noIndex: !player
   });
 }
 
-interface PlayerStatsView {
-  stats: Record<string, string>;
-  columnsByScope: Record<string, StatColumnView[]>;
-  scopes: StatScope[];
+interface BreadcrumbProps {
+  homeHref: string;
+  homeLabel: string;
+  tournamentHref: string;
+  tournamentLabel: string;
+  currentLabel: string;
 }
 
-// The catalogue that decides the columns lives on the tournament, so a
-// missing tournament leaves nothing to read the log against. A log with no
-// visible column in either scope is read the same way: there is nothing for
-// the island to switch between.
-const resolvePlayerStatsView = (
-  tournament: TournamentWithTeamsEntity | null,
-  sport: SportEntity | null,
-  statsLogs: AggregatedPlayerStatsLogEntity[],
-  abbreviations: Record<string, string>
-): PlayerStatsView | null => {
-  const stats = firstPlayerStats(statsLogs);
-  if (!tournament || !stats) return null;
-
-  const scopes = availableScopes(tournament.playerStats, sport);
-  const columnsByScope = columnViewsByScope(
-    statColumnsByScope(tournament.playerStats, sport, scopes),
-    abbreviations
-  );
-
-  return hasAnyColumns(columnsByScope) ? { stats, columnsByScope, scopes } : null;
-};
-
-// The team only names the banner: a player whose team the tournament no longer
-// lists still shows, with the team left off the shirt line rather than blank.
-const teamNameOf = (
-  tournament: TournamentWithTeamsEntity | null,
-  teamId: string
-): string => tournament?.teams.find(team => team.id === teamId)?.name || '';
-
-// The shirt line of the CMS banner: team, number and shirt name joined, each
-// dropped when the athlete has none (apps/cms/src/Players/Banner.tsx).
-const buildShirtContent = (teamName: string, player: PlayerEntity): string =>
-  [teamName, player.shirtNumber && `#${player.shirtNumber}`, player.shirtName]
-    .filter(Boolean)
-    .join(' | ');
-
-// The tournament pages still live in the CMS, so the back link names the
-// tournament when it loaded and falls back to a generic label when it did not.
-const tournamentLinkLabel = (
-  tournament: TournamentWithTeamsEntity | null,
-  fallback: string
-): string => (tournament ? tournament.name : fallback);
-
-function SectionTitle({ children }: { children: string }) {
+function Breadcrumb({
+  homeHref,
+  homeLabel,
+  tournamentHref,
+  tournamentLabel,
+  currentLabel
+}: BreadcrumbProps) {
   return (
-    <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-      <span
-        aria-hidden="true"
-        className="inline-block h-[1.1rem] w-1 rounded-full bg-primary"
-      />
-      {children}
-    </h2>
+    <nav aria-label="Breadcrumb" className="text-xs text-muted">
+      <ol className="flex flex-wrap items-center gap-1.5">
+        <li>
+          <Link href={homeHref} className="hover:text-primary-dark">
+            {homeLabel}
+          </Link>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li>
+          {/* The tournament still lives in the CMS until the routing rollout. */}
+          <a href={tournamentHref} className="hover:text-primary-dark">
+            {tournamentLabel}
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li className="font-semibold text-primary-dark" aria-current="page">
+          {currentLabel}
+        </li>
+      </ol>
+    </nav>
   );
 }
 
-function PlayerAvatarInitial({ name }: { name: string }) {
+function PlayerAvatar({ name }: { name: string }) {
   return (
-    <div className="flex h-[84px] w-[84px] shrink-0 items-center justify-center rounded-full bg-neutral-100 text-3xl font-extrabold text-muted md:h-[120px] md:w-[120px]">
+    <div className="flex h-[84px] w-[84px] shrink-0 items-center justify-center rounded-full border-4 border-[#a6cd63] bg-neutral-100 text-3xl font-extrabold text-[#4d6b2c] md:h-[104px] md:w-[104px]">
       {name.charAt(0).toUpperCase()}
     </div>
   );
 }
 
-interface PlayerPhotoProps {
-  photoUrl: string;
-  name: string;
-}
-
-function PlayerPhoto({ photoUrl, name }: PlayerPhotoProps) {
-  // Player photos live on arbitrary user-uploaded hosts: next/image would
-  // need each one allow-listed in next.config.js.
+function PlayerPhoto({ photoUrl, name }: { photoUrl: string; name: string }) {
+  // Player photos live on arbitrary user-uploaded hosts: next/image would need
+  // each one allow-listed in next.config.js.
   return photoUrl ? (
     <img
       src={photoUrl}
       alt=""
-      width={120}
-      height={120}
+      width={104}
+      height={104}
       decoding="async"
-      className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-border bg-neutral-100 object-cover md:h-[120px] md:w-[120px]"
+      className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[104px] md:w-[104px]"
     />
   ) : (
-    <PlayerAvatarInitial name={name} />
-  );
-}
-
-interface SocialLink {
-  key: 'instagram' | 'twitter' | 'facebook';
-  label: string;
-  href: (handle: string) => string;
-  Icon: IconType;
-}
-
-// The network name is the brand, not translatable copy, so it is the same in
-// every locale — it is what names the icon-only link for a screen reader.
-const SOCIAL_LINKS: SocialLink[] = [
-  {
-    key: 'instagram',
-    label: 'Instagram',
-    href: handle => `https://instagram.com/${handle}`,
-    Icon: FaInstagram
-  },
-  {
-    key: 'twitter',
-    label: 'Twitter',
-    href: handle => `https://twitter.com/${handle}`,
-    Icon: FaTwitter
-  },
-  {
-    key: 'facebook',
-    label: 'Facebook',
-    href: handle => `https://facebook.com/${handle}`,
-    Icon: FaFacebook
-  }
-];
-
-function SocialLinks({ player }: { player: PlayerEntity }) {
-  return (
-    <div className="flex items-center gap-3" data-testid="player-social-links">
-      {SOCIAL_LINKS.filter(({ key }) => player[key]).map(
-        ({ key, label, href, Icon }) => (
-          <a
-            key={key}
-            href={href(player[key] as string)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            title={label}
-            className="text-muted transition-colors hover:text-primary-dark"
-          >
-            <Icon aria-hidden="true" className="h-5 w-5" />
-          </a>
-        )
-      )}
-    </div>
+    <PlayerAvatar name={name} />
   );
 }
 
 interface PlayerBannerProps {
-  player: PlayerEntity;
-  shirtContent: string;
+  name: string;
+  photoUrl: string;
+  overline: string;
+  subtitle: string;
+  profileHref: string;
+  profileLabel: string;
 }
 
-// Ported off the Bulma banner of the CMS (apps/cms/src/Players/Banner.tsx).
-function PlayerBanner({ player, shirtContent }: PlayerBannerProps) {
-  const hasSocialLinks = Boolean(
-    player.instagram || player.twitter || player.facebook
-  );
-
+function PlayerBanner({
+  name,
+  photoUrl,
+  overline,
+  subtitle,
+  profileHref,
+  profileLabel
+}: PlayerBannerProps) {
   return (
-    <div
-      data-testid="player-banner"
-      className="flex flex-col items-center gap-4 text-center md:flex-row md:gap-6 md:text-left"
-    >
-      <PlayerPhoto photoUrl={player.photoUrl} name={player.name} />
+    <section className={BANNER_CLASS} data-testid="player-banner">
+      {/* A single lime shape multiplied over the gradient, the darker olive
+          pattern the CMS profile banner uses. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[url('/illustrations/background-accessory.svg')] bg-[length:auto_260%] bg-[position:right_-2rem_center] bg-no-repeat opacity-35 mix-blend-multiply"
+      />
 
-      <div className="min-w-0 flex-1">
-        <h1 className="text-2xl font-extrabold leading-tight md:text-3xl">
-          {player.name}
-        </h1>
+      <div className="relative z-[1] flex flex-col items-center gap-4 text-center md:flex-row md:gap-6 md:text-left">
+        <PlayerPhoto photoUrl={photoUrl} name={name} />
 
-        {shirtContent && (
-          <p
-            data-testid="player-shirt-line"
-            className="text-sm font-semibold uppercase tracking-wide text-muted"
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          {overline && (
+            <p className="text-xs font-bold uppercase tracking-[0.08em] opacity-85">
+              {overline}
+            </p>
+          )}
+          <h1 className="text-2xl font-extrabold leading-tight md:text-3xl">
+            {name}
+          </h1>
+          {subtitle && (
+            <p className="text-sm font-semibold opacity-90">{subtitle}</p>
+          )}
+
+          <a
+            href={profileHref}
+            className="mt-1 inline-flex w-fit items-center gap-2 self-center rounded-full bg-neutral-100/15 px-4 py-2 text-xs font-semibold transition-colors hover:bg-neutral-100/30 md:self-start"
           >
-            {shirtContent}
-          </p>
-        )}
-
-        {hasSocialLinks && (
-          <div className="mt-3 flex justify-center md:justify-start">
-            <SocialLinks player={player} />
-          </div>
-        )}
+            <FaUser aria-hidden="true" className="h-3.5 w-3.5" />
+            {profileLabel}
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-interface PlayerStatsSectionProps {
-  statsView: PlayerStatsView | null;
-  scopeLabels: Record<string, string>;
-  scopeLegend: string;
-  glossaryLabel: string;
-  noStatsLabel: string;
+interface StatsSectionProps {
+  hasStats: boolean;
+  table: PlayerPhaseTable;
+  columns: StatColumnView[];
+  labels: {
+    title: string;
+    phase: string;
+    games: string;
+    total: string;
+    scopeAggregate: string;
+    scopePerGame: string;
+    scopeLegend: string;
+    glossary: string;
+    noStats: string;
+  };
 }
 
-// The island only exists once the page resolved a scope with columns in it;
-// otherwise the section reads as a plain "no stats" line rather than an empty
-// scope filter over an empty grid.
-function PlayerStatsSection({
-  statsView,
-  scopeLabels,
-  scopeLegend,
-  glossaryLabel,
-  noStatsLabel
-}: PlayerStatsSectionProps) {
-  return statsView ? (
-    <div className="mt-4">
-      <AggregatedStats
-        stats={statsView.stats}
-        columnsByScope={statsView.columnsByScope}
-        scopes={statsView.scopes}
-        scopeLabels={scopeLabels}
-        scopeLegend={scopeLegend}
-        glossaryLabel={glossaryLabel}
+function StatsSection({ hasStats, table, columns, labels }: StatsSectionProps) {
+  return hasStats ? (
+    <Surface
+      as="section"
+      className={`${SECTION_CLASS} overflow-hidden`}
+      data-testid="player-stats"
+    >
+      <PlayerStatsTable
+        rows={table.rows}
+        total={table.total}
+        columns={columns}
+        title={labels.title}
+        phaseLabel={labels.phase}
+        gamesLabel={labels.games}
+        totalLabel={labels.total}
+        scopeLabels={{
+          aggregate: labels.scopeAggregate,
+          per_game: labels.scopePerGame
+        }}
+        scopeLegend={labels.scopeLegend}
+        glossaryLabel={labels.glossary}
       />
-    </div>
+    </Surface>
   ) : (
-    <p className="mt-4 text-sm text-muted">{noStatsLabel}</p>
+    <Surface as="section" className={`${SECTION_CLASS} p-6`} data-testid="player-stats">
+      <p className="text-sm text-muted">{labels.noStats}</p>
+    </Surface>
   );
 }
 
@@ -368,68 +354,65 @@ export default async function PlayerPage({
   const { locale, org, tournament: tournamentSlug, playerId } = routeParams;
   setRequestLocale(locale);
 
-  const [player, tournament, t, tTeam, tGame] = await Promise.all([
-    loadPlayer(playerId),
-    loadTournament(org, tournamentSlug),
+  const [view, t, tTeam] = await Promise.all([
+    loadPlayerView(org, tournamentSlug, playerId),
     getTranslations('player'),
-    getTranslations('team'),
-    getTranslations('game')
+    getTranslations('team')
   ]);
 
-  if (!player) notFound();
-
-  const [sport, statsLogs] = await loadSportAndPlayerStats(tournament, player);
-
-  const shirtContent = buildShirtContent(
-    teamNameOf(tournament, player.teamId),
-    player
-  );
-  // Which scope the tiles offer, and the columns of each, are decided here:
-  // the client island only switches between what the page resolved.
-  const statsView = resolvePlayerStatsView(
-    tournament,
-    sport,
-    statsLogs,
+  const columns = statColumnViews(
+    playerProfileColumns(view.playerStats, view.sport),
     tTeam.raw('statColumns') as Record<string, string>
   );
+  const table = playerPhaseTable(view.logs, view.phases);
+  const gamesText =
+    table.total.games > 0
+      ? t('gamesPlayedCount', { count: table.total.games })
+      : '';
+  const subtitle = [view.teamName, gamesText].filter(Boolean).join(' · ');
+  const hasStats = table.rows.length > 0 && columns.length > 0;
+
+  const tournamentHref = `${CMS_URL}/${org}/${tournamentSlug}`;
 
   return (
     <main
       data-testid="player-page"
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
-      <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6">
-        {/* Tournament pages still live in the CMS until the _redirects
-            rollout moves them here, so this link must stay absolute. */}
-        <a
-          href={`${CMS_URL}/${org}/${tournamentSlug}`}
-          className="text-sm font-semibold text-primary-dark hover:underline"
-        >
-          {tournamentLinkLabel(tournament, tGame('backToTournament'))}
-        </a>
+      <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
+        <Breadcrumb
+          homeHref={`/${locale}`}
+          homeLabel={t('breadcrumbHome')}
+          tournamentHref={tournamentHref}
+          tournamentLabel={view.tournamentName || t('breadcrumbTournament')}
+          currentLabel={t('profile')}
+        />
 
-        <Surface as="section" className={SECTION_CLASS}>
-          <PlayerBanner player={player} shirtContent={shirtContent} />
-        </Surface>
+        <PlayerBanner
+          name={view.player.name}
+          photoUrl={view.player.photoUrl}
+          overline={view.tournamentName}
+          subtitle={subtitle}
+          profileHref={`${tournamentHref}/Player/${playerId}`}
+          profileLabel={t('fullProfile')}
+        />
 
-        <Surface
-          as="section"
-          className={SECTION_CLASS}
-          data-testid="player-stats"
-        >
-          <SectionTitle>{t('statsTitle')}</SectionTitle>
-
-          <PlayerStatsSection
-            statsView={statsView}
-            scopeLabels={{
-              aggregate: t('scopeAggregate'),
-              per_game: t('scopePerGame')
-            }}
-            scopeLegend={t('statsTitle')}
-            glossaryLabel={t('glossary')}
-            noStatsLabel={t('noStats')}
-          />
-        </Surface>
+        <StatsSection
+          hasStats={hasStats}
+          table={table}
+          columns={columns}
+          labels={{
+            title: t('detailedStats'),
+            phase: t('phaseColumn'),
+            games: t('gamesColumn'),
+            total: t('total'),
+            scopeAggregate: t('scopeAggregate'),
+            scopePerGame: t('scopePerGame'),
+            scopeLegend: t('statsScope'),
+            glossary: t('glossary'),
+            noStats: t('noStats')
+          }}
+        />
       </div>
     </main>
   );
