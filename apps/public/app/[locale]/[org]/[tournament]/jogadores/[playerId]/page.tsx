@@ -52,9 +52,6 @@ const playerPagePath = ({
   playerId
 }: PlayerPageParams): string => `/${org}/${tournament}/jogadores/${playerId}`;
 
-// The athlete and official profile pages of the CMS lift every block off the
-// page with a soft shadow; Surface already owns the radius, border and
-// background, so this is only the elevation it does not carry.
 const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
 
 // generateMetadata and the page both need the player; cache() keeps that to a
@@ -87,9 +84,6 @@ const loadTournament = cache(
   }
 );
 
-// The tournament only names its statistics; which of them are totals and
-// which are per game averages is the sport's own catalogue. Without it the
-// tiles still render, as the single list of statistics the tournament named.
 const loadSport = (sportSlug: string): Promise<SportEntity | null> =>
   sportSlug ? getSportBySlug(sportSlug).catch(() => null) : Promise.resolve(null);
 
@@ -195,9 +189,6 @@ const tournamentLinkLabel = (
   fallback: string
 ): string => (tournament ? tournament.name : fallback);
 
-// The green bar the profile pages put before every section title
-// (apps/cms/src/Pages/AthleteProfilePage.scss). It is decoration: the heading
-// text alone is what a screen reader announces.
 function SectionTitle({ children }: { children: string }) {
   return (
     <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
@@ -242,44 +233,52 @@ function PlayerPhoto({ photoUrl, name }: PlayerPhotoProps) {
 
 interface SocialLink {
   key: 'instagram' | 'twitter' | 'facebook';
+  label: string;
   href: (handle: string) => string;
   Icon: IconType;
 }
 
+// The network name is the brand, not translatable copy, so it is the same in
+// every locale — it is what names the icon-only link for a screen reader.
 const SOCIAL_LINKS: SocialLink[] = [
   {
     key: 'instagram',
+    label: 'Instagram',
     href: handle => `https://instagram.com/${handle}`,
     Icon: FaInstagram
   },
   {
     key: 'twitter',
+    label: 'Twitter',
     href: handle => `https://twitter.com/${handle}`,
     Icon: FaTwitter
   },
   {
     key: 'facebook',
+    label: 'Facebook',
     href: handle => `https://facebook.com/${handle}`,
     Icon: FaFacebook
   }
 ];
 
-// Only a handle the athlete actually filled in earns a link — the CMS banner
-// leaves the icon out entirely rather than pointing at an empty profile.
 function SocialLinks({ player }: { player: PlayerEntity }) {
   return (
     <div className="flex items-center gap-3" data-testid="player-social-links">
-      {SOCIAL_LINKS.filter(({ key }) => player[key]).map(({ key, href, Icon }) => (
-        <a
-          key={key}
-          href={href(player[key] as string)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-muted transition-colors hover:text-primary-dark"
-        >
-          <Icon aria-hidden="true" className="h-5 w-5" />
-        </a>
-      ))}
+      {SOCIAL_LINKS.filter(({ key }) => player[key]).map(
+        ({ key, label, href, Icon }) => (
+          <a
+            key={key}
+            href={href(player[key] as string)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            title={label}
+            className="text-muted transition-colors hover:text-primary-dark"
+          >
+            <Icon aria-hidden="true" className="h-5 w-5" />
+          </a>
+        )
+      )}
     </div>
   );
 }
@@ -289,8 +288,7 @@ interface PlayerBannerProps {
   shirtContent: string;
 }
 
-// What sits inside the banner card: the athlete's photo, name and shirt line,
-// ported off the Bulma banner of the CMS profile (apps/cms/src/Players/Banner.tsx).
+// Ported off the Bulma banner of the CMS (apps/cms/src/Players/Banner.tsx).
 function PlayerBanner({ player, shirtContent }: PlayerBannerProps) {
   const hasSocialLinks = Boolean(
     player.instagram || player.twitter || player.facebook

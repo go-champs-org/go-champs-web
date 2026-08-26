@@ -92,10 +92,8 @@ const useLiveBoxScore = (
   return boxScore;
 };
 
-// Opaque mixes rather than translucent tints, the same reasoning the roster
-// table bands follow (times/[teamId]/RosterStatsTable.tsx): the sticky column
-// freezes over the scrolling ones, and anything see-through would let the
-// numbers slide underneath it.
+// Opaque, not translucent: the sticky first column freezes over the scrolling
+// ones and anything see-through would show the numbers sliding under it.
 const HEADER_BAND =
   'bg-[color-mix(in_srgb,var(--color-primary)_40%,var(--color-surface))]';
 const TOTALS_BAND =
@@ -250,9 +248,12 @@ function BoxScoreTable({
             </tr>
           </thead>
           <tbody>
-            {team.rows.map(row => (
+            {team.rows.map((row, index) => (
               <BoxScoreTableRow
-                key={row.playerId || row.name}
+                // A placeholder without a player id falls back to its position:
+                // two of them with the same (or empty) name would collide on a
+                // name-only key and break React's row reconciliation.
+                key={row.playerId || `${row.name}-${index}`}
                 row={row}
                 columns={columns}
                 playerHrefBase={playerHrefBase}
@@ -296,7 +297,6 @@ interface ViewerProps {
   labels: BoxScoreLabels;
 }
 
-// Home first, then away: the same reading order the score above it uses.
 function GenericBoxScoreViewer({
   columns,
   home,

@@ -18,8 +18,6 @@ interface AggregatedStatsProps {
   glossaryLabel: string;
 }
 
-// Two pills rather than a select, the same shape the roster table's own scope
-// filter takes: two options never earn a dropdown.
 const SCOPE_CLASS =
   'cursor-pointer rounded-full border px-3 py-1 text-xs font-semibold transition-colors';
 
@@ -139,9 +137,6 @@ const columnsFor = (
   scope: StatScope
 ): StatColumnView[] => columnsByScope[scope] || [];
 
-// The CMS card of a single player's totals is a grid of tiles, not a table
-// with one row: there is no roster of other players to line the columns up
-// against on this page.
 export function AggregatedStats({
   stats,
   columnsByScope,

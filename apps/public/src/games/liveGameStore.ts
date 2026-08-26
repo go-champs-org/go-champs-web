@@ -40,9 +40,8 @@ const fetchScoreboard = async (
   }
 };
 
-// Fan a response out to every listener and report whether the poll carries on:
-// a response the scoreboard could not answer is worth asking again, one that
-// reported the end is not.
+// Fan a response out to every listener and report whether polling continues:
+// a game the scoreboard reported ended stops the loop.
 const deliver = (
   feed: ScoreboardFeed,
   response: ScoreboardApiGameResponse | null
@@ -55,8 +54,7 @@ const deliver = (
   return !scoreboardGameEnded(response);
 };
 
-// One request in flight at a time, on the same 10s cadence the CMS polls: with
-// a plain interval a slow response can land after a newer one.
+// One request in flight at a time, re-armed on the 10s cadence after each.
 const runFeed = (url: string, feed: ScoreboardFeed): void => {
   const step = async () => {
     const response = await fetchScoreboard(url, feed.controller.signal);

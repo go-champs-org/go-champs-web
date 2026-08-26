@@ -24,8 +24,6 @@ export interface TeamLogsSplit {
   away: PlayerStatsLogEntity[];
 }
 
-// One log per player per game, split by the side it belongs to: a box score
-// is always read as two halves, never as one mixed list.
 export const splitLogsByTeam = (
   logs: PlayerStatsLogEntity[],
   homeTeamId: string,
@@ -44,8 +42,7 @@ export const teamTotals = (
 ): Record<string, string> =>
   teamLogs.find(log => log.teamId === teamId)?.stats || {};
 
-// The shirt name is what a broadcast reads a player by; the given name is the
-// fallback for a player the team never gave one.
+// Shirt name first, the given name as fallback.
 export const playerNamesById = (
   players: PlayerEntity[]
 ): Record<string, string> =>
