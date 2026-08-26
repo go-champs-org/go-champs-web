@@ -1,3 +1,8 @@
+'use client';
+
+// Client-only: timers, fetch and the tab-local module cache below never run on
+// the server, and marking the boundary keeps a Server Component from importing
+// it and turning the feed registry into shared cross-request state.
 import {
   LIVE_SCORE_POLLING_INTERVAL_MS,
   scoreboardGameEnded,
