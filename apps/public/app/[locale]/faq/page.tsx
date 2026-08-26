@@ -35,7 +35,7 @@ export default async function FaqPage({
 
   return (
     <main className="bg-background py-12 px-6">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-[var(--content-max-width)] grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <Image
           src="/illustrations/girl-on-smartphone.svg"
           alt=""

@@ -4,12 +4,28 @@ import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
   getGame,
+  getPlayerStatsLogsByGame,
+  getSportBySlug,
+  getTeamStatsLogsByGame,
   getTournamentBySlug,
-  type GameEntity
+  type GameEntity,
+  type LiveSiteUpdate,
+  type PlayerStatsLogEntity,
+  type SportEntity,
+  type TeamStatsLogEntity,
+  type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
+import {
+  boxScoreColumns,
+  boxScoreRows,
+  playerNamesById,
+  shouldShowBoxScore,
+  splitLogsByTeam,
+  teamTotals
+} from '@/src/games/boxScore';
 import { formatGameDateTime } from '@/src/games/gameDateTime';
 import {
   gameStructuredData,
@@ -19,6 +35,8 @@ import { gameTeamNames, type GameTeamNames } from '@/src/games/gameTeams';
 import { gameVenue } from '@/src/games/gameVenue';
 import { isLiveGame } from '@/src/games/liveScore';
 import { buildPageMetadata, pageUrl } from '@/src/seo/metadata';
+import { statColumnViews } from '@/src/stats/rosterStats';
+import { BoxScore } from './BoxScore';
 import { Scoreboard } from './Scoreboard';
 
 // The same red the CMS live indicator uses; it is a status signal, not part of
@@ -66,6 +84,27 @@ const loadGame = cache(async (gameId: string): Promise<GameEntity | null> => {
 const loadTournament = cache(async (org: string, tournament: string) =>
   getTournamentBySlug(org, tournament).catch(() => null)
 );
+
+// The box score is a companion to the game, same as the tournament link: an
+// unreachable endpoint leaves the page with no logs rather than taking it
+// down. Neither call needs the tournament, so both start alongside it instead
+// of waiting on it.
+const loadPlayerStatsLogs = (
+  gameId: string
+): Promise<PlayerStatsLogEntity[]> =>
+  getPlayerStatsLogsByGame(gameId).catch(() => []);
+
+const loadTeamStatsLogs = (gameId: string): Promise<TeamStatsLogEntity[]> =>
+  getTeamStatsLogsByGame(gameId).catch(() => []);
+
+// The tournament only names its statistics; which of them belong to a box
+// score is the sport's own catalogue. Without it every visible statistic the
+// tournament configured becomes a column, in the order the API sent them
+// (src/games/boxScore.ts `boxScoreColumns`).
+const loadSport = (sportSlug: string): Promise<SportEntity | null> =>
+  sportSlug
+    ? getSportBySlug(sportSlug).catch(() => null)
+    : Promise.resolve(null);
 
 export async function generateMetadata({
   params
@@ -219,6 +258,107 @@ function GameCard({
   );
 }
 
+// The box score of a single game: the columns the sport orders, and each
+// side's rows and totals resolved against them. Kept as its own function so
+// the page component reads as one flat sequence of steps rather than the
+// derivation inlined into it.
+const gameBoxScoreView = (
+  game: GameEntity,
+  tournamentEntity: TournamentWithTeamsEntity,
+  playerStatsLogs: PlayerStatsLogEntity[],
+  teamStatsLogs: TeamStatsLogEntity[],
+  sport: SportEntity | null,
+  statColumnAbbreviations: Record<string, string>
+) => {
+  const logs = splitLogsByTeam(
+    playerStatsLogs,
+    game.homeTeam.id,
+    game.awayTeam.id
+  );
+  const namesById = playerNamesById(tournamentEntity.players);
+  const columns = statColumnViews(
+    boxScoreColumns(tournamentEntity.playerStats, sport),
+    statColumnAbbreviations
+  );
+
+  return {
+    columns,
+    logs,
+    home: {
+      teamName: game.homeTeam.name,
+      logoUrl: game.homeTeam.logoUrl,
+      rows: boxScoreRows(logs.home, namesById),
+      totals: teamTotals(teamStatsLogs, game.homeTeam.id)
+    },
+    away: {
+      teamName: game.awayTeam.name,
+      logoUrl: game.awayTeam.logoUrl,
+      rows: boxScoreRows(logs.away, namesById),
+      totals: teamTotals(teamStatsLogs, game.awayTeam.id)
+    }
+  };
+};
+
+const sportSlugOf = (
+  tournament: TournamentWithTeamsEntity | null
+): string => tournament?.sportSlug || '';
+
+// The tournament pages still live in the CMS, so the back link names the
+// tournament when it loaded and falls back to a generic label when it did not.
+const tournamentLinkLabel = (
+  tournament: TournamentWithTeamsEntity | null,
+  fallback: string
+): string => (tournament ? tournament.name : fallback);
+
+// The box score only shows once it has a column to show and the CMS gate lets
+// it through (src/games/boxScore.ts `shouldShowBoxScore`).
+const boxScoreVisible = (
+  view: { columns: unknown[]; logs: { home: unknown[]; away: unknown[] } },
+  liveState: string,
+  liveSiteUpdate: LiveSiteUpdate
+): boolean =>
+  view.columns.length > 0 &&
+  shouldShowBoxScore(liveState, liveSiteUpdate, view.logs.home, view.logs.away);
+
+// Only a live game the tournament opted into full live updates for keeps
+// polling the scoreboard; everything else renders once from the static logs.
+const pollLiveFor = (isLive: boolean, liveSiteUpdate: LiveSiteUpdate): boolean =>
+  isLive && liveSiteUpdate === 'full-live-update';
+
+// The whole box score decision in one place, so the page component never has
+// to branch on it: a null result is a page with no box score section at all.
+const resolveBoxScore = (
+  game: GameEntity,
+  tournament: TournamentWithTeamsEntity | null,
+  playerStatsLogs: PlayerStatsLogEntity[],
+  teamStatsLogs: TeamStatsLogEntity[],
+  sport: SportEntity | null,
+  abbreviations: Record<string, string>,
+  isLive: boolean
+) => {
+  if (!tournament) return null;
+
+  const view = gameBoxScoreView(
+    game,
+    tournament,
+    playerStatsLogs,
+    teamStatsLogs,
+    sport,
+    abbreviations
+  );
+  const { liveSiteUpdate } = tournament.scoreboardSetting;
+
+  if (!boxScoreVisible(view, game.liveState, liveSiteUpdate)) return null;
+
+  return {
+    columns: view.columns,
+    home: view.home,
+    away: view.away,
+    pollLive: pollLiveFor(isLive, liveSiteUpdate),
+    sportSlug: tournament.sportSlug
+  };
+};
+
 export default async function GamePage({
   params
 }: {
@@ -228,16 +368,48 @@ export default async function GamePage({
   const { locale, org, tournament, gameId } = routeParams;
   setRequestLocale(locale);
 
-  const [game, tournamentEntity, t] = await Promise.all([
+  // The box score needs only the game id, not the tournament, so both of its
+  // logs start alongside it instead of waiting on it — a second round trip is
+  // only spent on the sport, once the tournament says which one it is.
+  const [
+    game,
+    tournamentEntity,
+    playerStatsLogs,
+    teamStatsLogs,
+    t,
+    tBoxScore,
+    tTeam
+  ] = await Promise.all([
     loadGame(gameId),
     loadTournament(org, tournament),
-    getTranslations('game')
+    loadPlayerStatsLogs(gameId),
+    loadTeamStatsLogs(gameId),
+    getTranslations('game'),
+    getTranslations('boxScore'),
+    getTranslations('team')
   ]);
 
   if (!game) notFound();
 
+  const sport = await loadSport(sportSlugOf(tournamentEntity));
+
   const names = gameTeamNames(game, t('undecidedTeam'));
   const venue = gameVenue(game.location, game.city);
+  const isLive = isLiveGame(game.liveState);
+  const playerHrefBase = `/${locale}/${org}/${tournament}/jogadores/`;
+  const backLabel = tournamentLinkLabel(tournamentEntity, t('backToTournament'));
+
+  // The whole box score decision resolves here, so the page below only asks
+  // whether there is one to render, not how to decide it.
+  const boxScore = resolveBoxScore(
+    game,
+    tournamentEntity,
+    playerStatsLogs,
+    teamStatsLogs,
+    sport,
+    tTeam.raw('statColumns') as Record<string, string>,
+    isLive
+  );
 
   return (
     <main
@@ -253,14 +425,14 @@ export default async function GamePage({
         })}
       />
 
-      <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         {/* Tournament pages still live in the CMS until the _redirects rollout
             moves them here, so this link must stay absolute. */}
         <a
           href={`${CMS_URL}/${org}/${tournament}`}
           className="text-sm font-semibold text-primary-dark hover:underline"
         >
-          {tournamentEntity ? tournamentEntity.name : t('backToTournament')}
+          {backLabel}
         </a>
 
         <GameCard
@@ -274,6 +446,28 @@ export default async function GamePage({
 
         {game.youTubeCode && (
           <GameVideo youTubeCode={game.youTubeCode} title={t('videoTitle')} />
+        )}
+
+        {boxScore && (
+          <BoxScore
+            key={game.id}
+            gameId={game.id}
+            scoreboardUrl={SCOREBOARD_URL}
+            isLive={isLive}
+            pollLive={boxScore.pollLive}
+            sportSlug={boxScore.sportSlug}
+            columns={boxScore.columns}
+            home={boxScore.home}
+            away={boxScore.away}
+            playerHrefBase={playerHrefBase}
+            labels={{
+              player: tBoxScore('player'),
+              totals: tBoxScore('totals'),
+              title: tBoxScore('title'),
+              glossary: tBoxScore('glossary'),
+              sortByStat: tBoxScore.raw('sortByStat') as string
+            }}
+          />
         )}
       </div>
     </main>

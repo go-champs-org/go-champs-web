@@ -89,6 +89,31 @@
     "backToTournament": "Back to the tournament",
     "videoTitle": "Game video"
   },
+  "boxScore": {
+    "title": "Box score",
+    "player": "Player",
+    "totals": "Totals",
+    "glossary": "Glossary",
+    "sortByStat": "Sort by {stat}"
+  },
+  "player": {
+    "unknownPlayer": "Player",
+    "unknownTournament": "tournament",
+    "profile": "Player profile",
+    "breadcrumbHome": "Home",
+    "breadcrumbTournament": "Tournament",
+    "fullProfile": "View full athlete profile",
+    "gamesPlayedCount": "{count} games played",
+    "detailedStats": "Detailed statistics",
+    "phaseColumn": "Phase",
+    "gamesColumn": "GP",
+    "total": "Total",
+    "scopeAggregate": "Totals",
+    "scopePerGame": "Per game",
+    "glossary": "Glossary",
+    "statsScope": "Statistics",
+    "noStats": "No statistics for this athlete yet."
+  },
   "team": {
     "coachingStaff": "Coaching staff",
     "headCoach": "Head coach",
@@ -143,6 +168,8 @@
     "gameTitle": "{homeTeam} x {awayTeam}",
     "gameDescription": "Score, date and venue for {homeTeam} x {awayTeam} on Go Champs.",
     "teamTitle": "{team} — {tournament}",
-    "teamDescription": "Team information and coaching staff for {team} in {tournament} on Go Champs."
+    "teamDescription": "Team information and coaching staff for {team} in {tournament} on Go Champs.",
+    "playerTitle": "{player} — {tournament}",
+    "playerDescription": "Statistics for {player} in {tournament} on Go Champs."
   }
 }

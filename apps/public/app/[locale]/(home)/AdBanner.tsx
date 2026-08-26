@@ -11,7 +11,7 @@ export const AD_LOADER_SRC = `https://pagead2.googlesyndication.com/pagead/js/ad
 // grows into it: the grid row animates from 0fr to 1fr, which transitions to
 // the content's own height without the page jumping.
 const bannerClassName = (isFilled: string) =>
-  `mx-auto grid w-full max-w-[560px] transition-[grid-template-rows] duration-300 ease-out md:max-w-[1320px] ${isFilled}`;
+  `mx-auto grid w-full max-w-[560px] transition-[grid-template-rows] duration-300 ease-out md:max-w-[var(--content-max-width)] ${isFilled}`;
 
 const FILLED_CLASS = 'mb-8 grid-rows-[1fr] md:mb-12';
 const COLLAPSED_CLASS = 'grid-rows-[0fr]';

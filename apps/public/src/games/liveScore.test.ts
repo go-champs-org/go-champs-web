@@ -2,7 +2,10 @@ import {
   isLiveGame,
   mapScoreboardGameToLiveScore,
   scoreboardGameEnded,
-  scoreboardGameUrl
+  scoreboardGameUrl,
+  scoreboardTeamRows,
+  scoreboardTeamTotals,
+  type ScoreboardApiTeam
 } from './liveScore';
 
 describe('isLiveGame', () => {
@@ -33,8 +36,8 @@ describe('mapScoreboardGameToLiveScore', () => {
     expect(
       mapScoreboardGameToLiveScore({
         data: {
-          home_team: { total_player_stats: { points: 62 } },
-          away_team: { total_player_stats: { points: 58 } }
+          home_team: { total_player_stats: { points: 62 }, players: [] },
+          away_team: { total_player_stats: { points: 58 }, players: [] }
         }
       })
     ).toEqual({ homeScore: 62, awayScore: 58 });
@@ -44,8 +47,8 @@ describe('mapScoreboardGameToLiveScore', () => {
     expect(
       mapScoreboardGameToLiveScore({
         data: {
-          home_team: { total_player_stats: {} },
-          away_team: { total_player_stats: {} }
+          home_team: { total_player_stats: {}, players: [] },
+          away_team: { total_player_stats: {}, players: [] }
         }
       })
     ).toEqual({ homeScore: 0, awayScore: 0 });
@@ -55,8 +58,8 @@ describe('mapScoreboardGameToLiveScore', () => {
 describe('scoreboardGameEnded', () => {
   const responseWith = (liveState?: string) => ({
     data: {
-      home_team: { total_player_stats: { points: 62 } },
-      away_team: { total_player_stats: { points: 58 } },
+      home_team: { total_player_stats: { points: 62 }, players: [] },
+      away_team: { total_player_stats: { points: 58 }, players: [] },
       ...(liveState === undefined ? {} : { live_state: { state: liveState } })
     }
   });
@@ -72,5 +75,47 @@ describe('scoreboardGameEnded', () => {
 
   it('keeps polling when the scoreboard sends no live state', () => {
     expect(scoreboardGameEnded(responseWith())).toBe(false);
+  });
+});
+
+describe('scoreboardTeamRows', () => {
+  const team = (players: ScoreboardApiTeam['players']): ScoreboardApiTeam => ({
+    total_player_stats: {},
+    players
+  });
+
+  it('maps each player to a row named and keyed by the scoreboard', () => {
+    const rows = scoreboardTeamRows(
+      team([{ id: 'p1', name: 'Ana', number: '7', stats_values: { points: 12 } }])
+    );
+
+    expect(rows).toEqual([{ playerId: 'p1', name: 'Ana', stats: { points: '12' } }]);
+  });
+
+  it('stringifies every statistic, even a zero', () => {
+    const rows = scoreboardTeamRows(
+      team([{ id: 'p1', name: 'Ana', stats_values: { points: 0, assists: 3 } }])
+    );
+
+    expect(rows[0].stats).toEqual({ points: '0', assists: '3' });
+  });
+
+  it('reads no rows for a team the scoreboard has not started scoring', () => {
+    expect(scoreboardTeamRows(team([]))).toEqual([]);
+  });
+});
+
+describe('scoreboardTeamTotals', () => {
+  it('stringifies the team totals the same way a player row is', () => {
+    const totals = scoreboardTeamTotals({
+      total_player_stats: { points: 82, rebounds: 40 },
+      players: []
+    });
+
+    expect(totals).toEqual({ points: '82', rebounds: '40' });
+  });
+
+  it('reads an empty totals row before the scoreboard reports any', () => {
+    expect(scoreboardTeamTotals({ total_player_stats: {}, players: [] })).toEqual({});
   });
 });

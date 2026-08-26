@@ -89,6 +89,31 @@
     "backToTournament": "Voltar para o campeonato",
     "videoTitle": "Vídeo do jogo"
   },
+  "boxScore": {
+    "title": "Súmula",
+    "player": "Jogador",
+    "totals": "Totais",
+    "glossary": "Glossário",
+    "sortByStat": "Ordenar por {stat}"
+  },
+  "player": {
+    "unknownPlayer": "Jogador",
+    "unknownTournament": "campeonato",
+    "profile": "Perfil do jogador",
+    "breadcrumbHome": "Home",
+    "breadcrumbTournament": "Campeonato",
+    "fullProfile": "Ver perfil de atleta completo",
+    "gamesPlayedCount": "{count} jogos disputados",
+    "detailedStats": "Estatísticas detalhadas",
+    "phaseColumn": "Fase",
+    "gamesColumn": "JG",
+    "total": "Total",
+    "scopeAggregate": "Totais",
+    "scopePerGame": "Por jogo",
+    "glossary": "Glossário",
+    "statsScope": "Estatísticas",
+    "noStats": "Sem estatísticas para este atleta ainda."
+  },
   "team": {
     "coachingStaff": "Comissão técnica",
     "headCoach": "Treinador principal",
@@ -143,6 +168,8 @@
     "gameTitle": "{homeTeam} x {awayTeam}",
     "gameDescription": "Placar, data e local de {homeTeam} x {awayTeam} na Go Champs.",
     "teamTitle": "{team} — {tournament}",
-    "teamDescription": "Informações e comissão técnica de {team} no {tournament} na Go Champs."
+    "teamDescription": "Informações e comissão técnica de {team} no {tournament} na Go Champs.",
+    "playerTitle": "{player} — {tournament}",
+    "playerDescription": "Estatísticas de {player} no {tournament} na Go Champs."
   }
 }

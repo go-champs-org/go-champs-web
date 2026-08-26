@@ -656,7 +656,7 @@ export default async function TeamPage({
       data-testid="team-page"
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
-      <div className="mx-auto flex w-full max-w-[1242px] flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         {/* Tournament pages still live in the CMS until the _redirects rollout
             moves them here, so this link must stay absolute. */}
         <a
