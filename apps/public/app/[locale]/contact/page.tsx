@@ -33,7 +33,7 @@ export default async function ContactPage({
 
   return (
     <main className="bg-background py-12 px-6">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-12 lg:flex-nowrap">
+      <div className="mx-auto flex max-w-[var(--content-max-width)] flex-wrap items-center justify-center gap-12 lg:flex-nowrap">
         <Image
           src="/illustrations/smartphone.svg"
           alt=""

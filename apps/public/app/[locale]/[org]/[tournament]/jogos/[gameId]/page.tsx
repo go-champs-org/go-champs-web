@@ -425,7 +425,7 @@ export default async function GamePage({
         })}
       />
 
-      <div className="mx-auto flex w-full max-w-[900px] flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         {/* Tournament pages still live in the CMS until the _redirects rollout
             moves them here, so this link must stay absolute. */}
         <a

@@ -76,7 +76,7 @@ export default async function RootPage({
         recentlyViews={recentlyViews}
       />
       <AdBanner />
-      <div className="mx-auto flex w-full max-w-[560px] flex-col gap-8 md:max-w-[1320px] md:flex-row md:items-start">
+      <div className="mx-auto flex w-full max-w-[560px] flex-col gap-8 md:max-w-[var(--content-max-width)] md:flex-row md:items-start">
         {/* The CMS keeps this sidebar off small screens, where the tournament
             grid already fills the viewport. */}
         <aside className="hidden w-full md:sticky md:top-[calc(var(--navbar-height)+1rem)] md:block md:w-[280px] md:flex-shrink-0">

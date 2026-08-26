@@ -114,7 +114,7 @@ export default async function AboutPage({
 
   return (
     <main className="bg-background py-12 px-6">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-[var(--content-max-width)] grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <Image
           src="/illustrations/hands-on-trophy.svg"
           alt=""
@@ -149,7 +149,7 @@ export default async function AboutPage({
         </div>
       </div>
 
-      <div className="mx-auto mt-8 w-full max-w-[560px] md:mt-12 md:max-w-[1200px]">
+      <div className="mx-auto mt-8 w-full max-w-[560px] md:mt-12 md:max-w-[var(--content-max-width)]">
         <div className={CARD_CLASS}>
           <h2 className="mb-6 text-center text-[1.375rem] font-bold leading-tight text-foreground sm:text-[1.5rem] md:text-left md:text-[1.75rem] lg:text-[2rem]">
             {t('ourImpact')}
@@ -175,7 +175,7 @@ export default async function AboutPage({
         </div>
       </div>
 
-      <div className="mx-auto mt-8 w-full max-w-[560px] md:mt-12 md:max-w-[1200px]">
+      <div className="mx-auto mt-8 w-full max-w-[560px] md:mt-12 md:max-w-[var(--content-max-width)]">
         <div className={CARD_CLASS}>
           <h2 className="mb-6 text-center text-[1.375rem] font-bold leading-tight text-foreground sm:text-[1.5rem] md:text-left md:text-[1.75rem] lg:text-[2rem]">
             {t('theTeam')}

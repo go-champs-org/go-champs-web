@@ -2,6 +2,13 @@
 @import "@gochamps/ui/theme.css";
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 
+:root {
+  /* Single source of truth for the content column width: every page caps its
+     main container at this so they all line up instead of each hard-coding its
+     own width. Change it here and the whole site follows. */
+  --content-max-width: 1200px;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);

@@ -39,7 +39,7 @@ export default async function PrivacyPolicyPage({
 
   return (
     <main className="bg-background py-12 px-6">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-12 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-[var(--content-max-width)] grid-cols-1 items-start gap-12 lg:grid-cols-2">
         {/* The offset clears the sticky NavBar via its own --navbar-height
             token — with a smaller top the illustration slides under the bar
             as the page scrolls. */}
