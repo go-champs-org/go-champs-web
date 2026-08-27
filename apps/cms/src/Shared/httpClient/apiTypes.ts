@@ -229,6 +229,35 @@ export interface ApiOrganizationMember {
   username: string;
 }
 
+export type ApiOrganizationMemberRole = 'owner' | 'game_operator';
+
+export interface ApiOrganizationMemberWithRole {
+  id: string;
+  username: string;
+  role: ApiOrganizationMemberRole;
+}
+
+export interface ApiOrganizationMemberResponse {
+  data: ApiOrganizationMemberWithRole;
+}
+
+export interface ApiOrganizationMembersResponse {
+  data: ApiOrganizationMemberWithRole[];
+}
+
+export interface ApiOrganizationMemberPostRequest {
+  organization_member: {
+    username: string;
+    role: ApiOrganizationMemberRole;
+  };
+}
+
+export interface ApiOrganizationMemberPatchRequest {
+  organization_member: {
+    role: ApiOrganizationMemberRole;
+  };
+}
+
 export interface ApiOrganization {
   id: string;
   name: string;

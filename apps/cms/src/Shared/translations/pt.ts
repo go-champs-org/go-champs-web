@@ -1,6 +1,10 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   translation: {
+    usernameNotFound: 'Usuário não encontrado',
+    revoke: 'Revogar',
+    owner: 'Dono',
+    gameOperator: 'Operador de jogo',
     archived: 'Arquivados',
     archive: 'Arquivar',
     unarchive: 'Desarquivar',

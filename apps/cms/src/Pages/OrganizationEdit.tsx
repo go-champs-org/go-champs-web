@@ -69,17 +69,31 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
         </div>
 
         <div className="column is-8 has-text-right">
-          <Link to={`${backUrl}/Settings`}>
-            <button className="button is-info is-outlined is-small">
-              <span className="icon">
-                <i className="fas fa-cog"></i>
-              </span>
+          <div className="buttons is-right">
+            <Link to={`${backUrl}/Members`}>
+              <button className="button is-info is-outlined is-small">
+                <span className="icon">
+                  <i className="fas fa-users"></i>
+                </span>
 
-              <span>
-                <Trans>settings</Trans>
-              </span>
-            </button>
-          </Link>
+                <span>
+                  <Trans>members</Trans>
+                </span>
+              </button>
+            </Link>
+
+            <Link to={`${backUrl}/Settings`}>
+              <button className="button is-info is-outlined is-small">
+                <span className="icon">
+                  <i className="fas fa-cog"></i>
+                </span>
+
+                <span>
+                  <Trans>settings</Trans>
+                </span>
+              </button>
+            </Link>
+          </div>
         </div>
 
         <div className="column is-12">

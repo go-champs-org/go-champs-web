@@ -46,6 +46,13 @@ const SearchTeamInput: React.FC<{
         options={selectInputTeams}
         onChange={onChange}
         name="teamId"
+        styles={{
+          menu: provided => ({ ...provided, zIndex: 9999 }),
+          menuPortal: provided => ({ ...provided, zIndex: 9999 })
+        }}
+        menuPortalTarget={document.body}
+        menuPosition="fixed"
+        menuPlacement="auto"
       />
     </div>
   );

@@ -56,8 +56,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       marginTop: '4px',
       boxShadow: `0 4px 16px ${theme.colors.shadowLight}`,
       overflow: 'hidden',
-      zIndex: 9999,
-      position: 'absolute'
+      zIndex: 9999
     }),
     menuPortal: provided => ({
       ...provided,
@@ -131,7 +130,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       }
       name={input.name}
       menuPortalTarget={document.body}
-      menuPosition="absolute"
+      menuPosition="fixed"
       menuPlacement="auto"
     />
   );
