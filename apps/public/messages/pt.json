@@ -160,6 +160,7 @@
     "teamColumn": "Time",
     "noStats": "Sem estatísticas para este campeonato ainda.",
     "rankColumn": "Pos.",
+    "playerColumn": "Jogador",
     "valueColumn": "Valor"
   },
   "metadata": {

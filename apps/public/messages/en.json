@@ -160,6 +160,7 @@
     "teamColumn": "Team",
     "noStats": "No statistics for this tournament yet.",
     "rankColumn": "Rank",
+    "playerColumn": "Player",
     "valueColumn": "Value"
   },
   "metadata": {

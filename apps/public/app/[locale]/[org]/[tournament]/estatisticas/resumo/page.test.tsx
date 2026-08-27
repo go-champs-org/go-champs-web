@@ -167,6 +167,45 @@ describe('PlayerStatsSummaryPage', () => {
     );
   });
 
+  it('renders a stale entry (no matching player) as plain text, not an empty link', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [],
+        playerStats: [playerStat('stat1', 'Pontos')]
+      })
+    );
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([
+      fixedStatsTable('ft1', 'stat1', {
+        playerStats: [{ id: 'r1', playerId: 'stale', value: '22' }]
+      })
+    ]);
+
+    await renderPage();
+
+    expect(
+      screen.queryByRole('link', { name: '' })
+    ).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('link')).toHaveLength(2);
+  });
+
+  it('renders the player column header label', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p1', 'Camisa Um', 't1')],
+        playerStats: [playerStat('stat1', 'Pontos')]
+      })
+    );
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([
+      fixedStatsTable('ft1', 'stat1', {
+        playerStats: [{ id: 'r1', playerId: 'p1', value: '22' }]
+      })
+    ]);
+
+    await renderPage();
+
+    expect(screen.getByText('Jogador')).toBeInTheDocument();
+  });
+
   it('renders the empty state when there are no fixed stats tables', async () => {
     await renderPage();
 

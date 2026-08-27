@@ -110,7 +110,27 @@ interface LeaderboardCardProps {
   table: FixedStatsTableRow;
   playerHref: (playerId: string) => string;
   rankLabel: string;
+  playerLabel: string;
   valueLabel: string;
+}
+
+interface PlayerNameCellProps {
+  playerName: string;
+  playerHref: string;
+}
+
+// A stale entry — its player is no longer on the roster — resolves to an
+// empty name; linking that empty label to a player page that will itself
+// 404 leaves an anchor with no accessible name. Plain text instead, the same
+// guard `RosterStatsTable`/`BoxScore` apply to a name they cannot link.
+function PlayerNameCell({ playerName, playerHref }: PlayerNameCellProps) {
+  if (!playerName) return playerName;
+
+  return (
+    <Link href={playerHref} className="font-semibold text-foreground hover:underline">
+      {playerName}
+    </Link>
+  );
 }
 
 // One admin-curated leaderboard: a stat title and its ranked entries, already
@@ -119,6 +139,7 @@ function LeaderboardCard({
   table,
   playerHref,
   rankLabel,
+  playerLabel,
   valueLabel
 }: LeaderboardCardProps) {
   return (
@@ -134,7 +155,9 @@ function LeaderboardCard({
             <th scope="col" className="w-8 pb-2">
               {rankLabel}
             </th>
-            <th scope="col" className="pb-2" />
+            <th scope="col" className="pb-2">
+              {playerLabel}
+            </th>
             <th scope="col" className="pb-2 text-right">
               {valueLabel}
             </th>
@@ -142,15 +165,13 @@ function LeaderboardCard({
         </thead>
         <tbody>
           {table.entries.map((entry, index) => (
-            <tr key={entry.playerId} className="border-t border-border/60">
+            <tr key={entry.id} className="border-t border-border/60">
               <td className="py-2 text-xs tabular-nums text-muted">{index + 1}</td>
               <td className="py-2">
-                <Link
-                  href={playerHref(entry.playerId)}
-                  className="font-semibold text-foreground hover:underline"
-                >
-                  {entry.playerName}
-                </Link>
+                <PlayerNameCell
+                  playerName={entry.playerName}
+                  playerHref={playerHref(entry.playerId)}
+                />
                 {entry.teamName && (
                   <span className="ml-1 text-xs text-muted">{entry.teamName}</span>
                 )}
@@ -170,6 +191,7 @@ interface LeaderboardsSectionProps {
   tables: FixedStatsTableRow[];
   playerHref: (playerId: string) => string;
   rankLabel: string;
+  playerLabel: string;
   valueLabel: string;
   noStatsLabel: string;
 }
@@ -181,6 +203,7 @@ function LeaderboardsSection({
   tables,
   playerHref,
   rankLabel,
+  playerLabel,
   valueLabel,
   noStatsLabel
 }: LeaderboardsSectionProps) {
@@ -195,6 +218,7 @@ function LeaderboardsSection({
           table={table}
           playerHref={playerHref}
           rankLabel={rankLabel}
+          playerLabel={playerLabel}
           valueLabel={valueLabel}
         />
       ))}
@@ -261,6 +285,7 @@ export default async function PlayerStatsSummaryPage({
           tables={leaderboards}
           playerHref={playerHref}
           rankLabel={t('rankColumn')}
+          playerLabel={t('playerColumn')}
           valueLabel={t('valueColumn')}
           noStatsLabel={t('noStats')}
         />

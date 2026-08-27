@@ -34,7 +34,7 @@ const playerStat = (id: string, title: string, slug: string) => ({
 });
 
 describe('tournamentStatRows', () => {
-  it('joins every player in the tournament with his team name', () => {
+  it('joins a player who has a recorded stat with his team name', () => {
     const rows = tournamentStatRows(
       [player('p1', 'Camisa Um', 't1'), player('p2', 'Camisa Dois', 't2')],
       [statsLog('p1', { points: '10' })],
@@ -48,21 +48,24 @@ describe('tournamentStatRows', () => {
         shirtNumber: '',
         stats: { points: '10' },
         teamName: 'Time A'
-      },
-      {
-        playerId: 'p2',
-        name: 'Camisa Dois',
-        shirtNumber: '',
-        stats: {},
-        teamName: 'Time B'
       }
     ]);
+  });
+
+  it('excludes a player with no recorded stat', () => {
+    const rows = tournamentStatRows(
+      [player('p1', 'Camisa Um', 't1'), player('p2', 'Camisa Dois', 't2')],
+      [statsLog('p1', { points: '10' })],
+      [team('t1', 'Time A'), team('t2', 'Time B')]
+    );
+
+    expect(rows.map(row => row.playerId)).toEqual(['p1']);
   });
 
   it('leaves the team name blank when the player has no matching team', () => {
     const rows = tournamentStatRows(
       [player('p1', 'Camisa Um', 'unknown-team')],
-      [],
+      [statsLog('p1', { points: '10' })],
       [team('t1', 'Time A')]
     );
 
@@ -111,8 +114,20 @@ describe('fixedStatsTableRows', () => {
     );
 
     expect(rows[0].entries).toEqual([
-      { playerId: 'p2', playerName: 'Camisa Dois', teamName: 'Time B', value: '22' },
-      { playerId: 'p1', playerName: 'Camisa Um', teamName: 'Time A', value: '10' }
+      {
+        id: 'r1',
+        playerId: 'p2',
+        playerName: 'Camisa Dois',
+        teamName: 'Time B',
+        value: '22'
+      },
+      {
+        id: 'r2',
+        playerId: 'p1',
+        playerName: 'Camisa Um',
+        teamName: 'Time A',
+        value: '10'
+      }
     ]);
   });
 
@@ -131,7 +146,7 @@ describe('fixedStatsTableRows', () => {
     );
 
     expect(rows[0].entries).toEqual([
-      { playerId: 'missing', playerName: '', teamName: '', value: '5' }
+      { id: 'r1', playerId: 'missing', playerName: '', teamName: '', value: '5' }
     ]);
   });
 });

@@ -168,6 +168,9 @@ describe('PlayerStatsPage', () => {
     getTournamentBySlugMock.mockResolvedValue(
       tournament({ players: [player('p1', 'Camisa Um', 't1')] })
     );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p1', {})
+    ]);
 
     await renderPage();
 
