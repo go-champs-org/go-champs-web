@@ -185,6 +185,11 @@
     "playerStatsTitle": "Statistics — {tournament}",
     "playerStatsDescription": "Statistics for every player in {tournament} on Go Champs.",
     "playerStatsSummaryTitle": "Statistics leaders — {tournament}",
-    "playerStatsSummaryDescription": "The leaders of every statistic in {tournament} on Go Champs."
+    "playerStatsSummaryDescription": "The leaders of every statistic in {tournament} on Go Champs.",
+    "phaseTitle": "{phase} — {tournament}",
+    "phaseDescription": "Games in {phase} at {tournament} on Go Champs."
+  },
+  "phase": {
+    "noGames": "No games in this phase"
   }
 }
