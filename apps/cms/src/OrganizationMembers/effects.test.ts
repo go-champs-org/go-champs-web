@@ -159,7 +159,10 @@ describe('deleteOrganizationMember', () => {
       .spyOn(organizationMembersHttpClient, 'delete')
       .mockResolvedValue('some-id');
 
-    await deleteOrganizationMember(someMember, 'some-organization-id')(dispatch);
+    await deleteOrganizationMember(
+      someMember,
+      'some-organization-id'
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       deleteOrganizationMemberSuccess('some-id')
@@ -172,7 +175,10 @@ describe('deleteOrganizationMember', () => {
       .spyOn(organizationMembersHttpClient, 'delete')
       .mockRejectedValue(apiError);
 
-    await deleteOrganizationMember(someMember, 'some-organization-id')(dispatch);
+    await deleteOrganizationMember(
+      someMember,
+      'some-organization-id'
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
       deleteOrganizationMemberFailure(apiError)
