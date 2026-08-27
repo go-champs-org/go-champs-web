@@ -146,9 +146,10 @@ interface StatsTableSectionProps {
   };
 }
 
-// A tournament with no players yet has nothing for the table to list; the
-// empty state is decided here rather than by the table returning nothing for
-// itself.
+// A tournament with no players carrying a recorded stat has nothing for the
+// table to list (`rows` is already filtered to those, see
+// `tournamentStatRows`); the empty state is decided here rather than by the
+// table returning nothing for itself.
 function StatsTableSection({
   rows,
   columnsByScope,
