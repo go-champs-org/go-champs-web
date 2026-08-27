@@ -3,6 +3,7 @@ import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { RouteProps } from './support/routerInterfaces';
 import OrganizationEdit from './OrganizationEdit';
 import OrganizationSettingEdit from './OrganizationSettingEdit';
+import OrganizationMembers from './OrganizationMembers';
 import TournamentList from './TournamentList';
 import TournamentNew from './TournamentNew';
 import { StoreState } from '../store';
@@ -72,6 +73,14 @@ const OrganizationHome: React.FC<OrganizationHomeProps> = ({
               render={(props: RouteComponentProps<RouteProps>) => (
                 <AuthenticatedRoute>
                   <OrganizationSettingEdit {...props} />
+                </AuthenticatedRoute>
+              )}
+            />
+            <Route
+              path={`/Organization/:organizationSlug/Members`}
+              render={(props: RouteComponentProps<RouteProps>) => (
+                <AuthenticatedRoute>
+                  <OrganizationMembers {...props} />
                 </AuthenticatedRoute>
               )}
             />

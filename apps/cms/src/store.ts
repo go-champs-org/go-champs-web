@@ -22,7 +22,9 @@ import { GameState } from './Games/state';
 import { default as organizationReducer } from './Organizations/reducer';
 import { OrganizationState } from './Organizations/state';
 import { default as organizationSettingsReducer } from './OrganizationSettings/reducer';
+import { default as organizationMembersReducer } from './OrganizationMembers/reducer';
 import { OrganizationSettingState } from './OrganizationSettings/state';
+import { OrganizationMemberState } from './OrganizationMembers/state';
 import { default as tournamentPhaseReducer } from './Phases/reducer';
 import { PhaseState } from './Phases/state';
 import { default as teamReducer } from './Teams/reducer';
@@ -72,6 +74,7 @@ export interface StoreState {
   officialProfiles: OfficialProfileState & { schedules: ScheduleState };
   organizations: OrganizationState & {
     organizationSettings: OrganizationSettingState;
+    organizationMembers: OrganizationMemberState;
   };
   phases: PhaseState;
   players: PlayerState;
@@ -133,6 +136,7 @@ const tournamentsWithSettingsReducer = (
 
 type OrganizationsWithSettingsState = OrganizationState & {
   organizationSettings: OrganizationSettingState;
+  organizationMembers: OrganizationMemberState;
 };
 
 const organizationsWithSettingsReducer = (
@@ -142,6 +146,10 @@ const organizationsWithSettingsReducer = (
   ...organizationReducer(state, action),
   organizationSettings: organizationSettingsReducer(
     state ? state.organizationSettings : undefined,
+    action
+  ),
+  organizationMembers: organizationMembersReducer(
+    state ? state.organizationMembers : undefined,
     action
   )
 });

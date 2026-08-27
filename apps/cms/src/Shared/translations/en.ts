@@ -1,5 +1,9 @@
 export default {
   translation: {
+    usernameNotFound: 'Username not found',
+    revoke: 'Revoke',
+    owner: 'Owner',
+    gameOperator: 'Game Operator',
     archived: 'Archived',
     archive: 'Archive',
     unarchive: 'Unarchive',

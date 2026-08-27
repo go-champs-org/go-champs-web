@@ -72,7 +72,6 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
       boxShadow: `0 4px 16px ${theme.colors.shadowLight}`,
       overflow: 'hidden',
       zIndex: 9999,
-      position: 'absolute',
       minWidth: '200px',
       '@media (min-width: 768px)': {
         minWidth: '280px'
@@ -150,7 +149,7 @@ const StandaloneSelect: React.FC<StandaloneSelectProps> = ({
       onChange={handleChange}
       placeholder={placeholder}
       menuPortalTarget={document.body}
-      menuPosition="absolute"
+      menuPosition="fixed"
       menuPlacement="auto"
     />
   );
