@@ -21,6 +21,9 @@ import {
 import organizationMembersHttpClient from './organizationMembersHttpClient';
 import { OrganizationMemberEntity, OrganizationMemberRole } from './state';
 import ApiError from '../Shared/httpClient/ApiError';
+import * as toast from '../Shared/bulma/toast';
+
+const displayToastSpy = jest.spyOn(toast, 'displayToast');
 
 const someMember: OrganizationMemberEntity = {
   id: 'some-id',
@@ -32,6 +35,7 @@ let dispatch: jest.Mock;
 
 beforeEach(() => {
   dispatch = jest.fn();
+  displayToastSpy.mockClear();
 });
 
 describe('getOrganizationMembers', () => {
@@ -145,6 +149,50 @@ describe('patchOrganizationMember', () => {
     );
     expect(result).toEqual({ role: ['last owner'] });
   });
+
+  it('displays the api error message', async () => {
+    jest.spyOn(organizationMembersHttpClient, 'patch').mockRejectedValue(
+      new ApiError({
+        status: 422,
+        data: { errors: { role: ['organization must have an owner'] } }
+      })
+    );
+
+    await patchOrganizationMember(someMember, 'some-organization-id')(dispatch);
+
+    expect(displayToastSpy).toHaveBeenCalledWith(
+      'organization must have an owner',
+      'is-danger'
+    );
+  });
+
+  it('displays a fallback message for non api errors', async () => {
+    jest
+      .spyOn(organizationMembersHttpClient, 'patch')
+      .mockRejectedValue(new Error('some-error'));
+
+    await patchOrganizationMember(someMember, 'some-organization-id')(dispatch);
+
+    expect(displayToastSpy).toHaveBeenCalledWith(
+      'Error on updating :(',
+      'is-danger'
+    );
+  });
+
+  it('keeps the stored role untouched on failure', async () => {
+    jest.spyOn(organizationMembersHttpClient, 'patch').mockRejectedValue(
+      new ApiError({
+        status: 422,
+        data: { errors: { role: ['organization must have an owner'] } }
+      })
+    );
+
+    await patchOrganizationMember(someMember, 'some-organization-id')(dispatch);
+
+    expect(dispatch).not.toHaveBeenCalledWith(
+      patchOrganizationMemberSuccess(someMember)
+    );
+  });
 });
 
 describe('deleteOrganizationMember', () => {
@@ -182,6 +230,29 @@ describe('deleteOrganizationMember', () => {
 
     expect(dispatch).toHaveBeenCalledWith(
       deleteOrganizationMemberFailure(apiError)
+    );
+    expect(displayToastSpy).toHaveBeenCalledWith(
+      'Error on removing :(',
+      'is-danger'
+    );
+  });
+
+  it('displays the api error message', async () => {
+    jest.spyOn(organizationMembersHttpClient, 'delete').mockRejectedValue(
+      new ApiError({
+        status: 422,
+        data: { errors: { role: ['organization must have an owner'] } }
+      })
+    );
+
+    await deleteOrganizationMember(
+      someMember,
+      'some-organization-id'
+    )(dispatch);
+
+    expect(displayToastSpy).toHaveBeenCalledWith(
+      'organization must have an owner',
+      'is-danger'
     );
   });
 });

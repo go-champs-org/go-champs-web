@@ -18,6 +18,22 @@ import {
 import organizationMembersHttpClient from './organizationMembersHttpClient';
 import { OrganizationMemberEntity } from './state';
 
+const firstErrorMessage = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- API error body is field-keyed with string or string[] values
+  errors: { [key: string]: any },
+  fallback: string
+): string => {
+  const firstKey = Object.keys(errors)[0];
+
+  if (!firstKey) {
+    return fallback;
+  }
+
+  const value = errors[firstKey];
+
+  return Array.isArray(value) ? value.join(', ') : String(value);
+};
+
 export const getOrganizationMembers = (organizationId: string) => async (
   dispatch: Dispatch
 ) => {
@@ -73,8 +89,17 @@ export const patchOrganizationMember = (
     dispatch(patchOrganizationMemberFailure(err));
 
     if (err instanceof ApiError) {
-      return err.payload.data.errors ? err.payload.data.errors : {};
+      const errors = err.payload.data.errors ? err.payload.data.errors : {};
+
+      displayToast(
+        firstErrorMessage(errors, `Error on updating :(`),
+        'is-danger'
+      );
+
+      return errors;
     }
+
+    displayToast(`Error on updating :(`, 'is-danger');
   }
 };
 
@@ -94,10 +119,18 @@ export const deleteOrganizationMember = (
     displayToast(`${organizationMember.username} removed!`, 'is-success');
   } catch (err) {
     dispatch(deleteOrganizationMemberFailure(err));
-    displayToast(`Error on removing :(`, 'is-danger');
 
     if (err instanceof ApiError) {
-      return err.payload.data.errors ? err.payload.data.errors : {};
+      const errors = err.payload.data.errors ? err.payload.data.errors : {};
+
+      displayToast(
+        firstErrorMessage(errors, `Error on removing :(`),
+        'is-danger'
+      );
+
+      return errors;
     }
+
+    displayToast(`Error on removing :(`, 'is-danger');
   }
 };
