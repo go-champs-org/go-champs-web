@@ -26,11 +26,16 @@ const statsLog = (playerId: string, stats: Record<string, string>) => ({
   stats
 });
 
-const playerStat = (id: string, title: string, slug: string) => ({
+const playerStat = (
+  id: string,
+  title: string,
+  slug: string,
+  visibility: 'public' | 'private' = 'public'
+) => ({
   id,
   title,
   slug,
-  visibility: 'public' as const
+  visibility
 });
 
 describe('tournamentStatRows', () => {
@@ -85,7 +90,7 @@ describe('fixedStatsTableRows', () => {
     expect(rows[0].title).toBe('Pontos');
   });
 
-  it('leaves the title blank when the tournament has no stat with that id', () => {
+  it('omits the table when the tournament has no stat with that id', () => {
     const rows = fixedStatsTableRows(
       [{ id: 'ft1', statId: 'unknown-stat', playerStats: [] }],
       [playerStat('stat1', 'Pontos', 'points')],
@@ -93,7 +98,18 @@ describe('fixedStatsTableRows', () => {
       []
     );
 
-    expect(rows[0].title).toBe('');
+    expect(rows).toEqual([]);
+  });
+
+  it('omits a table built on a private statistic', () => {
+    const rows = fixedStatsTableRows(
+      [{ id: 'ft1', statId: 'stat1', playerStats: [{ id: 'r1', playerId: 'p1', value: '5' }] }],
+      [playerStat('stat1', 'Minutos jogados', 'minutes_played', 'private')],
+      [player('p1', 'Camisa Um', 't1')],
+      [team('t1', 'Time A')]
+    );
+
+    expect(rows).toEqual([]);
   });
 
   it('resolves each ranked entry to its player name and team, in API order', () => {

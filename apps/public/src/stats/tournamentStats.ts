@@ -1,9 +1,10 @@
-import type {
-  AggregatedPlayerStatsLogEntity,
-  FixedPlayerStatsRecordEntity,
-  FixedPlayerStatsTableEntity,
-  PlayerEntity,
-  PlayerStatEntity
+import {
+  playerStatThatIsVisible,
+  type AggregatedPlayerStatsLogEntity,
+  type FixedPlayerStatsRecordEntity,
+  type FixedPlayerStatsTableEntity,
+  type PlayerEntity,
+  type PlayerStatEntity
 } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
 import { rosterStatRows, type RosterStatRow } from './rosterStats';
@@ -76,6 +77,11 @@ const fixedStatsEntryRow = (
 // apps/cms/src/Tournaments/selectors.ts's `tournamentPlayerStatsMapBySlug`
 // keys the same way) and its ranked entries off the tournament's roster, the
 // same join `tournamentStatRows` already does above.
+//
+// Only public statistics resolve a title: a fixed table built on a private
+// one (`disqualifications`, `minutes_played`, ...) is left off this list
+// entirely, not shown with a blank title — a curated leaderboard is still
+// the values it ranks, and those must never reach the public site either.
 export const fixedStatsTableRows = (
   tables: FixedPlayerStatsTableEntity[],
   playerStats: PlayerStatEntity[],
@@ -84,15 +90,19 @@ export const fixedStatsTableRows = (
 ): FixedStatsTableRow[] => {
   const teamNames = teamNameById(teams);
   const titleByStatId = new Map(
-    playerStats.map(playerStat => [playerStat.id, playerStat.title])
+    playerStats
+      .filter(playerStatThatIsVisible)
+      .map(playerStat => [playerStat.id, playerStat.title])
   );
   const playersById = playerById(players);
 
-  return tables.map(table => ({
-    id: table.id,
-    title: titleByStatId.get(table.statId) || '',
-    entries: table.playerStats.map(entry =>
-      fixedStatsEntryRow(entry, playersById, teamNames)
-    )
-  }));
+  return tables
+    .filter(table => titleByStatId.has(table.statId))
+    .map(table => ({
+      id: table.id,
+      title: titleByStatId.get(table.statId) || '',
+      entries: table.playerStats.map(entry =>
+        fixedStatsEntryRow(entry, playersById, teamNames)
+      )
+    }));
 };
