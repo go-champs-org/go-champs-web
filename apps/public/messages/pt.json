@@ -190,6 +190,7 @@
     "phaseDescription": "Jogos da {phase} no {tournament} na Go Champs."
   },
   "phase": {
+    "unknownPhase": "fase",
     "noGames": "Nenhum jogo nesta fase"
   }
 }

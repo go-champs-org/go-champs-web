@@ -2,12 +2,19 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getPhase, getGamesByPhaseId, type PhaseEntity } from '@gochamps/api-client';
+import {
+  getPhase,
+  getGamesByPhaseId,
+  getTournamentBySlug,
+  type PhaseEntity,
+  type TournamentWithTeamsEntity
+} from '@gochamps/api-client';
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { formatGameTime } from '@/src/games/gameDateTime';
+import { teamDisplayName } from '@/src/games/gameTeams';
 
 // Games in a phase move frequently, so the rendered HTML is reused for a short
 // window instead of hitting the API on every view.
@@ -42,6 +49,22 @@ const loadPhase = cache(
   }
 );
 
+// generateMetadata and the page both need the tournament; cache() keeps that to
+// a single request instead of fetching it twice per view.
+const loadTournament = cache(
+  async (
+    org: string,
+    tournament: string
+  ): Promise<TournamentWithTeamsEntity | null> => {
+    try {
+      return await getTournamentBySlug(org, tournament);
+    } catch (error) {
+      if (isNotFoundError(error)) return null;
+      throw error;
+    }
+  }
+);
+
 // The games are a companion to the phase: an unreachable endpoint leaves the
 // phase standing with an empty list instead of taking the page down.
 const loadGames = (phaseId: string) =>
@@ -53,14 +76,17 @@ export async function generateMetadata({
   params: Promise<PhasePageParams>;
 }): Promise<Metadata> {
   const routeParams = await params;
-  const { locale, phaseId } = routeParams;
-  const [phase, t] = await Promise.all([
+  const { locale, org, tournament: tournamentSlug, phaseId } = routeParams;
+  const [phase, tournament, t, tGame] = await Promise.all([
     loadPhase(phaseId),
-    getTranslations({ locale, namespace: 'metadata' })
+    loadTournament(org, tournamentSlug),
+    getTranslations({ locale, namespace: 'metadata' }),
+    getTranslations({ locale, namespace: 'game' })
   ]);
 
   const values = {
-    phase: phase ? phase.title : 'Fase'
+    phase: phase ? phase.title : t('phase.unknownPhase'),
+    tournament: tournament ? tournament.name : tGame('unknownTournament')
   };
 
   return buildPageMetadata({
@@ -111,9 +137,10 @@ function GameRow({
 interface GamesScheduleProps {
   days: GameDay[];
   locale: string;
+  undecidedLabel: string;
 }
 
-function GamesSchedule({ days, locale }: GamesScheduleProps) {
+function GamesSchedule({ days, locale, undecidedLabel }: GamesScheduleProps) {
   return (
     <div className="space-y-6">
       {days.map(day => (
@@ -128,8 +155,16 @@ function GamesSchedule({ days, locale }: GamesScheduleProps) {
               <GameRow
                 key={game.id}
                 gameId={game.id}
-                homeTeamName={game.homeTeam.name}
-                awayTeamName={game.awayTeam.name}
+                homeTeamName={teamDisplayName(
+                  game.homeTeam,
+                  game.homePlaceholder,
+                  undecidedLabel
+                )}
+                awayTeamName={teamDisplayName(
+                  game.awayTeam,
+                  game.awayPlaceholder,
+                  undecidedLabel
+                )}
                 homeScore={game.homeScore}
                 awayScore={game.awayScore}
                 time={formatGameTime(game.datetime, locale)}
@@ -148,13 +183,14 @@ export default async function PhasePage({
   params: Promise<PhasePageParams>;
 }) {
   const routeParams = await params;
-  const { locale, phaseId } = routeParams;
+  const { locale, org, tournament: tournamentSlug, phaseId } = routeParams;
   setRequestLocale(locale);
 
-  const [phase, games, t] = await Promise.all([
+  const [phase, games, tPhase, tGame] = await Promise.all([
     loadPhase(phaseId),
     loadGames(phaseId),
-    getTranslations('phase')
+    getTranslations('phase'),
+    getTranslations('game')
   ]);
 
   if (!phase) notFound();
@@ -172,10 +208,14 @@ export default async function PhasePage({
         </h1>
 
         {days.length > 0 ? (
-          <GamesSchedule days={days} locale={locale} />
+          <GamesSchedule
+            days={days}
+            locale={locale}
+            undecidedLabel={tGame('undecidedTeam')}
+          />
         ) : (
           <Surface className="p-6">
-            <p className="text-sm text-muted">{t('noGames')}</p>
+            <p className="text-sm text-muted">{tPhase('noGames')}</p>
           </Surface>
         )}
       </div>
