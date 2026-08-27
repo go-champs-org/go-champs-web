@@ -19,6 +19,9 @@ export interface RosterStatRow {
   name: string;
   shirtNumber: string;
   stats: Record<string, string>;
+  // Set only by the tournament-wide table (Task 12b) — the team roster table
+  // never carries it, so its team column stays off.
+  teamName?: string;
 }
 
 const slugsInScope = (sport: SportEntity, scope: StatScope): Set<string> =>

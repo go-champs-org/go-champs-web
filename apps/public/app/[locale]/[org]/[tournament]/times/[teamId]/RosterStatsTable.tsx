@@ -29,9 +29,16 @@ interface RosterStatsTableProps {
   // The team page never leaves its own team, so it has no team column and no
   // link off the roster. The tournament-wide table (Task 12b) is the one
   // reader that needs both, so they arrive together and only there.
-  teamNameOf?: (row: RosterStatRow) => string;
+  //
+  // Both are plain data, not callbacks: this component is a Client
+  // Component, and a function passed from its Server Component caller can't
+  // cross that boundary (Next throws "Functions cannot be passed directly to
+  // Client Components" at request time — Jest never catches it, since a
+  // component test renders in isolation and never actually crosses the RSC
+  // boundary).
+  hasTeamColumn?: boolean;
   teamColumnLabel?: string;
-  playerHref?: (playerId: string) => string;
+  playerHrefBase?: string;
 }
 
 interface SortState {
@@ -271,20 +278,20 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
 
 interface PlayerNameCellProps {
   row: RosterStatRow;
-  playerHref?: (playerId: string) => string;
+  playerHrefBase?: string;
 }
 
 // A plain name on the team page — its own roster has nowhere else to send the
 // visitor — a link to the profile on the tournament-wide table, which leaves
 // its own page to get there.
-function PlayerNameCell({ row, playerHref }: PlayerNameCellProps) {
+function PlayerNameCell({ row, playerHrefBase }: PlayerNameCellProps) {
   return (
     <td
       className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}
       data-testid="roster-player-name"
     >
-      {playerHref ? (
-        <Link href={playerHref(row.playerId)} className="hover:underline">
+      {playerHrefBase ? (
+        <Link href={`${playerHrefBase}${row.playerId}`} className="hover:underline">
           {row.name}
         </Link>
       ) : (
@@ -297,11 +304,11 @@ function PlayerNameCell({ row, playerHref }: PlayerNameCellProps) {
 interface StatRowProps {
   row: RosterStatRow;
   columns: StatColumnView[];
-  teamNameOf?: (row: RosterStatRow) => string;
-  playerHref?: (playerId: string) => string;
+  hasTeamColumn: boolean;
+  playerHrefBase?: string;
 }
 
-function StatRow({ row, columns, teamNameOf, playerHref }: StatRowProps) {
+function StatRow({ row, columns, hasTeamColumn, playerHrefBase }: StatRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} border-b border-border/60`}>
       <td
@@ -309,8 +316,8 @@ function StatRow({ row, columns, teamNameOf, playerHref }: StatRowProps) {
       >
         {row.shirtNumber}
       </td>
-      <PlayerNameCell row={row} playerHref={playerHref} />
-      {teamNameOf && <td className={TEAM_CELL}>{teamNameOf(row)}</td>}
+      <PlayerNameCell row={row} playerHrefBase={playerHrefBase} />
+      {hasTeamColumn && <td className={TEAM_CELL}>{row.teamName || ''}</td>}
       {columns.map(column => (
         <td
           key={column.slug}
@@ -365,9 +372,9 @@ export function RosterStatsTable({
   nameLabel,
   totalLabel,
   sortLabel,
-  teamNameOf,
+  hasTeamColumn = false,
   teamColumnLabel,
-  playerHref
+  playerHrefBase
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(NO_SORT);
@@ -375,7 +382,6 @@ export function RosterStatsTable({
 
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = sortRosterRows(rows, sort.slug, sort.direction);
-  const hasTeamColumn = Boolean(teamNameOf);
 
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
@@ -441,8 +447,8 @@ export function RosterStatsTable({
                 key={row.playerId}
                 row={row}
                 columns={columns}
-                teamNameOf={teamNameOf}
-                playerHref={playerHref}
+                hasTeamColumn={hasTeamColumn}
+                playerHrefBase={playerHrefBase}
               />
             ))}
           </tbody>

@@ -132,8 +132,7 @@ interface StatsTableSectionProps {
   totalsByScope: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
-  teamNameOf: (playerId: string) => string;
-  playerHref: (playerId: string) => string;
+  playerHrefBase: string;
   labels: {
     title: string;
     statsScope: string;
@@ -156,8 +155,7 @@ function StatsTableSection({
   totalsByScope,
   scopes,
   scopeLabels,
-  teamNameOf,
-  playerHref,
+  playerHrefBase,
   labels
 }: StatsTableSectionProps) {
   return rows.length > 0 ? (
@@ -179,9 +177,9 @@ function StatsTableSection({
         nameLabel={labels.playerName}
         totalLabel={labels.total}
         sortLabel={labels.sortByStat}
-        teamNameOf={row => teamNameOf(row.playerId)}
+        hasTeamColumn
         teamColumnLabel={labels.teamColumn}
-        playerHref={playerHref}
+        playerHrefBase={playerHrefBase}
       />
     </Surface>
   ) : (
@@ -216,11 +214,8 @@ export default async function PlayerStatsPage({
   );
   const totalsByScope = statTotalsByScope(rows, columnsByScope);
 
-  const teamNameByPlayerId = new Map(rows.map(row => [row.playerId, row.teamName]));
-
   const tournamentHref = `${CMS_URL}/${org}/${tournamentSlug}`;
-  const playerHref = (playerId: string) =>
-    `/${locale}/${org}/${tournamentSlug}/jogadores/${playerId}`;
+  const playerHrefBase = `/${locale}/${org}/${tournamentSlug}/jogadores/`;
 
   return (
     <main
@@ -256,8 +251,7 @@ export default async function PlayerStatsPage({
             aggregate: tTeam('scopeAggregate'),
             per_game: tTeam('scopePerGame')
           }}
-          teamNameOf={playerId => teamNameByPlayerId.get(playerId) || ''}
-          playerHref={playerHref}
+          playerHrefBase={playerHrefBase}
           labels={{
             title: t('title'),
             statsScope: tTeam('statsScope'),
