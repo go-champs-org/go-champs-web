@@ -24,3 +24,5 @@ export * from './teamStatsLogs/dataMappers';
 export * from './teamStatsLogs/teamStatsLogs';
 export * from './sports/dataMappers';
 export * from './sports/sports';
+export * from './fixedPlayerStatsTables/dataMappers';
+export * from './fixedPlayerStatsTables/fixedPlayerStatsTables';

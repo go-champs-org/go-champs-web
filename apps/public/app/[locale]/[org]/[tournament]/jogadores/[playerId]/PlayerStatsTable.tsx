@@ -80,46 +80,53 @@ function ScopeFilter({
   );
 }
 
-interface GlossaryProps {
-  columns: StatColumnView[];
+interface GlossaryToggleProps {
   label: string;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-function Glossary({ columns, label, isOpen, onToggle }: GlossaryProps) {
+function GlossaryToggle({ label, isOpen, onToggle }: GlossaryToggleProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={isOpen}
-        aria-controls="player-stats-glossary"
-        className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-foreground"
-      >
-        <MdChromeReaderMode aria-hidden="true" className="h-5 w-5 text-primary-dark" />
-        {label}
-        {isOpen ? (
-          <FaChevronUp aria-hidden="true" className="h-4 w-4" />
-        ) : (
-          <FaChevronDown aria-hidden="true" className="h-4 w-4" />
-        )}
-      </button>
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-expanded={isOpen}
+      aria-controls="player-stats-glossary"
+      className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-foreground"
+    >
+      <MdChromeReaderMode aria-hidden="true" className="h-5 w-5 text-primary-dark" />
+      {label}
+      {isOpen ? (
+        <FaChevronUp aria-hidden="true" className="h-4 w-4" />
+      ) : (
+        <FaChevronDown aria-hidden="true" className="h-4 w-4" />
+      )}
+    </button>
+  );
+}
 
-      {/* Kept in the DOM while collapsed so a crawler and find-in-page reach it. */}
-      <ul
-        id="player-stats-glossary"
-        hidden={!isOpen}
-        data-testid="player-stats-glossary"
-        className="columns-1 list-disc gap-8 pl-5 text-xs font-bold leading-6 text-foreground sm:columns-2 lg:columns-4"
-      >
-        {columns.map(column => (
-          <li key={column.slug} className="break-inside-avoid">
-            {column.label} - {column.description}
-          </li>
-        ))}
-      </ul>
-    </div>
+interface GlossaryListProps {
+  columns: StatColumnView[];
+  isOpen: boolean;
+}
+
+function GlossaryList({ columns, isOpen }: GlossaryListProps) {
+  return (
+    // Kept in the DOM while collapsed: what a column means is content a
+    // crawler and a find-in-page should reach without a click.
+    <ul
+      id="player-stats-glossary"
+      hidden={!isOpen}
+      data-testid="player-stats-glossary"
+      className="columns-1 list-disc gap-8 pl-5 text-xs font-bold leading-6 text-foreground sm:columns-2 lg:columns-4"
+    >
+      {columns.map(column => (
+        <li key={column.slug} className="break-inside-avoid">
+          {column.label} - {column.description}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -184,14 +191,15 @@ export function PlayerStatsTable({
               activeScope={scope}
               onSelect={setScope}
             />
-            <Glossary
-              columns={columns}
+            <GlossaryToggle
               label={glossaryLabel}
               isOpen={isGlossaryOpen}
               onToggle={() => setGlossaryOpen(open => !open)}
             />
           </div>
         </div>
+
+        <GlossaryList columns={columns} isOpen={isGlossaryOpen} />
       </div>
 
       {/* Narrow screens scroll the table instead of the page. */}

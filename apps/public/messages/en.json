@@ -152,6 +152,17 @@
       "three_point_field_goal_percentage": "3P%"
     }
   },
+  "playerStats": {
+    "title": "Tournament statistics",
+    "summaryTitle": "Statistics leaders",
+    "viewSummary": "View leaders",
+    "viewAll": "View full table",
+    "teamColumn": "Team",
+    "noStats": "No statistics for this tournament yet.",
+    "rankColumn": "Rank",
+    "playerColumn": "Player",
+    "valueColumn": "Value"
+  },
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",
     "homeDescription": "Follow tournaments, teams, games and statistics from amateur to semi-professional. Live results, electronic scoresheets and up-to-date standings.",
@@ -170,6 +181,10 @@
     "teamTitle": "{team} — {tournament}",
     "teamDescription": "Team information and coaching staff for {team} in {tournament} on Go Champs.",
     "playerTitle": "{player} — {tournament}",
-    "playerDescription": "Statistics for {player} in {tournament} on Go Champs."
+    "playerDescription": "Statistics for {player} in {tournament} on Go Champs.",
+    "playerStatsTitle": "Statistics — {tournament}",
+    "playerStatsDescription": "Statistics for every player in {tournament} on Go Champs.",
+    "playerStatsSummaryTitle": "Statistics leaders — {tournament}",
+    "playerStatsSummaryDescription": "The leaders of every statistic in {tournament} on Go Champs."
   }
 }

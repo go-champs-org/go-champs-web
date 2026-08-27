@@ -152,6 +152,17 @@
       "three_point_field_goal_percentage": "3P%"
     }
   },
+  "playerStats": {
+    "title": "Estatísticas do campeonato",
+    "summaryTitle": "Líderes de estatísticas",
+    "viewSummary": "Ver líderes",
+    "viewAll": "Ver tabela completa",
+    "teamColumn": "Time",
+    "noStats": "Sem estatísticas para este campeonato ainda.",
+    "rankColumn": "Pos.",
+    "playerColumn": "Jogador",
+    "valueColumn": "Valor"
+  },
   "metadata": {
     "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",
     "homeDescription": "Acompanhe campeonatos, times, jogos e estatísticas do amador ao semiprofissional. Resultados em tempo real, súmulas eletrônicas e tabelas atualizadas.",
@@ -170,6 +181,10 @@
     "teamTitle": "{team} — {tournament}",
     "teamDescription": "Informações e comissão técnica de {team} no {tournament} na Go Champs.",
     "playerTitle": "{player} — {tournament}",
-    "playerDescription": "Estatísticas de {player} no {tournament} na Go Champs."
+    "playerDescription": "Estatísticas de {player} no {tournament} na Go Champs.",
+    "playerStatsTitle": "Estatísticas — {tournament}",
+    "playerStatsDescription": "Estatísticas de todos os jogadores do {tournament} na Go Champs.",
+    "playerStatsSummaryTitle": "Líderes de estatísticas — {tournament}",
+    "playerStatsSummaryDescription": "Os líderes de cada estatística do {tournament} na Go Champs."
   }
 }
