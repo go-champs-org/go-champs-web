@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdChromeReaderMode } from 'react-icons/md';
 import {
@@ -25,6 +26,12 @@ interface RosterStatsTableProps {
   nameLabel: string;
   totalLabel: string;
   sortLabel: string;
+  // The team page never leaves its own team, so it has no team column and no
+  // link off the roster. The tournament-wide table (Task 12b) is the one
+  // reader that needs both, so they arrive together and only there.
+  teamNameOf?: (row: RosterStatRow) => string;
+  teamColumnLabel?: string;
+  playerHref?: (playerId: string) => string;
 }
 
 interface SortState {
@@ -66,6 +73,7 @@ const TOTALS_BAND =
 const NUMBER_CELL = 'sticky left-0 z-20 w-12 pl-4 pr-2 md:w-16 md:pl-6';
 const NAME_CELL =
   'sticky left-12 z-20 whitespace-nowrap pr-6 shadow-[8px_0_6px_-6px_var(--shadow-elevated)] md:left-16';
+const TEAM_CELL = 'whitespace-nowrap px-3 text-left text-xs text-muted md:px-4';
 const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
@@ -261,12 +269,39 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
   );
 }
 
+interface PlayerNameCellProps {
+  row: RosterStatRow;
+  playerHref?: (playerId: string) => string;
+}
+
+// A plain name on the team page — its own roster has nowhere else to send the
+// visitor — a link to the profile on the tournament-wide table, which leaves
+// its own page to get there.
+function PlayerNameCell({ row, playerHref }: PlayerNameCellProps) {
+  return (
+    <td
+      className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}
+      data-testid="roster-player-name"
+    >
+      {playerHref ? (
+        <Link href={playerHref(row.playerId)} className="hover:underline">
+          {row.name}
+        </Link>
+      ) : (
+        row.name
+      )}
+    </td>
+  );
+}
+
 interface StatRowProps {
   row: RosterStatRow;
   columns: StatColumnView[];
+  teamNameOf?: (row: RosterStatRow) => string;
+  playerHref?: (playerId: string) => string;
 }
 
-function StatRow({ row, columns }: StatRowProps) {
+function StatRow({ row, columns, teamNameOf, playerHref }: StatRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} border-b border-border/60`}>
       <td
@@ -274,12 +309,8 @@ function StatRow({ row, columns }: StatRowProps) {
       >
         {row.shirtNumber}
       </td>
-      <td
-        className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}
-        data-testid="roster-player-name"
-      >
-        {row.name}
-      </td>
+      <PlayerNameCell row={row} playerHref={playerHref} />
+      {teamNameOf && <td className={TEAM_CELL}>{teamNameOf(row)}</td>}
       {columns.map(column => (
         <td
           key={column.slug}
@@ -296,15 +327,17 @@ interface TotalsRowProps {
   totals: Record<string, string>;
   columns: StatColumnView[];
   label: string;
+  hasTeamColumn: boolean;
 }
 
 // Only counts add up, so a percentage and a per game average arrive missing
 // from `totals` and read as a dash.
-function TotalsRow({ totals, columns, label }: TotalsRowProps) {
+function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} ${TOTALS_BAND} font-bold text-foreground`}>
       <td className={`${NUMBER_CELL} ${TOTALS_BAND}`} />
       <td className={`${NAME_CELL} ${TOTALS_BAND} text-sm`}>{label}</td>
+      {hasTeamColumn && <td className={TEAM_CELL} />}
       {columns.map(column => (
         <td
           key={column.slug}
@@ -331,7 +364,10 @@ export function RosterStatsTable({
   numberLabel,
   nameLabel,
   totalLabel,
-  sortLabel
+  sortLabel,
+  teamNameOf,
+  teamColumnLabel,
+  playerHref
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(NO_SORT);
@@ -339,6 +375,7 @@ export function RosterStatsTable({
 
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = sortRosterRows(rows, sort.slug, sort.direction);
+  const hasTeamColumn = Boolean(teamNameOf);
 
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
@@ -379,6 +416,14 @@ export function RosterStatsTable({
               >
                 {nameLabel}
               </th>
+              {hasTeamColumn && (
+                <th
+                  scope="col"
+                  className={`${HEADER_BAND} ${BAND_LABEL} px-3 md:px-4`}
+                >
+                  {teamColumnLabel}
+                </th>
+              )}
               {columns.map(column => (
                 <StatHeader
                   key={column.slug}
@@ -392,7 +437,13 @@ export function RosterStatsTable({
           </thead>
           <tbody>
             {sortedRows.map(row => (
-              <StatRow key={row.playerId} row={row} columns={columns} />
+              <StatRow
+                key={row.playerId}
+                row={row}
+                columns={columns}
+                teamNameOf={teamNameOf}
+                playerHref={playerHref}
+              />
             ))}
           </tbody>
           <tfoot>
@@ -400,6 +451,7 @@ export function RosterStatsTable({
               totals={totalsByScope[scope] || {}}
               columns={columns}
               label={totalLabel}
+              hasTeamColumn={hasTeamColumn}
             />
           </tfoot>
         </table>
