@@ -53,9 +53,7 @@ const playerPagePath = ({
 // band run edge to edge; the banner and its shadow are the elevated block.
 const SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
-// The padding/shape/text-color of the CMS athlete profile banner
-// (apps/cms/src/AthleteProfiles/Banner.scss); ProfileBanner supplies the
-// fixed dark-green artwork itself.
+// ProfileBanner supplies the gradient; this is only shape/padding/text-color.
 const BANNER_CLASS = 'rounded-2xl p-5 text-neutral-100 md:px-8 md:py-6';
 
 // generateMetadata and the page both need the player and tournament; cache()

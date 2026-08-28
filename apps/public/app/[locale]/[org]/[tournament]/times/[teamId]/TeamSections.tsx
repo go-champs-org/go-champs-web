@@ -17,9 +17,7 @@ interface TeamSectionsProps {
   label: string;
 }
 
-// The shape/padding/text-color of the fixed dark brand artwork, the same
-// banner the CMS athlete profile carries (apps/cms/src/AthleteProfiles/Banner.scss).
-// ProfileBanner supplies the gradient itself.
+// ProfileBanner supplies the gradient; this is only shape/padding/text-color.
 const BANNER_CLASS = 'slide-fade-in rounded-2xl p-5 text-neutral-100 md:px-8 md:py-6';
 
 const TAB_CLASS =

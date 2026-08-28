@@ -2,9 +2,6 @@ import { RemoteImage } from './RemoteImage';
 
 export type GameTeamEmphasis = 'winner' | 'loser' | 'neutral';
 
-// The winner carries the row: it is the only side in full weight, and the
-// side it beat steps back into the muted tone. A game still to be decided
-// leaves both where they are.
 const EMPHASIS_CLASS: Record<GameTeamEmphasis, string> = {
   winner: 'font-bold text-foreground',
   loser: 'font-medium text-muted',
@@ -20,10 +17,7 @@ export interface GameTeamRowProps {
   winnerLabel?: string;
 }
 
-// A team's crest and name in a game result row — the schedule, the drawn
-// bracket, and the standings table all show the same pairing. The side
-// aligned right runs its content right to left, so both crests face the
-// score in the middle.
+// `align="right"` reverses the row so the crest faces the score in the middle.
 export function GameTeamRow({
   logoUrl,
   name,
@@ -46,8 +40,6 @@ export function GameTeamRow({
         />
       )}
       <span className={`truncate ${EMPHASIS_CLASS[emphasis]}`}>{name}</span>
-      {/* Weight and tone are the whole signal on screen; the winner has to be
-          announced too, where the caller has a label for it. */}
       {emphasis === 'winner' && winnerLabel && (
         <span className="sr-only">{winnerLabel}</span>
       )}
