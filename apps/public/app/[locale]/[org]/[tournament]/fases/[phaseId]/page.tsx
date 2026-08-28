@@ -560,18 +560,26 @@ function PhaseBody({
       {tournament && (
         <PhaseTabs routeParams={routeParams} phases={tournament.phases} />
       )}
-      <PhaseMainContent
-        phase={phase}
-        teams={teamById(tournament)}
-        undecidedLabel={undecidedLabel}
-        teamLabel={teamLabel}
-      />
-      <PhaseGamesSection
-        days={games}
-        locale={locale}
-        undecidedLabel={undecidedLabel}
-        noGamesLabel={noGamesLabel}
-      />
+      {/* Same shape as the CMS's PhaseHome: main content on the wide side,
+          the phase's games as a sidebar next to it — stacked on mobile. */}
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <div className="flex flex-col gap-6 lg:flex-[2]">
+          <PhaseMainContent
+            phase={phase}
+            teams={teamById(tournament)}
+            undecidedLabel={undecidedLabel}
+            teamLabel={teamLabel}
+          />
+        </div>
+        <aside className="lg:flex-1">
+          <PhaseGamesSection
+            days={games}
+            locale={locale}
+            undecidedLabel={undecidedLabel}
+            noGamesLabel={noGamesLabel}
+          />
+        </aside>
+      </div>
     </>
   );
 }
