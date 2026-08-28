@@ -195,6 +195,31 @@ const EMPTY_TEAM: TeamEntity = {
   coaches: []
 };
 
+// Same crest treatment as the team and game pages (times/[teamId]/page.tsx,
+// jogos/[gameId]/page.tsx) — no shared component yet (packages/ui Task 16
+// tech debt), so this is this file's own copy of the established pattern.
+function TeamCrest({
+  logoUrl,
+  isDimmed = false
+}: {
+  logoUrl: string;
+  isDimmed?: boolean;
+}) {
+  return (
+    // Team logos live on arbitrary user-uploaded hosts: next/image would need
+    // each one allow-listed in next.config.js.
+    <img
+      src={logoUrl}
+      alt=""
+      width={20}
+      height={20}
+      loading="lazy"
+      decoding="async"
+      className={`h-5 w-5 shrink-0 rounded-full object-cover ${isDimmed ? 'opacity-60' : ''}`}
+    />
+  );
+}
+
 // A tournament that failed to resolve leaves every team display falling
 // through to its placeholder/fallback label, the same non-fatal shape as an
 // unreachable companion fetch elsewhere on this page.
@@ -241,6 +266,20 @@ function PhaseTabs({ routeParams, phases }: PhaseTabsProps) {
   );
 }
 
+// Same visual language as the roster/player stats tables
+// (times/[teamId]/RosterStatsTable.tsx, estatisticas' PlayerStatsTable.tsx) —
+// opaque color-mix band, sticky rank+team columns, tabular-nums stat cells.
+// No shared table primitive yet (packages/ui Task 16 tech debt calls this
+// out across all three), so these tokens are this file's own copy.
+const HEADER_BAND =
+  'bg-[color-mix(in_srgb,var(--color-primary)_40%,var(--color-surface))]';
+const RANK_CELL = 'sticky left-0 z-20 w-12 px-4 md:px-6';
+const TEAM_CELL =
+  'sticky left-12 z-20 whitespace-nowrap pr-6 shadow-[8px_0_6px_-6px_var(--shadow-elevated)] md:left-16';
+const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
+const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
+const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
+
 interface StandingsGroupProps {
   elimination: EliminationEntity;
   stats: EliminationStatEntity[];
@@ -275,13 +314,15 @@ function StandingsGroup({
         </h2>
       )}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted">
-              <th className="w-8 px-4 py-2" aria-hidden="true" />
-              <th className="px-2 py-2">{teamLabel}</th>
+            <tr className={`${HEADER_BAND} ${ROW_HEIGHT} text-foreground`}>
+              <th scope="col" className={`${RANK_CELL} ${HEADER_BAND} ${BAND_LABEL}`} />
+              <th scope="col" className={`${TEAM_CELL} ${HEADER_BAND} ${BAND_LABEL}`}>
+                {teamLabel}
+              </th>
               {visibleStats.map(stat => (
-                <th key={stat.id} className="px-2 py-2 text-center">
+                <th key={stat.id} scope="col" className={`${STAT_CELL} ${BAND_LABEL}`}>
                   {stat.title}
                 </th>
               ))}
@@ -289,16 +330,23 @@ function StandingsGroup({
           </thead>
           <tbody>
             {elimination.teamStats.map((teamStat, index) => {
-              const team = teams[teamStat.teamId] || EMPTY_TEAM;
+              const team = teamOrEmpty(teams, teamStat.teamId);
 
               return (
-                <tr key={teamStat.id} className="border-b border-border last:border-0">
-                  <td className="px-4 py-2 text-muted">{index + 1}</td>
-                  <td className="truncate px-2 py-2 font-medium text-foreground">
-                    {teamDisplayName(team, teamStat.placeholder, undecidedLabel)}
+                <tr key={teamStat.id} className={`${ROW_HEIGHT} border-b border-border/60`}>
+                  <td className={`${RANK_CELL} bg-surface text-xs tabular-nums text-muted`}>
+                    {index + 1}
+                  </td>
+                  <td className={`${TEAM_CELL} bg-surface text-sm font-semibold text-foreground`}>
+                    <span className="flex items-center gap-2">
+                      {team.logoUrl && <TeamCrest logoUrl={team.logoUrl} />}
+                      <span className="truncate">
+                        {teamDisplayName(team, teamStat.placeholder, undecidedLabel)}
+                      </span>
+                    </span>
                   </td>
                   {visibleStats.map(stat => (
-                    <td key={stat.id} className="px-2 py-2 text-center tabular-nums">
+                    <td key={stat.id} className={`${STAT_CELL} notranslate text-xs tabular-nums`}>
                       {teamStat.stats[stat.id] ?? ''}
                     </td>
                   ))}
@@ -390,11 +438,16 @@ function DrawScoreSide({
   align
 }: DrawScoreSideProps) {
   const emphasis = isWinner ? 'font-bold text-foreground' : 'text-muted';
-  const alignment = align === 'right' ? 'text-right' : '';
+  const isRight = align === 'right';
 
   return (
-    <span className={`truncate ${emphasis} ${alignment}`}>
-      {teamDisplayName(team, placeholder, undecidedLabel)}
+    <span
+      className={`flex min-w-0 items-center gap-2 ${isRight ? 'flex-row-reverse' : ''}`}
+    >
+      {team.logoUrl && <TeamCrest logoUrl={team.logoUrl} isDimmed={!isWinner} />}
+      <span className={`truncate ${emphasis}`}>
+        {teamDisplayName(team, placeholder, undecidedLabel)}
+      </span>
     </span>
   );
 }
