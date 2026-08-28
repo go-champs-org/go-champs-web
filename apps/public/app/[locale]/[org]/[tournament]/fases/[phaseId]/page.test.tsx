@@ -20,7 +20,12 @@ jest.mock('next-intl/server', () => ({
     const messages: Record<string, Messages> = {
       phase: {
         noGames: 'Nenhum jogo nesta fase',
-        team: 'Time'
+        team: 'Time',
+        breadcrumbHome: 'Home',
+        active: 'Campeonato ativo',
+        athletesCount: 'Atletas cadastrados',
+        teamsCount: 'Times',
+        phasesCount: 'Fases'
       },
       game: {
         undecidedTeam: 'A definir',
@@ -59,6 +64,8 @@ describe('PhasePage', () => {
     coaches: []
   });
 
+  const emptyOrganization = () => ({ id: '', name: '', slug: '', logoUrl: '' });
+
   it('renders the phase name and games grouped by date', async () => {
     (apiClient.getPhase as jest.Mock).mockResolvedValue({
       id: 'ph1',
@@ -75,6 +82,8 @@ describe('PhasePage', () => {
       name: 'Torneio Teste',
       slug: 'tour',
       teams: [],
+      players: [],
+      organization: emptyOrganization(),
       phases: [{ id: 'ph1', title: 'Fase de Grupos', type: 'elimination', order: 1, isInProgress: false }]
     });
     (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([
@@ -176,6 +185,8 @@ describe('PhasePage', () => {
       name: 'Torneio Teste',
       slug: 'tour',
       teams: [emptyTeam('t1', 'Time A')],
+      players: [],
+      organization: emptyOrganization(),
       phases: [
         { id: 'ph1', title: 'Classificação', type: 'elimination', order: 1, isInProgress: true },
         { id: 'ph2', title: 'Playoffs', type: 'draw', order: 2, isInProgress: false }
@@ -241,6 +252,8 @@ describe('PhasePage', () => {
       name: 'Torneio Teste',
       slug: 'tour',
       teams: [emptyTeam('t1', 'Time A')],
+      players: [],
+      organization: emptyOrganization(),
       phases: [{ id: 'ph2', title: 'Playoffs', type: 'draw', order: 2, isInProgress: false }]
     });
     (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
@@ -261,5 +274,64 @@ describe('PhasePage', () => {
     expect(
       screen.getByText((_, element) => element?.textContent === '2 x 0')
     ).toBeInTheDocument();
+  });
+
+  it('renders a tournament header with breadcrumb, org name, active badge and counts', async () => {
+    (apiClient.getPhase as jest.Mock).mockResolvedValue({
+      id: 'ph1',
+      title: 'Classificação',
+      type: 'elimination',
+      order: 1,
+      isInProgress: true,
+      draws: [],
+      eliminationStats: [],
+      eliminations: []
+    });
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue({
+      id: 'tour1',
+      name: 'Liga de Basquete Amador (2022)',
+      slug: 'tour',
+      logoUrl: '',
+      teams: [emptyTeam('t1', 'Time A'), emptyTeam('t2', 'Time B')],
+      players: [{ id: 'p1' }, { id: 'p2' }, { id: 'p3' }],
+      organization: {
+        id: 'org1',
+        name: 'Liga de Basquete Amador de Porto Alegre',
+        slug: 'liga',
+        logoUrl: ''
+      },
+      phases: [
+        { id: 'ph1', title: 'Classificação', type: 'elimination', order: 1, isInProgress: true }
+      ]
+    });
+    (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
+
+    const jsx = await PhasePage({
+      params: Promise.resolve({
+        locale: 'pt',
+        org: 'org',
+        tournament: 'tour',
+        phaseId: 'ph1'
+      })
+    });
+    render(jsx);
+
+    expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute(
+      'href',
+      '/pt'
+    );
+    expect(
+      screen.getByRole('heading', { name: 'Liga de Basquete Amador (2022)' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Liga de Basquete Amador de Porto Alegre')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Campeonato ativo')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('Atletas cadastrados')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('Times')).toBeInTheDocument();
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('Fases')).toBeInTheDocument();
   });
 });

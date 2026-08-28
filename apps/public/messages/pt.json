@@ -192,6 +192,11 @@
   "phase": {
     "unknownPhase": "fase",
     "noGames": "Nenhum jogo nesta fase",
-    "team": "Time"
+    "team": "Time",
+    "breadcrumbHome": "Home",
+    "active": "Campeonato ativo",
+    "athletesCount": "Atletas cadastrados",
+    "teamsCount": "Times",
+    "phasesCount": "Fases"
   }
 }

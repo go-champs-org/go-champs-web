@@ -192,6 +192,11 @@
   "phase": {
     "unknownPhase": "phase",
     "noGames": "No games in this phase",
-    "team": "Team"
+    "team": "Team",
+    "breadcrumbHome": "Home",
+    "active": "Active tournament",
+    "athletesCount": "Registered athletes",
+    "teamsCount": "Teams",
+    "phasesCount": "Phases"
   }
 }

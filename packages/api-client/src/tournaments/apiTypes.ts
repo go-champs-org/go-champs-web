@@ -1,3 +1,4 @@
+import { ApiOrganization } from '../organizations/apiTypes';
 import { ApiPhase } from '../phases/apiTypes';
 import { ApiPlayer } from '../players/apiTypes';
 import { ApiTeam } from '../teams/apiTypes';
@@ -25,6 +26,7 @@ export interface ApiTournament {
 
 export interface ApiTournamentWithTeams extends ApiTournament {
   teams: ApiTeam[];
+  organization?: ApiOrganization;
   // The roster comes down with the tournament itself — there is no
   // players-by-team endpoint, and the CMS reads it from this same payload
   // (apps/cms/src/Shared/httpClient/apiTypes.ts, ApiTournamentWithDependecies).

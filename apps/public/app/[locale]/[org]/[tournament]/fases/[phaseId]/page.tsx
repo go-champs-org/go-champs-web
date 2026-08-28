@@ -228,6 +228,141 @@ const teamById = (
 ): Record<string, TeamEntity> =>
   Object.fromEntries((tournament?.teams || []).map(team => [team.id, team]));
 
+// Same green gradient + accessory overlay as the player/team profile banners
+// (jogadores/[playerId]/page.tsx, times/[teamId]/TeamSections.tsx) — no
+// shared component yet (packages/ui Task 16 tech debt), this file's own copy.
+const TOURNAMENT_BANNER_STRIP_CLASS =
+  'relative h-16 overflow-hidden bg-[linear-gradient(115deg,#2f4419_0%,#4d6b2c_55%,#7a9949_130%)] md:h-20';
+
+interface TournamentBreadcrumbProps {
+  homeHref: string;
+  homeLabel: string;
+  currentLabel: string;
+}
+
+function TournamentBreadcrumb({
+  homeHref,
+  homeLabel,
+  currentLabel
+}: TournamentBreadcrumbProps) {
+  return (
+    <nav aria-label="Breadcrumb" className="text-xs text-muted">
+      <ol className="flex flex-wrap items-center gap-1.5">
+        <li>
+          <Link href={homeHref} className="hover:text-primary-dark">
+            {homeLabel}
+          </Link>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li className="font-semibold text-primary-dark" aria-current="page">
+          {currentLabel}
+        </li>
+      </ol>
+    </nav>
+  );
+}
+
+function TournamentLogo({ logoUrl, name }: { logoUrl: string; name: string }) {
+  return logoUrl ? (
+    <img
+      src={logoUrl}
+      alt=""
+      width={56}
+      height={56}
+      loading="lazy"
+      decoding="async"
+      className="h-14 w-14 shrink-0 rounded-xl bg-neutral-100 object-cover md:h-16 md:w-16"
+    />
+  ) : (
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-xl font-extrabold text-[#4d6b2c] md:h-16 md:w-16">
+      {name.charAt(0).toUpperCase()}
+    </div>
+  );
+}
+
+interface TournamentStatProps {
+  value: number;
+  label: string;
+}
+
+function TournamentStat({ value, label }: TournamentStatProps) {
+  return (
+    <div className="flex flex-1 flex-col items-center gap-1 py-4 text-center">
+      <span className="text-2xl font-extrabold text-primary-dark">{value}</span>
+      <span className="text-xs font-semibold uppercase tracking-wide text-muted">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+// A tournament is "active" by inference, not a real status the API carries —
+// any phase still in progress reads as the tournament being live.
+const tournamentIsActive = (tournament: TournamentWithTeamsEntity): boolean =>
+  tournament.phases.some(phase => phase.isInProgress);
+
+interface TournamentHeaderProps {
+  tournament: TournamentWithTeamsEntity;
+  homeHref: string;
+  homeLabel: string;
+  activeLabel: string;
+  athletesLabel: string;
+  teamsLabel: string;
+  phasesLabel: string;
+}
+
+function TournamentHeader({
+  tournament,
+  homeHref,
+  homeLabel,
+  activeLabel,
+  athletesLabel,
+  teamsLabel,
+  phasesLabel
+}: TournamentHeaderProps) {
+  const isActive = tournamentIsActive(tournament);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <TournamentBreadcrumb
+        homeHref={homeHref}
+        homeLabel={homeLabel}
+        currentLabel={tournament.name}
+      />
+      <Surface className="overflow-hidden p-0">
+        <div className={TOURNAMENT_BANNER_STRIP_CLASS} aria-hidden="true">
+          {/* A single lime shape multiplied over the gradient, the darker
+              olive pattern the CMS profile banner uses. */}
+          <div className="pointer-events-none absolute inset-0 bg-[url('/illustrations/background-accessory.svg')] bg-[length:auto_260%] bg-[position:right_-2rem_center] bg-no-repeat opacity-35 mix-blend-multiply" />
+        </div>
+        <div className="flex flex-wrap items-center gap-4 p-4 md:p-6">
+          <TournamentLogo logoUrl={tournament.logoUrl} name={tournament.name} />
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <h1 className="text-xl font-extrabold leading-tight text-foreground md:text-2xl">
+              {tournament.name}
+            </h1>
+            <p className="text-sm text-muted">{tournament.organization.name}</p>
+            {isActive && (
+              <span className="mt-1 inline-flex w-fit items-center gap-1.5 rounded-full bg-[color-mix(in_srgb,var(--color-primary)_15%,transparent)] px-3 py-1 text-xs font-semibold text-primary-dark">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-primary-dark"
+                  aria-hidden="true"
+                />
+                {activeLabel}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="flex divide-x divide-border border-t border-border">
+          <TournamentStat value={tournament.players.length} label={athletesLabel} />
+          <TournamentStat value={tournament.teams.length} label={teamsLabel} />
+          <TournamentStat value={tournament.phases.length} label={phasesLabel} />
+        </div>
+      </Surface>
+    </div>
+  );
+}
+
 interface PhaseTabsProps {
   routeParams: PhasePageParams;
   phases: PhaseEntity[];
@@ -585,7 +720,6 @@ function PhaseGamesSection({
 }
 
 interface PhaseBodyProps {
-  routeParams: PhasePageParams;
   phase: PhaseEntity;
   tournament: TournamentWithTeamsEntity | null;
   games: GameDay[];
@@ -595,11 +729,11 @@ interface PhaseBodyProps {
   noGamesLabel: string;
 }
 
-// Everything below the page title branches on the phase and the (optional)
-// tournament — isolated here so PhasePage itself only has to decide whether
-// the phase exists at all.
+// The main content + games layout, same shape as the CMS's PhaseHome: main
+// content on the wide side, the phase's games as a sidebar next to it —
+// stacked on mobile. Isolated from the tournament header/tabs above it so
+// PhasePage itself only has to decide whether the phase exists at all.
 function PhaseBody({
-  routeParams,
   phase,
   tournament,
   games,
@@ -609,30 +743,61 @@ function PhaseBody({
   noGamesLabel
 }: PhaseBodyProps) {
   return (
-    <>
-      {tournament && (
-        <PhaseTabs routeParams={routeParams} phases={tournament.phases} />
-      )}
-      {/* Same shape as the CMS's PhaseHome: main content on the wide side,
-          the phase's games as a sidebar next to it — stacked on mobile. */}
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <div className="flex flex-col gap-6 lg:flex-[2]">
-          <PhaseMainContent
-            phase={phase}
-            teams={teamById(tournament)}
-            undecidedLabel={undecidedLabel}
-            teamLabel={teamLabel}
-          />
-        </div>
-        <aside className="lg:flex-1">
-          <PhaseGamesSection
-            days={games}
-            locale={locale}
-            undecidedLabel={undecidedLabel}
-            noGamesLabel={noGamesLabel}
-          />
-        </aside>
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="flex flex-col gap-6 lg:flex-[2]">
+        <PhaseMainContent
+          phase={phase}
+          teams={teamById(tournament)}
+          undecidedLabel={undecidedLabel}
+          teamLabel={teamLabel}
+        />
       </div>
+      <aside className="lg:flex-1">
+        <PhaseGamesSection
+          days={games}
+          locale={locale}
+          undecidedLabel={undecidedLabel}
+          noGamesLabel={noGamesLabel}
+        />
+      </aside>
+    </div>
+  );
+}
+
+interface TournamentTopSectionProps {
+  routeParams: PhasePageParams;
+  tournament: TournamentWithTeamsEntity;
+  homeLabel: string;
+  activeLabel: string;
+  athletesLabel: string;
+  teamsLabel: string;
+  phasesLabel: string;
+}
+
+// The tournament identity (breadcrumb + banner + counts) and the tabs across
+// its phases both depend only on the tournament, not the current phase's
+// content — grouped here so they render together above the phase title.
+function TournamentTopSection({
+  routeParams,
+  tournament,
+  homeLabel,
+  activeLabel,
+  athletesLabel,
+  teamsLabel,
+  phasesLabel
+}: TournamentTopSectionProps) {
+  return (
+    <>
+      <TournamentHeader
+        tournament={tournament}
+        homeHref={`/${routeParams.locale}`}
+        homeLabel={homeLabel}
+        activeLabel={activeLabel}
+        athletesLabel={athletesLabel}
+        teamsLabel={teamsLabel}
+        phasesLabel={phasesLabel}
+      />
+      <PhaseTabs routeParams={routeParams} phases={tournament.phases} />
     </>
   );
 }
@@ -662,11 +827,21 @@ export default async function PhasePage({
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        <h1 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">
+        {tournament && (
+          <TournamentTopSection
+            routeParams={routeParams}
+            tournament={tournament}
+            homeLabel={tPhase('breadcrumbHome')}
+            activeLabel={tPhase('active')}
+            athletesLabel={tPhase('athletesCount')}
+            teamsLabel={tPhase('teamsCount')}
+            phasesLabel={tPhase('phasesCount')}
+          />
+        )}
+        <h2 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">
           {phase.title}
-        </h1>
+        </h2>
         <PhaseBody
-          routeParams={routeParams}
           phase={phase}
           tournament={tournament}
           games={gamesByDate(games, locale)}

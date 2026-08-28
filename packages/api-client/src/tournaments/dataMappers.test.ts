@@ -26,6 +26,7 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       name: 'Test League',
       slug: 'test-league',
       logoUrl: 'https://example.com/logo.png',
+      organization: { id: '', name: '', slug: '', logoUrl: '' },
       sportSlug: 'basketball_5x5',
       sportName: 'Basketball 5x5',
       playerStats: [],
@@ -42,6 +43,42 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
           coaches: []
         }
       ]
+    });
+  });
+
+  it('maps the nested organization, defaulting to blank fields when absent', () => {
+    const withOrg = mapApiTournamentToTournamentWithTeamsEntity({
+      id: 'tour1',
+      name: 'Test League',
+      slug: 'test-league',
+      teams: [],
+      organization: {
+        id: 'org1',
+        name: 'Test Org',
+        slug: 'test-org',
+        logo_url: 'https://example.com/org.png'
+      }
+    });
+
+    expect(withOrg.organization).toEqual({
+      id: 'org1',
+      name: 'Test Org',
+      slug: 'test-org',
+      logoUrl: 'https://example.com/org.png'
+    });
+
+    const withoutOrg = mapApiTournamentToTournamentWithTeamsEntity({
+      id: 'tour1',
+      name: 'Test League',
+      slug: 'test-league',
+      teams: []
+    });
+
+    expect(withoutOrg.organization).toEqual({
+      id: '',
+      name: '',
+      slug: '',
+      logoUrl: ''
     });
   });
 
