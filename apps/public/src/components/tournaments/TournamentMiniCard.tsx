@@ -1,32 +1,7 @@
 'use client';
 
 import { FaThumbtack } from 'react-icons/fa';
-import { initials } from './initials';
-
-interface OrganizationAvatarProps {
-  name: string;
-  logoUrl: string;
-}
-
-function OrganizationAvatar({ name, logoUrl }: OrganizationAvatarProps) {
-  return logoUrl ? (
-    // Arbitrary user-uploaded hosts: next/image would need each one
-    // allow-listed in next.config.js.
-    <img
-      src={logoUrl}
-      alt={name}
-      width={40}
-      height={40}
-      loading="lazy"
-      decoding="async"
-      className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
-    />
-  ) : (
-    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-base text-foreground">
-      {initials(name)}
-    </div>
-  );
-}
+import { Avatar } from '@gochamps/ui';
 
 export interface TournamentMiniCardProps {
   name: string;
@@ -53,7 +28,7 @@ export function TournamentMiniCard({
     // link covers the card through its ::after overlay instead.
     <div className="relative flex flex-col rounded-xl border border-border bg-surface p-4 transition-shadow hover:shadow-[0_4px_16px_var(--shadow-elevated)]">
       <header className="flex h-12 w-full items-center font-semibold text-foreground">
-        <OrganizationAvatar name={organizationName} logoUrl={organizationLogoUrl} />
+        <Avatar name={organizationName} logoUrl={organizationLogoUrl} size={40} className="text-base" />
         <a
           href={href}
           className="ml-2 line-clamp-2 flex-1 after:absolute after:inset-0 after:content-['']"

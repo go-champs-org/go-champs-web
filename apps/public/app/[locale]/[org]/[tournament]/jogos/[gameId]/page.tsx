@@ -15,7 +15,7 @@ import {
   type TeamStatsLogEntity,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
-import { Surface } from '@gochamps/ui';
+import { RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import {
@@ -150,15 +150,11 @@ function TeamIdentity({ name, logoUrl }: TeamIdentityProps) {
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       {logoUrl && (
-        // Team logos live on arbitrary user-uploaded hosts: next/image would
-        // need each one allow-listed in next.config.js.
-        <img
+        <RemoteImage
           src={logoUrl}
           alt=""
           width={64}
           height={64}
-          loading="lazy"
-          decoding="async"
           className="h-12 w-12 rounded-full object-cover md:h-16 md:w-16"
         />
       )}

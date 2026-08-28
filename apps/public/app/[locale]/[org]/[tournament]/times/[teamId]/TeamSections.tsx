@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { ProfileBanner } from '@gochamps/ui';
 
 export interface TeamTab {
   // Stable across locales, because it is also the url hash: the CMS team view
@@ -16,12 +17,8 @@ interface TeamSectionsProps {
   label: string;
 }
 
-// The banner is a fixed piece of dark brand artwork, the same one the CMS
-// athlete profile carries (apps/cms/src/AthleteProfiles/Banner.scss). Its
-// colors are literal on purpose: the theme tokens flip with the page, and this
-// card stays dark green in both.
-const BANNER_CLASS =
-  'slide-fade-in relative overflow-hidden rounded-2xl bg-[linear-gradient(115deg,#2f4419_0%,#4d6b2c_55%,#7a9949_130%)] p-5 text-neutral-100 md:px-8 md:py-6';
+// ProfileBanner supplies the gradient; this is only shape/padding/text-color.
+const BANNER_CLASS = 'slide-fade-in rounded-2xl p-5 text-neutral-100 md:px-8 md:py-6';
 
 const TAB_CLASS =
   'cursor-pointer rounded-full border px-4 py-2 text-xs font-semibold transition-colors';
@@ -78,14 +75,7 @@ export function TeamSections({ identity, tabs, label }: TeamSectionsProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className={BANNER_CLASS} data-testid="team-banner">
-        {/* A single lime shape multiplied over the gradient, which is what
-            turns it into the darker olive pattern. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[url('/illustrations/background-accessory.svg')] bg-[length:auto_260%] bg-[position:right_-2rem_center] bg-no-repeat opacity-35 mix-blend-multiply"
-        />
-
+      <ProfileBanner className={BANNER_CLASS} testId="team-banner">
         <div className="relative z-[1] flex flex-col gap-4">
           {identity}
 
@@ -112,7 +102,7 @@ export function TeamSections({ identity, tabs, label }: TeamSectionsProps) {
             </div>
           )}
         </div>
-      </section>
+      </ProfileBanner>
 
       {/* Every panel is rendered, hidden or not: the roster and the schedule
           both belong in the HTML a crawler reads. */}
