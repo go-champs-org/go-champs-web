@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ComponentType } from 'react';
 import Link from 'next/link';
-import { Surface } from '@gochamps/ui';
+import { RemoteImage, Surface } from '@gochamps/ui';
 import {
   formatStatValue,
   type StatColumnView
@@ -114,15 +114,11 @@ function TeamHeading({ teamName, logoUrl }: TeamHeadingProps) {
   return (
     <div className="flex items-center gap-2 p-4 md:px-6 md:pt-6">
       {logoUrl && (
-        // Team logos live on arbitrary user-uploaded hosts: next/image would
-        // need each one allow-listed in next.config.js.
-        <img
+        <RemoteImage
           src={logoUrl}
           alt=""
           width={28}
           height={28}
-          loading="lazy"
-          decoding="async"
           className="h-7 w-7 rounded-full object-cover"
         />
       )}

@@ -14,7 +14,7 @@ import {
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
-import { Surface } from '@gochamps/ui';
+import { GameTeamRow, ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
@@ -116,31 +116,6 @@ const EMPTY_TEAM: TeamEntity = {
   coaches: []
 };
 
-// Same crest treatment as the team and game pages (times/[teamId]/page.tsx,
-// jogos/[gameId]/page.tsx) — no shared component yet (packages/ui Task 16
-// tech debt), so this is this file's own copy of the established pattern.
-function TeamCrest({
-  logoUrl,
-  isDimmed = false
-}: {
-  logoUrl: string;
-  isDimmed?: boolean;
-}) {
-  return (
-    // Team logos live on arbitrary user-uploaded hosts: next/image would need
-    // each one allow-listed in next.config.js.
-    <img
-      src={logoUrl}
-      alt=""
-      width={20}
-      height={20}
-      loading="lazy"
-      decoding="async"
-      className={`h-5 w-5 shrink-0 rounded-full object-cover ${isDimmed ? 'opacity-60' : ''}`}
-    />
-  );
-}
-
 // A tournament that failed to resolve leaves every team display falling
 // through to its placeholder/fallback label, the same non-fatal shape as an
 // unreachable companion fetch elsewhere on this page.
@@ -148,12 +123,6 @@ const teamById = (
   tournament: TournamentWithTeamsEntity | null
 ): Record<string, TeamEntity> =>
   Object.fromEntries((tournament?.teams || []).map(team => [team.id, team]));
-
-// Same green gradient + accessory overlay as the player/team profile banners
-// (jogadores/[playerId]/page.tsx, times/[teamId]/TeamSections.tsx) — no
-// shared component yet (packages/ui Task 16 tech debt), this file's own copy.
-const TOURNAMENT_BANNER_STRIP_CLASS =
-  'relative h-16 overflow-hidden bg-[linear-gradient(115deg,#2f4419_0%,#4d6b2c_55%,#7a9949_130%)] md:h-20';
 
 interface TournamentBreadcrumbProps {
   homeHref: string;
@@ -185,13 +154,11 @@ function TournamentBreadcrumb({
 
 function TournamentLogo({ logoUrl, name }: { logoUrl: string; name: string }) {
   return logoUrl ? (
-    <img
+    <RemoteImage
       src={logoUrl}
       alt=""
       width={56}
       height={56}
-      loading="lazy"
-      decoding="async"
       className="h-14 w-14 shrink-0 rounded-xl bg-neutral-100 object-cover md:h-16 md:w-16"
     />
   ) : (
@@ -251,11 +218,7 @@ function TournamentHeader({
         currentLabel={tournament.name}
       />
       <Surface className="overflow-hidden p-0">
-        <div className={TOURNAMENT_BANNER_STRIP_CLASS} aria-hidden="true">
-          {/* A single lime shape multiplied over the gradient, the darker
-              olive pattern the CMS profile banner uses. */}
-          <div className="pointer-events-none absolute inset-0 bg-[url('/illustrations/background-accessory.svg')] bg-[length:auto_260%] bg-[position:right_-2rem_center] bg-no-repeat opacity-35 mix-blend-multiply" />
-        </div>
+        <ProfileBanner as="div" className="h-16 md:h-20" ariaHidden />
         <div className="flex flex-wrap items-center gap-4 p-4 md:p-6">
           <TournamentLogo logoUrl={tournament.logoUrl} name={tournament.name} />
           <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -397,7 +360,15 @@ function StandingsGroup({
                   </td>
                   <td className={`${TEAM_CELL} bg-surface text-sm font-semibold text-foreground`}>
                     <span className="flex items-center gap-2">
-                      {team.logoUrl && <TeamCrest logoUrl={team.logoUrl} />}
+                      {team.logoUrl && (
+                        <RemoteImage
+                          src={team.logoUrl}
+                          alt=""
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 shrink-0 rounded-full object-cover"
+                        />
+                      )}
                       <span className="truncate">
                         {teamDisplayName(team, teamStat.placeholder, undecidedLabel)}
                       </span>
@@ -480,60 +451,32 @@ function DrawMatchInfo({ info }: { info: string }) {
   return <p className="mt-2 text-center text-xs text-muted">{info}</p>;
 }
 
-interface DrawScoreSideProps {
-  team: TeamEntity;
-  placeholder: string;
-  undecidedLabel: string;
-  isWinner: boolean;
-  align: 'left' | 'right';
-}
-
-function DrawScoreSide({
-  team,
-  placeholder,
-  undecidedLabel,
-  isWinner,
-  align
-}: DrawScoreSideProps) {
-  const emphasis = isWinner ? 'font-bold text-foreground' : 'text-muted';
-  const isRight = align === 'right';
-
-  return (
-    <span
-      className={`flex min-w-0 items-center gap-2 ${isRight ? 'flex-row-reverse' : ''}`}
-    >
-      {team.logoUrl && <TeamCrest logoUrl={team.logoUrl} isDimmed={!isWinner} />}
-      <span className={`truncate ${emphasis}`}>
-        {teamDisplayName(team, placeholder, undecidedLabel)}
-      </span>
-    </span>
-  );
-}
-
 function DrawMatchCard({ match, teams, undecidedLabel }: DrawMatchCardProps) {
   const firstScore = scoreOf(match.firstTeamScore);
   const secondScore = scoreOf(match.secondTeamScore);
+  const firstTeam = teamOrEmpty(teams, match.firstTeamId);
+  const secondTeam = teamOrEmpty(teams, match.secondTeamId);
 
   return (
     <Surface className="p-4">
       <DrawMatchName name={match.name} />
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-sm">
-        <DrawScoreSide
-          team={teamOrEmpty(teams, match.firstTeamId)}
-          placeholder={match.firstTeamPlaceholder}
-          undecidedLabel={undecidedLabel}
-          isWinner={firstScore > secondScore}
+        <GameTeamRow
+          logoUrl={firstTeam.logoUrl}
+          name={teamDisplayName(firstTeam, match.firstTeamPlaceholder, undecidedLabel)}
+          emphasis={firstScore > secondScore ? 'winner' : 'loser'}
           align="left"
+          crestSize={20}
         />
         <span className="tabular-nums font-semibold text-foreground">
           {firstScore} x {secondScore}
         </span>
-        <DrawScoreSide
-          team={teamOrEmpty(teams, match.secondTeamId)}
-          placeholder={match.secondTeamPlaceholder}
-          undecidedLabel={undecidedLabel}
-          isWinner={secondScore > firstScore}
+        <GameTeamRow
+          logoUrl={secondTeam.logoUrl}
+          name={teamDisplayName(secondTeam, match.secondTeamPlaceholder, undecidedLabel)}
+          emphasis={secondScore > firstScore ? 'winner' : 'loser'}
           align="right"
+          crestSize={20}
         />
       </div>
       <DrawMatchInfo info={match.info} />

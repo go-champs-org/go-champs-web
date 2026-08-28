@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { MdChromeReaderMode } from 'react-icons/md';
+import { ScopeFilter, StatGlossaryToggle, StatGlossaryList } from '@gochamps/ui';
 import {
   formatStatValue,
   sortRosterRows,
@@ -85,105 +84,6 @@ const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
 
-const SCOPE_CLASS =
-  'cursor-pointer rounded-full border px-3 py-1 text-xs font-semibold transition-colors';
-
-const scopeClass = (isActive: boolean): string =>
-  isActive
-    ? `${SCOPE_CLASS} border-primary-dark bg-primary-dark text-neutral-100`
-    : `${SCOPE_CLASS} border-border text-muted hover:bg-background`;
-
-interface ScopeFilterProps {
-  scopes: StatScope[];
-  scopeLabels: Record<string, string>;
-  legend: string;
-  activeScope: StatScope;
-  onSelect: (scope: StatScope) => void;
-}
-
-// A select in the CMS, a pair of pills here: two options never earn a dropdown.
-function ScopeFilter({
-  scopes,
-  scopeLabels,
-  legend,
-  activeScope,
-  onSelect
-}: ScopeFilterProps) {
-  return (
-    <div
-      role="group"
-      aria-label={legend}
-      className="flex flex-wrap gap-2"
-      data-testid="stats-scope"
-    >
-      {scopes.map(scope => (
-        <button
-          key={scope}
-          type="button"
-          aria-pressed={scope === activeScope}
-          onClick={() => onSelect(scope)}
-          className={scopeClass(scope === activeScope)}
-        >
-          {scopeLabels[scope]}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-interface GlossaryToggleProps {
-  label: string;
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-function GlossaryToggle({ label, isOpen, onToggle }: GlossaryToggleProps) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-expanded={isOpen}
-      aria-controls="stats-glossary"
-      className="flex cursor-pointer items-center gap-2 text-base font-semibold text-foreground"
-    >
-      <MdChromeReaderMode
-        aria-hidden="true"
-        className="h-6 w-6 text-primary-dark"
-      />
-      {label}
-      {isOpen ? (
-        <FaChevronUp aria-hidden="true" className="h-5 w-5" />
-      ) : (
-        <FaChevronDown aria-hidden="true" className="h-5 w-5" />
-      )}
-    </button>
-  );
-}
-
-interface GlossaryListProps {
-  columns: StatColumnView[];
-  isOpen: boolean;
-}
-
-function GlossaryList({ columns, isOpen }: GlossaryListProps) {
-  return (
-    // Kept in the DOM while collapsed: what a column means is content a
-    // crawler and a find-in-page should reach without a click.
-    <ul
-      id="stats-glossary"
-      hidden={!isOpen}
-      data-testid="stats-glossary"
-      className="columns-1 list-disc gap-8 pl-5 text-xs font-bold leading-6 text-foreground sm:columns-2 lg:columns-4"
-    >
-      {columns.map(column => (
-        <li key={column.slug} className="break-inside-avoid">
-          {column.label} - {column.description}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 const columnsFor = (
   columnsByScope: Record<string, StatColumnView[]>,
   scope: StatScope
@@ -229,21 +129,23 @@ function StatsCardHeader({
               legend={scopeLegend}
               activeScope={activeScope}
               onSelect={onSelectScope}
+              testId="stats-scope"
             />
           )}
 
           {columns.length > 0 && (
-            <GlossaryToggle
+            <StatGlossaryToggle
               label={glossaryLabel}
               isOpen={isGlossaryOpen}
               onToggle={onToggleGlossary}
+              controls="stats-glossary"
             />
           )}
         </div>
       </div>
 
       {columns.length > 0 && (
-        <GlossaryList columns={columns} isOpen={isGlossaryOpen} />
+        <StatGlossaryList id="stats-glossary" columns={columns} isOpen={isGlossaryOpen} />
       )}
     </div>
   );

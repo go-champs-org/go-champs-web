@@ -16,7 +16,7 @@ import {
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
 import { FaUser } from 'react-icons/fa';
-import { Surface } from '@gochamps/ui';
+import { ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
@@ -53,11 +53,10 @@ const playerPagePath = ({
 // band run edge to edge; the banner and its shadow are the elevated block.
 const SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
-// The fixed dark-green artwork of the CMS athlete profile banner
-// (apps/cms/src/AthleteProfiles/Banner.scss): literal colors, so the card stays
-// green whether the page is in its light or dark theme.
-const BANNER_CLASS =
-  'relative overflow-hidden rounded-2xl bg-[linear-gradient(115deg,#2f4419_0%,#4d6b2c_55%,#7a9949_130%)] p-5 text-neutral-100 md:px-8 md:py-6';
+// The padding/shape/text-color of the CMS athlete profile banner
+// (apps/cms/src/AthleteProfiles/Banner.scss); ProfileBanner supplies the
+// fixed dark-green artwork itself.
+const BANNER_CLASS = 'rounded-2xl p-5 text-neutral-100 md:px-8 md:py-6';
 
 // generateMetadata and the page both need the player and tournament; cache()
 // keeps each to a single request per view.
@@ -227,15 +226,12 @@ function PlayerAvatar({ name }: { name: string }) {
 }
 
 function PlayerPhoto({ photoUrl, name }: { photoUrl: string; name: string }) {
-  // Player photos live on arbitrary user-uploaded hosts: next/image would need
-  // each one allow-listed in next.config.js.
   return photoUrl ? (
-    <img
+    <RemoteImage
       src={photoUrl}
       alt=""
       width={104}
       height={104}
-      decoding="async"
       className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[104px] md:w-[104px]"
     />
   ) : (
@@ -261,14 +257,7 @@ function PlayerBanner({
   profileLabel
 }: PlayerBannerProps) {
   return (
-    <section className={BANNER_CLASS} data-testid="player-banner">
-      {/* A single lime shape multiplied over the gradient, the darker olive
-          pattern the CMS profile banner uses. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[url('/illustrations/background-accessory.svg')] bg-[length:auto_260%] bg-[position:right_-2rem_center] bg-no-repeat opacity-35 mix-blend-multiply"
-      />
-
+    <ProfileBanner className={BANNER_CLASS} testId="player-banner">
       <div className="relative z-[1] flex flex-col items-center gap-4 text-center md:flex-row md:gap-6 md:text-left">
         <PlayerPhoto photoUrl={photoUrl} name={name} />
 
@@ -294,7 +283,7 @@ function PlayerBanner({
           </a>
         </div>
       </div>
-    </section>
+    </ProfileBanner>
   );
 }
 

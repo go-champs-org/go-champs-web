@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { MdChromeReaderMode } from 'react-icons/md';
+import { ScopeFilter, StatGlossaryToggle, StatGlossaryList } from '@gochamps/ui';
 import {
   phaseCellValue,
   type PhaseStatRow
@@ -36,99 +35,6 @@ const LABEL_CELL =
 const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-xs font-bold uppercase tracking-[0.5px]';
-
-const SCOPE_CLASS =
-  'cursor-pointer rounded-full border px-3 py-1 text-xs font-semibold transition-colors';
-
-const scopeClass = (isActive: boolean): string =>
-  isActive
-    ? `${SCOPE_CLASS} border-primary-dark bg-primary-dark text-neutral-100`
-    : `${SCOPE_CLASS} border-border text-muted hover:bg-background`;
-
-interface ScopeFilterProps {
-  scopeLabels: Record<string, string>;
-  legend: string;
-  activeScope: StatScope;
-  onSelect: (scope: StatScope) => void;
-}
-
-function ScopeFilter({
-  scopeLabels,
-  legend,
-  activeScope,
-  onSelect
-}: ScopeFilterProps) {
-  return (
-    <div
-      role="group"
-      aria-label={legend}
-      className="flex flex-wrap gap-2"
-      data-testid="player-stats-scope"
-    >
-      {SCOPES.map(scope => (
-        <button
-          key={scope}
-          type="button"
-          aria-pressed={scope === activeScope}
-          onClick={() => onSelect(scope)}
-          className={scopeClass(scope === activeScope)}
-        >
-          {scopeLabels[scope]}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-interface GlossaryToggleProps {
-  label: string;
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-function GlossaryToggle({ label, isOpen, onToggle }: GlossaryToggleProps) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-expanded={isOpen}
-      aria-controls="player-stats-glossary"
-      className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-foreground"
-    >
-      <MdChromeReaderMode aria-hidden="true" className="h-5 w-5 text-primary-dark" />
-      {label}
-      {isOpen ? (
-        <FaChevronUp aria-hidden="true" className="h-4 w-4" />
-      ) : (
-        <FaChevronDown aria-hidden="true" className="h-4 w-4" />
-      )}
-    </button>
-  );
-}
-
-interface GlossaryListProps {
-  columns: StatColumnView[];
-  isOpen: boolean;
-}
-
-function GlossaryList({ columns, isOpen }: GlossaryListProps) {
-  return (
-    // Kept in the DOM while collapsed: what a column means is content a
-    // crawler and a find-in-page should reach without a click.
-    <ul
-      id="player-stats-glossary"
-      hidden={!isOpen}
-      data-testid="player-stats-glossary"
-      className="columns-1 list-disc gap-8 pl-5 text-xs font-bold leading-6 text-foreground sm:columns-2 lg:columns-4"
-    >
-      {columns.map(column => (
-        <li key={column.slug} className="break-inside-avoid">
-          {column.label} - {column.description}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 interface StatsRowProps {
   row: PhaseStatRow;
@@ -186,20 +92,28 @@ export function PlayerStatsTable({
 
           <div className="flex flex-wrap items-center gap-4">
             <ScopeFilter
+              scopes={SCOPES}
               scopeLabels={scopeLabels}
               legend={scopeLegend}
               activeScope={scope}
               onSelect={setScope}
+              testId="player-stats-scope"
             />
-            <GlossaryToggle
+            <StatGlossaryToggle
               label={glossaryLabel}
               isOpen={isGlossaryOpen}
               onToggle={() => setGlossaryOpen(open => !open)}
+              controls="player-stats-glossary"
+              size="sm"
             />
           </div>
         </div>
 
-        <GlossaryList columns={columns} isOpen={isGlossaryOpen} />
+        <StatGlossaryList
+          id="player-stats-glossary"
+          columns={columns}
+          isOpen={isGlossaryOpen}
+        />
       </div>
 
       {/* Narrow screens scroll the table instead of the page. */}

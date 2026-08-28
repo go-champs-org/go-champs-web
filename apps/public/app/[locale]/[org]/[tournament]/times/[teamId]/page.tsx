@@ -15,7 +15,7 @@ import {
 } from '@gochamps/api-client';
 import type { PlayerEntity, PlayerStatEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
-import { Surface } from '@gochamps/ui';
+import { GameTeamRow, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { CMS_URL } from '@/src/config/cms';
 import { formatGameTime } from '@/src/games/gameDateTime';
@@ -257,14 +257,11 @@ function TeamIdentity({
 
       <div className="flex flex-col items-center gap-3 text-center md:flex-row md:gap-6 md:text-left">
         {team.logoUrl && (
-          // Team logos live on arbitrary user-uploaded hosts: next/image would
-          // need each one allow-listed in next.config.js.
-          <img
+          <RemoteImage
             src={team.logoUrl}
             alt=""
             width={120}
             height={120}
-            decoding="async"
             className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[120px] md:w-[120px]"
           />
         )}
@@ -374,59 +371,6 @@ const EMPHASIS_CLASS: Record<SideEmphasis, string> = {
   neutral: 'font-medium text-foreground'
 };
 
-function TeamCrest({
-  logoUrl,
-  isDimmed
-}: {
-  logoUrl: string;
-  isDimmed: boolean;
-}) {
-  return (
-    // Team logos live on arbitrary user-uploaded hosts: next/image would need
-    // each one allow-listed in next.config.js.
-    <img
-      src={logoUrl}
-      alt=""
-      width={28}
-      height={28}
-      decoding="async"
-      className={`h-7 w-7 shrink-0 rounded-full object-cover ${isDimmed ? 'opacity-60' : ''}`}
-    />
-  );
-}
-
-interface GameTeamProps {
-  logoUrl: string;
-  name: string;
-  emphasis: SideEmphasis;
-  winnerLabel: string;
-  isHome?: boolean;
-}
-
-// Both crests face the score in the middle of the row, which is the reading
-// order the CMS game card already uses: the home team runs right to left.
-function GameTeam({
-  logoUrl,
-  name,
-  emphasis,
-  winnerLabel,
-  isHome = false
-}: GameTeamProps) {
-  return (
-    <span
-      className={`flex min-w-0 items-center gap-2 ${isHome ? 'flex-row-reverse' : ''}`}
-    >
-      {logoUrl && (
-        <TeamCrest logoUrl={logoUrl} isDimmed={emphasis === 'loser'} />
-      )}
-      <span className={`truncate ${EMPHASIS_CLASS[emphasis]}`}>{name}</span>
-      {/* Weight and tone are the whole signal on screen; the winner has to be
-          announced too. */}
-      {emphasis === 'winner' && <span className="sr-only">{winnerLabel}</span>}
-    </span>
-  );
-}
-
 function GameRow({
   game,
   href,
@@ -444,7 +388,7 @@ function GameRow({
       data-testid="game-row"
       className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-border px-3 py-3 text-sm transition-colors last:border-0 hover:bg-background"
     >
-      <GameTeam
+      <GameTeamRow
         logoUrl={game.homeTeam.logoUrl}
         name={teamDisplayName(
           game.homeTeam,
@@ -453,7 +397,8 @@ function GameRow({
         )}
         emphasis={home}
         winnerLabel={winnerLabel}
-        isHome
+        crestSize={28}
+        align="right"
       />
       <span className="flex flex-col items-center">
         <span className="flex items-center gap-1 tabular-nums">
@@ -465,7 +410,7 @@ function GameRow({
             page must leave it alone, same as on the game page. */}
         <span className="notranslate text-xs text-muted">{time}</span>
       </span>
-      <GameTeam
+      <GameTeamRow
         logoUrl={game.awayTeam.logoUrl}
         name={teamDisplayName(
           game.awayTeam,
@@ -474,6 +419,8 @@ function GameRow({
         )}
         emphasis={away}
         winnerLabel={winnerLabel}
+        crestSize={28}
+        align="left"
       />
     </Link>
   );
