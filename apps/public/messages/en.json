@@ -192,6 +192,7 @@
   },
   "phase": {
     "unknownPhase": "phase",
+    "unknownTournament": "tournament",
     "noGames": "No games in this phase",
     "team": "Team",
     "breadcrumbHome": "Home",

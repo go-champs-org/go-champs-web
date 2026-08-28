@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import PhasePage from './page';
+import PhasePage, { generateMetadata } from './page';
 import * as apiClient from '@gochamps/api-client';
 
 jest.mock('@gochamps/api-client');
@@ -19,6 +19,8 @@ jest.mock('next-intl/server', () => ({
     const namespace = typeof input === 'string' ? input : input.namespace;
     const messages: Record<string, Messages> = {
       phase: {
+        unknownPhase: 'fase',
+        unknownTournament: 'campeonato',
         noGames: 'Nenhum jogo nesta fase',
         team: 'Time',
         breadcrumbHome: 'Home',
@@ -32,7 +34,6 @@ jest.mock('next-intl/server', () => ({
       },
       game: {
         undecidedTeam: 'A definir',
-        unknownTournament: 'campeonato',
         winner: 'Vencedor'
       },
       metadata: {
@@ -339,5 +340,87 @@ describe('PhasePage', () => {
     expect(screen.getByText('Times')).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('Fases')).toBeInTheDocument();
+  });
+
+  it('labels the standings rank column for assistive technologies', async () => {
+    (apiClient.getPhase as jest.Mock).mockResolvedValue({
+      id: 'ph1',
+      title: 'Classificação',
+      type: 'elimination',
+      order: 1,
+      isInProgress: false,
+      draws: [],
+      eliminationStats: [
+        {
+          id: 'stat1',
+          title: 'PTS',
+          teamStatSource: 'fiba_group_points',
+          rankingOrder: 1,
+          rankingCriteria: 'overall'
+        }
+      ],
+      eliminations: [
+        {
+          id: 'group-a',
+          order: 1,
+          title: 'Grupo A',
+          info: '',
+          teamStats: [
+            {
+              id: 'ts1',
+              teamId: 't1',
+              placeholder: '',
+              stats: { stat1: 3 },
+              rankingCriteriaUsed: null,
+              rankingStatUsed: ''
+            }
+          ]
+        }
+      ]
+    });
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue({
+      id: 'tour1',
+      name: 'Torneio Teste',
+      slug: 'tour',
+      teams: [emptyTeam('t1', 'Time A')],
+      players: [],
+      organization: emptyOrganization(),
+      phases: [{ id: 'ph1', title: 'Classificação', type: 'elimination', order: 1, isInProgress: false }]
+    });
+    (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
+
+    const jsx = await PhasePage({
+      params: Promise.resolve({
+        locale: 'pt',
+        org: 'org',
+        tournament: 'tour',
+        phaseId: 'ph1'
+      })
+    });
+    render(jsx);
+
+    expect(screen.getByRole('columnheader', { name: '#' })).toBeInTheDocument();
+  });
+});
+
+describe('generateMetadata', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('falls back to translated placeholders, not raw lookup errors, when the phase or tournament cannot be found', async () => {
+    (apiClient.getPhase as jest.Mock).mockResolvedValue(null);
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue(null);
+
+    const metadata = await generateMetadata({
+      params: Promise.resolve({
+        locale: 'pt',
+        org: 'org',
+        tournament: 'tour',
+        phaseId: 'missing'
+      })
+    });
+
+    expect(metadata.title).toBe('Fase: fase');
   });
 });

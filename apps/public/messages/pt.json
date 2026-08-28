@@ -192,6 +192,7 @@
   },
   "phase": {
     "unknownPhase": "fase",
+    "unknownTournament": "campeonato",
     "noGames": "Nenhum jogo nesta fase",
     "team": "Time",
     "breadcrumbHome": "Home",

@@ -82,16 +82,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const routeParams = await params;
   const { locale, org, tournament: tournamentSlug, phaseId } = routeParams;
-  const [phase, tournament, t, tGame] = await Promise.all([
+  const [phase, tournament, t, tPhase] = await Promise.all([
     loadPhase(phaseId),
     loadTournament(org, tournamentSlug),
     getTranslations({ locale, namespace: 'metadata' }),
-    getTranslations({ locale, namespace: 'game' })
+    getTranslations({ locale, namespace: 'phase' })
   ]);
 
   const values = {
-    phase: phase ? phase.title : t('phase.unknownPhase'),
-    tournament: tournament ? tournament.name : tGame('unknownTournament')
+    phase: phase ? phase.title : tPhase('unknownPhase'),
+    tournament: tournament ? tournament.name : tPhase('unknownTournament')
   };
 
   return buildPageMetadata({
@@ -373,7 +373,9 @@ function StandingsGroup({
         <table className="w-full border-collapse text-left text-sm">
           <thead>
             <tr className={`${HEADER_BAND} ${ROW_HEIGHT} text-foreground`}>
-              <th scope="col" className={`${RANK_CELL} ${HEADER_BAND} ${BAND_LABEL}`} />
+              <th scope="col" className={`${RANK_CELL} ${HEADER_BAND} ${BAND_LABEL}`}>
+                #
+              </th>
               <th scope="col" className={`${TEAM_CELL} ${HEADER_BAND} ${BAND_LABEL}`}>
                 {teamLabel}
               </th>
