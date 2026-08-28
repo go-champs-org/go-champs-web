@@ -19,7 +19,12 @@ jest.mock('next-intl/server', () => ({
     const namespace = typeof input === 'string' ? input : input.namespace;
     const messages: Record<string, Messages> = {
       phase: {
-        noGames: 'Nenhum jogo nesta fase'
+        noGames: 'Nenhum jogo nesta fase',
+        team: 'Time'
+      },
+      game: {
+        undecidedTeam: 'A definir',
+        unknownTournament: 'campeonato'
       },
       metadata: {
         phaseTitle: 'Fase: {phase}',
@@ -45,13 +50,32 @@ describe('PhasePage', () => {
     jest.clearAllMocks();
   });
 
+  const emptyTeam = (id: string, name: string) => ({
+    id,
+    name,
+    logoUrl: '',
+    triCode: '',
+    primaryColor: '',
+    coaches: []
+  });
+
   it('renders the phase name and games grouped by date', async () => {
     (apiClient.getPhase as jest.Mock).mockResolvedValue({
       id: 'ph1',
       title: 'Fase de Grupos',
-      type: 'group',
+      type: 'elimination',
       order: 1,
-      isInProgress: false
+      isInProgress: false,
+      draws: [],
+      eliminationStats: [],
+      eliminations: []
+    });
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue({
+      id: 'tour1',
+      name: 'Torneio Teste',
+      slug: 'tour',
+      teams: [],
+      phases: [{ id: 'ph1', title: 'Fase de Grupos', type: 'elimination', order: 1, isInProgress: false }]
     });
     (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([
       {
@@ -102,5 +126,140 @@ describe('PhasePage', () => {
     expect(screen.getByText('Fase de Grupos')).toBeInTheDocument();
     expect(screen.getByText('Time A')).toBeInTheDocument();
     expect(screen.getByText('Time B')).toBeInTheDocument();
+  });
+
+  it('renders a standings table per group for an elimination-type phase, and tabs across tournament phases', async () => {
+    (apiClient.getPhase as jest.Mock).mockResolvedValue({
+      id: 'ph1',
+      title: 'Classificação',
+      type: 'elimination',
+      order: 1,
+      isInProgress: true,
+      draws: [],
+      eliminationStats: [
+        {
+          id: 'stat1',
+          title: 'PTS',
+          teamStatSource: 'fiba_group_points',
+          rankingOrder: 1,
+          rankingCriteria: 'overall'
+        },
+        {
+          id: 'stat2',
+          title: 'VIT H2H',
+          teamStatSource: 'wins',
+          rankingOrder: 2,
+          rankingCriteria: 'head_to_head'
+        }
+      ],
+      eliminations: [
+        {
+          id: 'group-a',
+          order: 1,
+          title: 'Grupo A',
+          info: '',
+          teamStats: [
+            {
+              id: 'ts1',
+              teamId: 't1',
+              placeholder: '',
+              stats: { stat1: 3, stat2: 1 },
+              rankingCriteriaUsed: null,
+              rankingStatUsed: ''
+            }
+          ]
+        }
+      ]
+    });
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue({
+      id: 'tour1',
+      name: 'Torneio Teste',
+      slug: 'tour',
+      teams: [emptyTeam('t1', 'Time A')],
+      phases: [
+        { id: 'ph1', title: 'Classificação', type: 'elimination', order: 1, isInProgress: true },
+        { id: 'ph2', title: 'Playoffs', type: 'draw', order: 2, isInProgress: false }
+      ]
+    });
+    (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
+
+    const jsx = await PhasePage({
+      params: Promise.resolve({
+        locale: 'pt',
+        org: 'org',
+        tournament: 'tour',
+        phaseId: 'ph1'
+      })
+    });
+    render(jsx);
+
+    expect(screen.getByText('Grupo A')).toBeInTheDocument();
+    expect(screen.getByText('Time A')).toBeInTheDocument();
+    expect(screen.getByText('PTS')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    // head_to_head-criteria stats are internal tie-breakers, not displayed columns.
+    expect(screen.queryByText('VIT H2H')).not.toBeInTheDocument();
+    // Tabs link across every phase of the tournament.
+    expect(screen.getByRole('link', { name: 'Playoffs' })).toHaveAttribute(
+      'href',
+      '/pt/org/tour/fases/ph2'
+    );
+  });
+
+  it('renders a bracket round per draw for a draw-type phase', async () => {
+    (apiClient.getPhase as jest.Mock).mockResolvedValue({
+      id: 'ph2',
+      title: 'Playoffs',
+      type: 'draw',
+      order: 2,
+      isInProgress: false,
+      draws: [
+        {
+          id: 'round1',
+          order: 1,
+          title: 'Final',
+          matches: [
+            {
+              id: 'match1',
+              firstTeamId: 't1',
+              firstTeamPlaceholder: '',
+              firstTeamScore: '2',
+              secondTeamId: '',
+              secondTeamPlaceholder: 'Vencedor B',
+              secondTeamScore: '0',
+              name: '',
+              info: ''
+            }
+          ]
+        }
+      ],
+      eliminationStats: [],
+      eliminations: []
+    });
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue({
+      id: 'tour1',
+      name: 'Torneio Teste',
+      slug: 'tour',
+      teams: [emptyTeam('t1', 'Time A')],
+      phases: [{ id: 'ph2', title: 'Playoffs', type: 'draw', order: 2, isInProgress: false }]
+    });
+    (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
+
+    const jsx = await PhasePage({
+      params: Promise.resolve({
+        locale: 'pt',
+        org: 'org',
+        tournament: 'tour',
+        phaseId: 'ph2'
+      })
+    });
+    render(jsx);
+
+    expect(screen.getByText('Final')).toBeInTheDocument();
+    expect(screen.getByText('Time A')).toBeInTheDocument();
+    expect(screen.getByText('Vencedor B')).toBeInTheDocument();
+    expect(
+      screen.getByText((_, element) => element?.textContent === '2 x 0')
+    ).toBeInTheDocument();
   });
 });

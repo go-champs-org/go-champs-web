@@ -191,6 +191,7 @@
   },
   "phase": {
     "unknownPhase": "fase",
-    "noGames": "Nenhum jogo nesta fase"
+    "noGames": "Nenhum jogo nesta fase",
+    "team": "Time"
   }
 }

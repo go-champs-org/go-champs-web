@@ -191,6 +191,7 @@
   },
   "phase": {
     "unknownPhase": "phase",
-    "noGames": "No games in this phase"
+    "noGames": "No games in this phase",
+    "team": "Team"
   }
 }
