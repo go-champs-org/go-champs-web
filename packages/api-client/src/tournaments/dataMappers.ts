@@ -1,4 +1,8 @@
 import { TeamEntity } from '@gochamps/domain-types';
+import {
+  mapApiOrganizationToOrganizationEntity,
+  OrganizationEntity
+} from '../organizations/dataMappers';
 import { mapApiPhaseToPhaseEntity, PhaseEntity } from '../phases/dataMappers';
 import { mapApiPlayerToPlayerEntity, PlayerEntity } from '../players/dataMappers';
 import { mapApiTeamToTeamEntity } from '../teams/dataMappers';
@@ -70,8 +74,18 @@ export interface TournamentEntity {
   logoUrl: string;
 }
 
+// No known real tournament lacks an organization — this exists only so a
+// malformed payload degrades to blank fields instead of a crash.
+const DEFAULT_ORGANIZATION: OrganizationEntity = {
+  id: '',
+  name: '',
+  slug: '',
+  logoUrl: ''
+};
+
 export interface TournamentWithTeamsEntity extends TournamentEntity {
   teams: TeamEntity[];
+  organization: OrganizationEntity;
   // Every player in the tournament, each carrying its own teamId: a team's
   // roster is this list filtered, not a request of its own.
   players: PlayerEntity[];
@@ -124,6 +138,9 @@ export const mapApiTournamentToTournamentWithTeamsEntity = (
   name: apiTournament.name,
   slug: apiTournament.slug,
   logoUrl: apiTournament.logo_url || '',
+  organization: apiTournament.organization
+    ? mapApiOrganizationToOrganizationEntity(apiTournament.organization)
+    : DEFAULT_ORGANIZATION,
   teams: apiTournament.teams.map(mapApiTeamToTeamEntity),
   players: (apiTournament.players || []).map(mapApiPlayerToPlayerEntity),
   phases: (apiTournament.phases || []).map(mapApiPhaseToPhaseEntity),

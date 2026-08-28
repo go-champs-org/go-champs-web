@@ -24,6 +24,21 @@ export const formatGameDateTime = (datetime: string, locale: string): string => 
   }).format(parsed);
 };
 
+// Parsed at noon UTC so America/Sao_Paulo formatting never crosses back into
+// the previous calendar day.
+export const formatDayDate = (dateKey: string, locale: string): string => {
+  const parsed = new Date(`${dateKey}T12:00:00Z`);
+
+  if (Number.isNaN(parsed.getTime())) return '';
+
+  return new Intl.DateTimeFormat(localeTag(locale), {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: GAME_TIME_ZONE
+  }).format(parsed);
+};
+
 // A game inside a day-grouped list has its date in the group heading already;
 // repeating it in every row is noise.
 export const formatGameTime = (datetime: string, locale: string): string => {

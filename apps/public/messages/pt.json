@@ -87,7 +87,8 @@
     "live": "Ao vivo",
     "undecidedTeam": "A definir",
     "backToTournament": "Voltar para o campeonato",
-    "videoTitle": "Vídeo do jogo"
+    "videoTitle": "Vídeo do jogo",
+    "winner": "Vencedor"
   },
   "boxScore": {
     "title": "Súmula",
@@ -185,6 +186,22 @@
     "playerStatsTitle": "Estatísticas — {tournament}",
     "playerStatsDescription": "Estatísticas de todos os jogadores do {tournament} na Go Champs.",
     "playerStatsSummaryTitle": "Líderes de estatísticas — {tournament}",
-    "playerStatsSummaryDescription": "Os líderes de cada estatística do {tournament} na Go Champs."
+    "playerStatsSummaryDescription": "Os líderes de cada estatística do {tournament} na Go Champs.",
+    "phaseTitle": "{phase} — {tournament}",
+    "phaseDescription": "Jogos da {phase} no {tournament} na Go Champs."
+  },
+  "phase": {
+    "unknownPhase": "fase",
+    "unknownTournament": "campeonato",
+    "noGames": "Nenhum jogo nesta fase",
+    "team": "Time",
+    "breadcrumbHome": "Home",
+    "active": "Campeonato ativo",
+    "athletesCount": "Atletas cadastrados",
+    "teamsCount": "Times",
+    "phasesCount": "Fases",
+    "gamesTitle": "Partidas",
+    "previousDay": "Dia anterior",
+    "nextDay": "Próximo dia"
   }
 }

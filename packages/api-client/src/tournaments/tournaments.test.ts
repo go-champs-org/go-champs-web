@@ -48,6 +48,7 @@ describe('getTournamentBySlug', () => {
       name: 'Test League',
       slug: 'test-league',
       logoUrl: '',
+      organization: { id: '', name: '', slug: '', logoUrl: '' },
       teams: [],
       players: [],
       phases: [],
@@ -55,6 +56,45 @@ describe('getTournamentBySlug', () => {
       sportName: '',
       playerStats: [],
       scoreboardSetting: { liveSiteUpdate: 'full-live-update' }
+    });
+  });
+
+  it('maps the nested organization', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getTournamentBySlug } = await import('./tournaments');
+
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ data: [{ id: 'tour1', name: 'x', slug: 'x' }] })
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            id: 'tour1',
+            name: 'Test League',
+            slug: 'test-league',
+            teams: [],
+            organization: {
+              id: 'org1',
+              name: 'Test Org',
+              slug: 'test-org',
+              logo_url: 'https://example.com/org.png'
+            }
+          }
+        })
+      }) as unknown as typeof fetch;
+
+    const result = await getTournamentBySlug('test-org', 'test-league');
+
+    expect(result.organization).toEqual({
+      id: 'org1',
+      name: 'Test Org',
+      slug: 'test-org',
+      logoUrl: 'https://example.com/org.png'
     });
   });
 

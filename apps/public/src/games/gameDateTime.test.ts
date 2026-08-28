@@ -1,4 +1,4 @@
-import { formatGameDateTime, formatGameTime } from './gameDateTime';
+import { formatGameDateTime, formatGameTime, formatDayDate } from './gameDateTime';
 
 describe('formatGameDateTime', () => {
   it('formats a UTC instant in Brazilian time for pt', () => {
@@ -41,5 +41,15 @@ describe('formatGameTime', () => {
 
   it('returns an empty string for a game without a date', () => {
     expect(formatGameTime('', 'pt')).toBe('');
+  });
+});
+
+describe('formatDayDate', () => {
+  it('formats a day key as a short locale date', () => {
+    expect(formatDayDate('2022-12-17', 'pt')).toBe('17/12/2022');
+  });
+
+  it('returns an empty string for an invalid day key', () => {
+    expect(formatDayDate('not-a-date', 'pt')).toBe('');
   });
 });

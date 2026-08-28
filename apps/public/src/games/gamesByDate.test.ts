@@ -1,5 +1,5 @@
 import type { GameEntity } from '@gochamps/api-client';
-import { gamesByDate } from './gamesByDate';
+import { gamesByDate, closestDayIndex, type GameDay } from './gamesByDate';
 
 const game = (id: string, datetime: string): GameEntity =>
   ({ id, datetime }) as GameEntity;
@@ -72,5 +72,31 @@ describe('gamesByDate', () => {
 
   it('has no days for a team with no games', () => {
     expect(gamesByDate([], 'pt')).toEqual([]);
+  });
+});
+
+const day = (key: string): GameDay => ({ key, label: key, games: [] });
+
+describe('closestDayIndex', () => {
+  it('picks today when a day exists for it', () => {
+    const days = [day('2026-08-27'), day('2026-08-28'), day('2026-08-29')];
+
+    expect(closestDayIndex(days, new Date('2026-08-28T15:00:00Z'))).toBe(1);
+  });
+
+  it('picks the nearest future day when today has no games', () => {
+    const days = [day('2026-08-25'), day('2026-08-30'), day('2026-09-01')];
+
+    expect(closestDayIndex(days, new Date('2026-08-28T15:00:00Z'))).toBe(1);
+  });
+
+  it('falls back to the most recent past day when there is no future day', () => {
+    const days = [day('2026-08-20'), day('2026-08-25')];
+
+    expect(closestDayIndex(days, new Date('2026-08-28T15:00:00Z'))).toBe(1);
+  });
+
+  it('returns 0 for an empty list', () => {
+    expect(closestDayIndex([], new Date('2026-08-28T15:00:00Z'))).toBe(0);
   });
 });

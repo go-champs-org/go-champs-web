@@ -34,7 +34,10 @@ describe('phases', () => {
       title: 'Group Stage',
       type: 'elimination',
       order: 1,
-      isInProgress: true
+      isInProgress: true,
+      draws: [],
+      eliminationStats: [],
+      eliminations: []
     });
   });
 

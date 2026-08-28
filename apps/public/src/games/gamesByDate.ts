@@ -77,3 +77,21 @@ export const gamesByDate = (games: GameEntity[], locale: string): GameDay[] => {
     };
   });
 };
+
+/**
+ * The index of the day closest to `now`: today if it has games, else the
+ * nearest day still to come, else the most recent day already played.
+ * `days` must already be sorted ascending by key (as `gamesByDate` returns).
+ */
+export const closestDayIndex = (days: GameDay[], now: Date): number => {
+  if (days.length === 0) return 0;
+
+  const todayKey = dayKey(now.toISOString());
+  const todayIndex = days.findIndex(day => day.key === todayKey);
+
+  if (todayIndex !== -1) return todayIndex;
+
+  const futureIndex = days.findIndex(day => day.key > todayKey);
+
+  return futureIndex !== -1 ? futureIndex : days.length - 1;
+};

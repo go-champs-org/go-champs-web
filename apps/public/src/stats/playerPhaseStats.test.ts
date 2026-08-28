@@ -27,7 +27,10 @@ const phase = (id: string, title: string, order: number): PhaseEntity => ({
   title,
   type: 'elimination',
   order,
-  isInProgress: false
+  isInProgress: false,
+  draws: [],
+  eliminationStats: [],
+  eliminations: []
 });
 
 const log = (
