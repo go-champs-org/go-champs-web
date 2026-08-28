@@ -24,9 +24,11 @@ export type ApiRankingCriteria = 'overall' | 'head_to_head';
 export interface ApiEliminationStat {
   id: string;
   title: string;
-  team_stat_source: string;
-  ranking_order: number;
-  ranking_criteria: ApiRankingCriteria;
+  team_stat_source: string | null;
+  ranking_order: number | null;
+  // The API sends null for a stat an organizer set up before ranking
+  // criteria existed — treated as 'overall' (apps/cms/src/Phases/dataMappers.ts).
+  ranking_criteria: ApiRankingCriteria | null;
 }
 
 export interface ApiEliminationTeamStat {

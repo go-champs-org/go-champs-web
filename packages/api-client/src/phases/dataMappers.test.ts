@@ -87,6 +87,35 @@ describe('mapApiPhaseToPhaseEntity', () => {
     ]);
   });
 
+  it('defaults a null ranking_criteria to overall (a stat set up before ranking criteria existed)', () => {
+    const result = mapApiPhaseToPhaseEntity({
+      id: 'ph1',
+      title: 'Fase 1',
+      type: 'elimination',
+      order: 1,
+      is_in_progress: false,
+      elimination_stats: [
+        {
+          id: 'stat1',
+          title: 'W',
+          team_stat_source: 'wins',
+          ranking_order: 1,
+          ranking_criteria: null
+        }
+      ]
+    });
+
+    expect(result.eliminationStats).toEqual([
+      {
+        id: 'stat1',
+        title: 'W',
+        teamStatSource: 'wins',
+        rankingOrder: 1,
+        rankingCriteria: 'overall'
+      }
+    ]);
+  });
+
   it('maps draw rounds and matches, defaulting missing team ids/placeholders', () => {
     const result = mapApiPhaseToPhaseEntity({
       id: 'ph2',

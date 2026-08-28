@@ -90,9 +90,9 @@ const mapApiEliminationStatToEntity = (
 ): EliminationStatEntity => ({
   id: apiStat.id,
   title: apiStat.title,
-  teamStatSource: apiStat.team_stat_source,
-  rankingOrder: apiStat.ranking_order,
-  rankingCriteria: apiStat.ranking_criteria
+  teamStatSource: apiStat.team_stat_source || '',
+  rankingOrder: apiStat.ranking_order || 0,
+  rankingCriteria: apiStat.ranking_criteria || 'overall'
 });
 
 const mapApiEliminationTeamStatToEntity = (
