@@ -87,7 +87,8 @@
     "live": "Live",
     "undecidedTeam": "TBD",
     "backToTournament": "Back to the tournament",
-    "videoTitle": "Game video"
+    "videoTitle": "Game video",
+    "winner": "Winner"
   },
   "boxScore": {
     "title": "Box score",
@@ -197,6 +198,9 @@
     "active": "Active tournament",
     "athletesCount": "Registered athletes",
     "teamsCount": "Teams",
-    "phasesCount": "Phases"
+    "phasesCount": "Phases",
+    "gamesTitle": "Games",
+    "previousDay": "Previous day",
+    "nextDay": "Next day"
   }
 }

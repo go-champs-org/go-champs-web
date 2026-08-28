@@ -17,9 +17,9 @@ import type { TeamEntity } from '@gochamps/domain-types';
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
-import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
-import { formatGameTime } from '@/src/games/gameDateTime';
+import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
+import { GamesPager } from './GamesPager';
 
 // Games in a phase move frequently, so the rendered HTML is reused for a short
 // window instead of hitting the API on every view.
@@ -101,85 +101,6 @@ export async function generateMetadata({
     description: t('phaseDescription', values),
     noIndex: !phase
   });
-}
-
-interface GameRowProps {
-  gameId: string;
-  homeTeamName: string;
-  awayTeamName: string;
-  homeScore: number;
-  awayScore: number;
-  time: string;
-}
-
-function GameRow({
-  gameId,
-  homeTeamName,
-  awayTeamName,
-  homeScore,
-  awayScore,
-  time
-}: GameRowProps) {
-  return (
-    <div
-      key={gameId}
-      className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-border px-3 py-3 text-sm last:border-0"
-    >
-      <span className="truncate font-medium text-foreground">{homeTeamName}</span>
-      <div className="flex flex-col items-center">
-        <span className="flex items-center gap-1 tabular-nums">
-          {homeScore} x {awayScore}
-        </span>
-        <span className="notranslate text-xs text-muted">{time}</span>
-      </div>
-      <span className="truncate font-medium text-foreground text-right">
-        {awayTeamName}
-      </span>
-    </div>
-  );
-}
-
-interface GamesScheduleProps {
-  days: GameDay[];
-  locale: string;
-  undecidedLabel: string;
-}
-
-function GamesSchedule({ days, locale, undecidedLabel }: GamesScheduleProps) {
-  return (
-    <div className="space-y-6">
-      {days.map(day => (
-        <div key={day.key} className="flex flex-col gap-2">
-          {day.label && (
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-              {day.label}
-            </h2>
-          )}
-          <Surface className="overflow-hidden rounded-xl border border-border">
-            {day.games.map(game => (
-              <GameRow
-                key={game.id}
-                gameId={game.id}
-                homeTeamName={teamDisplayName(
-                  game.homeTeam,
-                  game.homePlaceholder,
-                  undecidedLabel
-                )}
-                awayTeamName={teamDisplayName(
-                  game.awayTeam,
-                  game.awayPlaceholder,
-                  undecidedLabel
-                )}
-                homeScore={game.homeScore}
-                awayScore={game.awayScore}
-                time={formatGameTime(game.datetime, locale)}
-              />
-            ))}
-          </Surface>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 // A team stat row can name a team the tournament's roster no longer carries
@@ -700,13 +621,21 @@ interface PhaseGamesSectionProps {
   locale: string;
   undecidedLabel: string;
   noGamesLabel: string;
+  gamesTitle: string;
+  previousDayLabel: string;
+  nextDayLabel: string;
+  winnerLabel: string;
 }
 
 function PhaseGamesSection({
   days,
   locale,
   undecidedLabel,
-  noGamesLabel
+  noGamesLabel,
+  gamesTitle,
+  previousDayLabel,
+  nextDayLabel,
+  winnerLabel
 }: PhaseGamesSectionProps) {
   if (days.length === 0) {
     return (
@@ -716,7 +645,18 @@ function PhaseGamesSection({
     );
   }
 
-  return <GamesSchedule days={days} locale={locale} undecidedLabel={undecidedLabel} />;
+  return (
+    <GamesPager
+      days={days}
+      initialIndex={closestDayIndex(days, new Date())}
+      locale={locale}
+      title={gamesTitle}
+      previousDayLabel={previousDayLabel}
+      nextDayLabel={nextDayLabel}
+      undecidedLabel={undecidedLabel}
+      winnerLabel={winnerLabel}
+    />
+  );
 }
 
 interface PhaseBodyProps {
@@ -727,6 +667,10 @@ interface PhaseBodyProps {
   undecidedLabel: string;
   teamLabel: string;
   noGamesLabel: string;
+  gamesTitle: string;
+  previousDayLabel: string;
+  nextDayLabel: string;
+  winnerLabel: string;
 }
 
 // The main content + games layout, same shape as the CMS's PhaseHome: main
@@ -740,7 +684,11 @@ function PhaseBody({
   locale,
   undecidedLabel,
   teamLabel,
-  noGamesLabel
+  noGamesLabel,
+  gamesTitle,
+  previousDayLabel,
+  nextDayLabel,
+  winnerLabel
 }: PhaseBodyProps) {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
@@ -758,6 +706,10 @@ function PhaseBody({
           locale={locale}
           undecidedLabel={undecidedLabel}
           noGamesLabel={noGamesLabel}
+          gamesTitle={gamesTitle}
+          previousDayLabel={previousDayLabel}
+          nextDayLabel={nextDayLabel}
+          winnerLabel={winnerLabel}
         />
       </aside>
     </div>
@@ -849,6 +801,10 @@ export default async function PhasePage({
           undecidedLabel={tGame('undecidedTeam')}
           teamLabel={tPhase('team')}
           noGamesLabel={tPhase('noGames')}
+          gamesTitle={tPhase('gamesTitle')}
+          previousDayLabel={tPhase('previousDay')}
+          nextDayLabel={tPhase('nextDay')}
+          winnerLabel={tGame('winner')}
         />
       </div>
     </main>

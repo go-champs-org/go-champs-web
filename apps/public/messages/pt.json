@@ -87,7 +87,8 @@
     "live": "Ao vivo",
     "undecidedTeam": "A definir",
     "backToTournament": "Voltar para o campeonato",
-    "videoTitle": "Vídeo do jogo"
+    "videoTitle": "Vídeo do jogo",
+    "winner": "Vencedor"
   },
   "boxScore": {
     "title": "Súmula",
@@ -197,6 +198,9 @@
     "active": "Campeonato ativo",
     "athletesCount": "Atletas cadastrados",
     "teamsCount": "Times",
-    "phasesCount": "Fases"
+    "phasesCount": "Fases",
+    "gamesTitle": "Partidas",
+    "previousDay": "Dia anterior",
+    "nextDay": "Próximo dia"
   }
 }

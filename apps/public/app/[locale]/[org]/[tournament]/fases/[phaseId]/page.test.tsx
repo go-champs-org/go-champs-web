@@ -25,11 +25,15 @@ jest.mock('next-intl/server', () => ({
         active: 'Campeonato ativo',
         athletesCount: 'Atletas cadastrados',
         teamsCount: 'Times',
-        phasesCount: 'Fases'
+        phasesCount: 'Fases',
+        gamesTitle: 'Partidas',
+        previousDay: 'Dia anterior',
+        nextDay: 'Próximo dia'
       },
       game: {
         undecidedTeam: 'A definir',
-        unknownTournament: 'campeonato'
+        unknownTournament: 'campeonato',
+        winner: 'Vencedor'
       },
       metadata: {
         phaseTitle: 'Fase: {phase}',
@@ -66,7 +70,7 @@ describe('PhasePage', () => {
 
   const emptyOrganization = () => ({ id: '', name: '', slug: '', logoUrl: '' });
 
-  it('renders the phase name and games grouped by date', async () => {
+  it('renders the phase name and the games sidebar for its day', async () => {
     (apiClient.getPhase as jest.Mock).mockResolvedValue({
       id: 'ph1',
       title: 'Fase de Grupos',
@@ -108,7 +112,7 @@ describe('PhasePage', () => {
         homeScore: 1,
         awayScore: 0,
         datetime: '2026-08-01T20:00:00Z',
-        location: '',
+        location: 'Ginásio Municipal',
         city: '',
         isFinished: true,
         awayPlaceholder: '',
@@ -135,6 +139,8 @@ describe('PhasePage', () => {
     expect(screen.getByText('Fase de Grupos')).toBeInTheDocument();
     expect(screen.getByText('Time A')).toBeInTheDocument();
     expect(screen.getByText('Time B')).toBeInTheDocument();
+    expect(screen.getByText('Partidas')).toBeInTheDocument();
+    expect(screen.getByText('Ginásio Municipal')).toBeInTheDocument();
   });
 
   it('renders a standings table per group for an elimination-type phase, and tabs across tournament phases', async () => {
