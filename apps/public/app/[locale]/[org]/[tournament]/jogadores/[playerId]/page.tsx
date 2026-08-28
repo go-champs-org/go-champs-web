@@ -230,6 +230,7 @@ function PlayerPhoto({ photoUrl, name }: { photoUrl: string; name: string }) {
       alt=""
       width={104}
       height={104}
+      loading="eager"
       className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[104px] md:w-[104px]"
     />
   ) : (

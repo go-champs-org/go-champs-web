@@ -1,3 +1,5 @@
+'use client';
+
 const SCOPE_CLASS =
   'cursor-pointer rounded-full border px-3 py-1 text-xs font-semibold transition-colors';
 
@@ -8,7 +10,7 @@ const scopeClass = (isActive: boolean): string =>
 
 export interface ScopeFilterProps<TScope extends string> {
   scopes: TScope[];
-  scopeLabels: Record<string, string>;
+  scopeLabels: Record<TScope, string>;
   legend: string;
   activeScope: TScope;
   onSelect: (scope: TScope) => void;

@@ -262,6 +262,7 @@ function TeamIdentity({
             alt=""
             width={120}
             height={120}
+            loading="eager"
             className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[120px] md:w-[120px]"
           />
         )}

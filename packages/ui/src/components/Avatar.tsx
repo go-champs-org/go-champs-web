@@ -17,7 +17,7 @@ export function Avatar({ name, logoUrl, size, className = '' }: AvatarProps) {
       alt={name}
       width={size}
       height={size}
-      className={`rounded-full border-4 border-[#a6cd63] object-cover ${className}`}
+      className={`shrink-0 rounded-full border-4 border-[#a6cd63] object-cover ${className}`}
     />
   ) : (
     <div

@@ -1,3 +1,5 @@
+'use client';
+
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdChromeReaderMode } from 'react-icons/md';
 
