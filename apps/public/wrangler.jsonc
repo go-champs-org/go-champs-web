@@ -15,6 +15,14 @@
   "observability": {
     "enabled": true
   },
+  // Backs the ISR cache declared in open-next.config.ts. The binding name is
+  // fixed: the adapter's kv-incremental-cache looks for NEXT_INC_CACHE_KV.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "4c49bc44f6f84b1a84329aafd0180840"
+    }
+  ],
   // API_HOST is read by the server at request time, so it belongs here.
   //
   // NEXT_PUBLIC_* variables do NOT: Next inlines them into the bundle during
