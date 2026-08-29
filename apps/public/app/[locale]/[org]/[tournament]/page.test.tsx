@@ -80,12 +80,10 @@ const tournamentWith = (phases: ReturnType<typeof phase>[]) => ({
   phases
 });
 
-// loadTournament is wrapped in React's cache(), which memoizes per argument
-// for the life of the module here — so every test uses its own slug rather
-// than silently reading the previous test's tournament.
+// loadTournament is cache()d and memoizes per argument for the life of the
+// module, so each test needs its own slug.
 const paramsFor = (tournament: string) =>
   Promise.resolve({ locale: 'pt', org: 'org', tournament });
-
 
 describe('TournamentPage', () => {
   beforeEach(() => {
@@ -105,8 +103,7 @@ describe('TournamentPage', () => {
       eliminations: []
     });
 
-    // What this route decides is which phase to hand to PhaseView; rendering
-    // it is PhaseView's job, covered by _phase/PhaseView.test.tsx.
+    // This route only picks the phase; PhaseView.test.tsx covers rendering.
     const element = await TournamentPage({ params: paramsFor('in-progress') });
 
     expect(element.props.routeParams.phaseId).toBe('ph2');

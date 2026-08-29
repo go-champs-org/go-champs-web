@@ -1,13 +1,7 @@
 /**
- * The phase view, shared by the two routes that render it:
- *
- *   fases/[phaseId]  — the phase named in the URL
- *   the tournament root — the tournament's default phase, matching what the
- *   CMS does for a bare /:org/:tournament
- *
- * Route-level concerns (revalidate, generateStaticParams, generateMetadata)
- * stay in each page.tsx: Next only reads those from a route module, and the
- * two routes need different canonical URLs anyway.
+ * The phase view, shared by fases/[phaseId] and the tournament root. Route
+ * exports (revalidate, generateStaticParams, generateMetadata) stay in each
+ * page.tsx — Next reads those only from a route module.
  */
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -37,8 +31,7 @@ export interface PhaseViewParams {
   phaseId: string;
 }
 
-// generateMetadata and the page both need the phase; cache() keeps that to a
-// single request instead of fetching it twice per view.
+// cache(): generateMetadata and the page both need these, once per request.
 export const loadPhase = cache(
   async (phaseId: string): Promise<PhaseEntity | null> => {
     try {
@@ -50,8 +43,6 @@ export const loadPhase = cache(
   }
 );
 
-// generateMetadata and the page both need the tournament; cache() keeps that to
-// a single request instead of fetching it twice per view.
 export const loadTournament = cache(
   async (
     org: string,
@@ -72,15 +63,10 @@ const loadGames = (phaseId: string) =>
   getGamesByPhaseId(phaseId).catch(() => []);
 
 /**
- * The phase a bare tournament URL should show, mirroring the CMS's
- * currentPhaseId (apps/cms/src/Tournaments/dataMappers.ts): the phase in
- * progress, else the first one, else none.
- *
- * "First" means first as the API returned them, deliberately — not lowest
- * `order`. The two differ: torneio-basquete comes back as [Playoffs (order 2),
- * Fase 1 (order 1)], so sorting would land on a different phase than the CMS
- * shows today and make the migration visible. `order` is what the phase tabs
- * sort by for display; it is not what picks the default.
+ * Mirrors the CMS's currentPhaseId (Tournaments/dataMappers.ts): the phase in
+ * progress, else the first one as the API returned it — deliberately not the
+ * lowest `order`, which sorts the tabs but would pick a different phase than
+ * the CMS shows today.
  */
 export const resolveDefaultPhaseId = (
   tournament: TournamentWithTeamsEntity | null

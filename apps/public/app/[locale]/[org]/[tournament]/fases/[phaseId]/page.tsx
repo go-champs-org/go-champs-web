@@ -8,12 +8,10 @@ import {
   type PhaseViewParams
 } from '../../_phase/PhaseView';
 
-// Games in a phase move frequently, so the rendered HTML is reused for a short
-// window instead of hitting the API on every view.
+// Games move often, so reuse the rendered HTML only briefly.
 export const revalidate = 60;
 
-// The phase list is unbounded, so nothing is prerendered at build time —
-// declaring the params is what puts this route on the ISR path.
+// Unbounded list: nothing prerendered, but declaring params opts into ISR.
 export async function generateStaticParams() {
   return [];
 }

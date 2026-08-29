@@ -8,31 +8,24 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  // No custom domain: this Worker is reached through the CMS Worker's PUBLIC
-  // service binding. workers.dev stays on so staging can be smoke-tested
-  // directly, bypassing the edge routing.
+  // No custom domain: reached through the CMS Worker's PUBLIC service binding.
+  // workers.dev is how you smoke-test it without the edge routing in the way.
   "workers_dev": true,
   "observability": {
     "enabled": true
   },
-  // Backs the ISR cache declared in open-next.config.ts. The binding name is
-  // fixed: the adapter's kv-incremental-cache looks for NEXT_INC_CACHE_KV.
+  // Backs open-next.config.ts's ISR cache. The adapter looks for this exact
+  // binding name.
   "kv_namespaces": [
     {
       "binding": "NEXT_INC_CACHE_KV",
       "id": "4c49bc44f6f84b1a84329aafd0180840"
     }
   ],
-  // API_HOST is read by the server at request time, so it belongs here.
-  //
-  // NEXT_PUBLIC_* variables do NOT: Next inlines them into the bundle during
-  // `next build`, so setting one here has no effect. NEXT_PUBLIC_CMS_URL must
-  // be supplied to the build instead (Workers Builds: Settings > Build >
-  // build variables) as https://new-staging.go-champs.com — without it,
-  // src/config/cms.ts falls back to production's https://go-champs.com.
-  //
-  // The analytics keys (NEXT_PUBLIC_GA_ID, NEXT_PUBLIC_AMPLITUDE_API_KEY) are
-  // deliberately unset — analytics stays off on new-staging.
+  // Runtime only. NEXT_PUBLIC_* are inlined by `next build`, so setting one
+  // here does nothing — NEXT_PUBLIC_CMS_URL is passed to the build instead
+  // (see the workflow), or src/config/cms.ts falls back to production.
+  // Analytics keys are deliberately unset on new-staging.
   "vars": {
     "API_HOST": "https://api-staging.go-champs.com/"
   }

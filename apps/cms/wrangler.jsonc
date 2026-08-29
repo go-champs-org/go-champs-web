@@ -7,23 +7,14 @@
     "directory": "./build",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    // Allowlist — only these paths invoke the Worker; the rest is served
-    // straight from the CRA build, free and uncharged. Over-matching is safe
-    // (src/EdgeRouting/routes.ts is the real gate and falls back to ASSETS);
-    // under-matching is not, since a path missing here never reaches the
-    // Worker at all.
-    //
-    // `*` matches across `/`, so "/*/*" covers every path of two segments or
-    // more — including /_next/*, /logo/*, /api/* and the whole lote-1 set,
-    // which wrangler rejects as redundant if also listed. Single-segment paths
-    // do not match it and are spelled out below.
+    // Which paths reach the Worker; the rest is served from the CRA build for
+    // free. src/EdgeRouting/routes.ts decides what actually gets rewritten, so
+    // listing too much only costs invocations — listing too little is a bug.
+    // `*` spans `/`, so "/*/*" already covers every deeper path.
     "run_worker_first": [
       "/*/*",
-      // CRA's own bundles are the bulk of the traffic and have nothing to do
-      // with apps/public — excluding them keeps them on the free asset path
-      // instead of billing a Worker invocation each.
       "!/static/*",
-      // single-segment paths, which "/*/*" does not reach
+      // "/*/*" does not reach single-segment paths
       "/",
       "/About",
       "/Faq",
@@ -42,17 +33,14 @@
       "service": "gochamps-public-staging"
     }
   ],
-  // This Worker holds the hostname; apps/public has no custom domain of its
-  // own and is reached through the PUBLIC service binding above. Deploying
-  // creates the proxied DNS record for this hostname only — production
-  // (go-champs.com, staging.go-champs.com) stays on Netlify, untouched.
+  // apps/public has no domain of its own; it is reached through PUBLIC above.
   "routes": [
     {
       "pattern": "new-staging.go-champs.com",
       "custom_domain": true
     }
   ],
-  // Kept on for debugging the CMS Worker directly, bypassing the custom domain.
+  // reaches this Worker without going through the custom domain
   "workers_dev": true,
   "observability": {
     "enabled": true

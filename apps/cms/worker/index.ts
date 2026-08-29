@@ -12,8 +12,7 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // Assets and route handlers apps/public serves under its own name are
-    // forwarded verbatim — no path translation.
+    // Served by apps/public under this same path — no translation.
     if (isPublicPassthroughPath(url.pathname)) {
       return env.PUBLIC.fetch(request);
     }
@@ -25,7 +24,7 @@ export default {
       return env.PUBLIC.fetch(new Request(url, request));
     }
 
-    // Safety net: run_worker_first over-matched, serve the CMS SPA.
+    // run_worker_first over-matched; the CMS still owns this path.
     return env.ASSETS.fetch(request);
   }
 };

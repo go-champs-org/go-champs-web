@@ -16,9 +16,8 @@ describe('isEdgeRoutingEnabled', () => {
     ['unset', undefined],
     ['empty', ''],
     ['false', 'false'],
-    // only the exact string counts — a truthy-looking value is still a
-    // misconfiguration, and guessing wrong would slow every Netlify
-    // navigation down to a full page load
+    // Only the exact string: guessing wrong turns every Netlify navigation
+    // into a full page load.
     ['1', '1'],
     ['TRUE', 'TRUE']
   ])('is off when the flag is %s', (_label, value) => {

@@ -9,12 +9,10 @@ import {
   resolveDefaultPhaseId
 } from './_phase/PhaseView';
 
-// Matches fases/[phaseId]: this route renders the same view, so it reuses the
-// same window.
+// Same view as fases/[phaseId], so the same window.
 export const revalidate = 60;
 
-// The tournament list is unbounded, so nothing is prerendered at build time —
-// declaring the params is what puts this route on the ISR path.
+// Unbounded list: nothing prerendered, but declaring params opts into ISR.
 export async function generateStaticParams() {
   return [];
 }
@@ -53,8 +51,7 @@ export async function generateMetadata({
 
   return buildPageMetadata({
     locale,
-    // The canonical stays on the bare URL: this is the tournament's own
-    // address, not a duplicate of the phase page it happens to render.
+    // The tournament's own address, not a duplicate of the phase it renders.
     path: tournamentPagePath(routeParams),
     title: t('phaseTitle', values),
     description: t('phaseDescription', values),
@@ -62,11 +59,7 @@ export async function generateMetadata({
   });
 }
 
-/**
- * The tournament's own URL, which shows its default phase — the same thing a
- * bare /:org/:tournament does in the CMS, and the reason the URL does not
- * change to the phase's own address.
- */
+/** Shows the default phase without changing the URL, as the CMS does. */
 export default async function TournamentPage({
   params
 }: {
@@ -76,8 +69,7 @@ export default async function TournamentPage({
   const tournament = await loadTournament(routeParams.org, routeParams.tournament);
   const phaseId = resolveDefaultPhaseId(tournament);
 
-  // A tournament with no phases has nothing to show here. The CMS renders an
-  // empty shell in that case; 404 is the honest answer for a public page.
+  // The CMS renders an empty shell here; 404 is the honest public answer.
   if (!phaseId) notFound();
 
   return <PhaseView routeParams={{ ...routeParams, phaseId }} />;

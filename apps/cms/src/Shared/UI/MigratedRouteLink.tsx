@@ -10,15 +10,12 @@ export interface MigratedRouteLinkProps {
 }
 
 /**
- * A link to a route that has already been migrated to apps/public.
+ * Drop-in <Link> for a route that has moved to apps/public.
  *
- * Behind the Cloudflare Worker, it must be a real navigation: react-router's
- * <Link> changes the route inside the SPA without issuing a request, so the
- * edge never sees it and the CMS renders its own pre-migration version of the
- * page. On Netlify there is no edge to reach, so it stays a <Link> — a full
- * page load there would be slower for no gain.
- *
- * Drop-in for <Link> at the call sites listed in apps/cms/src/EdgeRouting.
+ * <Link> navigates inside the SPA without issuing a request, so behind the
+ * Worker the edge never sees it and the CMS serves its own pre-migration copy
+ * of the page. Without an edge to reach, a real navigation would just be a
+ * slower <Link>, hence the flag.
  */
 export const MigratedRouteLink = ({
   to,

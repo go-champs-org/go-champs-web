@@ -23,9 +23,8 @@ describe('resolveDefaultPhaseId', () => {
   });
 
   it('falls back to the first phase as the API returned them', () => {
-    // Not the lowest `order`: the CMS takes phases[0] as it arrives, and
-    // torneio-basquete really does come back as [Playoffs (2), Fase 1 (1)].
-    // Sorting here would show a different phase than the CMS does today.
+    // Not the lowest `order` — the CMS takes phases[0] as it arrives, and the
+    // API really does return them out of order.
     expect(
       resolveDefaultPhaseId(
         tournament([phase('second', 2), phase('first', 1), phase('third', 3)])
