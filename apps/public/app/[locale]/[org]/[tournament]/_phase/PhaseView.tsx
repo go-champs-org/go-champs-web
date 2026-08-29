@@ -5,7 +5,7 @@
  */
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { cache } from 'react';
+import { cache, type ReactNode } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
   getPhase,
@@ -173,6 +173,7 @@ interface TournamentHeaderProps {
   athletesLabel: string;
   teamsLabel: string;
   phasesLabel: string;
+  actions: ReactNode;
 }
 
 function TournamentHeader({
@@ -182,17 +183,21 @@ function TournamentHeader({
   activeLabel,
   athletesLabel,
   teamsLabel,
-  phasesLabel
+  phasesLabel,
+  actions
 }: TournamentHeaderProps) {
   const isActive = tournamentIsActive(tournament);
 
   return (
     <div className="flex flex-col gap-3">
-      <TournamentBreadcrumb
-        homeHref={homeHref}
-        homeLabel={homeLabel}
-        currentLabel={tournament.name}
-      />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <TournamentBreadcrumb
+          homeHref={homeHref}
+          homeLabel={homeLabel}
+          currentLabel={tournament.name}
+        />
+        <div className="flex flex-wrap items-center gap-2">{actions}</div>
+      </div>
       <Surface className="overflow-hidden p-0">
         <ProfileBanner as="div" className="h-16 md:h-20" ariaHidden />
         <div className="flex flex-wrap items-center gap-4 p-4 md:p-6">
@@ -678,22 +683,14 @@ function PhaseBody({
 // The CMS puts these behind a dropdown in its tournament header and hides it
 // when there is nothing to show (Tournaments/Common/TopLevel.tsx), rather than
 // linking to an empty table.
-function StatisticsLinks({
-  href,
-  advancedLabel
-}: {
-  href: string;
-  advancedLabel: string;
-}) {
+function StatisticsLink({ href, label }: { href: string; label: string }) {
   return (
-    <nav className="flex flex-wrap gap-2">
-      <Link
-        href={href}
-        className="rounded-full border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-primary/10"
-      >
-        {advancedLabel}
-      </Link>
-    </nav>
+    <Link
+      href={href}
+      className="rounded-full border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-primary/10"
+    >
+      {label}
+    </Link>
   );
 }
 
@@ -733,22 +730,24 @@ function TournamentTopSection({
         athletesLabel={athletesLabel}
         teamsLabel={teamsLabel}
         phasesLabel={phasesLabel}
+        actions={
+          <>
+            {tournament.hasAggregatedPlayerStats && (
+              <StatisticsLink
+                href={`/${routeParams.locale}/${routeParams.org}/${routeParams.tournament}/estatisticas`}
+                label={advancedStatsLabel}
+              />
+            )}
+            <TournamentQrCode
+              path={`/${routeParams.org}/${routeParams.tournament}`}
+              openLabel={qrLabels.open}
+              closeLabel={qrLabels.close}
+              caption={tournament.name}
+              scanLabel={qrLabels.scan}
+            />
+          </>
+        }
       />
-      <div className="flex flex-wrap items-center gap-2">
-        <TournamentQrCode
-          path={`/${routeParams.org}/${routeParams.tournament}`}
-          openLabel={qrLabels.open}
-          closeLabel={qrLabels.close}
-          caption={tournament.name}
-          scanLabel={qrLabels.scan}
-        />
-      </div>
-      {tournament.hasAggregatedPlayerStats && (
-        <StatisticsLinks
-          href={`/${routeParams.locale}/${routeParams.org}/${routeParams.tournament}/estatisticas`}
-          advancedLabel={advancedStatsLabel}
-        />
-      )}
       <PhaseTabs routeParams={routeParams} phases={tournament.phases} />
     </>
   );
