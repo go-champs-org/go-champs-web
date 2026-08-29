@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -524,11 +525,12 @@ export default async function TeamPage({
   const { locale, org, tournament: tournamentSlug, teamId } = routeParams;
   setRequestLocale(locale);
 
-  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame] =
+  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame, tPhase] =
     await Promise.all([
       loadTeamView(org, tournamentSlug, teamId),
       getTranslations('team'),
-      getTranslations('game')
+      getTranslations('game'),
+      getTranslations('phase')
     ]);
 
   // Which scopes the table offers, and the columns of each, are decided here:
@@ -607,12 +609,21 @@ export default async function TeamPage({
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        <Link
-          href={`/${locale}/${org}/${tournamentSlug}`}
-          className="text-sm font-semibold text-primary-dark hover:underline"
-        >
-          {tournament.name}
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Link
+            href={`/${locale}/${org}/${tournamentSlug}`}
+            className="text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {tournament.name}
+          </Link>
+          <TournamentQrCode
+            path={`/${org}/${tournamentSlug}`}
+            openLabel={tPhase('shareQrCode')}
+            closeLabel={tPhase('closeQrCode')}
+            caption={tournament.name}
+            scanLabel={tPhase('scanQrCode')}
+          />
+        </div>
 
         <TeamSections
           label={t('sections')}

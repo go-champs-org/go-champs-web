@@ -93,6 +93,9 @@ export interface TournamentWithTeamsEntity extends TournamentEntity {
   // sort its per-phase stats without a request of its own.
   phases: PhaseEntity[];
   sportSlug: string;
+  // Whether the tournament publishes the aggregated per-player table that
+  // backs the advanced statistics page.
+  hasAggregatedPlayerStats: boolean;
   sportName: string;
   playerStats: PlayerStatEntity[];
   scoreboardSetting: ScoreboardSettingEntity;
@@ -145,6 +148,7 @@ export const mapApiTournamentToTournamentWithTeamsEntity = (
   players: (apiTournament.players || []).map(mapApiPlayerToPlayerEntity),
   phases: (apiTournament.phases || []).map(mapApiPhaseToPhaseEntity),
   sportSlug: apiTournament.sport_slug || '',
+  hasAggregatedPlayerStats: apiTournament.has_aggregated_player_stats || false,
   sportName: apiTournament.sport_name || '',
   playerStats: (apiTournament.player_stats || []).map(mapApiPlayerStatToEntity),
   scoreboardSetting: mapApiScoreboardSettingToEntity(

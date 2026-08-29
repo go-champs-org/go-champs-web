@@ -30,7 +30,9 @@ jest.mock('next-intl/server', () => ({
         phasesCount: 'Fases',
         gamesTitle: 'Partidas',
         previousDay: 'Dia anterior',
-        nextDay: 'Próximo dia'
+        nextDay: 'Próximo dia',
+        advancedStats: 'Estatísticas avançadas',
+        summaryStats: 'Líderes de estatísticas'
       },
       game: {
         undecidedTeam: 'A definir',
@@ -405,5 +407,66 @@ describe('PhaseView', () => {
     render(jsx);
 
     expect(screen.getByRole('columnheader', { name: '#' })).toBeInTheDocument();
+  });
+});
+
+describe('PhaseView statistics links', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
+    (apiClient.getPhase as jest.Mock).mockResolvedValue({
+      id: 'ph1',
+      title: 'Fase 1',
+      type: 'elimination',
+      order: 1,
+      isInProgress: false,
+      draws: [],
+      eliminationStats: [],
+      eliminations: []
+    });
+  });
+
+  const tournamentWith = (overrides: Record<string, unknown>) => ({
+    id: 'tour1',
+    name: 'Torneio Teste',
+    slug: 'tour',
+    teams: [],
+    players: [],
+    organization: { id: '', name: '', slug: '', logoUrl: '' },
+    phases: [
+      { id: 'ph1', title: 'Fase 1', type: 'elimination', order: 1, isInProgress: false }
+    ],
+    hasAggregatedPlayerStats: false,
+    ...overrides
+  });
+
+  const renderWith = async (overrides: Record<string, unknown>) => {
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue(
+      tournamentWith(overrides)
+    );
+
+    render(
+      await PhaseView({
+        routeParams: { locale: 'pt', org: 'org', tournament: 'tour', phaseId: 'ph1' }
+      })
+    );
+  };
+
+  it('links to the advanced table when the tournament publishes one', async () => {
+    await renderWith({ hasAggregatedPlayerStats: true });
+
+    expect(
+      screen.getByRole('link', { name: 'Estatísticas avançadas' })
+    ).toHaveAttribute('href', '/pt/org/tour/estatisticas');
+  });
+
+  // Mirrors the CMS's TopLevel, which hides the dropdown entirely rather than
+  // offering a link to an empty table.
+  it('offers no statistics link when the tournament publishes none', async () => {
+    await renderWith({ hasAggregatedPlayerStats: false });
+
+    expect(
+      screen.queryByRole('link', { name: 'Estatísticas avançadas' })
+    ).not.toBeInTheDocument();
   });
 });

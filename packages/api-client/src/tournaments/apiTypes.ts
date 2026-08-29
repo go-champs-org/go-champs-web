@@ -35,6 +35,7 @@ export interface ApiTournamentWithTeams extends ApiTournament {
   // profile reads its per-phase stats table off these titles.
   phases?: ApiPhase[];
   sport_slug?: string;
+  has_aggregated_player_stats?: boolean;
   sport_name?: string;
   player_stats?: ApiPlayerStat[];
   scoreboard_setting?: ApiScoreboardSetting;

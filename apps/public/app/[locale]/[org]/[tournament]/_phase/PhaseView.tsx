@@ -23,6 +23,7 @@ import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
 import { GamesPager } from './GamesPager';
+import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 
 export interface PhaseViewParams {
   locale: string;
@@ -674,6 +675,28 @@ function PhaseBody({
   );
 }
 
+// The CMS puts these behind a dropdown in its tournament header and hides it
+// when there is nothing to show (Tournaments/Common/TopLevel.tsx), rather than
+// linking to an empty table.
+function StatisticsLinks({
+  href,
+  advancedLabel
+}: {
+  href: string;
+  advancedLabel: string;
+}) {
+  return (
+    <nav className="flex flex-wrap gap-2">
+      <Link
+        href={href}
+        className="rounded-full border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-primary/10"
+      >
+        {advancedLabel}
+      </Link>
+    </nav>
+  );
+}
+
 interface TournamentTopSectionProps {
   routeParams: PhaseViewParams;
   tournament: TournamentWithTeamsEntity;
@@ -682,6 +705,8 @@ interface TournamentTopSectionProps {
   athletesLabel: string;
   teamsLabel: string;
   phasesLabel: string;
+  advancedStatsLabel: string;
+  qrLabels: { open: string; close: string; scan: string };
 }
 
 // The tournament identity (breadcrumb + banner + counts) and the tabs across
@@ -694,7 +719,9 @@ function TournamentTopSection({
   activeLabel,
   athletesLabel,
   teamsLabel,
-  phasesLabel
+  phasesLabel,
+  advancedStatsLabel,
+  qrLabels
 }: TournamentTopSectionProps) {
   return (
     <>
@@ -707,6 +734,21 @@ function TournamentTopSection({
         teamsLabel={teamsLabel}
         phasesLabel={phasesLabel}
       />
+      <div className="flex flex-wrap items-center gap-2">
+        <TournamentQrCode
+          path={`/${routeParams.org}/${routeParams.tournament}`}
+          openLabel={qrLabels.open}
+          closeLabel={qrLabels.close}
+          caption={tournament.name}
+          scanLabel={qrLabels.scan}
+        />
+      </div>
+      {tournament.hasAggregatedPlayerStats && (
+        <StatisticsLinks
+          href={`/${routeParams.locale}/${routeParams.org}/${routeParams.tournament}/estatisticas`}
+          advancedLabel={advancedStatsLabel}
+        />
+      )}
       <PhaseTabs routeParams={routeParams} phases={tournament.phases} />
     </>
   );
@@ -745,6 +787,12 @@ export async function PhaseView({
             athletesLabel={tPhase('athletesCount')}
             teamsLabel={tPhase('teamsCount')}
             phasesLabel={tPhase('phasesCount')}
+            advancedStatsLabel={tPhase('advancedStats')}
+            qrLabels={{
+              open: tPhase('shareQrCode'),
+              close: tPhase('closeQrCode'),
+              scan: tPhase('scanQrCode')
+            }}
           />
         )}
         <h2 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">

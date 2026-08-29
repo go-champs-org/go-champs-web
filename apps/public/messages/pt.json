@@ -202,6 +202,11 @@
     "phasesCount": "Fases",
     "gamesTitle": "Partidas",
     "previousDay": "Dia anterior",
-    "nextDay": "Próximo dia"
+    "nextDay": "Próximo dia",
+    "advancedStats": "Estatísticas avançadas",
+    "summaryStats": "Líderes de estatísticas",
+    "shareQrCode": "Compartilhar por QR Code",
+    "closeQrCode": "Fechar",
+    "scanQrCode": "Escaneie para acessar"
   }
 }

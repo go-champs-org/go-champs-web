@@ -53,6 +53,7 @@ describe('getTournamentBySlug', () => {
       players: [],
       phases: [],
       sportSlug: '',
+      hasAggregatedPlayerStats: false,
       sportName: '',
       playerStats: [],
       scoreboardSetting: { liveSiteUpdate: 'full-live-update' }
