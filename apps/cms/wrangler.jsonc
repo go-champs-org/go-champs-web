@@ -7,53 +7,33 @@
     "directory": "./build",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    // Allowlist — only these paths invoke the Worker; everything else is
-    // served straight from the CRA build (free, uncharged). Over-matching here
-    // is safe (the ROUTES table in src/EdgeRouting/routes.ts is the real gate
-    // and falls back to ASSETS), under-matching is not: a lote-1 path missing
-    // from this list never reaches the Worker at all.
+    // Allowlist — only these paths invoke the Worker; the rest is served
+    // straight from the CRA build, free and uncharged. Over-matching is safe
+    // (src/EdgeRouting/routes.ts is the real gate and falls back to ASSETS);
+    // under-matching is not, since a path missing here never reaches the
+    // Worker at all.
     //
-    // Infix wildcards (`/*/*/GameView/*`) are NOT documented for
-    // run_worker_first — validate every lote-1 pattern in staging before
-    // trusting it. If a lote-1 URL serves the CRA instead of the public app,
-    // the pattern did not match; documented fallback is
-    // ["/*", "!/static/*", "!/favicon.ico", ...] with the whole decision in
-    // worker/index.ts (cost: every CMS HTML request invokes the Worker).
+    // `*` matches across `/`, so "/*/*" covers every path of two segments or
+    // more — including /_next/*, /logo/*, /api/* and the whole lote-1 set,
+    // which wrangler rejects as redundant if also listed. Single-segment paths
+    // do not match it and are spelled out below.
     "run_worker_first": [
-      // forwarded verbatim to apps/public — see PASSTHROUGH_* in
-      // src/EdgeRouting/routes.ts. Without these the pages render but every
-      // local asset resolves against the CMS and comes back as its index.html.
-      "/_next/*",
-      "/logo/*",
-      "/photos/*",
-      "/illustrations/*",
-      "/fonts/*",
-      "/api/*",
-      "/robots.txt",
-      "/sitemap.xml",
-      // apps/public's own locale-prefixed URL space — its NavBar links here
-      "/pt",
-      "/pt/*",
-      "/en",
-      "/en/*",
-      // rewritten to apps/public pages
+      "/*/*",
+      // CRA's own bundles are the bulk of the traffic and have nothing to do
+      // with apps/public — excluding them keeps them on the free asset path
+      // instead of billing a Worker invocation each.
+      "!/static/*",
+      // single-segment paths, which "/*/*" does not reach
       "/",
       "/About",
       "/Faq",
       "/Contact",
       "/PrivacyPolicyBR",
       "/TermsBR",
-      "/*/*/GameView/*",
-      "/*/*/Player/*",
-      "/*/*/PlayerStats",
-      "/*/*/PlayerStatsSummary",
-      "/*/*/Teams/*",
-      "/*/*/Phase/*",
-      // the tournament root, which renders its default phase. Broader than the
-      // rules above by nature — every two-segment path reaches the Worker, and
-      // src/EdgeRouting/routes.ts is what decides. Paths it declines (the CMS's
-      // own /Organization/:slug, /Invite/:id, ...) fall back to ASSETS.
-      "/*/*"
+      "/robots.txt",
+      "/sitemap.xml",
+      "/pt",
+      "/en"
     ]
   },
   "services": [
