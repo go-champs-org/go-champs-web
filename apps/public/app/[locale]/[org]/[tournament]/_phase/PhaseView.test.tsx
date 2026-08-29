@@ -222,6 +222,11 @@ describe('PhaseView', () => {
       'href',
       '/pt/org/tour/fases/ph2'
     );
+    // A team in the standings is the way into its page, as it is on the CMS.
+    expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
+      'href',
+      '/pt/org/tour/times/t1'
+    );
   });
 
   it('renders a bracket round per draw for a draw-type phase', async () => {

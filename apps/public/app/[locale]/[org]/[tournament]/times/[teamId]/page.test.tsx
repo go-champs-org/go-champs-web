@@ -236,6 +236,19 @@ describe('TeamPage', () => {
     expect(screen.queryByText('Jogador do Time A')).not.toBeInTheDocument();
   });
 
+  it('sends each roster name to that player, as the CMS team view does', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({ players: [player('p4', 'Camisa Quatro', { shirtNumber: '4' })] })
+    );
+
+    await renderPage();
+
+    expect(screen.getByRole('link', { name: 'Camisa Quatro' })).toHaveAttribute(
+      'href',
+      '/pt/org/torneio-teste/jogadores/p4'
+    );
+  });
+
   it('omits the roster section when the team has no players', async () => {
     await renderPage();
 

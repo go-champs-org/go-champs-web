@@ -18,7 +18,6 @@ import {
 import { FaUser } from 'react-icons/fa';
 import { ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
 import {
@@ -201,10 +200,9 @@ function Breadcrumb({
         </li>
         <li aria-hidden="true">/</li>
         <li>
-          {/* The tournament still lives in the CMS until the routing rollout. */}
-          <a href={tournamentHref} className="hover:text-primary-dark">
+          <Link href={tournamentHref} className="hover:text-primary-dark">
             {tournamentLabel}
-          </a>
+          </Link>
         </li>
         <li aria-hidden="true">/</li>
         <li className="font-semibold text-primary-dark" aria-current="page">
@@ -360,7 +358,7 @@ export default async function PlayerPage({
   const subtitle = [view.teamName, gamesText].filter(Boolean).join(' · ');
   const hasStats = table.rows.length > 0 && columns.length > 0;
 
-  const tournamentHref = `${CMS_URL}/${org}/${tournamentSlug}`;
+  const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
 
   return (
     <main

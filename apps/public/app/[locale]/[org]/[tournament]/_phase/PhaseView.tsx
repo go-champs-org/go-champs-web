@@ -274,12 +274,37 @@ const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
 
+// A row can name a team the roster no longer carries, or none at all while a
+// group is still being seeded — only a real team has a page to link to.
+function TeamName({
+  team,
+  placeholder,
+  undecidedLabel,
+  teamHref
+}: {
+  team: TeamEntity;
+  placeholder: string;
+  undecidedLabel: string;
+  teamHref: (teamId: string) => string;
+}) {
+  const label = teamDisplayName(team, placeholder, undecidedLabel);
+
+  if (!team.id) return <span className="truncate">{label}</span>;
+
+  return (
+    <Link href={teamHref(team.id)} className="truncate hover:text-primary-dark">
+      {label}
+    </Link>
+  );
+}
+
 interface StandingsGroupProps {
   elimination: EliminationEntity;
   stats: EliminationStatEntity[];
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
   teamLabel: string;
+  teamHref: (teamId: string) => string;
 }
 
 // A phase's ranking criteria include internal tie-breakers (head-to-head
@@ -296,7 +321,8 @@ function StandingsGroup({
   stats,
   teams,
   undecidedLabel,
-  teamLabel
+  teamLabel,
+  teamHref
 }: StandingsGroupProps) {
   const visibleStats = visibleEliminationStats(stats);
 
@@ -344,9 +370,12 @@ function StandingsGroup({
                           className="h-5 w-5 shrink-0 rounded-full object-cover"
                         />
                       )}
-                      <span className="truncate">
-                        {teamDisplayName(team, teamStat.placeholder, undecidedLabel)}
-                      </span>
+                      <TeamName
+                        team={team}
+                        placeholder={teamStat.placeholder}
+                        undecidedLabel={undecidedLabel}
+                        teamHref={teamHref}
+                      />
                     </span>
                   </td>
                   {visibleStats.map(stat => (
@@ -370,6 +399,7 @@ interface EliminationStandingsProps {
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
   teamLabel: string;
+  teamHref: (teamId: string) => string;
 }
 
 function EliminationStandings({
@@ -377,7 +407,8 @@ function EliminationStandings({
   stats,
   teams,
   undecidedLabel,
-  teamLabel
+  teamLabel,
+  teamHref
 }: EliminationStandingsProps) {
   return (
     <div className="flex flex-col gap-6">
@@ -391,6 +422,7 @@ function EliminationStandings({
             teams={teams}
             undecidedLabel={undecidedLabel}
             teamLabel={teamLabel}
+            teamHref={teamHref}
           />
         ))}
     </div>
@@ -507,13 +539,15 @@ interface PhaseMainContentProps {
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
   teamLabel: string;
+  teamHref: (teamId: string) => string;
 }
 
 function PhaseMainContent({
   phase,
   teams,
   undecidedLabel,
-  teamLabel
+  teamLabel,
+  teamHref
 }: PhaseMainContentProps) {
   if (hasStandings(phase)) {
     return (
@@ -523,6 +557,7 @@ function PhaseMainContent({
         teams={teams}
         undecidedLabel={undecidedLabel}
         teamLabel={teamLabel}
+        teamHref={teamHref}
       />
     );
   }
@@ -591,6 +626,7 @@ interface PhaseBodyProps {
   previousDayLabel: string;
   nextDayLabel: string;
   winnerLabel: string;
+  teamHref: (teamId: string) => string;
 }
 
 // The main content + games layout, same shape as the CMS's PhaseHome: main
@@ -608,7 +644,8 @@ function PhaseBody({
   gamesTitle,
   previousDayLabel,
   nextDayLabel,
-  winnerLabel
+  winnerLabel,
+  teamHref
 }: PhaseBodyProps) {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
@@ -618,6 +655,7 @@ function PhaseBody({
           teams={teamById(tournament)}
           undecidedLabel={undecidedLabel}
           teamLabel={teamLabel}
+          teamHref={teamHref}
         />
       </div>
       <aside className="lg:flex-1">
@@ -724,6 +762,9 @@ export async function PhaseView({
           previousDayLabel={tPhase('previousDay')}
           nextDayLabel={tPhase('nextDay')}
           winnerLabel={tGame('winner')}
+          teamHref={teamId =>
+            `/${locale}/${org}/${tournamentSlug}/times/${teamId}`
+          }
         />
       </div>
     </main>

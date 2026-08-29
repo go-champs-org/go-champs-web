@@ -17,12 +17,12 @@ export function Avatar({ name, logoUrl, size, className = '' }: AvatarProps) {
       alt={name}
       width={size}
       height={size}
-      className={`shrink-0 rounded-full border-4 border-[#a6cd63] object-cover ${className}`}
+      className={`shrink-0 rounded-full border-2 border-[#a6cd63] object-cover ${className}`}
     />
   ) : (
     <div
       style={{ width: size, height: size }}
-      className={`flex flex-shrink-0 items-center justify-center rounded-full border-4 border-[#a6cd63] bg-primary text-foreground ${className}`}
+      className={`flex flex-shrink-0 items-center justify-center rounded-full border-2 border-[#a6cd63] bg-primary text-foreground ${className}`}
     >
       {initials(name)}
     </div>
