@@ -75,6 +75,12 @@ const loadGames = (phaseId: string) =>
  * The phase a bare tournament URL should show, mirroring the CMS's
  * currentPhaseId (apps/cms/src/Tournaments/dataMappers.ts): the phase in
  * progress, else the first one, else none.
+ *
+ * "First" means first as the API returned them, deliberately — not lowest
+ * `order`. The two differ: torneio-basquete comes back as [Playoffs (order 2),
+ * Fase 1 (order 1)], so sorting would land on a different phase than the CMS
+ * shows today and make the migration visible. `order` is what the phase tabs
+ * sort by for display; it is not what picks the default.
  */
 export const resolveDefaultPhaseId = (
   tournament: TournamentWithTeamsEntity | null
@@ -82,11 +88,8 @@ export const resolveDefaultPhaseId = (
   if (!tournament || tournament.phases.length === 0) return null;
 
   const inProgress = tournament.phases.find(phase => phase.isInProgress);
-  if (inProgress) return inProgress.id;
 
-  return [...tournament.phases].sort(
-    (phaseA, phaseB) => phaseA.order - phaseB.order
-  )[0].id;
+  return inProgress ? inProgress.id : tournament.phases[0].id;
 };
 
 // A team stat row can name a team the tournament's roster no longer carries

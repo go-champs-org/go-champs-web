@@ -22,14 +22,15 @@ describe('resolveDefaultPhaseId', () => {
     ).toBe('running');
   });
 
-  it('falls back to the lowest-order phase when none is in progress', () => {
-    // the API's order is what the CMS's phase tabs sort by, and it need not
-    // match the order the phases arrive in
+  it('falls back to the first phase as the API returned them', () => {
+    // Not the lowest `order`: the CMS takes phases[0] as it arrives, and
+    // torneio-basquete really does come back as [Playoffs (2), Fase 1 (1)].
+    // Sorting here would show a different phase than the CMS does today.
     expect(
       resolveDefaultPhaseId(
         tournament([phase('second', 2), phase('first', 1), phase('third', 3)])
       )
-    ).toBe('first');
+    ).toBe('second');
   });
 
   it('takes the first phase in progress when the data has more than one', () => {

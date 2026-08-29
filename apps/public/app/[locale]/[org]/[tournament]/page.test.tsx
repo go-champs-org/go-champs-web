@@ -112,12 +112,12 @@ describe('TournamentPage', () => {
     expect(element.props.routeParams.phaseId).toBe('ph2');
   });
 
-  it('falls back to the first phase when none is in progress', async () => {
+  it('falls back to the first phase the API returned, as the CMS does', async () => {
     (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue(
       tournamentWith([phase('ph2', 'Playoffs', 2), phase('ph1', 'Fase de Grupos', 1)])
     );
     (apiClient.getPhase as jest.Mock).mockResolvedValue({
-      ...phase('ph1', 'Fase de Grupos', 1),
+      ...phase('ph2', 'Playoffs', 2),
       draws: [],
       eliminationStats: [],
       eliminations: []
@@ -125,7 +125,7 @@ describe('TournamentPage', () => {
 
     const element = await TournamentPage({ params: paramsFor('no-running') });
 
-    expect(element.props.routeParams.phaseId).toBe('ph1');
+    expect(element.props.routeParams.phaseId).toBe('ph2');
   });
 
   it('is a 404 for a tournament with no phases, rather than an empty shell', async () => {
