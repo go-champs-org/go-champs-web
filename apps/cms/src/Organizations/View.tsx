@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import { ThemeV2Provider } from '../ThemeV2';
 import NavBar from '../PagesV2/Shared/NavBar';
 import Footer from '../PagesV2/Shared/Footer';
@@ -87,7 +87,7 @@ function View({ organization }: ViewProps) {
                 {tournaments.length > 0 ? (
                   <div className="org-view-grid">
                     {tournaments.map(tournament => (
-                      <Link
+                      <MigratedRouteLink
                         key={tournament.id}
                         to={`/${organization.slug}/${tournament.slug}`}
                       >
@@ -97,7 +97,7 @@ function View({ organization }: ViewProps) {
                             <span>{tournament.name}</span>
                           </header>
                         </div>
-                      </Link>
+                      </MigratedRouteLink>
                     ))}
                   </div>
                 ) : (
