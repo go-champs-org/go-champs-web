@@ -49,6 +49,12 @@ jobs:
         working-directory: apps/public
         env:
           NEXT_PUBLIC_CMS_URL: https://new-staging.go-champs.com
+          # wrangler.jsonc declares API_HOST too, but a var there only exists
+          # inside the deployed Worker. Every page carrying `revalidate` is
+          # prerendered here, during the build, and its fetches need the host
+          # now — without it they throw, the pages degrade to empty, and the
+          # deploy seeds those empty pages into the KV cache.
+          API_HOST: ${{ secrets.STAGING_API_HOST }}
         run: npx opennextjs-cloudflare build
       - uses: actions/upload-artifact@v4
         with:
