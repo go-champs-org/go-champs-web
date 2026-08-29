@@ -24,10 +24,10 @@
     "@gochamps/ui": "workspace:*",
     "next": "16.2.12",
     "next-intl": "4.13.4",
+    "qrcode.react": "4.2.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-icons": "5.7.0",
-    "react-qr-code": "2.2.0"
+    "react-icons": "5.7.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.7",

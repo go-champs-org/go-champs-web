@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import QRCode from 'react-qr-code';
+import { QRCodeSVG } from 'qrcode.react';
 import { FaQrcode } from 'react-icons/fa6';
 
 export interface TournamentQrCodeProps {
@@ -51,7 +51,7 @@ export function TournamentQrCode({
             <h2 className="text-lg font-extrabold text-foreground">{caption}</h2>
 
             <div className="rounded bg-white p-3">
-              <QRCode
+              <QRCodeSVG
                 value={value}
                 size={180}
                 data-testid="tournament-qr-code"
