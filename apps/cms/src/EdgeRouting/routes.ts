@@ -52,9 +52,43 @@ export const isPublicPassthroughPath = (pathname: string): boolean =>
     locale => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
-type Rewrite = [RegExp, (match: RegExpMatchArray) => string];
+/** A rule returns null when the path matched its shape but is not its to give. */
+type Rewrite = [RegExp, (match: RegExpMatchArray) => string | null];
 
 const SLUG = '([^/]+)';
+
+/**
+ * First path segments that can never be an organization slug, because the CMS
+ * routes them itself. Taken from the static routes App.tsx declares ahead of
+ * /:organizationSlug/:tournamentSlug — react-router matches in order, and the
+ * tournament-root rule below has no literal segment to tell it apart, so it
+ * would otherwise swallow /Organization/acme and /Invite/:id.
+ */
+const CMS_RESERVED_SEGMENTS = [
+  'About',
+  'Account',
+  'AccountRecovery',
+  'AccountReset',
+  'Contact',
+  'Faq',
+  'Invite',
+  'Organization',
+  'Search',
+  'SignIn',
+  'SignUp',
+  'TermsBR',
+  'UseAsApp'
+];
+
+/**
+ * App.tsx declares these with a trailing `*` (/PrivacyPolicy*,
+ * /FacebookSignUp*), which matches any segment that starts with them.
+ */
+const CMS_RESERVED_SEGMENT_PREFIXES = ['PrivacyPolicy', 'FacebookSignUp'];
+
+const isReservedByCms = (segment: string): boolean =>
+  CMS_RESERVED_SEGMENTS.includes(segment) ||
+  CMS_RESERVED_SEGMENT_PREFIXES.some(prefix => segment.startsWith(prefix));
 
 const ROUTES: Rewrite[] = [
   [/^\/$/, () => '/pt'],
@@ -91,15 +125,26 @@ const ROUTES: Rewrite[] = [
   [
     new RegExp(`^/${SLUG}/${SLUG}/Phase/${SLUG}$`),
     m => `/pt/${m[1]}/${m[2]}/fases/${m[3]}`
+  ],
+
+  // The tournament root, which renders the tournament's default phase. Last on
+  // purpose: it is the only rule with no literal segment, so every rule above
+  // must get its chance first.
+  [
+    new RegExp(`^/${SLUG}/${SLUG}/?$`),
+    m => (isReservedByCms(m[1]) ? null : `/pt/${m[1]}/${m[2]}`)
   ]
 ];
 
 export const resolvePublicPath = (pathname: string): string | null => {
   for (const [pattern, toPath] of ROUTES) {
     const match = pathname.match(pattern);
-    if (match) {
-      return toPath(match);
-    }
+    if (!match) continue;
+
+    const publicPath = toPath(match);
+    // A rule that matched the shape but declined (a reserved first segment)
+    // ends the search: no later rule is more specific.
+    return publicPath;
   }
 
   return null;

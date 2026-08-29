@@ -74,9 +74,37 @@ describe('resolvePublicPath', () => {
         '/pt/acme/liga-2026/estatisticas/resumo'
       ],
       ['/acme/liga-2026/Teams/team-1', '/pt/acme/liga-2026/times/team-1'],
-      ['/acme/liga-2026/Phase/phase-1', '/pt/acme/liga-2026/fases/phase-1']
+      ['/acme/liga-2026/Phase/phase-1', '/pt/acme/liga-2026/fases/phase-1'],
+      // the tournament root renders its default phase, same as the CMS
+      ['/acme/liga-2026', '/pt/acme/liga-2026'],
+      ['/lair/torneio-basquete', '/pt/lair/torneio-basquete']
     ])('rewrites %s to %s', (cmsPath, publicPath) => {
       expect(resolvePublicPath(cmsPath)).toBe(publicPath);
+    });
+  });
+
+  // The tournament root is the only rule with no literal segment of its own,
+  // so it matches any two-segment path — including the CMS's own top-level
+  // routes. App.tsx lists those before /:organizationSlug/:tournamentSlug, and
+  // the rewrite table has to reproduce that precedence or /Organization/acme
+  // and /Invite/:id silently stop working.
+  describe('two-segment CMS routes the tournament root must not swallow', () => {
+    it.each([
+      ['/Organization/acme'],
+      ['/Organization/acme/'],
+      ['/Invite/invite-1'],
+      ['/Account/settings'],
+      ['/PrivacyPolicy/anything'],
+      ['/FacebookSignUp/callback']
+    ])('leaves %s on the CMS', cmsPath => {
+      expect(resolvePublicPath(cmsPath)).toBeNull();
+    });
+
+    it('still routes a tournament whose org slug merely resembles one', () => {
+      expect(resolvePublicPath('/organizational/liga')).toBe(
+        '/pt/organizational/liga'
+      );
+      expect(resolvePublicPath('/invites/liga')).toBe('/pt/invites/liga');
     });
   });
 
@@ -91,7 +119,6 @@ describe('resolvePublicPath', () => {
       // pages not yet built in apps/public
       ['/UseAsApp'],
       ['/acme'],
-      ['/acme/liga-2026'],
       // authenticated / account routes
       ['/SignIn'],
       ['/Account'],

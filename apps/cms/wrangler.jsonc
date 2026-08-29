@@ -48,7 +48,12 @@
       "/*/*/PlayerStats",
       "/*/*/PlayerStatsSummary",
       "/*/*/Teams/*",
-      "/*/*/Phase/*"
+      "/*/*/Phase/*",
+      // the tournament root, which renders its default phase. Broader than the
+      // rules above by nature — every two-segment path reaches the Worker, and
+      // src/EdgeRouting/routes.ts is what decides. Paths it declines (the CMS's
+      // own /Organization/:slug, /Invite/:id, ...) fall back to ASSETS.
+      "/*/*"
     ]
   },
   "services": [
