@@ -1,0 +1,55 @@
+name: Build public Worker bundle
+
+# Builds apps/public's Cloudflare Worker bundle on Linux and publishes it as
+# an artifact, so it can be deployed with `wrangler deploy` from anywhere.
+#
+# Why this exists: `opennextjs-cloudflare build` produces a broken bundle when
+# run on Windows. OpenNext's copyTracedFiles reproduces pnpm's symlinks
+# verbatim, and pnpm on Windows writes them as absolute paths into the store —
+# so the bundler resolves Next from the workspace root, bypassing the copy that
+# OpenNext patched, and every route 500s with
+# `Dynamic require of "/.next/server/middleware-manifest.json"`. On Linux pnpm
+# writes relative symlinks, which land inside the copied tree.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/cloudflare-new-staging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          # wrangler requires Node 22+; the rest of the monorepo pins 20.
+          node-version: '22'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build the Worker bundle
+        working-directory: apps/public
+        env:
+          NEXT_PUBLIC_CMS_URL: https://new-staging.go-champs.com
+        run: npx opennextjs-cloudflare build
+      - name: Report how pnpm linked next
+        working-directory: apps/public
+        run: |
+          echo "source symlink:"
+          readlink node_modules/next || echo "(not a symlink)"
+          echo "copied symlink:"
+          readlink .open-next/server-functions/default/apps/public/node_modules/next || echo "(not a symlink)"
+          echo "getMiddlewareManifest in the emitted bundle:"
+          grep -o "getMiddlewareManifest()[^}]\{0,60\}" \
+            .open-next/server-functions/default/apps/public/handler.mjs | head -1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: open-next-bundle
+          path: apps/public/.open-next
+          retention-days: 3
+          include-hidden-files: true
