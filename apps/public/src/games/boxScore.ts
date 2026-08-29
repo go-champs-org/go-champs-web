@@ -11,6 +11,7 @@ import {
   type TeamStatsLogEntity
 } from '@gochamps/api-client';
 import { baseStatSlug, sportStatOrder } from '@/src/stats/sportStatColumns';
+import { formatStatValue, statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
 import { isLiveGame } from './liveScore';
 
 export interface BoxScoreRow {
@@ -123,4 +124,99 @@ export const boxScoreColumns = (
   return gameLevelCandidates(playerStats, statistics)
     .filter(playerStatThatIsVisible)
     .sort(bySportOrder(order));
+};
+
+const BASKETBALL_5X5_SLUG = 'basketball_5x5';
+
+interface BasketballBoxScoreColumn {
+  slug: string;
+  attemptedSlug?: string;
+}
+
+// The CMS's own fixed box score for basketball
+// (apps/cms/src/Sports/Basketball5x5/GameBoxScoreViewer.tsx
+// BASE_BASKETBALL_STAT_COLUMNS): it never reads the tournament's statistic
+// configuration, so this list does not either — a stat the tournament turned
+// off still shows here, exactly as it does in the CMS.
+const BASKETBALL_5X5_BOX_SCORE_COLUMNS: BasketballBoxScoreColumn[] = [
+  { slug: 'minutes_played' },
+  { slug: 'points' },
+  { slug: 'rebounds' },
+  { slug: 'assists' },
+  { slug: 'blocks' },
+  { slug: 'steals' },
+  { slug: 'turnovers' },
+  { slug: 'efficiency' },
+  { slug: 'plus_minus' },
+  { slug: 'free_throws_made', attemptedSlug: 'free_throws_attempted' },
+  { slug: 'free_throw_percentage' },
+  { slug: 'field_goals_made', attemptedSlug: 'field_goals_attempted' },
+  { slug: 'field_goal_percentage' },
+  {
+    slug: 'three_point_field_goals_made',
+    attemptedSlug: 'three_point_field_goals_attempted'
+  },
+  { slug: 'three_point_field_goal_percentage' },
+  { slug: 'rebounds_offensive' },
+  { slug: 'rebounds_defensive' },
+  { slug: 'fouls_personal' },
+  { slug: 'fouls_technical' }
+];
+
+export interface BoxScoreColumnLabel {
+  label: string;
+  description: string;
+}
+
+const basketballBoxScoreColumns = (
+  labels: Record<string, BoxScoreColumnLabel>
+): StatColumnView[] =>
+  BASKETBALL_5X5_BOX_SCORE_COLUMNS.map(column => ({
+    slug: column.slug,
+    attemptedSlug: column.attemptedSlug,
+    label: labels[column.slug]?.label || column.slug,
+    description: labels[column.slug]?.description || column.slug
+  }));
+
+// Basketball uses its own fixed set above; every other sport falls back to
+// the tournament's game-level config (`boxScoreColumns`) — the same split
+// the CMS draws between GameBoxScoreViewer and GeneralBoxScore.
+export const boxScoreColumnViews = (
+  playerStats: PlayerStatEntity[],
+  sport: SportEntity | null,
+  abbreviations: Record<string, string>,
+  basketballColumnLabels: Record<string, BoxScoreColumnLabel>
+): StatColumnView[] =>
+  sport?.slug === BASKETBALL_5X5_SLUG
+    ? basketballBoxScoreColumns(basketballColumnLabels)
+    : statColumnViews(boxScoreColumns(playerStats, sport), abbreviations);
+
+// Recorded in seconds; the CMS box score reads it as a clock
+// (apps/cms/src/Shared/UI/TableCells.tsx MinutesCell), not a plain count.
+const formatMinutesPlayed = (value: string | undefined): string => {
+  const seconds = Number(value);
+  if (!value || !Number.isFinite(seconds)) return '-';
+
+  const minutes = Math.floor(seconds / 60);
+  const remainder = Math.floor(seconds % 60);
+  return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
+};
+
+const MINUTES_PLAYED_SLUG = 'minutes_played';
+
+// A made/attempted column reads as "10 / 15", the same single cell the CMS
+// box score shows.
+export const boxScoreCellValue = (
+  column: StatColumnView,
+  stats: Record<string, string>
+): string => {
+  if (column.slug === MINUTES_PLAYED_SLUG) {
+    return formatMinutesPlayed(stats[column.slug]);
+  }
+
+  const made = formatStatValue(column.slug, stats[column.slug]);
+  if (!column.attemptedSlug) return made;
+
+  const attempted = formatStatValue(column.attemptedSlug, stats[column.attemptedSlug]);
+  return `${made} / ${attempted}`;
 };

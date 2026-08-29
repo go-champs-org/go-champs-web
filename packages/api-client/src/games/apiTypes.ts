@@ -1,7 +1,16 @@
 import { ApiTeam } from '../teams/apiTypes';
 
+export type ApiGameAssetType = 'fiba-scoresheet' | 'fiba-boxscore' | 'folder-images';
+
+export interface ApiGameAsset {
+  id?: string;
+  type: ApiGameAssetType;
+  url: string;
+}
+
 export interface ApiGame {
   id: string;
+  assets?: ApiGameAsset[];
   away_placeholder?: string;
   away_score: number;
   away_team?: ApiTeam;

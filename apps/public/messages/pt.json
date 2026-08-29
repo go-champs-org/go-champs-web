@@ -88,14 +88,61 @@
     "undecidedTeam": "A definir",
     "backToTournament": "Voltar para o campeonato",
     "videoTitle": "Vídeo do jogo",
-    "winner": "Vencedor"
+    "winner": "Vencedor",
+    "assetFibaScoresheet": "Súmula FIBA",
+    "assetFibaBoxscore": "Boxscore FIBA"
   },
   "boxScore": {
     "title": "Súmula",
     "player": "Jogador",
     "totals": "Totais",
     "glossary": "Glossário",
-    "sortByStat": "Ordenar por {stat}"
+    "sortByStat": "Ordenar por {stat}",
+    "basketballColumns": {
+      "minutes_played": { "label": "MIN", "description": "Minutos jogados" },
+      "points": { "label": "PTS", "description": "Pontos" },
+      "rebounds": { "label": "REB", "description": "Rebotes" },
+      "assists": { "label": "ASS", "description": "Assistências" },
+      "blocks": { "label": "TOC", "description": "Tocos" },
+      "steals": { "label": "ROU", "description": "Roubadas" },
+      "turnovers": { "label": "ERR", "description": "Erros" },
+      "efficiency": {
+        "label": "EFF",
+        "description": "Eficiência básica por Martin Manley (1986) = PTS + REB + AST + ROU + TOC − Arremessos errados - TO"
+      },
+      "plus_minus": {
+        "label": "+/-",
+        "description": "Diferença de pontos quando o jogador está em quadra"
+      },
+      "free_throws_made": {
+        "label": "LL",
+        "description": "Lances livres convertidos / lances livres tentados"
+      },
+      "free_throw_percentage": {
+        "label": "LL%",
+        "description": "Lances livres percentual de acerto"
+      },
+      "field_goals_made": {
+        "label": "2PT",
+        "description": "2 pontos convertidos / 2 pontos tentados"
+      },
+      "field_goal_percentage": {
+        "label": "2PT%",
+        "description": "2 pontos percentual de acerto"
+      },
+      "three_point_field_goals_made": {
+        "label": "3PTs",
+        "description": "3 pontos convertidos / 3 pontos tentados"
+      },
+      "three_point_field_goal_percentage": {
+        "label": "3PT%",
+        "description": "3 pontos percentual de acerto"
+      },
+      "rebounds_offensive": { "label": "REO", "description": "Rebotes ofensivos" },
+      "rebounds_defensive": { "label": "RED", "description": "Rebotes defensivos" },
+      "fouls_personal": { "label": "FLP", "description": "Faltas pessoais" },
+      "fouls_technical": { "label": "FLT", "description": "Faltas técnicas" }
+    }
   },
   "player": {
     "unknownPlayer": "Jogador",

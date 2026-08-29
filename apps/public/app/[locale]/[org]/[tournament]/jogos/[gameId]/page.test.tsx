@@ -75,6 +75,7 @@ const team = (id: string, name: string) => ({
 
 const game = (overrides = {}) => ({
   id: 'g1',
+  assets: [],
   homeTeam: team('t1', 'Time Casa'),
   awayTeam: team('t2', 'Time Visitante'),
   homeScore: 82,
@@ -207,6 +208,40 @@ describe('GamePage', () => {
     expect(
       screen.getByTitle(messages.game.videoTitle).getAttribute('src')
     ).toBe('https://www.youtube.com/embed/abc123');
+  });
+
+  it('links to the FIBA scoresheet and box score when the game has them', async () => {
+    getGameMock.mockResolvedValue(
+      game({
+        assets: [
+          { id: 'a1', type: 'fiba-scoresheet', url: 'https://x/sumula.pdf' },
+          { id: 'a2', type: 'fiba-boxscore', url: 'https://x/boxscore.pdf' }
+        ]
+      })
+    );
+
+    await renderPage();
+
+    const scoresheetLink = screen.getByRole('link', {
+      name: messages.game.assetFibaScoresheet
+    });
+    expect(scoresheetLink.getAttribute('href')).toBe('https://x/sumula.pdf');
+
+    const boxscoreLink = screen.getByRole('link', {
+      name: messages.game.assetFibaBoxscore
+    });
+    expect(boxscoreLink.getAttribute('href')).toBe('https://x/boxscore.pdf');
+  });
+
+  it('shows no asset links when the game has none', async () => {
+    await renderPage();
+
+    expect(
+      screen.queryByText(messages.game.assetFibaScoresheet)
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(messages.game.assetFibaBoxscore)
+    ).not.toBeInTheDocument();
   });
 
   it('renders a 404 for a game that does not exist', async () => {

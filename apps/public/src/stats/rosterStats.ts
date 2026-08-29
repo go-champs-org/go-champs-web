@@ -227,6 +227,9 @@ export interface StatColumnView {
   slug: string;
   label: string;
   description: string;
+  // Set only by the box score's basketball columns (src/games/boxScore.ts): a
+  // made/attempted pair renders as one column, "10 / 15".
+  attemptedSlug?: string;
 }
 
 // The header of a column is the abbreviation its sport is read in — PTS, REB —

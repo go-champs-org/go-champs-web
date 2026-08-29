@@ -1,6 +1,12 @@
 import { TeamEntity } from '@gochamps/domain-types';
 import { mapApiTeamToTeamEntity } from '../teams/dataMappers';
-import { ApiGame } from './apiTypes';
+import { ApiGame, ApiGameAssetType } from './apiTypes';
+
+export interface GameAssetEntity {
+  id: string;
+  type: ApiGameAssetType;
+  url: string;
+}
 
 const DEFAULT_TEAM: TeamEntity = {
   id: '',
@@ -13,6 +19,7 @@ const DEFAULT_TEAM: TeamEntity = {
 
 export interface GameEntity {
   id: string;
+  assets: GameAssetEntity[];
   awayPlaceholder: string;
   awayScore: number;
   awayTeam: TeamEntity;
@@ -33,6 +40,11 @@ export interface GameEntity {
 
 export const mapApiGameToGameEntity = (apiGame: ApiGame): GameEntity => ({
   id: apiGame.id,
+  assets: (apiGame.assets || []).map(asset => ({
+    id: asset.id || '',
+    type: asset.type,
+    url: asset.url
+  })),
   awayPlaceholder: apiGame.away_placeholder || '',
   awayScore: apiGame.away_score,
   awayTeam: apiGame.away_team ? mapApiTeamToTeamEntity(apiGame.away_team) : DEFAULT_TEAM,
