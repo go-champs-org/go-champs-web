@@ -1,7 +1,8 @@
-name: Build public Worker bundle
+name: Build new-staging Worker bundles
 
-# Builds apps/public's Cloudflare Worker bundle on Linux and publishes it as
-# an artifact, so it can be deployed with `wrangler deploy` from anywhere.
+# Builds the two Worker payloads for new-staging.go-champs.com on Linux and
+# publishes them as artifacts, so they can be deployed with `wrangler deploy`
+# from anywhere.
 #
 # Why this exists: `opennextjs-cloudflare build` produces a broken bundle when
 # run on Windows. OpenNext's copyTracedFiles reproduces pnpm's symlinks
@@ -18,7 +19,7 @@ on:
       - feat/cloudflare-new-staging
 
 jobs:
-  build:
+  build_public:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,3 +54,35 @@ jobs:
           path: apps/public/.open-next
           retention-days: 3
           include-hidden-files: true
+
+  # The CMS is a CRA app, so its build has no symlink problem — it runs here
+  # only because env.staging.js reads the staging credentials, which live as
+  # repository secrets rather than on a workstation.
+  build_cms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.0.0'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build the CMS static assets
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+          STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
+          STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          GA_ID: ${{ secrets.GA_ID }}
+        run: pnpm --filter @gochamps/cms build:staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-build
+          path: apps/cms/build
+          retention-days: 3
