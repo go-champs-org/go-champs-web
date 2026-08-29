@@ -57,6 +57,9 @@
     "build": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
     "build:adm": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
     "build:staging": "env-cmd -f env.staging.js craco --openssl-legacy-provider build",
+    "build:new-staging": "env-cmd -f env.new-staging.js craco --openssl-legacy-provider build",
+    "cf:strip-netlify-redirects": "node -e \"require('fs').rmSync('build/_redirects',{force:true})\"",
+    "cf:deploy:new-staging": "pnpm cf:strip-netlify-redirects && wrangler deploy",
     "test": "craco test",
     "test:ci": "cross-env CI=true craco test",
     "test:e2e": "cypress run",
@@ -120,7 +123,8 @@
     "lint-staged": "^8.1.7",
     "prettier": "^1.17.1",
     "redux-devtools": "^3.5.0",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "wrangler": "4.127.1"
   },
   "engines": {
     "node": ">=20.9.0",

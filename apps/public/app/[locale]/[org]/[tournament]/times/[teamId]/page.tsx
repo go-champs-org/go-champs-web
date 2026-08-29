@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -17,7 +18,6 @@ import type { PlayerEntity, PlayerStatEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
 import { GameTeamRow, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { CMS_URL } from '@/src/config/cms';
 import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
@@ -337,6 +337,7 @@ interface RosterProps {
   nameLabel: string;
   totalLabel: string;
   sortLabel: string;
+  playerHrefBase: string;
 }
 
 // The roster of the CMS team view is the aggregated stats table, not a list of
@@ -524,11 +525,12 @@ export default async function TeamPage({
   const { locale, org, tournament: tournamentSlug, teamId } = routeParams;
   setRequestLocale(locale);
 
-  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame] =
+  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame, tPhase] =
     await Promise.all([
       loadTeamView(org, tournamentSlug, teamId),
       getTranslations('team'),
-      getTranslations('game')
+      getTranslations('game'),
+      getTranslations('phase')
     ]);
 
   // Which scopes the table offers, and the columns of each, are decided here:
@@ -547,6 +549,7 @@ export default async function TeamPage({
   // Which statistic a header sorts by is only known per column, so the island
   // fills the placeholder itself and the pattern crosses the boundary raw.
   const sortLabel = t.raw('sortByStat') as string;
+  const playerHrefBase = `/${locale}/${org}/${tournamentSlug}/jogadores/`;
 
   // Newest day first, the order the CMS team view already shows: a visitor
   // opening a team mid-tournament is looking for the last result, not the
@@ -578,6 +581,7 @@ export default async function TeamPage({
           numberLabel={t('shirtNumber')}
           nameLabel={t('playerName')}
           sortLabel={sortLabel}
+          playerHrefBase={playerHrefBase}
         />
       ),
       hasContent: rows.length + team.coaches.length > 0
@@ -605,14 +609,21 @@ export default async function TeamPage({
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        {/* Tournament pages still live in the CMS until the _redirects rollout
-            moves them here, so this link must stay absolute. */}
-        <a
-          href={`${CMS_URL}/${org}/${tournamentSlug}`}
-          className="text-sm font-semibold text-primary-dark hover:underline"
-        >
-          {tournament.name}
-        </a>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Link
+            href={`/${locale}/${org}/${tournamentSlug}`}
+            className="text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {tournament.name}
+          </Link>
+          <TournamentQrCode
+            path={`/${org}/${tournamentSlug}`}
+            openLabel={tPhase('shareQrCode')}
+            closeLabel={tPhase('closeQrCode')}
+            caption={tournament.name}
+            scanLabel={tPhase('scanQrCode')}
+          />
+        </div>
 
         <TeamSections
           label={t('sections')}

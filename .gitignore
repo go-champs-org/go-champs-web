@@ -19,6 +19,10 @@ cypress.env.json
 # production
 build
 .next
+.open-next
+
+# cloudflare
+.wrangler
 
 # typescript incremental build cache
 *.tsbuildinfo

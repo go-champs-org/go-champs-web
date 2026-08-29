@@ -1,7 +1,7 @@
 import React from 'react';
 import { GameEntity } from './state';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import { timeFromDate } from '../Shared/datetime/format';
 import TeamAndScore from './TeamAndScore';
 
@@ -27,7 +27,10 @@ function MiniGameCard({
 
   return (
     <div className="card item">
-      <Link to={`${baseUrl}/GameView/${game.id}`} className="has-text-dark">
+      <MigratedRouteLink
+        to={`${baseUrl}/GameView/${game.id}`}
+        className="has-text-dark"
+      >
         <div className="card-content">
           <div className="columns is-multiline is-mobile">
             <div className="column is-12 is-size-7 has-text-weight-bold">
@@ -76,7 +79,7 @@ function MiniGameCard({
             </span>
           </footer>
         )}
-      </Link>
+      </MigratedRouteLink>
     </div>
   );
 }

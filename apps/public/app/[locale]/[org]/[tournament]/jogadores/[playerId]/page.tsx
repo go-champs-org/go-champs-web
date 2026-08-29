@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { CMS_URL } from '@/src/config/cms';
+import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -18,7 +20,6 @@ import {
 import { FaUser } from 'react-icons/fa';
 import { ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
 import {
@@ -201,10 +202,9 @@ function Breadcrumb({
         </li>
         <li aria-hidden="true">/</li>
         <li>
-          {/* The tournament still lives in the CMS until the routing rollout. */}
-          <a href={tournamentHref} className="hover:text-primary-dark">
+          <Link href={tournamentHref} className="hover:text-primary-dark">
             {tournamentLabel}
-          </a>
+          </Link>
         </li>
         <li aria-hidden="true">/</li>
         <li className="font-semibold text-primary-dark" aria-current="page">
@@ -342,11 +342,15 @@ export default async function PlayerPage({
   const { locale, org, tournament: tournamentSlug, playerId } = routeParams;
   setRequestLocale(locale);
 
-  const [view, t, tTeam] = await Promise.all([
+  const [view, t, tTeam, tPhase] = await Promise.all([
     loadPlayerView(org, tournamentSlug, playerId),
     getTranslations('player'),
-    getTranslations('team')
+    getTranslations('team'),
+    getTranslations('phase')
   ]);
+
+  const tournamentLabel =
+    view.tournamentName || t('breadcrumbTournament');
 
   const columns = statColumnViews(
     playerProfileColumns(view.playerStats, view.sport),
@@ -360,7 +364,7 @@ export default async function PlayerPage({
   const subtitle = [view.teamName, gamesText].filter(Boolean).join(' · ');
   const hasStats = table.rows.length > 0 && columns.length > 0;
 
-  const tournamentHref = `${CMS_URL}/${org}/${tournamentSlug}`;
+  const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
 
   return (
     <main
@@ -368,20 +372,29 @@ export default async function PlayerPage({
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        <Breadcrumb
-          homeHref={`/${locale}`}
-          homeLabel={t('breadcrumbHome')}
-          tournamentHref={tournamentHref}
-          tournamentLabel={view.tournamentName || t('breadcrumbTournament')}
-          currentLabel={t('profile')}
-        />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Breadcrumb
+            homeHref={`/${locale}`}
+            homeLabel={t('breadcrumbHome')}
+            tournamentHref={tournamentHref}
+            tournamentLabel={tournamentLabel}
+            currentLabel={t('profile')}
+          />
+          <TournamentQrCode
+            path={`/${org}/${tournamentSlug}`}
+            openLabel={tPhase('shareQrCode')}
+            closeLabel={tPhase('closeQrCode')}
+            caption={tournamentLabel}
+            scanLabel={tPhase('scanQrCode')}
+          />
+        </div>
 
         <PlayerBanner
           name={view.player.name}
           photoUrl={view.player.photoUrl}
           overline={view.tournamentName}
           subtitle={subtitle}
-          profileHref={`${tournamentHref}/Player/${playerId}`}
+          profileHref={`${CMS_URL}/${org}/${tournamentSlug}/Player/${playerId}`}
           profileLabel={t('fullProfile')}
         />
 

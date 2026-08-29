@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
 import Shimmer from '../Shared/UI/Shimmer';
 import './Result.scss';
@@ -41,7 +41,9 @@ export const PinnedResult: React.FC<{
   views: number;
 }> = ({ removeRecentlyView, tournament, views }) => (
   <div className="column is-4-desktop is-6-tablet is-12-mobile">
-    <Link to={`/${tournament.organization.slug}/${tournament.slug}`}>
+    <MigratedRouteLink
+      to={`/${tournament.organization.slug}/${tournament.slug}`}
+    >
       <div className="result card">
         <div className="card-content">
           <p className="title is-4">{tournament.name}</p>
@@ -74,7 +76,7 @@ export const PinnedResult: React.FC<{
           </div>
         </div>
       </div>
-    </Link>
+    </MigratedRouteLink>
   </div>
 );
 
@@ -84,7 +86,9 @@ const Result: React.FC<{
   views: number;
 }> = ({ pinRecentlyView, tournament, views }) => (
   <div className="column is-4-desktop is-6-tablet is-12-mobile">
-    <Link to={`/${tournament.organization.slug}/${tournament.slug}`}>
+    <MigratedRouteLink
+      to={`/${tournament.organization.slug}/${tournament.slug}`}
+    >
       <div className="result card">
         <div className="card-content">
           <p className="title is-4">{tournament.name}</p>
@@ -117,7 +121,7 @@ const Result: React.FC<{
           </div>
         </div>
       </div>
-    </Link>
+    </MigratedRouteLink>
   </div>
 );
 

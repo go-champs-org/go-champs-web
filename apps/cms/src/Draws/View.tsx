@@ -3,7 +3,7 @@ import { DrawEntity, DrawMatchEntity } from './state';
 import './View.scss';
 import classNames from 'classnames';
 import { TeamEntity } from '../Teams/state';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import Identifier from '../Teams/Indentifier';
 
 interface TeamDisplayProps {
@@ -21,9 +21,9 @@ const TeamDisplay: React.FC<TeamDisplayProps> = ({
 }) => {
   if (teams[teamId]) {
     return (
-      <Link to={`${baseUrl}/Teams/${teamId}`}>
+      <MigratedRouteLink to={`${baseUrl}/Teams/${teamId}`}>
         <Identifier team={teams[teamId]} />
-      </Link>
+      </MigratedRouteLink>
     );
   }
   return <span>{placeholder}</span>;

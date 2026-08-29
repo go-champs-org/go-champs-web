@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -17,7 +18,6 @@ import {
 } from '@gochamps/api-client';
 import { RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { CMS_URL } from '@/src/config/cms';
 import {
   boxScoreColumns,
   boxScoreRows,
@@ -422,14 +422,12 @@ export default async function GamePage({
       />
 
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        {/* Tournament pages still live in the CMS until the _redirects rollout
-            moves them here, so this link must stay absolute. */}
-        <a
-          href={`${CMS_URL}/${org}/${tournament}`}
+        <Link
+          href={`/${locale}/${org}/${tournament}`}
           className="text-sm font-semibold text-primary-dark hover:underline"
         >
           {backLabel}
-        </a>
+        </Link>
 
         <GameCard
           game={game}

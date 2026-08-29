@@ -28,6 +28,7 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       logoUrl: 'https://example.com/logo.png',
       organization: { id: '', name: '', slug: '', logoUrl: '' },
       sportSlug: 'basketball_5x5',
+      hasAggregatedPlayerStats: false,
       sportName: 'Basketball 5x5',
       playerStats: [],
       players: [],
@@ -199,6 +200,21 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       liveSiteUpdate: 'full-live-update'
     });
     expect(result.sportSlug).toBe('');
+    // The advanced statistics link is hidden unless the API says the table
+    // exists, so an absent flag has to read as false rather than undefined.
+    expect(result.hasAggregatedPlayerStats).toBe(false);
+  });
+
+  it('carries the aggregated player stats flag when the API sets it', () => {
+    const result = mapApiTournamentToTournamentWithTeamsEntity({
+      id: 't1',
+      name: 'Liga',
+      slug: 'liga',
+      has_aggregated_player_stats: true,
+      teams: []
+    });
+
+    expect(result.hasAggregatedPlayerStats).toBe(true);
   });
 });
 

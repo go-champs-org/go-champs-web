@@ -1,0 +1,109 @@
+name: Deploy new-staging Workers
+
+# Builds and deploys the two Workers behind new-staging.go-champs.com. It never
+# touches the Netlify staging and production deploys, which live in
+# master-ci.yml.
+#
+# It has to run on Linux: OpenNext copies pnpm's symlinks verbatim, and pnpm on
+# Windows writes them as absolute paths, so the bundler resolves Next from the
+# workspace root instead of the patched copy and every route 500s. That also
+# makes this the only job that runs `opennextjs-cloudflare build` at all, so it
+# is where an OpenNext-specific regression surfaces.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+# One deploy at a time. Two merges landing close together would otherwise race,
+# and the loser could overwrite the newer Worker with an older bundle. Queued
+# rather than cancelled: a half-finished pair of deploys leaves the CMS Worker
+# bound to a public Worker it was not built against.
+concurrency:
+  group: deploy-new-staging-workers
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy_public:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          # wrangler requires Node 22+; the rest of the monorepo pins 20.
+          node-version: '22'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build the Worker bundle
+        working-directory: apps/public
+        env:
+          NEXT_PUBLIC_CMS_URL: https://new-staging.go-champs.com
+        run: npx opennextjs-cloudflare build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: open-next-bundle
+          path: apps/public/.open-next
+          retention-days: 3
+          include-hidden-files: true
+      - name: Deploy
+        working-directory: apps/public
+        run: npx wrangler deploy
+
+  deploy_cms:
+    # The CMS Worker declares a service binding to gochamps-public-staging, and
+    # deploying against a Worker that does not exist yet fails.
+    needs: deploy_public
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+        run: |
+          if [ -z "$STAGING_API_HOST" ]; then
+            echo "::error::STAGING_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
+      - name: Build the CMS static assets
+        env:
+          STAGING_API_HOST: ${{ secrets.STAGING_API_HOST }}
+          STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
+          STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          GA_ID: ${{ secrets.GA_ID }}
+        run: pnpm --filter @gochamps/cms build:new-staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-build
+          path: apps/cms/build
+          retention-days: 3
+      - name: Deploy
+        working-directory: apps/cms
+        # Strips Netlify's _redirects, which Cloudflare parses natively and
+        # rejects as an infinite loop.
+        run: pnpm cf:deploy:new-staging

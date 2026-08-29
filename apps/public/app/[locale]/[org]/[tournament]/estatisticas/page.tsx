@@ -13,7 +13,6 @@ import {
 } from '@gochamps/api-client';
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { CMS_URL } from '@/src/config/cms';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import {
   availableScopes,
@@ -215,7 +214,7 @@ export default async function PlayerStatsPage({
   );
   const totalsByScope = statTotalsByScope(rows, columnsByScope);
 
-  const tournamentHref = `${CMS_URL}/${org}/${tournamentSlug}`;
+  const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
   const playerHrefBase = `/${locale}/${org}/${tournamentSlug}/jogadores/`;
 
   return (
@@ -224,12 +223,12 @@ export default async function PlayerStatsPage({
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        <a
+        <Link
           href={tournamentHref}
           className="text-sm font-semibold text-primary-dark hover:underline"
         >
           {tournament.name}
-        </a>
+        </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">

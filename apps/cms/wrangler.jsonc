@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gochamps-cms-new-staging",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-28",
+  "assets": {
+    "directory": "./build",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    // Which paths reach the Worker; the rest is served from the CRA build for
+    // free. src/EdgeRouting/routes.ts decides what actually gets rewritten, so
+    // listing too much only costs invocations — listing too little is a bug.
+    // `*` spans `/`, so "/*/*" already covers every deeper path.
+    "run_worker_first": [
+      "/*/*",
+      "!/static/*",
+      // "/*/*" does not reach single-segment paths
+      "/",
+      "/About",
+      "/Faq",
+      "/Contact",
+      "/PrivacyPolicyBR",
+      "/TermsBR",
+      "/robots.txt",
+      "/sitemap.xml",
+      "/pt",
+      "/en"
+    ]
+  },
+  "services": [
+    {
+      "binding": "PUBLIC",
+      "service": "gochamps-public-staging"
+    }
+  ],
+  // apps/public has no domain of its own; it is reached through PUBLIC above.
+  "routes": [
+    {
+      "pattern": "new-staging.go-champs.com",
+      "custom_domain": true
+    }
+  ],
+  // reaches this Worker without going through the custom domain
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  }
+}

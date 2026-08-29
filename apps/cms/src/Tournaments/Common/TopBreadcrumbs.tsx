@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../../Shared/UI/MigratedRouteLink';
 import { PhaseEntity } from '../../Phases/state';
 import {
   AuthenticatedAndMemberWrapper,
@@ -19,11 +20,11 @@ const TopBreadcrumbs: React.FC<{
         {phases.map((phase: PhaseEntity) => (
           <li key={phase.id}>
             <NotMemberWrapper organization={organization}>
-              <Link
+              <MigratedRouteLink
                 to={`/${organizationSlug}/${tournamentSlug}/Phase/${phase.id}`}
               >
                 {phase.title}
-              </Link>
+              </MigratedRouteLink>
             </NotMemberWrapper>
 
             <AuthenticatedAndMemberWrapper organization={organization}>

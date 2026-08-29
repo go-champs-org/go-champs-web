@@ -35,6 +35,7 @@ const game = (overrides: Record<string, unknown> = {}) => ({
 
 const DEFAULT_PROPS = {
   locale: 'pt',
+  gameHrefBase: '/pt/org/tour/jogos/',
   title: 'Partidas',
   previousDayLabel: 'Dia anterior',
   nextDayLabel: 'Próximo dia',
@@ -124,5 +125,18 @@ describe('GamesPager', () => {
     expect(screen.getByText('Time C')).toBeInTheDocument();
     expect(screen.queryByText('Time A')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Próximo dia' })).toBeDisabled();
+  });
+
+  it('sends each game to its own page, as the CMS sidebar does', () => {
+    const days: GameDay[] = [
+      { key: '2026-08-27', label: '27 de agosto', games: [game()] }
+    ];
+
+    render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
+
+    expect(screen.getByRole('link', { name: /Time A/ })).toHaveAttribute(
+      'href',
+      '/pt/org/tour/jogos/g1'
+    );
   });
 });

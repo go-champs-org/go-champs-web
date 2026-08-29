@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gochamps-public-staging",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-28",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // No custom domain: reached through the CMS Worker's PUBLIC service binding.
+  // workers.dev is how you smoke-test it without the edge routing in the way.
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  // Backs open-next.config.ts's ISR cache. The adapter looks for this exact
+  // binding name.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "4c49bc44f6f84b1a84329aafd0180840"
+    }
+  ],
+  // Runtime only. NEXT_PUBLIC_* are inlined by `next build`, so setting one
+  // here does nothing — NEXT_PUBLIC_CMS_URL is passed to the build instead
+  // (see the workflow), or src/config/cms.ts falls back to production.
+  // Analytics keys are deliberately unset on new-staging.
+  "vars": {
+    "API_HOST": "https://api-staging.go-champs.com/"
+  }
+}

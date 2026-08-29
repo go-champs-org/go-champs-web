@@ -1,7 +1,7 @@
 import React from 'react';
 import { GameEntity } from './state';
 import Card from './Card';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import { Trans } from 'react-i18next';
 
 interface ListByDateProps {
@@ -32,9 +32,12 @@ function ListByDate({ gamesByDate, baseUrl, dates }: ListByDateProps) {
         <div key={date} style={{ marginBottom: '2rem' }}>
           {gamesByDate[date].map((game: GameEntity) => {
             return (
-              <Link to={`${baseUrl}/GameView/${game.id}`}>
-                <Card key={game.id} game={game} />
-              </Link>
+              <MigratedRouteLink
+                key={game.id}
+                to={`${baseUrl}/GameView/${game.id}`}
+              >
+                <Card game={game} />
+              </MigratedRouteLink>
             );
           })}
         </div>

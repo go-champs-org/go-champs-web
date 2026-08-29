@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../../Shared/UI/MigratedRouteLink';
 import { Trans } from 'react-i18next';
 import { TournamentEntity } from '../state';
 import './StatisticsDropdown.scss';
@@ -42,12 +42,12 @@ function StatisticsDropdown({
       <div className="dropdown-menu" role="menu">
         <div className="dropdown-content">
           {hasSummaryStatistics && (
-            <Link
+            <MigratedRouteLink
               className="dropdown-item"
               to={`/${organizationSlug}/${tournamentSlug}/PlayerStatsSummary`}
             >
               <Trans>summary</Trans>
-            </Link>
+            </MigratedRouteLink>
           )}
 
           {hasSummaryStatistics && tournament.hasAggregatedPlayerStats && (
@@ -55,12 +55,12 @@ function StatisticsDropdown({
           )}
 
           {tournament.hasAggregatedPlayerStats && (
-            <Link
+            <MigratedRouteLink
               className="dropdown-item"
               to={`/${organizationSlug}/${tournamentSlug}/PlayerStats`}
             >
               <Trans>advanced</Trans>
-            </Link>
+            </MigratedRouteLink>
           )}
         </div>
       </div>

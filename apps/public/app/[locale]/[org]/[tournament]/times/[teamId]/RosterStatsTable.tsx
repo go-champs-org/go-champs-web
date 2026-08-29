@@ -25,11 +25,10 @@ interface RosterStatsTableProps {
   nameLabel: string;
   totalLabel: string;
   sortLabel: string;
-  // The team page never leaves its own team, so it has no team column and no
-  // link off the roster. The tournament-wide table (Task 12b) is the one
-  // reader that needs both, so they arrive together and only there.
+  // Only the tournament-wide table needs a team column; the team page is
+  // already on one team.
   //
-  // Both are plain data, not callbacks: this component is a Client
+  // Plain data, not callbacks: this component is a Client
   // Component, and a function passed from its Server Component caller can't
   // cross that boundary (Next throws "Functions cannot be passed directly to
   // Client Components" at request time — Jest never catches it, since a
@@ -183,9 +182,7 @@ interface PlayerNameCellProps {
   playerHrefBase?: string;
 }
 
-// A plain name on the team page — its own roster has nowhere else to send the
-// visitor — a link to the profile on the tournament-wide table, which leaves
-// its own page to get there.
+// Links to the player's profile wherever a caller supplies the base path.
 function PlayerNameCell({ row, playerHrefBase }: PlayerNameCellProps) {
   return (
     <td

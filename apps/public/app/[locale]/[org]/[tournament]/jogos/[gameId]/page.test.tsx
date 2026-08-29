@@ -160,11 +160,11 @@ describe('GamePage', () => {
     expect(revalidate).toBe(30);
   });
 
-  it('links back to the tournament on the CMS, with an absolute URL', async () => {
+  it('links back to the tournament here, not across to the CMS', async () => {
     await renderPage();
 
     const link = screen.getByRole('link', { name: 'Liga Teste' });
-    expect(link.getAttribute('href')).toMatch(/^https?:\/\/.*\/org\/torneio$/);
+    expect(link.getAttribute('href')).toBe('/pt/org/torneio');
   });
 
   it('still renders the game when the tournament cannot be loaded', async () => {

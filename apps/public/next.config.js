@@ -64,3 +64,13 @@ const nextConfig = {
 };
 
 module.exports = withNextIntl(nextConfig);
+
+// Makes the Cloudflare bindings declared in wrangler.jsonc available to
+// `next dev`, so local development hits the same runtime surface as the
+// deployed Worker.
+if (process.env.NODE_ENV === 'development') {
+  const {
+    initOpenNextCloudflareForDev
+  } = require('@opennextjs/cloudflare');
+  initOpenNextCloudflareForDev();
+}
