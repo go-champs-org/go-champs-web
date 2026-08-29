@@ -20,7 +20,18 @@
     // ["/*", "!/static/*", "!/favicon.ico", ...] with the whole decision in
     // worker/index.ts (cost: every CMS HTML request invokes the Worker).
     "run_worker_first": [
+      // forwarded verbatim to apps/public — see PASSTHROUGH_* in
+      // src/EdgeRouting/routes.ts. Without these the pages render but every
+      // local asset resolves against the CMS and comes back as its index.html.
       "/_next/*",
+      "/logo/*",
+      "/photos/*",
+      "/illustrations/*",
+      "/fonts/*",
+      "/api/*",
+      "/robots.txt",
+      "/sitemap.xml",
+      // rewritten to apps/public pages
       "/",
       "/About",
       "/Faq",

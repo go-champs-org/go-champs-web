@@ -1,4 +1,7 @@
-import { resolvePublicPath } from '../src/EdgeRouting/routes';
+import {
+  isPublicPassthroughPath,
+  resolvePublicPath
+} from '../src/EdgeRouting/routes';
 
 export interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
@@ -9,8 +12,9 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // Next.js internal assets are forwarded verbatim — no path translation.
-    if (url.pathname.startsWith('/_next/')) {
+    // Assets and route handlers apps/public serves under its own name are
+    // forwarded verbatim — no path translation.
+    if (isPublicPassthroughPath(url.pathname)) {
       return env.PUBLIC.fetch(request);
     }
 
