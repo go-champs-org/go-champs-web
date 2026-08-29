@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gochamps-public-staging",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-28",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // No custom domain: this Worker is reached through the CMS Worker's PUBLIC
+  // service binding. workers.dev stays on so staging can be smoke-tested
+  // directly, bypassing the edge routing.
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  // Runtime vars. NEXT_PUBLIC_* are inlined at build time, so changing one
+  // needs a rebuild; API_HOST is read by the server at request time.
+  // Analytics keys (NEXT_PUBLIC_GA_ID, NEXT_PUBLIC_AMPLITUDE_API_KEY) are
+  // deliberately absent — analytics stays off on new-staging.
+  "vars": {
+    "API_HOST": "https://api-staging.go-champs.com/",
+    "NEXT_PUBLIC_CMS_URL": "https://new-staging.go-champs.com"
+  }
+}

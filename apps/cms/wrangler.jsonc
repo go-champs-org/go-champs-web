@@ -1,0 +1,47 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gochamps-cms-new-staging",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-28",
+  "assets": {
+    "directory": "./build",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    // Allowlist — only these paths invoke the Worker; everything else is
+    // served straight from the CRA build (free, uncharged). Over-matching here
+    // is safe (the ROUTES table in src/EdgeRouting/routes.ts is the real gate
+    // and falls back to ASSETS), under-matching is not: a lote-1 path missing
+    // from this list never reaches the Worker at all.
+    //
+    // Infix wildcards (`/*/*/GameView/*`) are NOT documented for
+    // run_worker_first — validate every lote-1 pattern in staging before
+    // trusting it. If a lote-1 URL serves the CRA instead of the public app,
+    // the pattern did not match; documented fallback is
+    // ["/*", "!/static/*", "!/favicon.ico", ...] with the whole decision in
+    // worker/index.ts (cost: every CMS HTML request invokes the Worker).
+    "run_worker_first": [
+      "/_next/*",
+      "/",
+      "/About",
+      "/Faq",
+      "/Contact",
+      "/PrivacyPolicyBR",
+      "/TermsBR",
+      "/*/*/GameView/*",
+      "/*/*/Player/*",
+      "/*/*/PlayerStats",
+      "/*/*/PlayerStatsSummary",
+      "/*/*/Teams/*",
+      "/*/*/Phase/*"
+    ]
+  },
+  "services": [
+    {
+      "binding": "PUBLIC",
+      "service": "gochamps-public-staging"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
