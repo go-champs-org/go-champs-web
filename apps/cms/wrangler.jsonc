@@ -41,6 +41,18 @@
       "service": "gochamps-public-staging"
     }
   ],
+  // This Worker holds the hostname; apps/public has no custom domain of its
+  // own and is reached through the PUBLIC service binding above. Deploying
+  // creates the proxied DNS record for this hostname only — production
+  // (go-champs.com, staging.go-champs.com) stays on Netlify, untouched.
+  "routes": [
+    {
+      "pattern": "new-staging.go-champs.com",
+      "custom_domain": true
+    }
+  ],
+  // Kept on for debugging the CMS Worker directly, bypassing the custom domain.
+  "workers_dev": true,
   "observability": {
     "enabled": true
   }
