@@ -32,8 +32,11 @@ function ListByDate({ gamesByDate, baseUrl, dates }: ListByDateProps) {
         <div key={date} style={{ marginBottom: '2rem' }}>
           {gamesByDate[date].map((game: GameEntity) => {
             return (
-              <MigratedRouteLink to={`${baseUrl}/GameView/${game.id}`}>
-                <Card key={game.id} game={game} />
+              <MigratedRouteLink
+                key={game.id}
+                to={`${baseUrl}/GameView/${game.id}`}
+              >
+                <Card game={game} />
               </MigratedRouteLink>
             );
           })}
