@@ -283,8 +283,15 @@ describe('PhaseView', () => {
     render(jsx);
 
     expect(screen.getByText('Final')).toBeInTheDocument();
-    expect(screen.getByText('Time A')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
+      'href',
+      '/pt/org/tour/times/t1'
+    );
+    // A slot still waiting on another match names no team, so it links nowhere.
     expect(screen.getByText('Vencedor B')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: 'Vencedor B' })
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText((_, element) => element?.textContent === '2 x 0')
     ).toBeInTheDocument();

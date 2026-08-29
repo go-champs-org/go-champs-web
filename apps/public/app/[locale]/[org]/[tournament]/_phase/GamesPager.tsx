@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import type { GameEntity } from '@gochamps/api-client';
 import { Surface } from '@gochamps/ui';
@@ -42,15 +43,25 @@ interface GameCardProps {
   locale: string;
   undecidedLabel: string;
   winnerLabel: string;
+  href: string;
 }
 
-function GameCard({ game, locale, undecidedLabel, winnerLabel }: GameCardProps) {
+function GameCard({
+  game,
+  locale,
+  undecidedLabel,
+  winnerLabel,
+  href
+}: GameCardProps) {
   const winner = gameWinner(game);
   const home = sideEmphasis(winner, 'home');
   const away = sideEmphasis(winner, 'away');
 
   return (
-    <div className="border-b border-border px-4 py-3 last:border-0">
+    <Link
+      href={href}
+      className="block border-b border-border px-4 py-3 transition-colors last:border-0 hover:bg-background"
+    >
       <div className="mb-1 flex items-center justify-between gap-2 text-xs text-muted">
         <span className="notranslate">{formatGameTime(game.datetime, locale)}</span>
         {game.location && <span className="truncate">{game.location}</span>}
@@ -67,7 +78,7 @@ function GameCard({ game, locale, undecidedLabel, winnerLabel }: GameCardProps) 
         emphasis={away}
         winnerLabel={winnerLabel}
       />
-    </div>
+    </Link>
   );
 }
 
@@ -80,6 +91,8 @@ export interface GamesPagerProps {
   nextDayLabel: string;
   undecidedLabel: string;
   winnerLabel: string;
+  // Where a card sends the visitor, minus the game id.
+  gameHrefBase: string;
 }
 
 // The phase's games, one day at a time — matches the mockup's compact
@@ -92,7 +105,8 @@ export function GamesPager({
   previousDayLabel,
   nextDayLabel,
   undecidedLabel,
-  winnerLabel
+  winnerLabel,
+  gameHrefBase
 }: GamesPagerProps) {
   const [index, setIndex] = useState(initialIndex);
   const day = days[index];
@@ -135,6 +149,7 @@ export function GamesPager({
             locale={locale}
             undecidedLabel={undecidedLabel}
             winnerLabel={winnerLabel}
+            href={`${gameHrefBase}${gameItem.id}`}
           />
         ))}
       </div>

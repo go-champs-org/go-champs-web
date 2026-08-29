@@ -439,6 +439,7 @@ interface DrawMatchCardProps {
   match: DrawEntity['matches'][number];
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
+  teamHref: (teamId: string) => string;
 }
 
 const scoreOf = (rawScore: string): number => Number(rawScore) || 0;
@@ -464,7 +465,48 @@ function DrawMatchInfo({ info }: { info: string }) {
   return <p className="mt-2 text-center text-xs text-muted">{info}</p>;
 }
 
-function DrawMatchCard({ match, teams, undecidedLabel }: DrawMatchCardProps) {
+// A bracket slot can still be waiting on another match, in which case it names
+// a placeholder and has no page to open.
+function DrawMatchSide({
+  team,
+  placeholder,
+  undecidedLabel,
+  emphasis,
+  align,
+  teamHref
+}: {
+  team: TeamEntity;
+  placeholder: string;
+  undecidedLabel: string;
+  emphasis: 'winner' | 'loser';
+  align: 'left' | 'right';
+  teamHref: (teamId: string) => string;
+}) {
+  const row = (
+    <GameTeamRow
+      logoUrl={team.logoUrl}
+      name={teamDisplayName(team, placeholder, undecidedLabel)}
+      emphasis={emphasis}
+      align={align}
+      crestSize={20}
+    />
+  );
+
+  if (!team.id) return row;
+
+  return (
+    <Link href={teamHref(team.id)} className="hover:opacity-80">
+      {row}
+    </Link>
+  );
+}
+
+function DrawMatchCard({
+  match,
+  teams,
+  undecidedLabel,
+  teamHref
+}: DrawMatchCardProps) {
   const firstScore = scoreOf(match.firstTeamScore);
   const secondScore = scoreOf(match.secondTeamScore);
   const firstTeam = teamOrEmpty(teams, match.firstTeamId);
@@ -474,22 +516,24 @@ function DrawMatchCard({ match, teams, undecidedLabel }: DrawMatchCardProps) {
     <Surface className="p-4">
       <DrawMatchName name={match.name} />
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-sm">
-        <GameTeamRow
-          logoUrl={firstTeam.logoUrl}
-          name={teamDisplayName(firstTeam, match.firstTeamPlaceholder, undecidedLabel)}
+        <DrawMatchSide
+          team={firstTeam}
+          placeholder={match.firstTeamPlaceholder}
+          undecidedLabel={undecidedLabel}
           emphasis={firstScore > secondScore ? 'winner' : 'loser'}
           align="left"
-          crestSize={20}
+          teamHref={teamHref}
         />
         <span className="tabular-nums font-semibold text-foreground">
           {firstScore} x {secondScore}
         </span>
-        <GameTeamRow
-          logoUrl={secondTeam.logoUrl}
-          name={teamDisplayName(secondTeam, match.secondTeamPlaceholder, undecidedLabel)}
+        <DrawMatchSide
+          team={secondTeam}
+          placeholder={match.secondTeamPlaceholder}
+          undecidedLabel={undecidedLabel}
           emphasis={secondScore > firstScore ? 'winner' : 'loser'}
           align="right"
-          crestSize={20}
+          teamHref={teamHref}
         />
       </div>
       <DrawMatchInfo info={match.info} />
@@ -501,9 +545,15 @@ interface DrawBracketProps {
   draws: DrawEntity[];
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
+  teamHref: (teamId: string) => string;
 }
 
-function DrawBracket({ draws, teams, undecidedLabel }: DrawBracketProps) {
+function DrawBracket({
+  draws,
+  teams,
+  undecidedLabel,
+  teamHref
+}: DrawBracketProps) {
   return (
     <div className="flex flex-col gap-6">
       {[...draws]
@@ -522,6 +572,7 @@ function DrawBracket({ draws, teams, undecidedLabel }: DrawBracketProps) {
                   match={match}
                   teams={teams}
                   undecidedLabel={undecidedLabel}
+                  teamHref={teamHref}
                 />
               ))}
             </div>
@@ -570,7 +621,12 @@ function PhaseMainContent({
 
   if (hasBracket(phase)) {
     return (
-      <DrawBracket draws={phase.draws} teams={teams} undecidedLabel={undecidedLabel} />
+      <DrawBracket
+        draws={phase.draws}
+        teams={teams}
+        undecidedLabel={undecidedLabel}
+        teamHref={teamHref}
+      />
     );
   }
 
@@ -586,6 +642,7 @@ interface PhaseGamesSectionProps {
   previousDayLabel: string;
   nextDayLabel: string;
   winnerLabel: string;
+  gameHrefBase: string;
 }
 
 function PhaseGamesSection({
@@ -596,7 +653,8 @@ function PhaseGamesSection({
   gamesTitle,
   previousDayLabel,
   nextDayLabel,
-  winnerLabel
+  winnerLabel,
+  gameHrefBase
 }: PhaseGamesSectionProps) {
   if (days.length === 0) {
     return (
@@ -616,7 +674,8 @@ function PhaseGamesSection({
       nextDayLabel={nextDayLabel}
       undecidedLabel={undecidedLabel}
       winnerLabel={winnerLabel}
-    />
+      gameHrefBase={gameHrefBase}
+          />
   );
 }
 
@@ -633,6 +692,7 @@ interface PhaseBodyProps {
   nextDayLabel: string;
   winnerLabel: string;
   teamHref: (teamId: string) => string;
+  gameHrefBase: string;
 }
 
 // The main content + games layout, same shape as the CMS's PhaseHome: main
@@ -651,7 +711,8 @@ function PhaseBody({
   previousDayLabel,
   nextDayLabel,
   winnerLabel,
-  teamHref
+  teamHref,
+  gameHrefBase
 }: PhaseBodyProps) {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
@@ -674,6 +735,7 @@ function PhaseBody({
           previousDayLabel={previousDayLabel}
           nextDayLabel={nextDayLabel}
           winnerLabel={winnerLabel}
+          gameHrefBase={gameHrefBase}
         />
       </aside>
     </div>
@@ -812,6 +874,7 @@ export async function PhaseView({
           teamHref={teamId =>
             `/${locale}/${org}/${tournamentSlug}/times/${teamId}`
           }
+          gameHrefBase={`/${locale}/${org}/${tournamentSlug}/jogos/`}
         />
       </div>
     </main>
