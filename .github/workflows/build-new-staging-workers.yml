@@ -80,7 +80,7 @@ jobs:
           EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
           FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
           GA_ID: ${{ secrets.GA_ID }}
-        run: pnpm --filter @gochamps/cms build:staging
+        run: pnpm --filter @gochamps/cms build:new-staging
       - uses: actions/upload-artifact@v4
         with:
           name: cms-build

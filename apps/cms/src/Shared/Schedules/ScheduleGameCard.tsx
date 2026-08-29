@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../UI/MigratedRouteLink';
 import classNames from 'classnames';
 import { timeFromDate } from '../datetime/format';
 import { ScheduleGameEntity } from './state';
@@ -70,13 +70,13 @@ function ScheduleGameCard({ game }: { game: ScheduleGameEntity }) {
   return (
     <article className="card item schedule-game-card">
       {canLinkToGame ? (
-        <Link
+        <MigratedRouteLink
           to={`/${game.organizationSlug}/${game.tournamentSlug}/GameView/${game.id}`}
           className="has-text-dark"
           aria-label={`${homeLabel} x ${awayLabel}`}
         >
           {content}
-        </Link>
+        </MigratedRouteLink>
       ) : (
         content
       )}

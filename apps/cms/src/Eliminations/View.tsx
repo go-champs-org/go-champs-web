@@ -3,7 +3,7 @@ import { RankingCriteria, StatEntity } from '../Phases/state';
 import { TeamEntity } from '../Teams/state';
 import { EliminationEntity, EliminationTeamStatEntity } from './state';
 import './View.scss';
-import { Link } from 'react-router-dom';
+import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import Identifier from '../Teams/Indentifier';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -30,9 +30,12 @@ const TeamEliminationRow: React.FC<{
   const firstColumnValue = team ? (
     <span className="position-and-team">
       {`${number}. `}
-      <Link className="team-with-logo" to={`${baseUrl}/Teams/${team.id}`}>
+      <MigratedRouteLink
+        className="team-with-logo"
+        to={`${baseUrl}/Teams/${team.id}`}
+      >
         <Identifier team={team} logoSize={24} />
-      </Link>
+      </MigratedRouteLink>
     </span>
   ) : (
     <span>{teamPlaceholder}</span>

@@ -7,6 +7,7 @@ export const REACT_APP_EMAILJS_PUBLIC_KEY =
   process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 export const REACT_APP_EMAILJS_TEMPLATE_ID =
   process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+export const REACT_APP_EDGE_ROUTING = process.env.REACT_APP_EDGE_ROUTING;
 export const REACT_APP_ENV = process.env.REACT_APP_ENV;
 export const REACT_APP_FACEBOOK_APP_ID = process.env.REACT_APP_FACEBOOK_APP_ID;
 export const REACT_APP_GA_ID = process.env.REACT_APP_GA_ID;

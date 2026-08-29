@@ -64,7 +64,10 @@ describe('resolvePublicPath', () => {
       ['/PrivacyPolicyBR', '/pt/privacy'],
       ['/TermsBR', '/pt/terms'],
       ['/acme/liga-2026/GameView/game-1', '/pt/acme/liga-2026/jogos/game-1'],
-      ['/acme/liga-2026/Player/player-1', '/pt/acme/liga-2026/jogadores/player-1'],
+      [
+        '/acme/liga-2026/Player/player-1',
+        '/pt/acme/liga-2026/jogadores/player-1'
+      ],
       ['/acme/liga-2026/PlayerStats', '/pt/acme/liga-2026/estatisticas'],
       [
         '/acme/liga-2026/PlayerStatsSummary',
@@ -108,7 +111,9 @@ describe('resolvePublicPath', () => {
 
     it('does not let a slug segment swallow a path separator', () => {
       expect(resolvePublicPath('/a/b/c/GameView/game-1')).toBeNull();
-      expect(resolvePublicPath('/acme/liga-2026/Teams/team-1/extra')).toBeNull();
+      expect(
+        resolvePublicPath('/acme/liga-2026/Teams/team-1/extra')
+      ).toBeNull();
     });
   });
 });

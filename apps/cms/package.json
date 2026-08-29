@@ -57,6 +57,7 @@
     "build": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
     "build:adm": "env-cmd -f env.prod.js craco --openssl-legacy-provider build",
     "build:staging": "env-cmd -f env.staging.js craco --openssl-legacy-provider build",
+    "build:new-staging": "env-cmd -f env.new-staging.js craco --openssl-legacy-provider build",
     "cf:strip-netlify-redirects": "node -e \"require('fs').rmSync('build/_redirects',{force:true})\"",
     "cf:deploy:new-staging": "pnpm cf:strip-netlify-redirects && wrangler deploy",
     "test": "craco test",
