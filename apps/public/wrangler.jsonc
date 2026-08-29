@@ -15,12 +15,17 @@
   "observability": {
     "enabled": true
   },
-  // Runtime vars. NEXT_PUBLIC_* are inlined at build time, so changing one
-  // needs a rebuild; API_HOST is read by the server at request time.
-  // Analytics keys (NEXT_PUBLIC_GA_ID, NEXT_PUBLIC_AMPLITUDE_API_KEY) are
-  // deliberately absent — analytics stays off on new-staging.
+  // API_HOST is read by the server at request time, so it belongs here.
+  //
+  // NEXT_PUBLIC_* variables do NOT: Next inlines them into the bundle during
+  // `next build`, so setting one here has no effect. NEXT_PUBLIC_CMS_URL must
+  // be supplied to the build instead (Workers Builds: Settings > Build >
+  // build variables) as https://new-staging.go-champs.com — without it,
+  // src/config/cms.ts falls back to production's https://go-champs.com.
+  //
+  // The analytics keys (NEXT_PUBLIC_GA_ID, NEXT_PUBLIC_AMPLITUDE_API_KEY) are
+  // deliberately unset — analytics stays off on new-staging.
   "vars": {
-    "API_HOST": "https://api-staging.go-champs.com/",
-    "NEXT_PUBLIC_CMS_URL": "https://new-staging.go-champs.com"
+    "API_HOST": "https://api-staging.go-champs.com/"
   }
 }
