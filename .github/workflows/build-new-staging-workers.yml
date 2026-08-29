@@ -1,17 +1,21 @@
 name: Build new-staging Worker bundles
 
 # Builds both Worker payloads for new-staging.go-champs.com as artifacts, to be
-# deployed with `wrangler deploy` from anywhere.
+# deployed with `wrangler deploy` from anywhere. It only builds — deploying to
+# new-staging stays manual, and nothing here touches the Netlify staging and
+# production deploys in master-ci.yml.
 #
 # It has to run on Linux: OpenNext copies pnpm's symlinks verbatim, and pnpm on
 # Windows writes them as absolute paths, so the bundler resolves Next from the
-# workspace root instead of the patched copy and every route 500s.
+# workspace root instead of the patched copy and every route 500s. That also
+# makes this the only job that runs `opennextjs-cloudflare build` at all, so it
+# is where an OpenNext-specific regression surfaces.
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - feat/cloudflare-new-staging
+      - master
 
 jobs:
   build_public:
