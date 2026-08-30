@@ -1,6 +1,8 @@
 import type { PlayerStatEntity, SportEntity } from '@gochamps/api-client';
 import {
+  boxScoreCellValue,
   boxScoreColumns,
+  boxScoreColumnViews,
   boxScoreRows,
   playerNamesById,
   shouldShowBoxScore,
@@ -217,5 +219,109 @@ describe('boxScoreColumns', () => {
       'points',
       'season_award'
     ]);
+  });
+});
+
+describe('boxScoreColumnViews', () => {
+  const basketball: SportEntity = sport([sportStatistic('points', 'game')]);
+
+  const labels = {
+    minutes_played: { label: 'MIN', description: 'Minutos jogados' },
+    points: { label: 'PTS', description: 'Pontos' },
+    free_throws_made: { label: 'LL', description: 'Lances livres' }
+  };
+
+  it('uses the fixed basketball column set, ignoring what the tournament configured', () => {
+    const columns = boxScoreColumnViews([], basketball, {}, labels);
+
+    expect(columns.map(column => column.slug)).toEqual([
+      'minutes_played',
+      'points',
+      'rebounds',
+      'assists',
+      'blocks',
+      'steals',
+      'turnovers',
+      'efficiency',
+      'plus_minus',
+      'free_throws_made',
+      'free_throw_percentage',
+      'field_goals_made',
+      'field_goal_percentage',
+      'three_point_field_goals_made',
+      'three_point_field_goal_percentage',
+      'rebounds_offensive',
+      'rebounds_defensive',
+      'fouls_personal',
+      'fouls_technical'
+    ]);
+    expect(columns.find(column => column.slug === 'minutes_played')).toEqual({
+      slug: 'minutes_played',
+      attemptedSlug: undefined,
+      label: 'MIN',
+      description: 'Minutos jogados'
+    });
+  });
+
+  it('pairs a made column with its attempted counterpart', () => {
+    const columns = boxScoreColumnViews([], basketball, {}, labels);
+
+    expect(
+      columns.find(column => column.slug === 'free_throws_made')?.attemptedSlug
+    ).toBe('free_throws_attempted');
+  });
+
+  it('falls back to the tournament-driven columns for any other sport', () => {
+    const otherSport: SportEntity = {
+      ...sport([sportStatistic('assists', 'game')]),
+      slug: 'volleyball_indoor'
+    };
+
+    const columns = boxScoreColumnViews(
+      [playerStat('assists', 'Assistências')],
+      otherSport,
+      { assists: 'AST' },
+      labels
+    );
+
+    expect(columns).toEqual([
+      { slug: 'assists', label: 'AST', description: 'Assistências' }
+    ]);
+  });
+});
+
+describe('boxScoreCellValue', () => {
+  it('reads minutes played as a clock', () => {
+    const column = { slug: 'minutes_played', label: 'MIN', description: '' };
+
+    expect(boxScoreCellValue(column, { minutes_played: '605' })).toBe('10:05');
+  });
+
+  it('shows a dash for minutes played with no value', () => {
+    const column = { slug: 'minutes_played', label: 'MIN', description: '' };
+
+    expect(boxScoreCellValue(column, {})).toBe('-');
+  });
+
+  it('combines a made/attempted pair into one cell', () => {
+    const column = {
+      slug: 'free_throws_made',
+      attemptedSlug: 'free_throws_attempted',
+      label: 'LL',
+      description: ''
+    };
+
+    expect(
+      boxScoreCellValue(column, {
+        free_throws_made: '8',
+        free_throws_attempted: '10'
+      })
+    ).toBe('8 / 10');
+  });
+
+  it('formats a plain column the same way every other table does', () => {
+    const column = { slug: 'points', label: 'PTS', description: '' };
+
+    expect(boxScoreCellValue(column, { points: '24' })).toBe('24');
   });
 });

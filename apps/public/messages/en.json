@@ -88,14 +88,61 @@
     "undecidedTeam": "TBD",
     "backToTournament": "Back to the tournament",
     "videoTitle": "Game video",
-    "winner": "Winner"
+    "winner": "Winner",
+    "assetFibaScoresheet": "FIBA Scoresheet",
+    "assetFibaBoxscore": "FIBA Box Score"
   },
   "boxScore": {
     "title": "Box score",
     "player": "Player",
     "totals": "Totals",
     "glossary": "Glossary",
-    "sortByStat": "Sort by {stat}"
+    "sortByStat": "Sort by {stat}",
+    "basketballColumns": {
+      "minutes_played": { "label": "MIN", "description": "Minutes played" },
+      "points": { "label": "PTS", "description": "Player total points" },
+      "rebounds": { "label": "REB", "description": "Player total rebounds" },
+      "assists": { "label": "AST", "description": "Player assists" },
+      "blocks": { "label": "BLK", "description": "Player blocks" },
+      "steals": { "label": "STL", "description": "Player steals" },
+      "turnovers": { "label": "TO", "description": "Player turnovers" },
+      "efficiency": {
+        "label": "EFF",
+        "description": "Player efficiency by Martin Manley (1986) = PTS + REB + AST + STL + BLK - (Missed FG + Missed FT + TO)"
+      },
+      "plus_minus": {
+        "label": "+/-",
+        "description": "Point difference when the player is on the court"
+      },
+      "free_throws_made": {
+        "label": "FT",
+        "description": "Player one pointers made / attempted"
+      },
+      "free_throw_percentage": {
+        "label": "FT%",
+        "description": "Player one pointers percentage"
+      },
+      "field_goals_made": {
+        "label": "FG",
+        "description": "Player two pointers made / attempted"
+      },
+      "field_goal_percentage": {
+        "label": "FG%",
+        "description": "Player two pointers percentage"
+      },
+      "three_point_field_goals_made": {
+        "label": "3Ps",
+        "description": "Player three pointers made / attempted"
+      },
+      "three_point_field_goal_percentage": {
+        "label": "3P%",
+        "description": "Player three pointers percentage"
+      },
+      "rebounds_offensive": { "label": "OREB", "description": "Player offensive rebounds" },
+      "rebounds_defensive": { "label": "DREB", "description": "Player defensive rebounds" },
+      "fouls_personal": { "label": "PF", "description": "Player personal fouls" },
+      "fouls_technical": { "label": "TF", "description": "Player technical fouls" }
+    }
   },
   "player": {
     "unknownPlayer": "Player",

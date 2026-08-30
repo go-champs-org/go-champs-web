@@ -14,6 +14,7 @@ const emptyTeam = (id: string, name: string) => ({
 
 const game = (overrides: Record<string, unknown> = {}) => ({
   id: 'g1',
+  assets: [],
   homeTeam: emptyTeam('t1', 'Time A'),
   awayTeam: emptyTeam('t2', 'Time B'),
   homeScore: 0,

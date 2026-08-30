@@ -9,6 +9,7 @@ import {
   getSportBySlug,
   getTeamStatsLogsByGame,
   getTournamentBySlug,
+  type GameAssetEntity,
   type GameEntity,
   type LiveSiteUpdate,
   type PlayerStatsLogEntity,
@@ -16,15 +17,18 @@ import {
   type TeamStatsLogEntity,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
+import { FaFileAlt, FaTable } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
 import { RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import {
-  boxScoreColumns,
+  boxScoreColumnViews,
   boxScoreRows,
   playerNamesById,
   shouldShowBoxScore,
   splitLogsByTeam,
-  teamTotals
+  teamTotals,
+  type BoxScoreColumnLabel
 } from '@/src/games/boxScore';
 import { formatGameDateTime } from '@/src/games/gameDateTime';
 import {
@@ -35,7 +39,6 @@ import { gameTeamNames, type GameTeamNames } from '@/src/games/gameTeams';
 import { gameVenue } from '@/src/games/gameVenue';
 import { isLiveGame } from '@/src/games/liveScore';
 import { buildPageMetadata, pageUrl } from '@/src/seo/metadata';
-import { statColumnViews } from '@/src/stats/rosterStats';
 import { BoxScore } from './BoxScore';
 import { Scoreboard } from './Scoreboard';
 
@@ -254,6 +257,61 @@ function GameCard({
   );
 }
 
+// Only these two asset types have a place on the public page — a folder of
+// photos is a CMS-only convenience, not something worth a link here.
+const GAME_ASSET_LABEL_KEYS: Record<string, string> = {
+  'fiba-scoresheet': 'assetFibaScoresheet',
+  'fiba-boxscore': 'assetFibaBoxscore'
+};
+
+const GAME_ASSET_ICONS: Record<string, IconType> = {
+  'fiba-scoresheet': FaFileAlt,
+  'fiba-boxscore': FaTable
+};
+
+interface GameAssetLinksProps {
+  assets: GameAssetEntity[];
+  labels: Record<string, string>;
+}
+
+// The API is the only source of `asset.url`; only http(s) is safe to render
+// into an <a href> — a `javascript:`/`data:` URL would execute on click.
+const isSafeAssetUrl = (url: string): boolean => {
+  try {
+    return ['http:', 'https:'].includes(new URL(url).protocol);
+  } catch {
+    return false;
+  }
+};
+
+function GameAssetLinks({ assets, labels }: GameAssetLinksProps) {
+  const linkableAssets = (assets || []).filter(
+    asset => GAME_ASSET_LABEL_KEYS[asset.type] && isSafeAssetUrl(asset.url)
+  );
+
+  if (linkableAssets.length === 0) return null;
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {linkableAssets.map(asset => {
+        const Icon = GAME_ASSET_ICONS[asset.type];
+        return (
+          <a
+            key={asset.id || asset.url}
+            href={asset.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-sm font-semibold text-primary-dark hover:bg-primary/10"
+          >
+            <Icon aria-hidden="true" className="h-4 w-4" />
+            {labels[GAME_ASSET_LABEL_KEYS[asset.type]]}
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
 // The box score of a single game: the columns the sport orders, and each
 // side's rows and totals resolved against them. Kept as its own function so
 // the page component reads as one flat sequence of steps rather than the
@@ -264,7 +322,8 @@ const gameBoxScoreView = (
   playerStatsLogs: PlayerStatsLogEntity[],
   teamStatsLogs: TeamStatsLogEntity[],
   sport: SportEntity | null,
-  statColumnAbbreviations: Record<string, string>
+  statColumnAbbreviations: Record<string, string>,
+  basketballColumnLabels: Record<string, BoxScoreColumnLabel>
 ) => {
   const logs = splitLogsByTeam(
     playerStatsLogs,
@@ -272,9 +331,11 @@ const gameBoxScoreView = (
     game.awayTeam.id
   );
   const namesById = playerNamesById(tournamentEntity.players);
-  const columns = statColumnViews(
-    boxScoreColumns(tournamentEntity.playerStats, sport),
-    statColumnAbbreviations
+  const columns = boxScoreColumnViews(
+    tournamentEntity.playerStats,
+    sport,
+    statColumnAbbreviations,
+    basketballColumnLabels
   );
 
   return {
@@ -330,6 +391,7 @@ const resolveBoxScore = (
   teamStatsLogs: TeamStatsLogEntity[],
   sport: SportEntity | null,
   abbreviations: Record<string, string>,
+  basketballColumnLabels: Record<string, BoxScoreColumnLabel>,
   isLive: boolean
 ) => {
   if (!tournament) return null;
@@ -340,7 +402,8 @@ const resolveBoxScore = (
     playerStatsLogs,
     teamStatsLogs,
     sport,
-    abbreviations
+    abbreviations,
+    basketballColumnLabels
   );
   const { liveSiteUpdate } = tournament.scoreboardSetting;
 
@@ -404,6 +467,7 @@ export default async function GamePage({
     teamStatsLogs,
     sport,
     tTeam.raw('statColumns') as Record<string, string>,
+    tBoxScore.raw('basketballColumns') as Record<string, BoxScoreColumnLabel>,
     isLive
   );
 
@@ -422,12 +486,22 @@ export default async function GamePage({
       />
 
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        <Link
-          href={`/${locale}/${org}/${tournament}`}
-          className="text-sm font-semibold text-primary-dark hover:underline"
-        >
-          {backLabel}
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Link
+            href={`/${locale}/${org}/${tournament}`}
+            className="text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {backLabel}
+          </Link>
+
+          <GameAssetLinks
+            assets={game.assets}
+            labels={{
+              assetFibaScoresheet: t('assetFibaScoresheet'),
+              assetFibaBoxscore: t('assetFibaBoxscore')
+            }}
+          />
+        </div>
 
         <GameCard
           game={game}

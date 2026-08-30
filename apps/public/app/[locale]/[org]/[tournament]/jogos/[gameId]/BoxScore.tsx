@@ -2,12 +2,14 @@
 
 import { useEffect, useState, type ComponentType } from 'react';
 import Link from 'next/link';
-import { RemoteImage, Surface } from '@gochamps/ui';
 import {
-  formatStatValue,
-  type StatColumnView
-} from '@/src/stats/rosterStats';
-import type { BoxScoreRow } from '@/src/games/boxScore';
+  RemoteImage,
+  StatGlossaryList,
+  StatGlossaryToggle,
+  Surface
+} from '@gochamps/ui';
+import type { StatColumnView } from '@/src/stats/rosterStats';
+import { boxScoreCellValue, type BoxScoreRow } from '@/src/games/boxScore';
 import {
   scoreboardTeamRows,
   scoreboardTeamTotals,
@@ -172,7 +174,7 @@ function BoxScoreTableRow({
           key={column.slug}
           className={`${STAT_CELL} notranslate text-xs tabular-nums`}
         >
-          {formatStatValue(column.slug, row.stats[column.slug])}
+          {boxScoreCellValue(column, row.stats)}
         </td>
       ))}
     </tr>
@@ -194,7 +196,7 @@ function TotalsRow({ totals, columns, label }: TotalsRowProps) {
           key={column.slug}
           className={`${STAT_CELL} notranslate text-xs tabular-nums`}
         >
-          {totals[column.slug] || '-'}
+          {boxScoreCellValue(column, totals)}
         </td>
       ))}
     </tr>
@@ -265,26 +267,6 @@ function BoxScoreTable({
   );
 }
 
-interface BoxScoreGlossaryProps {
-  columns: StatColumnView[];
-  label: string;
-}
-
-function BoxScoreGlossary({ columns, label }: BoxScoreGlossaryProps) {
-  return (
-    <div className="flex flex-col gap-2 border-t border-border p-4 md:p-6">
-      <p className="text-sm font-semibold text-foreground">{label}</p>
-      <ul className="columns-1 list-disc gap-8 pl-5 text-xs font-bold leading-6 text-foreground sm:columns-2 lg:columns-3">
-        {columns.map(column => (
-          <li key={column.slug} className="break-inside-avoid">
-            {column.label} - {column.description}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 interface ViewerProps {
   columns: StatColumnView[];
   home: TeamBoxScoreData;
@@ -347,6 +329,7 @@ export function BoxScore({
     away: { rows: away.rows, totals: away.totals }
   });
   const Viewer = boxScoreViewerFor(sportSlug);
+  const [isGlossaryOpen, setGlossaryOpen] = useState(false);
 
   return (
     <Surface
@@ -355,9 +338,31 @@ export function BoxScore({
       aria-live={isLive ? 'polite' : 'off'}
       data-testid="box-score"
     >
-      <h2 className="p-4 text-xl font-bold text-foreground md:p-6 md:text-2xl">
-        {labels.title}
-      </h2>
+      <div className="flex flex-col gap-4 p-4 md:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="text-xl font-bold text-foreground md:text-2xl">
+            {labels.title}
+          </h2>
+
+          {columns.length > 0 && (
+            <StatGlossaryToggle
+              label={labels.glossary}
+              isOpen={isGlossaryOpen}
+              onToggle={() => setGlossaryOpen(open => !open)}
+              controls="box-score-glossary"
+              size="sm"
+            />
+          )}
+        </div>
+
+        {columns.length > 0 && (
+          <StatGlossaryList
+            id="box-score-glossary"
+            columns={columns}
+            isOpen={isGlossaryOpen}
+          />
+        )}
+      </div>
 
       <Viewer
         columns={columns}
@@ -366,10 +371,6 @@ export function BoxScore({
         playerHrefBase={playerHrefBase}
         labels={labels}
       />
-
-      {columns.length > 0 && (
-        <BoxScoreGlossary columns={columns} label={labels.glossary} />
-      )}
     </Surface>
   );
 }
