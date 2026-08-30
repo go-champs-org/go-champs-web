@@ -133,11 +133,10 @@ interface BasketballBoxScoreColumn {
   attemptedSlug?: string;
 }
 
-// The CMS's own fixed box score for basketball
-// (apps/cms/src/Sports/Basketball5x5/GameBoxScoreViewer.tsx
-// BASE_BASKETBALL_STAT_COLUMNS): it never reads the tournament's statistic
-// configuration, so this list does not either — a stat the tournament turned
-// off still shows here, exactly as it does in the CMS.
+// Basketball's box score is a fixed set of columns, not derived from the
+// tournament's statistic configuration — a stat the tournament turned off
+// still shows here, since these are the fields a basketball scoresheet
+// always carries.
 const BASKETBALL_5X5_BOX_SCORE_COLUMNS: BasketballBoxScoreColumn[] = [
   { slug: 'minutes_played' },
   { slug: 'points' },
@@ -179,8 +178,7 @@ const basketballBoxScoreColumns = (
   }));
 
 // Basketball uses its own fixed set above; every other sport falls back to
-// the tournament's game-level config (`boxScoreColumns`) — the same split
-// the CMS draws between GameBoxScoreViewer and GeneralBoxScore.
+// the tournament's game-level config (`boxScoreColumns`).
 export const boxScoreColumnViews = (
   playerStats: PlayerStatEntity[],
   sport: SportEntity | null,
@@ -191,8 +189,7 @@ export const boxScoreColumnViews = (
     ? basketballBoxScoreColumns(basketballColumnLabels)
     : statColumnViews(boxScoreColumns(playerStats, sport), abbreviations);
 
-// Recorded in seconds; the CMS box score reads it as a clock
-// (apps/cms/src/Shared/UI/TableCells.tsx MinutesCell), not a plain count.
+// Recorded in seconds; read as a clock, not a plain count.
 const formatMinutesPlayed = (value: string | undefined): string => {
   const seconds = Number(value);
   if (!value || !Number.isFinite(seconds)) return '-';
@@ -204,8 +201,7 @@ const formatMinutesPlayed = (value: string | undefined): string => {
 
 const MINUTES_PLAYED_SLUG = 'minutes_played';
 
-// A made/attempted column reads as "10 / 15", the same single cell the CMS
-// box score shows.
+// A made/attempted column reads as one cell, "10 / 15".
 export const boxScoreCellValue = (
   column: StatColumnView,
   stats: Record<string, string>
