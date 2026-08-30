@@ -274,9 +274,19 @@ interface GameAssetLinksProps {
   labels: Record<string, string>;
 }
 
+// The API is the only source of `asset.url`; only http(s) is safe to render
+// into an <a href> — a `javascript:`/`data:` URL would execute on click.
+const isSafeAssetUrl = (url: string): boolean => {
+  try {
+    return ['http:', 'https:'].includes(new URL(url).protocol);
+  } catch {
+    return false;
+  }
+};
+
 function GameAssetLinks({ assets, labels }: GameAssetLinksProps) {
   const linkableAssets = (assets || []).filter(
-    asset => GAME_ASSET_LABEL_KEYS[asset.type]
+    asset => GAME_ASSET_LABEL_KEYS[asset.type] && isSafeAssetUrl(asset.url)
   );
 
   if (linkableAssets.length === 0) return null;

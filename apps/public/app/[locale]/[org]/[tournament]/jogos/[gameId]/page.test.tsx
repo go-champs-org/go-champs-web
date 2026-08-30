@@ -233,6 +233,22 @@ describe('GamePage', () => {
     expect(boxscoreLink.getAttribute('href')).toBe('https://x/boxscore.pdf');
   });
 
+  it('drops an asset whose URL is not http(s)', async () => {
+    getGameMock.mockResolvedValue(
+      game({
+        assets: [
+          { id: 'a1', type: 'fiba-scoresheet', url: 'javascript:alert(1)' }
+        ]
+      })
+    );
+
+    await renderPage();
+
+    expect(
+      screen.queryByText(messages.game.assetFibaScoresheet)
+    ).not.toBeInTheDocument();
+  });
+
   it('shows no asset links when the game has none', async () => {
     await renderPage();
 
