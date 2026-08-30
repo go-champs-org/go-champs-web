@@ -141,9 +141,9 @@ describe('resolvePublicPath', () => {
       expect(resolvePublicPath('/acme/liga-2026', 'en')).toBe(
         '/en/acme/liga-2026'
       );
-      expect(
-        resolvePublicPath('/acme/liga-2026/GameView/game-1', 'en')
-      ).toBe('/en/acme/liga-2026/jogos/game-1');
+      expect(resolvePublicPath('/acme/liga-2026/GameView/game-1', 'en')).toBe(
+        '/en/acme/liga-2026/jogos/game-1'
+      );
     });
   });
 

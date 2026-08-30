@@ -18,12 +18,7 @@ export default {
       return env.PUBLIC.fetch(request);
     }
 
-    // Keeps the language picked in either app when crossing into the other:
-    // both write this same cookie (next-intl's middleware on apps/public,
-    // Shared/translations/i18n.ts here) on an explicit change.
-    const locale = resolveLocaleFromCookieHeader(
-      request.headers.get('Cookie')
-    );
+    const locale = resolveLocaleFromCookieHeader(request.headers.get('Cookie'));
     const publicPath = resolvePublicPath(url.pathname, locale);
 
     if (publicPath !== null) {

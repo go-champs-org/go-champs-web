@@ -5,8 +5,6 @@ import { useLocale } from 'next-intl';
 import { Link, usePathname } from '../i18n/navigation';
 import { routing } from '../i18n/routing';
 
-// Emoji flags, same visual language as the CMS's own LanguageDropdown
-// (apps/cms/src/Shared/UI/LanguageDropdown.tsx).
 const LOCALE_FLAGS: Record<string, string> = {
   pt: '🇧🇷',
   en: '🇺🇸'

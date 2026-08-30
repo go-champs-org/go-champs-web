@@ -34,20 +34,12 @@ export const isPublicPassthroughPath = (pathname: string): boolean =>
     locale => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
-/**
- * The locales apps/public actually serves (src/i18n/routing.ts there) —
- * anything else in the cookie is stale or tampered and would 404.
- */
+// Locales apps/public actually serves (src/i18n/routing.ts there).
 const SUPPORTED_LOCALES = ['pt', 'en'];
 const DEFAULT_LOCALE = 'pt';
 
-/**
- * Reads the `NEXT_LOCALE` cookie next-intl's middleware sets on apps/public,
- * and the CMS's own i18n (Shared/translations/i18n.ts) also writes on an
- * explicit language change — the shared signal that syncs the language
- * across both apps. worker/index.ts passes the request's raw `Cookie` header
- * straight through, unparsed, so this is the one place that knows the name.
- */
+// NEXT_LOCALE: written by next-intl's middleware on apps/public and by the
+// CMS's own i18n (Shared/translations/i18n.ts) — the shared sync signal.
 export const resolveLocaleFromCookieHeader = (
   cookieHeader: string | null
 ): string => {
@@ -103,8 +95,8 @@ const ROUTES: Rewrite[] = [
   [/^\/PrivacyPolicyBR$/, (_m, locale) => `/${locale}/privacy`],
   [/^\/TermsBR$/, (_m, locale) => `/${locale}/terms`],
 
-  // Must precede the tournament root below: `Organization` is reserved there
-  // (App.tsx:144) so that rule would otherwise decline and end the search.
+  // Must precede the tournament root below, or `Organization` (reserved
+  // there) would decline and end the search before this rule ever runs.
   [
     new RegExp(`^/Organization/${SLUG}/?$`),
     (m, locale) => `/${locale}/${m[1]}`
@@ -144,13 +136,9 @@ const ROUTES: Rewrite[] = [
   ]
 ];
 
-/**
- * `locale` should be whatever the CMS's own i18n resolved for this visitor
- * (Shared/translations/i18n.ts) — kept as a plain parameter, not read here,
- * so this module stays a pure function the CMS test runner can exercise
- * without a browser/Worker environment. worker/index.ts reads the NEXT_LOCALE
- * cookie and passes it in.
- */
+// `locale` is a plain parameter, not read here, so this stays a pure
+// function the CMS test runner can exercise without a Worker environment —
+// worker/index.ts resolves it from NEXT_LOCALE and passes it in.
 export const resolvePublicPath = (
   pathname: string,
   locale: string = DEFAULT_LOCALE

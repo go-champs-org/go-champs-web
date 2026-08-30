@@ -19,10 +19,7 @@ jest.mock('next-intl', () => ({
   NextIntlClientProvider: ({ children }: { children: ReactNode }) => children
 }));
 
-// LocaleSwitcher needs a real next-intl/next-navigation context (locale +
-// current pathname) that only exists in a running Next app — out of scope
-// for a layout-composition test. Its own render behavior is covered by
-// LocaleSwitcher.test.tsx.
+// Needs a real router/i18n context out of scope here; covered by its own test.
 jest.mock('../../src/components/LocaleSwitcher', () => ({
   LocaleSwitcher: () => null
 }));

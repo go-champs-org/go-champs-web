@@ -13,8 +13,7 @@ import { Avatar, ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
 
-// The organization's identity moves as rarely as a tournament's, so the
-// rendered HTML can be reused for minutes at a time.
+// Moves as rarely as a tournament's identity.
 export const revalidate = 300;
 
 export async function generateStaticParams() {
@@ -29,8 +28,7 @@ interface OrganizationPageParams {
 const organizationPagePath = ({ org }: OrganizationPageParams): string =>
   `/${org}`;
 
-// generateMetadata and the page both need the organization; cache() avoids
-// fetching it twice per request.
+// cache(): generateMetadata and the page both need this, once per request.
 const loadOrganization = cache(
   async (org: string): Promise<OrganizationEntity | null> => {
     try {
@@ -42,9 +40,8 @@ const loadOrganization = cache(
   }
 );
 
-// The tournament list is a companion to the organization: an unreachable
-// endpoint leaves the page standing with an empty list instead of taking it
-// down.
+// A companion to the organization: an unreachable endpoint degrades to
+// an empty list instead of taking the page down.
 const loadTournaments = (org: string): Promise<TournamentEntity[]> =>
   getTournamentsByOrganizationSlug(org).catch(() => []);
 
