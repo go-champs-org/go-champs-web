@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -16,6 +16,7 @@ export interface NavBarProps {
   logoSrcMobile?: string;
   loginHref?: string;
   loginLabel?: string;
+  localeSwitcher?: ReactNode;
 }
 
 export function NavBar({
@@ -24,7 +25,8 @@ export function NavBar({
   logoSrc,
   logoSrcMobile,
   loginHref,
-  loginLabel
+  loginLabel,
+  localeSwitcher
 }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -74,6 +76,7 @@ export function NavBar({
           <li aria-hidden="true">
             <span className="block h-6 w-px bg-white/30" />
           </li>
+          {localeSwitcher && <li>{localeSwitcher}</li>}
           <li>
             <ThemeToggle />
           </li>
@@ -102,6 +105,11 @@ export function NavBar({
               </a>
             </li>
           ))}
+          {localeSwitcher && (
+            <li className="flex items-center justify-between px-4 py-2.5">
+              {localeSwitcher}
+            </li>
+          )}
           <li className="flex items-center justify-between px-4 py-2.5">
             <ThemeToggle />
           </li>

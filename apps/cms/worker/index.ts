@@ -1,5 +1,6 @@
 import {
   isPublicPassthroughPath,
+  resolveLocaleFromCookieHeader,
   resolvePublicPath
 } from '../src/EdgeRouting/routes';
 
@@ -17,7 +18,13 @@ export default {
       return env.PUBLIC.fetch(request);
     }
 
-    const publicPath = resolvePublicPath(url.pathname);
+    // Keeps the language picked in either app when crossing into the other:
+    // both write this same cookie (next-intl's middleware on apps/public,
+    // Shared/translations/i18n.ts here) on an explicit change.
+    const locale = resolveLocaleFromCookieHeader(
+      request.headers.get('Cookie')
+    );
+    const publicPath = resolvePublicPath(url.pathname, locale);
 
     if (publicPath !== null) {
       url.pathname = publicPath;

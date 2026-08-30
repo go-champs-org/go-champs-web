@@ -1,4 +1,8 @@
-import { isPublicPassthroughPath, resolvePublicPath } from './routes';
+import {
+  isPublicPassthroughPath,
+  resolveLocaleFromCookieHeader,
+  resolvePublicPath
+} from './routes';
 
 describe('isPublicPassthroughPath', () => {
   it.each([
@@ -46,6 +50,31 @@ describe('isPublicPassthroughPath', () => {
     expect(isPublicPassthroughPath('/ptbr')).toBe(false);
     expect(isPublicPassthroughPath('/entretenimento')).toBe(false);
     expect(isPublicPassthroughPath('/ptbr/liga')).toBe(false);
+  });
+});
+
+describe('resolveLocaleFromCookieHeader', () => {
+  it('reads NEXT_LOCALE from the Cookie header', () => {
+    expect(resolveLocaleFromCookieHeader('NEXT_LOCALE=en')).toBe('en');
+  });
+
+  it('reads NEXT_LOCALE alongside other cookies, in either position', () => {
+    expect(
+      resolveLocaleFromCookieHeader('foo=bar; NEXT_LOCALE=en; baz=qux')
+    ).toBe('en');
+  });
+
+  it('defaults to pt when there is no Cookie header', () => {
+    expect(resolveLocaleFromCookieHeader(null)).toBe('pt');
+  });
+
+  it('defaults to pt when NEXT_LOCALE is absent', () => {
+    expect(resolveLocaleFromCookieHeader('foo=bar')).toBe('pt');
+  });
+
+  it('defaults to pt for a value that is not a supported locale', () => {
+    // A stale/tampered cookie must not route to a locale apps/public 404s on.
+    expect(resolveLocaleFromCookieHeader('NEXT_LOCALE=fr')).toBe('pt');
   });
 });
 
@@ -97,6 +126,24 @@ describe('resolvePublicPath', () => {
         '/pt/organizational/liga'
       );
       expect(resolvePublicPath('/invites/liga')).toBe('/pt/invites/liga');
+    });
+  });
+
+  describe('locale', () => {
+    it('defaults to pt when no locale is given', () => {
+      expect(resolvePublicPath('/About')).toBe('/pt/about');
+    });
+
+    it('rewrites into the given locale instead of the default', () => {
+      expect(resolvePublicPath('/About', 'en')).toBe('/en/about');
+      expect(resolvePublicPath('/', 'en')).toBe('/en');
+      expect(resolvePublicPath('/Organization/acme', 'en')).toBe('/en/acme');
+      expect(resolvePublicPath('/acme/liga-2026', 'en')).toBe(
+        '/en/acme/liga-2026'
+      );
+      expect(
+        resolvePublicPath('/acme/liga-2026/GameView/game-1', 'en')
+      ).toBe('/en/acme/liga-2026/jogos/game-1');
     });
   });
 

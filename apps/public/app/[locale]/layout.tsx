@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { NavBar, Footer, noFlashThemeScript } from '@gochamps/ui';
+import { LocaleSwitcher } from '../../src/components/LocaleSwitcher';
 import { routing } from '../../src/i18n/routing';
 import { cmsPath } from '../../src/config/cms';
 import { SITE_NAME, SITE_URL } from '../../src/seo/metadata';
@@ -59,6 +60,7 @@ export default async function LocaleLayout({
             logoSrcMobile="/logo/logo-green.png"
             loginHref={cmsPath('/SignIn')}
             loginLabel={t('navLogin')}
+            localeSwitcher={<LocaleSwitcher />}
           />
           {children}
           <Footer

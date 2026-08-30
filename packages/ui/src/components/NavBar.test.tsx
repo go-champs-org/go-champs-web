@@ -58,4 +58,24 @@ describe('NavBar', () => {
       screen.queryByRole('link', { name: /log in/i })
     ).not.toBeInTheDocument();
   });
+
+  it('renders the given locale switcher in both the desktop and mobile menus', () => {
+    render(
+      <NavBar
+        links={[{ href: '/about', label: 'About' }]}
+        localeSwitcher={<button type="button">PT</button>}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'menu' }));
+
+    expect(
+      screen.getAllByRole('button', { name: 'PT' })
+    ).toHaveLength(2);
+  });
+
+  it('omits the locale switcher slot when none is given', () => {
+    render(<NavBar links={[{ href: '/about', label: 'About' }]} />);
+
+    expect(screen.queryByRole('button', { name: 'PT' })).not.toBeInTheDocument();
+  });
 });

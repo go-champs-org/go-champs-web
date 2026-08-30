@@ -49,9 +49,18 @@ i18n
     fallbackLng: 'pt',
     supportedLngs: ['en', 'pt'],
     detection: {
-      order: ['localStorage', 'navigator'],
+      // 'cookie' reads/writes NEXT_LOCALE, the same cookie next-intl's
+      // middleware sets on apps/public — the shared signal that syncs the
+      // language across both apps (apps/cms/src/EdgeRouting/routes.ts,
+      // resolveLocaleFromCookieHeader). It sits after localStorage so a
+      // deliberate past choice here isn't clobbered by an incidental cookie
+      // from a plain visit to apps/public that never changed the language.
+      order: ['localStorage', 'cookie', 'navigator'],
       lookupLocalStorage: 'i18nextLng',
-      caches: ['localStorage']
+      lookupCookie: 'NEXT_LOCALE',
+      // 1 year, matching next-intl's own default cookie lifetime.
+      cookieMinutes: 365 * 24 * 60,
+      caches: ['localStorage', 'cookie']
     },
     keySeparator: '.', // supports nested keys e.g. aiChat.title
     interpolation: {
