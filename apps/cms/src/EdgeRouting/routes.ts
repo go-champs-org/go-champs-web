@@ -77,6 +77,10 @@ const ROUTES: Rewrite[] = [
   [/^\/PrivacyPolicyBR$/, () => '/pt/privacy'],
   [/^\/TermsBR$/, () => '/pt/terms'],
 
+  // Must precede the tournament root below: `Organization` is reserved there
+  // (App.tsx:144) so that rule would otherwise decline and end the search.
+  [new RegExp(`^/Organization/${SLUG}/?$`), m => `/pt/${m[1]}`],
+
   // lote 1 — rotas de leitura por torneio
   [
     new RegExp(`^/${SLUG}/${SLUG}/GameView/${SLUG}$`),

@@ -5,6 +5,10 @@ export interface ApiOrganization {
   logo_url?: string | null;
 }
 
+export interface ApiOrganizationsResponse {
+  data: ApiOrganization[];
+}
+
 export interface ApiRecentlyViewedOrganization {
   last_relevant_update_at?: string;
   organization: ApiOrganization;

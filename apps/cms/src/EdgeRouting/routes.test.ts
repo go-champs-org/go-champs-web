@@ -71,7 +71,9 @@ describe('resolvePublicPath', () => {
       ['/acme/liga-2026/Teams/team-1', '/pt/acme/liga-2026/times/team-1'],
       ['/acme/liga-2026/Phase/phase-1', '/pt/acme/liga-2026/fases/phase-1'],
       ['/acme/liga-2026', '/pt/acme/liga-2026'],
-      ['/lair/torneio-basquete', '/pt/lair/torneio-basquete']
+      ['/lair/torneio-basquete', '/pt/lair/torneio-basquete'],
+      ['/Organization/acme', '/pt/acme'],
+      ['/Organization/acme/', '/pt/acme']
     ])('rewrites %s to %s', (cmsPath, publicPath) => {
       expect(resolvePublicPath(cmsPath)).toBe(publicPath);
     });
@@ -82,8 +84,6 @@ describe('resolvePublicPath', () => {
   // reproduce that precedence or they silently stop working.
   describe('two-segment CMS routes the tournament root must not swallow', () => {
     it.each([
-      ['/Organization/acme'],
-      ['/Organization/acme/'],
       ['/Invite/invite-1'],
       ['/Account/settings'],
       ['/PrivacyPolicy/anything'],
@@ -114,7 +114,6 @@ describe('resolvePublicPath', () => {
       // authenticated / account routes
       ['/SignIn'],
       ['/Account'],
-      ['/Organization/acme'],
       ['/Search'],
       // PrivacyPolicy (no BR) is a different, still-active CMS page
       ['/PrivacyPolicy'],
