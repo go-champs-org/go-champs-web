@@ -15,6 +15,7 @@ describe('mapApiGameToGameEntity', () => {
 
     expect(result).toEqual({
       id: 'g1',
+      assets: [],
       awayPlaceholder: '',
       awayScore: 10,
       awayTeam: { id: '', name: '', logoUrl: '', triCode: '', primaryColor: '', coaches: [] },
@@ -50,5 +51,27 @@ describe('mapApiGameToGameEntity', () => {
 
     expect(result.awayTeam.id).toBe('ta');
     expect(result.homeTeam.id).toBe('tb');
+  });
+
+  it('maps game assets when present', () => {
+    const result = mapApiGameToGameEntity({
+      id: 'g3',
+      assets: [
+        { id: 'a1', type: 'fiba-scoresheet', url: 'https://x/sumula.pdf' },
+        { type: 'fiba-boxscore', url: 'https://x/boxscore.pdf' }
+      ],
+      away_score: 0,
+      home_score: 0,
+      is_finished: false,
+      location: 'Arena Z',
+      phase_id: 'ph3',
+      live_state: 'not_started',
+      result_type: 'normal'
+    });
+
+    expect(result.assets).toEqual([
+      { id: 'a1', type: 'fiba-scoresheet', url: 'https://x/sumula.pdf' },
+      { id: '', type: 'fiba-boxscore', url: 'https://x/boxscore.pdf' }
+    ]);
   });
 });
