@@ -1,7 +1,10 @@
-const path = require('path');
-const createNextIntlPlugin = require('next-intl/plugin');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // If more than one pnpm-workspace.yaml/lockfile is reachable above this
 // directory, Next.js's root-inference can walk up too far, warn about
@@ -63,14 +66,16 @@ const nextConfig = {
   }
 };
 
-module.exports = withNextIntl(nextConfig);
-
 // Makes the Cloudflare bindings declared in wrangler.jsonc available to
 // `next dev`, so local development hits the same runtime surface as the
-// deployed Worker.
+// deployed Worker. @opennextjs/cloudflare is ESM-only, which is why this file
+// is .mjs: a CommonJS next.config.js can only `require()` it and fails with
+// ERR_REQUIRE_ESM.
 if (process.env.NODE_ENV === 'development') {
-  const {
-    initOpenNextCloudflareForDev
-  } = require('@opennextjs/cloudflare');
-  initOpenNextCloudflareForDev();
+  const { initOpenNextCloudflareForDev } = await import(
+    '@opennextjs/cloudflare'
+  );
+  await initOpenNextCloudflareForDev();
 }
+
+export default withNextIntl(nextConfig);
