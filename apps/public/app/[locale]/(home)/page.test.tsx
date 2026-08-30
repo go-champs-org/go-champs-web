@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import {
   getRecentlyViewedOrganizations,
@@ -62,16 +62,31 @@ describe('RootPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('links out with absolute URLs, never a locale-prefixed path', async () => {
+  it('links search results and recently viewed tournaments with absolute URLs, never a locale-prefixed path', async () => {
     // A relative href gets the locale prefixed onto it by the middleware, and
-    // /pt/org-recente/torneio-recente matches nothing on either app.
+    // /pt/org-recente/torneio-recente matches nothing on either app — the
+    // tournament still lives on the CMS until the routing rollout moves it
+    // here. The organizations sidebar is exempt: its own page already lives
+    // in this app.
     await renderPage();
+
+    const sidebar = screen.getByRole('complementary');
 
     screen
       .getAllByRole('link')
+      .filter(link => !sidebar.contains(link))
       .forEach(link =>
         expect(link.getAttribute('href')).toMatch(/^https?:\/\//)
       );
+  });
+
+  it('links each organization in the sidebar to its page in this app', async () => {
+    await renderPage();
+
+    const sidebar = screen.getByRole('complementary');
+    const link = within(sidebar).getByRole('link', { name: /Org Recente/ });
+
+    expect(link).toHaveAttribute('href', '/pt/org-recente');
   });
 
   it('still renders when the API is unreachable', async () => {
