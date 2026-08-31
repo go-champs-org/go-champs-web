@@ -53,8 +53,7 @@ describe('organizationReducer', () => {
           id: 'first-id',
           name: 'first-name',
           slug: 'first-slug',
-          logoUrl: 'first-logo-url',
-          members: []
+          logoUrl: 'first-logo-url'
         }
       }
     };
@@ -79,8 +78,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
-            logoUrl: 'some-logo-url',
-            members: []
+            logoUrl: 'some-logo-url'
           },
           ...deleteState.organizations
         }
@@ -92,8 +90,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
-        logoUrl: 'some-logo-url',
-        members: []
+        logoUrl: 'some-logo-url'
       });
     });
   });
@@ -123,8 +120,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'some-first-name',
       slug: 'first-slug',
-      logoUrl: 'some-logo-url',
-      members: [{ username: 'some-username' }]
+      logoUrl: 'some-logo-url'
     });
 
     const updateState: OrganizationState = {
@@ -134,8 +130,7 @@ describe('organizationReducer', () => {
           id: 'first-id',
           name: 'first-name',
           slug: 'first-slug',
-          logoUrl: 'first-logo-url',
-          members: [{ username: 'first-username' }]
+          logoUrl: 'first-logo-url'
         }
       }
     };
@@ -153,8 +148,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'some-first-name',
         slug: 'first-slug',
-        logoUrl: 'some-logo-url',
-        members: [{ username: 'some-username' }]
+        logoUrl: 'some-logo-url'
       });
     });
 
@@ -166,8 +160,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
-            logoUrl: 'some-logo-url',
-            members: [{ username: 'some-username' }]
+            logoUrl: 'some-logo-url'
           }
         }
       };
@@ -178,8 +171,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
-        logoUrl: 'some-logo-url',
-        members: [{ username: 'some-username' }]
+        logoUrl: 'some-logo-url'
       });
     });
   });
@@ -209,8 +201,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug',
-      logoUrl: 'first-logo-url',
-      members: [{ username: 'first-username' }]
+      logoUrl: 'first-logo-url'
     });
 
     it('sets isLoadingPostOrganization to false', () => {
@@ -226,8 +217,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logoUrl: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logoUrl: 'first-logo-url'
       });
     });
 
@@ -239,8 +229,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
-            logoUrl: 'some-logo-url',
-            members: [{ username: 'some-username' }]
+            logoUrl: 'some-logo-url'
           }
         }
       };
@@ -251,8 +240,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
-        logoUrl: 'some-logo-url',
-        members: [{ username: 'some-username' }]
+        logoUrl: 'some-logo-url'
       });
     });
   });
@@ -270,15 +258,13 @@ describe('organizationReducer', () => {
                 id: 'first-id',
                 name: 'first-name',
                 slug: 'first-slug',
-                logo_url: 'first-logo-url',
-                members: [{ username: 'first-username' }]
+                logo_url: 'first-logo-url'
               },
               {
                 id: 'second-id',
                 name: 'second-name',
                 slug: 'second-slug',
-                logo_url: 'second-logo-url',
-                members: [{ username: 'second-username' }]
+                logo_url: 'second-logo-url'
               }
             ]
           }
@@ -289,15 +275,13 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logoUrl: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logoUrl: 'first-logo-url'
       });
       expect(newState.organizations['second-slug']).toEqual({
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
-        logoUrl: 'second-logo-url',
-        members: [{ username: 'second-username' }]
+        logoUrl: 'second-logo-url'
       });
     });
   });
@@ -327,8 +311,7 @@ describe('organizationReducer', () => {
       id: 'first-id',
       name: 'first-name',
       slug: 'first-slug',
-      logoUrl: 'first-logo-url',
-      members: [{ username: 'first-username' }]
+      logoUrl: 'first-logo-url'
     });
 
     it('sets isLoadingRequestOrganizations to false', () => {
@@ -344,8 +327,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logoUrl: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logoUrl: 'first-logo-url'
       });
     });
 
@@ -357,8 +339,7 @@ describe('organizationReducer', () => {
             id: 'some-id',
             name: 'some-name',
             slug: 'some-slug',
-            logoUrl: 'some-logo-url',
-            members: [{ username: 'some-username' }]
+            logoUrl: 'some-logo-url'
           }
         }
       };
@@ -369,8 +350,7 @@ describe('organizationReducer', () => {
         id: 'some-id',
         name: 'some-name',
         slug: 'some-slug',
-        logoUrl: 'some-logo-url',
-        members: [{ username: 'some-username' }]
+        logoUrl: 'some-logo-url'
       });
     });
   });
@@ -401,15 +381,13 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logoUrl: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logoUrl: 'first-logo-url'
       },
       {
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
-        logoUrl: 'second-logo-url',
-        members: [{ username: 'second-username' }]
+        logoUrl: 'second-logo-url'
       }
     ]);
 
@@ -426,15 +404,13 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logoUrl: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logoUrl: 'first-logo-url'
       });
       expect(newState.organizations['second-slug']).toEqual({
         id: 'second-id',
         name: 'second-name',
         slug: 'second-slug',
-        logoUrl: 'second-logo-url',
-        members: [{ username: 'second-username' }]
+        logoUrl: 'second-logo-url'
       });
     });
   });
@@ -447,8 +423,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logo_url: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logo_url: 'first-logo-url'
       },
       phases: [],
       teams: []
@@ -461,8 +436,7 @@ describe('organizationReducer', () => {
         id: 'first-id',
         name: 'first-name',
         slug: 'first-slug',
-        logoUrl: 'first-logo-url',
-        members: [{ username: 'first-username' }]
+        logoUrl: 'first-logo-url'
       });
     });
   });

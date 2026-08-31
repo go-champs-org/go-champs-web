@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Field, FieldRenderProps, FormRenderProps } from 'react-final-form';
-import { OrganizationEntity, DEFAULT_MEMBER, MemberEntity } from './state';
+import { OrganizationEntity } from './state';
 import StringInput from '../Shared/UI/Form/StringInput';
 import Shimmer from '../Shared/UI/Shimmer';
 import { Link } from 'react-router-dom';
@@ -10,8 +10,6 @@ import {
   composeValidators,
   mustBeSlug
 } from '../Shared/UI/Form/Validators/commonValidators';
-import { FieldArray } from 'react-final-form-arrays';
-import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import { Trans } from 'react-i18next';
 import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 import ImageUpload from '../Shared/UI/Form/ImageUpload';
@@ -19,39 +17,6 @@ import {
   mapFileReferenceToApiOrganizationLogo,
   mapOrganizationLogoToApiFileReference
 } from './dataMappers';
-
-interface OrganizationMemberProps {
-  name: string;
-  onRemove: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
-
-const MemberForm: React.FC<OrganizationMemberProps> = ({ name, onRemove }) => {
-  return (
-    <Fragment>
-      <tr>
-        <td>
-          <Field
-            name={`${name}.username`}
-            component={StringInput}
-            type="text"
-          />
-        </td>
-
-        <td
-          className="has-text-right"
-          style={{ paddingRight: '0', verticalAlign: 'middle' }}
-        >
-          <DoubleClickButton
-            className="button has-tooltip-top"
-            onClick={onRemove}
-          >
-            <i className="fas fa-trash" />
-          </DoubleClickButton>
-        </td>
-      </tr>
-    </Fragment>
-  );
-};
 
 export const FormLoading: React.FC = () => (
   <div className="columns is-multiline">
@@ -85,23 +50,9 @@ export const FormLoading: React.FC = () => (
   </div>
 );
 
-interface FieldArrayActions {
-  value: MemberEntity[];
-  remove: (index: number) => void;
-  swap: (indexA: number, indexB: number) => void;
-}
-
-const onRemoveMember = (items: FieldArrayActions, index: number) => (
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-) => {
-  event.preventDefault();
-  return items.remove(index);
-};
-
 interface FormProps extends FormRenderProps<OrganizationEntity> {
   isLoading: boolean;
   backUrl: string;
-  push: (fieldName: string, member: MemberEntity) => {};
 }
 
 const Form: React.FC<FormProps> = ({
@@ -110,7 +61,6 @@ const Form: React.FC<FormProps> = ({
   handleSubmit,
   submitting,
   pristine,
-  push,
   values,
   validating,
   valid
@@ -182,45 +132,7 @@ const Form: React.FC<FormProps> = ({
           </div>
         </div>
 
-        <div className="field">
-          <FieldArray name="members">
-            {({ fields }) => (
-              <div className="table-container">
-                <table className="table is-fullwidth is-striped is-hoverable">
-                  <thead>
-                    <tr>
-                      <th style={{ paddingLeft: '0' }}>
-                        <Trans>members</Trans>
-                      </th>
-                      <th></th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {fields.map((name, index) => (
-                      <MemberForm
-                        name={name}
-                        onRemove={onRemoveMember(fields, index)}
-                      />
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </FieldArray>
-        </div>
-
         <div className="columns is-multiline">
-          <div className="column is-12">
-            <button
-              className="button is-fullwidth is-medium"
-              type="button"
-              onClick={() => push('members', DEFAULT_MEMBER)}
-            >
-              <Trans>addMember</Trans>
-            </button>
-          </div>
-
           <div className="column is-12">
             <LoadingButton
               isLoading={isLoading}

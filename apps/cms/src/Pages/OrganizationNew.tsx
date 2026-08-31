@@ -3,14 +3,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { postOrganization } from '../Organizations/effects';
 import { default as OrganizationForm } from '../Organizations/Form';
-import arrayMutators from 'final-form-arrays';
-import { Mutator } from 'final-form';
 import { Form, FormRenderProps } from 'react-final-form';
-import { OrganizationEntity } from '../Organizations/state';
+import {
+  DEFAULT_ORGANIZATION,
+  OrganizationEntity
+} from '../Organizations/state';
 import Helmet from 'react-helmet';
 import { StoreState } from '../store';
 import { postingOrganization } from '../Organizations/selectors';
-import { buildNewOrganizationWithMember } from '../Organizations/dataMappers';
 import { RouteComponentProps } from 'react-router-dom';
 import { Trans } from 'react-i18next';
 
@@ -39,7 +39,7 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
   postOrganization
 }) => {
   const backUrl = `/Account`;
-  const initialOrganization = buildNewOrganizationWithMember();
+  const initialOrganization = DEFAULT_ORGANIZATION;
   return (
     <Fragment>
       <div className="columns is-vcentered is-mobile is-multiline">
@@ -53,17 +53,11 @@ const OrganizationNew: React.FC<OrganizationNewProps> = ({
           <Form
             onSubmit={postOrganization}
             initialValues={initialOrganization}
-            mutators={
-              (arrayMutators as unknown) as {
-                [key: string]: Mutator<OrganizationEntity>;
-              }
-            }
             render={(props: FormRenderProps<OrganizationEntity>) => (
               <OrganizationForm
                 {...props}
                 backUrl={backUrl}
                 isLoading={isPostingOrganization}
-                push={props.form.mutators.push}
               />
             )}
           />

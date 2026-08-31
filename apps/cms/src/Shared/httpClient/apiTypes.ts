@@ -226,10 +226,6 @@ export interface ApiEliminationBatchResponse {
   };
 }
 
-export interface ApiOrganizationMember {
-  username: string;
-}
-
 export type ApiOrganizationMemberRole = 'owner' | 'game_operator';
 
 export interface ApiOrganizationMemberWithRole {
@@ -263,7 +259,6 @@ export interface ApiOrganization {
   id: string;
   name: string;
   slug: string;
-  members?: ApiOrganizationMember[];
   organization_setting?: ApiOrganizationSetting;
 }
 

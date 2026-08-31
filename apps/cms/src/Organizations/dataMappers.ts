@@ -3,12 +3,7 @@ import {
   ApiOrganizationRequest
 } from '../Shared/httpClient/apiTypes';
 import { mapApiOrganizationSettingToOrganizationSettingEntity } from '../OrganizationSettings/dataMappers';
-import {
-  OrganizationEntity,
-  MemberEntity,
-  DEFAULT_ORGANIZATION
-} from './state';
-import { LOCAL_STORAGE_USERNAME_KEY } from '../Accounts/constants';
+import { OrganizationEntity } from './state';
 import { FileReference } from '../Shared/httpClient/uploadHttpClient';
 
 export const mapApiOrganizationToOrganizationEntity = (
@@ -18,18 +13,11 @@ export const mapApiOrganizationToOrganizationEntity = (
   name: apiOrganization.name,
   slug: apiOrganization.slug,
   logoUrl: apiOrganization.logo_url || '',
-  members: apiOrganization.members || [],
   organizationSetting: apiOrganization.organization_setting
     ? mapApiOrganizationSettingToOrganizationSettingEntity(
         apiOrganization.organization_setting
       )
     : undefined
-});
-
-export const mapMemberEntityToApiOrganizationMember = (
-  member: MemberEntity
-) => ({
-  username: member.username
 });
 
 export const mapOrganizationEntityToApiOrganizationRequest = (
@@ -39,22 +27,9 @@ export const mapOrganizationEntityToApiOrganizationRequest = (
     id: organization.id,
     name: organization.name,
     slug: organization.slug,
-    logo_url: organization.logoUrl ? organization.logoUrl : undefined,
-    members:
-      organization.members.length > 0
-        ? organization.members.map(mapMemberEntityToApiOrganizationMember)
-        : undefined
+    logo_url: organization.logoUrl ? organization.logoUrl : undefined
   }
 });
-
-export const buildNewOrganizationWithMember = () => {
-  const currentUsername =
-    localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
-  return {
-    ...DEFAULT_ORGANIZATION,
-    members: [{ username: currentUsername }]
-  };
-};
 
 export const mapOrganizationLogoToApiFileReference = (
   organization: OrganizationEntity
