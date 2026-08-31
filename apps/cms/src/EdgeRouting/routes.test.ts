@@ -1,4 +1,8 @@
-import { isPublicPassthroughPath, resolvePublicPath } from './routes';
+import {
+  isPublicPassthroughPath,
+  resolveLocaleFromCookieHeader,
+  resolvePublicPath
+} from './routes';
 
 describe('isPublicPassthroughPath', () => {
   it.each([
@@ -49,6 +53,31 @@ describe('isPublicPassthroughPath', () => {
   });
 });
 
+describe('resolveLocaleFromCookieHeader', () => {
+  it('reads NEXT_LOCALE from the Cookie header', () => {
+    expect(resolveLocaleFromCookieHeader('NEXT_LOCALE=en')).toBe('en');
+  });
+
+  it('reads NEXT_LOCALE alongside other cookies, in either position', () => {
+    expect(
+      resolveLocaleFromCookieHeader('foo=bar; NEXT_LOCALE=en; baz=qux')
+    ).toBe('en');
+  });
+
+  it('defaults to pt when there is no Cookie header', () => {
+    expect(resolveLocaleFromCookieHeader(null)).toBe('pt');
+  });
+
+  it('defaults to pt when NEXT_LOCALE is absent', () => {
+    expect(resolveLocaleFromCookieHeader('foo=bar')).toBe('pt');
+  });
+
+  it('defaults to pt for a value that is not a supported locale', () => {
+    // A stale/tampered cookie must not route to a locale apps/public 404s on.
+    expect(resolveLocaleFromCookieHeader('NEXT_LOCALE=fr')).toBe('pt');
+  });
+});
+
 describe('resolvePublicPath', () => {
   describe('routes migrated to apps/public', () => {
     it.each([
@@ -71,7 +100,9 @@ describe('resolvePublicPath', () => {
       ['/acme/liga-2026/Teams/team-1', '/pt/acme/liga-2026/times/team-1'],
       ['/acme/liga-2026/Phase/phase-1', '/pt/acme/liga-2026/fases/phase-1'],
       ['/acme/liga-2026', '/pt/acme/liga-2026'],
-      ['/lair/torneio-basquete', '/pt/lair/torneio-basquete']
+      ['/lair/torneio-basquete', '/pt/lair/torneio-basquete'],
+      ['/Organization/acme', '/pt/acme'],
+      ['/Organization/acme/', '/pt/acme']
     ])('rewrites %s to %s', (cmsPath, publicPath) => {
       expect(resolvePublicPath(cmsPath)).toBe(publicPath);
     });
@@ -82,8 +113,6 @@ describe('resolvePublicPath', () => {
   // reproduce that precedence or they silently stop working.
   describe('two-segment CMS routes the tournament root must not swallow', () => {
     it.each([
-      ['/Organization/acme'],
-      ['/Organization/acme/'],
       ['/Invite/invite-1'],
       ['/Account/settings'],
       ['/PrivacyPolicy/anything'],
@@ -97,6 +126,24 @@ describe('resolvePublicPath', () => {
         '/pt/organizational/liga'
       );
       expect(resolvePublicPath('/invites/liga')).toBe('/pt/invites/liga');
+    });
+  });
+
+  describe('locale', () => {
+    it('defaults to pt when no locale is given', () => {
+      expect(resolvePublicPath('/About')).toBe('/pt/about');
+    });
+
+    it('rewrites into the given locale instead of the default', () => {
+      expect(resolvePublicPath('/About', 'en')).toBe('/en/about');
+      expect(resolvePublicPath('/', 'en')).toBe('/en');
+      expect(resolvePublicPath('/Organization/acme', 'en')).toBe('/en/acme');
+      expect(resolvePublicPath('/acme/liga-2026', 'en')).toBe(
+        '/en/acme/liga-2026'
+      );
+      expect(resolvePublicPath('/acme/liga-2026/GameView/game-1', 'en')).toBe(
+        '/en/acme/liga-2026/jogos/game-1'
+      );
     });
   });
 
@@ -114,7 +161,6 @@ describe('resolvePublicPath', () => {
       // authenticated / account routes
       ['/SignIn'],
       ['/Account'],
-      ['/Organization/acme'],
       ['/Search'],
       // PrivacyPolicy (no BR) is a different, still-active CMS page
       ['/PrivacyPolicy'],

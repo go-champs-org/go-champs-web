@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FaChevronDown } from 'react-icons/fa';
 import type { OrganizationEntity } from '@gochamps/api-client';
@@ -9,12 +10,12 @@ import { Avatar } from '@gochamps/ui';
 const MAX_ORGANIZATIONS = 15;
 
 interface OrganizationsSidebarProps {
-  cmsUrl: string;
+  locale: string;
   organizations: OrganizationEntity[];
 }
 
 export function OrganizationsSidebar({
-  cmsUrl,
+  locale,
   organizations
 }: OrganizationsSidebarProps) {
   const t = useTranslations('home');
@@ -49,9 +50,9 @@ export function OrganizationsSidebar({
         {organizations.length > 0 ? (
           <div className="flex flex-col">
             {organizations.slice(0, MAX_ORGANIZATIONS).map(organization => (
-              <a
+              <Link
                 key={organization.id}
-                href={`${cmsUrl}/${organization.slug}`}
+                href={`/${locale}/${organization.slug}`}
                 className="flex items-center gap-2 border-b border-border px-3 py-2.5 text-foreground transition-colors last:border-b-0 hover:bg-primary/10 md:px-0 md:py-3"
               >
                 <Avatar
@@ -63,7 +64,7 @@ export function OrganizationsSidebar({
                 <span className="flex-1 truncate text-[0.8125rem] font-medium md:text-sm">
                   {organization.name}
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         ) : (

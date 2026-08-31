@@ -34,8 +34,26 @@ export const isPublicPassthroughPath = (pathname: string): boolean =>
     locale => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
+// Locales apps/public actually serves (src/i18n/routing.ts there).
+const SUPPORTED_LOCALES = ['pt', 'en'];
+const DEFAULT_LOCALE = 'pt';
+
+// NEXT_LOCALE: written by next-intl's middleware on apps/public and by the
+// CMS's own i18n (Shared/translations/i18n.ts) — the shared sync signal.
+export const resolveLocaleFromCookieHeader = (
+  cookieHeader: string | null
+): string => {
+  const match = cookieHeader?.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
+  const value = match?.[1];
+
+  return value && SUPPORTED_LOCALES.includes(value) ? value : DEFAULT_LOCALE;
+};
+
 /** null = matched the shape but declined; see the tournament root below. */
-type Rewrite = [RegExp, (match: RegExpMatchArray) => string | null];
+type Rewrite = [
+  RegExp,
+  (match: RegExpMatchArray, locale: string) => string | null
+];
 
 const SLUG = '([^/]+)';
 
@@ -68,56 +86,69 @@ const isReservedByCms = (segment: string): boolean =>
   CMS_RESERVED_SEGMENT_PREFIXES.some(prefix => segment.startsWith(prefix));
 
 const ROUTES: Rewrite[] = [
-  [/^\/$/, () => '/pt'],
+  [/^\/$/, (_m, locale) => `/${locale}`],
 
   // lote 2 — institucional. Case sensitive, like App.tsx's <Route sensitive>.
-  [/^\/About$/, () => '/pt/about'],
-  [/^\/Faq$/, () => '/pt/faq'],
-  [/^\/Contact$/, () => '/pt/contact'],
-  [/^\/PrivacyPolicyBR$/, () => '/pt/privacy'],
-  [/^\/TermsBR$/, () => '/pt/terms'],
+  [/^\/About$/, (_m, locale) => `/${locale}/about`],
+  [/^\/Faq$/, (_m, locale) => `/${locale}/faq`],
+  [/^\/Contact$/, (_m, locale) => `/${locale}/contact`],
+  [/^\/PrivacyPolicyBR$/, (_m, locale) => `/${locale}/privacy`],
+  [/^\/TermsBR$/, (_m, locale) => `/${locale}/terms`],
+
+  // Must precede the tournament root below, or `Organization` (reserved
+  // there) would decline and end the search before this rule ever runs.
+  [
+    new RegExp(`^/Organization/${SLUG}/?$`),
+    (m, locale) => `/${locale}/${m[1]}`
+  ],
 
   // lote 1 — rotas de leitura por torneio
   [
     new RegExp(`^/${SLUG}/${SLUG}/GameView/${SLUG}$`),
-    m => `/pt/${m[1]}/${m[2]}/jogos/${m[3]}`
+    (m, locale) => `/${locale}/${m[1]}/${m[2]}/jogos/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Player/${SLUG}$`),
-    m => `/pt/${m[1]}/${m[2]}/jogadores/${m[3]}`
+    (m, locale) => `/${locale}/${m[1]}/${m[2]}/jogadores/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStatsSummary$`),
-    m => `/pt/${m[1]}/${m[2]}/estatisticas/resumo`
+    (m, locale) => `/${locale}/${m[1]}/${m[2]}/estatisticas/resumo`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStats$`),
-    m => `/pt/${m[1]}/${m[2]}/estatisticas`
+    (m, locale) => `/${locale}/${m[1]}/${m[2]}/estatisticas`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Teams/${SLUG}$`),
-    m => `/pt/${m[1]}/${m[2]}/times/${m[3]}`
+    (m, locale) => `/${locale}/${m[1]}/${m[2]}/times/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Phase/${SLUG}$`),
-    m => `/pt/${m[1]}/${m[2]}/fases/${m[3]}`
+    (m, locale) => `/${locale}/${m[1]}/${m[2]}/fases/${m[3]}`
   ],
 
   // The tournament root, which renders its default phase. Last on purpose: no
   // literal segment of its own, so every rule above goes first.
   [
     new RegExp(`^/${SLUG}/${SLUG}/?$`),
-    m => (isReservedByCms(m[1]) ? null : `/pt/${m[1]}/${m[2]}`)
+    (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}/${m[2]}`)
   ]
 ];
 
-export const resolvePublicPath = (pathname: string): string | null => {
+// `locale` is a plain parameter, not read here, so this stays a pure
+// function the CMS test runner can exercise without a Worker environment —
+// worker/index.ts resolves it from NEXT_LOCALE and passes it in.
+export const resolvePublicPath = (
+  pathname: string,
+  locale: string = DEFAULT_LOCALE
+): string | null => {
   for (const [pattern, toPath] of ROUTES) {
     const match = pathname.match(pattern);
     if (!match) continue;
 
     // A rule that declined ends the search: no later rule is more specific.
-    return toPath(match);
+    return toPath(match, locale);
   }
 
   return null;

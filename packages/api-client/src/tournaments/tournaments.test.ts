@@ -1,3 +1,46 @@
+describe('getTournamentsByOrganizationSlug', () => {
+  const originalFetch = global.fetch;
+  const originalApiHost = process.env.API_HOST;
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+    if (originalApiHost === undefined) {
+      delete process.env.API_HOST;
+    } else {
+      process.env.API_HOST = originalApiHost;
+    }
+    jest.resetModules();
+  });
+
+  it('filters by organization_slug and maps each tournament', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getTournamentsByOrganizationSlug } = await import('./tournaments');
+
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: [
+          { id: 't1', name: 'Taça Bauru', slug: 'tacabauru', logo_url: 'https://x/l.png' },
+          { id: 't2', name: 'Copa Paulista', slug: 'copa-paulista' }
+        ]
+      })
+    });
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const result = await getTournamentsByOrganizationSlug('nlbb');
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.example.com/v1/tournaments?where%5Borganization_slug%5D=nlbb',
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    expect(result).toEqual([
+      { id: 't1', name: 'Taça Bauru', slug: 'tacabauru', logoUrl: 'https://x/l.png' },
+      { id: 't2', name: 'Copa Paulista', slug: 'copa-paulista', logoUrl: '' }
+    ]);
+  });
+});
+
 describe('getTournamentBySlug', () => {
   const originalFetch = global.fetch;
   const originalApiHost = process.env.API_HOST;

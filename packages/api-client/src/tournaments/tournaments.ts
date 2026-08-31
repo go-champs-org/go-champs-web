@@ -2,10 +2,24 @@ import ApiError from '../ApiError';
 import { getApiHost } from '../env';
 import httpClient from '../httpClient';
 import {
+  mapApiTournamentToTournamentEntity,
   mapApiTournamentToTournamentWithTeamsEntity,
+  TournamentEntity,
   TournamentWithTeamsEntity
 } from './dataMappers';
 import { ApiTournamentResponse, ApiTournamentsResponse } from './apiTypes';
+
+export const getTournamentsByOrganizationSlug = async (
+  organizationSlug: string
+): Promise<TournamentEntity[]> => {
+  const url = new URL('v1/tournaments', getApiHost());
+  url.searchParams.set('where[organization_slug]', organizationSlug);
+
+  const { data } = await httpClient.get<ApiTournamentsResponse>(
+    url.toString()
+  );
+  return data.map(mapApiTournamentToTournamentEntity);
+};
 
 export const getTournamentBySlug = async (
   organizationSlug: string,

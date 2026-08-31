@@ -103,12 +103,16 @@ const teamById = (
 interface TournamentBreadcrumbProps {
   homeHref: string;
   homeLabel: string;
+  organizationHref: string;
+  organizationLabel: string;
   currentLabel: string;
 }
 
 function TournamentBreadcrumb({
   homeHref,
   homeLabel,
+  organizationHref,
+  organizationLabel,
   currentLabel
 }: TournamentBreadcrumbProps) {
   return (
@@ -117,6 +121,12 @@ function TournamentBreadcrumb({
         <li>
           <Link href={homeHref} className="hover:text-primary-dark">
             {homeLabel}
+          </Link>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li>
+          <Link href={organizationHref} className="hover:text-primary-dark">
+            {organizationLabel}
           </Link>
         </li>
         <li aria-hidden="true">/</li>
@@ -169,6 +179,7 @@ interface TournamentHeaderProps {
   tournament: TournamentWithTeamsEntity;
   homeHref: string;
   homeLabel: string;
+  organizationHref: string;
   activeLabel: string;
   athletesLabel: string;
   teamsLabel: string;
@@ -180,6 +191,7 @@ function TournamentHeader({
   tournament,
   homeHref,
   homeLabel,
+  organizationHref,
   activeLabel,
   athletesLabel,
   teamsLabel,
@@ -194,6 +206,8 @@ function TournamentHeader({
         <TournamentBreadcrumb
           homeHref={homeHref}
           homeLabel={homeLabel}
+          organizationHref={organizationHref}
+          organizationLabel={tournament.organization.name}
           currentLabel={tournament.name}
         />
         <div className="flex flex-wrap items-center gap-2">{actions}</div>
@@ -206,7 +220,12 @@ function TournamentHeader({
             <h1 className="text-xl font-extrabold leading-tight text-foreground md:text-2xl">
               {tournament.name}
             </h1>
-            <p className="text-sm text-muted">{tournament.organization.name}</p>
+            <Link
+              href={organizationHref}
+              className="w-fit text-sm text-muted hover:text-primary-dark hover:underline"
+            >
+              {tournament.organization.name}
+            </Link>
             {isActive && (
               <span className="mt-1 inline-flex w-fit items-center gap-1.5 rounded-full bg-[color-mix(in_srgb,var(--color-primary)_15%,transparent)] px-3 py-1 text-xs font-semibold text-primary-dark">
                 <span
@@ -760,6 +779,7 @@ interface TournamentTopSectionProps {
   routeParams: PhaseViewParams;
   tournament: TournamentWithTeamsEntity;
   homeLabel: string;
+  organizationHref: string;
   activeLabel: string;
   athletesLabel: string;
   teamsLabel: string;
@@ -775,6 +795,7 @@ function TournamentTopSection({
   routeParams,
   tournament,
   homeLabel,
+  organizationHref,
   activeLabel,
   athletesLabel,
   teamsLabel,
@@ -788,6 +809,7 @@ function TournamentTopSection({
         tournament={tournament}
         homeHref={`/${routeParams.locale}`}
         homeLabel={homeLabel}
+        organizationHref={organizationHref}
         activeLabel={activeLabel}
         athletesLabel={athletesLabel}
         teamsLabel={teamsLabel}
@@ -844,6 +866,7 @@ export async function PhaseView({
             routeParams={routeParams}
             tournament={tournament}
             homeLabel={tPhase('breadcrumbHome')}
+            organizationHref={`/${locale}/${tournament.organization.slug}`}
             activeLabel={tPhase('active')}
             athletesLabel={tPhase('athletesCount')}
             teamsLabel={tPhase('teamsCount')}

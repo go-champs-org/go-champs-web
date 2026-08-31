@@ -49,9 +49,14 @@ i18n
     fallbackLng: 'pt',
     supportedLngs: ['en', 'pt'],
     detection: {
-      order: ['localStorage', 'navigator'],
+      // NEXT_LOCALE syncs the language with apps/public (routes.ts,
+      // resolveLocaleFromCookieHeader); after localStorage so it can't
+      // clobber a deliberate past choice here.
+      order: ['localStorage', 'cookie', 'navigator'],
       lookupLocalStorage: 'i18nextLng',
-      caches: ['localStorage']
+      lookupCookie: 'NEXT_LOCALE',
+      cookieMinutes: 365 * 24 * 60, // 1y, matching next-intl's default
+      caches: ['localStorage', 'cookie']
     },
     keySeparator: '.', // supports nested keys e.g. aiChat.title
     interpolation: {

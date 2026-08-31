@@ -235,7 +235,14 @@
     "playerStatsSummaryTitle": "Líderes de estatísticas — {tournament}",
     "playerStatsSummaryDescription": "Os líderes de cada estatística do {tournament} na Go Champs.",
     "phaseTitle": "{phase} — {tournament}",
-    "phaseDescription": "Jogos da {phase} no {tournament} na Go Champs."
+    "phaseDescription": "Jogos da {phase} no {tournament} na Go Champs.",
+    "organizationTitle": "{organization} — Go Champs",
+    "organizationDescription": "Campeonatos de {organization} na Go Champs."
+  },
+  "organization": {
+    "breadcrumbHome": "Home",
+    "tournamentsCount": "{count} campeonatos",
+    "noTournaments": "Nenhum campeonato encontrado"
   },
   "phase": {
     "unknownPhase": "fase",

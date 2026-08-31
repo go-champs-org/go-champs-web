@@ -1,5 +1,6 @@
 import {
   isPublicPassthroughPath,
+  resolveLocaleFromCookieHeader,
   resolvePublicPath
 } from '../src/EdgeRouting/routes';
 
@@ -17,7 +18,8 @@ export default {
       return env.PUBLIC.fetch(request);
     }
 
-    const publicPath = resolvePublicPath(url.pathname);
+    const locale = resolveLocaleFromCookieHeader(request.headers.get('Cookie'));
+    const publicPath = resolvePublicPath(url.pathname, locale);
 
     if (publicPath !== null) {
       url.pathname = publicPath;

@@ -344,9 +344,13 @@ describe('PhaseView', () => {
     expect(
       screen.getByRole('heading', { name: 'Liga de Basquete Amador (2022)' })
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('Liga de Basquete Amador de Porto Alegre')
-    ).toBeInTheDocument();
+    const organizationLinks = screen.getAllByRole('link', {
+      name: 'Liga de Basquete Amador de Porto Alegre'
+    });
+    expect(organizationLinks).toHaveLength(2);
+    organizationLinks.forEach(link =>
+      expect(link).toHaveAttribute('href', '/pt/liga')
+    );
     expect(screen.getByText('Campeonato ativo')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
     expect(screen.getByText('Atletas cadastrados')).toBeInTheDocument();

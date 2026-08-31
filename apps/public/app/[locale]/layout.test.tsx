@@ -19,6 +19,11 @@ jest.mock('next-intl', () => ({
   NextIntlClientProvider: ({ children }: { children: ReactNode }) => children
 }));
 
+// Needs a real router/i18n context out of scope here; covered by its own test.
+jest.mock('../../src/components/LocaleSwitcher', () => ({
+  LocaleSwitcher: () => null
+}));
+
 jest.mock('next-intl/server', () => ({
   setRequestLocale: jest.fn(),
   getTranslations: async (namespace: string) => {

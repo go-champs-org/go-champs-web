@@ -9,6 +9,7 @@ import { mapApiTeamToTeamEntity } from '../teams/dataMappers';
 import {
   ApiPlayerStat,
   ApiScoreboardSetting,
+  ApiTournament,
   ApiTournamentWithTeams
 } from './apiTypes';
 
@@ -133,6 +134,15 @@ export const mapApiScoreboardSettingToEntity = (
 
 export const playerStatThatIsVisible = (playerStat: PlayerStatEntity): boolean =>
   playerStat.visibility === 'public';
+
+export const mapApiTournamentToTournamentEntity = (
+  apiTournament: ApiTournament
+): TournamentEntity => ({
+  id: apiTournament.id,
+  name: apiTournament.name,
+  slug: apiTournament.slug,
+  logoUrl: apiTournament.logo_url || ''
+});
 
 export const mapApiTournamentToTournamentWithTeamsEntity = (
   apiTournament: ApiTournamentWithTeams
