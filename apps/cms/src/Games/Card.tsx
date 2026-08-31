@@ -7,6 +7,7 @@ import { TeamEntity } from '../Teams/state';
 import { StatsLogRenderEntity } from '../PlayerStatsLog/View';
 import LiveIndicator from '../Shared/UI/LiveIndicator';
 import { gameAssetOptionByValue } from '../Sports/selectors';
+import { gameVenue } from './gameVenue';
 
 const DEFAULT_ASSET_ICON_CLASS = 'fas fa-external-link-alt';
 
@@ -109,7 +110,7 @@ function Card({
         </div>
 
         <div className="column is-6 has-text-right">
-          <small>{game.location}</small>
+          <small>{gameVenue(game.location, game.court)}</small>
         </div>
 
         <div className="column is-12 is-hidden-mobile">

@@ -391,6 +391,21 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">
+            <Trans>city</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="city"
+              component={StringInput}
+              type="text"
+              placeholder="City"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
             <Trans>location</Trans>
           </label>
 
@@ -406,15 +421,15 @@ const Form: React.FC<FormProps> = ({
 
         <div className="field">
           <label className="label">
-            <Trans>city</Trans>
+            <Trans>court</Trans>
           </label>
 
           <div className="control">
             <Field
-              name="city"
+              name="court"
               component={StringInput}
               type="text"
-              placeholder="City"
+              placeholder="Court"
             />
           </div>
         </div>

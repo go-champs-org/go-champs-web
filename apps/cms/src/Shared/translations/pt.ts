@@ -208,6 +208,7 @@ export default {
     licenseNumber: 'Número da licença',
     location: 'Local',
     city: 'Cidade',
+    court: 'Quadra',
     logo: 'Logo',
     match: 'Confronto',
     matches: 'Confrontos',

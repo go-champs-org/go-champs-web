@@ -45,6 +45,7 @@ interface ApiGame {
   info?: string;
   location: string;
   city?: string;
+  court?: string;
   number?: string;
   live_state: ApiGameLiveState;
   live_started_at?: string;
@@ -1281,6 +1282,7 @@ export interface ApiProfileScheduleGame {
   datetime: string | null;
   location: string | null;
   city: string | null;
+  court?: string | null;
   is_finished: boolean;
   live_state: string | null;
   phase_id: string;
