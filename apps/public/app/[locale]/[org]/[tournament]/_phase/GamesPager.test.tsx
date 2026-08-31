@@ -22,6 +22,7 @@ const game = (overrides: Record<string, unknown> = {}) => ({
   datetime: '2026-08-27T18:00:00Z',
   location: '',
   city: '',
+  court: '',
   isFinished: false,
   awayPlaceholder: '',
   homePlaceholder: '',
