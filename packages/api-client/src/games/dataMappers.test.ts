@@ -27,6 +27,7 @@ describe('mapApiGameToGameEntity', () => {
       isFinished: true,
       location: 'Arena X',
       city: '',
+      court: '',
       number: '',
       phaseId: 'ph1',
       youTubeCode: '',
@@ -51,6 +52,22 @@ describe('mapApiGameToGameEntity', () => {
 
     expect(result.awayTeam.id).toBe('ta');
     expect(result.homeTeam.id).toBe('tb');
+  });
+
+  it('maps court when present', () => {
+    const result = mapApiGameToGameEntity({
+      id: 'g4',
+      away_score: 0,
+      home_score: 0,
+      is_finished: false,
+      location: 'Arena X',
+      court: 'Quadra 2',
+      phase_id: 'ph4',
+      live_state: 'not_started',
+      result_type: 'normal'
+    });
+
+    expect(result.court).toBe('Quadra 2');
   });
 
   it('maps game assets when present', () => {

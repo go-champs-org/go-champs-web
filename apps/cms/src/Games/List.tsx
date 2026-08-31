@@ -6,6 +6,7 @@ import Shimmer from '../Shared/UI/Shimmer';
 import DoubleClickButton from '../Shared/UI/DoubleClickButton';
 import BeamNotice from '../Shared/UI/BeamNotice';
 import { Trans } from 'react-i18next';
+import { gameVenue } from './gameVenue';
 
 const LoadingCard: React.FC = () => (
   <div className="card item">
@@ -83,7 +84,9 @@ const GameCard: React.FC<{
             </span>
           </div>
           <div className="column is-6 has-text-centered">
-            <span className="title is-7">{game.location}</span>
+            <span className="title is-7">
+              {gameVenue(game.location, game.court)}
+            </span>
           </div>
         </div>
       </footer>

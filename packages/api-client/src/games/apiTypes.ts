@@ -22,6 +22,7 @@ export interface ApiGame {
   is_finished: boolean;
   location: string;
   city?: string;
+  court?: string;
   number?: string;
   phase_id: string;
   youtube_code?: string;

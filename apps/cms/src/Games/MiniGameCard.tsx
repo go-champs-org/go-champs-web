@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { MigratedRouteLink } from '../Shared/UI/MigratedRouteLink';
 import { timeFromDate } from '../Shared/datetime/format';
 import TeamAndScore from './TeamAndScore';
+import { gameVenue } from './gameVenue';
 
 function MiniGameCard({
   baseUrl,
@@ -43,7 +44,7 @@ function MiniGameCard({
                   className="column is-4 has-text-right"
                   style={{ padding: '.3rem' }}
                 >
-                  {game.location}
+                  {gameVenue(game.location, game.court)}
                 </div>
               </div>
             </div>

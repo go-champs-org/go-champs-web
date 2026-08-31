@@ -205,6 +205,7 @@ export default {
     licenseNumber: 'License number',
     location: 'Location',
     city: 'City',
+    court: 'Court',
     logo: 'Logo',
     match: 'Match',
     matches: 'Matches',

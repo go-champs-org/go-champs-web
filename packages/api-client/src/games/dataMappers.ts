@@ -31,6 +31,7 @@ export interface GameEntity {
   isFinished: boolean;
   location: string;
   city: string;
+  court: string;
   number: string;
   phaseId: string;
   youTubeCode: string;
@@ -56,6 +57,7 @@ export const mapApiGameToGameEntity = (apiGame: ApiGame): GameEntity => ({
   isFinished: apiGame.is_finished,
   location: apiGame.location || '',
   city: apiGame.city || '',
+  court: apiGame.court || '',
   number: apiGame.number || '',
   phaseId: apiGame.phase_id,
   youTubeCode: apiGame.youtube_code || '',
