@@ -34,11 +34,11 @@ describe('LocaleSwitcher', () => {
     render(<LocaleSwitcher />);
     fireEvent.click(screen.getByRole('button'));
 
-    expect(screen.getByRole('menuitem', { name: /🇧🇷/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /🇧🇷/ })).toHaveAttribute(
       'href',
       '/pt/acme/liga-2026'
     );
-    expect(screen.getByRole('menuitem', { name: /🇺🇸/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /🇺🇸/ })).toHaveAttribute(
       'href',
       '/en/acme/liga-2026'
     );
