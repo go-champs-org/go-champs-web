@@ -1,15 +1,10 @@
 import { OrganizationSettingEntity } from '../OrganizationSettings/state';
 
-export interface MemberEntity {
-  username: string;
-}
-
 export interface OrganizationEntity {
   id: string;
   name: string;
   slug: string;
   logoUrl: string;
-  members: MemberEntity[];
   organizationSetting?: OrganizationSettingEntity;
 }
 
@@ -35,10 +30,5 @@ export const DEFAULT_ORGANIZATION: OrganizationEntity = {
   id: '',
   name: '',
   slug: '',
-  logoUrl: '',
-  members: []
-};
-
-export const DEFAULT_MEMBER: MemberEntity = {
-  username: ''
+  logoUrl: ''
 };

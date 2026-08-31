@@ -8,13 +8,11 @@ import {
 } from '../Organizations/effects';
 import { StoreState } from '../store';
 import { RouteProps } from './support/routerInterfaces';
-import arrayMutators from 'final-form-arrays';
 import {
   organizationBySlug,
   organizationsLoading,
   patchingOrganization
 } from '../Organizations/selectors';
-import { Mutator } from 'final-form';
 import { Form, FormRenderProps } from 'react-final-form';
 import {
   default as OrganizationForm,
@@ -104,17 +102,11 @@ const OrganizationEdit: React.FC<OrganizationEditProps> = ({
             <Form
               onSubmit={patchOrganization}
               initialValues={organization}
-              mutators={
-                (arrayMutators as unknown) as {
-                  [key: string]: Mutator<OrganizationEntity>;
-                }
-              }
               render={(props: FormRenderProps<OrganizationEntity>) => (
                 <OrganizationForm
                   {...props}
                   backUrl={backUrl}
                   isLoading={isPatchingOrganization}
-                  push={props.form.mutators.push}
                 />
               )}
             />
