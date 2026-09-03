@@ -208,5 +208,14 @@ describe('resolvePublicPath', () => {
         resolvePublicPath('/acme/liga-2026/Teams/team-1/extra')
       ).toBeNull();
     });
+
+    it('does not let the bare-org rule swallow single-segment static files', () => {
+      // Not in CMS_RESERVED_SEGMENTS and not in PASSTHROUGH_EXACT, but not a
+      // valid org slug either (mustBeSlug's shape) — must stay on the CMS so
+      // env.ASSETS serves them, not get rewritten to /pt/favicon.ico.
+      expect(resolvePublicPath('/favicon.ico')).toBeNull();
+      expect(resolvePublicPath('/manifest.json')).toBeNull();
+      expect(resolvePublicPath('/logo192.png')).toBeNull();
+    });
   });
 });
