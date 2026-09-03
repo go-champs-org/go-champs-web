@@ -321,7 +321,7 @@ describe('generateMetadata', () => {
 
     expect(metadata.title).toContain('Jogador Um');
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/pt/org/torneio-teste/jogadores/p1`
+      `${SITE_URL}/org/torneio-teste/jogadores/p1`
     );
     expect(metadata.robots).toBeUndefined();
   });

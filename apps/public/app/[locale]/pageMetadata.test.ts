@@ -34,7 +34,7 @@ describe('page metadata', () => {
         };
       };
 
-      expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/pt${path}`);
+      expect(metadata.alternates?.canonical).toBe(`${SITE_URL}${path}`);
       expect(metadata.alternates?.languages?.en).toBe(`${SITE_URL}/en${path}`);
       expect(metadata.description).toBeTruthy();
     }

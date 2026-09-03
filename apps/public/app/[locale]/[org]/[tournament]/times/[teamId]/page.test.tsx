@@ -737,7 +737,7 @@ describe('generateMetadata', () => {
 
     expect(metadata.title).toContain('Time B');
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/pt/org/torneio-teste/times/t2`
+      `${SITE_URL}/org/torneio-teste/times/t2`
     );
     expect(metadata.robots).toBeUndefined();
   });
