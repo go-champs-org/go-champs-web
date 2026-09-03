@@ -280,7 +280,7 @@ describe('GamePage', () => {
       '@context': 'https://schema.org',
       '@type': 'SportsEvent',
       name: 'Time Casa x Time Visitante',
-      url: `${SITE_URL}/pt/org/torneio/jogos/g1`,
+      url: `${SITE_URL}/org/torneio/jogos/g1`,
       startDate: '2026-08-01T23:00:00Z',
       location: {
         '@type': 'Place',
@@ -411,7 +411,7 @@ describe('GamePage metadata', () => {
 
     expect(metadata.title).toBe('Time Casa x Time Visitante');
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/pt/org/torneio/jogos/g1`
+      `${SITE_URL}/org/torneio/jogos/g1`
     );
     expect(metadata.alternates?.languages?.en).toBe(
       `${SITE_URL}/en/org/torneio/jogos/g1`
@@ -427,7 +427,7 @@ describe('GamePage metadata', () => {
 
     expect(metadata.robots).toEqual({ index: false });
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/pt/org/torneio/jogos/g1`
+      `${SITE_URL}/org/torneio/jogos/g1`
     );
   });
 });

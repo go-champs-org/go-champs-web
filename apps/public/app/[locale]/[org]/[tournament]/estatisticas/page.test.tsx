@@ -232,7 +232,7 @@ describe('generateMetadata', () => {
 
     expect(metadata.title).toContain('Torneio Teste');
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/pt/org/torneio-teste/estatisticas`
+      `${SITE_URL}/org/torneio-teste/estatisticas`
     );
     expect(metadata.robots).toBeUndefined();
   });

@@ -26,8 +26,12 @@ const OPEN_GRAPH_LOCALES: Record<string, string> = {
   en: 'en_US'
 };
 
+// Mirrors routing.ts's localePrefix: 'as-needed' — the default locale (pt)
+// is never in the URL, so its canonical/alternate must match too.
 export const pageUrl = (locale: string, path: string) =>
-  `${SITE_URL}/${locale}${path}`;
+  locale === routing.defaultLocale
+    ? `${SITE_URL}${path}`
+    : `${SITE_URL}/${locale}${path}`;
 
 export const localeUrls = (path: string) =>
   Object.fromEntries(
