@@ -57,6 +57,12 @@ type Rewrite = [
 
 const SLUG = '([^/]+)';
 
+// Same shape as commonValidators' mustBeSlug: lowercase alnum segments joined
+// by single hyphens. Stricter than SLUG on purpose — the bare-org rule below
+// has no literal segment of its own, so it must reject dotted filenames like
+// favicon.ico or manifest.json and leave them on the CMS (env.ASSETS).
+const ORG_SLUG = '([a-z0-9]+(?:-[a-z0-9]+)*)';
+
 /**
  * First segments that are never an organization slug. From the static routes
  * App.tsx declares ahead of /:organizationSlug/:tournamentSlug — the tournament
@@ -133,6 +139,15 @@ const ROUTES: Rewrite[] = [
   [
     new RegExp(`^/${SLUG}/${SLUG}/?$`),
     (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}/${m[2]}`)
+  ],
+
+  // The bare organization page (App.tsx's /:organizationSlug -> OrganizationView),
+  // its lowest-priority route: declared after every other route above, including
+  // the tournament root. Same no-literal-segment situation, so it must also come
+  // last and defer to CMS_RESERVED_SEGMENTS.
+  [
+    new RegExp(`^/${ORG_SLUG}/?$`),
+    (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}`)
   ]
 ];
 
