@@ -102,22 +102,40 @@ describe('resolvePublicPath', () => {
       ['/acme/liga-2026', '/pt/acme/liga-2026'],
       ['/lair/torneio-basquete', '/pt/lair/torneio-basquete'],
       ['/Organization/acme', '/pt/acme'],
-      ['/Organization/acme/', '/pt/acme']
+      ['/Organization/acme/', '/pt/acme'],
+      // App.tsx's bare /:organizationSlug (OrganizationView), lowest priority
+      // of all routes: matches only what nothing else — including the
+      // tournament root — already claimed.
+      ['/acme', '/pt/acme'],
+      ['/acme/', '/pt/acme']
     ])('rewrites %s to %s', (cmsPath, publicPath) => {
       expect(resolvePublicPath(cmsPath)).toBe(publicPath);
     });
   });
 
-  // The tournament root has no literal segment, so it matches any two-segment
-  // path. App.tsx lists these ahead of /:org/:tournament; the table has to
-  // reproduce that precedence or they silently stop working.
-  describe('two-segment CMS routes the tournament root must not swallow', () => {
+  // The tournament root and the bare organization page both have no literal
+  // segment of their own, so each matches any path of its length. App.tsx
+  // lists these CMS routes ahead of /:org/:tournament and /:organizationSlug;
+  // the table has to reproduce that precedence or they silently stop working.
+  describe('CMS routes the reserved-segment rules must not swallow', () => {
     it.each([
       ['/Invite/invite-1'],
       ['/Account/settings'],
       ['/PrivacyPolicy/anything'],
       ['/FacebookSignUp/callback']
-    ])('leaves %s on the CMS', cmsPath => {
+    ])('leaves two-segment %s on the CMS', cmsPath => {
+      expect(resolvePublicPath(cmsPath)).toBeNull();
+    });
+
+    it.each([
+      ['/UseAsApp'],
+      ['/SignIn'],
+      ['/SignUp'],
+      ['/Account'],
+      ['/Search'],
+      ['/PrivacyPolicy'],
+      ['/FacebookSignUp']
+    ])('leaves bare %s on the CMS', cmsPath => {
       expect(resolvePublicPath(cmsPath)).toBeNull();
     });
 
@@ -126,6 +144,11 @@ describe('resolvePublicPath', () => {
         '/pt/organizational/liga'
       );
       expect(resolvePublicPath('/invites/liga')).toBe('/pt/invites/liga');
+    });
+
+    it('still routes a bare org slug that merely resembles a reserved segment', () => {
+      expect(resolvePublicPath('/organizational')).toBe('/pt/organizational');
+      expect(resolvePublicPath('/invites')).toBe('/pt/invites');
     });
   });
 
@@ -157,7 +180,6 @@ describe('resolvePublicPath', () => {
       ['/acme/liga-2026/NewTeam'],
       // pages not yet built in apps/public
       ['/UseAsApp'],
-      ['/acme'],
       // authenticated / account routes
       ['/SignIn'],
       ['/Account'],
@@ -170,8 +192,14 @@ describe('resolvePublicPath', () => {
     });
 
     it('is case sensitive, matching the CMS route definitions', () => {
-      expect(resolvePublicPath('/about')).toBeNull();
-      expect(resolvePublicPath('/faq')).toBeNull();
+      // Case-mismatched literal routes fall through past the reserved-segment
+      // check, same as in App.tsx (its <Route sensitive> only matches the
+      // exact case) — landing on the bare org rule instead, same as the CMS's
+      // own bare /:organizationSlug would.
+      expect(resolvePublicPath('/about')).toBe('/pt/about');
+      expect(resolvePublicPath('/faq')).toBe('/pt/faq');
+      // A path too long for any rule, case mismatch included, stays on the CMS.
+      expect(resolvePublicPath('/acme/liga-2026/gameview/game-1')).toBeNull();
     });
 
     it('does not let a slug segment swallow a path separator', () => {

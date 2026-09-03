@@ -133,6 +133,15 @@ const ROUTES: Rewrite[] = [
   [
     new RegExp(`^/${SLUG}/${SLUG}/?$`),
     (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}/${m[2]}`)
+  ],
+
+  // The bare organization page (App.tsx's /:organizationSlug -> OrganizationView),
+  // its lowest-priority route: declared after every other route above, including
+  // the tournament root. Same no-literal-segment situation, so it must also come
+  // last and defer to CMS_RESERVED_SEGMENTS.
+  [
+    new RegExp(`^/${SLUG}/?$`),
+    (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}`)
   ]
 ];
 
