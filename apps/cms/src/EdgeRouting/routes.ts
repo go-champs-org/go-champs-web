@@ -63,6 +63,13 @@ const SLUG = '([^/]+)';
 // favicon.ico or manifest.json and leave them on the CMS (env.ASSETS).
 const ORG_SLUG = '([a-z0-9]+(?:-[a-z0-9]+)*)';
 
+// apps/public's routing.ts sets localePrefix: 'as-needed' — the default
+// locale (pt) never appears in the URL, and its middleware redirects any
+// /pt/* path back to the bare path. Emitting /pt/* here would round-trip
+// forever with that redirect, so the default locale is always omitted.
+const withLocale = (locale: string, path: string): string =>
+  locale === DEFAULT_LOCALE ? path : `/${locale}${path}`;
+
 /**
  * First segments that are never an organization slug. From the static routes
  * App.tsx declares ahead of /:organizationSlug/:tournamentSlug — the tournament
@@ -92,53 +99,54 @@ const isReservedByCms = (segment: string): boolean =>
   CMS_RESERVED_SEGMENT_PREFIXES.some(prefix => segment.startsWith(prefix));
 
 const ROUTES: Rewrite[] = [
-  [/^\/$/, (_m, locale) => `/${locale}`],
+  [/^\/$/, (_m, locale) => (locale === DEFAULT_LOCALE ? '/' : `/${locale}`)],
 
   // lote 2 — institucional. Case sensitive, like App.tsx's <Route sensitive>.
-  [/^\/About$/, (_m, locale) => `/${locale}/about`],
-  [/^\/Faq$/, (_m, locale) => `/${locale}/faq`],
-  [/^\/Contact$/, (_m, locale) => `/${locale}/contact`],
-  [/^\/PrivacyPolicyBR$/, (_m, locale) => `/${locale}/privacy`],
-  [/^\/TermsBR$/, (_m, locale) => `/${locale}/terms`],
+  [/^\/About$/, (_m, locale) => withLocale(locale, '/about')],
+  [/^\/Faq$/, (_m, locale) => withLocale(locale, '/faq')],
+  [/^\/Contact$/, (_m, locale) => withLocale(locale, '/contact')],
+  [/^\/PrivacyPolicyBR$/, (_m, locale) => withLocale(locale, '/privacy')],
+  [/^\/TermsBR$/, (_m, locale) => withLocale(locale, '/terms')],
 
   // Must precede the tournament root below, or `Organization` (reserved
   // there) would decline and end the search before this rule ever runs.
   [
     new RegExp(`^/Organization/${SLUG}/?$`),
-    (m, locale) => `/${locale}/${m[1]}`
+    (m, locale) => withLocale(locale, `/${m[1]}`)
   ],
 
   // lote 1 — rotas de leitura por torneio
   [
     new RegExp(`^/${SLUG}/${SLUG}/GameView/${SLUG}$`),
-    (m, locale) => `/${locale}/${m[1]}/${m[2]}/jogos/${m[3]}`
+    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/jogos/${m[3]}`)
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Player/${SLUG}$`),
-    (m, locale) => `/${locale}/${m[1]}/${m[2]}/jogadores/${m[3]}`
+    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/jogadores/${m[3]}`)
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStatsSummary$`),
-    (m, locale) => `/${locale}/${m[1]}/${m[2]}/estatisticas/resumo`
+    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/estatisticas/resumo`)
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStats$`),
-    (m, locale) => `/${locale}/${m[1]}/${m[2]}/estatisticas`
+    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/estatisticas`)
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Teams/${SLUG}$`),
-    (m, locale) => `/${locale}/${m[1]}/${m[2]}/times/${m[3]}`
+    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/times/${m[3]}`)
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Phase/${SLUG}$`),
-    (m, locale) => `/${locale}/${m[1]}/${m[2]}/fases/${m[3]}`
+    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/fases/${m[3]}`)
   ],
 
   // The tournament root, which renders its default phase. Last on purpose: no
   // literal segment of its own, so every rule above goes first.
   [
     new RegExp(`^/${SLUG}/${SLUG}/?$`),
-    (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}/${m[2]}`)
+    (m, locale) =>
+      isReservedByCms(m[1]) ? null : withLocale(locale, `/${m[1]}/${m[2]}`)
   ],
 
   // The bare organization page (App.tsx's /:organizationSlug -> OrganizationView),
@@ -147,7 +155,7 @@ const ROUTES: Rewrite[] = [
   // last and defer to CMS_RESERVED_SEGMENTS.
   [
     new RegExp(`^/${ORG_SLUG}/?$`),
-    (m, locale) => (isReservedByCms(m[1]) ? null : `/${locale}/${m[1]}`)
+    (m, locale) => (isReservedByCms(m[1]) ? null : withLocale(locale, `/${m[1]}`))
   ]
 ];
 

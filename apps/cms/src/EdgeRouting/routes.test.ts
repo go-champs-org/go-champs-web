@@ -81,33 +81,36 @@ describe('resolveLocaleFromCookieHeader', () => {
 describe('resolvePublicPath', () => {
   describe('routes migrated to apps/public', () => {
     it.each([
-      ['/', '/pt'],
-      ['/About', '/pt/about'],
-      ['/Faq', '/pt/faq'],
-      ['/Contact', '/pt/contact'],
-      ['/PrivacyPolicyBR', '/pt/privacy'],
-      ['/TermsBR', '/pt/terms'],
-      ['/acme/liga-2026/GameView/game-1', '/pt/acme/liga-2026/jogos/game-1'],
+      // apps/public's localePrefix: 'as-needed' never shows pt in the URL —
+      // its own middleware would redirect /pt/* back to the bare path, so
+      // the default locale must never appear in the rewritten path either.
+      ['/', '/'],
+      ['/About', '/about'],
+      ['/Faq', '/faq'],
+      ['/Contact', '/contact'],
+      ['/PrivacyPolicyBR', '/privacy'],
+      ['/TermsBR', '/terms'],
+      ['/acme/liga-2026/GameView/game-1', '/acme/liga-2026/jogos/game-1'],
       [
         '/acme/liga-2026/Player/player-1',
-        '/pt/acme/liga-2026/jogadores/player-1'
+        '/acme/liga-2026/jogadores/player-1'
       ],
-      ['/acme/liga-2026/PlayerStats', '/pt/acme/liga-2026/estatisticas'],
+      ['/acme/liga-2026/PlayerStats', '/acme/liga-2026/estatisticas'],
       [
         '/acme/liga-2026/PlayerStatsSummary',
-        '/pt/acme/liga-2026/estatisticas/resumo'
+        '/acme/liga-2026/estatisticas/resumo'
       ],
-      ['/acme/liga-2026/Teams/team-1', '/pt/acme/liga-2026/times/team-1'],
-      ['/acme/liga-2026/Phase/phase-1', '/pt/acme/liga-2026/fases/phase-1'],
-      ['/acme/liga-2026', '/pt/acme/liga-2026'],
-      ['/lair/torneio-basquete', '/pt/lair/torneio-basquete'],
-      ['/Organization/acme', '/pt/acme'],
-      ['/Organization/acme/', '/pt/acme'],
+      ['/acme/liga-2026/Teams/team-1', '/acme/liga-2026/times/team-1'],
+      ['/acme/liga-2026/Phase/phase-1', '/acme/liga-2026/fases/phase-1'],
+      ['/acme/liga-2026', '/acme/liga-2026'],
+      ['/lair/torneio-basquete', '/lair/torneio-basquete'],
+      ['/Organization/acme', '/acme'],
+      ['/Organization/acme/', '/acme'],
       // App.tsx's bare /:organizationSlug (OrganizationView), lowest priority
       // of all routes: matches only what nothing else — including the
       // tournament root — already claimed.
-      ['/acme', '/pt/acme'],
-      ['/acme/', '/pt/acme']
+      ['/acme', '/acme'],
+      ['/acme/', '/acme']
     ])('rewrites %s to %s', (cmsPath, publicPath) => {
       expect(resolvePublicPath(cmsPath)).toBe(publicPath);
     });
@@ -141,20 +144,20 @@ describe('resolvePublicPath', () => {
 
     it('still routes a tournament whose org slug merely resembles one', () => {
       expect(resolvePublicPath('/organizational/liga')).toBe(
-        '/pt/organizational/liga'
+        '/organizational/liga'
       );
-      expect(resolvePublicPath('/invites/liga')).toBe('/pt/invites/liga');
+      expect(resolvePublicPath('/invites/liga')).toBe('/invites/liga');
     });
 
     it('still routes a bare org slug that merely resembles a reserved segment', () => {
-      expect(resolvePublicPath('/organizational')).toBe('/pt/organizational');
-      expect(resolvePublicPath('/invites')).toBe('/pt/invites');
+      expect(resolvePublicPath('/organizational')).toBe('/organizational');
+      expect(resolvePublicPath('/invites')).toBe('/invites');
     });
   });
 
   describe('locale', () => {
     it('defaults to pt when no locale is given', () => {
-      expect(resolvePublicPath('/About')).toBe('/pt/about');
+      expect(resolvePublicPath('/About')).toBe('/about');
     });
 
     it('rewrites into the given locale instead of the default', () => {
@@ -196,8 +199,8 @@ describe('resolvePublicPath', () => {
       // check, same as in App.tsx (its <Route sensitive> only matches the
       // exact case) — landing on the bare org rule instead, same as the CMS's
       // own bare /:organizationSlug would.
-      expect(resolvePublicPath('/about')).toBe('/pt/about');
-      expect(resolvePublicPath('/faq')).toBe('/pt/faq');
+      expect(resolvePublicPath('/about')).toBe('/about');
+      expect(resolvePublicPath('/faq')).toBe('/faq');
       // A path too long for any rule, case mismatch included, stays on the CMS.
       expect(resolvePublicPath('/acme/liga-2026/gameview/game-1')).toBeNull();
     });
