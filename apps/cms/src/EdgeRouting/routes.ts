@@ -155,7 +155,8 @@ const ROUTES: Rewrite[] = [
   // last and defer to CMS_RESERVED_SEGMENTS.
   [
     new RegExp(`^/${ORG_SLUG}/?$`),
-    (m, locale) => (isReservedByCms(m[1]) ? null : withLocale(locale, `/${m[1]}`))
+    (m, locale) =>
+      isReservedByCms(m[1]) ? null : withLocale(locale, `/${m[1]}`)
   ]
 ];
 

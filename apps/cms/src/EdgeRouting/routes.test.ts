@@ -91,10 +91,7 @@ describe('resolvePublicPath', () => {
       ['/PrivacyPolicyBR', '/privacy'],
       ['/TermsBR', '/terms'],
       ['/acme/liga-2026/GameView/game-1', '/acme/liga-2026/jogos/game-1'],
-      [
-        '/acme/liga-2026/Player/player-1',
-        '/acme/liga-2026/jogadores/player-1'
-      ],
+      ['/acme/liga-2026/Player/player-1', '/acme/liga-2026/jogadores/player-1'],
       ['/acme/liga-2026/PlayerStats', '/acme/liga-2026/estatisticas'],
       [
         '/acme/liga-2026/PlayerStatsSummary',
