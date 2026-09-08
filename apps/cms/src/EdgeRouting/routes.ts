@@ -27,12 +27,32 @@ const PASSTHROUGH_EXACT = ['/robots.txt', '/sitemap.xml'];
  */
 const PASSTHROUGH_LOCALES = ['pt', 'en'];
 
+/**
+ * apps/public's tournament sub-pages (app/[locale]/[org]/[tournament]/*),
+ * already in their public Portuguese path shape. localePrefix: 'as-needed'
+ * means the default locale (pt) reaches these with no /pt prefix, so they
+ * can't be caught by PASSTHROUGH_LOCALES above — matched here instead. Never
+ * collides with a CMS route: the CMS's own route names for these pages
+ * (GameView, Player, PlayerStats, Teams, Phase) are English and capitalized.
+ */
+const PUBLIC_TOURNAMENT_SEGMENTS = [
+  'jogos',
+  'jogadores',
+  'estatisticas',
+  'times',
+  'fases'
+];
+const PUBLIC_TOURNAMENT_SUBPAGE = new RegExp(
+  `^/[^/]+/[^/]+/(?:${PUBLIC_TOURNAMENT_SEGMENTS.join('|')})(?:/.*)?$`
+);
+
 export const isPublicPassthroughPath = (pathname: string): boolean =>
   PASSTHROUGH_PREFIXES.some(prefix => pathname.startsWith(prefix)) ||
   PASSTHROUGH_EXACT.includes(pathname) ||
   PASSTHROUGH_LOCALES.some(
     locale => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
-  );
+  ) ||
+  PUBLIC_TOURNAMENT_SUBPAGE.test(pathname);
 
 // Locales apps/public actually serves (src/i18n/routing.ts there).
 const SUPPORTED_LOCALES = ['pt', 'en'];

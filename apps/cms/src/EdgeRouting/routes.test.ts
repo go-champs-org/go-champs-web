@@ -21,7 +21,15 @@ describe('isPublicPassthroughPath', () => {
     ['/en'],
     ['/pt/about'],
     ['/en/faq'],
-    ['/pt/canoas/copa-cidadao/jogos/game-1']
+    ['/pt/canoas/copa-cidadao/jogos/game-1'],
+    // Default locale (pt) has no prefix, so these tournament sub-pages reach
+    // the worker bare — must still be recognized as apps/public's own paths.
+    ['/canoas/copa-cidadao/jogos/game-1'],
+    ['/canoas/copa-cidadao/jogadores/player-1'],
+    ['/canoas/copa-cidadao/estatisticas'],
+    ['/canoas/copa-cidadao/estatisticas/resumo'],
+    ['/canoas/copa-cidadao/times/team-1'],
+    ['/canoas/copa-cidadao/fases/phase-1']
   ])('forwards %s to apps/public', pathname => {
     expect(isPublicPassthroughPath(pathname.split('?')[0])).toBe(true);
   });
