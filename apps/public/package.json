@@ -22,7 +22,7 @@
     "@gochamps/api-client": "workspace:*",
     "@gochamps/domain-types": "workspace:*",
     "@gochamps/ui": "workspace:*",
-    "next": "16.2.12",
+    "next": "16.3.3",
     "next-intl": "4.13.4",
     "qrcode.react": "4.2.0",
     "react": "19.2.8",
