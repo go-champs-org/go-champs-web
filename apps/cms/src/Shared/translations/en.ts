@@ -1071,6 +1071,164 @@ export default {
             title: 'Against Walkover'
           }
         }
+      },
+      basketball_3x3: {
+        statistics: {
+          disqualifying_fouls: {
+            abbreviation: 'DQF',
+            title: 'Disqualifying fouls'
+          },
+          game_played: {
+            abbreviation: 'GP',
+            title: 'Games played'
+          },
+          one_point_made: {
+            abbreviation: '1PM',
+            title: 'One points made'
+          },
+          one_point_missed: {
+            abbreviation: '1PMI',
+            title: 'One points missed'
+          },
+          one_point_attempted: {
+            abbreviation: '1PA',
+            title: 'One points attempted'
+          },
+          one_point_percentage: {
+            abbreviation: '1P%',
+            title: 'One points percentage'
+          },
+          one_point_percentage_per_game: {
+            abbreviation: '1P%',
+            title: 'One points percentage per game'
+          },
+          plus_minus: {
+            abbreviation: '+/-',
+            title: 'Plus minus'
+          },
+          plus_minus_per_game: {
+            abbreviation: '+/-',
+            title: 'Plus minus per game'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Points'
+          },
+          points_per_game: {
+            abbreviation: 'PTS',
+            title: 'Points per game'
+          },
+          two_point_made: {
+            abbreviation: '2PM',
+            title: 'Two points made'
+          },
+          two_point_missed: {
+            abbreviation: '2PMI',
+            title: 'Two points missed'
+          },
+          two_point_attempted: {
+            abbreviation: '2PA',
+            title: 'Two points attempted'
+          },
+          two_point_percentage: {
+            abbreviation: '2P%',
+            title: 'Two points percentage'
+          },
+          two_point_percentage_per_game: {
+            abbreviation: '2P%',
+            title: 'Two points percentage per game'
+          },
+          unsportsmanlike_fouls: {
+            abbreviation: 'UF',
+            title: 'Unsportsmanlike fouls'
+          }
+        },
+        team_statistics: {
+          disqualifying_fouls: {
+            abbreviation: 'DQF',
+            title: 'Disqualifying Fouls'
+          },
+          game_played: {
+            abbreviation: 'GP',
+            title: 'Games Played'
+          },
+          game_walkover: {
+            abbreviation: 'WO',
+            title: 'Walkover'
+          },
+          one_point_made: {
+            abbreviation: '1PM',
+            title: 'One points made'
+          },
+          one_point_missed: {
+            abbreviation: '1PMI',
+            title: 'One points missed'
+          },
+          one_point_attempted: {
+            abbreviation: '1PA',
+            title: 'One points attempted'
+          },
+          one_point_percentage: {
+            abbreviation: '1P%',
+            title: 'One points percentage'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Points'
+          },
+          team_fouls: {
+            abbreviation: 'TF',
+            title: 'Team Fouls'
+          },
+          timeouts_taken: {
+            abbreviation: 'TOL',
+            title: 'Timeouts Taken'
+          },
+          two_point_made: {
+            abbreviation: '2PM',
+            title: 'Two points made'
+          },
+          two_point_missed: {
+            abbreviation: '2PMI',
+            title: 'Two points missed'
+          },
+          two_point_attempted: {
+            abbreviation: '2PA',
+            title: 'Two points attempted'
+          },
+          two_point_percentage: {
+            abbreviation: '2P%',
+            title: 'Two points percentage'
+          },
+          unsportsmanlike_fouls: {
+            abbreviation: 'UF',
+            title: 'Unsportsmanlike Fouls'
+          },
+          fiba_group_points: {
+            abbreviation: 'FGP',
+            title: 'FIBA Group Points'
+          },
+          wins: {
+            abbreviation: 'W',
+            title: 'Wins'
+          },
+          losses: {
+            abbreviation: 'L',
+            title: 'Losses'
+          },
+          points_against: {
+            abbreviation: 'PA',
+            title: 'Points Against'
+          },
+          points_balance: {
+            abbreviation: 'PB',
+            title: 'Points Balance'
+          },
+          game_walkover_against: {
+            abbreviation: 'WOA',
+            title: 'Against Walkover'
+          }
+        }
       }
     },
     sportsPackages: {
@@ -1078,6 +1236,11 @@ export default {
         name: 'Basketball 5x5',
         title: 'Use basketball package',
         description: 'Full stats for basketball 5x5'
+      },
+      basketball_3x3: {
+        name: 'Basketball 3x3',
+        title: 'Use basketball 3x3 package',
+        description: 'Stats for basketball 3x3'
       }
     },
     startTyping: 'Type something to begin search',

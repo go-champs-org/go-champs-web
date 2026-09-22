@@ -1079,6 +1079,164 @@ export default {
             title: 'Walkover sofrido'
           }
         }
+      },
+      basketball_3x3: {
+        statistics: {
+          disqualifying_fouls: {
+            abbreviation: 'FD',
+            title: 'Faltas desqualificantes'
+          },
+          game_played: {
+            abbreviation: 'JOG',
+            title: 'Jogos'
+          },
+          one_point_made: {
+            abbreviation: '1PC',
+            title: 'Arremessos de 1 ponto convertidos'
+          },
+          one_point_missed: {
+            abbreviation: '1PE',
+            title: 'Arremessos de 1 ponto errados'
+          },
+          one_point_attempted: {
+            abbreviation: '1PT',
+            title: 'Arremessos de 1 ponto tentados'
+          },
+          one_point_percentage: {
+            abbreviation: '1P%',
+            title: 'Porcentagem de arremessos de 1 ponto'
+          },
+          one_point_percentage_per_game: {
+            abbreviation: '1P%',
+            title: 'Porcentagem de arremessos de 1 ponto por jogo'
+          },
+          plus_minus: {
+            abbreviation: '+/-',
+            title: 'Mais/menos'
+          },
+          plus_minus_per_game: {
+            abbreviation: '+/-',
+            title: 'Mais/menos por jogo'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Pontos'
+          },
+          points_per_game: {
+            abbreviation: 'PTS',
+            title: 'Pontos por jogo'
+          },
+          two_point_made: {
+            abbreviation: '2PC',
+            title: 'Arremessos de 2 pontos convertidos'
+          },
+          two_point_missed: {
+            abbreviation: '2PE',
+            title: 'Arremessos de 2 pontos errados'
+          },
+          two_point_attempted: {
+            abbreviation: '2PT',
+            title: 'Arremessos de 2 pontos tentados'
+          },
+          two_point_percentage: {
+            abbreviation: '2P%',
+            title: 'Porcentagem de arremessos de 2 pontos'
+          },
+          two_point_percentage_per_game: {
+            abbreviation: '2P%',
+            title: 'Porcentagem de arremessos de 2 pontos por jogo'
+          },
+          unsportsmanlike_fouls: {
+            abbreviation: 'FA',
+            title: 'Faltas antidesportivas'
+          }
+        },
+        team_statistics: {
+          disqualifying_fouls: {
+            abbreviation: 'FD',
+            title: 'Faltas desqualificantes'
+          },
+          game_played: {
+            abbreviation: 'JOG',
+            title: 'Jogos disputados'
+          },
+          game_walkover: {
+            abbreviation: 'WO',
+            title: 'Walkover'
+          },
+          one_point_made: {
+            abbreviation: '1PC',
+            title: 'Arremessos de 1 ponto convertidos'
+          },
+          one_point_missed: {
+            abbreviation: '1PE',
+            title: 'Arremessos de 1 ponto errados'
+          },
+          one_point_attempted: {
+            abbreviation: '1PT',
+            title: 'Arremessos de 1 ponto tentados'
+          },
+          one_point_percentage: {
+            abbreviation: '1P%',
+            title: 'Porcentagem de arremessos de 1 ponto'
+          },
+          points: {
+            abbreviation: 'PTS',
+            title: 'Pontos'
+          },
+          team_fouls: {
+            abbreviation: 'FC',
+            title: 'Faltas coletivas'
+          },
+          timeouts_taken: {
+            abbreviation: 'TMP',
+            title: 'Tempos pedidos'
+          },
+          two_point_made: {
+            abbreviation: '2PC',
+            title: 'Arremessos de 2 pontos convertidos'
+          },
+          two_point_missed: {
+            abbreviation: '2PE',
+            title: 'Arremessos de 2 pontos errados'
+          },
+          two_point_attempted: {
+            abbreviation: '2PT',
+            title: 'Arremessos de 2 pontos tentados'
+          },
+          two_point_percentage: {
+            abbreviation: '2P%',
+            title: 'Porcentagem de arremessos de 2 pontos'
+          },
+          unsportsmanlike_fouls: {
+            abbreviation: 'FA',
+            title: 'Faltas antidesportivas'
+          },
+          fiba_group_points: {
+            abbreviation: 'PF',
+            title: 'Pontos FIBA'
+          },
+          wins: {
+            abbreviation: 'V',
+            title: 'Vitórias'
+          },
+          losses: {
+            abbreviation: 'D',
+            title: 'Derrotas'
+          },
+          points_against: {
+            abbreviation: 'PS',
+            title: 'Pontos sofridos'
+          },
+          points_balance: {
+            abbreviation: 'SP',
+            title: 'Saldo de pontos'
+          },
+          game_walkover_against: {
+            abbreviation: 'WOS',
+            title: 'Walkover sofrido'
+          }
+        }
       }
     },
     sportsPackages: {
@@ -1086,6 +1244,11 @@ export default {
         name: 'Basquete 5x5',
         title: 'Use pacote de basquete 5x5',
         description: 'Pacote com estatísticas de basquete 5x5'
+      },
+      basketball_3x3: {
+        name: 'Basquete 3x3',
+        title: 'Use pacote de basquete 3x3',
+        description: 'Pacote com estatísticas de basquete 3x3'
       }
     },
     startTyping: 'Digite para pesquisar',
