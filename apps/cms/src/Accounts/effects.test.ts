@@ -6,6 +6,7 @@ import {
   accountRecovery,
   getAccount,
   facebookSignUp,
+  redirectToFacebookSignUp,
   signOut
 } from './effects';
 import {
@@ -37,6 +38,7 @@ import {
 import accountHttpClient from './accountHttpClient';
 import ApiError from '../Shared/httpClient/ApiError';
 import { USERNAME_COOKIE_NAME } from './cookies';
+import { ReactFacebookLoginInfo } from 'react-facebook-login';
 
 let dispatch: jest.Mock;
 
@@ -489,6 +491,61 @@ describe('accountEffects', () => {
         expect(toast.displayToast).toHaveBeenCalledWith(
           'Sign up failed :(',
           'is-primary'
+        );
+      });
+    });
+  });
+
+  describe('redirectToFacebookSignUp', () => {
+    const FACEBOOK_LOGIN_INFO = ({
+      id: 'some-facebook-id',
+      email: 'some@email.com'
+    } as unknown) as ReactFacebookLoginInfo;
+
+    describe('on success', () => {
+      let pushSpy: jest.SpyInstance;
+
+      beforeEach(async () => {
+        pushSpy = jest.spyOn(mockHistory, 'push');
+
+        jest.spyOn(accountHttpClient, 'facebookSignIn').mockResolvedValue({
+          data: {
+            email: 'some@email.com',
+            token: 'some token',
+            username: 'someusername'
+          }
+        });
+
+        await redirectToFacebookSignUp(mockHistory)(FACEBOOK_LOGIN_INFO);
+      });
+
+      it('sets the username cookie', () => {
+        expect(document.cookie).toContain(
+          `${USERNAME_COOKIE_NAME}=someusername`
+        );
+      });
+
+      it('redirects to account page', () => {
+        expect(pushSpy).toHaveBeenCalledWith('/Account');
+      });
+    });
+
+    describe('on failure', () => {
+      beforeEach(async () => {
+        jest
+          .spyOn(accountHttpClient, 'facebookSignIn')
+          .mockRejectedValue(new Error('some error'));
+
+        await redirectToFacebookSignUp(mockHistory)(FACEBOOK_LOGIN_INFO);
+      });
+
+      it('does not set the username cookie', () => {
+        expect(document.cookie).not.toContain(USERNAME_COOKIE_NAME);
+      });
+
+      it('redirects to the facebook sign up page', () => {
+        expect(mockHistory.push).toHaveBeenCalledWith(
+          '/FacebookSignUp?email=some@email.com&facebookId=some-facebook-id'
         );
       });
     });

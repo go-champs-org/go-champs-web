@@ -8,5 +8,13 @@ export const readUsernameCookie = (): string | null => {
     .split('; ')
     .find(entry => entry.startsWith(`${USERNAME_COOKIE_NAME}=`));
 
-  return match ? decodeURIComponent(match.split('=')[1]) : null;
+  if (!match) {
+    return null;
+  }
+
+  try {
+    return decodeURIComponent(match.split('=')[1]);
+  } catch {
+    return null;
+  }
 };

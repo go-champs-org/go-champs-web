@@ -26,4 +26,10 @@ describe('readUsernameCookie', () => {
 
     expect(readUsernameCookie()).toBeNull();
   });
+
+  it('treats a malformed percent-encoding as no cookie instead of throwing', () => {
+    document.cookie = 'gc_username=%; path=/';
+
+    expect(readUsernameCookie()).toBeNull();
+  });
 });
