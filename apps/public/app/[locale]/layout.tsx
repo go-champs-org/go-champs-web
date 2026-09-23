@@ -2,8 +2,9 @@ import { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { NavBar, Footer, noFlashThemeScript } from '@gochamps/ui';
+import { Footer, noFlashThemeScript } from '@gochamps/ui';
 import { LocaleSwitcher } from '../../src/components/LocaleSwitcher';
+import { SiteNavBar } from '../../src/components/SiteNavBar';
 import { routing } from '../../src/i18n/routing';
 import { cmsPath } from '../../src/config/cms';
 import { SITE_NAME, SITE_URL } from '../../src/seo/metadata';
@@ -49,7 +50,7 @@ export default async function LocaleLayout({
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
         <Amplitude apiKey={process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || ''} />
         <NextIntlClientProvider>
-          <NavBar
+          <SiteNavBar
             links={[
               { href: `/${locale}/about`, label: t('navAbout') },
               { href: `/${locale}/faq`, label: t('navFaq') },
@@ -58,7 +59,6 @@ export default async function LocaleLayout({
             logoHref={`/${locale}`}
             logoSrc="/logo/logo-white-name.png"
             logoSrcMobile="/logo/logo-green.png"
-            loginHref={cmsPath('/SignIn')}
             loginLabel={t('navLogin')}
             localeSwitcher={<LocaleSwitcher />}
           />

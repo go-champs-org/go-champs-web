@@ -5,7 +5,9 @@ import {
   accountReset,
   accountRecovery,
   getAccount,
-  facebookSignUp
+  facebookSignUp,
+  redirectToFacebookSignUp,
+  signOut
 } from './effects';
 import {
   SignInEntity,
@@ -35,6 +37,8 @@ import {
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import ApiError from '../Shared/httpClient/ApiError';
+import { USERNAME_COOKIE_NAME } from './cookies';
+import { ReactFacebookLoginInfo } from 'react-facebook-login';
 
 let dispatch: jest.Mock;
 
@@ -77,6 +81,10 @@ describe('accountEffects', () => {
 
     jest.spyOn(toast, 'displayToast');
     jest.spyOn(Storage.prototype, 'setItem').mockImplementation();
+  });
+
+  afterEach(() => {
+    document.cookie = `${USERNAME_COOKIE_NAME}=; path=/; max-age=0`;
   });
 
   describe('signIn', () => {
@@ -147,6 +155,12 @@ describe('accountEffects', () => {
 
       it('redirects to account page', () => {
         expect(pushSpy).toHaveBeenCalledWith('/Account');
+      });
+
+      it('sets the username cookie', () => {
+        expect(document.cookie).toContain(
+          `${USERNAME_COOKIE_NAME}=someusername`
+        );
       });
 
       it('redirects to redirectTo search param', async () => {
@@ -482,6 +496,61 @@ describe('accountEffects', () => {
     });
   });
 
+  describe('redirectToFacebookSignUp', () => {
+    const FACEBOOK_LOGIN_INFO = ({
+      id: 'some-facebook-id',
+      email: 'some@email.com'
+    } as unknown) as ReactFacebookLoginInfo;
+
+    describe('on success', () => {
+      let pushSpy: jest.SpyInstance;
+
+      beforeEach(async () => {
+        pushSpy = jest.spyOn(mockHistory, 'push');
+
+        jest.spyOn(accountHttpClient, 'facebookSignIn').mockResolvedValue({
+          data: {
+            email: 'some@email.com',
+            token: 'some token',
+            username: 'someusername'
+          }
+        });
+
+        await redirectToFacebookSignUp(mockHistory)(FACEBOOK_LOGIN_INFO);
+      });
+
+      it('sets the username cookie', () => {
+        expect(document.cookie).toContain(
+          `${USERNAME_COOKIE_NAME}=someusername`
+        );
+      });
+
+      it('redirects to account page', () => {
+        expect(pushSpy).toHaveBeenCalledWith('/Account');
+      });
+    });
+
+    describe('on failure', () => {
+      beforeEach(async () => {
+        jest
+          .spyOn(accountHttpClient, 'facebookSignIn')
+          .mockRejectedValue(new Error('some error'));
+
+        await redirectToFacebookSignUp(mockHistory)(FACEBOOK_LOGIN_INFO);
+      });
+
+      it('does not set the username cookie', () => {
+        expect(document.cookie).not.toContain(USERNAME_COOKIE_NAME);
+      });
+
+      it('redirects to the facebook sign up page', () => {
+        expect(mockHistory.push).toHaveBeenCalledWith(
+          '/FacebookSignUp?email=some@email.com&facebookId=some-facebook-id'
+        );
+      });
+    });
+  });
+
   describe('accountReset', () => {
     beforeEach(() => {
       dispatch = jest.fn();
@@ -688,6 +757,24 @@ describe('accountEffects', () => {
 
         expect(dispatch).toHaveBeenCalledWith(getAccountFailure(apiError));
       });
+
+      it('clears the username cookie', async () => {
+        document.cookie = `${USERNAME_COOKIE_NAME}=someusername; path=/`;
+
+        await getAccount('some-id')(dispatch);
+
+        expect(document.cookie).not.toContain('someusername');
+      });
+    });
+  });
+
+  describe('signOut', () => {
+    it('clears the username cookie', () => {
+      document.cookie = `${USERNAME_COOKIE_NAME}=someusername; path=/`;
+
+      signOut();
+
+      expect(document.cookie).not.toContain('someusername');
     });
   });
 });

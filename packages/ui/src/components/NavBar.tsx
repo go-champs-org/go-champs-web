@@ -9,6 +9,11 @@ export interface NavLink {
   label: string;
 }
 
+export interface NavBarAccount {
+  href: string;
+  label: string;
+}
+
 export interface NavBarProps {
   links: NavLink[];
   logoHref?: string;
@@ -16,6 +21,7 @@ export interface NavBarProps {
   logoSrcMobile?: string;
   loginHref?: string;
   loginLabel?: string;
+  account?: NavBarAccount;
   localeSwitcher?: ReactNode;
 }
 
@@ -26,9 +32,12 @@ export function NavBar({
   logoSrcMobile,
   loginHref,
   loginLabel,
+  account,
   localeSwitcher
 }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const authLink =
+    account ?? (loginHref && loginLabel ? { href: loginHref, label: loginLabel } : undefined);
 
   return (
     <nav className="sticky top-0 z-50 min-h-[var(--navbar-height)] bg-navbar px-6 py-4 shadow-[0_2px_8px_var(--shadow-elevated)] lg:px-[101px] lg:py-8">
@@ -80,13 +89,13 @@ export function NavBar({
           <li>
             <ThemeToggle />
           </li>
-          {loginHref && loginLabel && (
+          {authLink && (
             <li>
               <a
-                href={loginHref}
+                href={authLink.href}
                 className="block rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-white hover:bg-primary-dark lg:px-6 lg:text-[0.9375rem]"
               >
-                {loginLabel}
+                {authLink.label}
               </a>
             </li>
           )}
@@ -113,13 +122,13 @@ export function NavBar({
           <li className="flex items-center justify-between px-4 py-2.5">
             <ThemeToggle />
           </li>
-          {loginHref && loginLabel && (
+          {authLink && (
             <li>
               <a
-                href={loginHref}
+                href={authLink.href}
                 className="block rounded-lg bg-primary px-5 py-2 text-center text-sm font-semibold text-white hover:bg-primary-dark lg:px-6 lg:text-[0.9375rem]"
               >
-                {loginLabel}
+                {authLink.label}
               </a>
             </li>
           )}
