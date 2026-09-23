@@ -151,8 +151,12 @@ export default {
       umpire_2: 'Fiscal 2',
       scorer: 'Apontador',
       timekeeper: 'Cronometrista',
-      shot_clock_operator: 'Operador dos 24 segundos',
-      assistant_scorer: 'Representante'
+      shot_clock_operator: 'Operador do cronômetro de posse',
+      assistant_scorer: 'Representante',
+      referee_1: 'Árbitro 1',
+      referee_2: 'Árbitro 2',
+      supervisor: 'Supervisor',
+      timer: 'Cronometrista'
     },
     emailSent: 'E-mail enviado',
     groupStandingsMenuTitle: 'Menu grupos de classificação',
