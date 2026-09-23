@@ -150,7 +150,11 @@ export default {
       scorer: 'Scorer',
       timekeeper: 'Timekeeper',
       shot_clock_operator: 'Shot Clock Operator',
-      assistant_scorer: 'Representative Scorer'
+      assistant_scorer: 'Representative Scorer',
+      referee_1: 'Referee 1',
+      referee_2: 'Referee 2',
+      supervisor: 'Supervisor',
+      timer: 'Timer'
     },
     groupStandingsMenuTitle: 'Group standings menu',
     groupStandings: 'Group standings',
