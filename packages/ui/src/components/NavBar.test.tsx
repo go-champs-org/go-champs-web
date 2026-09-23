@@ -59,6 +59,24 @@ describe('NavBar', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('renders the account link instead of the login button when authenticated', () => {
+    render(
+      <NavBar
+        links={[{ href: '/about', label: 'About' }]}
+        loginHref="/SignIn"
+        loginLabel="Log in"
+        account={{ href: '/Account', label: '@someusername' }}
+      />
+    );
+
+    expect(
+      screen.getByRole('link', { name: '@someusername' })
+    ).toHaveAttribute('href', '/Account');
+    expect(
+      screen.queryByRole('link', { name: 'Log in' })
+    ).not.toBeInTheDocument();
+  });
+
   it('renders the given locale switcher in both the desktop and mobile menus', () => {
     render(
       <NavBar

@@ -37,6 +37,7 @@ import {
   LOCAL_STORAGE_TOKEN_KEY,
   LOCAL_STORAGE_USERNAME_KEY
 } from './constants';
+import { setUsernameCookie, clearUsernameCookie } from './cookies';
 
 export const signIn = (
   user: SignInEntity,
@@ -50,6 +51,7 @@ export const signIn = (
     dispatch(signInSuccess(response));
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, response.data.token);
     localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, response.data.username);
+    setUsernameCookie(response.data.username);
     const search = new URLSearchParams(location.search);
     if (search.get('redirectTo')) {
       history.push(search.get('redirectTo')!);
@@ -176,6 +178,7 @@ export const redirectToFacebookSignUp = (history: History) => async (
 
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, response.data.token);
     localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, response.data.username);
+    setUsernameCookie(response.data.username);
     history.push('/Account');
   } catch {
     history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
@@ -186,6 +189,7 @@ export const signOut = () => {
   localStorage.removeItem(LOCAL_STORAGE_ORGANIZATIONS_KEY);
   localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
   localStorage.removeItem(LOCAL_STORAGE_USERNAME_KEY);
+  clearUsernameCookie();
 };
 
 export const accountReset = (
@@ -243,5 +247,6 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
     localStorage.removeItem(LOCAL_STORAGE_ORGANIZATIONS_KEY);
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     localStorage.removeItem(LOCAL_STORAGE_USERNAME_KEY);
+    clearUsernameCookie();
   }
 };

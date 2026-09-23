@@ -5,7 +5,8 @@ import {
   accountReset,
   accountRecovery,
   getAccount,
-  facebookSignUp
+  facebookSignUp,
+  signOut
 } from './effects';
 import {
   SignInEntity,
@@ -35,6 +36,7 @@ import {
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import ApiError from '../Shared/httpClient/ApiError';
+import { USERNAME_COOKIE_NAME } from './cookies';
 
 let dispatch: jest.Mock;
 
@@ -77,6 +79,10 @@ describe('accountEffects', () => {
 
     jest.spyOn(toast, 'displayToast');
     jest.spyOn(Storage.prototype, 'setItem').mockImplementation();
+  });
+
+  afterEach(() => {
+    document.cookie = `${USERNAME_COOKIE_NAME}=; path=/; max-age=0`;
   });
 
   describe('signIn', () => {
@@ -147,6 +153,12 @@ describe('accountEffects', () => {
 
       it('redirects to account page', () => {
         expect(pushSpy).toHaveBeenCalledWith('/Account');
+      });
+
+      it('sets the username cookie', () => {
+        expect(document.cookie).toContain(
+          `${USERNAME_COOKIE_NAME}=someusername`
+        );
       });
 
       it('redirects to redirectTo search param', async () => {
@@ -688,6 +700,24 @@ describe('accountEffects', () => {
 
         expect(dispatch).toHaveBeenCalledWith(getAccountFailure(apiError));
       });
+
+      it('clears the username cookie', async () => {
+        document.cookie = `${USERNAME_COOKIE_NAME}=someusername; path=/`;
+
+        await getAccount('some-id')(dispatch);
+
+        expect(document.cookie).not.toContain('someusername');
+      });
+    });
+  });
+
+  describe('signOut', () => {
+    it('clears the username cookie', () => {
+      document.cookie = `${USERNAME_COOKIE_NAME}=someusername; path=/`;
+
+      signOut();
+
+      expect(document.cookie).not.toContain('someusername');
     });
   });
 });
