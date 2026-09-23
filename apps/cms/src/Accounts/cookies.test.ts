@@ -13,9 +13,7 @@ describe('cookies', () => {
     it('sets the username cookie', () => {
       setUsernameCookie('someusername');
 
-      expect(document.cookie).toContain(
-        `${USERNAME_COOKIE_NAME}=someusername`
-      );
+      expect(document.cookie).toContain(`${USERNAME_COOKIE_NAME}=someusername`);
     });
 
     it('url-encodes the username', () => {
