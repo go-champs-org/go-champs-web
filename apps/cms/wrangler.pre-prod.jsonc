@@ -1,0 +1,46 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gochamps-cms-pre-prod",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-28",
+  "assets": {
+    "directory": "./build",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    // Same allowlist as wrangler.jsonc (new-staging) — src/EdgeRouting/routes.ts
+    // decides what actually gets rewritten. Keep the two in sync.
+    "run_worker_first": [
+      "/*/*",
+      "!/static/*",
+      // "/*/*" does not reach single-segment paths
+      "/",
+      "/About",
+      "/Faq",
+      "/Contact",
+      "/PrivacyPolicyBR",
+      "/TermsBR",
+      "/robots.txt",
+      "/sitemap.xml",
+      "/pt",
+      "/en"
+    ]
+  },
+  "services": [
+    {
+      "binding": "PUBLIC",
+      "service": "gochamps-public-pre-prod"
+    }
+  ],
+  // apps/public has no domain of its own; it is reached through PUBLIC above.
+  "routes": [
+    {
+      "pattern": "pre-prod.go-champs.com",
+      "custom_domain": true
+    }
+  ],
+  // reaches this Worker without going through the custom domain
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  }
+}

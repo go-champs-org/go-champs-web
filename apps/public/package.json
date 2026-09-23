@@ -14,7 +14,8 @@
     "lint:check": "biome lint .",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:deploy:pre-prod": "opennextjs-cloudflare build -c wrangler.pre-prod.jsonc && wrangler deploy -c wrangler.pre-prod.jsonc"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "2.11.1",

@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gochamps-public-pre-prod",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-28",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // No custom domain: reached through the CMS Worker's PUBLIC service binding.
+  // workers.dev is how you smoke-test it without the edge routing in the way.
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  // Backs open-next.config.ts's ISR cache. Own namespace, isolated from
+  // new-staging's NEXT_INC_CACHE_KV — caching real prod API responses here.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "2c651bbabba1425db7fd03a911092473"
+    }
+  ],
+  // Runtime only. NEXT_PUBLIC_* are inlined by `next build`, so setting one
+  // here does nothing — NEXT_PUBLIC_CMS_URL is passed to the build instead
+  // (see the workflow), or src/config/cms.ts falls back to production.
+  "vars": {
+    "API_HOST": "https://api.go-champs.com/"
+  }
+}
