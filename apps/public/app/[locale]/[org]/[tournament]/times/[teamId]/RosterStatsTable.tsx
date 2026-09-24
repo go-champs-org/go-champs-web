@@ -37,6 +37,9 @@ interface RosterStatsTableProps {
   hasTeamColumn?: boolean;
   teamColumnLabel?: string;
   playerHrefBase?: string;
+  // Set only by the tournament-wide table: a header click asks the API for
+  // freshly sorted rows instead of reordering rows in memory.
+  onSortRequest?: (slug: string) => Promise<RosterStatRow[]>;
 }
 
 interface SortState {
@@ -273,21 +276,44 @@ export function RosterStatsTable({
   sortLabel,
   hasTeamColumn = false,
   teamColumnLabel,
-  playerHrefBase
+  playerHrefBase,
+  onSortRequest
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(NO_SORT);
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
+  const [serverRows, setServerRows] = useState(rows);
+  const [isSorting, setIsSorting] = useState(false);
 
   const columns = columnsFor(columnsByScope, scope);
-  const sortedRows = sortRosterRows(rows, sort.slug, sort.direction);
+  const sortedRows = onSortRequest
+    ? serverRows
+    : sortRosterRows(rows, sort.slug, sort.direction);
 
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
   const selectScope = (next: StatScope) => {
     setScope(next);
     setSort(NO_SORT);
+    setServerRows(rows);
   };
+
+  // Server-sorted mode is best-first only, no ascending toggle.
+  const requestSort = async (
+    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>,
+    slug: string
+  ) => {
+    setSort({ slug, direction: 'desc' });
+    setIsSorting(true);
+    try {
+      setServerRows(await fetchSortedRows(slug));
+    } finally {
+      setIsSorting(false);
+    }
+  };
+
+  const onSort = (slug: string) =>
+    onSortRequest && !isSorting ? requestSort(onSortRequest, slug) : undefined;
 
   return (
     <div className="flex flex-col">
@@ -335,7 +361,9 @@ export function RosterStatsTable({
                   column={column}
                   sort={sort}
                   sortLabel={sortLabel}
-                  onSort={slug => setSort(nextSort(sort, slug))}
+                  onSort={
+                    onSortRequest ? onSort : slug => setSort(nextSort(sort, slug))
+                  }
                 />
               ))}
             </tr>
