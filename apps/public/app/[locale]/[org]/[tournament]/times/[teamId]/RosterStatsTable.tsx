@@ -295,20 +295,27 @@ export function RosterStatsTable({
     : sortRosterRows(rows, sort.slug, sort.direction);
 
   // A fresh `rows` prop (a different tournament, or a revalidated fetch)
-  // replaces whatever this island was showing, sorted or not.
+  // replaces whatever this island was showing, sorted or not — including the
+  // scope, which a new tournament may not offer the same choices for
+  // (columnsFor would render no columns for a scope the new props dropped).
   useEffect(() => {
     requestId.current += 1;
+    setScope(scopes[0]);
     setServerRows(rows);
     setSort(NO_SORT);
+    setIsSorting(false);
   }, [rows]);
 
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
   const selectScope = (next: StatScope) => {
+    // Invalidates any sort still in flight for the old scope — its loading
+    // state has to end here too, or a header click never spins down again.
     requestId.current += 1;
     setScope(next);
     setSort(NO_SORT);
     setServerRows(rows);
+    setIsSorting(false);
   };
 
   // A scope switch (or another sort) may have started and finished while a
@@ -318,9 +325,17 @@ export function RosterStatsTable({
     requestId.current !== thisRequestId;
 
   // A failed request (`sortedRows` null) leaves the rows already on screen
-  // alone — those are still a valid ranking, just not a fresher one.
-  const applySortResult = (sortedRows: RosterStatRow[] | null) => {
-    if (sortedRows) setServerRows(sortedRows);
+  // alone, but the header it was requested for can't claim to be sorted —
+  // that would announce a ranking that was never actually applied.
+  const applySortResult = (
+    sortedRows: RosterStatRow[] | null,
+    previousSort: SortState
+  ) => {
+    if (sortedRows) {
+      setServerRows(sortedRows);
+    } else {
+      setSort(previousSort);
+    }
     setIsSorting(false);
   };
 
@@ -330,11 +345,12 @@ export function RosterStatsTable({
     slug: string
   ) => {
     const thisRequestId = ++requestId.current;
+    const previousSort = sort;
     setSort({ slug, direction: 'desc' });
     setIsSorting(true);
 
     const sortedRows = await fetchSortedRows(slug).catch(() => null);
-    if (!isStaleRequest(thisRequestId)) applySortResult(sortedRows);
+    if (!isStaleRequest(thisRequestId)) applySortResult(sortedRows, previousSort);
   };
 
   const onSort = (slug: string) =>
