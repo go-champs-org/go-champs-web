@@ -45,6 +45,32 @@ export const tournamentStatRows = (
   });
 };
 
+// Keeps the API's rank order, unlike `tournamentStatRows`, which orders by
+// roster instead.
+export const tournamentStatRowsInStatsOrder = (
+  players: PlayerEntity[],
+  statsLogs: AggregatedPlayerStatsLogEntity[],
+  teams: TeamEntity[]
+): TournamentStatRow[] => {
+  const teamNames = teamNameById(teams);
+  const playersById = new Map(players.map(player => [player.id, player]));
+
+  return statsLogs
+    .filter(statsLog => playersById.has(statsLog.playerId))
+    .map(statsLog => {
+      const player = playersById.get(statsLog.playerId) as PlayerEntity;
+
+      return {
+        playerId: player.id,
+        name: player.name,
+        shirtNumber: player.shirtNumber,
+        stats: statsLog.stats,
+        teamName: teamNames.get(player.teamId) || '',
+        teamId: player.teamId
+      };
+    });
+};
+
 export interface FixedStatsEntryRow {
   id: string;
   playerId: string;

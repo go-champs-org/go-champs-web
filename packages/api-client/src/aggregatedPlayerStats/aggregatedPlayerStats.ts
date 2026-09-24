@@ -14,12 +14,16 @@ export interface AggregatedPlayerStatsFilter {
   tournamentId: string;
   teamId?: string;
   playerId?: string;
+  // A stat-sorted ranking is a different request than the default one, not
+  // a client-side reorder of it — same as the CMS's aggregated-stats fetch.
+  sort?: string;
 }
 
 export const getAggregatedPlayerStatsByFilter = async ({
   tournamentId,
   teamId,
-  playerId
+  playerId,
+  sort
 }: AggregatedPlayerStatsFilter): Promise<AggregatedPlayerStatsLogEntity[]> => {
   const url = new URL('v1/aggregated-player-stats-by-tournament', getApiHost());
   url.searchParams.set('where[tournament_id]', tournamentId);
@@ -28,6 +32,9 @@ export const getAggregatedPlayerStatsByFilter = async ({
   }
   if (playerId) {
     url.searchParams.set('where[player_id]', playerId);
+  }
+  if (sort) {
+    url.searchParams.set('sort', sort);
   }
 
   const { data } = await httpClient.get<ApiAggregatedPlayerStatsLogsResponse>(
