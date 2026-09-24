@@ -211,9 +211,12 @@ interface TeamNameCellProps {
 }
 
 // A stat row can name a team the tournament's roster no longer carries —
-// only a real team id is worth a link.
+// its id survives on the player but the name lookup comes up empty, so only
+// a real team id AND name together are worth a link.
 function TeamNameCell({ teamName, teamId, teamHrefBase }: TeamNameCellProps) {
-  if (!teamHrefBase || !teamId) return <td className={TEAM_CELL}>{teamName}</td>;
+  if (!teamHrefBase || !teamId || !teamName) {
+    return <td className={TEAM_CELL}>{teamName}</td>;
+  }
 
   return (
     <td className={TEAM_CELL}>

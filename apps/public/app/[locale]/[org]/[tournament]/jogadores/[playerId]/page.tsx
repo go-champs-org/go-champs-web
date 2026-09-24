@@ -274,6 +274,11 @@ function PlayerBannerTeamName({ teamName, teamHref }: { teamName: string; teamHr
 const subtitleSeparator = (teamName: string, gamesText: string): string =>
   teamName && gamesText ? ' · ' : '';
 
+// A player with neither a team nor a single game played has nothing this
+// line would say — the caller only renders it once one of the two is there.
+const hasSubtitle = (teamName: string, gamesText: string): boolean =>
+  Boolean(teamName || gamesText);
+
 interface PlayerBannerSubtitleProps {
   teamName: string;
   teamHref: string;
@@ -285,8 +290,6 @@ function PlayerBannerSubtitle({
   teamHref,
   gamesText
 }: PlayerBannerSubtitleProps) {
-  if (!teamName && !gamesText) return null;
-
   return (
     <p className="text-sm font-semibold opacity-90">
       {teamName && <PlayerBannerTeamName teamName={teamName} teamHref={teamHref} />}
@@ -320,11 +323,13 @@ function PlayerBanner({
           <h1 className="text-2xl font-extrabold leading-tight md:text-3xl">
             {name}
           </h1>
-          <PlayerBannerSubtitle
-            teamName={teamName}
-            teamHref={teamHref}
-            gamesText={gamesText}
-          />
+          {hasSubtitle(teamName, gamesText) && (
+            <PlayerBannerSubtitle
+              teamName={teamName}
+              teamHref={teamHref}
+              gamesText={gamesText}
+            />
+          )}
 
           <a
             href={profileHref}

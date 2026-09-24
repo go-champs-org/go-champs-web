@@ -138,10 +138,9 @@ interface TeamNameCellProps {
   teamHref: string;
 }
 
-// A stale entry's team can be empty the same way its player can; only a real
-// team id has a page to open.
+// Only a real team id has a page to open; the caller only renders this at
+// all once `teamName` is known to be there.
 function TeamNameCell({ teamName, teamHref }: TeamNameCellProps) {
-  if (!teamName) return null;
   if (!teamHref) return <span className="ml-1 text-xs text-muted">{teamName}</span>;
 
   return (
@@ -191,10 +190,12 @@ function LeaderboardCard({
                   playerName={entry.playerName}
                   playerHref={playerHref(entry.playerId)}
                 />
-                <TeamNameCell
-                  teamName={entry.teamName}
-                  teamHref={entry.teamId ? teamHref(entry.teamId) : ''}
-                />
+                {entry.teamName && (
+                  <TeamNameCell
+                    teamName={entry.teamName}
+                    teamHref={entry.teamId ? teamHref(entry.teamId) : ''}
+                  />
+                )}
               </td>
               <td className="notranslate py-2 text-right text-xs tabular-nums">
                 {entry.value}

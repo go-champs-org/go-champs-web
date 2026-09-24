@@ -43,7 +43,7 @@ const DEFAULT_PROPS = {
   nextDayLabel: 'Próximo dia',
   undecidedLabel: 'A definir',
   winnerLabel: 'Vencedor',
-  teamHref: (teamId: string) => `/pt/org/tour/times/${teamId}`
+  teamHrefBase: '/pt/org/tour/times/'
 };
 
 describe('GamesPager', () => {
@@ -150,11 +150,11 @@ describe('GamesPager', () => {
 
     render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
 
-    expect(screen.getByRole('link', { name: /Time A/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
       'href',
       '/pt/org/tour/times/t1'
     );
-    expect(screen.getByRole('link', { name: /Time B/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Time B' })).toHaveAttribute(
       'href',
       '/pt/org/tour/times/t2'
     );

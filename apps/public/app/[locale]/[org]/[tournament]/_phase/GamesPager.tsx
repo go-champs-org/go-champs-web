@@ -65,8 +65,14 @@ interface GameCardProps {
   undecidedLabel: string;
   winnerLabel: string;
   href: string;
-  teamHref: (teamId: string) => string;
+  // Where a team name sends the visitor, minus the team id — a plain string
+  // so this client component never has to receive a function prop from its
+  // server caller (Next can't serialize a function across that boundary).
+  teamHrefBase: string;
 }
+
+const teamHref = (teamHrefBase: string, teamId: string): string =>
+  teamId ? `${teamHrefBase}${teamId}` : '';
 
 function GameCard({
   game,
@@ -74,22 +80,25 @@ function GameCard({
   undecidedLabel,
   winnerLabel,
   href,
-  teamHref
+  teamHrefBase
 }: GameCardProps) {
   const winner = gameWinner(game);
   const home = sideEmphasis(winner, 'home');
   const away = sideEmphasis(winner, 'away');
+  const homeName = teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel);
+  const awayName = teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel);
 
   return (
     // Team names carry their own link to their team page; nesting an <a>
     // inside the card's own <a> would be invalid HTML, so the card's link is
     // an absolutely positioned overlay behind them instead (same pattern as
-    // TournamentMiniCard's pinned-tournament link).
+    // TournamentMiniCard's pinned-tournament link). It keeps its own
+    // accessible name — an empty anchor would announce nothing — and stays a
+    // normal tab stop; the team links above it (z-10) still win the click.
     <div className="relative border-b border-border px-4 py-3 transition-colors last:border-0 hover:bg-background">
       <Link
         href={href}
-        aria-hidden="true"
-        tabIndex={-1}
+        aria-label={`${homeName} x ${awayName}`}
         data-testid="game-card-link"
         className="absolute inset-0"
       />
@@ -98,18 +107,18 @@ function GameCard({
         {game.location && <span className="truncate">{game.location}</span>}
       </div>
       <GameSideRow
-        name={teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel)}
+        name={homeName}
         score={game.homeScore}
         emphasis={home}
         winnerLabel={winnerLabel}
-        teamHref={game.homeTeam.id ? teamHref(game.homeTeam.id) : ''}
+        teamHref={teamHref(teamHrefBase, game.homeTeam.id)}
       />
       <GameSideRow
-        name={teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel)}
+        name={awayName}
         score={game.awayScore}
         emphasis={away}
         winnerLabel={winnerLabel}
-        teamHref={game.awayTeam.id ? teamHref(game.awayTeam.id) : ''}
+        teamHref={teamHref(teamHrefBase, game.awayTeam.id)}
       />
     </div>
   );
@@ -126,7 +135,7 @@ export interface GamesPagerProps {
   winnerLabel: string;
   // Where a card sends the visitor, minus the game id.
   gameHrefBase: string;
-  teamHref: (teamId: string) => string;
+  teamHrefBase: string;
 }
 
 // The phase's games, one day at a time — matches the mockup's compact
@@ -141,7 +150,7 @@ export function GamesPager({
   undecidedLabel,
   winnerLabel,
   gameHrefBase,
-  teamHref
+  teamHrefBase
 }: GamesPagerProps) {
   const [index, setIndex] = useState(initialIndex);
   const day = days[index];
@@ -185,7 +194,7 @@ export function GamesPager({
             undecidedLabel={undecidedLabel}
             winnerLabel={winnerLabel}
             href={`${gameHrefBase}${gameItem.id}`}
-            teamHref={teamHref}
+            teamHrefBase={teamHrefBase}
           />
         ))}
       </div>
