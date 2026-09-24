@@ -62,6 +62,7 @@ function SearchResults({
             organizationName={tournament.organizationName}
             organizationLogoUrl={tournament.organizationLogoUrl}
             href={`${cmsUrl}/${tournament.organizationSlug}/${tournament.slug}`}
+            organizationHref={`${cmsUrl}/${tournament.organizationSlug}`}
           />
         ))}
       </TournamentGrid>

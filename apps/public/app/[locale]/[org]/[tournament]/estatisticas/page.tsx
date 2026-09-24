@@ -135,6 +135,7 @@ interface StatsTableSectionProps {
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   playerHrefBase: string;
+  teamHrefBase: string;
   labels: {
     title: string;
     statsScope: string;
@@ -162,6 +163,7 @@ function StatsTableSection({
   scopes,
   scopeLabels,
   playerHrefBase,
+  teamHrefBase,
   labels
 }: StatsTableSectionProps) {
   return rows.length > 0 ? (
@@ -188,6 +190,7 @@ function StatsTableSection({
         sortLabel={labels.sortByStat}
         teamColumnLabel={labels.teamColumn}
         playerHrefBase={playerHrefBase}
+        teamHrefBase={teamHrefBase}
       />
     </Surface>
   ) : (
@@ -224,6 +227,7 @@ export default async function PlayerStatsPage({
 
   const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
   const playerHrefBase = `/${locale}/${org}/${tournamentSlug}/jogadores/`;
+  const teamHrefBase = `/${locale}/${org}/${tournamentSlug}/times/`;
 
   return (
     <main
@@ -263,6 +267,7 @@ export default async function PlayerStatsPage({
             per_game: tTeam('scopePerGame')
           }}
           playerHrefBase={playerHrefBase}
+          teamHrefBase={teamHrefBase}
           labels={{
             title: t('title'),
             statsScope: tTeam('statsScope'),

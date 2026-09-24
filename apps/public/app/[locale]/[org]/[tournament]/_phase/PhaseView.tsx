@@ -662,6 +662,7 @@ interface PhaseGamesSectionProps {
   nextDayLabel: string;
   winnerLabel: string;
   gameHrefBase: string;
+  teamHrefBase: string;
 }
 
 function PhaseGamesSection({
@@ -673,7 +674,8 @@ function PhaseGamesSection({
   previousDayLabel,
   nextDayLabel,
   winnerLabel,
-  gameHrefBase
+  gameHrefBase,
+  teamHrefBase
 }: PhaseGamesSectionProps) {
   if (days.length === 0) {
     return (
@@ -694,7 +696,8 @@ function PhaseGamesSection({
       undecidedLabel={undecidedLabel}
       winnerLabel={winnerLabel}
       gameHrefBase={gameHrefBase}
-          />
+      teamHrefBase={teamHrefBase}
+    />
   );
 }
 
@@ -712,6 +715,7 @@ interface PhaseBodyProps {
   winnerLabel: string;
   teamHref: (teamId: string) => string;
   gameHrefBase: string;
+  teamHrefBase: string;
 }
 
 // The main content + games layout, same shape as the CMS's PhaseHome: main
@@ -731,7 +735,8 @@ function PhaseBody({
   nextDayLabel,
   winnerLabel,
   teamHref,
-  gameHrefBase
+  gameHrefBase,
+  teamHrefBase
 }: PhaseBodyProps) {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
@@ -755,6 +760,7 @@ function PhaseBody({
           nextDayLabel={nextDayLabel}
           winnerLabel={winnerLabel}
           gameHrefBase={gameHrefBase}
+          teamHrefBase={teamHrefBase}
         />
       </aside>
     </div>
@@ -898,6 +904,7 @@ export async function PhaseView({
             `/${locale}/${org}/${tournamentSlug}/times/${teamId}`
           }
           gameHrefBase={`/${locale}/${org}/${tournamentSlug}/jogos/`}
+          teamHrefBase={`/${locale}/${org}/${tournamentSlug}/times/`}
         />
       </div>
     </main>

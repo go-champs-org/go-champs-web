@@ -28,6 +28,7 @@ interface TournamentStatsTableProps {
   sortLabel: string;
   teamColumnLabel: string;
   playerHrefBase: string;
+  teamHrefBase: string;
 }
 
 // The sort fetch lives here, not in the (server) page component, because a

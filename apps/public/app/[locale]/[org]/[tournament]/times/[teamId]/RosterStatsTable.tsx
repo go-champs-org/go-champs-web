@@ -37,6 +37,7 @@ interface RosterStatsTableProps {
   hasTeamColumn?: boolean;
   teamColumnLabel?: string;
   playerHrefBase?: string;
+  teamHrefBase?: string;
   // Set only by the tournament-wide table: a header click asks the API for
   // freshly sorted rows instead of reordering rows in memory.
   onSortRequest?: (slug: string) => Promise<RosterStatRow[]>;
@@ -203,14 +204,44 @@ function PlayerNameCell({ row, playerHrefBase }: PlayerNameCellProps) {
   );
 }
 
+interface TeamNameCellProps {
+  teamName: string;
+  teamId?: string;
+  teamHrefBase?: string;
+}
+
+// A stat row can name a team the tournament's roster no longer carries —
+// its id survives on the player but the name lookup comes up empty, so only
+// a real team id AND name together are worth a link.
+function TeamNameCell({ teamName, teamId, teamHrefBase }: TeamNameCellProps) {
+  if (!teamHrefBase || !teamId || !teamName) {
+    return <td className={TEAM_CELL}>{teamName}</td>;
+  }
+
+  return (
+    <td className={TEAM_CELL}>
+      <Link href={`${teamHrefBase}${teamId}`} className="hover:underline">
+        {teamName}
+      </Link>
+    </td>
+  );
+}
+
 interface StatRowProps {
   row: RosterStatRow;
   columns: StatColumnView[];
   hasTeamColumn: boolean;
   playerHrefBase?: string;
+  teamHrefBase?: string;
 }
 
-function StatRow({ row, columns, hasTeamColumn, playerHrefBase }: StatRowProps) {
+function StatRow({
+  row,
+  columns,
+  hasTeamColumn,
+  playerHrefBase,
+  teamHrefBase
+}: StatRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} border-b border-border/60`}>
       <td
@@ -219,7 +250,13 @@ function StatRow({ row, columns, hasTeamColumn, playerHrefBase }: StatRowProps) 
         {row.shirtNumber}
       </td>
       <PlayerNameCell row={row} playerHrefBase={playerHrefBase} />
-      {hasTeamColumn && <td className={TEAM_CELL}>{row.teamName || ''}</td>}
+      {hasTeamColumn && (
+        <TeamNameCell
+          teamName={row.teamName || ''}
+          teamId={row.teamId}
+          teamHrefBase={teamHrefBase}
+        />
+      )}
       {columns.map(column => (
         <td
           key={column.slug}
@@ -277,6 +314,7 @@ export function RosterStatsTable({
   hasTeamColumn = false,
   teamColumnLabel,
   playerHrefBase,
+  teamHrefBase,
   onSortRequest
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
@@ -417,6 +455,7 @@ export function RosterStatsTable({
                 columns={columns}
                 hasTeamColumn={hasTeamColumn}
                 playerHrefBase={playerHrefBase}
+                teamHrefBase={teamHrefBase}
               />
             ))}
           </tbody>

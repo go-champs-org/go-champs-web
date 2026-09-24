@@ -37,6 +37,7 @@ export function RecentTournaments({
             organizationName={recentlyView.organizationName}
             organizationLogoUrl={recentlyView.organizationLogoUrl}
             href={`${cmsUrl}/${recentlyView.organizationSlug}/${recentlyView.tournamentSlug}`}
+            organizationHref={`${cmsUrl}/${recentlyView.organizationSlug}`}
             isPinned={isPinned}
             pinLabel={isPinned ? t('unpin') : t('pin')}
             onTogglePin={() =>

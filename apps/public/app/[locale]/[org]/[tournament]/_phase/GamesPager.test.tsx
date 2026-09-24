@@ -42,7 +42,8 @@ const DEFAULT_PROPS = {
   previousDayLabel: 'Dia anterior',
   nextDayLabel: 'Próximo dia',
   undecidedLabel: 'A definir',
-  winnerLabel: 'Vencedor'
+  winnerLabel: 'Vencedor',
+  teamHrefBase: '/pt/org/tour/times/'
 };
 
 describe('GamesPager', () => {
@@ -136,9 +137,26 @@ describe('GamesPager', () => {
 
     render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
 
-    expect(screen.getByRole('link', { name: /Time A/ })).toHaveAttribute(
+    expect(screen.getByTestId('game-card-link')).toHaveAttribute(
       'href',
       '/pt/org/tour/jogos/g1'
+    );
+  });
+
+  it('sends each team name to its own page', () => {
+    const days: GameDay[] = [
+      { key: '2026-08-27', label: '27 de agosto', games: [game()] }
+    ];
+
+    render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
+
+    expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
+      'href',
+      '/pt/org/tour/times/t1'
+    );
+    expect(screen.getByRole('link', { name: 'Time B' })).toHaveAttribute(
+      'href',
+      '/pt/org/tour/times/t2'
     );
   });
 });
