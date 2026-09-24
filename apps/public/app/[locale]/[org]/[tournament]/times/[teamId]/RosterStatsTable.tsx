@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ScopeFilter, StatGlossaryToggle, StatGlossaryList } from '@gochamps/ui';
 import {
@@ -284,18 +284,44 @@ export function RosterStatsTable({
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
   const [serverRows, setServerRows] = useState(rows);
   const [isSorting, setIsSorting] = useState(false);
+  // Bumped on every scope switch (and every sort request) so a request that
+  // resolves after the visitor has moved on can tell it's stale and skip
+  // its own state update instead of overwriting a newer one.
+  const requestId = useRef(0);
 
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = onSortRequest
     ? serverRows
     : sortRosterRows(rows, sort.slug, sort.direction);
 
+  // A fresh `rows` prop (a different tournament, or a revalidated fetch)
+  // replaces whatever this island was showing, sorted or not.
+  useEffect(() => {
+    requestId.current += 1;
+    setServerRows(rows);
+    setSort(NO_SORT);
+  }, [rows]);
+
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
   const selectScope = (next: StatScope) => {
+    requestId.current += 1;
     setScope(next);
     setSort(NO_SORT);
     setServerRows(rows);
+  };
+
+  // A scope switch (or another sort) may have started and finished while a
+  // request was in flight — its result belongs to whatever was asked for
+  // then, not to what's on screen now.
+  const isStaleRequest = (thisRequestId: number): boolean =>
+    requestId.current !== thisRequestId;
+
+  // A failed request (`sortedRows` null) leaves the rows already on screen
+  // alone — those are still a valid ranking, just not a fresher one.
+  const applySortResult = (sortedRows: RosterStatRow[] | null) => {
+    if (sortedRows) setServerRows(sortedRows);
+    setIsSorting(false);
   };
 
   // Server-sorted mode is best-first only, no ascending toggle.
@@ -303,13 +329,12 @@ export function RosterStatsTable({
     fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>,
     slug: string
   ) => {
+    const thisRequestId = ++requestId.current;
     setSort({ slug, direction: 'desc' });
     setIsSorting(true);
-    try {
-      setServerRows(await fetchSortedRows(slug));
-    } finally {
-      setIsSorting(false);
-    }
+
+    const sortedRows = await fetchSortedRows(slug).catch(() => null);
+    if (!isStaleRequest(thisRequestId)) applySortResult(sortedRows);
   };
 
   const onSort = (slug: string) =>

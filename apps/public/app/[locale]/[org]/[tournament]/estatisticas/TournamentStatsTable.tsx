@@ -43,9 +43,13 @@ export function TournamentStatsTable({
       const response = await fetch(
         `/api/tournament-stats?tournamentId=${encodeURIComponent(tournamentId)}&sort=${encodeURIComponent(slug)}`
       );
-      const statsLogs: AggregatedPlayerStatsLogEntity[] = response.ok
-        ? await response.json()
-        : [];
+
+      // A failed request is not a valid (empty) ranking — throwing here lets
+      // the table's requestSort leave the rows it already has on screen
+      // instead of replacing them with nothing.
+      if (!response.ok) throw new Error('tournament_stats_sort_failed');
+
+      const statsLogs: AggregatedPlayerStatsLogEntity[] = await response.json();
 
       return tournamentStatRowsInStatsOrder(players, statsLogs, teams);
     },
