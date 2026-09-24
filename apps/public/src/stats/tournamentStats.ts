@@ -11,6 +11,7 @@ import { rosterStatRows, type RosterStatRow } from './rosterStats';
 
 export interface TournamentStatRow extends RosterStatRow {
   teamName: string;
+  teamId: string;
 }
 
 const teamNameById = (teams: TeamEntity[]): Map<string, string> =>
@@ -33,10 +34,15 @@ export const tournamentStatRows = (
   return rosterStatRows(
     players.filter(player => playersWithStats.has(player.id)),
     statsLogs
-  ).map(row => ({
-    ...row,
-    teamName: teamNames.get(playerTeamId.get(row.playerId) || '') || ''
-  }));
+  ).map(row => {
+    const teamId = playerTeamId.get(row.playerId) || '';
+
+    return {
+      ...row,
+      teamName: teamNames.get(teamId) || '',
+      teamId
+    };
+  });
 };
 
 export interface FixedStatsEntryRow {
@@ -44,6 +50,7 @@ export interface FixedStatsEntryRow {
   playerId: string;
   playerName: string;
   teamName: string;
+  teamId: string;
   value: string;
 }
 
@@ -56,18 +63,23 @@ export interface FixedStatsTableRow {
 const playerById = (players: PlayerEntity[]): Map<string, PlayerEntity> =>
   new Map(players.map(player => [player.id, player]));
 
+// A stale entry — its player is no longer on the roster — resolves to blank
+// fields across the board rather than each caller null-checking separately.
+const emptyFixedStatsPlayer = { name: '', teamId: '' };
+
 const fixedStatsEntryRow = (
   entry: FixedPlayerStatsRecordEntity,
   players: Map<string, PlayerEntity>,
   teamNames: Map<string, string>
 ): FixedStatsEntryRow => {
-  const player = players.get(entry.playerId);
+  const player = players.get(entry.playerId) || emptyFixedStatsPlayer;
 
   return {
     id: entry.id,
     playerId: entry.playerId,
-    playerName: player ? player.name : '',
-    teamName: player ? teamNames.get(player.teamId) || '' : '',
+    playerName: player.name,
+    teamName: teamNames.get(player.teamId) || '',
+    teamId: player.teamId,
     value: entry.value
   };
 };

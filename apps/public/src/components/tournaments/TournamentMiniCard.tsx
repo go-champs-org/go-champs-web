@@ -8,6 +8,7 @@ export interface TournamentMiniCardProps {
   organizationName: string;
   organizationLogoUrl: string;
   href: string;
+  organizationHref?: string;
   isPinned?: boolean;
   pinLabel?: string;
   onTogglePin?: () => void;
@@ -18,6 +19,7 @@ export function TournamentMiniCard({
   organizationName,
   organizationLogoUrl,
   href,
+  organizationHref,
   isPinned = false,
   pinLabel,
   onTogglePin
@@ -50,9 +52,18 @@ export function TournamentMiniCard({
           </button>
         )}
       </header>
-      <span className="my-4 block w-full truncate font-semibold text-primary-dark">
-        {organizationName}
-      </span>
+      {organizationHref ? (
+        <a
+          href={organizationHref}
+          className="relative z-10 my-4 block w-full truncate font-semibold text-primary-dark hover:underline"
+        >
+          {organizationName}
+        </a>
+      ) : (
+        <span className="my-4 block w-full truncate font-semibold text-primary-dark">
+          {organizationName}
+        </span>
+      )}
     </div>
   );
 }

@@ -24,15 +24,36 @@ interface GameSideRowProps {
   score: number;
   emphasis: SideEmphasis;
   winnerLabel: string;
+  teamHref: string;
 }
 
-function GameSideRow({ name, score, emphasis, winnerLabel }: GameSideRowProps) {
+// A side still to be decided (an unplayed bracket placeholder) carries no
+// team id and therefore no page to link to.
+function GameSideRow({
+  name,
+  score,
+  emphasis,
+  winnerLabel,
+  teamHref
+}: GameSideRowProps) {
+  const nameClass = `truncate ${EMPHASIS_CLASS[emphasis]}`;
+
   return (
     <div className="flex items-center justify-between gap-2 py-0.5 text-sm">
-      <span className={`truncate ${EMPHASIS_CLASS[emphasis]}`}>
-        {name}
-        {emphasis === 'winner' && <span className="sr-only"> {winnerLabel}</span>}
-      </span>
+      {teamHref ? (
+        <Link
+          href={teamHref}
+          className={`relative z-10 ${nameClass} hover:underline`}
+        >
+          {name}
+          {emphasis === 'winner' && <span className="sr-only"> {winnerLabel}</span>}
+        </Link>
+      ) : (
+        <span className={nameClass}>
+          {name}
+          {emphasis === 'winner' && <span className="sr-only"> {winnerLabel}</span>}
+        </span>
+      )}
       <span className={`tabular-nums ${EMPHASIS_CLASS[emphasis]}`}>{score}</span>
     </div>
   );
@@ -44,6 +65,7 @@ interface GameCardProps {
   undecidedLabel: string;
   winnerLabel: string;
   href: string;
+  teamHref: (teamId: string) => string;
 }
 
 function GameCard({
@@ -51,18 +73,27 @@ function GameCard({
   locale,
   undecidedLabel,
   winnerLabel,
-  href
+  href,
+  teamHref
 }: GameCardProps) {
   const winner = gameWinner(game);
   const home = sideEmphasis(winner, 'home');
   const away = sideEmphasis(winner, 'away');
 
   return (
-    <Link
-      href={href}
-      className="block border-b border-border px-4 py-3 transition-colors last:border-0 hover:bg-background"
-    >
-      <div className="mb-1 flex items-center justify-between gap-2 text-xs text-muted">
+    // Team names carry their own link to their team page; nesting an <a>
+    // inside the card's own <a> would be invalid HTML, so the card's link is
+    // an absolutely positioned overlay behind them instead (same pattern as
+    // TournamentMiniCard's pinned-tournament link).
+    <div className="relative border-b border-border px-4 py-3 transition-colors last:border-0 hover:bg-background">
+      <Link
+        href={href}
+        aria-hidden="true"
+        tabIndex={-1}
+        data-testid="game-card-link"
+        className="absolute inset-0"
+      />
+      <div className="pointer-events-none mb-1 flex items-center justify-between gap-2 text-xs text-muted">
         <span className="notranslate">{formatGameTime(game.datetime, locale)}</span>
         {game.location && <span className="truncate">{game.location}</span>}
       </div>
@@ -71,14 +102,16 @@ function GameCard({
         score={game.homeScore}
         emphasis={home}
         winnerLabel={winnerLabel}
+        teamHref={game.homeTeam.id ? teamHref(game.homeTeam.id) : ''}
       />
       <GameSideRow
         name={teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel)}
         score={game.awayScore}
         emphasis={away}
         winnerLabel={winnerLabel}
+        teamHref={game.awayTeam.id ? teamHref(game.awayTeam.id) : ''}
       />
-    </Link>
+    </div>
   );
 }
 
@@ -93,6 +126,7 @@ export interface GamesPagerProps {
   winnerLabel: string;
   // Where a card sends the visitor, minus the game id.
   gameHrefBase: string;
+  teamHref: (teamId: string) => string;
 }
 
 // The phase's games, one day at a time — matches the mockup's compact
@@ -106,7 +140,8 @@ export function GamesPager({
   nextDayLabel,
   undecidedLabel,
   winnerLabel,
-  gameHrefBase
+  gameHrefBase,
+  teamHref
 }: GamesPagerProps) {
   const [index, setIndex] = useState(initialIndex);
   const day = days[index];
@@ -150,6 +185,7 @@ export function GamesPager({
             undecidedLabel={undecidedLabel}
             winnerLabel={winnerLabel}
             href={`${gameHrefBase}${gameItem.id}`}
+            teamHref={teamHref}
           />
         ))}
       </div>

@@ -147,9 +147,14 @@ function GameStructuredData({ schema }: { schema: object }) {
 interface TeamIdentityProps {
   name: string;
   logoUrl: string;
+  href: string;
 }
 
-function TeamIdentity({ name, logoUrl }: TeamIdentityProps) {
+// A team still to be decided (a placeholder side of an unplayed bracket
+// match) carries no id and therefore no page to link to.
+function TeamIdentity({ name, logoUrl, href }: TeamIdentityProps) {
+  const nameClass = 'text-sm font-semibold text-foreground md:text-lg';
+
   return (
     <div className="flex flex-col items-center gap-2 text-center">
       {logoUrl && (
@@ -161,9 +166,13 @@ function TeamIdentity({ name, logoUrl }: TeamIdentityProps) {
           className="h-12 w-12 rounded-full object-cover md:h-16 md:w-16"
         />
       )}
-      <span className="text-sm font-semibold text-foreground md:text-lg">
-        {name}
-      </span>
+      {href ? (
+        <Link href={href} className={`${nameClass} hover:underline`}>
+          {name}
+        </Link>
+      ) : (
+        <span className={nameClass}>{name}</span>
+      )}
     </div>
   );
 }
@@ -212,6 +221,7 @@ interface GameCardProps {
   venue: string;
   liveLabel: string;
   scoreboardUrl: string;
+  teamHref: (teamId: string) => string;
 }
 
 function GameCard({
@@ -220,7 +230,8 @@ function GameCard({
   datetime,
   venue,
   liveLabel,
-  scoreboardUrl
+  scoreboardUrl,
+  teamHref
 }: GameCardProps) {
   const isLive = isLiveGame(game.liveState);
 
@@ -234,7 +245,11 @@ function GameCard({
       {isLive && <LiveIndicator label={liveLabel} />}
 
       <div className="mt-6 grid grid-cols-3 items-center gap-2 md:gap-6">
-        <TeamIdentity name={names.homeTeam} logoUrl={game.homeTeam.logoUrl} />
+        <TeamIdentity
+          name={names.homeTeam}
+          logoUrl={game.homeTeam.logoUrl}
+          href={teamHref(game.homeTeam.id)}
+        />
         {/* Keyed by the game: navigating between two game pages reuses this
             client island, and a finished game never polls to correct itself. */}
         <Scoreboard
@@ -247,7 +262,11 @@ function GameCard({
           homeTeamName={names.homeTeam}
           awayTeamName={names.awayTeam}
         />
-        <TeamIdentity name={names.awayTeam} logoUrl={game.awayTeam.logoUrl} />
+        <TeamIdentity
+          name={names.awayTeam}
+          logoUrl={game.awayTeam.logoUrl}
+          href={teamHref(game.awayTeam.id)}
+        />
       </div>
 
       {game.info && (
@@ -456,6 +475,8 @@ export default async function GamePage({
   const venue = gameVenue(game.location, game.city);
   const isLive = isLiveGame(game.liveState);
   const playerHrefBase = `/${locale}/${org}/${tournament}/jogadores/`;
+  const teamHref = (teamId: string): string =>
+    teamId ? `/${locale}/${org}/${tournament}/times/${teamId}` : '';
   const backLabel = tournamentLinkLabel(tournamentEntity, t('backToTournament'));
 
   // The whole box score decision resolves here, so the page below only asks
@@ -510,6 +531,7 @@ export default async function GamePage({
           venue={venue}
           liveLabel={t('live')}
           scoreboardUrl={SCOREBOARD_URL}
+          teamHref={teamHref}
         />
 
         {game.youTubeCode && (

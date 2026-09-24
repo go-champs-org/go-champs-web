@@ -108,6 +108,7 @@ export async function generateMetadata({
 interface LeaderboardCardProps {
   table: FixedStatsTableRow;
   playerHref: (playerId: string) => string;
+  teamHref: (teamId: string) => string;
   rankLabel: string;
   playerLabel: string;
   valueLabel: string;
@@ -132,11 +133,30 @@ function PlayerNameCell({ playerName, playerHref }: PlayerNameCellProps) {
   );
 }
 
+interface TeamNameCellProps {
+  teamName: string;
+  teamHref: string;
+}
+
+// A stale entry's team can be empty the same way its player can; only a real
+// team id has a page to open.
+function TeamNameCell({ teamName, teamHref }: TeamNameCellProps) {
+  if (!teamName) return null;
+  if (!teamHref) return <span className="ml-1 text-xs text-muted">{teamName}</span>;
+
+  return (
+    <Link href={teamHref} className="ml-1 text-xs text-muted hover:underline">
+      {teamName}
+    </Link>
+  );
+}
+
 // One admin-curated leaderboard: a stat title and its ranked entries, already
 // in the order the API returned — nothing here re-sorts them.
 function LeaderboardCard({
   table,
   playerHref,
+  teamHref,
   rankLabel,
   playerLabel,
   valueLabel
@@ -171,9 +191,10 @@ function LeaderboardCard({
                   playerName={entry.playerName}
                   playerHref={playerHref(entry.playerId)}
                 />
-                {entry.teamName && (
-                  <span className="ml-1 text-xs text-muted">{entry.teamName}</span>
-                )}
+                <TeamNameCell
+                  teamName={entry.teamName}
+                  teamHref={entry.teamId ? teamHref(entry.teamId) : ''}
+                />
               </td>
               <td className="notranslate py-2 text-right text-xs tabular-nums">
                 {entry.value}
@@ -189,6 +210,7 @@ function LeaderboardCard({
 interface LeaderboardsSectionProps {
   tables: FixedStatsTableRow[];
   playerHref: (playerId: string) => string;
+  teamHref: (teamId: string) => string;
   rankLabel: string;
   playerLabel: string;
   valueLabel: string;
@@ -201,6 +223,7 @@ interface LeaderboardsSectionProps {
 function LeaderboardsSection({
   tables,
   playerHref,
+  teamHref,
   rankLabel,
   playerLabel,
   valueLabel,
@@ -216,6 +239,7 @@ function LeaderboardsSection({
           key={table.id}
           table={table}
           playerHref={playerHref}
+          teamHref={teamHref}
           rankLabel={rankLabel}
           playerLabel={playerLabel}
           valueLabel={valueLabel}
@@ -254,6 +278,8 @@ export default async function PlayerStatsSummaryPage({
   const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
   const playerHref = (playerId: string) =>
     `/${locale}/${org}/${tournamentSlug}/jogadores/${playerId}`;
+  const teamHref = (teamId: string) =>
+    `/${locale}/${org}/${tournamentSlug}/times/${teamId}`;
 
   return (
     <main
@@ -283,6 +309,7 @@ export default async function PlayerStatsSummaryPage({
         <LeaderboardsSection
           tables={leaderboards}
           playerHref={playerHref}
+          teamHref={teamHref}
           rankLabel={t('rankColumn')}
           playerLabel={t('playerColumn')}
           valueLabel={t('valueColumn')}

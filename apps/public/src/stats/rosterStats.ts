@@ -22,6 +22,7 @@ export interface RosterStatRow {
   // Set only by the tournament-wide table (Task 12b) — the team roster table
   // never carries it, so its team column stays off.
   teamName?: string;
+  teamId?: string;
 }
 
 const slugsInScope = (sport: SportEntity, scope: StatScope): Set<string> =>

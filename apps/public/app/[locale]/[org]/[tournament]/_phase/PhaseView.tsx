@@ -662,6 +662,7 @@ interface PhaseGamesSectionProps {
   nextDayLabel: string;
   winnerLabel: string;
   gameHrefBase: string;
+  teamHref: (teamId: string) => string;
 }
 
 function PhaseGamesSection({
@@ -673,7 +674,8 @@ function PhaseGamesSection({
   previousDayLabel,
   nextDayLabel,
   winnerLabel,
-  gameHrefBase
+  gameHrefBase,
+  teamHref
 }: PhaseGamesSectionProps) {
   if (days.length === 0) {
     return (
@@ -694,7 +696,8 @@ function PhaseGamesSection({
       undecidedLabel={undecidedLabel}
       winnerLabel={winnerLabel}
       gameHrefBase={gameHrefBase}
-          />
+      teamHref={teamHref}
+    />
   );
 }
 
@@ -755,6 +758,7 @@ function PhaseBody({
           nextDayLabel={nextDayLabel}
           winnerLabel={winnerLabel}
           gameHrefBase={gameHrefBase}
+          teamHref={teamHref}
         />
       </aside>
     </div>

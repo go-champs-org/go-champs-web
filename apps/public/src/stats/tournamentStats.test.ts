@@ -52,7 +52,8 @@ describe('tournamentStatRows', () => {
         name: 'Camisa Um',
         shirtNumber: '',
         stats: { points: '10' },
-        teamName: 'Time A'
+        teamName: 'Time A',
+        teamId: 't1'
       }
     ]);
   });
@@ -135,6 +136,7 @@ describe('fixedStatsTableRows', () => {
         playerId: 'p2',
         playerName: 'Camisa Dois',
         teamName: 'Time B',
+        teamId: 't2',
         value: '22'
       },
       {
@@ -142,6 +144,7 @@ describe('fixedStatsTableRows', () => {
         playerId: 'p1',
         playerName: 'Camisa Um',
         teamName: 'Time A',
+        teamId: 't1',
         value: '10'
       }
     ]);
@@ -162,7 +165,14 @@ describe('fixedStatsTableRows', () => {
     );
 
     expect(rows[0].entries).toEqual([
-      { id: 'r1', playerId: 'missing', playerName: '', teamName: '', value: '5' }
+      {
+        id: 'r1',
+        playerId: 'missing',
+        playerName: '',
+        teamName: '',
+        teamId: '',
+        value: '5'
+      }
     ]);
   });
 });

@@ -99,6 +99,15 @@ const teamNameOf = (
   teamId: string
 ): string => tournament?.teams.find(team => team.id === teamId)?.name || '';
 
+// A player without a team (never assigned one, or one the tournament removed)
+// has no team page to link to.
+const teamHrefOf = (
+  locale: string,
+  org: string,
+  tournamentSlug: string,
+  teamId: string
+): string => (teamId ? `/${locale}/${org}/${tournamentSlug}/times/${teamId}` : '');
+
 const sportSlugOf = (
   tournament: TournamentWithTeamsEntity | null
 ): string => tournament?.sportSlug || '';
@@ -242,16 +251,58 @@ interface PlayerBannerProps {
   name: string;
   photoUrl: string;
   overline: string;
-  subtitle: string;
+  teamName: string;
+  teamHref: string;
+  gamesText: string;
   profileHref: string;
   profileLabel: string;
+}
+
+// The team name is a plain label when the player has none to link to — a
+// removed roster spot never resolves to a team id worth a page.
+function PlayerBannerTeamName({ teamName, teamHref }: { teamName: string; teamHref: string }) {
+  if (!teamHref) return teamName;
+
+  return (
+    <Link href={teamHref} className="hover:underline">
+      {teamName}
+    </Link>
+  );
+}
+
+// A separator only belongs between the two parts when both are there to join.
+const subtitleSeparator = (teamName: string, gamesText: string): string =>
+  teamName && gamesText ? ' · ' : '';
+
+interface PlayerBannerSubtitleProps {
+  teamName: string;
+  teamHref: string;
+  gamesText: string;
+}
+
+function PlayerBannerSubtitle({
+  teamName,
+  teamHref,
+  gamesText
+}: PlayerBannerSubtitleProps) {
+  if (!teamName && !gamesText) return null;
+
+  return (
+    <p className="text-sm font-semibold opacity-90">
+      {teamName && <PlayerBannerTeamName teamName={teamName} teamHref={teamHref} />}
+      {subtitleSeparator(teamName, gamesText)}
+      {gamesText}
+    </p>
+  );
 }
 
 function PlayerBanner({
   name,
   photoUrl,
   overline,
-  subtitle,
+  teamName,
+  teamHref,
+  gamesText,
   profileHref,
   profileLabel
 }: PlayerBannerProps) {
@@ -269,9 +320,11 @@ function PlayerBanner({
           <h1 className="text-2xl font-extrabold leading-tight md:text-3xl">
             {name}
           </h1>
-          {subtitle && (
-            <p className="text-sm font-semibold opacity-90">{subtitle}</p>
-          )}
+          <PlayerBannerSubtitle
+            teamName={teamName}
+            teamHref={teamHref}
+            gamesText={gamesText}
+          />
 
           <a
             href={profileHref}
@@ -361,8 +414,8 @@ export default async function PlayerPage({
     table.total.games > 0
       ? t('gamesPlayedCount', { count: table.total.games })
       : '';
-  const subtitle = [view.teamName, gamesText].filter(Boolean).join(' · ');
   const hasStats = table.rows.length > 0 && columns.length > 0;
+  const teamHref = teamHrefOf(locale, org, tournamentSlug, view.player.teamId);
 
   const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
 
@@ -393,7 +446,9 @@ export default async function PlayerPage({
           name={view.player.name}
           photoUrl={view.player.photoUrl}
           overline={view.tournamentName}
-          subtitle={subtitle}
+          teamName={view.teamName}
+          teamHref={teamHref}
+          gamesText={gamesText}
           profileHref={`${CMS_URL}/${org}/${tournamentSlug}/Player/${playerId}`}
           profileLabel={t('fullProfile')}
         />
