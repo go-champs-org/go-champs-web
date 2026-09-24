@@ -65,4 +65,22 @@ describe('getAggregatedPlayerStatsByFilter', () => {
       { headers: { 'Content-Type': 'application/json' } }
     );
   });
+
+  it('adds sort to the filter when provided', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getAggregatedPlayerStatsByFilter } = await import('./aggregatedPlayerStats');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [] })
+    }) as unknown as typeof fetch;
+
+    await getAggregatedPlayerStatsByFilter({ tournamentId: 't1', sort: 'points' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1&sort=points',
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  });
 });

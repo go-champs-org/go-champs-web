@@ -1,4 +1,8 @@
-import { fixedStatsTableRows, tournamentStatRows } from './tournamentStats';
+import {
+  fixedStatsTableRows,
+  tournamentStatRows,
+  tournamentStatRowsInStatsOrder
+} from './tournamentStats';
 
 const team = (id: string, name: string) => ({
   id,
@@ -75,6 +79,38 @@ describe('tournamentStatRows', () => {
     );
 
     expect(rows[0].teamName).toBe('');
+  });
+});
+
+describe('tournamentStatRowsInStatsOrder', () => {
+  it('keeps the rank order the stats logs already arrived in, not roster order', () => {
+    const rows = tournamentStatRowsInStatsOrder(
+      [player('p1', 'Camisa Um', 't1'), player('p2', 'Camisa Dois', 't2')],
+      [statsLog('p2', { points: '22' }), statsLog('p1', { points: '10' })],
+      [team('t1', 'Time A'), team('t2', 'Time B')]
+    );
+
+    expect(rows.map(row => row.playerId)).toEqual(['p2', 'p1']);
+  });
+
+  it('drops a stats log whose player is not on the roster', () => {
+    const rows = tournamentStatRowsInStatsOrder(
+      [player('p1', 'Camisa Um', 't1')],
+      [statsLog('missing', { points: '22' }), statsLog('p1', { points: '10' })],
+      [team('t1', 'Time A')]
+    );
+
+    expect(rows.map(row => row.playerId)).toEqual(['p1']);
+  });
+
+  it('joins the team name the same way as the roster-ordered rows', () => {
+    const rows = tournamentStatRowsInStatsOrder(
+      [player('p1', 'Camisa Um', 't1')],
+      [statsLog('p1', { points: '10' })],
+      [team('t1', 'Time A')]
+    );
+
+    expect(rows[0].teamName).toBe('Time A');
   });
 });
 

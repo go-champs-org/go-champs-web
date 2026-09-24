@@ -23,7 +23,7 @@ import {
   type StatScope
 } from '@/src/stats/rosterStats';
 import { tournamentStatRows, type TournamentStatRow } from '@/src/stats/tournamentStats';
-import { RosterStatsTable } from '../times/[teamId]/RosterStatsTable';
+import { TournamentStatsTable } from './TournamentStatsTable';
 
 // The tournament-wide stats table moves as rarely as a team's roster, so the
 // rendered HTML can be reused for minutes at a time instead of hitting the
@@ -126,6 +126,9 @@ export async function generateMetadata({
 }
 
 interface StatsTableSectionProps {
+  tournamentId: string;
+  players: TournamentWithTeamsEntity['players'];
+  teams: TournamentWithTeamsEntity['teams'];
   rows: TournamentStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
   totalsByScope: Record<string, Record<string, string>>;
@@ -150,6 +153,9 @@ interface StatsTableSectionProps {
 // `tournamentStatRows`); the empty state is decided here rather than by the
 // table returning nothing for itself.
 function StatsTableSection({
+  tournamentId,
+  players,
+  teams,
   rows,
   columnsByScope,
   totalsByScope,
@@ -164,7 +170,10 @@ function StatsTableSection({
       className={`${SECTION_CLASS} overflow-hidden`}
       data-testid="tournament-stats"
     >
-      <RosterStatsTable
+      <TournamentStatsTable
+        tournamentId={tournamentId}
+        players={players}
+        teams={teams}
         rows={rows}
         columnsByScope={columnsByScope}
         totalsByScope={totalsByScope}
@@ -177,7 +186,6 @@ function StatsTableSection({
         nameLabel={labels.playerName}
         totalLabel={labels.total}
         sortLabel={labels.sortByStat}
-        hasTeamColumn
         teamColumnLabel={labels.teamColumn}
         playerHrefBase={playerHrefBase}
       />
@@ -243,6 +251,9 @@ export default async function PlayerStatsPage({
         </div>
 
         <StatsTableSection
+          tournamentId={tournament.id}
+          players={tournament.players}
+          teams={tournament.teams}
           rows={rows}
           columnsByScope={columnsByScope}
           totalsByScope={totalsByScope}

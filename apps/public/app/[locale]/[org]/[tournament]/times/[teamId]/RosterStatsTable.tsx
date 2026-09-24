@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ScopeFilter, StatGlossaryToggle, StatGlossaryList } from '@gochamps/ui';
 import {
@@ -37,6 +37,9 @@ interface RosterStatsTableProps {
   hasTeamColumn?: boolean;
   teamColumnLabel?: string;
   playerHrefBase?: string;
+  // Set only by the tournament-wide table: a header click asks the API for
+  // freshly sorted rows instead of reordering rows in memory.
+  onSortRequest?: (slug: string) => Promise<RosterStatRow[]>;
 }
 
 interface SortState {
@@ -273,21 +276,85 @@ export function RosterStatsTable({
   sortLabel,
   hasTeamColumn = false,
   teamColumnLabel,
-  playerHrefBase
+  playerHrefBase,
+  onSortRequest
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(NO_SORT);
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
+  const [serverRows, setServerRows] = useState(rows);
+  const [isSorting, setIsSorting] = useState(false);
+  // Bumped on every scope switch (and every sort request) so a request that
+  // resolves after the visitor has moved on can tell it's stale and skip
+  // its own state update instead of overwriting a newer one.
+  const requestId = useRef(0);
 
   const columns = columnsFor(columnsByScope, scope);
-  const sortedRows = sortRosterRows(rows, sort.slug, sort.direction);
+  const sortedRows = onSortRequest
+    ? serverRows
+    : sortRosterRows(rows, sort.slug, sort.direction);
+
+  // A fresh `rows` prop (a different tournament, or a revalidated fetch)
+  // replaces whatever this island was showing, sorted or not — including the
+  // scope, which a new tournament may not offer the same choices for
+  // (columnsFor would render no columns for a scope the new props dropped).
+  useEffect(() => {
+    requestId.current += 1;
+    setScope(scopes[0]);
+    setServerRows(rows);
+    setSort(NO_SORT);
+    setIsSorting(false);
+  }, [rows]);
 
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
   const selectScope = (next: StatScope) => {
+    // Invalidates any sort still in flight for the old scope — its loading
+    // state has to end here too, or a header click never spins down again.
+    requestId.current += 1;
     setScope(next);
     setSort(NO_SORT);
+    setServerRows(rows);
+    setIsSorting(false);
   };
+
+  // A scope switch (or another sort) may have started and finished while a
+  // request was in flight — its result belongs to whatever was asked for
+  // then, not to what's on screen now.
+  const isStaleRequest = (thisRequestId: number): boolean =>
+    requestId.current !== thisRequestId;
+
+  // A failed request (`sortedRows` null) leaves the rows already on screen
+  // alone, but the header it was requested for can't claim to be sorted —
+  // that would announce a ranking that was never actually applied.
+  const applySortResult = (
+    sortedRows: RosterStatRow[] | null,
+    previousSort: SortState
+  ) => {
+    if (sortedRows) {
+      setServerRows(sortedRows);
+    } else {
+      setSort(previousSort);
+    }
+    setIsSorting(false);
+  };
+
+  // Server-sorted mode is best-first only, no ascending toggle.
+  const requestSort = async (
+    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>,
+    slug: string
+  ) => {
+    const thisRequestId = ++requestId.current;
+    const previousSort = sort;
+    setSort({ slug, direction: 'desc' });
+    setIsSorting(true);
+
+    const sortedRows = await fetchSortedRows(slug).catch(() => null);
+    if (!isStaleRequest(thisRequestId)) applySortResult(sortedRows, previousSort);
+  };
+
+  const onSort = (slug: string) =>
+    onSortRequest && !isSorting ? requestSort(onSortRequest, slug) : undefined;
 
   return (
     <div className="flex flex-col">
@@ -335,7 +402,9 @@ export function RosterStatsTable({
                   column={column}
                   sort={sort}
                   sortLabel={sortLabel}
-                  onSort={slug => setSort(nextSort(sort, slug))}
+                  onSort={
+                    onSortRequest ? onSort : slug => setSort(nextSort(sort, slug))
+                  }
                 />
               ))}
             </tr>
