@@ -3,11 +3,14 @@ name: Deploy pre-prod Workers
 # Builds and deploys the two Workers behind pre-prod.go-champs.com. Same
 # topology as deploy-new-staging-workers.yml, but pointed at the real
 # production API (PROD_API_HOST) instead of staging — actions taken in this
-# environment's apps/cms mutate real production data. Manual dispatch only,
-# never on push, so it never runs by accident.
+# environment's apps/cms mutate real production data. Runs on every push to
+# master, same as deploy-new-staging-workers.yml.
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
 
 concurrency:
   group: deploy-pre-prod-workers
