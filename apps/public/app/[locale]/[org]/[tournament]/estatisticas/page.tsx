@@ -22,7 +22,12 @@ import {
   type StatColumnView,
   type StatScope
 } from '@/src/stats/rosterStats';
-import { tournamentStatRows, type TournamentStatRow } from '@/src/stats/tournamentStats';
+import {
+  tournamentStatRows,
+  type PickedPlayer,
+  type PickedTeam,
+  type TournamentStatRow
+} from '@/src/stats/tournamentStats';
 import { TournamentStatsTable } from './TournamentStatsTable';
 
 // The tournament-wide stats table moves as rarely as a team's roster, so the
@@ -125,10 +130,21 @@ export async function generateMetadata({
   });
 }
 
+// Trimmed to what the client-sorted table's join actually reads — the full
+// roster (photoUrl, instagram, logoUrl, coaches, ...) would otherwise
+// serialize into the RSC payload of every tournament for nothing, the exact
+// cost that pushed pre-prod's real-data tournaments over the Workers CPU
+// budget. See stats/tournamentStats.ts's PickedPlayer/PickedTeam.
+const pickPlayers = (players: TournamentWithTeamsEntity['players']): PickedPlayer[] =>
+  players.map(({ id, name, shirtNumber, teamId }) => ({ id, name, shirtNumber, teamId }));
+
+const pickTeams = (teams: TournamentWithTeamsEntity['teams']): PickedTeam[] =>
+  teams.map(({ id, name }) => ({ id, name }));
+
 interface StatsTableSectionProps {
   tournamentId: string;
-  players: TournamentWithTeamsEntity['players'];
-  teams: TournamentWithTeamsEntity['teams'];
+  players: PickedPlayer[];
+  teams: PickedTeam[];
   rows: TournamentStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
   totalsByScope: Record<string, Record<string, string>>;
@@ -256,8 +272,8 @@ export default async function PlayerStatsPage({
 
         <StatsTableSection
           tournamentId={tournament.id}
-          players={tournament.players}
-          teams={tournament.teams}
+          players={pickPlayers(tournament.players)}
+          teams={pickTeams(tournament.teams)}
           rows={rows}
           columnsByScope={columnsByScope}
           totalsByScope={totalsByScope}

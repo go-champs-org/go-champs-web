@@ -14,7 +14,16 @@ export interface TournamentStatRow extends RosterStatRow {
   teamId: string;
 }
 
-const teamNameById = (teams: TeamEntity[]): Map<string, string> =>
+// The client-sorted table only ever joins on id/name/shirtNumber/teamId — the
+// rest of PlayerEntity (photoUrl, instagram, licenseNumber, ...) and TeamEntity
+// (logoUrl, coaches, ...) would otherwise ride along in the RSC payload of
+// every tournament with nothing to do there. A large tournament's roster is
+// exactly the shape that made the pre-prod Worker's CPU budget (real
+// production data, not staging's synthetic set) — see PickedPlayer/PickedTeam.
+export type PickedPlayer = Pick<PlayerEntity, 'id' | 'name' | 'shirtNumber' | 'teamId'>;
+export type PickedTeam = Pick<TeamEntity, 'id' | 'name'>;
+
+const teamNameById = (teams: PickedTeam[]): Map<string, string> =>
   new Map(teams.map(team => [team.id, team.name]));
 
 // Unlike the team page's roster table — which lists every player on the
@@ -48,9 +57,9 @@ export const tournamentStatRows = (
 // Keeps the API's rank order, unlike `tournamentStatRows`, which orders by
 // roster instead.
 export const tournamentStatRowsInStatsOrder = (
-  players: PlayerEntity[],
+  players: PickedPlayer[],
   statsLogs: AggregatedPlayerStatsLogEntity[],
-  teams: TeamEntity[]
+  teams: PickedTeam[]
 ): TournamentStatRow[] => {
   const teamNames = teamNameById(teams);
   const playersById = new Map(players.map(player => [player.id, player]));
@@ -58,7 +67,7 @@ export const tournamentStatRowsInStatsOrder = (
   return statsLogs
     .filter(statsLog => playersById.has(statsLog.playerId))
     .map(statsLog => {
-      const player = playersById.get(statsLog.playerId) as PlayerEntity;
+      const player = playersById.get(statsLog.playerId) as PickedPlayer;
 
       return {
         playerId: player.id,

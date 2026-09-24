@@ -1,10 +1,11 @@
 'use client';
 
 import { useCallback } from 'react';
-import type { PlayerEntity, AggregatedPlayerStatsLogEntity } from '@gochamps/api-client';
-import type { TeamEntity } from '@gochamps/domain-types';
+import type { AggregatedPlayerStatsLogEntity } from '@gochamps/api-client';
 import {
   tournamentStatRowsInStatsOrder,
+  type PickedPlayer,
+  type PickedTeam,
   type TournamentStatRow
 } from '@/src/stats/tournamentStats';
 import type { StatColumnView, StatScope } from '@/src/stats/rosterStats';
@@ -12,8 +13,11 @@ import { RosterStatsTable } from '../times/[teamId]/RosterStatsTable';
 
 interface TournamentStatsTableProps {
   tournamentId: string;
-  players: PlayerEntity[];
-  teams: TeamEntity[];
+  // Only id/name/shirtNumber/teamId (players) and id/name (teams) — the rest
+  // of the roster's fields have nothing to do in this client boundary's RSC
+  // payload. See PickedPlayer/PickedTeam.
+  players: PickedPlayer[];
+  teams: PickedTeam[];
   rows: TournamentStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
   totalsByScope: Record<string, Record<string, string>>;
