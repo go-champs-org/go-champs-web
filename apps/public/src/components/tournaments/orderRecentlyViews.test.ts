@@ -1,5 +1,9 @@
 import type { RecentlyViewEntity } from '@gochamps/api-client';
-import { orderRecentlyViews } from './orderRecentlyViews';
+import {
+  orderRecentlyViews,
+  SERVER_RECENTLY_VIEWS_LIMIT,
+  serverRecentlyViews
+} from './orderRecentlyViews';
 
 const recentlyView = (id: string): RecentlyViewEntity => ({
   tournamentId: id,
@@ -55,5 +59,38 @@ describe('orderRecentlyViews', () => {
 
     expect(ordered).toHaveLength(15);
     expect(ids(ordered)[0]).toBe('pinned');
+  });
+});
+
+describe('serverRecentlyViews', () => {
+  it('keeps enough for a full board even when every pin repeats a server entry', () => {
+    const server = Array.from({ length: 75 }, (_, index) =>
+      recentlyView(`t${index}`)
+    );
+    const pinned = server.slice(0, 15);
+
+    expect(orderRecentlyViews(serverRecentlyViews(server), pinned)).toEqual(
+      orderRecentlyViews(server, pinned)
+    );
+  });
+
+  it('keeps enough when no pin repeats a server entry', () => {
+    const server = Array.from({ length: 75 }, (_, index) =>
+      recentlyView(`t${index}`)
+    );
+    const pinned = Array.from({ length: 3 }, (_, index) =>
+      recentlyView(`p${index}`)
+    );
+
+    expect(orderRecentlyViews(serverRecentlyViews(server), pinned)).toEqual(
+      orderRecentlyViews(server, pinned)
+    );
+  });
+
+  it('caps the list the page ships', () => {
+    const server = Array.from({ length: 75 }, (_, index) =>
+      recentlyView(`t${index}`)
+    );
+    expect(serverRecentlyViews(server)).toHaveLength(SERVER_RECENTLY_VIEWS_LIMIT);
   });
 });
