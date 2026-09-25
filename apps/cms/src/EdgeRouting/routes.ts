@@ -64,10 +64,14 @@ export const isPublicPassthroughPath = (pathname: string): boolean =>
 // each probe from costing apps/public two API calls and a full 404 render.
 const JUNK_EXTENSION = /\.(?:php|env|git|aspx?|jsp|sql|bak|ini|ya?ml|cgi)$/i;
 
+// Real WordPress probe paths only — a slug like wp-sports must stay legal.
+const WORDPRESS_SEGMENT =
+  /^wp-(?:admin|login|content|includes|json|config)/;
+
 const isJunkSegment = (segment: string): boolean =>
   segment !== '.well-known' &&
   (segment.startsWith('.') ||
-    segment.startsWith('wp-') ||
+    WORDPRESS_SEGMENT.test(segment) ||
     JUNK_EXTENSION.test(segment));
 
 const isUnknownApiPath = (pathname: string): boolean =>

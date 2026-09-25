@@ -85,6 +85,9 @@ describe('isJunkPath', () => {
     ['/vite/.env'],
     ['/src/.env'],
     ['/wp-admin/setup-config.php'],
+    ['/wp-login.php'],
+    ['/wp-content/plugins/x/readme.txt'],
+    ['/wp-json/wp/v2/users'],
     ['/backup/db.sql'],
     ['/config/app.yml'],
     ['/api/config'],
@@ -102,7 +105,10 @@ describe('isJunkPath', () => {
     ['/api/tournament-stats'],
     ['/_next/static/chunks/main.js'],
     ['/favicon.ico'],
-    ['/.well-known/security.txt']
+    ['/.well-known/security.txt'],
+    ['/wp-sports'],
+    ['/wp-sports/liga-2026'],
+    ['/wp-sports/liga-2026/jogadores/player-1']
   ])('lets %s through', pathname => {
     expect(isJunkPath(pathname)).toBe(false);
   });
