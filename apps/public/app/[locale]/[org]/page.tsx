@@ -12,6 +12,7 @@ import {
 import { Avatar, ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { localePath } from '@/src/i18n/localePath';
 
 // Moves as rarely as a tournament's identity.
 export const revalidate = 300;
@@ -146,7 +147,7 @@ function TournamentGrid({
       {tournaments.map(tournament => (
         <Link
           key={tournament.id}
-          href={`/${locale}/${org}/${tournament.slug}`}
+          href={localePath(locale, `/${org}/${tournament.slug}`)}
           className="block"
         >
           <Surface className="flex items-center gap-3 p-4 hover:border-primary">
@@ -197,7 +198,7 @@ export default async function OrganizationPage({
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <OrganizationHeader
           organization={organization}
-          homeHref={`/${locale}`}
+          homeHref={localePath(locale, '')}
           homeLabel={t('breadcrumbHome')}
           tournamentsCountLabel={t('tournamentsCount', {
             count: tournaments.length

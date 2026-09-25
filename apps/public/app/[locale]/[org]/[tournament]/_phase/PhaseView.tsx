@@ -20,6 +20,7 @@ import {
 import type { TeamEntity } from '@gochamps/domain-types';
 import { GameTeamRow, ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
+import { localePath } from '@/src/i18n/localePath';
 import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
 import { toPagerDays } from '@/src/games/pagerGames';
@@ -271,7 +272,7 @@ function PhaseTabs({ routeParams, phases }: PhaseTabsProps) {
           return (
             <Link
               key={phase.id}
-              href={`/${locale}/${org}/${tournament}/fases/${phase.id}`}
+              href={localePath(locale, `/${org}/${tournament}/fases/${phase.id}`)}
               className={`-mb-px border-b-2 px-3 py-2 text-sm font-semibold ${
                 isActive
                   ? 'border-primary text-primary'
@@ -814,7 +815,7 @@ function TournamentTopSection({
     <>
       <TournamentHeader
         tournament={tournament}
-        homeHref={`/${routeParams.locale}`}
+        homeHref={localePath(routeParams.locale, '')}
         homeLabel={homeLabel}
         organizationHref={organizationHref}
         activeLabel={activeLabel}
@@ -825,7 +826,7 @@ function TournamentTopSection({
           <>
             {tournament.hasAggregatedPlayerStats && (
               <StatisticsLink
-                href={`/${routeParams.locale}/${routeParams.org}/${routeParams.tournament}/estatisticas`}
+                href={localePath(routeParams.locale, `/${routeParams.org}/${routeParams.tournament}/estatisticas`)}
                 label={advancedStatsLabel}
               />
             )}
@@ -873,7 +874,7 @@ export async function PhaseView({
             routeParams={routeParams}
             tournament={tournament}
             homeLabel={tPhase('breadcrumbHome')}
-            organizationHref={`/${locale}/${tournament.organization.slug}`}
+            organizationHref={localePath(locale, `/${tournament.organization.slug}`)}
             activeLabel={tPhase('active')}
             athletesLabel={tPhase('athletesCount')}
             teamsLabel={tPhase('teamsCount')}
@@ -902,10 +903,10 @@ export async function PhaseView({
           nextDayLabel={tPhase('nextDay')}
           winnerLabel={tGame('winner')}
           teamHref={teamId =>
-            `/${locale}/${org}/${tournamentSlug}/times/${teamId}`
+            localePath(locale, `/${org}/${tournamentSlug}/times/${teamId}`)
           }
-          gameHrefBase={`/${locale}/${org}/${tournamentSlug}/jogos/`}
-          teamHrefBase={`/${locale}/${org}/${tournamentSlug}/times/`}
+          gameHrefBase={localePath(locale, `/${org}/${tournamentSlug}/jogos/`)}
+          teamHrefBase={localePath(locale, `/${org}/${tournamentSlug}/times/`)}
         />
       </div>
     </main>

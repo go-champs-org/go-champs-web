@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { FaChevronDown } from 'react-icons/fa';
 import type { OrganizationEntity } from '@gochamps/api-client';
 import { Avatar } from '@gochamps/ui';
+import { localePath } from '../../../src/i18n/localePath';
 
 const MAX_ORGANIZATIONS = 15;
 
@@ -52,7 +53,7 @@ export function OrganizationsSidebar({
             {organizations.slice(0, MAX_ORGANIZATIONS).map(organization => (
               <Link
                 key={organization.id}
-                href={`/${locale}/${organization.slug}`}
+                href={localePath(locale, `/${organization.slug}`)}
                 className="flex items-center gap-2 border-b border-border px-3 py-2.5 text-foreground transition-colors last:border-b-0 hover:bg-primary/10 md:px-0 md:py-3"
               >
                 <Avatar

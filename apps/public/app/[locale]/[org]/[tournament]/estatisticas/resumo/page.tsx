@@ -12,6 +12,7 @@ import {
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { localePath } from '@/src/i18n/localePath';
 import { fixedStatsTableRows, type FixedStatsTableRow } from '@/src/stats/tournamentStats';
 
 // The leaderboard cards are admin-curated and move as rarely as the roster,
@@ -276,11 +277,11 @@ export default async function PlayerStatsSummaryPage({
     tournament.teams
   );
 
-  const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
+  const tournamentHref = localePath(locale, `/${org}/${tournamentSlug}`);
   const playerHref = (playerId: string) =>
-    `/${locale}/${org}/${tournamentSlug}/jogadores/${playerId}`;
+    localePath(locale, `/${org}/${tournamentSlug}/jogadores/${playerId}`);
   const teamHref = (teamId: string) =>
-    `/${locale}/${org}/${tournamentSlug}/times/${teamId}`;
+    localePath(locale, `/${org}/${tournamentSlug}/times/${teamId}`);
 
   return (
     <main
@@ -300,7 +301,7 @@ export default async function PlayerStatsSummaryPage({
             {t('summaryTitle')}
           </h1>
           <Link
-            href={`/${locale}/${org}/${tournamentSlug}/estatisticas`}
+            href={localePath(locale, `/${org}/${tournamentSlug}/estatisticas`)}
             className="text-sm font-semibold text-primary-dark hover:underline"
           >
             {t('viewAll')}
