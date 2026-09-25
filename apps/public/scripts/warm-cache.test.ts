@@ -1,5 +1,4 @@
-// The script is plain CommonJS so the Actions runner needs no build step;
-// require() is how a TS test reaches it without a declaration file.
+// Plain CommonJS so the Actions runner needs no build step; require() skips a .d.ts.
 const { warmCacheUrls, WARM_LIMIT } = require('./warm-cache.cjs');
 
 const view = (org: string, tournament: string) => ({
