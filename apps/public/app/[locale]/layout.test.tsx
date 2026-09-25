@@ -26,6 +26,7 @@ jest.mock('../../src/components/LocaleSwitcher', () => ({
 
 jest.mock('next-intl/server', () => ({
   setRequestLocale: jest.fn(),
+  getMessages: async () => require('../../messages/pt.json'),
   getTranslations: async (namespace: string) => {
     const dict = (
       require('../../messages/pt.json') as Record<string, Record<string, string>>

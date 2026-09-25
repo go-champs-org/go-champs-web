@@ -14,7 +14,10 @@ const WALKOVER_WINNER: Record<string, GameSide> = {
   away_team_walkover: 'away'
 };
 
-const playedWinner = (game: GameEntity): GameSide | undefined => {
+// Narrower than GameEntity so the phase pager's projected games also qualify.
+export type ScoredGame = Pick<GameEntity, 'homeScore' | 'awayScore' | 'isFinished' | 'resultType'>;
+
+const playedWinner = (game: ScoredGame): GameSide | undefined => {
   if (game.homeScore === game.awayScore) return undefined;
 
   return game.homeScore > game.awayScore ? 'home' : 'away';
@@ -24,7 +27,7 @@ const playedWinner = (game: GameEntity): GameSide | undefined => {
  * Which side won, or undefined while the game is undecided — still to be
  * played, in progress, or drawn.
  */
-export const gameWinner = (game: GameEntity): GameSide | undefined => {
+export const gameWinner = (game: ScoredGame): GameSide | undefined => {
   const awarded = WALKOVER_WINNER[game.resultType];
 
   if (awarded) return awarded;

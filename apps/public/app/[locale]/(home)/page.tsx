@@ -7,6 +7,7 @@ import {
   type RecentlyViewEntity
 } from '@gochamps/api-client';
 import { CMS_URL } from '../../../src/config/cms';
+import { serverRecentlyViews } from '../../../src/components/tournaments/orderRecentlyViews';
 import { buildPageMetadata } from '../../../src/seo/metadata';
 import { AdBanner } from './AdBanner';
 import { OrganizationsSidebar } from './OrganizationsSidebar';
@@ -50,7 +51,7 @@ const loadHomeData = async (): Promise<{
     getRecentlyViewedOrganizations().catch(() => [])
   ]);
 
-  return { recentlyViews, organizations };
+  return { recentlyViews: serverRecentlyViews(recentlyViews), organizations };
 };
 
 export default async function RootPage({
