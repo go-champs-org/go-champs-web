@@ -1,6 +1,6 @@
 import type { AbstractIntlMessages } from 'next-intl';
 
-// Rest of the catalogue is server-only; sending it all added ~10 KB per page's RSC payload.
+// The rest of the catalogue is read only on the server; sending it bloats every page's RSC payload.
 export const CLIENT_NAMESPACES = ['home', 'contact'] as const;
 
 export const pickClientMessages = (
