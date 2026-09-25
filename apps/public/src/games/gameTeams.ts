@@ -4,7 +4,7 @@ import type { GameEntity } from '@gochamps/api-client';
 // A game in a bracket exists before its teams are known: until then the API
 // carries only the placeholder the organizer wrote ("Vencedor do jogo 3").
 export const teamDisplayName = (
-  team: TeamEntity,
+  team: Pick<TeamEntity, 'name'>,
   placeholder: string,
   fallback: string
 ): string => team.name || placeholder || fallback;

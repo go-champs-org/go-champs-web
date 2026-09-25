@@ -22,6 +22,7 @@ import { GameTeamRow, ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
+import { toPagerDays } from '@/src/games/pagerGames';
 import { GamesPager } from './GamesPager';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 
@@ -687,7 +688,7 @@ function PhaseGamesSection({
 
   return (
     <GamesPager
-      days={days}
+      days={toPagerDays(days)}
       initialIndex={closestDayIndex(days, new Date())}
       locale={locale}
       title={gamesTitle}

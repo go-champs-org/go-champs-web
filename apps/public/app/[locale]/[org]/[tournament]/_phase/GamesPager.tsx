@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import type { GameEntity } from '@gochamps/api-client';
 import { Surface } from '@gochamps/ui';
-import type { GameDay } from '@/src/games/gamesByDate';
+import type { PagerDay, PagerGame } from '@/src/games/pagerGames';
 import { formatDayDate, formatGameTime } from '@/src/games/gameDateTime';
 import { teamDisplayName } from '@/src/games/gameTeams';
 import { gameWinner } from '@/src/games/teamRecord';
@@ -60,7 +59,7 @@ function GameSideRow({
 }
 
 interface GameCardProps {
-  game: GameEntity;
+  game: PagerGame;
   locale: string;
   undecidedLabel: string;
   winnerLabel: string;
@@ -125,7 +124,7 @@ function GameCard({
 }
 
 export interface GamesPagerProps {
-  days: GameDay[];
+  days: PagerDay[];
   initialIndex: number;
   locale: string;
   title: string;
