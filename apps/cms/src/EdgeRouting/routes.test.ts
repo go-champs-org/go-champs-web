@@ -76,7 +76,6 @@ describe('isPublicPassthroughPath', () => {
 
 describe('isJunkPath', () => {
   it.each([
-    // real probes from the pre-prod Workers Observability log
     ['/resources/.env'],
     ['/test/.env'],
     ['/.gcp/credentials.json'],
