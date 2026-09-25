@@ -1,4 +1,11 @@
+import { readdirSync } from 'fs';
+import path from 'path';
 import {
+  BLOCKED_ROBOTS_TXT,
+  NO_INDEX_HEADER,
+  PUBLIC_API_ROUTES,
+  blocksCrawlers,
+  isJunkPath,
   isPublicPassthroughPath,
   resolveLocaleFromCookieHeader,
   resolvePublicPath
@@ -58,6 +65,62 @@ describe('isPublicPassthroughPath', () => {
     expect(isPublicPassthroughPath('/ptbr')).toBe(false);
     expect(isPublicPassthroughPath('/entretenimento')).toBe(false);
     expect(isPublicPassthroughPath('/ptbr/liga')).toBe(false);
+  });
+
+  it('forwards only the API routes apps/public actually serves', () => {
+    expect(isPublicPassthroughPath('/api/search')).toBe(true);
+    expect(isPublicPassthroughPath('/api/tournament-stats')).toBe(true);
+    expect(isPublicPassthroughPath('/api/config')).toBe(false);
+  });
+});
+
+describe('isJunkPath', () => {
+  it.each([
+    ['/resources/.env'],
+    ['/test/.env'],
+    ['/.gcp/credentials.json'],
+    ['/hosting/phpinfo.php'],
+    ['/public/phpinfo.php'],
+    ['/vite/.env'],
+    ['/src/.env'],
+    ['/wp-admin/setup-config.php'],
+    ['/wp-login.php'],
+    ['/wp-content/plugins/x/readme.txt'],
+    ['/wp-json/wp/v2/users'],
+    ['/backup/db.sql'],
+    ['/config/app.yml'],
+    ['/api/config'],
+    ['/api/.env']
+  ])('treats %s as junk', pathname => {
+    expect(isJunkPath(pathname)).toBe(true);
+  });
+
+  it.each([
+    ['/'],
+    ['/fberj/adulto'],
+    ['/cbb/sub17final/jogadores/32da7668-3749-4666-9d63-97d113b8688e'],
+    ['/liga-ninja-rs/sub-16-masculino-2026/times/team-1'],
+    ['/api/search'],
+    ['/api/tournament-stats'],
+    ['/_next/static/chunks/main.js'],
+    ['/favicon.ico'],
+    ['/.well-known/security.txt'],
+    ['/wp-sports'],
+    ['/wp-sports/liga-2026'],
+    ['/wp-sports/liga-2026/jogadores/player-1']
+  ])('lets %s through', pathname => {
+    expect(isJunkPath(pathname)).toBe(false);
+  });
+});
+
+describe('PUBLIC_API_ROUTES', () => {
+  it('allowlists exactly the route handlers apps/public ships', () => {
+    const apiDir = path.resolve(__dirname, '../../../public/app/api');
+    const shipped = readdirSync(apiDir, { withFileTypes: true })
+      .filter(entry => entry.isDirectory())
+      .map(entry => `/api/${entry.name}`);
+
+    expect([...PUBLIC_API_ROUTES].sort()).toEqual([...shipped].sort());
   });
 });
 
@@ -224,6 +287,32 @@ describe('resolvePublicPath', () => {
       expect(resolvePublicPath('/favicon.ico')).toBeNull();
       expect(resolvePublicPath('/manifest.json')).toBeNull();
       expect(resolvePublicPath('/logo192.png')).toBeNull();
+    });
+
+    it('does not take a dotted or non-slug segment for a tournament', () => {
+      expect(resolvePublicPath('/resources/.env')).toBeNull();
+      expect(resolvePublicPath('/config/development.json')).toBeNull();
+      expect(resolvePublicPath('/Acme/Liga')).toBeNull();
+    });
+  });
+});
+
+describe('crawler blocking', () => {
+  it('blocks only when the flag is exactly "true"', () => {
+    expect(blocksCrawlers('true')).toBe(true);
+    expect(blocksCrawlers(undefined)).toBe(false);
+    expect(blocksCrawlers('false')).toBe(false);
+    expect(blocksCrawlers('')).toBe(false);
+  });
+
+  it('disallows the whole site in robots.txt', () => {
+    expect(BLOCKED_ROBOTS_TXT).toBe('User-agent: *\nDisallow: /\n');
+  });
+
+  it('marks responses noindex', () => {
+    expect(NO_INDEX_HEADER).toEqual({
+      name: 'X-Robots-Tag',
+      value: 'noindex, nofollow'
     });
   });
 });

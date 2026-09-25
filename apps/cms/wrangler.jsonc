@@ -44,5 +44,9 @@
   "workers_dev": true,
   "observability": {
     "enabled": true
+  },
+  // Leave unset on production; here it blocks crawling entirely (see EdgeRouting/routes.ts).
+  "vars": {
+    "BLOCK_CRAWLERS": "true"
   }
 }
