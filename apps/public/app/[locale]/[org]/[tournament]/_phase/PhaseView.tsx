@@ -814,7 +814,7 @@ function TournamentTopSection({
     <>
       <TournamentHeader
         tournament={tournament}
-        homeHref={`/${routeParams.locale}`}
+        homeHref={localePath(routeParams.locale, '')}
         homeLabel={homeLabel}
         organizationHref={organizationHref}
         activeLabel={activeLabel}
@@ -825,7 +825,7 @@ function TournamentTopSection({
           <>
             {tournament.hasAggregatedPlayerStats && (
               <StatisticsLink
-                href={`/${routeParams.locale}/${routeParams.org}/${routeParams.tournament}/estatisticas`}
+                href={localePath(routeParams.locale, `/${routeParams.org}/${routeParams.tournament}/estatisticas`)}
                 label={advancedStatsLabel}
               />
             )}

@@ -339,7 +339,7 @@ describe('PhaseView', () => {
 
     expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute(
       'href',
-      '/pt'
+      '/'
     );
     expect(
       screen.getByRole('heading', { name: 'Liga de Basquete Amador (2022)' })
@@ -468,7 +468,7 @@ describe('PhaseView statistics links', () => {
 
     expect(
       screen.getByRole('link', { name: 'Estatísticas avançadas' })
-    ).toHaveAttribute('href', '/pt/org/tour/estatisticas');
+    ).toHaveAttribute('href', '/org/tour/estatisticas');
   });
 
   // Mirrors the CMS's TopLevel, which hides the dropdown entirely rather than
