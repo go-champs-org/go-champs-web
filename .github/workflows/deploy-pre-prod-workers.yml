@@ -55,7 +55,10 @@ jobs:
           include-hidden-files: true
       - name: Deploy
         working-directory: apps/public
-        run: npx wrangler deploy -c wrangler.pre-prod.jsonc
+        # opennextjs-cloudflare deploy also runs populateCache: the pages
+        # prerendered in the build go into the R2 cache instead of rendering
+        # on their first visit. Plain `wrangler deploy` skipped that.
+        run: npx opennextjs-cloudflare deploy -c wrangler.pre-prod.jsonc
 
   deploy_cms:
     # The CMS Worker declares a service binding to gochamps-public-pre-prod,
@@ -105,3 +108,20 @@ jobs:
         # Strips Netlify's _redirects, which Cloudflare parses natively and
         # rejects as an infinite loop.
         run: pnpm cf:deploy:pre-prod
+
+  warm_cache:
+    # Traffic reaches apps/public through the CMS Worker, so warm only after
+    # both are live. The cache is keyed by build id: every deploy starts cold.
+    needs: deploy_cms
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Warm the ISR cache
+        working-directory: apps/public
+        env:
+          BASE_URL: https://pre-prod.go-champs.com
+          API_HOST: ${{ secrets.PROD_API_HOST }}
+        run: node scripts/warm-cache.cjs
