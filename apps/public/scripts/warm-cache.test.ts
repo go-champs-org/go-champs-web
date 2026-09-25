@@ -36,4 +36,20 @@ describe('warmCacheUrls', () => {
     const views = Array.from({ length: 100 }, (_, index) => view(`org${index}`, 't'));
     expect(warmCacheUrls('https://x.test', views, WARM_LIMIT)).toHaveLength(WARM_LIMIT);
   });
+
+  it('skips entries missing a tournament or organization slug', () => {
+    expect(
+      warmCacheUrls('https://x.test', [
+        { tournament: null },
+        { tournament: { slug: 'x', organization: null } },
+        { tournament: { slug: '', organization: { slug: 'o' } } },
+        view('fberj', 'adulto')
+      ], 10)
+    ).toEqual([
+      'https://x.test/',
+      'https://x.test/en',
+      'https://x.test/fberj',
+      'https://x.test/fberj/adulto'
+    ]);
+  });
 });

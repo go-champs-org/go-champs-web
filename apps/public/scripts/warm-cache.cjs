@@ -11,14 +11,23 @@ const viewUrls = (baseUrl, view) => [
   `${baseUrl}/${view.tournament.organization.slug}/${view.tournament.slug}`
 ];
 
+// A malformed entry (missing tournament/organization, or an empty slug) must
+// not stop the home pages from warming — skip it instead of throwing.
+const hasSlugs = view => Boolean(view.tournament?.slug && view.tournament?.organization?.slug);
+
 const warmCacheUrls = (baseUrl, recentlyViews, limit) =>
-  [...new Set([...homeUrls(baseUrl), ...recentlyViews.flatMap(view => viewUrls(baseUrl, view))])]
-    .slice(0, limit);
+  [
+    ...new Set([
+      ...homeUrls(baseUrl),
+      ...recentlyViews.filter(hasSlugs).flatMap(view => viewUrls(baseUrl, view))
+    ])
+  ].slice(0, limit);
 
 const loadRecentlyViews = async apiHost => {
   try {
     const response = await fetch(new URL('v1/recently-view', apiHost));
-    return response.ok ? (await response.json()).data : [];
+    const body = response.ok ? await response.json() : null;
+    return Array.isArray(body?.data) ? body.data : [];
   } catch {
     return [];
   }
