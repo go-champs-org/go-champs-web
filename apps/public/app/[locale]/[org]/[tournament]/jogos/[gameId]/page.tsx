@@ -48,11 +48,9 @@ const LIVE_RED = '#FF4136';
 
 const SCOREBOARD_URL = process.env.NEXT_PUBLIC_SCOREBOARD_APP_URL || '';
 
-// The rendered HTML only has to be fresh enough to open on: a game in progress
-// corrects its own score from the scoreboard after hydration, and everything
-// else on the page (teams, venue, kickoff) barely moves. Without this every
-// single view would hit the API twice.
-export const revalidate = 30;
+// A game in progress corrects its own score from the scoreboard after
+// hydration; the rest of the page barely moves, so minutes-old HTML is fine.
+export const revalidate = 300;
 
 // Nothing is worth prerendering at build time — the game list is unbounded and
 // changes daily — but declaring the params is what puts this route on the ISR

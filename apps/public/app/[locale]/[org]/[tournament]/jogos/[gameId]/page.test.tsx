@@ -157,8 +157,8 @@ describe('GamePage', () => {
     expect(screen.getByLabelText('Time Visitante: 74')).toBeInTheDocument();
   });
 
-  it('serves the page from cache for a short window', () => {
-    expect(revalidate).toBe(30);
+  it('revalidates the page instead of rendering it per request', () => {
+    expect(revalidate).toBeGreaterThan(0);
   });
 
   it('links back to the tournament here, not across to the CMS', async () => {
