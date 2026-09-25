@@ -1,8 +1,6 @@
 import type { AbstractIntlMessages } from 'next-intl';
 
-// Every other catalogue entry is read on the server; sending the whole file
-// put ~10 KB into the RSC payload of every page. clientMessages.test.ts fails
-// when a client component starts translating from a namespace missing here.
+// Rest of the catalogue is server-only; sending it all added ~10 KB per page's RSC payload.
 export const CLIENT_NAMESPACES = ['home', 'contact'] as const;
 
 export const pickClientMessages = (

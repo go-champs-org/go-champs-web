@@ -14,8 +14,7 @@ const WALKOVER_WINNER: Record<string, GameSide> = {
   away_team_walkover: 'away'
 };
 
-// What deciding a winner reads — narrower than GameEntity so the phase
-// pager's projected games qualify too.
+// Narrower than GameEntity so the phase pager's projected games also qualify.
 export type ScoredGame = Pick<GameEntity, 'homeScore' | 'awayScore' | 'isFinished' | 'resultType'>;
 
 const playedWinner = (game: ScoredGame): GameSide | undefined => {

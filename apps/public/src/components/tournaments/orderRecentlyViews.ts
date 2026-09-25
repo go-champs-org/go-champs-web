@@ -2,8 +2,7 @@ import type { RecentlyViewEntity } from '@gochamps/api-client';
 
 const MAX_TOURNAMENTS = 15;
 
-// The board shows 15, and up to 15 pins can each hide one server entry, so 30
-// always fills it. Shipping all ~75 the API returns made up a third of the home.
+// The board shows 15; up to 15 pins can each hide a server entry, so 30 always fills it.
 export const SERVER_RECENTLY_VIEWS_LIMIT = MAX_TOURNAMENTS * 2;
 
 export const serverRecentlyViews = (

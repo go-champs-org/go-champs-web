@@ -4,8 +4,7 @@ import type { GameDay } from './gamesByDate';
 
 type PagerTeam = Pick<TeamEntity, 'id' | 'name'>;
 
-// The phase pager is a client island: a full GameEntity (both teams' coaches,
-// assets, free-text info...) would ride in the RSC payload for nothing.
+// Client island: full GameEntity fields (coaches, assets, free text) would bloat the RSC payload.
 export type PagerGame = Pick<
   GameEntity,
   | 'id'
