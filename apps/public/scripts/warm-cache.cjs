@@ -1,6 +1,4 @@
-// Runs on the GitHub Actions runner after a deploy: the ISR cache is keyed by
-// build id, so every deploy starts cold. Each URL is its own Worker invocation,
-// so a render killed for CPU is simply retried.
+// The ISR cache is keyed by build id, so every deploy starts cold; this warms it back up.
 const WARM_LIMIT = 50;
 const CONCURRENCY = 2;
 
@@ -11,8 +9,7 @@ const viewUrls = (baseUrl, view) => [
   `${baseUrl}/${view.tournament.organization.slug}/${view.tournament.slug}`
 ];
 
-// A malformed entry (missing tournament/organization, or an empty slug) must
-// not stop the home pages from warming — skip it instead of throwing.
+// Skip malformed entries (missing tournament/org or an empty slug) rather than throwing.
 const hasSlugs = view => Boolean(view.tournament?.slug && view.tournament?.organization?.slug);
 
 const warmCacheUrls = (baseUrl, recentlyViews, limit) =>

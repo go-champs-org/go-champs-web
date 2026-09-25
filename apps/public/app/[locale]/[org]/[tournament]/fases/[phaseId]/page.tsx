@@ -8,8 +8,7 @@ import {
   type PhaseViewParams
 } from '../../_phase/PhaseView';
 
-// Minutes of delay are acceptable on these environments; each revalidation
-// is a render and a cache write.
+// Minutes-old data is fine here; each revalidation is a render plus a cache write.
 export const revalidate = 300;
 
 // Unbounded list: nothing prerendered, but declaring params opts into ISR.

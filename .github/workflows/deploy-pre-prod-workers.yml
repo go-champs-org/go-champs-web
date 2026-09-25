@@ -55,9 +55,7 @@ jobs:
           include-hidden-files: true
       - name: Deploy
         working-directory: apps/public
-        # opennextjs-cloudflare deploy also runs populateCache: the pages
-        # prerendered in the build go into the R2 cache instead of rendering
-        # on their first visit. Plain `wrangler deploy` skipped that.
+        # Unlike wrangler deploy, this also runs populateCache to seed prerendered pages into R2.
         run: npx opennextjs-cloudflare deploy -c wrangler.pre-prod.jsonc
 
   deploy_cms:
@@ -110,8 +108,7 @@ jobs:
         run: pnpm cf:deploy:pre-prod
 
   warm_cache:
-    # Traffic reaches apps/public through the CMS Worker, so warm only after
-    # both are live. The cache is keyed by build id: every deploy starts cold.
+    # apps/public is only reached via the CMS Worker, and its cache starts cold each deploy.
     needs: deploy_cms
     runs-on: ubuntu-latest
     steps:

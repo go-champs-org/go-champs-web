@@ -14,16 +14,14 @@
   "observability": {
     "enabled": true
   },
-  // Backs open-next.config.ts's ISR cache; the adapter looks for this exact
-  // binding name. The old NEXT_INC_CACHE_KV namespace stays in the account.
+  // Binding name is load-bearing: the adapter looks for it exactly.
   "r2_buckets": [
     {
       "binding": "NEXT_INC_CACHE_R2_BUCKET",
       "bucket_name": "gochamps-isr-new-staging"
     }
   ],
-  // open-next.config.ts's memory queue revalidates stale pages through a
-  // request to this same Worker.
+  // open-next.config.ts's memory queue revalidates stale pages via a request to this Worker.
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",

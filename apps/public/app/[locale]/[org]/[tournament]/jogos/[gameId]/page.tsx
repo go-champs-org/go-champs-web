@@ -48,8 +48,7 @@ const LIVE_RED = '#FF4136';
 
 const SCOREBOARD_URL = process.env.NEXT_PUBLIC_SCOREBOARD_APP_URL || '';
 
-// A game in progress corrects its own score from the scoreboard after
-// hydration; the rest of the page barely moves, so minutes-old HTML is fine.
+// The score self-corrects post-hydration from the scoreboard; the rest of the page barely moves.
 export const revalidate = 300;
 
 // Nothing is worth prerendering at build time — the game list is unbounded and
