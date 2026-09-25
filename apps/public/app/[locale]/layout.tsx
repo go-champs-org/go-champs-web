@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { Footer, noFlashThemeScript } from '@gochamps/ui';
 import { LocaleSwitcher } from '../../src/components/LocaleSwitcher';
 import { SiteNavBar } from '../../src/components/SiteNavBar';
+import { pickClientMessages } from '../../src/i18n/clientMessages';
 import { routing } from '../../src/i18n/routing';
 import { cmsPath } from '../../src/config/cms';
 import { SITE_NAME, SITE_URL } from '../../src/seo/metadata';
@@ -40,6 +41,7 @@ export default async function LocaleLayout({
 
   const t = await getTranslations('common');
   const tFooter = await getTranslations('footer');
+  const messages = pickClientMessages(await getMessages());
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -49,7 +51,7 @@ export default async function LocaleLayout({
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
         <Amplitude apiKey={process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || ''} />
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           <SiteNavBar
             links={[
               { href: `/${locale}/about`, label: t('navAbout') },
