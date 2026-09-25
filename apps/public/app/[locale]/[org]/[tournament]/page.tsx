@@ -10,7 +10,7 @@ import {
 } from './_phase/PhaseView';
 
 // Same view as fases/[phaseId], so the same window.
-export const revalidate = 60;
+export const revalidate = 300;
 
 // Unbounded list: nothing prerendered, but declaring params opts into ISR.
 export async function generateStaticParams() {

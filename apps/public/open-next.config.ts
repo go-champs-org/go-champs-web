@@ -1,15 +1,15 @@
 import { defineCloudflareConfig } from '@opennextjs/cloudflare';
-import kvIncrementalCache from '@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache';
+import r2IncrementalCache from '@opennextjs/cloudflare/overrides/incremental-cache/r2-incremental-cache';
 import { withRegionalCache } from '@opennextjs/cloudflare/overrides/incremental-cache/regional-cache';
+import memoryQueue from '@opennextjs/cloudflare/overrides/queue/memory-queue';
 
-// Without an incrementalCache the adapter ignores every `export const
-// revalidate` and re-renders on each request, which does not fit the Workers
-// free plan's CPU budget. Reads the NEXT_INC_CACHE_KV binding.
-//
-// withRegionalCache fronts KV with a per-data-center Cache API layer so
-// repeat hits in the same region don't count against KV's daily free-tier
-// operation limits (we hit 50% of the KV write quota on new-staging without
-// it).
+// R2, not KV: KV Free allows 1k writes/day per account, and every revalidation is a write.
 export default defineCloudflareConfig({
-  incrementalCache: withRegionalCache(kvIncrementalCache, { mode: 'long-lived' })
+  // Skip the lazy refresh on a cache hit: it would also pay an R2 read and re-parse.
+  incrementalCache: withRegionalCache(r2IncrementalCache, {
+    mode: 'long-lived',
+    shouldLazilyUpdateOnCacheHit: false
+  }),
+  // Revalidates via WORKER_SELF_REFERENCE; a CPU-killed render just leaves the stale page up.
+  queue: memoryQueue
 });

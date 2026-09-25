@@ -32,7 +32,8 @@ import { PlayerStatsTable } from './PlayerStatsTable';
 
 // A player's profile moves as rarely as a team's roster, so the rendered HTML
 // can be reused for minutes at a time.
-export const revalidate = 300;
+// Fifteen minutes: rosters and stats move slower than the games they come from.
+export const revalidate = 900;
 
 export async function generateStaticParams() {
   return [];
