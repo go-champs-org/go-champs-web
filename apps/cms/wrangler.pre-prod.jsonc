@@ -42,5 +42,10 @@
   "workers_dev": true,
   "observability": {
     "enabled": true
+  },
+  // Copies of production: robots.txt disallows everything and every response
+  // is noindex (src/EdgeRouting/routes.ts). Leave unset on production.
+  "vars": {
+    "BLOCK_CRAWLERS": "true"
   }
 }

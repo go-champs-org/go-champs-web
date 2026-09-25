@@ -1,7 +1,10 @@
 import { readdirSync } from 'fs';
 import path from 'path';
 import {
+  BLOCKED_ROBOTS_TXT,
+  NO_INDEX_HEADER,
   PUBLIC_API_ROUTES,
+  blocksCrawlers,
   isJunkPath,
   isPublicPassthroughPath,
   resolveLocaleFromCookieHeader,
@@ -285,6 +288,26 @@ describe('resolvePublicPath', () => {
       expect(resolvePublicPath('/resources/.env')).toBeNull();
       expect(resolvePublicPath('/config/development.json')).toBeNull();
       expect(resolvePublicPath('/Acme/Liga')).toBeNull();
+    });
+  });
+});
+
+describe('crawler blocking', () => {
+  it('blocks only when the flag is exactly "true"', () => {
+    expect(blocksCrawlers('true')).toBe(true);
+    expect(blocksCrawlers(undefined)).toBe(false);
+    expect(blocksCrawlers('false')).toBe(false);
+    expect(blocksCrawlers('')).toBe(false);
+  });
+
+  it('disallows the whole site in robots.txt', () => {
+    expect(BLOCKED_ROBOTS_TXT).toBe('User-agent: *\nDisallow: /\n');
+  });
+
+  it('marks responses noindex', () => {
+    expect(NO_INDEX_HEADER).toEqual({
+      name: 'X-Robots-Tag',
+      value: 'noindex, nofollow'
     });
   });
 });

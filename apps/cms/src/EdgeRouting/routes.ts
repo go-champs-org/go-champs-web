@@ -216,3 +216,15 @@ export const resolvePublicPath = (
 
   return null;
 };
+
+// new-staging and pre-prod are copies of production: nothing there should be
+// indexed, and crawlers walking every player page were most of pre-prod's CPU.
+export const blocksCrawlers = (flag: string | undefined): boolean =>
+  flag === 'true';
+
+export const BLOCKED_ROBOTS_TXT = 'User-agent: *\nDisallow: /\n';
+
+export const NO_INDEX_HEADER = {
+  name: 'X-Robots-Tag',
+  value: 'noindex, nofollow'
+} as const;
