@@ -245,7 +245,7 @@ describe('TeamPage', () => {
 
     expect(screen.getByRole('link', { name: 'Camisa Quatro' })).toHaveAttribute(
       'href',
-      '/pt/org/torneio-teste/jogadores/p4'
+      '/org/torneio-teste/jogadores/p4'
     );
   });
 
@@ -306,7 +306,7 @@ describe('TeamPage', () => {
     const link = screen.getByTestId('game-row');
     expect(link).toHaveAttribute(
       'href',
-      '/pt/org/torneio-teste/jogos/g1'
+      '/org/torneio-teste/jogos/g1'
     );
     expect(link.textContent).toContain('Time A');
     expect(link.textContent).toContain('88');

@@ -103,7 +103,7 @@ describe('OrganizationPage', () => {
     render(jsx);
 
     const link = screen.getByText('Taça Bauru').closest('a');
-    expect(link).toHaveAttribute('href', '/pt/nlbb/tacabauru');
+    expect(link).toHaveAttribute('href', '/nlbb/tacabauru');
   });
 
   it('shows an empty state when the organization has no tournaments', async () => {

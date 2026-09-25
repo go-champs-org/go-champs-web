@@ -21,6 +21,7 @@ import { FaUser } from 'react-icons/fa';
 import { ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
+import { localePath } from '@/src/i18n/localePath';
 import { statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
 import {
   playerPhaseTable,
@@ -107,7 +108,7 @@ const teamHrefOf = (
   org: string,
   tournamentSlug: string,
   teamId: string
-): string => (teamId ? `/${locale}/${org}/${tournamentSlug}/times/${teamId}` : '');
+): string => (teamId ? localePath(locale, `/${org}/${tournamentSlug}/times/${teamId}`) : '');
 
 const sportSlugOf = (
   tournament: TournamentWithTeamsEntity | null
@@ -423,7 +424,7 @@ export default async function PlayerPage({
   const hasStats = table.rows.length > 0 && columns.length > 0;
   const teamHref = teamHrefOf(locale, org, tournamentSlug, view.player.teamId);
 
-  const tournamentHref = `/${locale}/${org}/${tournamentSlug}`;
+  const tournamentHref = localePath(locale, `/${org}/${tournamentSlug}`);
 
   return (
     <main
@@ -433,7 +434,7 @@ export default async function PlayerPage({
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Breadcrumb
-            homeHref={`/${locale}`}
+            homeHref={localePath(locale, '')}
             homeLabel={t('breadcrumbHome')}
             tournamentHref={tournamentHref}
             tournamentLabel={tournamentLabel}
