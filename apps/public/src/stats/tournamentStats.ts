@@ -23,6 +23,14 @@ export interface TournamentStatRow extends RosterStatRow {
 export type PickedPlayer = Pick<PlayerEntity, 'id' | 'name' | 'shirtNumber' | 'teamId'>;
 export type PickedTeam = Pick<TeamEntity, 'id' | 'name'>;
 
+// Trim the roster to only the fields the client table joins on, reducing
+// the RSC payload size for large tournaments.
+export const pickPlayers = (players: PlayerEntity[]): PickedPlayer[] =>
+  players.map(({ id, name, shirtNumber, teamId }) => ({ id, name, shirtNumber, teamId }));
+
+export const pickTeams = (teams: TeamEntity[]): PickedTeam[] =>
+  teams.map(({ id, name }) => ({ id, name }));
+
 const teamNameById = (teams: PickedTeam[]): Map<string, string> =>
   new Map(teams.map(team => [team.id, team.name]));
 
