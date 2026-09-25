@@ -22,7 +22,14 @@ import {
   type StatColumnView,
   type StatScope
 } from '@/src/stats/rosterStats';
-import { tournamentStatRows, type TournamentStatRow } from '@/src/stats/tournamentStats';
+import {
+  pickPlayers,
+  pickTeams,
+  tournamentStatRows,
+  type PickedPlayer,
+  type PickedTeam,
+  type TournamentStatRow
+} from '@/src/stats/tournamentStats';
 import { TournamentStatsTable } from './TournamentStatsTable';
 
 // The tournament-wide stats table moves as rarely as a team's roster, so the
@@ -128,8 +135,8 @@ export async function generateMetadata({
 
 interface StatsTableSectionProps {
   tournamentId: string;
-  players: TournamentWithTeamsEntity['players'];
-  teams: TournamentWithTeamsEntity['teams'];
+  players: PickedPlayer[];
+  teams: PickedTeam[];
   rows: TournamentStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
   totalsByScope: Record<string, Record<string, string>>;
@@ -257,8 +264,8 @@ export default async function PlayerStatsPage({
 
         <StatsTableSection
           tournamentId={tournament.id}
-          players={tournament.players}
-          teams={tournament.teams}
+          players={pickPlayers(tournament.players)}
+          teams={pickTeams(tournament.teams)}
           rows={rows}
           columnsByScope={columnsByScope}
           totalsByScope={totalsByScope}
