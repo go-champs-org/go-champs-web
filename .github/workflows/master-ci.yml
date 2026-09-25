@@ -5,6 +5,12 @@ on:
     branches:
       - master
   workflow_dispatch:
+
+# Same group as main.yml: both deploy to the shared staging site before e2e.
+concurrency:
+  group: staging-environment
+  queue: max
+
 jobs:
   lint_check:
     runs-on: ubuntu-latest
