@@ -1,5 +1,7 @@
 import {
   fixedStatsTableRows,
+  pickPlayers,
+  pickTeams,
   tournamentStatRows,
   tournamentStatRowsInStatsOrder
 } from './tournamentStats';
@@ -210,5 +212,26 @@ describe('fixedStatsTableRows', () => {
         value: '5'
       }
     ]);
+  });
+});
+
+describe('pickPlayers', () => {
+  it('keeps only the fields the client table joins on', () => {
+    const player = {
+      id: 'p1', name: 'Ana', shirtName: 'ANA', shirtNumber: '7', teamId: 't1',
+      photoUrl: 'https://x/p.png', licenseNumber: 'L-1', instagram: '@ana',
+      facebook: 'ana', twitter: '@ana', username: 'ana', state: 'RJ'
+    };
+    expect(pickPlayers([player])).toEqual([{ id: 'p1', name: 'Ana', shirtNumber: '7', teamId: 't1' }]);
+  });
+});
+
+describe('pickTeams', () => {
+  it('keeps only id and name', () => {
+    const team = {
+      id: 't1', name: 'Flamengo', logoUrl: 'https://x/l.png', triCode: 'FLA',
+      primaryColor: '#f00', coaches: [{ id: 'c1', name: 'Coach', type: 'head_coach' }]
+    };
+    expect(pickTeams([team] as never)).toEqual([{ id: 't1', name: 'Flamengo' }]);
   });
 });
