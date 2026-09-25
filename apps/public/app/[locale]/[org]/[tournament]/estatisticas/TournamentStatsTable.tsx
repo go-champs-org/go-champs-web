@@ -13,9 +13,6 @@ import { RosterStatsTable } from '../times/[teamId]/RosterStatsTable';
 
 interface TournamentStatsTableProps {
   tournamentId: string;
-  // Only id/name/shirtNumber/teamId (players) and id/name (teams) — the rest
-  // of the roster's fields have nothing to do in this client boundary's RSC
-  // payload. See PickedPlayer/PickedTeam.
   players: PickedPlayer[];
   teams: PickedTeam[];
   rows: TournamentStatRow[];

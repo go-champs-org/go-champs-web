@@ -14,17 +14,10 @@ export interface TournamentStatRow extends RosterStatRow {
   teamId: string;
 }
 
-// The client-sorted table only ever joins on id/name/shirtNumber/teamId — the
-// rest of PlayerEntity (photoUrl, instagram, licenseNumber, ...) and TeamEntity
-// (logoUrl, coaches, ...) would otherwise ride along in the RSC payload of
-// every tournament with nothing to do there. A large tournament's roster is
-// exactly the shape that made the pre-prod Worker's CPU budget (real
-// production data, not staging's synthetic set) — see PickedPlayer/PickedTeam.
+// Client-table props land in the RSC payload: ship only what the join reads.
 export type PickedPlayer = Pick<PlayerEntity, 'id' | 'name' | 'shirtNumber' | 'teamId'>;
 export type PickedTeam = Pick<TeamEntity, 'id' | 'name'>;
 
-// Trim the roster to only the fields the client table joins on, reducing
-// the RSC payload size for large tournaments.
 export const pickPlayers = (players: PlayerEntity[]): PickedPlayer[] =>
   players.map(({ id, name, shirtNumber, teamId }) => ({ id, name, shirtNumber, teamId }));
 
