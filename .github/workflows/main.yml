@@ -5,6 +5,12 @@ on:
     branches:
       - master
   workflow_dispatch:
+
+# Runs share one staging site and API; concurrent runs would test each other's deploys and data.
+concurrency:
+  group: staging-environment
+  queue: max
+
 jobs:
   lint_check:
     runs-on: ubuntu-latest
