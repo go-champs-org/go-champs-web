@@ -176,7 +176,7 @@ describe('PlayerStatsPage', () => {
 
     expect(screen.getByRole('link', { name: 'Camisa Um' })).toHaveAttribute(
       'href',
-      '/pt/org/torneio-teste/jogadores/p1'
+      '/org/torneio-teste/jogadores/p1'
     );
   });
 
@@ -203,7 +203,7 @@ describe('PlayerStatsPage', () => {
 
     expect(screen.getByRole('link', { name: 'Ver líderes' })).toHaveAttribute(
       'href',
-      '/pt/org/torneio-teste/estatisticas/resumo'
+      '/org/torneio-teste/estatisticas/resumo'
     );
   });
 

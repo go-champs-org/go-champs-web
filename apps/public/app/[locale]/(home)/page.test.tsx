@@ -86,7 +86,7 @@ describe('RootPage', () => {
     const sidebar = screen.getByRole('complementary');
     const link = within(sidebar).getByRole('link', { name: /Org Recente/ });
 
-    expect(link).toHaveAttribute('href', '/pt/org-recente');
+    expect(link).toHaveAttribute('href', '/org-recente');
   });
 
   it('still renders when the API is unreachable', async () => {

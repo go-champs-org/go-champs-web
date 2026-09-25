@@ -3,6 +3,7 @@ import { buildPageMetadata } from '../../../src/seo/metadata';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { localePath } from '../../../src/i18n/localePath';
 
 // Ported verbatim from apps/cms/src/PagesV2/TermsBR/TermsBRV2.tsx:
 // the text is hardcoded PT-BR in the CMS too (no i18n keys), so there is nothing
@@ -238,7 +239,7 @@ export default async function TermsPage({
               <p className="mb-4">
                 O tratamento de dados pessoais é regido pela nossa Política de
                 Privacidade, disponível em:{' '}
-                <Link href={`/${locale}/privacy`} className={LINK_CLASS}>
+                <Link href={localePath(locale, '/privacy')} className={LINK_CLASS}>
                   Política de Privacidade
                 </Link>
                 .
