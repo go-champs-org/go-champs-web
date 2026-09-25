@@ -165,7 +165,7 @@ describe('GamePage', () => {
     await renderPage();
 
     const link = screen.getByRole('link', { name: 'Liga Teste' });
-    expect(link.getAttribute('href')).toBe('/pt/org/torneio');
+    expect(link.getAttribute('href')).toBe('/org/torneio');
   });
 
   it('still renders the game when the tournament cannot be loaded', async () => {

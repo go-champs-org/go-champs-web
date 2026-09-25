@@ -6,6 +6,7 @@ import { Footer, noFlashThemeScript } from '@gochamps/ui';
 import { LocaleSwitcher } from '../../src/components/LocaleSwitcher';
 import { SiteNavBar } from '../../src/components/SiteNavBar';
 import { routing } from '../../src/i18n/routing';
+import { localePath } from '../../src/i18n/localePath';
 import { cmsPath } from '../../src/config/cms';
 import { SITE_NAME, SITE_URL } from '../../src/seo/metadata';
 import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
@@ -52,11 +53,11 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <SiteNavBar
             links={[
-              { href: `/${locale}/about`, label: t('navAbout') },
-              { href: `/${locale}/faq`, label: t('navFaq') },
-              { href: `/${locale}/contact`, label: t('navContact') }
+              { href: localePath(locale, '/about'), label: t('navAbout') },
+              { href: localePath(locale, '/faq'), label: t('navFaq') },
+              { href: localePath(locale, '/contact'), label: t('navContact') }
             ]}
-            logoHref={`/${locale}`}
+            logoHref={localePath(locale, '')}
             logoSrc="/logo/logo-white-name.png"
             logoSrcMobile="/logo/logo-green.png"
             loginLabel={t('navLogin')}

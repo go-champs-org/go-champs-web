@@ -222,12 +222,12 @@ describe('PhaseView', () => {
     // Tabs link across every phase of the tournament.
     expect(screen.getByRole('link', { name: 'Playoffs' })).toHaveAttribute(
       'href',
-      '/pt/org/tour/fases/ph2'
+      '/org/tour/fases/ph2'
     );
     // A team in the standings is the way into its page, as it is on the CMS.
     expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
       'href',
-      '/pt/org/tour/times/t1'
+      '/org/tour/times/t1'
     );
   });
 
@@ -285,7 +285,7 @@ describe('PhaseView', () => {
     expect(screen.getByText('Final')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
       'href',
-      '/pt/org/tour/times/t1'
+      '/org/tour/times/t1'
     );
     // A slot still waiting on another match names no team, so it links nowhere.
     expect(screen.getByText('Vencedor B')).toBeInTheDocument();
@@ -349,7 +349,7 @@ describe('PhaseView', () => {
     });
     expect(organizationLinks).toHaveLength(2);
     organizationLinks.forEach(link =>
-      expect(link).toHaveAttribute('href', '/pt/liga')
+      expect(link).toHaveAttribute('href', '/liga')
     );
     expect(screen.getByText('Campeonato ativo')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
