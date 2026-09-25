@@ -1,8 +1,6 @@
 const path = require('path');
 
-// pnpm's isolation keeps jest-environment-node out of apps/cms's own node_modules;
-// walk react-scripts's own dependency chain (jest -> jest-cli -> @jest/core ->
-// jest-config -> jest-environment-node) to find the copy jest 26 itself uses.
+// pnpm hides jest-environment-node (and a v30 copy exists); follow react-scripts' chain to jest 26's.
 const resolveDepDir = (specifier, fromDir) =>
   path.dirname(require.resolve(specifier, { paths: [fromDir] }));
 
