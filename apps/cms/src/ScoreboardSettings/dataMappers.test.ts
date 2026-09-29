@@ -20,9 +20,9 @@ const scoreboardSettingEntity: ScoreboardSettingEntity = {
 };
 
 describe('DEFAULT_SCOREBOARD_SETTING', () => {
-  it('preselects fiba-2026 rules version', () => {
+  it('preselects fiba-2024 rules version', () => {
     expect(DEFAULT_SCOREBOARD_SETTING.rulesVersion).toBe(
-      ScoreboardSettingRulesVersion.FIBA_2026
+      ScoreboardSettingRulesVersion.FIBA_2024
     );
   });
 });

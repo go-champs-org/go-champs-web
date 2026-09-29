@@ -42,5 +42,5 @@ export const DEFAULT_SCOREBOARD_SETTING: ScoreboardSettingEntity = {
   initialPeriodTime: 600,
   initialExtraPeriodTime: 300,
   liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
-  rulesVersion: ScoreboardSettingRulesVersion.FIBA_2026
+  rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
 };
