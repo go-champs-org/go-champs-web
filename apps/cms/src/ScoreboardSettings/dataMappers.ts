@@ -6,7 +6,8 @@ import {
 } from '../Shared/httpClient/apiTypes';
 import {
   ScoreboardSettingEntity,
-  ScoreboardSettingLiveSiteUpdate
+  ScoreboardSettingLiveSiteUpdate,
+  ScoreboardSettingRulesVersion
 } from './state';
 
 export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
@@ -17,6 +18,7 @@ export const mapScoreboardSettingEntityToApiScoreboardSettingPatchRequest = (
       id: scoreboardSettingEntity.id,
       initial_period_time: scoreboardSettingEntity.initialPeriodTime,
       live_site_update: scoreboardSettingEntity.liveSiteUpdate,
+      rules_version: scoreboardSettingEntity.rulesVersion,
       initial_extra_period_time: scoreboardSettingEntity.initialExtraPeriodTime
     }
   };
@@ -32,6 +34,7 @@ export const mapScoreboardSettingEntityToApiScoreboardSettingPostRequest = (
       initial_period_time: scoreboardSettingEntity.initialPeriodTime,
       tournament_id: tournamentId,
       live_site_update: scoreboardSettingEntity.liveSiteUpdate,
+      rules_version: scoreboardSettingEntity.rulesVersion,
       initial_extra_period_time: scoreboardSettingEntity.initialExtraPeriodTime
     }
   };
@@ -44,7 +47,8 @@ export const mapApiScoreboardSettingToScoreboardSettingEntity = (
     id: apiScoreboardSetting.id,
     initialPeriodTime: apiScoreboardSetting.initial_period_time,
     initialExtraPeriodTime: apiScoreboardSetting.initial_extra_period_time,
-    liveSiteUpdate: apiScoreboardSetting.live_site_update as ScoreboardSettingLiveSiteUpdate
+    liveSiteUpdate: apiScoreboardSetting.live_site_update as ScoreboardSettingLiveSiteUpdate,
+    rulesVersion: apiScoreboardSetting.rules_version as ScoreboardSettingRulesVersion
   };
 };
 
@@ -61,5 +65,16 @@ export const SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS: TranslateSelectOptionType[] = 
   {
     value: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
     labelKey: 'scoreboardSettingsForm.liveSiteUpdateOptions.full_live_update'
+  }
+];
+
+export const SCOREBOARD_RULES_VERSION_OPTIONS: TranslateSelectOptionType[] = [
+  {
+    value: ScoreboardSettingRulesVersion.FIBA_2024,
+    labelKey: 'scoreboardSettingsForm.rulesVersionOptions.fiba_2024'
+  },
+  {
+    value: ScoreboardSettingRulesVersion.FIBA_2026,
+    labelKey: 'scoreboardSettingsForm.rulesVersionOptions.fiba_2026'
   }
 ];

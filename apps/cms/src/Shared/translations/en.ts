@@ -205,6 +205,7 @@ export default {
     live: 'Live',
     liveState: 'Game moment state',
     liveSiteUpdate: 'Live site update mode',
+    rulesVersion: 'Rules version',
     license: 'License',
     licenseNumber: 'License number',
     location: 'Location',
@@ -363,6 +364,10 @@ export default {
         no_live_update: 'After game ends',
         team_score_live_update: 'Score only',
         full_live_update: 'Full stats'
+      },
+      rulesVersionOptions: {
+        fiba_2024: 'FIBA 2024',
+        fiba_2026: 'FIBA 2026'
       }
     },
     search: 'Search',

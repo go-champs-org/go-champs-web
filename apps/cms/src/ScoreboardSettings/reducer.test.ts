@@ -18,7 +18,8 @@ import scoreboardSettingReducer from './reducer';
 import {
   initialState,
   ScoreboardSettingState,
-  ScoreboardSettingLiveSiteUpdate
+  ScoreboardSettingLiveSiteUpdate,
+  ScoreboardSettingRulesVersion
 } from './state';
 
 describe('deleteScoreboardSetting', () => {
@@ -53,7 +54,8 @@ describe('deleteScoreboardSettingSuccess', () => {
         id: 'first-id',
         initialPeriodTime: 0,
         initialExtraPeriodTime: 0,
-        liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
+        liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE,
+        rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
       }
     }
   };
@@ -79,7 +81,9 @@ describe('deleteScoreboardSettingSuccess', () => {
           id: 'some-id',
           initialPeriodTime: 100,
           initialExtraPeriodTime: 100,
-          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
+          liveSiteUpdate:
+            ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
+          rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
         },
         ...deleteState.scoreboardSettings
       }
@@ -91,7 +95,8 @@ describe('deleteScoreboardSettingSuccess', () => {
       id: 'some-id',
       initialPeriodTime: 100,
       initialExtraPeriodTime: 100,
-      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
+      rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
     });
   });
 });
@@ -123,7 +128,8 @@ describe('patchScoreboardSettingSuccess', () => {
     id: 'first-id',
     initialPeriodTime: 0,
     initialExtraPeriodTime: 0,
-    liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
+    liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE,
+    rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
   });
 
   const updateState: ScoreboardSettingState = {
@@ -133,7 +139,8 @@ describe('patchScoreboardSettingSuccess', () => {
         id: 'first-id',
         initialPeriodTime: 100,
         initialExtraPeriodTime: 100,
-        liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
+        liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
+        rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
       }
     }
   };
@@ -152,7 +159,8 @@ describe('patchScoreboardSettingSuccess', () => {
       id: 'first-id',
       initialPeriodTime: 0,
       initialExtraPeriodTime: 0,
-      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE,
+      rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
     });
   });
 
@@ -164,7 +172,8 @@ describe('patchScoreboardSettingSuccess', () => {
           id: 'some-id',
           initialPeriodTime: 150,
           initialExtraPeriodTime: 150,
-          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
+          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
+          rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
         }
       }
     };
@@ -175,7 +184,8 @@ describe('patchScoreboardSettingSuccess', () => {
       id: 'some-id',
       initialPeriodTime: 150,
       initialExtraPeriodTime: 150,
-      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
+      rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
     });
   });
 });
@@ -207,7 +217,8 @@ describe('postScoreboardSettingSuccess', () => {
     id: 'first-id',
     initialPeriodTime: 150,
     initialExtraPeriodTime: 150,
-    liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
+    liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
+    rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
   });
 
   it('sets isLoadingPostScoreboardSetting to false', () => {
@@ -224,7 +235,8 @@ describe('postScoreboardSettingSuccess', () => {
       id: 'first-id',
       initialPeriodTime: 150,
       initialExtraPeriodTime: 150,
-      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.FULL_LIVE_UPDATE,
+      rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
     });
   });
 
@@ -236,7 +248,9 @@ describe('postScoreboardSettingSuccess', () => {
           id: 'some-id',
           initialPeriodTime: 100,
           initialExtraPeriodTime: 100,
-          liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
+          liveSiteUpdate:
+            ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
+          rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
         }
       }
     };
@@ -247,7 +261,8 @@ describe('postScoreboardSettingSuccess', () => {
       id: 'some-id',
       initialPeriodTime: 100,
       initialExtraPeriodTime: 100,
-      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.TEAM_SCORE_LIVE_UPDATE,
+      rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
     });
   });
 });
@@ -267,7 +282,8 @@ describe('getTournamentSuccess', () => {
         id: 'first-scoreboard-setting-id',
         initial_period_time: 0,
         initial_extra_period_time: 0,
-        live_site_update: 'no-live-update'
+        live_site_update: 'no-live-update',
+        rules_version: 'fiba-2024'
       },
       organization: {
         id: 'some-org-id',
@@ -285,7 +301,8 @@ describe('getTournamentSuccess', () => {
       id: 'first-scoreboard-setting-id',
       initialPeriodTime: 0,
       initialExtraPeriodTime: 0,
-      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE
+      liveSiteUpdate: ScoreboardSettingLiveSiteUpdate.NO_LIVE_UPDATE,
+      rulesVersion: ScoreboardSettingRulesVersion.FIBA_2024
     });
   });
 

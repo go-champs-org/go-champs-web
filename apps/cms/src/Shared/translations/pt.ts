@@ -208,6 +208,7 @@ export default {
     live: 'Ao vivo',
     liveState: 'Momento do jogo',
     liveSiteUpdate: 'Modo de atualização ao vivo',
+    rulesVersion: 'Versão das regras',
     license: 'Licença',
     licenseNumber: 'Número da licença',
     location: 'Local',
@@ -368,6 +369,10 @@ export default {
         no_live_update: 'Após final de jogo',
         team_score_live_update: 'Somente placar',
         full_live_update: 'Estatísticas completas'
+      },
+      rulesVersionOptions: {
+        fiba_2024: 'FIBA 2024',
+        fiba_2026: 'FIBA 2026'
       }
     },
     search: 'Pesquisar',
