@@ -5,7 +5,10 @@ import { Trans } from 'react-i18next';
 import LoadingButton from '../Shared/UI/LoadingButton';
 import { Link } from 'react-router-dom';
 import TimeInput from '../Shared/UI/Form/TimeInput';
-import { SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS } from './dataMappers';
+import {
+  SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS,
+  SCOREBOARD_RULES_VERSION_OPTIONS
+} from './dataMappers';
 import SelectInput from '../Shared/UI/Form/Select';
 import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
 
@@ -23,6 +26,9 @@ function Form({
 }: FromProps) {
   const translatedLiveSiteUpdateOptions = useTranslatedSelectOptions(
     SCOREBOARD_LIVE_SITE_UPDATE_OPTIONS
+  );
+  const translatedRulesVersionOptions = useTranslatedSelectOptions(
+    SCOREBOARD_RULES_VERSION_OPTIONS
   );
 
   return (
@@ -70,6 +76,24 @@ function Form({
                 <SelectInput
                   {...props}
                   options={translatedLiveSiteUpdateOptions}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">
+            <Trans>rulesVersion</Trans>
+          </label>
+
+          <div className="control">
+            <Field
+              name="rulesVersion"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={translatedRulesVersionOptions}
                 />
               )}
             />

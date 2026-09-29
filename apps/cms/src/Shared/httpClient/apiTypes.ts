@@ -979,11 +979,14 @@ export type ApiScoreboardSettingLiveSiteUpdate =
   | 'team-score-live-update'
   | 'full-live-update';
 
+export type ApiScoreboardSettingRulesVersion = 'fiba-2024' | 'fiba-2026';
+
 export interface ApiScoreboardSetting {
   id: string;
   initial_period_time: number;
   initial_extra_period_time: number;
   live_site_update: ApiScoreboardSettingLiveSiteUpdate;
+  rules_version: ApiScoreboardSettingRulesVersion;
 }
 
 export interface ApiScoreboardSettingWithDependencies
