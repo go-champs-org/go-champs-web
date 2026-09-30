@@ -793,6 +793,14 @@ export default {
             abbreviation: 'FLS',
             title: 'Faltas técnicas'
           },
+          fouls_technical_category_1: {
+            abbreviation: 'FLS',
+            title: 'Faltas técnicas categoria 1'
+          },
+          fouls_disruptive: {
+            abbreviation: 'FLS',
+            title: 'Faltas disruptivas'
+          },
           fouls_technical_per_game: {
             abbreviation: 'FLS',
             title: 'Faltas técnicas por jogo'
@@ -994,6 +1002,14 @@ export default {
           fouls_technical: {
             abbreviation: 'FT',
             title: 'Faltas técnicas'
+          },
+          fouls_technical_category_1: {
+            abbreviation: 'FT1',
+            title: 'Faltas técnicas categoria 1'
+          },
+          fouls_disruptive: {
+            abbreviation: 'FDI',
+            title: 'Faltas disruptivas'
           },
           fouls_unsportsmanlike: {
             abbreviation: 'FA',
