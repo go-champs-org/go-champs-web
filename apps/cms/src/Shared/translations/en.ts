@@ -785,6 +785,14 @@ export default {
             abbreviation: 'FLS',
             title: 'Fouls technical'
           },
+          fouls_technical_category_1: {
+            abbreviation: 'FLS',
+            title: 'Fouls technical category 1'
+          },
+          fouls_disruptive: {
+            abbreviation: 'FLS',
+            title: 'Fouls disruptive'
+          },
           fouls_technical_per_game: {
             abbreviation: 'FLS',
             title: 'Fouls technical per game'
@@ -986,6 +994,14 @@ export default {
           fouls_technical: {
             abbreviation: 'FLT',
             title: 'Technical Fouls'
+          },
+          fouls_technical_category_1: {
+            abbreviation: 'FLT1',
+            title: 'Technical Fouls Category 1'
+          },
+          fouls_disruptive: {
+            abbreviation: 'FLDI',
+            title: 'Disruptive Fouls'
           },
           fouls_unsportsmanlike: {
             abbreviation: 'FLU',
