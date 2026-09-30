@@ -14,12 +14,18 @@
   "observability": {
     "enabled": true
   },
-  // Backs open-next.config.ts's ISR cache. The adapter looks for this exact
-  // binding name.
-  "kv_namespaces": [
+  // Binding name is load-bearing: the adapter looks for it exactly.
+  "r2_buckets": [
     {
-      "binding": "NEXT_INC_CACHE_KV",
-      "id": "4c49bc44f6f84b1a84329aafd0180840"
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "gochamps-isr-new-staging"
+    }
+  ],
+  // open-next.config.ts's memory queue revalidates stale pages via a request to this Worker.
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "gochamps-public-staging"
     }
   ],
   // Runtime only. NEXT_PUBLIC_* are inlined by `next build`, so setting one

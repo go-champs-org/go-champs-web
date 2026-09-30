@@ -52,8 +52,8 @@ jobs:
           # wrangler.jsonc declares API_HOST too, but a var there only exists
           # inside the deployed Worker. Every page carrying `revalidate` is
           # prerendered here, during the build, and its fetches need the host
-          # now — without it they throw, the pages degrade to empty, and the
-          # deploy seeds those empty pages into the KV cache.
+          # now — without it they throw, the pages degrade to empty, and
+          # populateCache seeds those empty pages into the R2 cache.
           API_HOST: ${{ secrets.STAGING_API_HOST }}
         run: npx opennextjs-cloudflare build
       - uses: actions/upload-artifact@v4
@@ -64,7 +64,7 @@ jobs:
           include-hidden-files: true
       - name: Deploy
         working-directory: apps/public
-        run: npx wrangler deploy
+        run: npx opennextjs-cloudflare deploy
 
   deploy_cms:
     # The CMS Worker declares a service binding to gochamps-public-staging, and
@@ -113,3 +113,19 @@ jobs:
         # Strips Netlify's _redirects, which Cloudflare parses natively and
         # rejects as an infinite loop.
         run: pnpm cf:deploy:new-staging
+
+  warm_cache:
+    # apps/public is only reached via the CMS Worker, and its cache starts cold each deploy.
+    needs: deploy_cms
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Warm the ISR cache
+        working-directory: apps/public
+        env:
+          BASE_URL: https://new-staging.go-champs.com
+          API_HOST: ${{ secrets.STAGING_API_HOST }}
+        run: node scripts/warm-cache.cjs

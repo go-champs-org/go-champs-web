@@ -18,7 +18,8 @@ import { fixedStatsTableRows, type FixedStatsTableRow } from '@/src/stats/tourna
 // The leaderboard cards are admin-curated and move as rarely as the roster,
 // so the rendered HTML can be reused for minutes at a time instead of hitting
 // the API on every view.
-export const revalidate = 300;
+// Fifteen minutes: rosters and stats move slower than the games they come from.
+export const revalidate = 900;
 
 // The tournament list is unbounded, so nothing is prerendered at build time —
 // declaring the params is what puts this route on the ISR path.

@@ -8,8 +8,8 @@ import {
   type PhaseViewParams
 } from '../../_phase/PhaseView';
 
-// Games move often, so reuse the rendered HTML only briefly.
-export const revalidate = 60;
+// Minutes-old data is fine here; each revalidation is a render plus a cache write.
+export const revalidate = 300;
 
 // Unbounded list: nothing prerendered, but declaring params opts into ISR.
 export async function generateStaticParams() {
