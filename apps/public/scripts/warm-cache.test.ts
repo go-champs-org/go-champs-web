@@ -39,6 +39,7 @@ describe('warmCacheUrls', () => {
   it('skips entries missing a tournament or organization slug', () => {
     expect(
       warmCacheUrls('https://x.test', [
+        null,
         { tournament: null },
         { tournament: { slug: 'x', organization: null } },
         { tournament: { slug: '', organization: { slug: 'o' } } },

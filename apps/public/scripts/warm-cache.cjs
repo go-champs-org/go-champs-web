@@ -10,7 +10,7 @@ const viewUrls = (baseUrl, view) => [
 ];
 
 // Skip malformed entries (missing tournament/org or an empty slug) rather than throwing.
-const hasSlugs = view => Boolean(view.tournament?.slug && view.tournament?.organization?.slug);
+const hasSlugs = view => Boolean(view?.tournament?.slug && view?.tournament?.organization?.slug);
 
 const warmCacheUrls = (baseUrl, recentlyViews, limit) =>
   [
