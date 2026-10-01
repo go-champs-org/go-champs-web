@@ -197,7 +197,32 @@
       "field_goals_made": "2PC",
       "field_goal_percentage": "2P%",
       "three_point_field_goals_made": "3PC",
-      "three_point_field_goal_percentage": "3P%"
+      "three_point_field_goal_percentage": "3P%",
+      "one_point_made": "1PC",
+      "one_point_attempted": "1PT",
+      "one_point_percentage": "1P%",
+      "two_point_made": "2PC",
+      "two_point_attempted": "2PT",
+      "two_point_percentage": "2P%",
+      "free_throw_made": "LLC",
+      "plus_minus": "+/-",
+      "unsportsmanlike_fouls": "FA",
+      "disqualifying_fouls": "FD",
+      "game_played": "JOG"
+    },
+    "statDescriptions": {
+      "points": "Pontos",
+      "game_played": "Jogos",
+      "one_point_made": "Arremessos de 1 ponto convertidos",
+      "one_point_attempted": "Arremessos de 1 ponto tentados",
+      "one_point_percentage": "Porcentagem de arremessos de 1 ponto",
+      "two_point_made": "Arremessos de 2 pontos convertidos",
+      "two_point_attempted": "Arremessos de 2 pontos tentados",
+      "two_point_percentage": "Porcentagem de arremessos de 2 pontos",
+      "free_throw_made": "Lances livres convertidos",
+      "plus_minus": "Mais/menos",
+      "unsportsmanlike_fouls": "Faltas antidesportivas",
+      "disqualifying_fouls": "Faltas desqualificantes"
     }
   },
   "playerStats": {

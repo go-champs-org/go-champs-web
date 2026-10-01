@@ -236,25 +236,28 @@ export interface StatColumnView {
 // The header of a column is the abbreviation its sport is read in — PTS, REB —
 // and the tournament's own title of the statistic is what the tooltip, the
 // glossary and the screen reader get. A statistic with no abbreviation of its
-// own is headed by that title instead.
+// own is headed by that title instead. A statistic the locale describes reads
+// that description, so the glossary is not stuck with the API's English title.
 export const statColumnViews = (
   columns: PlayerStatEntity[],
-  abbreviations: Record<string, string>
+  abbreviations: Record<string, string>,
+  descriptions: Record<string, string> = {}
 ): StatColumnView[] =>
   columns.map(column => ({
     slug: column.slug,
     label: abbreviations[baseStatSlug(column.slug)] || column.title,
-    description: column.title
+    description: descriptions[baseStatSlug(column.slug)] || column.title
   }));
 
 export const columnViewsByScope = (
   columnsByScope: Record<string, PlayerStatEntity[]>,
-  abbreviations: Record<string, string>
+  abbreviations: Record<string, string>,
+  descriptions: Record<string, string> = {}
 ): Record<string, StatColumnView[]> =>
   Object.fromEntries(
     Object.entries(columnsByScope).map(([scope, columns]) => [
       scope,
-      statColumnViews(columns, abbreviations)
+      statColumnViews(columns, abbreviations, descriptions)
     ])
   );
 
