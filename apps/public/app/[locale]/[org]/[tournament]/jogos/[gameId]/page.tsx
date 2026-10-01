@@ -340,7 +340,8 @@ const gameBoxScoreView = (
   teamStatsLogs: TeamStatsLogEntity[],
   sport: SportEntity | null,
   statColumnAbbreviations: Record<string, string>,
-  basketballColumnLabels: Record<string, BoxScoreColumnLabel>
+  basketballColumnLabels: Record<string, BoxScoreColumnLabel>,
+  statColumnDescriptions: Record<string, string>
 ) => {
   const logs = splitLogsByTeam(
     playerStatsLogs,
@@ -352,7 +353,8 @@ const gameBoxScoreView = (
     tournamentEntity.playerStats,
     sport,
     statColumnAbbreviations,
-    basketballColumnLabels
+    basketballColumnLabels,
+    statColumnDescriptions
   );
 
   return {
@@ -409,6 +411,7 @@ const resolveBoxScore = (
   sport: SportEntity | null,
   abbreviations: Record<string, string>,
   basketballColumnLabels: Record<string, BoxScoreColumnLabel>,
+  descriptions: Record<string, string>,
   isLive: boolean
 ) => {
   if (!tournament) return null;
@@ -420,7 +423,8 @@ const resolveBoxScore = (
     teamStatsLogs,
     sport,
     abbreviations,
-    basketballColumnLabels
+    basketballColumnLabels,
+    descriptions
   );
   const { liveSiteUpdate } = tournament.scoreboardSetting;
 
@@ -487,6 +491,7 @@ export default async function GamePage({
     sport,
     tTeam.raw('statColumns') as Record<string, string>,
     tBoxScore.raw('basketballColumns') as Record<string, BoxScoreColumnLabel>,
+    tTeam.raw('statDescriptions') as Record<string, string>,
     isLive
   );
 

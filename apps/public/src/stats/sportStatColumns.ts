@@ -23,8 +23,23 @@ const BASKETBALL_5X5_ORDER = [
   'rebounds_defensive'
 ];
 
+const BASKETBALL_3X3_ORDER = [
+  'points',
+  'one_point_made',
+  'one_point_attempted',
+  'one_point_percentage',
+  'two_point_made',
+  'two_point_attempted',
+  'two_point_percentage',
+  'free_throw_made',
+  'plus_minus',
+  'unsportsmanlike_fouls',
+  'disqualifying_fouls'
+];
+
 const SPORT_STAT_ORDER: Record<string, string[]> = {
-  basketball_5x5: BASKETBALL_5X5_ORDER
+  basketball_5x5: BASKETBALL_5X5_ORDER,
+  basketball_3x3: BASKETBALL_3X3_ORDER
 };
 
 // The curated set the CMS player profile shows, and its order
@@ -43,8 +58,19 @@ const BASKETBALL_5X5_PLAYER_PROFILE = [
   'three_point_field_goal_percentage'
 ];
 
+const BASKETBALL_3X3_PLAYER_PROFILE = [
+  'points',
+  'one_point_made',
+  'one_point_percentage',
+  'two_point_made',
+  'two_point_percentage',
+  'free_throw_made',
+  'plus_minus'
+];
+
 const PLAYER_PROFILE_STAT_ORDER: Record<string, string[]> = {
-  basketball_5x5: BASKETBALL_5X5_PLAYER_PROFILE
+  basketball_5x5: BASKETBALL_5X5_PLAYER_PROFILE,
+  basketball_3x3: BASKETBALL_3X3_PLAYER_PROFILE
 };
 
 export const playerProfileStatOrder = (sportSlug: string): string[] =>

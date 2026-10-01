@@ -197,7 +197,32 @@
       "field_goals_made": "FGM",
       "field_goal_percentage": "FG%",
       "three_point_field_goals_made": "3PM",
-      "three_point_field_goal_percentage": "3P%"
+      "three_point_field_goal_percentage": "3P%",
+      "one_point_made": "1PM",
+      "one_point_attempted": "1PA",
+      "one_point_percentage": "1P%",
+      "two_point_made": "2PM",
+      "two_point_attempted": "2PA",
+      "two_point_percentage": "2P%",
+      "free_throw_made": "FTM",
+      "plus_minus": "+/-",
+      "unsportsmanlike_fouls": "UF",
+      "disqualifying_fouls": "DQF",
+      "game_played": "GP"
+    },
+    "statDescriptions": {
+      "points": "Points",
+      "game_played": "Games played",
+      "one_point_made": "One point made",
+      "one_point_attempted": "One point attempted",
+      "one_point_percentage": "One point percentage",
+      "two_point_made": "Two point made",
+      "two_point_attempted": "Two point attempted",
+      "two_point_percentage": "Two point percentage",
+      "free_throw_made": "Free throw made",
+      "plus_minus": "Plus/minus",
+      "unsportsmanlike_fouls": "Unsportsmanlike fouls",
+      "disqualifying_fouls": "Disqualifying fouls"
     }
   },
   "playerStats": {

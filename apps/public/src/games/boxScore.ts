@@ -183,11 +183,16 @@ export const boxScoreColumnViews = (
   playerStats: PlayerStatEntity[],
   sport: SportEntity | null,
   abbreviations: Record<string, string>,
-  basketballColumnLabels: Record<string, BoxScoreColumnLabel>
+  basketballColumnLabels: Record<string, BoxScoreColumnLabel>,
+  descriptions: Record<string, string> = {}
 ): StatColumnView[] =>
   sport?.slug === BASKETBALL_5X5_SLUG
     ? basketballBoxScoreColumns(basketballColumnLabels)
-    : statColumnViews(boxScoreColumns(playerStats, sport), abbreviations);
+    : statColumnViews(
+        boxScoreColumns(playerStats, sport),
+        abbreviations,
+        descriptions
+      );
 
 // Recorded in seconds; read as a clock, not a plain count.
 const formatMinutesPlayed = (value: string | undefined): string => {

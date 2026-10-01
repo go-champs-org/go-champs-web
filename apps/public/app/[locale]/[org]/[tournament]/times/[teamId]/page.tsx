@@ -540,7 +540,8 @@ export default async function TeamPage({
   const scopes = availableScopes(tournament.playerStats, sport);
   const columnsByScope = columnViewsByScope(
     statColumnsByScope(tournament.playerStats, sport, scopes),
-    t.raw('statColumns') as Record<string, string>
+    t.raw('statColumns') as Record<string, string>,
+    t.raw('statDescriptions') as Record<string, string>
   );
   const rows = rosterStatRows(roster, statsLogs);
   const totalsByScope = statTotalsByScope(rows, columnsByScope);

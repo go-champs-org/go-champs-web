@@ -414,7 +414,8 @@ export default async function PlayerPage({
 
   const columns = statColumnViews(
     playerProfileColumns(view.playerStats, view.sport),
-    tTeam.raw('statColumns') as Record<string, string>
+    tTeam.raw('statColumns') as Record<string, string>,
+    tTeam.raw('statDescriptions') as Record<string, string>
   );
   const table = playerPhaseTable(view.logs, view.phases);
   const gamesText =
