@@ -32,7 +32,6 @@ const BASKETBALL_3X3_ORDER = [
   'two_point_attempted',
   'two_point_percentage',
   'free_throw_made',
-  'plus_minus',
   'unsportsmanlike_fouls',
   'disqualifying_fouls'
 ];
@@ -64,8 +63,7 @@ const BASKETBALL_3X3_PLAYER_PROFILE = [
   'one_point_percentage',
   'two_point_made',
   'two_point_percentage',
-  'free_throw_made',
-  'plus_minus'
+  'free_throw_made'
 ];
 
 const PLAYER_PROFILE_STAT_ORDER: Record<string, string[]> = {

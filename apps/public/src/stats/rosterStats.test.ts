@@ -326,6 +326,36 @@ describe('statColumnViews', () => {
 
     expect(column.label).toBe('Estatística da casa');
   });
+
+  it('describes a column with the text of its locale over the API title', () => {
+    const [column] = statColumnViews(
+      [playerStat('points', 'Points')],
+      abbreviations,
+      { points: 'Pontos' }
+    );
+
+    expect(column.description).toBe('Pontos');
+  });
+
+  it('describes a per game column by the description of its total', () => {
+    const [column] = statColumnViews(
+      [playerStat('points_per_game', 'Points per game')],
+      abbreviations,
+      { points: 'Pontos' }
+    );
+
+    expect(column.description).toBe('Pontos');
+  });
+
+  it('describes a column with no description of its own by its title', () => {
+    const [column] = statColumnViews(
+      [playerStat('custom_stat', 'Estatística da casa')],
+      abbreviations,
+      { points: 'Pontos' }
+    );
+
+    expect(column.description).toBe('Estatística da casa');
+  });
 });
 
 describe('columnViewsByScope', () => {
