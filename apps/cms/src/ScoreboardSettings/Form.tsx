@@ -11,7 +11,6 @@ import {
 } from './dataMappers';
 import SelectInput from '../Shared/UI/Form/Select';
 import { useTranslatedSelectOptions } from '../Shared/hooks/useTranslatedSelectOptions';
-import BehindFeatureFlag from '../Shared/UI/BehindFeatureFlag';
 
 interface FromProps extends FormRenderProps<ScoreboardSettingEntity> {
   backUrl: string;
@@ -83,27 +82,23 @@ function Form({
           </div>
         </div>
 
-        <BehindFeatureFlag>
-          <div className="field">
-            <label className="label">
-              <Trans>rulesVersion</Trans>
-            </label>
+        <div className="field">
+          <label className="label">
+            <Trans>rulesVersion</Trans>
+          </label>
 
-            <div className="control">
-              <Field
-                name="rulesVersion"
-                render={(
-                  props: FieldRenderProps<string, HTMLSelectElement>
-                ) => (
-                  <SelectInput
-                    {...props}
-                    options={translatedRulesVersionOptions}
-                  />
-                )}
-              />
-            </div>
+          <div className="control">
+            <Field
+              name="rulesVersion"
+              render={(props: FieldRenderProps<string, HTMLSelectElement>) => (
+                <SelectInput
+                  {...props}
+                  options={translatedRulesVersionOptions}
+                />
+              )}
+            />
           </div>
-        </BehindFeatureFlag>
+        </div>
 
         <LoadingButton
           isLoading={isLoading}
