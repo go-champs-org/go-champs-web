@@ -1,6 +1,5 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
-import { appendVary } from './src/i18n/appendVary';
 import { legacyLocaleRedirect } from './src/i18n/legacyLocaleRedirect';
 import {
   LOCALE_COOKIE,
@@ -9,8 +8,6 @@ import {
 import { routing } from './src/i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
-
-const VARY_BY_LOCALE_SOURCES = ['Cookie', 'Accept-Language'];
 
 const redirectToCleanUrl = (
   request: NextRequest,
@@ -26,20 +23,13 @@ const redirectToCleanUrl = (
   return response;
 };
 
-const localizeCleanUrl = (request: NextRequest) => {
-  const response = intlMiddleware(request);
-  appendVary(response.headers, VARY_BY_LOCALE_SOURCES);
-
-  return response;
-};
-
 export default function middleware(request: NextRequest) {
   const legacy = legacyLocaleRedirect(
     request.nextUrl.pathname,
     request.nextUrl.search
   );
 
-  return legacy ? redirectToCleanUrl(request, legacy) : localizeCleanUrl(request);
+  return legacy ? redirectToCleanUrl(request, legacy) : intlMiddleware(request);
 }
 
 export const config = {

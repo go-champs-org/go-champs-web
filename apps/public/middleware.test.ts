@@ -40,15 +40,14 @@ describe('middleware', () => {
     expect(response.headers.get('location')).toBe('https://go-champs.test/');
   });
 
-  it('delegates a clean url to next-intl and marks the response as varying by Cookie and Accept-Language', () => {
+  it('delegates a clean url to next-intl', () => {
     const request = requestTo('/cbb');
-    intlMiddleware.mockReturnValue(
-      NextResponse.next({ headers: { Vary: 'RSC' } })
-    );
+    const intlResponse = NextResponse.next();
+    intlMiddleware.mockReturnValue(intlResponse);
 
     const response = middleware(request);
 
     expect(intlMiddleware).toHaveBeenCalledWith(request);
-    expect(response.headers.get('vary')).toBe('RSC, Cookie, Accept-Language');
+    expect(response).toBe(intlResponse);
   });
 });
