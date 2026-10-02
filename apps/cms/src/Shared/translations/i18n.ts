@@ -49,9 +49,8 @@ i18n
     fallbackLng: 'pt',
     supportedLngs: ['en', 'pt'],
     detection: {
-      // NEXT_LOCALE syncs the language with apps/public (routes.ts,
-      // resolveLocaleFromCookieHeader); after localStorage so it can't
-      // clobber a deliberate past choice here.
+      // NEXT_LOCALE syncs the language with apps/public; after localStorage
+      // so it can't clobber a deliberate past choice here.
       order: ['localStorage', 'cookie', 'navigator'],
       lookupLocalStorage: 'i18nextLng',
       lookupCookie: 'NEXT_LOCALE',
