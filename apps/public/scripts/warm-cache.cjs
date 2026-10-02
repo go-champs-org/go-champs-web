@@ -61,14 +61,21 @@ const chunks = (items, size) =>
     []
   );
 
-const main = async () => {
-  const baseUrl = process.env.BASE_URL.replace(/\/$/, '');
-  const urls = warmTargets(warmCacheUrls(baseUrl, await loadRecentlyViews(process.env.API_HOST), WARM_LIMIT));
+// Both locales of a page issue the same upstream fetches, so they must not render at the same time.
+const warmUrl = warmTarget => url =>
+  warmTargets([url]).reduce((previous, target) => previous.then(() => warmTarget(target)), Promise.resolve());
 
-  await chunks(urls, CONCURRENCY).reduce(
-    (previous, group) => previous.then(() => Promise.all(group.map(warm))),
+const warmAll = (urls, warmTarget, concurrency) =>
+  chunks(urls, concurrency).reduce(
+    (previous, group) => previous.then(() => Promise.all(group.map(warmUrl(warmTarget)))),
     Promise.resolve()
   );
+
+const main = async () => {
+  const baseUrl = process.env.BASE_URL.replace(/\/$/, '');
+  const urls = warmCacheUrls(baseUrl, await loadRecentlyViews(process.env.API_HOST), WARM_LIMIT);
+
+  await warmAll(urls, warm, CONCURRENCY);
 };
 
 if (require.main === module) {
@@ -76,4 +83,4 @@ if (require.main === module) {
   main().catch(error => console.error(error));
 }
 
-module.exports = { warmCacheUrls, warmTargets, WARM_LIMIT };
+module.exports = { warmCacheUrls, warmTargets, warmAll, WARM_LIMIT };

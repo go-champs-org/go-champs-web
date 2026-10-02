@@ -1,5 +1,5 @@
 // Plain CommonJS so the Actions runner needs no build step; require() skips a .d.ts.
-const { warmCacheUrls, warmTargets, WARM_LIMIT } = require('./warm-cache.cjs');
+const { warmCacheUrls, warmTargets, warmAll, WARM_LIMIT } = require('./warm-cache.cjs');
 
 const view = (org: string, tournament: string) => ({
   tournament: { slug: tournament, organization: { slug: org } }
@@ -62,5 +62,66 @@ describe('warmTargets', () => {
   it('no longer targets the legacy /en redirect', () => {
     const urls = warmCacheUrls('https://x.test', [], WARM_LIMIT);
     expect(warmTargets(urls).map((target: { url: string }) => target.url)).not.toContain('https://x.test/en');
+  });
+});
+
+type Target = { url: string; locale: string };
+
+const controlledWarm = () => {
+  const events: string[] = [];
+  const releases: Record<string, () => void> = {};
+  const warm = ({ url, locale }: Target) => {
+    events.push(`start ${locale} ${url}`);
+    return new Promise<void>(resolve => {
+      releases[`${locale} ${url}`] = () => {
+        events.push(`end ${locale} ${url}`);
+        resolve();
+      };
+    });
+  };
+  return { events, releases, warm };
+};
+
+const settle = () => Array.from({ length: 20 }).reduce<Promise<unknown>>(previous => previous.then(() => undefined), Promise.resolve());
+
+describe('warmAll', () => {
+  it('starts the en render of a url only after its pt render finished, while other urls overlap', async () => {
+    const { events, releases, warm } = controlledWarm();
+    const done = warmAll(['a', 'b'], warm, 2);
+
+    await settle();
+    expect(events).toEqual(['start pt a', 'start pt b']);
+
+    releases['pt a']();
+    await settle();
+    expect(events).toEqual(['start pt a', 'start pt b', 'end pt a', 'start en a']);
+
+    releases['pt b']();
+    releases['en a']();
+    await settle();
+    releases['en b']();
+    await done;
+    expect(events.indexOf('start en b')).toBeGreaterThan(events.indexOf('end pt b'));
+  });
+
+  it('does not start a url beyond the concurrency until the group finished', async () => {
+    const { events, releases, warm } = controlledWarm();
+    const done = warmAll(['a', 'b', 'c'], warm, 2);
+
+    await settle();
+    releases['pt a']();
+    releases['pt b']();
+    await settle();
+    releases['en a']();
+    await settle();
+    expect(events).not.toContain('start pt c');
+
+    releases['en b']();
+    await settle();
+    releases['pt c']();
+    await settle();
+    releases['en c']();
+    await done;
+    expect(events).toContain('start pt c');
   });
 });
