@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
-import { Link, usePathname } from '../i18n/navigation';
+import { useRouter } from 'next/navigation';
+import { localeCookieString } from '../i18n/localeCookie';
 import { routing } from '../i18n/routing';
 
 const LOCALE_FLAGS: Record<string, string> = {
@@ -12,8 +13,14 @@ const LOCALE_FLAGS: Record<string, string> = {
 
 export function LocaleSwitcher() {
   const locale = useLocale();
-  const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  const select = (candidate: string) => {
+    document.cookie = localeCookieString(candidate);
+    setIsOpen(false);
+    router.refresh();
+  };
 
   return (
     <div className="relative">
@@ -32,15 +39,14 @@ export function LocaleSwitcher() {
         <ul className="absolute right-0 z-10 mt-2 flex flex-col gap-1 rounded-lg bg-surface p-2 shadow-[0_4px_20px_var(--shadow-elevated)]">
           {routing.locales.map(candidate => (
             <li key={candidate}>
-              <Link
-                href={pathname}
-                locale={candidate}
+              <button
+                type="button"
                 aria-current={candidate === locale}
-                onClick={() => setIsOpen(false)}
+                onClick={() => select(candidate)}
                 className="flex size-8 items-center justify-center rounded-full text-lg hover:opacity-80 aria-[current=true]:opacity-50"
               >
                 {LOCALE_FLAGS[candidate] ?? candidate}
-              </Link>
+              </button>
             </li>
           ))}
         </ul>
