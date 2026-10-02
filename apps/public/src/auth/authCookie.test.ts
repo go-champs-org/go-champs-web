@@ -1,4 +1,8 @@
-import { readUsernameCookie } from './authCookie';
+import {
+  isOrganizationMember,
+  readOrganizationIdsCookie,
+  readUsernameCookie
+} from './authCookie';
 
 describe('readUsernameCookie', () => {
   afterEach(() => {
@@ -31,5 +35,47 @@ describe('readUsernameCookie', () => {
     document.cookie = 'gc_username=%; path=/';
 
     expect(readUsernameCookie()).toBeNull();
+  });
+});
+
+describe('readOrganizationIdsCookie', () => {
+  afterEach(() => {
+    document.cookie = 'gc_organizations=; path=/; max-age=0';
+  });
+
+  it('returns an empty list when the cookie is not set', () => {
+    expect(readOrganizationIdsCookie()).toEqual([]);
+  });
+
+  it('splits the comma separated ids', () => {
+    document.cookie = 'gc_organizations=org1%2Corg2; path=/';
+
+    expect(readOrganizationIdsCookie()).toEqual(['org1', 'org2']);
+  });
+
+  it('returns an empty list for an empty cookie value', () => {
+    document.cookie = 'gc_organizations=; path=/';
+
+    expect(readOrganizationIdsCookie()).toEqual([]);
+  });
+
+  it('treats a malformed percent-encoding as no cookie instead of throwing', () => {
+    document.cookie = 'gc_organizations=%; path=/';
+
+    expect(readOrganizationIdsCookie()).toEqual([]);
+  });
+});
+
+describe('isOrganizationMember', () => {
+  it('is true when the organization id is listed', () => {
+    expect(isOrganizationMember(['org1', 'org2'], 'org2')).toBe(true);
+  });
+
+  it('is false when the organization id is not listed', () => {
+    expect(isOrganizationMember(['org1'], 'org2')).toBe(false);
+  });
+
+  it('is false for an empty organization id', () => {
+    expect(isOrganizationMember([''], '')).toBe(false);
   });
 });

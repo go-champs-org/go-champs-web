@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
+import { ManageButton } from '@/src/components/ManageButton';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -527,12 +528,13 @@ export default async function TeamPage({
   const { locale, org, tournament: tournamentSlug, teamId } = routeParams;
   setRequestLocale(locale);
 
-  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame, tPhase] =
+  const [{ tournament, team, roster, games, sport, statsLogs }, t, tGame, tPhase, tCommon] =
     await Promise.all([
       loadTeamView(org, tournamentSlug, teamId),
       getTranslations('team'),
       getTranslations('game'),
-      getTranslations('phase')
+      getTranslations('phase'),
+      getTranslations('common')
     ]);
 
   // Which scopes the table offers, and the columns of each, are decided here:
@@ -619,13 +621,21 @@ export default async function TeamPage({
           >
             {tournament.name}
           </Link>
-          <TournamentQrCode
-            path={`/${org}/${tournamentSlug}`}
-            openLabel={tPhase('shareQrCode')}
-            closeLabel={tPhase('closeQrCode')}
-            caption={tournament.name}
-            scanLabel={tPhase('scanQrCode')}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <ManageButton
+              organizationId={tournament.organization.id}
+              org={org}
+              tournament={tournamentSlug}
+              label={tCommon('manage')}
+            />
+            <TournamentQrCode
+              path={`/${org}/${tournamentSlug}`}
+              openLabel={tPhase('shareQrCode')}
+              closeLabel={tPhase('closeQrCode')}
+              caption={tournament.name}
+              scanLabel={tPhase('scanQrCode')}
+            />
+          </div>
         </div>
 
         <TeamSections

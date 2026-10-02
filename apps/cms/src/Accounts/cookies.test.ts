@@ -1,12 +1,16 @@
 import {
   USERNAME_COOKIE_NAME,
   setUsernameCookie,
-  clearUsernameCookie
+  clearUsernameCookie,
+  ORGANIZATIONS_COOKIE_NAME,
+  setOrganizationIdsCookie,
+  clearOrganizationIdsCookie
 } from './cookies';
 
 describe('cookies', () => {
   afterEach(() => {
     document.cookie = `${USERNAME_COOKIE_NAME}=; path=/; max-age=0`;
+    document.cookie = `${ORGANIZATIONS_COOKIE_NAME}=; path=/; max-age=0`;
   });
 
   describe('setUsernameCookie', () => {
@@ -32,6 +36,26 @@ describe('cookies', () => {
       clearUsernameCookie();
 
       expect(document.cookie).not.toContain('someusername');
+    });
+  });
+
+  describe('setOrganizationIdsCookie', () => {
+    it('stores the ids comma separated', () => {
+      setOrganizationIdsCookie(['org1', 'org2']);
+
+      expect(document.cookie).toContain(
+        `${ORGANIZATIONS_COOKIE_NAME}=org1%2Corg2`
+      );
+    });
+  });
+
+  describe('clearOrganizationIdsCookie', () => {
+    it('removes the organizations cookie', () => {
+      setOrganizationIdsCookie(['org1']);
+
+      clearOrganizationIdsCookie();
+
+      expect(document.cookie).not.toContain('org1');
     });
   });
 });

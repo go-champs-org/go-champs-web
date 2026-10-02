@@ -146,6 +146,7 @@ const tournament = (overrides = {}) => ({
   playerStats: [],
   scoreboardSetting: { liveSiteUpdate: 'full-live-update' },
   teams: [team('t1', 'Time A'), team('t2', 'Time B')],
+  organization: { id: '', name: '', slug: '', logoUrl: '' },
   players: [],
   ...overrides
 });

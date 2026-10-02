@@ -37,7 +37,7 @@ import {
 } from './actions';
 import accountHttpClient from './accountHttpClient';
 import ApiError from '../Shared/httpClient/ApiError';
-import { USERNAME_COOKIE_NAME } from './cookies';
+import { ORGANIZATIONS_COOKIE_NAME, USERNAME_COOKIE_NAME } from './cookies';
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
 
 let dispatch: jest.Mock;
@@ -85,6 +85,7 @@ describe('accountEffects', () => {
 
   afterEach(() => {
     document.cookie = `${USERNAME_COOKIE_NAME}=; path=/; max-age=0`;
+    document.cookie = `${ORGANIZATIONS_COOKIE_NAME}=; path=/; max-age=0`;
   });
 
   describe('signIn', () => {
@@ -717,6 +718,12 @@ describe('accountEffects', () => {
         );
       });
 
+      it('sets the organization ids cookie', () => {
+        expect(document.cookie).toContain(
+          `${ORGANIZATIONS_COOKIE_NAME}=some-org-id%2Canother-org-id`
+        );
+      });
+
       it('dispatches get success action', () => {
         expect(dispatch).toHaveBeenCalledWith(
           getAccountSuccess({
@@ -765,6 +772,14 @@ describe('accountEffects', () => {
 
         expect(document.cookie).not.toContain('someusername');
       });
+
+      it('clears the organization ids cookie', async () => {
+        document.cookie = `${ORGANIZATIONS_COOKIE_NAME}=some-org-id; path=/`;
+
+        await getAccount('some-id')(dispatch);
+
+        expect(document.cookie).not.toContain(ORGANIZATIONS_COOKIE_NAME);
+      });
     });
   });
 
@@ -775,6 +790,14 @@ describe('accountEffects', () => {
       signOut();
 
       expect(document.cookie).not.toContain('someusername');
+    });
+
+    it('clears the organization ids cookie', () => {
+      document.cookie = `${ORGANIZATIONS_COOKIE_NAME}=some-org-id; path=/`;
+
+      signOut();
+
+      expect(document.cookie).not.toContain(ORGANIZATIONS_COOKIE_NAME);
     });
   });
 });
