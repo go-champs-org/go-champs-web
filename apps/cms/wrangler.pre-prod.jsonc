@@ -16,7 +16,9 @@
       "!/ios-icon.png",
       "!/logo-with-name-black.png",
       "!/manifest.json",
-      "!/asset-manifest.json"
+      "!/asset-manifest.json",
+      "!/service-worker.js",
+      "!/index.html"
     ]
   },
   "services": [
