@@ -9,6 +9,7 @@ import {
   isJunkPath,
   isPublicPassthroughPath,
   mergeVary,
+  varyByLocale,
   resolvePublicPath
 } from './routes';
 
@@ -312,5 +313,27 @@ describe('mergeVary', () => {
 
   it('leaves Vary: * untouched', () => {
     expect(mergeVary('*', LOCALE_VARY)).toBe('*');
+  });
+});
+
+describe('varyByLocale', () => {
+  it.each([
+    ['text/html; charset=utf-8'],
+    ['TEXT/HTML'],
+    ['text/x-component'],
+    ['text/x-component; charset=utf-8']
+  ])('is true for %s', contentType => {
+    expect(varyByLocale(contentType)).toBe(true);
+  });
+
+  it.each<[string | null]>([
+    ['application/javascript'],
+    ['image/png'],
+    ['text/plain; charset=utf-8'],
+    ['application/json'],
+    ['text/css'],
+    [null]
+  ])('is false for %p', contentType => {
+    expect(varyByLocale(contentType)).toBe(false);
   });
 });

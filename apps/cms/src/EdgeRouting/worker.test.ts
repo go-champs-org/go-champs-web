@@ -131,7 +131,10 @@ describe('worker without BLOCK_CRAWLERS', () => {
 });
 
 describe('Vary on responses relayed from PUBLIC', () => {
-  const nextVary = { Vary: 'rsc, next-router-state-tree' };
+  const nextVary = {
+    Vary: 'rsc, next-router-state-tree',
+    'Content-Type': 'text/html; charset=utf-8'
+  };
 
   it('extends the Vary of a rewritten path with the locale signals', async () => {
     const response = await worker.fetch(
@@ -156,7 +159,10 @@ describe('Vary on responses relayed from PUBLIC', () => {
   });
 
   it('sets the locale signals when PUBLIC sent no Vary', async () => {
-    const response = await worker.fetch(get('/Organization/acme'), env());
+    const response = await worker.fetch(
+      get('/Organization/acme'),
+      env({}, { 'Content-Type': 'text/html' })
+    );
 
     expect(response.headers.get('Vary')).toBe('Cookie, Accept-Language');
   });
@@ -170,6 +176,36 @@ describe('Vary on responses relayed from PUBLIC', () => {
     expect(response.status).toBe(201);
     expect(await response.text()).toBe('public');
     expect(response.headers.get('X-Test')).toBe('kept');
+  });
+
+  it('extends the Vary of an RSC payload', async () => {
+    const response = await worker.fetch(
+      get('/fberj/adulto/jogos/x'),
+      env({}, { Vary: 'rsc', 'Content-Type': 'text/x-component' })
+    );
+
+    expect(response.headers.get('Vary')).toBe('rsc, Cookie, Accept-Language');
+  });
+
+  it('leaves a static asset from PUBLIC with its own Vary', async () => {
+    const response = await worker.fetch(
+      get('/_next/static/chunks/main.js'),
+      env(
+        {},
+        { Vary: 'Accept-Encoding', 'Content-Type': 'application/javascript' }
+      )
+    );
+
+    expect(response.headers.get('Vary')).toBe('Accept-Encoding');
+  });
+
+  it('adds no Vary to a PUBLIC response that is not a page', async () => {
+    const response = await worker.fetch(
+      get('/api/search'),
+      env({}, { 'Content-Type': 'application/json' })
+    );
+
+    expect(response.headers.get('Vary')).toBeNull();
   });
 
   it('does not touch the Vary of a CMS route served from ASSETS', async () => {

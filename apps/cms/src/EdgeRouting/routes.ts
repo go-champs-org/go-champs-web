@@ -208,3 +208,14 @@ export const mergeVary = (
 
   return [...current, ...missing].join(', ');
 };
+
+const LOCALIZED_MEDIA_TYPES = ['text/html', 'text/x-component'];
+
+/** Only rendered pages and RSC payloads change with the locale; assets and JSON do not. */
+export const varyByLocale = (contentType: string | null): boolean =>
+  LOCALIZED_MEDIA_TYPES.includes(
+    (contentType ?? '')
+      .split(';')[0]
+      .trim()
+      .toLowerCase()
+  );

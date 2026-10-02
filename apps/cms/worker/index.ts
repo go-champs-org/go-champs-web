@@ -6,6 +6,7 @@ import {
   isJunkPath,
   isPublicPassthroughPath,
   mergeVary,
+  varyByLocale,
   resolvePublicPath
 } from '../src/EdgeRouting/routes';
 
@@ -34,6 +35,8 @@ const withNoIndex = (response: Response): Response => {
 };
 
 const withLocaleVary = (response: Response): Response => {
+  if (!varyByLocale(response.headers.get('Content-Type'))) return response;
+
   const copy = new Response(response.body, response);
   const vary = mergeVary(copy.headers.get('Vary'), LOCALE_VARY);
   if (vary !== null) copy.headers.set('Vary', vary);
