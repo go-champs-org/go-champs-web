@@ -2,11 +2,13 @@ import { readdirSync } from 'fs';
 import path from 'path';
 import {
   BLOCKED_ROBOTS_TXT,
+  LOCALE_VARY,
   NO_INDEX_HEADER,
   PUBLIC_API_ROUTES,
   blocksCrawlers,
   isJunkPath,
   isPublicPassthroughPath,
+  mergeVary,
   resolvePublicPath
 } from './routes';
 
@@ -275,5 +277,40 @@ describe('crawler blocking', () => {
       name: 'X-Robots-Tag',
       value: 'noindex, nofollow'
     });
+  });
+});
+
+describe('mergeVary', () => {
+  it('exposes the locale signals public pages vary by', () => {
+    expect(LOCALE_VARY).toEqual(['Cookie', 'Accept-Language']);
+  });
+
+  it('keeps the existing values in order and appends the new ones', () => {
+    expect(mergeVary('rsc, next-router-state-tree', LOCALE_VARY)).toBe(
+      'rsc, next-router-state-tree, Cookie, Accept-Language'
+    );
+  });
+
+  it.each<[string | null]>([[null], [''], ['  ']])(
+    'starts from %p',
+    existing => {
+      expect(mergeVary(existing, LOCALE_VARY)).toBe('Cookie, Accept-Language');
+    }
+  );
+
+  it('does not repeat a value already present, ignoring case', () => {
+    expect(mergeVary('rsc, cookie', LOCALE_VARY)).toBe(
+      'rsc, cookie, Accept-Language'
+    );
+  });
+
+  it('returns the existing value when everything is already present', () => {
+    expect(mergeVary('accept-language, COOKIE', LOCALE_VARY)).toBe(
+      'accept-language, COOKIE'
+    );
+  });
+
+  it('leaves Vary: * untouched', () => {
+    expect(mergeVary('*', LOCALE_VARY)).toBe('*');
   });
 });

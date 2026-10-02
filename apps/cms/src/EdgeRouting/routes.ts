@@ -184,3 +184,27 @@ export const NO_INDEX_HEADER = {
   name: 'X-Robots-Tag',
   value: 'noindex, nofollow'
 } as const;
+
+/** Public pages render in the language chosen by the NEXT_LOCALE cookie or Accept-Language. */
+export const LOCALE_VARY = ['Cookie', 'Accept-Language'];
+
+const splitVary = (header: string | null): string[] =>
+  (header ?? '')
+    .split(',')
+    .map(value => value.trim())
+    .filter(Boolean);
+
+export const mergeVary = (
+  existing: string | null,
+  values: string[]
+): string | null => {
+  const current = splitVary(existing);
+  if (current.includes('*')) return existing;
+
+  const present = current.map(value => value.toLowerCase());
+  const missing = values.filter(
+    value => !present.includes(value.toLowerCase())
+  );
+
+  return [...current, ...missing].join(', ');
+};

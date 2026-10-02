@@ -2,12 +2,20 @@
 import worker from '../../worker/index';
 import { BLOCKED_ROBOTS_TXT } from './routes';
 
-const env = (overrides = {}) => ({
-  ASSETS: { fetch: jest.fn(async () => new Response('spa', { status: 200 })) },
+const env = (overrides = {}, publicHeaders: Record<string, string> = {}) => ({
+  ASSETS: {
+    fetch: jest.fn(
+      async () =>
+        new Response('spa', { status: 200, headers: { Vary: 'Origin' } })
+    )
+  },
   PUBLIC: {
     fetch: jest.fn(
       async (_request: Request) =>
-        new Response('public', { status: 201, headers: { 'X-Test': 'kept' } })
+        new Response('public', {
+          status: 201,
+          headers: { 'X-Test': 'kept', ...publicHeaders }
+        })
     )
   },
   ...overrides
@@ -119,5 +127,60 @@ describe('worker without BLOCK_CRAWLERS', () => {
 
     const forwarded = testEnv.PUBLIC.fetch.mock.calls[0][0] as Request;
     expect(new URL(forwarded.url).pathname).toBe('/en/cbb');
+  });
+});
+
+describe('Vary on responses relayed from PUBLIC', () => {
+  const nextVary = { Vary: 'rsc, next-router-state-tree' };
+
+  it('extends the Vary of a rewritten path with the locale signals', async () => {
+    const response = await worker.fetch(
+      get('/Organization/acme'),
+      env({}, nextVary)
+    );
+
+    expect(response.headers.get('Vary')).toBe(
+      'rsc, next-router-state-tree, Cookie, Accept-Language'
+    );
+  });
+
+  it('extends the Vary of a passthrough path with the locale signals', async () => {
+    const response = await worker.fetch(
+      get('/fberj/adulto/jogos/x'),
+      env({}, nextVary)
+    );
+
+    expect(response.headers.get('Vary')).toBe(
+      'rsc, next-router-state-tree, Cookie, Accept-Language'
+    );
+  });
+
+  it('sets the locale signals when PUBLIC sent no Vary', async () => {
+    const response = await worker.fetch(get('/Organization/acme'), env());
+
+    expect(response.headers.get('Vary')).toBe('Cookie, Accept-Language');
+  });
+
+  it('keeps the rest of the PUBLIC response intact', async () => {
+    const response = await worker.fetch(
+      get('/fberj/adulto/jogos/x'),
+      env({}, nextVary)
+    );
+
+    expect(response.status).toBe(201);
+    expect(await response.text()).toBe('public');
+    expect(response.headers.get('X-Test')).toBe('kept');
+  });
+
+  it('does not touch the Vary of a CMS route served from ASSETS', async () => {
+    const response = await worker.fetch(get('/Account'), env());
+
+    expect(response.headers.get('Vary')).toBe('Origin');
+  });
+
+  it('does not add a Vary to the edge 404', async () => {
+    const response = await worker.fetch(get('/resources/.env'), env());
+
+    expect(response.headers.get('Vary')).toBeNull();
   });
 });
