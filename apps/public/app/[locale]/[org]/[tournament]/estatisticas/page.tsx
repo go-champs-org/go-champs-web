@@ -14,7 +14,7 @@ import {
 import { Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
-import { localePath } from '@/src/i18n/localePath';
+import { publicPath } from '@/src/i18n/publicPath';
 import {
   availableScopes,
   columnViewsByScope,
@@ -235,9 +235,9 @@ export default async function PlayerStatsPage({
   );
   const totalsByScope = statTotalsByScope(rows, columnsByScope);
 
-  const tournamentHref = localePath(locale, `/${org}/${tournamentSlug}`);
-  const playerHrefBase = localePath(locale, `/${org}/${tournamentSlug}/jogadores/`);
-  const teamHrefBase = localePath(locale, `/${org}/${tournamentSlug}/times/`);
+  const tournamentHref = publicPath(`/${org}/${tournamentSlug}`);
+  const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/jogadores/`);
+  const teamHrefBase = publicPath(`/${org}/${tournamentSlug}/times/`);
 
   return (
     <main
@@ -257,7 +257,7 @@ export default async function PlayerStatsPage({
             {t('title')}
           </h1>
           <Link
-            href={localePath(locale, `/${org}/${tournamentSlug}/estatisticas/resumo`)}
+            href={publicPath(`/${org}/${tournamentSlug}/estatisticas/resumo`)}
             className="text-sm font-semibold text-primary-dark hover:underline"
           >
             {t('viewSummary')}

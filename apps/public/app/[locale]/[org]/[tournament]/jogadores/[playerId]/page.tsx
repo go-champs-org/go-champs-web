@@ -21,7 +21,7 @@ import { FaUser } from 'react-icons/fa';
 import { ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
-import { localePath } from '@/src/i18n/localePath';
+import { publicPath } from '@/src/i18n/publicPath';
 import { statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
 import {
   playerPhaseTable,
@@ -104,11 +104,10 @@ const teamNameOf = (
 // A player without a team (never assigned one, or one the tournament removed)
 // has no team page to link to.
 const teamHrefOf = (
-  locale: string,
   org: string,
   tournamentSlug: string,
   teamId: string
-): string => (teamId ? localePath(locale, `/${org}/${tournamentSlug}/times/${teamId}`) : '');
+): string => (teamId ? publicPath(`/${org}/${tournamentSlug}/times/${teamId}`) : '');
 
 const sportSlugOf = (
   tournament: TournamentWithTeamsEntity | null
@@ -423,9 +422,9 @@ export default async function PlayerPage({
       ? t('gamesPlayedCount', { count: table.total.games })
       : '';
   const hasStats = table.rows.length > 0 && columns.length > 0;
-  const teamHref = teamHrefOf(locale, org, tournamentSlug, view.player.teamId);
+  const teamHref = teamHrefOf(org, tournamentSlug, view.player.teamId);
 
-  const tournamentHref = localePath(locale, `/${org}/${tournamentSlug}`);
+  const tournamentHref = publicPath(`/${org}/${tournamentSlug}`);
 
   return (
     <main
@@ -435,7 +434,7 @@ export default async function PlayerPage({
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Breadcrumb
-            homeHref={localePath(locale, '')}
+            homeHref={publicPath('')}
             homeLabel={t('breadcrumbHome')}
             tournamentHref={tournamentHref}
             tournamentLabel={tournamentLabel}
