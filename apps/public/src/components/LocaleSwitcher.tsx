@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { localeCookieString } from '../i18n/localeCookie';
 import { routing } from '../i18n/routing';
+import { switchLocale } from '../i18n/switchLocale';
 
 const LOCALE_FLAGS: Record<string, string> = {
   pt: '🇧🇷',
@@ -16,10 +16,13 @@ export function LocaleSwitcher() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
+  const writeCookie = (value: string) => {
+    document.cookie = value;
+  };
+
   const select = (candidate: string) => {
-    document.cookie = localeCookieString(candidate);
     setIsOpen(false);
-    router.refresh();
+    switchLocale(candidate, { setCookie: writeCookie, refresh: router.refresh });
   };
 
   return (
