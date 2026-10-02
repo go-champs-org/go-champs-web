@@ -49,10 +49,9 @@ i18n
     fallbackLng: 'pt',
     supportedLngs: ['en', 'pt'],
     detection: {
-      // NEXT_LOCALE syncs the language with apps/public (routes.ts,
-      // resolveLocaleFromCookieHeader); after localStorage so it can't
-      // clobber a deliberate past choice here.
-      order: ['localStorage', 'cookie', 'navigator'],
+      // NEXT_LOCALE is the language shared with apps/public, so it wins over
+      // this app's own localStorage.
+      order: ['cookie', 'localStorage', 'navigator'],
       lookupLocalStorage: 'i18nextLng',
       lookupCookie: 'NEXT_LOCALE',
       cookieMinutes: 365 * 24 * 60, // 1y, matching next-intl's default

@@ -1,7 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { routing } from '../src/i18n/routing';
 import {
-  localeUrls,
   pageUrl,
   type PublicRoute,
   PUBLIC_ROUTES
@@ -23,17 +21,11 @@ const INSTITUTIONAL_HINT: CrawlHint = {
   priority: 0.6
 };
 
-const sitemapEntry = (
-  locale: string,
-  path: PublicRoute
-): MetadataRoute.Sitemap[number] => ({
-  url: pageUrl(locale, path),
-  ...(CRAWL_HINTS[path] || INSTITUTIONAL_HINT),
-  alternates: { languages: localeUrls(path) }
+const sitemapEntry = (path: PublicRoute): MetadataRoute.Sitemap[number] => ({
+  url: pageUrl(path),
+  ...(CRAWL_HINTS[path] || INSTITUTIONAL_HINT)
 });
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return PUBLIC_ROUTES.flatMap(path =>
-    routing.locales.map(locale => sitemapEntry(locale, path))
-  );
+  return PUBLIC_ROUTES.map(path => sitemapEntry(path));
 }

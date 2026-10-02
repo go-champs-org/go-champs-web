@@ -416,9 +416,9 @@ describe('GamePage metadata', () => {
     expect(metadata.alternates?.canonical).toBe(
       `${SITE_URL}/org/torneio/jogos/g1`
     );
-    expect(metadata.alternates?.languages?.en).toBe(
-      `${SITE_URL}/en/org/torneio/jogos/g1`
-    );
+    expect(metadata.alternates).toEqual({
+      canonical: `${SITE_URL}/org/torneio/jogos/g1`
+    });
     expect(metadata.description).toContain('Time Casa x Time Visitante');
     expect(metadata.robots).toBeUndefined();
   });

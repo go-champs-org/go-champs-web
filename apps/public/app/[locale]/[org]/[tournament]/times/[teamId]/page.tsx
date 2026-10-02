@@ -19,7 +19,7 @@ import type { PlayerEntity, PlayerStatEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
 import { GameTeamRow, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { localePath } from '@/src/i18n/localePath';
+import { publicPath } from '@/src/i18n/publicPath';
 import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
@@ -73,9 +73,9 @@ const SECTION_CLASS = 'p-6 shadow-[0_2px_10px_var(--shadow-elevated)]';
 const FLUSH_SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
 const gamePageHref = (
-  { locale, org, tournament }: TeamPageParams,
+  { org, tournament }: TeamPageParams,
   gameId: string
-): string => localePath(locale, `/${org}/${tournament}/jogos/${gameId}`);
+): string => publicPath(`/${org}/${tournament}/jogos/${gameId}`);
 
 // generateMetadata and the page both need the tournament; cache() keeps that to
 // a single request instead of fetching it twice per view.
@@ -554,7 +554,7 @@ export default async function TeamPage({
   // Which statistic a header sorts by is only known per column, so the island
   // fills the placeholder itself and the pattern crosses the boundary raw.
   const sortLabel = t.raw('sortByStat') as string;
-  const playerHrefBase = localePath(locale, `/${org}/${tournamentSlug}/jogadores/`);
+  const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/jogadores/`);
 
   // Newest day first, the order the CMS team view already shows: a visitor
   // opening a team mid-tournament is looking for the last result, not the
@@ -616,7 +616,7 @@ export default async function TeamPage({
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Link
-            href={localePath(locale, `/${org}/${tournamentSlug}`)}
+            href={publicPath(`/${org}/${tournamentSlug}`)}
             className="text-sm font-semibold text-primary-dark hover:underline"
           >
             {tournament.name}

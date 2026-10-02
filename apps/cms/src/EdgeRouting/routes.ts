@@ -26,19 +26,17 @@ const isPublicApiRoute = (pathname: string): boolean =>
   PUBLIC_API_ROUTES.includes(pathname);
 
 /**
- * apps/public's next-intl URL space, which its own NavBar links to. Matched as
- * a whole segment: the CMS routes /:organizationSlug here too, so /ptbr is not
- * a locale.
+ * Legacy /pt/* and /en/* URLs: apps/public's middleware answers them with a
+ * 301 to the locale-free path. Matched as a whole segment: the CMS routes
+ * /:organizationSlug here too, so /ptbr is not a locale.
  */
 const PASSTHROUGH_LOCALES = ['pt', 'en'];
 
 /**
- * apps/public's tournament sub-pages (app/[locale]/[org]/[tournament]/*),
- * already in their public Portuguese path shape. localePrefix: 'as-needed'
- * means the default locale (pt) reaches these with no /pt prefix, so they
- * can't be caught by PASSTHROUGH_LOCALES above — matched here instead. Never
- * collides with a CMS route: the CMS's own route names for these pages
- * (GameView, Player, PlayerStats, Teams, Phase) are English and capitalized.
+ * apps/public's tournament sub-pages (app/[locale]/[org]/[tournament]/*), in
+ * their public Portuguese path shape. Never collides with a CMS route: the
+ * CMS's own route names for these pages (GameView, Player, PlayerStats, Teams,
+ * Phase) are English and capitalized.
  */
 const PUBLIC_TOURNAMENT_SEGMENTS = [
   'jogos',
@@ -77,36 +75,11 @@ const isUnknownApiPath = (pathname: string): boolean =>
 export const isJunkPath = (pathname: string): boolean =>
   isUnknownApiPath(pathname) || pathname.split('/').some(isJunkSegment);
 
-// Locales apps/public actually serves (src/i18n/routing.ts there).
-const SUPPORTED_LOCALES = ['pt', 'en'];
-const DEFAULT_LOCALE = 'pt';
-
-// NEXT_LOCALE: written by next-intl's middleware on apps/public and by the
-// CMS's own i18n (Shared/translations/i18n.ts) — the shared sync signal.
-export const resolveLocaleFromCookieHeader = (
-  cookieHeader: string | null
-): string => {
-  const match = cookieHeader?.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
-  const value = match?.[1];
-
-  return value && SUPPORTED_LOCALES.includes(value) ? value : DEFAULT_LOCALE;
-};
-
 /** null = matched the shape but declined; see the tournament root below. */
-type Rewrite = [
-  RegExp,
-  (match: RegExpMatchArray, locale: string) => string | null
-];
+type Rewrite = [RegExp, (match: RegExpMatchArray) => string | null];
 
 // Same shape as mustBeSlug; also covers sub-route UUID ids, rejecting dotted filenames.
 const SLUG = '([a-z0-9]+(?:-[a-z0-9]+)*)';
-
-// apps/public's routing.ts sets localePrefix: 'as-needed' — the default
-// locale (pt) never appears in the URL, and its middleware redirects any
-// /pt/* path back to the bare path. Emitting /pt/* here would round-trip
-// forever with that redirect, so the default locale is always omitted.
-const withLocale = (locale: string, path: string): string =>
-  locale === DEFAULT_LOCALE ? path : `/${locale}${path}`;
 
 /**
  * First segments that are never an organization slug. From the static routes
@@ -137,80 +110,66 @@ const isReservedByCms = (segment: string): boolean =>
   CMS_RESERVED_SEGMENT_PREFIXES.some(prefix => segment.startsWith(prefix));
 
 const ROUTES: Rewrite[] = [
-  [/^\/$/, (_m, locale) => (locale === DEFAULT_LOCALE ? '/' : `/${locale}`)],
+  [/^\/$/, () => '/'],
 
   // lote 2 — institucional. Case sensitive, like App.tsx's <Route sensitive>.
-  [/^\/About$/, (_m, locale) => withLocale(locale, '/about')],
-  [/^\/Faq$/, (_m, locale) => withLocale(locale, '/faq')],
-  [/^\/Contact$/, (_m, locale) => withLocale(locale, '/contact')],
-  [/^\/PrivacyPolicyBR$/, (_m, locale) => withLocale(locale, '/privacy')],
-  [/^\/TermsBR$/, (_m, locale) => withLocale(locale, '/terms')],
+  [/^\/About$/, () => '/about'],
+  [/^\/Faq$/, () => '/faq'],
+  [/^\/Contact$/, () => '/contact'],
+  [/^\/PrivacyPolicyBR$/, () => '/privacy'],
+  [/^\/TermsBR$/, () => '/terms'],
 
   // Must precede the tournament root below, or `Organization` (reserved
   // there) would decline and end the search before this rule ever runs.
-  [
-    new RegExp(`^/Organization/${SLUG}/?$`),
-    (m, locale) => withLocale(locale, `/${m[1]}`)
-  ],
+  [new RegExp(`^/Organization/${SLUG}/?$`), m => `/${m[1]}`],
 
   // lote 1 — rotas de leitura por torneio
   [
     new RegExp(`^/${SLUG}/${SLUG}/GameView/${SLUG}$`),
-    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/jogos/${m[3]}`)
+    m => `/${m[1]}/${m[2]}/jogos/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Player/${SLUG}$`),
-    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/jogadores/${m[3]}`)
+    m => `/${m[1]}/${m[2]}/jogadores/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStatsSummary$`),
-    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/estatisticas/resumo`)
+    m => `/${m[1]}/${m[2]}/estatisticas/resumo`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStats$`),
-    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/estatisticas`)
+    m => `/${m[1]}/${m[2]}/estatisticas`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Teams/${SLUG}$`),
-    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/times/${m[3]}`)
+    m => `/${m[1]}/${m[2]}/times/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Phase/${SLUG}$`),
-    (m, locale) => withLocale(locale, `/${m[1]}/${m[2]}/fases/${m[3]}`)
+    m => `/${m[1]}/${m[2]}/fases/${m[3]}`
   ],
 
   // The tournament root, which renders its default phase. Last on purpose: no
   // literal segment of its own, so every rule above goes first.
   [
     new RegExp(`^/${SLUG}/${SLUG}/?$`),
-    (m, locale) =>
-      isReservedByCms(m[1]) ? null : withLocale(locale, `/${m[1]}/${m[2]}`)
+    m => (isReservedByCms(m[1]) ? null : `/${m[1]}/${m[2]}`)
   ],
 
   // The bare organization page (App.tsx's /:organizationSlug -> OrganizationView),
   // its lowest-priority route: declared after every other route above, including
   // the tournament root. Same no-literal-segment situation, so it must also come
   // last and defer to CMS_RESERVED_SEGMENTS.
-  [
-    new RegExp(`^/${SLUG}/?$`),
-    (m, locale) =>
-      isReservedByCms(m[1]) ? null : withLocale(locale, `/${m[1]}`)
-  ]
+  [new RegExp(`^/${SLUG}/?$`), m => (isReservedByCms(m[1]) ? null : `/${m[1]}`)]
 ];
 
-// `locale` is a plain parameter, not read here, so this stays a pure
-// function the CMS test runner can exercise without a Worker environment —
-// worker/index.ts resolves it from NEXT_LOCALE and passes it in.
-export const resolvePublicPath = (
-  pathname: string,
-  locale: string = DEFAULT_LOCALE
-): string | null => {
+export const resolvePublicPath = (pathname: string): string | null => {
   for (const [pattern, toPath] of ROUTES) {
     const match = pathname.match(pattern);
     if (!match) continue;
 
     // A rule that declined ends the search: no later rule is more specific.
-    return toPath(match, locale);
+    return toPath(match);
   }
 
   return null;
@@ -225,3 +184,38 @@ export const NO_INDEX_HEADER = {
   name: 'X-Robots-Tag',
   value: 'noindex, nofollow'
 } as const;
+
+/** Public pages render in the language chosen by the NEXT_LOCALE cookie or Accept-Language. */
+export const LOCALE_VARY = ['Cookie', 'Accept-Language'];
+
+const splitVary = (header: string | null): string[] =>
+  (header ?? '')
+    .split(',')
+    .map(value => value.trim())
+    .filter(Boolean);
+
+export const mergeVary = (
+  existing: string | null,
+  values: string[]
+): string | null => {
+  const current = splitVary(existing);
+  if (current.includes('*')) return existing;
+
+  const present = current.map(value => value.toLowerCase());
+  const missing = values.filter(
+    value => !present.includes(value.toLowerCase())
+  );
+
+  return [...current, ...missing].join(', ');
+};
+
+const LOCALIZED_MEDIA_TYPES = ['text/html', 'text/x-component'];
+
+/** Only rendered pages and RSC payloads change with the locale; assets and JSON do not. */
+export const varyByLocale = (contentType: string | null): boolean =>
+  LOCALIZED_MEDIA_TYPES.includes(
+    (contentType ?? '')
+      .split(';')[0]
+      .trim()
+      .toLowerCase()
+  );

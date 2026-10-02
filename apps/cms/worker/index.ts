@@ -1,10 +1,12 @@
 import {
   BLOCKED_ROBOTS_TXT,
+  LOCALE_VARY,
   NO_INDEX_HEADER,
   blocksCrawlers,
   isJunkPath,
   isPublicPassthroughPath,
-  resolveLocaleFromCookieHeader,
+  mergeVary,
+  varyByLocale,
   resolvePublicPath
 } from '../src/EdgeRouting/routes';
 
@@ -32,18 +34,29 @@ const withNoIndex = (response: Response): Response => {
   return copy;
 };
 
+const withLocaleVary = (response: Response): Response => {
+  if (!varyByLocale(response.headers.get('Content-Type'))) return response;
+
+  const copy = new Response(response.body, response);
+  const vary = mergeVary(copy.headers.get('Vary'), LOCALE_VARY);
+  if (vary !== null) copy.headers.set('Vary', vary);
+  return copy;
+};
+
+const fetchPublic = async (request: Request, env: Env): Promise<Response> =>
+  withLocaleVary(await env.PUBLIC.fetch(request));
+
 const forward = (request: Request, url: URL, env: Env): Promise<Response> => {
   // Served by apps/public under this same path — no translation.
-  if (isPublicPassthroughPath(url.pathname)) return env.PUBLIC.fetch(request);
+  if (isPublicPassthroughPath(url.pathname)) return fetchPublic(request, env);
 
-  const locale = resolveLocaleFromCookieHeader(request.headers.get('Cookie'));
-  const publicPath = resolvePublicPath(url.pathname, locale);
+  const publicPath = resolvePublicPath(url.pathname);
 
   if (publicPath === null) return env.ASSETS.fetch(request);
 
   const rewritten = new URL(url);
   rewritten.pathname = publicPath;
-  return env.PUBLIC.fetch(new Request(rewritten, request));
+  return fetchPublic(new Request(rewritten, request), env);
 };
 
 const route = async (

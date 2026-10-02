@@ -37,13 +37,13 @@ const game = (overrides: Record<string, unknown> = {}) => ({
 
 const DEFAULT_PROPS = {
   locale: 'pt',
-  gameHrefBase: '/pt/org/tour/jogos/',
+  gameHrefBase: '/org/tour/jogos/',
   title: 'Partidas',
   previousDayLabel: 'Dia anterior',
   nextDayLabel: 'Próximo dia',
   undecidedLabel: 'A definir',
   winnerLabel: 'Vencedor',
-  teamHrefBase: '/pt/org/tour/times/'
+  teamHrefBase: '/org/tour/times/'
 };
 
 describe('GamesPager', () => {
@@ -139,7 +139,7 @@ describe('GamesPager', () => {
 
     expect(screen.getByTestId('game-card-link')).toHaveAttribute(
       'href',
-      '/pt/org/tour/jogos/g1'
+      '/org/tour/jogos/g1'
     );
   });
 
@@ -152,11 +152,11 @@ describe('GamesPager', () => {
 
     expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
       'href',
-      '/pt/org/tour/times/t1'
+      '/org/tour/times/t1'
     );
     expect(screen.getByRole('link', { name: 'Time B' })).toHaveAttribute(
       'href',
-      '/pt/org/tour/times/t2'
+      '/org/tour/times/t2'
     );
   });
 });

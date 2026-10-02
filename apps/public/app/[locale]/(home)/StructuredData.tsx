@@ -32,7 +32,7 @@ export function StructuredData({
       '@type': 'WebSite',
       '@id': `${SITE_URL}#website`,
       name: SITE_NAME,
-      url: pageUrl(locale, ''),
+      url: pageUrl(''),
       inLanguage: locale,
       publisher: { '@id': `${SITE_URL}#organization` }
     }

@@ -10,19 +10,15 @@
     // Same allowlist as wrangler.jsonc (new-staging) — src/EdgeRouting/routes.ts
     // decides what actually gets rewritten. Keep the two in sync.
     "run_worker_first": [
-      "/*/*",
+      "/*",
       "!/static/*",
-      // "/*/*" does not reach single-segment paths
-      "/",
-      "/About",
-      "/Faq",
-      "/Contact",
-      "/PrivacyPolicyBR",
-      "/TermsBR",
-      "/robots.txt",
-      "/sitemap.xml",
-      "/pt",
-      "/en"
+      "!/favicon.ico",
+      "!/ios-icon.png",
+      "!/logo-with-name-black.png",
+      "!/manifest.json",
+      "!/asset-manifest.json",
+      "!/service-worker.js",
+      "!/index.html"
     ]
   },
   "services": [
