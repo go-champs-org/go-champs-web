@@ -50,12 +50,18 @@ describe('warmCacheUrls', () => {
 });
 
 describe('warmTargets', () => {
-  it('yields a pt target without a cookie and an en target with the locale cookie per url', () => {
+  it('yields a pt target without a cookie and an en target with the locale cookie for the home page and org pages', () => {
     expect(warmTargets(['https://x.test/', 'https://x.test/fberj'])).toEqual([
       { url: 'https://x.test/', locale: 'pt', headers: {} },
       { url: 'https://x.test/', locale: 'en', headers: { Cookie: 'NEXT_LOCALE=en' } },
       { url: 'https://x.test/fberj', locale: 'pt', headers: {} },
       { url: 'https://x.test/fberj', locale: 'en', headers: { Cookie: 'NEXT_LOCALE=en' } }
+    ]);
+  });
+
+  it('yields only a pt target for a tournament page', () => {
+    expect(warmTargets(['https://x.test/fberj/adulto'])).toEqual([
+      { url: 'https://x.test/fberj/adulto', locale: 'pt', headers: {} }
     ]);
   });
 
@@ -123,5 +129,15 @@ describe('warmAll', () => {
     releases['en c']();
     await done;
     expect(events).toContain('start pt c');
+  });
+
+  it('warms a tournament url in pt only', async () => {
+    const { events, releases, warm } = controlledWarm();
+    const done = warmAll(['https://x.test/org/t'], warm, 2);
+
+    await settle();
+    releases['pt https://x.test/org/t']();
+    await done;
+    expect(events).toEqual(['start pt https://x.test/org/t', 'end pt https://x.test/org/t']);
   });
 });

@@ -20,13 +20,16 @@ const warmCacheUrls = (baseUrl, recentlyViews, limit) =>
     ])
   ].slice(0, limit);
 
-const LOCALE_HEADERS = [
-  ['pt', {}],
-  ['en', { Cookie: 'NEXT_LOCALE=en' }]
-];
+const PT = ['pt', {}];
+const EN = ['en', { Cookie: 'NEXT_LOCALE=en' }];
+
+const pathSegments = url => url.replace(/^https?:\/\/[^/]+/, '').split('/').filter(Boolean);
+
+// en renders only for the home and org pages: a cold cache after a deploy leaves little CPU budget for more.
+const localesFor = url => (pathSegments(url).length <= 1 ? [PT, EN] : [PT]);
 
 const warmTargets = urls =>
-  urls.flatMap(url => LOCALE_HEADERS.map(([locale, headers]) => ({ url, locale, headers })));
+  urls.flatMap(url => localesFor(url).map(([locale, headers]) => ({ url, locale, headers })));
 
 const loadRecentlyViews = async apiHost => {
   try {
