@@ -4,7 +4,6 @@ import {
   blocksCrawlers,
   isJunkPath,
   isPublicPassthroughPath,
-  resolveLocaleFromCookieHeader,
   resolvePublicPath
 } from '../src/EdgeRouting/routes';
 
@@ -36,8 +35,7 @@ const forward = (request: Request, url: URL, env: Env): Promise<Response> => {
   // Served by apps/public under this same path — no translation.
   if (isPublicPassthroughPath(url.pathname)) return env.PUBLIC.fetch(request);
 
-  const locale = resolveLocaleFromCookieHeader(request.headers.get('Cookie'));
-  const publicPath = resolvePublicPath(url.pathname, locale);
+  const publicPath = resolvePublicPath(url.pathname);
 
   if (publicPath === null) return env.ASSETS.fetch(request);
 

@@ -6,7 +6,7 @@ const env = (overrides = {}) => ({
   ASSETS: { fetch: jest.fn(async () => new Response('spa', { status: 200 })) },
   PUBLIC: {
     fetch: jest.fn(
-      async () =>
+      async (_request: Request) =>
         new Response('public', { status: 201, headers: { 'X-Test': 'kept' } })
     )
   },
@@ -96,5 +96,28 @@ describe('worker without BLOCK_CRAWLERS', () => {
     const response = await worker.fetch(get('/fberj/adulto'), testEnv);
 
     expect(response.headers.get('X-Robots-Tag')).toBeNull();
+  });
+
+  it('hands the visitor locale signals to PUBLIC when it rewrites a path', async () => {
+    const testEnv = env();
+    await worker.fetch(
+      new Request('https://new-staging.go-champs.com/Organization/acme', {
+        headers: { Cookie: 'NEXT_LOCALE=en', 'Accept-Language': 'en-US' }
+      }),
+      testEnv
+    );
+
+    const forwarded = testEnv.PUBLIC.fetch.mock.calls[0][0] as Request;
+    expect(new URL(forwarded.url).pathname).toBe('/acme');
+    expect(forwarded.headers.get('Cookie')).toBe('NEXT_LOCALE=en');
+    expect(forwarded.headers.get('Accept-Language')).toBe('en-US');
+  });
+
+  it('forwards a legacy /en URL to PUBLIC untouched so it can redirect', async () => {
+    const testEnv = env();
+    await worker.fetch(get('/en/cbb'), testEnv);
+
+    const forwarded = testEnv.PUBLIC.fetch.mock.calls[0][0] as Request;
+    expect(new URL(forwarded.url).pathname).toBe('/en/cbb');
   });
 });
