@@ -10,21 +10,17 @@
     // Which paths reach the Worker; the rest is served from the CRA build for
     // free. src/EdgeRouting/routes.ts decides what actually gets rewritten, so
     // listing too much only costs invocations — listing too little is a bug.
-    // `*` spans `/`, so "/*/*" already covers every deeper path.
+    // `*` spans `/`, so "/*" covers every path, one segment or many.
     "run_worker_first": [
-      "/*/*",
+      "/*",
       "!/static/*",
-      // "/*/*" does not reach single-segment paths
-      "/",
-      "/About",
-      "/Faq",
-      "/Contact",
-      "/PrivacyPolicyBR",
-      "/TermsBR",
-      "/robots.txt",
-      "/sitemap.xml",
-      "/pt",
-      "/en"
+      "!/favicon.ico",
+      "!/ios-icon.png",
+      "!/logo-with-name-black.png",
+      "!/manifest.json",
+      "!/asset-manifest.json",
+      "!/service-worker.js",
+      "!/index.html"
     ]
   },
   "services": [

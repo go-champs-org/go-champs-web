@@ -1,7 +1,7 @@
 import { buildPageMetadata, SITE_URL } from './metadata';
 
 describe('buildPageMetadata', () => {
-  it('points the canonical URL at the current locale', () => {
+  it('points the canonical URL at the one locale-free URL', () => {
     const metadata = buildPageMetadata({
       locale: 'en',
       path: '/about',
@@ -9,10 +9,10 @@ describe('buildPageMetadata', () => {
       description: 'Who we are'
     });
 
-    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/en/about`);
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/about`);
   });
 
-  it('declares one hreflang per locale plus x-default, default locale unprefixed', () => {
+  it('declares no per-language alternates', () => {
     const metadata = buildPageMetadata({
       locale: 'pt',
       path: '/faq',
@@ -20,11 +20,7 @@ describe('buildPageMetadata', () => {
       description: 'Questions'
     });
 
-    expect(metadata.alternates?.languages).toEqual({
-      pt: `${SITE_URL}/faq`,
-      en: `${SITE_URL}/en/faq`,
-      'x-default': `${SITE_URL}/faq`
-    });
+    expect(metadata.alternates).toEqual({ canonical: `${SITE_URL}/faq` });
   });
 
   it('keeps the home page free of a locale prefix and trailing slash', () => {

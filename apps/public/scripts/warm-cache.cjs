@@ -2,7 +2,7 @@
 const WARM_LIMIT = 50;
 const CONCURRENCY = 2;
 
-const homeUrls = baseUrl => [`${baseUrl}/`, `${baseUrl}/en`];
+const homeUrls = baseUrl => [`${baseUrl}/`];
 
 const viewUrls = (baseUrl, view) => [
   `${baseUrl}/${view.tournament.organization.slug}`,
@@ -20,6 +20,17 @@ const warmCacheUrls = (baseUrl, recentlyViews, limit) =>
     ])
   ].slice(0, limit);
 
+const PT = ['pt', {}];
+const EN = ['en', { Cookie: 'NEXT_LOCALE=en' }];
+
+const pathSegments = url => url.replace(/^https?:\/\/[^/]+/, '').split('/').filter(Boolean);
+
+// en renders only for the home and org pages: a cold cache after a deploy leaves little CPU budget for more.
+const localesFor = url => (pathSegments(url).length <= 1 ? [PT, EN] : [PT]);
+
+const warmTargets = urls =>
+  urls.flatMap(url => localesFor(url).map(([locale, headers]) => ({ url, locale, headers })));
+
 const loadRecentlyViews = async apiHost => {
   try {
     const response = await fetch(new URL('v1/recently-view', apiHost));
@@ -30,9 +41,9 @@ const loadRecentlyViews = async apiHost => {
   }
 };
 
-const hit = async url => {
+const hit = async ({ url, headers }) => {
   try {
-    const response = await fetch(url, { headers: { 'User-Agent': 'gochamps-cache-warmer' } });
+    const response = await fetch(url, { headers: { 'User-Agent': 'gochamps-cache-warmer', ...headers } });
     await response.arrayBuffer();
     return response.status;
   } catch {
@@ -40,10 +51,10 @@ const hit = async url => {
   }
 };
 
-const warm = async url => {
-  const first = await hit(url);
-  const status = first === 200 ? first : await hit(url);
-  console.log(`${status} ${url}`);
+const warm = async target => {
+  const first = await hit(target);
+  const status = first === 200 ? first : await hit(target);
+  console.log(`${status} ${target.locale} ${target.url}`);
 };
 
 const chunks = (items, size) =>
@@ -53,14 +64,21 @@ const chunks = (items, size) =>
     []
   );
 
+// Both locales of a page issue the same upstream fetches, so they must not render at the same time.
+const warmUrl = warmTarget => url =>
+  warmTargets([url]).reduce((previous, target) => previous.then(() => warmTarget(target)), Promise.resolve());
+
+const warmAll = (urls, warmTarget, concurrency) =>
+  chunks(urls, concurrency).reduce(
+    (previous, group) => previous.then(() => Promise.all(group.map(warmUrl(warmTarget)))),
+    Promise.resolve()
+  );
+
 const main = async () => {
   const baseUrl = process.env.BASE_URL.replace(/\/$/, '');
   const urls = warmCacheUrls(baseUrl, await loadRecentlyViews(process.env.API_HOST), WARM_LIMIT);
 
-  await chunks(urls, CONCURRENCY).reduce(
-    (previous, group) => previous.then(() => Promise.all(group.map(warm))),
-    Promise.resolve()
-  );
+  await warmAll(urls, warm, CONCURRENCY);
 };
 
 if (require.main === module) {
@@ -68,4 +86,4 @@ if (require.main === module) {
   main().catch(error => console.error(error));
 }
 
-module.exports = { warmCacheUrls, WARM_LIMIT };
+module.exports = { warmCacheUrls, warmTargets, warmAll, WARM_LIMIT };

@@ -81,7 +81,7 @@ export default async function RootPage({
         {/* The CMS keeps this sidebar off small screens, where the tournament
             grid already fills the viewport. */}
         <aside className="hidden w-full md:sticky md:top-[calc(var(--navbar-height)+1rem)] md:block md:w-[280px] md:flex-shrink-0">
-          <OrganizationsSidebar locale={locale} organizations={organizations} />
+          <OrganizationsSidebar organizations={organizations} />
         </aside>
         <div className="w-full min-w-0 flex-1">
           <SearchIsland cmsUrl={CMS_URL} recentlyViews={recentlyViews} />

@@ -2,12 +2,20 @@
 import worker from '../../worker/index';
 import { BLOCKED_ROBOTS_TXT } from './routes';
 
-const env = (overrides = {}) => ({
-  ASSETS: { fetch: jest.fn(async () => new Response('spa', { status: 200 })) },
-  PUBLIC: {
+const env = (overrides = {}, publicHeaders: Record<string, string> = {}) => ({
+  ASSETS: {
     fetch: jest.fn(
       async () =>
-        new Response('public', { status: 201, headers: { 'X-Test': 'kept' } })
+        new Response('spa', { status: 200, headers: { Vary: 'Origin' } })
+    )
+  },
+  PUBLIC: {
+    fetch: jest.fn(
+      async (_request: Request) =>
+        new Response('public', {
+          status: 201,
+          headers: { 'X-Test': 'kept', ...publicHeaders }
+        })
     )
   },
   ...overrides
@@ -96,5 +104,119 @@ describe('worker without BLOCK_CRAWLERS', () => {
     const response = await worker.fetch(get('/fberj/adulto'), testEnv);
 
     expect(response.headers.get('X-Robots-Tag')).toBeNull();
+  });
+
+  it('hands the visitor locale signals to PUBLIC when it rewrites a path', async () => {
+    const testEnv = env();
+    await worker.fetch(
+      new Request('https://new-staging.go-champs.com/Organization/acme', {
+        headers: { Cookie: 'NEXT_LOCALE=en', 'Accept-Language': 'en-US' }
+      }),
+      testEnv
+    );
+
+    const forwarded = testEnv.PUBLIC.fetch.mock.calls[0][0] as Request;
+    expect(new URL(forwarded.url).pathname).toBe('/acme');
+    expect(forwarded.headers.get('Cookie')).toBe('NEXT_LOCALE=en');
+    expect(forwarded.headers.get('Accept-Language')).toBe('en-US');
+  });
+
+  it('forwards a legacy /en URL to PUBLIC untouched so it can redirect', async () => {
+    const testEnv = env();
+    await worker.fetch(get('/en/cbb'), testEnv);
+
+    const forwarded = testEnv.PUBLIC.fetch.mock.calls[0][0] as Request;
+    expect(new URL(forwarded.url).pathname).toBe('/en/cbb');
+  });
+});
+
+describe('Vary on responses relayed from PUBLIC', () => {
+  const nextVary = {
+    Vary: 'rsc, next-router-state-tree',
+    'Content-Type': 'text/html; charset=utf-8'
+  };
+
+  it('extends the Vary of a rewritten path with the locale signals', async () => {
+    const response = await worker.fetch(
+      get('/Organization/acme'),
+      env({}, nextVary)
+    );
+
+    expect(response.headers.get('Vary')).toBe(
+      'rsc, next-router-state-tree, Cookie, Accept-Language'
+    );
+  });
+
+  it('extends the Vary of a passthrough path with the locale signals', async () => {
+    const response = await worker.fetch(
+      get('/fberj/adulto/jogos/x'),
+      env({}, nextVary)
+    );
+
+    expect(response.headers.get('Vary')).toBe(
+      'rsc, next-router-state-tree, Cookie, Accept-Language'
+    );
+  });
+
+  it('sets the locale signals when PUBLIC sent no Vary', async () => {
+    const response = await worker.fetch(
+      get('/Organization/acme'),
+      env({}, { 'Content-Type': 'text/html' })
+    );
+
+    expect(response.headers.get('Vary')).toBe('Cookie, Accept-Language');
+  });
+
+  it('keeps the rest of the PUBLIC response intact', async () => {
+    const response = await worker.fetch(
+      get('/fberj/adulto/jogos/x'),
+      env({}, nextVary)
+    );
+
+    expect(response.status).toBe(201);
+    expect(await response.text()).toBe('public');
+    expect(response.headers.get('X-Test')).toBe('kept');
+  });
+
+  it('extends the Vary of an RSC payload', async () => {
+    const response = await worker.fetch(
+      get('/fberj/adulto/jogos/x'),
+      env({}, { Vary: 'rsc', 'Content-Type': 'text/x-component' })
+    );
+
+    expect(response.headers.get('Vary')).toBe('rsc, Cookie, Accept-Language');
+  });
+
+  it('leaves a static asset from PUBLIC with its own Vary', async () => {
+    const response = await worker.fetch(
+      get('/_next/static/chunks/main.js'),
+      env(
+        {},
+        { Vary: 'Accept-Encoding', 'Content-Type': 'application/javascript' }
+      )
+    );
+
+    expect(response.headers.get('Vary')).toBe('Accept-Encoding');
+  });
+
+  it('adds no Vary to a PUBLIC response that is not a page', async () => {
+    const response = await worker.fetch(
+      get('/api/search'),
+      env({}, { 'Content-Type': 'application/json' })
+    );
+
+    expect(response.headers.get('Vary')).toBeNull();
+  });
+
+  it('does not touch the Vary of a CMS route served from ASSETS', async () => {
+    const response = await worker.fetch(get('/Account'), env());
+
+    expect(response.headers.get('Vary')).toBe('Origin');
+  });
+
+  it('does not add a Vary to the edge 404', async () => {
+    const response = await worker.fetch(get('/resources/.env'), env());
+
+    expect(response.headers.get('Vary')).toBeNull();
   });
 });

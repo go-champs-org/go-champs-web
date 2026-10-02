@@ -2,12 +2,14 @@ import { readdirSync } from 'fs';
 import path from 'path';
 import {
   BLOCKED_ROBOTS_TXT,
+  LOCALE_VARY,
   NO_INDEX_HEADER,
   PUBLIC_API_ROUTES,
   blocksCrawlers,
   isJunkPath,
   isPublicPassthroughPath,
-  resolveLocaleFromCookieHeader,
+  mergeVary,
+  varyByLocale,
   resolvePublicPath
 } from './routes';
 
@@ -124,37 +126,9 @@ describe('PUBLIC_API_ROUTES', () => {
   });
 });
 
-describe('resolveLocaleFromCookieHeader', () => {
-  it('reads NEXT_LOCALE from the Cookie header', () => {
-    expect(resolveLocaleFromCookieHeader('NEXT_LOCALE=en')).toBe('en');
-  });
-
-  it('reads NEXT_LOCALE alongside other cookies, in either position', () => {
-    expect(
-      resolveLocaleFromCookieHeader('foo=bar; NEXT_LOCALE=en; baz=qux')
-    ).toBe('en');
-  });
-
-  it('defaults to pt when there is no Cookie header', () => {
-    expect(resolveLocaleFromCookieHeader(null)).toBe('pt');
-  });
-
-  it('defaults to pt when NEXT_LOCALE is absent', () => {
-    expect(resolveLocaleFromCookieHeader('foo=bar')).toBe('pt');
-  });
-
-  it('defaults to pt for a value that is not a supported locale', () => {
-    // A stale/tampered cookie must not route to a locale apps/public 404s on.
-    expect(resolveLocaleFromCookieHeader('NEXT_LOCALE=fr')).toBe('pt');
-  });
-});
-
 describe('resolvePublicPath', () => {
   describe('routes migrated to apps/public', () => {
     it.each([
-      // apps/public's localePrefix: 'as-needed' never shows pt in the URL —
-      // its own middleware would redirect /pt/* back to the bare path, so
-      // the default locale must never appear in the rewritten path either.
       ['/', '/'],
       ['/About', '/about'],
       ['/Faq', '/faq'],
@@ -181,6 +155,14 @@ describe('resolvePublicPath', () => {
       ['/acme/', '/acme']
     ])('rewrites %s to %s', (cmsPath, publicPath) => {
       expect(resolvePublicPath(cmsPath)).toBe(publicPath);
+    });
+
+    it('never adds a locale prefix, whatever the visitor speaks', () => {
+      expect(resolvePublicPath('/About')).toBe('/about');
+      expect(resolvePublicPath('/Organization/acme')).toBe('/acme');
+      expect(resolvePublicPath('/acme/liga-2026/GameView/game-1')).toBe(
+        '/acme/liga-2026/jogos/game-1'
+      );
     });
   });
 
@@ -220,24 +202,6 @@ describe('resolvePublicPath', () => {
     it('still routes a bare org slug that merely resembles a reserved segment', () => {
       expect(resolvePublicPath('/organizational')).toBe('/organizational');
       expect(resolvePublicPath('/invites')).toBe('/invites');
-    });
-  });
-
-  describe('locale', () => {
-    it('defaults to pt when no locale is given', () => {
-      expect(resolvePublicPath('/About')).toBe('/about');
-    });
-
-    it('rewrites into the given locale instead of the default', () => {
-      expect(resolvePublicPath('/About', 'en')).toBe('/en/about');
-      expect(resolvePublicPath('/', 'en')).toBe('/en');
-      expect(resolvePublicPath('/Organization/acme', 'en')).toBe('/en/acme');
-      expect(resolvePublicPath('/acme/liga-2026', 'en')).toBe(
-        '/en/acme/liga-2026'
-      );
-      expect(resolvePublicPath('/acme/liga-2026/GameView/game-1', 'en')).toBe(
-        '/en/acme/liga-2026/jogos/game-1'
-      );
     });
   });
 
@@ -283,7 +247,7 @@ describe('resolvePublicPath', () => {
     it('does not let the bare-org rule swallow single-segment static files', () => {
       // Not in CMS_RESERVED_SEGMENTS and not in PASSTHROUGH_EXACT, but not a
       // valid org slug either (mustBeSlug's shape) — must stay on the CMS so
-      // env.ASSETS serves them, not get rewritten to /pt/favicon.ico.
+      // env.ASSETS serves them, not get rewritten to /favicon.ico.
       expect(resolvePublicPath('/favicon.ico')).toBeNull();
       expect(resolvePublicPath('/manifest.json')).toBeNull();
       expect(resolvePublicPath('/logo192.png')).toBeNull();
@@ -314,5 +278,62 @@ describe('crawler blocking', () => {
       name: 'X-Robots-Tag',
       value: 'noindex, nofollow'
     });
+  });
+});
+
+describe('mergeVary', () => {
+  it('exposes the locale signals public pages vary by', () => {
+    expect(LOCALE_VARY).toEqual(['Cookie', 'Accept-Language']);
+  });
+
+  it('keeps the existing values in order and appends the new ones', () => {
+    expect(mergeVary('rsc, next-router-state-tree', LOCALE_VARY)).toBe(
+      'rsc, next-router-state-tree, Cookie, Accept-Language'
+    );
+  });
+
+  it.each<[string | null]>([[null], [''], ['  ']])(
+    'starts from %p',
+    existing => {
+      expect(mergeVary(existing, LOCALE_VARY)).toBe('Cookie, Accept-Language');
+    }
+  );
+
+  it('does not repeat a value already present, ignoring case', () => {
+    expect(mergeVary('rsc, cookie', LOCALE_VARY)).toBe(
+      'rsc, cookie, Accept-Language'
+    );
+  });
+
+  it('returns the existing value when everything is already present', () => {
+    expect(mergeVary('accept-language, COOKIE', LOCALE_VARY)).toBe(
+      'accept-language, COOKIE'
+    );
+  });
+
+  it('leaves Vary: * untouched', () => {
+    expect(mergeVary('*', LOCALE_VARY)).toBe('*');
+  });
+});
+
+describe('varyByLocale', () => {
+  it.each([
+    ['text/html; charset=utf-8'],
+    ['TEXT/HTML'],
+    ['text/x-component'],
+    ['text/x-component; charset=utf-8']
+  ])('is true for %s', contentType => {
+    expect(varyByLocale(contentType)).toBe(true);
+  });
+
+  it.each<[string | null]>([
+    ['application/javascript'],
+    ['image/png'],
+    ['text/plain; charset=utf-8'],
+    ['application/json'],
+    ['text/css'],
+    [null]
+  ])('is false for %p', contentType => {
+    expect(varyByLocale(contentType)).toBe(false);
   });
 });

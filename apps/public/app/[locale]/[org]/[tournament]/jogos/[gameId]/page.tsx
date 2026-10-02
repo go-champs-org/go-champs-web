@@ -21,7 +21,7 @@ import { FaFileAlt, FaTable } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 import { RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
-import { localePath } from '@/src/i18n/localePath';
+import { publicPath } from '@/src/i18n/publicPath';
 import {
   boxScoreColumnViews,
   boxScoreRows,
@@ -476,9 +476,9 @@ export default async function GamePage({
   const names = gameTeamNames(game, t('undecidedTeam'));
   const venue = gameVenue(game.location, game.city);
   const isLive = isLiveGame(game.liveState);
-  const playerHrefBase = localePath(locale, `/${org}/${tournament}/jogadores/`);
+  const playerHrefBase = publicPath(`/${org}/${tournament}/jogadores/`);
   const teamHref = (teamId: string): string =>
-    teamId ? localePath(locale, `/${org}/${tournament}/times/${teamId}`) : '';
+    teamId ? publicPath(`/${org}/${tournament}/times/${teamId}`) : '';
   const backLabel = tournamentLinkLabel(tournamentEntity, t('backToTournament'));
 
   // The whole box score decision resolves here, so the page below only asks
@@ -504,7 +504,7 @@ export default async function GamePage({
         schema={gameStructuredData({
           game,
           names,
-          url: pageUrl(locale, gamePagePath(routeParams)),
+          url: pageUrl(gamePagePath(routeParams)),
           venue
         })}
       />
@@ -512,7 +512,7 @@ export default async function GamePage({
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Link
-            href={localePath(locale, `/${org}/${tournament}`)}
+            href={publicPath(`/${org}/${tournament}`)}
             className="text-sm font-semibold text-primary-dark hover:underline"
           >
             {backLabel}
