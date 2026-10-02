@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
+import { ManageButton } from '@/src/components/ManageButton';
+import { organizationIdOf } from '@/src/auth/organizationIdOf';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
   getGame,
@@ -458,7 +460,8 @@ export default async function GamePage({
     teamStatsLogs,
     t,
     tBoxScore,
-    tTeam
+    tTeam,
+    tCommon
   ] = await Promise.all([
     loadGame(gameId),
     loadTournament(org, tournament),
@@ -466,7 +469,8 @@ export default async function GamePage({
     loadTeamStatsLogs(gameId),
     getTranslations('game'),
     getTranslations('boxScore'),
-    getTranslations('team')
+    getTranslations('team'),
+    getTranslations('common')
   ]);
 
   if (!game) notFound();
@@ -518,13 +522,21 @@ export default async function GamePage({
             {backLabel}
           </Link>
 
-          <GameAssetLinks
-            assets={game.assets}
-            labels={{
-              assetFibaScoresheet: t('assetFibaScoresheet'),
-              assetFibaBoxscore: t('assetFibaBoxscore')
-            }}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <GameAssetLinks
+              assets={game.assets}
+              labels={{
+                assetFibaScoresheet: t('assetFibaScoresheet'),
+                assetFibaBoxscore: t('assetFibaBoxscore')
+              }}
+            />
+            <ManageButton
+              organizationId={organizationIdOf(tournamentEntity)}
+              org={org}
+              tournament={tournament}
+              label={tCommon('manage')}
+            />
+          </div>
         </div>
 
         <GameCard

@@ -37,7 +37,12 @@ import {
   LOCAL_STORAGE_TOKEN_KEY,
   LOCAL_STORAGE_USERNAME_KEY
 } from './constants';
-import { setUsernameCookie, clearUsernameCookie } from './cookies';
+import {
+  setUsernameCookie,
+  clearUsernameCookie,
+  setOrganizationIdsCookie,
+  clearOrganizationIdsCookie
+} from './cookies';
 
 export const signIn = (
   user: SignInEntity,
@@ -190,6 +195,7 @@ export const signOut = () => {
   localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
   localStorage.removeItem(LOCAL_STORAGE_USERNAME_KEY);
   clearUsernameCookie();
+  clearOrganizationIdsCookie();
 };
 
 export const accountReset = (
@@ -241,6 +247,7 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
       LOCAL_STORAGE_ORGANIZATIONS_KEY,
       organizationIds.toString()
     );
+    setOrganizationIdsCookie(organizationIds);
     dispatch(getAccountSuccess(response));
   } catch (err) {
     dispatch(getAccountFailure(err));
@@ -248,5 +255,6 @@ export const getAccount = (username: string) => async (dispatch: Dispatch) => {
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     localStorage.removeItem(LOCAL_STORAGE_USERNAME_KEY);
     clearUsernameCookie();
+    clearOrganizationIdsCookie();
   }
 };

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CMS_URL } from '@/src/config/cms';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
+import { ManageButton } from '@/src/components/ManageButton';
+import { organizationIdOf } from '@/src/auth/organizationIdOf';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -118,8 +120,14 @@ const sportSlugOf = (
 // tournament leaves the banner standing with an empty stats section.
 const tournamentFields = (
   tournament: TournamentWithTeamsEntity | null
-): { tournamentName: string; playerStats: PlayerStatEntity[]; phases: PhaseEntity[] } => ({
+): {
+  tournamentName: string;
+  organizationId: string;
+  playerStats: PlayerStatEntity[];
+  phases: PhaseEntity[];
+} => ({
   tournamentName: tournament ? tournament.name : '',
+  organizationId: organizationIdOf(tournament),
   playerStats: tournament ? tournament.playerStats : [],
   phases: tournament ? tournament.phases : []
 });
@@ -127,6 +135,7 @@ const tournamentFields = (
 interface PlayerView {
   player: PlayerEntity;
   tournamentName: string;
+  organizationId: string;
   teamName: string;
   sport: SportEntity | null;
   logs: PlayerStatsLogEntity[];
@@ -402,11 +411,12 @@ export default async function PlayerPage({
   const { locale, org, tournament: tournamentSlug, playerId } = routeParams;
   setRequestLocale(locale);
 
-  const [view, t, tTeam, tPhase] = await Promise.all([
+  const [view, t, tTeam, tPhase, tCommon] = await Promise.all([
     loadPlayerView(org, tournamentSlug, playerId),
     getTranslations('player'),
     getTranslations('team'),
-    getTranslations('phase')
+    getTranslations('phase'),
+    getTranslations('common')
   ]);
 
   const tournamentLabel =
@@ -441,13 +451,21 @@ export default async function PlayerPage({
             tournamentLabel={tournamentLabel}
             currentLabel={t('profile')}
           />
-          <TournamentQrCode
-            path={`/${org}/${tournamentSlug}`}
-            openLabel={tPhase('shareQrCode')}
-            closeLabel={tPhase('closeQrCode')}
-            caption={tournamentLabel}
-            scanLabel={tPhase('scanQrCode')}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <ManageButton
+              organizationId={view.organizationId}
+              org={org}
+              tournament={tournamentSlug}
+              label={tCommon('manage')}
+            />
+            <TournamentQrCode
+              path={`/${org}/${tournamentSlug}`}
+              openLabel={tPhase('shareQrCode')}
+              closeLabel={tPhase('closeQrCode')}
+              caption={tournamentLabel}
+              scanLabel={tPhase('scanQrCode')}
+            />
+          </div>
         </div>
 
         <PlayerBanner

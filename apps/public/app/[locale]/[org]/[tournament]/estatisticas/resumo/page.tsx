@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ManageButton } from '@/src/components/ManageButton';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -265,9 +266,10 @@ export default async function PlayerStatsSummaryPage({
   const { locale, org, tournament: tournamentSlug } = routeParams;
   setRequestLocale(locale);
 
-  const [view, t] = await Promise.all([
+  const [view, t, tCommon] = await Promise.all([
     loadPlayerStatsSummaryView(org, tournamentSlug),
-    getTranslations('playerStats')
+    getTranslations('playerStats'),
+    getTranslations('common')
   ]);
 
   const { tournament, tables } = view;
@@ -290,12 +292,20 @@ export default async function PlayerStatsSummaryPage({
       className="bg-background px-4 py-6 md:px-6 md:py-8"
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
-        <Link
-          href={tournamentHref}
-          className="text-sm font-semibold text-primary-dark hover:underline"
-        >
-          {tournament.name}
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Link
+            href={tournamentHref}
+            className="text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {tournament.name}
+          </Link>
+          <ManageButton
+            organizationId={tournament.organization.id}
+            org={org}
+            tournament={tournamentSlug}
+            label={tCommon('manage')}
+          />
+        </div>
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">

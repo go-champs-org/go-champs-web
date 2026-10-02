@@ -16,3 +16,15 @@ export const setUsernameCookie = (username: string) => {
 export const clearUsernameCookie = () => {
   document.cookie = `${USERNAME_COOKIE_NAME}=; path=/; max-age=0; samesite=lax`;
 };
+
+export const ORGANIZATIONS_COOKIE_NAME = 'gc_organizations';
+
+export const setOrganizationIdsCookie = (organizationIds: string[]) => {
+  document.cookie = `${ORGANIZATIONS_COOKIE_NAME}=${encodeURIComponent(
+    organizationIds.join(',')
+  )}; path=/; max-age=${USERNAME_COOKIE_MAX_AGE_SECONDS}; samesite=lax`;
+};
+
+export const clearOrganizationIdsCookie = () => {
+  document.cookie = `${ORGANIZATIONS_COOKIE_NAME}=; path=/; max-age=0; samesite=lax`;
+};

@@ -26,6 +26,7 @@ import { teamDisplayName } from '@/src/games/gameTeams';
 import { toPagerDays } from '@/src/games/pagerGames';
 import { GamesPager } from './GamesPager';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
+import { ManageButton } from '@/src/components/ManageButton';
 
 export interface PhaseViewParams {
   locale: string;
@@ -793,6 +794,7 @@ interface TournamentTopSectionProps {
   teamsLabel: string;
   phasesLabel: string;
   advancedStatsLabel: string;
+  manageLabel: string;
   qrLabels: { open: string; close: string; scan: string };
 }
 
@@ -809,6 +811,7 @@ function TournamentTopSection({
   teamsLabel,
   phasesLabel,
   advancedStatsLabel,
+  manageLabel,
   qrLabels
 }: TournamentTopSectionProps) {
   return (
@@ -830,6 +833,12 @@ function TournamentTopSection({
                 label={advancedStatsLabel}
               />
             )}
+            <ManageButton
+              organizationId={tournament.organization.id}
+              org={routeParams.org}
+              tournament={routeParams.tournament}
+              label={manageLabel}
+            />
             <TournamentQrCode
               path={`/${routeParams.org}/${routeParams.tournament}`}
               openLabel={qrLabels.open}
@@ -853,12 +862,13 @@ export async function PhaseView({
   const { locale, org, tournament: tournamentSlug, phaseId } = routeParams;
   setRequestLocale(locale);
 
-  const [phase, tournament, games, tPhase, tGame] = await Promise.all([
+  const [phase, tournament, games, tPhase, tGame, tCommon] = await Promise.all([
     loadPhase(phaseId),
     loadTournament(org, tournamentSlug),
     loadGames(phaseId),
     getTranslations('phase'),
-    getTranslations('game')
+    getTranslations('game'),
+    getTranslations('common')
   ]);
 
   if (!phase) notFound();
@@ -880,6 +890,7 @@ export async function PhaseView({
             teamsLabel={tPhase('teamsCount')}
             phasesLabel={tPhase('phasesCount')}
             advancedStatsLabel={tPhase('advancedStats')}
+            manageLabel={tCommon('manage')}
             qrLabels={{
               open: tPhase('shareQrCode'),
               close: tPhase('closeQrCode'),
