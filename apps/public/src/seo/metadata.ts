@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { routing } from '../i18n/routing';
 
 // Netlify serves the public site from the same domain as the CMS (see the
 // _redirects work in the rollout plan), so the canonical host is the live
@@ -26,17 +25,7 @@ const OPEN_GRAPH_LOCALES: Record<string, string> = {
   en: 'en_US'
 };
 
-// Mirrors routing.ts's localePrefix: 'as-needed' — the default locale (pt)
-// is never in the URL, so its canonical/alternate must match too.
-export const pageUrl = (locale: string, path: string) =>
-  locale === routing.defaultLocale
-    ? `${SITE_URL}${path}`
-    : `${SITE_URL}/${locale}${path}`;
-
-export const localeUrls = (path: string) =>
-  Object.fromEntries(
-    routing.locales.map(locale => [locale, pageUrl(locale, path)])
-  );
+export const pageUrl = (path: string) => `${SITE_URL}${path}`;
 
 interface PageMetadataInput {
   locale: string;
@@ -58,19 +47,13 @@ export const buildPageMetadata = ({
   description,
   noIndex = false
 }: PageMetadataInput): Metadata => {
-  const url = pageUrl(locale, path);
+  const url = pageUrl(path);
 
   return {
     ...robotsField(noIndex),
     title,
     description,
-    alternates: {
-      canonical: url,
-      languages: {
-        ...localeUrls(path),
-        'x-default': pageUrl(routing.defaultLocale, path)
-      }
-    },
+    alternates: { canonical: url },
     openGraph: {
       type: 'website',
       url,

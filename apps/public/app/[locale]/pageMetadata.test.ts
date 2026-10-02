@@ -16,7 +16,7 @@ const PAGES: Array<{ path: string; load: () => Promise<unknown> }> = [
 
 describe('page metadata', () => {
   it.each(PAGES)(
-    'gives $path a canonical URL, hreflang pair and a description',
+    'gives $path a locale-free canonical URL and a description',
     async ({ path, load }) => {
       const pageModule = (await load()) as {
         generateMetadata: (args: {
@@ -28,14 +28,11 @@ describe('page metadata', () => {
         params: Promise.resolve({ locale: 'pt' })
       })) as {
         description?: string;
-        alternates?: {
-          canonical?: string;
-          languages?: Record<string, string>;
-        };
+        alternates?: { canonical?: string; languages?: unknown };
       };
 
       expect(metadata.alternates?.canonical).toBe(`${SITE_URL}${path}`);
-      expect(metadata.alternates?.languages?.en).toBe(`${SITE_URL}/en${path}`);
+      expect(metadata.alternates?.languages).toBeUndefined();
       expect(metadata.description).toBeTruthy();
     }
   );

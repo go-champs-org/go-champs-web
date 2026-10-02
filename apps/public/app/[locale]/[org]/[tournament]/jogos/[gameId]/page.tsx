@@ -504,7 +504,7 @@ export default async function GamePage({
         schema={gameStructuredData({
           game,
           names,
-          url: pageUrl(locale, gamePagePath(routeParams)),
+          url: pageUrl(gamePagePath(routeParams)),
           venue
         })}
       />
