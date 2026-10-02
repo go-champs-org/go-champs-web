@@ -81,8 +81,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.1
       moment:
-        specifier: ^2.30.1
-        version: 2.30.1
+        specifier: ^2.31.0
+        version: 2.31.0
       phoenix:
         specifier: ^1.8.7
         version: 1.8.9
@@ -91,7 +91,7 @@ importers:
         version: 16.14.0
       react-datetime:
         specifier: ^2.16.3
-        version: 2.16.3(@types/react@16.8.14)(moment@2.30.1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
+        version: 2.16.3(@types/react@16.8.14)(moment@2.31.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       react-dnd:
         specifier: ^9.3.4
         version: 9.5.1(@types/react@16.8.14)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
@@ -7910,8 +7910,8 @@ packages:
   mnemonist@0.38.3:
     resolution: {integrity: sha512-2K9QYubXx/NAjv4VLq1d1Ly8pWNC5L3BrixtdkyTegXWJIqY+zLNDhhX/A+ZwWt70tB1S8H4BE8FLYEFyNoOBw==}
 
-  moment@2.30.1:
-    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
+  moment@2.31.0:
+    resolution: {integrity: sha512-0acOTfMiWOheYS4eoWb80yYMb/JLvVv9SHbs2PehaDzfUG0Bw855SKyk0IKTnPGa5+U2bmi3W68l1+sGLX/pvw==}
 
   move-concurrently@1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
@@ -20539,7 +20539,7 @@ snapshots:
     dependencies:
       obliterator: 1.6.1
 
-  moment@2.30.1: {}
+  moment@2.31.0: {}
 
   move-concurrently@1.0.1:
     dependencies:
@@ -21729,11 +21729,11 @@ snapshots:
       prop-types: 15.8.1
       react: 16.14.0
 
-  react-datetime@2.16.3(@types/react@16.8.14)(moment@2.30.1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
+  react-datetime@2.16.3(@types/react@16.8.14)(moment@2.31.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
     dependencies:
       '@types/react': 16.8.14
       create-react-class: 15.7.0
-      moment: 2.30.1
+      moment: 2.31.0
       object-assign: 3.0.0
       prop-types: 15.8.1
       react: 16.14.0
