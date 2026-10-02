@@ -7,7 +7,10 @@ describe('legacyLocaleRedirect', () => {
     ['/en', '', 'en', '/'],
     ['/pt', '', 'pt', '/'],
     ['/en/', '', 'en', '/'],
-    ['/en/cbb', '?tab=jogos', 'en', '/cbb?tab=jogos']
+    ['/en/cbb', '?tab=jogos', 'en', '/cbb?tab=jogos'],
+    ['/en//host', '', 'en', '/host'],
+    ['/en/\\host', '', 'en', '/host'],
+    ['/en///', '', 'en', '/']
   ])('sends %s%s to the clean URL', (pathname, search, locale, location) => {
     expect(legacyLocaleRedirect(pathname, search)).toEqual({
       locale,
