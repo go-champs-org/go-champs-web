@@ -8,6 +8,11 @@ export default {
     archive: 'Archive',
     unarchive: 'Unarchive',
     aboutUs: 'About us',
+    knowGoChamps: 'Meet Go Champs',
+    footerTagline:
+      'The home of sport. Digital scoresheets, brackets and real-time stats for competitions from amateur to semi-pro.',
+    footerPlatform: 'Platform',
+    footerApiDocumentation: 'API documentation',
     aboutUsParagraph1:
       'Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.',
     aboutUsParagraph2:
@@ -292,6 +297,135 @@ export default {
     password: 'Password',
     pendingInvites: 'Pending invites',
     plan: 'Plan',
+    aboutPage: {
+      heroEyebrow: 'About Go Champs',
+      heroTitle: 'Every competition deserves its place.',
+      heroDescription:
+        'Go Champs is a platform for organizers to share their competitions and for everyone to find the competitions they want to follow.',
+      heroLiveLabel: 'Live · U-17 final',
+      findTournaments: 'Find competitions',
+      manifestoLine1: 'The game happens on the court.',
+      manifestoLine2: 'The connection continues here.',
+      manifestoDescription:
+        'We started with 5×5 basketball, bringing together those who organize, play and follow.',
+      missionEyebrow: 'What drives us',
+      missionTitle: 'Give the competition visibility.',
+      missionTitleHighlight: 'And everyone who is part of it.',
+      missionParagraph1:
+        'Behind every game there is an organization, a team and a lot of people involved. We want the information and stories of these competitions to reach their audience, from amateur to semi-pro.',
+      missionParagraph2:
+        'The portal is the showcase of everyone on the court. Stats and scoresheet services help record every game, as each competition needs.',
+      values: {
+        visibility: {
+          title: 'Visibility',
+          description: 'Each competition with its own identity, easy to find.'
+        },
+        information: {
+          title: 'Information',
+          description: 'Stats and the scoresheet shape the record of the game.'
+        },
+        connection: {
+          title: 'Connection',
+          description:
+            'Organizers, athletes, officials and fans in the same experience.'
+        }
+      },
+      audienceEyebrow: 'For those who make the game',
+      audienceTitle: 'Find your place in Go Champs.',
+      audiences: {
+        organizers: {
+          label: 'Organizers',
+          title: 'You organize',
+          description:
+            'Present your competition and discover the services for every game.'
+        },
+        athletes: {
+          label: 'Athletes',
+          title: 'You play',
+          description:
+            'Find your competition, check the published information and follow your stats.'
+        },
+        fans: {
+          label: 'Fans',
+          title: 'You cheer',
+          description:
+            'Follow your team with an up-to-date schedule, results and brackets.'
+        }
+      },
+      trustEyebrow: 'Trusted by organizers',
+      trustTitle: 'From the neighborhood tournament to the semi-pro league.',
+      trustLogosTitle: 'Organizations already on the court with Go Champs',
+      metrics: {
+        organizations: 'Organizations',
+        tournaments: 'Competitions',
+        teams: 'Teams',
+        athletes: 'Athletes',
+        games: 'Games'
+      },
+      platformEyebrow: 'The platform',
+      platformTitle:
+        'Everything a competition needs, from the tip-off to the result.',
+      platformDescription: 'Forget messy spreadsheets and lost stats.',
+      platform: {
+        scoresheet: {
+          title: 'Digital scoresheet',
+          description: 'The game recorded right from the table, play by play.',
+          previewTitle: 'Scoresheet · 3rd quarter',
+          previewStatus: 'recording',
+          previewFoul: 'Foul'
+        },
+        calendar: {
+          title: 'Up-to-date schedule',
+          description: 'Dates, times and venues of every game in one place.',
+          previewTitle: 'Saturday, March 14'
+        },
+        brackets: {
+          title: 'Brackets and standings',
+          description: 'Tables and playoffs that update with every result.',
+          previewFinal: 'Final'
+        },
+        liveResults: {
+          title: 'Real-time results',
+          description:
+            'Whoever is not at the gym follows the score from anywhere.',
+          previewStatus: 'LIVE · 4TH QUARTER · 02:14'
+        },
+        stats: {
+          title: 'Objective stats',
+          description:
+            'Athlete and team numbers, no spreadsheets, no guessing.',
+          previewTitle: 'Per-game averages · Caio Santos'
+        },
+        showcase: {
+          title: 'Competition showcase',
+          description:
+            'A page of its own for every competition and organization.',
+          previewSubtitle: 'Liga Itapuã · 16 teams · 5×5 Basketball'
+        }
+      },
+      teamEyebrow: 'The team',
+      teamTitle: 'Sports people building for sports.',
+      teamDescription:
+        'People who play, cheer and organize are on this side of the screen too.',
+      organizersEyebrow: 'For organizers',
+      organizersTitle: 'Bring your competition to Go Champs.',
+      plans: {
+        title: 'Plans and services',
+        description:
+          'Choose the services that make sense for your competition, as it needs.',
+        items: {
+          portal: 'Competition portal with schedule, brackets and results',
+          scoresheet: 'Digital scoresheet',
+          stats: 'Athlete and team stats'
+        },
+        priceFrom: 'starting at',
+        price: 'Free'
+      },
+      ctaTitle: 'The next competition is right around the corner.',
+      ctaDescription:
+        'Explore the competitions and organizations on the platform.',
+      exploreTournaments: 'Explore competitions'
+    },
     plans: {
       basketball_scoresheet: {
         name: 'Basketball Scoresheet',

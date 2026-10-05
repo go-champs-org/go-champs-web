@@ -1,4 +1,7 @@
 .page-v2-wrapper {
+  // Width of the page content. The site header and footer read it so their
+  // edges line up with the content of the page they sit on.
+  --page-v2-content-max-width: 1200px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

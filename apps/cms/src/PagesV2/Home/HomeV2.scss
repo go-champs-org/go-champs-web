@@ -1,6 +1,10 @@
 @import '../../Shared/styles/colorsV2.scss';
 @import '../Shared/page-v2';
 
+.page-v2-wrapper.home-v2-wrapper {
+  --page-v2-content-max-width: 1320px;
+}
+
 // Layout container for sidebar and main content
 .home-v2-layout {
   max-width: 560px;

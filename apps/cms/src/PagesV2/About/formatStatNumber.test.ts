@@ -1,4 +1,4 @@
-import { formatStatNumber } from './formatStatNumber';
+import { formatOptionalStatNumber, formatStatNumber } from './formatStatNumber';
 
 describe('formatStatNumber', () => {
   describe('very small numbers (< 100)', () => {
@@ -90,5 +90,17 @@ describe('formatStatNumber', () => {
       expect(formatStatNumber(500)).toBe('+500');
       expect(formatStatNumber(900)).toBe('+900');
     });
+  });
+});
+
+describe('formatOptionalStatNumber', () => {
+  it('formats a present count', () => {
+    expect(formatOptionalStatNumber(3247)).toBe('+3.000');
+    expect(formatOptionalStatNumber(0)).toBe('+0');
+  });
+
+  it('returns the placeholder when the count is missing', () => {
+    expect(formatOptionalStatNumber(undefined)).toBe('---');
+    expect(formatOptionalStatNumber(null)).toBe('---');
   });
 });

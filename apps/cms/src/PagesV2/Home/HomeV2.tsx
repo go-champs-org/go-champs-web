@@ -94,7 +94,7 @@ function HomeV2() {
 
   return (
     <ThemeV2Provider>
-      <div className="page-v2-wrapper">
+      <div className="page-v2-wrapper home-v2-wrapper">
         <NavBar />
         <main className="page-v2-main">
           {/* Banner Section */}

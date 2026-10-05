@@ -9,6 +9,11 @@ export default {
     archive: 'Arquivar',
     unarchive: 'Desarquivar',
     aboutUs: 'Sobre nós',
+    knowGoChamps: 'Conheça a Go Champs',
+    footerTagline:
+      'A casa do esporte. Súmulas eletrônicas, chaves e estatísticas em tempo real para campeonatos do amador ao semiprofissional.',
+    footerPlatform: 'Plataforma',
+    footerApiDocumentation: 'Documentação da API',
     aboutUsParagraph1:
       'O esporte não para, e a gente também não. A GO CHAMPS nasceu para transformar a gestão de campeonatos com simplicidade e dados confiáveis. Esqueça planilhas confusas e estatísticas perdidas.',
     aboutUsParagraph2:
@@ -295,6 +300,134 @@ export default {
     password: 'Senha',
     pendingInvites: 'Convites pendentes',
     plan: 'Plano',
+    aboutPage: {
+      heroEyebrow: 'Sobre a Go Champs',
+      heroTitle: 'Toda competição merece seu espaço.',
+      heroDescription:
+        'A Go Champs é uma plataforma para organizadores compartilharem seus campeonatos e para o público encontrar as competições que quer acompanhar.',
+      heroLiveLabel: 'Ao vivo · Final sub-17',
+      findTournaments: 'Encontrar campeonatos',
+      manifestoLine1: 'O jogo acontece na quadra.',
+      manifestoLine2: 'A conexão continua aqui.',
+      manifestoDescription:
+        'Começamos pelo basquete 5×5, aproximando quem organiza, joga e acompanha.',
+      missionEyebrow: 'O que nos move',
+      missionTitle: 'Dar visibilidade ao campeonato.',
+      missionTitleHighlight: 'E a quem faz parte dele.',
+      missionParagraph1:
+        'Por trás de cada partida existe uma organização, uma equipe e muita gente envolvida. Queremos que as informações e as histórias dessas competições encontrem seu público, do amador ao semiprofissional.',
+      missionParagraph2:
+        'O portal é a vitrine de quem está em quadra. Os serviços de estatísticas e súmula ajudam a registrar cada jogo, conforme a necessidade do campeonato.',
+      values: {
+        visibility: {
+          title: 'Visibilidade',
+          description: 'Cada competição com sua identidade, fácil de encontrar.'
+        },
+        information: {
+          title: 'Informação',
+          description: 'Estatísticas e súmula dão forma ao registro do jogo.'
+        },
+        connection: {
+          title: 'Conexão',
+          description:
+            'Organizadores, atletas, oficiais e torcida na mesma experiência.'
+        }
+      },
+      audienceEyebrow: 'Para quem faz o jogo',
+      audienceTitle: 'Conheça o seu lugar na Go Champs.',
+      audiences: {
+        organizers: {
+          label: 'Organizadores',
+          title: 'Você organiza',
+          description:
+            'Apresente sua competição e conheça os serviços para cada partida.'
+        },
+        athletes: {
+          label: 'Atletas',
+          title: 'Você joga',
+          description:
+            'Encontre sua competição, consulte as informações publicadas e acompanhe suas estatísticas.'
+        },
+        fans: {
+          label: 'Fãs',
+          title: 'Você torce',
+          description:
+            'Acompanhe seu time com calendário, resultados e chaves atualizados.'
+        }
+      },
+      trustEyebrow: 'Quem organiza confia',
+      trustTitle: 'Do campeonato de bairro à liga semiprofissional.',
+      trustLogosTitle: 'Organizações que já estão em quadra com a Go Champs',
+      metrics: {
+        organizations: 'Organizações',
+        tournaments: 'Campeonatos',
+        teams: 'Equipes',
+        athletes: 'Atletas',
+        games: 'Partidas'
+      },
+      platformEyebrow: 'A plataforma',
+      platformTitle: 'Tudo que o campeonato precisa, do apito ao resultado.',
+      platformDescription:
+        'Esqueça planilhas confusas e estatísticas perdidas.',
+      platform: {
+        scoresheet: {
+          title: 'Súmula eletrônica',
+          description:
+            'O registro do jogo feito direto da mesa, lance a lance.',
+          previewTitle: 'Súmula · 3º quarto',
+          previewStatus: 'registrando',
+          previewFoul: 'Falta'
+        },
+        calendar: {
+          title: 'Calendário atualizado',
+          description: 'Datas, horários e locais de cada jogo num só lugar.',
+          previewTitle: 'Sábado, 14 de março'
+        },
+        brackets: {
+          title: 'Chaves e classificação',
+          description: 'Tabelas e playoffs que se atualizam a cada resultado.',
+          previewFinal: 'Final'
+        },
+        liveResults: {
+          title: 'Resultados em tempo real',
+          description:
+            'Quem não está no ginásio acompanha o placar de onde estiver.',
+          previewStatus: 'AO VIVO · 4º QUARTO · 02:14'
+        },
+        stats: {
+          title: 'Estatísticas objetivas',
+          description:
+            'Números de atletas e equipes, sem planilha e sem achismo.',
+          previewTitle: 'Médias por jogo · Caio Santos'
+        },
+        showcase: {
+          title: 'Vitrine do campeonato',
+          description: 'Uma página própria para cada competição e organização.',
+          previewSubtitle: 'Liga Itapuã · 16 equipes · Basquete 5×5'
+        }
+      },
+      teamEyebrow: 'O time',
+      teamTitle: 'Gente do esporte construindo para o esporte.',
+      teamDescription:
+        'Quem joga, quem torce e quem organiza também está deste lado da tela.',
+      organizersEyebrow: 'Para organizadores',
+      organizersTitle: 'Leve seu campeonato para a Go Champs.',
+      plans: {
+        title: 'Planos e serviços',
+        description:
+          'Escolha os serviços que fazem sentido para a sua competição, conforme a necessidade do campeonato.',
+        items: {
+          portal: 'Portal do campeonato com calendário, chaves e resultados',
+          scoresheet: 'Súmula eletrônica',
+          stats: 'Estatísticas de atletas e equipes'
+        },
+        priceFrom: 'a partir de',
+        price: 'Grátis'
+      },
+      ctaTitle: 'O próximo campeonato está logo ali.',
+      ctaDescription: 'Explore as competições e as organizações da plataforma.',
+      exploreTournaments: 'Explorar campeonatos'
+    },
     plans: {
       basketball_scoresheet: {
         name: 'Súmula de basquete',
