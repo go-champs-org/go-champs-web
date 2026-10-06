@@ -263,7 +263,7 @@ function OrganizationLogo({
   return (
     <li className={`about-v2-logo ${className}`}>
       <a href={`/${organization.slug}`} title={organization.name}>
-        <img src={organization.logoUrl} alt="" width={36} height={36} />
+        <img src={organization.logoUrl} alt="" height={40} />
         <span>{organization.name}</span>
       </a>
     </li>

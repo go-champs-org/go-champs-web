@@ -1,4 +1,7 @@
 import { ApiOrganization } from '../../Shared/httpClient/apiTypes';
+import cbbLogo from '../../assets/about/logos/cbb.png';
+import fgbLogo from '../../assets/about/logos/fgb.png';
+import fberjLogo from '../../assets/about/logos/fberj.png';
 
 export interface TrustedOrganization {
   name: string;
@@ -6,26 +9,12 @@ export interface TrustedOrganization {
   logoUrl: string;
 }
 
-// Always shown first in the "Quem organiza confia" strip.
+// Always shown first in the "Quem organiza confia" strip. Their logos ship
+// with the app so the strip never depends on what the API serves for them.
 export const FIXED_TRUSTED_ORGANIZATIONS: TrustedOrganization[] = [
-  {
-    name: 'CBB',
-    slug: 'cbb',
-    logoUrl:
-      'https://go-champs.com/media/organization-logos/uploads/b0ef741f-cf69-4025-a3fa-5cad7ea26a36_FDSFSD.png'
-  },
-  {
-    name: 'FGB',
-    slug: 'ffgb',
-    logoUrl:
-      'https://go-champs.com/media/organization-logos/uploads/1fc2dac0-c006-49ea-959d-153501960d6e_FGB.jpg'
-  },
-  {
-    name: 'FBERJ',
-    slug: 'fberj',
-    logoUrl:
-      'https://go-champs.com/media/organization-logos/uploads/3f101608-4264-4499-9d9b-108b95e4ae14_FBERJ 1.jpeg'
-  }
+  { name: 'CBB', slug: 'cbb', logoUrl: cbbLogo },
+  { name: 'FGB', slug: 'ffgb', logoUrl: fgbLogo },
+  { name: 'FBERJ', slug: 'fberj', logoUrl: fberjLogo }
 ];
 
 // Slots after the fixed organizations, filled by rotating through the
