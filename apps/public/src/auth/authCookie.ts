@@ -18,3 +18,26 @@ export const readUsernameCookie = (): string | null => {
     return null;
   }
 };
+
+const ORGANIZATIONS_COOKIE_NAME = 'gc_organizations';
+
+export const readOrganizationIdsCookie = (): string[] => {
+  const match = document.cookie
+    .split('; ')
+    .find(entry => entry.startsWith(`${ORGANIZATIONS_COOKIE_NAME}=`));
+
+  if (!match) {
+    return [];
+  }
+
+  try {
+    return decodeURIComponent(match.split('=')[1]).split(',').filter(Boolean);
+  } catch {
+    return [];
+  }
+};
+
+export const isOrganizationMember = (
+  organizationIds: string[],
+  organizationId: string
+): boolean => organizationId !== '' && organizationIds.includes(organizationId);

@@ -4,7 +4,8 @@
     "navAbout": "About us",
     "navFaq": "FAQ",
     "navContact": "Get in touch",
-    "navLogin": "Log in"
+    "navLogin": "Log in",
+    "manage": "Manage"
   },
   "about": {
     "aboutUs": "About us",
