@@ -17,6 +17,13 @@ export const FIXED_TRUSTED_ORGANIZATIONS: TrustedOrganization[] = [
   { name: 'FBERJ', slug: 'fberj', logoUrl: fberjLogo }
 ];
 
+// Demo and test organizations that have a logo but must never be shown as
+// organizations using the platform.
+export const EXCLUDED_ORGANIZATION_SLUGS = [
+  'demo-organization',
+  'org-test-lair'
+];
+
 // Slots after the fixed organizations, filled by rotating through the
 // recently viewed organizations.
 export const ROTATING_SLOTS = 3;

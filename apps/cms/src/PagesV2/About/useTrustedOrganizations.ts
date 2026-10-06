@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import organizationHttpClient from '../../Organizations/organizationHttpClient';
 import {
+  EXCLUDED_ORGANIZATION_SLUGS,
   FIXED_TRUSTED_ORGANIZATIONS,
   ROTATING_SLOTS,
   TrustedOrganization,
@@ -40,10 +41,10 @@ function useTrustedOrganizations() {
     const loadRotating = async () => {
       try {
         const organizations = await organizationHttpClient.getRecentlyViewed();
-        const candidates = selectRotatingCandidates(
-          organizations,
-          FIXED_TRUSTED_ORGANIZATIONS.map(organization => organization.slug)
-        );
+        const candidates = selectRotatingCandidates(organizations, [
+          ...FIXED_TRUSTED_ORGANIZATIONS.map(organization => organization.slug),
+          ...EXCLUDED_ORGANIZATION_SLUGS
+        ]);
         const loadable = await Promise.all(
           candidates.map(candidate => isLogoLoadable(candidate.logoUrl))
         );
