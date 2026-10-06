@@ -13,6 +13,7 @@ export default {
     footerTagline:
       'A casa do esporte. Súmulas eletrônicas, chaves e estatísticas em tempo real para campeonatos do amador ao semiprofissional.',
     footerPlatform: 'Plataforma',
+    footerForOrganizers: 'Para organizadores',
     footerApiDocumentation: 'Documentação da API',
     aboutUsParagraph1:
       'O esporte não para, e a gente também não. A GO CHAMPS nasceu para transformar a gestão de campeonatos com simplicidade e dados confiáveis. Esqueça planilhas confusas e estatísticas perdidas.',
@@ -340,19 +341,32 @@ export default {
           label: 'Organizadores',
           title: 'Você organiza',
           description:
-            'Apresente sua competição e conheça os serviços para cada partida.'
+            'Apresente sua competição e conheça os serviços para cada partida.',
+          cta: 'Conheça os pacotes'
         },
         athletes: {
           label: 'Atletas',
           title: 'Você joga',
           description:
-            'Encontre sua competição, consulte as informações publicadas e acompanhe suas estatísticas.'
+            'Encontre sua competição, consulte as informações publicadas e acompanhe suas estatísticas.',
+          features: {
+            career: 'Acompanhe a evolução da sua carreira',
+            stats: 'Some suas estatísticas em todos os campeonatos',
+            photos: 'Use suas próprias fotos',
+            schedule: 'Saiba quando são seus próximos jogos'
+          }
         },
         fans: {
           label: 'Fãs',
           title: 'Você torce',
           description:
-            'Acompanhe seu time com calendário, resultados e chaves atualizados.'
+            'Acompanhe seu time com calendário, resultados e chaves atualizados.',
+          features: {
+            regional: 'Acompanhe campeonatos regionais',
+            liveStats: 'Veja as estatísticas dos jogos ao vivo',
+            cheer: 'Torça pelo seu time e pelos seus atletas',
+            talent: 'Encontre os melhores talentos do esporte no mundo'
+          }
         }
       },
       trustEyebrow: 'Quem organiza confia',
@@ -412,17 +426,42 @@ export default {
         'Quem joga, quem torce e quem organiza também está deste lado da tela.',
       organizersEyebrow: 'Para organizadores',
       organizersTitle: 'Leve seu campeonato para a Go Champs.',
-      plans: {
-        title: 'Planos e serviços',
-        description:
-          'Escolha os serviços que fazem sentido para a sua competição, conforme a necessidade do campeonato.',
-        items: {
-          portal: 'Portal do campeonato com calendário, chaves e resultados',
-          scoresheet: 'Súmula eletrônica',
-          stats: 'Estatísticas de atletas e equipes'
+      organizersDescription:
+        'Comece grátis e adicione a operação dos jogos quando o campeonato precisar.',
+      bookDemo: 'Agende uma demonstração',
+      packages: {
+        free: {
+          name: 'Grátis',
+          includes: 'Para publicar o campeonato:'
         },
-        priceFrom: 'a partir de',
-        price: 'Grátis'
+        scoresheet: {
+          name: 'Pacote Súmula',
+          includes: 'Tudo do Grátis, mais:'
+        },
+        stats: {
+          name: 'Pacote Estatísticas',
+          includes: 'Tudo do Grátis, mais:'
+        },
+        complete: {
+          name: 'Pacote Completo',
+          includes: 'Tudo do Grátis, mais:'
+        },
+        features: {
+          tournamentCreation: 'Criação de campeonato',
+          website: 'Site do campeonato com páginas de equipe e de atleta',
+          results: 'Resultados dos jogos',
+          api: 'Integre seu site pela nossa API',
+          onSite: 'Operação in loco',
+          live: 'Jogos ao vivo',
+          playByPlay: 'Play-by-play',
+          scoresheetReport: 'Relatório de súmula',
+          boxScoreReport: 'Relatório de box score',
+          tournamentStats: 'Estatísticas do campeonato',
+          leaderboard: 'Leaderboard',
+          obsScoreboard: 'Placar para streaming no OBS',
+          officialsPin: 'Assinatura dos oficiais por PIN'
+        },
+        seeExample: 'Ver campeonato de exemplo'
       },
       ctaTitle: 'O próximo campeonato está logo ali.',
       ctaDescription: 'Explore as competições e as organizações da plataforma.',

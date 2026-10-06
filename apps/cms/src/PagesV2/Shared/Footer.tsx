@@ -59,6 +59,9 @@ function SiteFooter() {
                 <span className="site-footer-column-title">
                   {t('footerPlatform')}
                 </span>
+                <a href="/About#organizers" className="site-footer-link">
+                  {t('footerForOrganizers')}
+                </a>
                 <a href="/" className="site-footer-link">
                   {t('tournaments')}
                 </a>

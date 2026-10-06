@@ -12,6 +12,7 @@ export default {
     footerTagline:
       'The home of sport. Digital scoresheets, brackets and real-time stats for competitions from amateur to semi-pro.',
     footerPlatform: 'Platform',
+    footerForOrganizers: 'For organizers',
     footerApiDocumentation: 'API documentation',
     aboutUsParagraph1:
       'Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.',
@@ -337,19 +338,32 @@ export default {
           label: 'Organizers',
           title: 'You organize',
           description:
-            'Present your competition and discover the services for every game.'
+            'Present your competition and discover the services for every game.',
+          cta: 'See the packages'
         },
         athletes: {
           label: 'Athletes',
           title: 'You play',
           description:
-            'Find your competition, check the published information and follow your stats.'
+            'Find your competition, check the published information and follow your stats.',
+          features: {
+            career: 'Follow your career progress',
+            stats: 'Count your stats across all tournaments',
+            photos: 'Use your own photos',
+            schedule: 'Know when your next games are'
+          }
         },
         fans: {
           label: 'Fans',
           title: 'You cheer',
           description:
-            'Follow your team with an up-to-date schedule, results and brackets.'
+            'Follow your team with an up-to-date schedule, results and brackets.',
+          features: {
+            regional: 'Follow regional tournaments',
+            liveStats: 'Watch live game stats',
+            cheer: 'Root for your team and your athletes',
+            talent: 'Find the best sports talent in the world'
+          }
         }
       },
       trustEyebrow: 'Trusted by organizers',
@@ -409,17 +423,42 @@ export default {
         'People who play, cheer and organize are on this side of the screen too.',
       organizersEyebrow: 'For organizers',
       organizersTitle: 'Bring your competition to Go Champs.',
-      plans: {
-        title: 'Plans and services',
-        description:
-          'Choose the services that make sense for your competition, as it needs.',
-        items: {
-          portal: 'Competition portal with schedule, brackets and results',
-          scoresheet: 'Digital scoresheet',
-          stats: 'Athlete and team stats'
+      organizersDescription:
+        'Start for free and add game operations when your competition needs them.',
+      bookDemo: 'Book a demo',
+      packages: {
+        free: {
+          name: 'Free',
+          includes: 'To publish your competition:'
         },
-        priceFrom: 'starting at',
-        price: 'Free'
+        scoresheet: {
+          name: 'Scoresheet package',
+          includes: 'Everything in Free, plus:'
+        },
+        stats: {
+          name: 'Stats package',
+          includes: 'Everything in Free, plus:'
+        },
+        complete: {
+          name: 'Complete package',
+          includes: 'Everything in Free, plus:'
+        },
+        features: {
+          tournamentCreation: 'Tournament creation',
+          website: 'Competition website with team and athlete pages',
+          results: 'Game results',
+          api: 'Integrate your website via our API',
+          onSite: 'On-site operation',
+          live: 'Live games',
+          playByPlay: 'Play-by-play',
+          scoresheetReport: 'Scoresheet report',
+          boxScoreReport: 'Box score report',
+          tournamentStats: 'Competition stats',
+          leaderboard: 'Leaderboard',
+          obsScoreboard: 'Scoreboard for OBS streaming',
+          officialsPin: 'Officials sign by PIN'
+        },
+        seeExample: 'See an example competition'
       },
       ctaTitle: 'The next competition is right around the corner.',
       ctaDescription:

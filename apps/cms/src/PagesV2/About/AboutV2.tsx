@@ -14,9 +14,10 @@ import './AboutV2.scss';
 import arrowOutward from '../../assets/about/arrow-outward.svg';
 import check from '../../assets/about/check.svg';
 import heroCourt from '../../assets/about/hero-court.jpg';
-import heroScoretable from '../../assets/about/hero-scoretable.jpg';
-import heroCrowd from '../../assets/about/hero-crowd.jpg';
-import missionScoretable from '../../assets/about/mission-scoretable.jpg';
+import heroFans from '../../assets/about/hero-fans.webp';
+import heroOperator from '../../assets/about/hero-operator.webp';
+import missionAnalytics from '../../assets/about/mission-analytics.webp';
+import missionOrganizer from '../../assets/about/mission-organizer.webp';
 import audienceOrganizer from '../../assets/about/audience-organizer.jpg';
 import audienceAthlete from '../../assets/about/audience-athlete.jpg';
 import audienceFan from '../../assets/about/audience-fan.jpg';
@@ -60,15 +61,83 @@ const TEAM = [
   }
 ];
 
-const AUDIENCES = [
-  { key: 'organizers', photo: audienceOrganizer },
-  { key: 'athletes', photo: audienceAthlete },
-  { key: 'fans', photo: audienceFan }
+const ORGANIZERS_SECTION_ID = 'organizers';
+
+const AUDIENCES: {
+  key: string;
+  photo: string;
+  features: string[];
+  targetId?: string;
+}[] = [
+  {
+    key: 'organizers',
+    photo: audienceOrganizer,
+    features: [],
+    targetId: ORGANIZERS_SECTION_ID
+  },
+  {
+    key: 'athletes',
+    photo: audienceAthlete,
+    features: ['career', 'stats', 'photos', 'schedule']
+  },
+  {
+    key: 'fans',
+    photo: audienceFan,
+    features: ['regional', 'liveStats', 'cheer', 'talent']
+  }
 ];
 
 const MISSION_VALUES = ['visibility', 'information', 'connection'];
 
-const PLANS_ITEMS = ['portal', 'scoresheet', 'stats'];
+const BOOK_DEMO_URL = 'https://wa.me/5551996863254';
+const EXAMPLE_TOURNAMENT_URL =
+  'https://go-champs.com/demo-organization/demo-tournament';
+
+// Every paid package builds on the free one; its `includes` line says so.
+const PACKAGES: { key: string; features: string[]; exampleUrl?: string }[] = [
+  {
+    key: 'free',
+    features: ['tournamentCreation', 'website', 'results', 'api'],
+    exampleUrl: EXAMPLE_TOURNAMENT_URL
+  },
+  {
+    key: 'scoresheet',
+    features: [
+      'onSite',
+      'live',
+      'playByPlay',
+      'scoresheetReport',
+      'obsScoreboard',
+      'officialsPin'
+    ]
+  },
+  {
+    key: 'stats',
+    features: [
+      'onSite',
+      'live',
+      'playByPlay',
+      'boxScoreReport',
+      'tournamentStats',
+      'leaderboard',
+      'obsScoreboard'
+    ]
+  },
+  {
+    key: 'complete',
+    features: [
+      'onSite',
+      'live',
+      'playByPlay',
+      'scoresheetReport',
+      'boxScoreReport',
+      'tournamentStats',
+      'leaderboard',
+      'obsScoreboard',
+      'officialsPin'
+    ]
+  }
+];
 
 const STATS_BARS = [
   { label: 'PTS', value: 78 },
@@ -101,12 +170,39 @@ function SectionHeading({
   );
 }
 
-function ArrowButton({ href, label }: { href: string; label: string }) {
+function ArrowButton({
+  href,
+  label,
+  external = false
+}: {
+  href: string;
+  label: string;
+  external?: boolean;
+}) {
   return (
-    <a href={href} className="about-v2-arrow-button">
+    <a
+      href={href}
+      className="about-v2-arrow-button"
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    >
       {label}
       <img src={arrowOutward} alt="" width={24} height={24} />
     </a>
+  );
+}
+
+function CheckList({ items }: { items: string[] }) {
+  return (
+    <ul className="about-v2-check-list">
+      {items.map(item => (
+        <li key={item}>
+          <span className="about-v2-check">
+            <img src={check} alt="" width={14} height={14} />
+          </span>
+          {item}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -131,10 +227,10 @@ function HeroSection() {
           </div>
           <div className="about-v2-hero-side-photos">
             <div className="about-v2-photo">
-              <img src={heroScoretable} alt="" />
+              <img src={heroFans} alt="" />
             </div>
             <div className="about-v2-photo">
-              <img src={heroCrowd} alt="" />
+              <img src={heroOperator} alt="" />
             </div>
           </div>
           <div className="about-v2-live-score" aria-hidden="true">
@@ -187,8 +283,13 @@ function MissionSection() {
   return (
     <section className="about-v2-section about-v2-section-alt">
       <div className="about-v2-container about-v2-mission-grid">
-        <div className="about-v2-photo about-v2-mission-photo">
-          <img src={missionScoretable} alt="" />
+        <div className="about-v2-mission-photos">
+          <div className="about-v2-photo">
+            <img src={missionAnalytics} alt="" />
+          </div>
+          <div className="about-v2-photo">
+            <img src={missionOrganizer} alt="" />
+          </div>
         </div>
         <div className="about-v2-mission-copy">
           <SectionHeading
@@ -218,6 +319,19 @@ function MissionSection() {
   );
 }
 
+const scrollToSection = (event: React.MouseEvent, id: string) => {
+  const section = document.getElementById(id);
+  if (!section) {
+    return;
+  }
+
+  event.preventDefault();
+  const reduceMotion =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  section.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+};
+
 function AudienceSection() {
   const { t } = useTranslation();
 
@@ -230,7 +344,23 @@ function AudienceSection() {
         />
         <div className="about-v2-audience-grid">
           {AUDIENCES.map(audience => (
-            <article key={audience.key} className="about-v2-card">
+            <article
+              key={audience.key}
+              className={`about-v2-card ${
+                audience.targetId ? 'about-v2-card-clickable' : ''
+              }`}
+            >
+              {/* Covers the whole card, so a click anywhere on it scrolls. */}
+              {audience.targetId && (
+                <a
+                  href={`#${audience.targetId}`}
+                  className="about-v2-card-link"
+                  aria-label={t(`aboutPage.audiences.${audience.key}.cta`)}
+                  onClick={event =>
+                    scrollToSection(event, audience.targetId as string)
+                  }
+                />
+              )}
               <div className="about-v2-audience-photo">
                 <img src={audience.photo} alt="" />
               </div>
@@ -244,6 +374,27 @@ function AudienceSection() {
                 <p className="about-v2-audience-description">
                   {t(`aboutPage.audiences.${audience.key}.description`)}
                 </p>
+                {audience.features.length > 0 && (
+                  <CheckList
+                    items={audience.features.map(feature =>
+                      t(
+                        `aboutPage.audiences.${audience.key}.features.${feature}`
+                      )
+                    )}
+                  />
+                )}
+                {/* The card link above carries the click; this is its label. */}
+                {audience.targetId && (
+                  <span className="about-v2-text-link" aria-hidden="true">
+                    {t(`aboutPage.audiences.${audience.key}.cta`)}
+                    <svg viewBox="0 0 24 24" width={18} height={18}>
+                      <path
+                        d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
+                )}
               </div>
             </article>
           ))}
@@ -525,29 +676,59 @@ function OrganizersSection() {
   const { t } = useTranslation();
 
   return (
-    <section className="about-v2-section about-v2-section-alt">
-      <div className="about-v2-container about-v2-organizers-grid">
-        <SectionHeading
-          eyebrow={t('aboutPage.organizersEyebrow')}
-          title={t('aboutPage.organizersTitle')}
-        />
-        <div className="about-v2-card about-v2-plans">
-          <h3 className="about-v2-plans-title">{t('aboutPage.plans.title')}</h3>
-          <p className="about-v2-body">{t('aboutPage.plans.description')}</p>
-          <ul className="about-v2-plans-list">
-            {PLANS_ITEMS.map(item => (
-              <li key={item}>
-                <span className="about-v2-plans-check">
-                  <img src={check} alt="" width={14} height={14} />
-                </span>
-                {t(`aboutPage.plans.items.${item}`)}
-              </li>
-            ))}
-          </ul>
-          <div className="about-v2-plans-price">
-            <span>{t('aboutPage.plans.priceFrom')}</span>
-            <strong>{t('aboutPage.plans.price')}</strong>
+    <section
+      id={ORGANIZERS_SECTION_ID}
+      className="about-v2-section about-v2-section-alt about-v2-organizers"
+    >
+      <div className="about-v2-container">
+        <div className="about-v2-organizers-header">
+          <SectionHeading
+            eyebrow={t('aboutPage.organizersEyebrow')}
+            title={t('aboutPage.organizersTitle')}
+          />
+          <div className="about-v2-organizers-intro">
+            <p className="about-v2-body">
+              {t('aboutPage.organizersDescription')}
+            </p>
+            <ArrowButton
+              href={BOOK_DEMO_URL}
+              label={t('aboutPage.bookDemo')}
+              external
+            />
           </div>
+        </div>
+        <div className="about-v2-packages">
+          {PACKAGES.map(item => (
+            <article key={item.key} className="about-v2-card about-v2-package">
+              <h3 className="about-v2-package-name">
+                {t(`aboutPage.packages.${item.key}.name`)}
+              </h3>
+              <p className="about-v2-package-includes">
+                {t(`aboutPage.packages.${item.key}.includes`)}
+              </p>
+              <CheckList
+                items={item.features.map(feature =>
+                  t(`aboutPage.packages.features.${feature}`)
+                )}
+              />
+              {item.exampleUrl && (
+                <a
+                  href={item.exampleUrl}
+                  className="about-v2-text-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('aboutPage.packages.seeExample')}
+                  <svg viewBox="0 0 24 24" width={18} height={18} aria-hidden>
+                    <path
+                      d="M6.5 5.5V7.5H15.09L5.5 17.09L6.91 18.5L16.5 8.91V17.5H18.5V5.5H6.5Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </a>
+              )}
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -565,6 +746,17 @@ function KnowGoChampsV2() {
       .getAboutStats()
       .then(response => setStats(response.data))
       .catch(error => console.error('Failed to fetch about stats:', error));
+  }, []);
+
+  useEffect(() => {
+    // Links from other pages (like the footer's "Para organizadores") land
+    // here before the sections render, so the browser can't scroll to the
+    // fragment on its own.
+    const id = window.location.hash.slice(1);
+    const section = id && document.getElementById(id);
+    if (section) {
+      section.scrollIntoView();
+    }
   }, []);
 
   return (
@@ -587,8 +779,6 @@ function KnowGoChampsV2() {
           <AudienceSection />
           <TrustSection stats={stats} />
           <PlatformSection />
-          <TeamSection />
-          <OrganizersSection />
           <BandSection
             title={t('aboutPage.ctaTitle')}
             description={t('aboutPage.ctaDescription')}
@@ -596,6 +786,8 @@ function KnowGoChampsV2() {
               <ArrowButton href="/" label={t('aboutPage.exploreTournaments')} />
             }
           />
+          <TeamSection />
+          <OrganizersSection />
         </main>
         <Footer />
       </div>
