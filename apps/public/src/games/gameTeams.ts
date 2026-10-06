@@ -9,6 +9,12 @@ export const teamDisplayName = (
   fallback: string
 ): string => team.name || placeholder || fallback;
 
+export const teamShortName = (
+  team: Pick<TeamEntity, 'name' | 'triCode'>,
+  placeholder: string,
+  fallback: string
+): string => team.triCode || teamDisplayName(team, placeholder, fallback);
+
 // The index signature is what lets these names be handed straight to
 // next-intl as message values, which are typed as a plain string record.
 export interface GameTeamNames {

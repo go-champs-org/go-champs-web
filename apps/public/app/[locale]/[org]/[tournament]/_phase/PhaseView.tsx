@@ -22,7 +22,7 @@ import { GameTeamRow, ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { publicPath } from '@/src/i18n/publicPath';
 import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
-import { teamDisplayName } from '@/src/games/gameTeams';
+import { teamDisplayName, teamShortName } from '@/src/games/gameTeams';
 import { toPagerDays } from '@/src/games/pagerGames';
 import { GamesPager } from './GamesPager';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
@@ -302,6 +302,23 @@ const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
 
+function ResponsiveTeamLabel({
+  fullName,
+  shortName
+}: {
+  fullName: string;
+  shortName: string;
+}) {
+  if (shortName === fullName) return <span>{fullName}</span>;
+
+  return (
+    <span>
+      <span className="lg:hidden">{shortName}</span>
+      <span className="hidden lg:inline">{fullName}</span>
+    </span>
+  );
+}
+
 // A row can name a team the roster no longer carries, or none at all while a
 // group is still being seeded — only a real team has a page to link to.
 function TeamName({
@@ -315,7 +332,12 @@ function TeamName({
   undecidedLabel: string;
   teamHref: (teamId: string) => string;
 }) {
-  const label = teamDisplayName(team, placeholder, undecidedLabel);
+  const label = (
+    <ResponsiveTeamLabel
+      fullName={teamDisplayName(team, placeholder, undecidedLabel)}
+      shortName={teamShortName(team, placeholder, undecidedLabel)}
+    />
+  );
 
   if (!team.id) return <span className="truncate">{label}</span>;
 
@@ -752,7 +774,7 @@ function PhaseBody({
           teamHref={teamHref}
         />
       </div>
-      <aside className="lg:flex-1">
+      <aside className="lg:sticky lg:top-[calc(var(--navbar-height)+1rem)] lg:max-h-[calc(100dvh-var(--navbar-height)-2rem)] lg:flex-1 lg:overflow-y-auto">
         <PhaseGamesSection
           days={games}
           locale={locale}
