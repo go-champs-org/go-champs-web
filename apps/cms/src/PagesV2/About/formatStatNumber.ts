@@ -37,3 +37,12 @@ export const formatStatNumber = (value: number): string => {
 
   return `+${formatted}`;
 };
+
+export const STAT_PLACEHOLDER = '---';
+
+/**
+ * Formats a counter that may be missing — the stats request failed, or the API
+ * does not serve that count yet — falling back to the placeholder.
+ */
+export const formatOptionalStatNumber = (value?: number | null): string =>
+  typeof value === 'number' ? formatStatNumber(value) : STAT_PLACEHOLDER;

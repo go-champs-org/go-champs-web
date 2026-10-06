@@ -8,6 +8,12 @@ export default {
     archive: 'Archive',
     unarchive: 'Unarchive',
     aboutUs: 'About us',
+    knowGoChamps: 'Meet Go Champs',
+    footerTagline:
+      'The home of sport. Digital scoresheets, brackets and real-time stats for competitions from amateur to semi-pro.',
+    footerPlatform: 'Platform',
+    footerForOrganizers: 'For organizers',
+    footerApiDocumentation: 'API documentation',
     aboutUsParagraph1:
       'Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.',
     aboutUsParagraph2:
@@ -292,6 +298,165 @@ export default {
     password: 'Password',
     pendingInvites: 'Pending invites',
     plan: 'Plan',
+    aboutPage: {
+      heroEyebrow: 'About Go Champs',
+      heroTitle: 'Every competition deserves its place.',
+      heroDescription:
+        'Go Champs is a platform for organizers to share their competitions and for everyone to find the competitions they want to follow.',
+      heroLiveLabel: 'Live · U-17 final',
+      findTournaments: 'Find competitions',
+      manifestoLine1: 'The game happens on the court.',
+      manifestoLine2: 'The connection continues here.',
+      manifestoDescription:
+        'We started with 5×5 basketball, bringing together those who organize, play and follow.',
+      missionEyebrow: 'What drives us',
+      missionTitle: 'Give the competition visibility.',
+      missionTitleHighlight: 'And everyone who is part of it.',
+      missionParagraph1:
+        'Behind every game there is an organization, a team and a lot of people involved. We want the information and stories of these competitions to reach their audience, from amateur to semi-pro.',
+      missionParagraph2:
+        'The portal is the showcase of everyone on the court. Stats and scoresheet services help record every game, as each competition needs.',
+      values: {
+        visibility: {
+          title: 'Visibility',
+          description: 'Each competition with its own identity, easy to find.'
+        },
+        information: {
+          title: 'Information',
+          description: 'Stats and the scoresheet shape the record of the game.'
+        },
+        connection: {
+          title: 'Connection',
+          description:
+            'Organizers, athletes, officials and fans in the same experience.'
+        }
+      },
+      audienceEyebrow: 'For those who make the game',
+      audienceTitle: 'Find your place in Go Champs.',
+      audiences: {
+        organizers: {
+          label: 'Organizers',
+          title: 'You organize',
+          description:
+            'Present your competition and discover the services for every game.',
+          cta: 'See the packages'
+        },
+        athletes: {
+          label: 'Athletes',
+          title: 'You play',
+          description:
+            'Find your competition, check the published information and follow your stats.',
+          features: {
+            career: 'Follow your career progress',
+            stats: 'Count your stats across all tournaments',
+            photos: 'Use your own photos',
+            schedule: 'Know when your next games are'
+          }
+        },
+        fans: {
+          label: 'Fans',
+          title: 'You cheer',
+          description:
+            'Follow your team with an up-to-date schedule, results and brackets.',
+          features: {
+            regional: 'Follow regional tournaments',
+            liveStats: 'Watch live game stats',
+            cheer: 'Root for your team and your athletes',
+            talent: 'Find the best sports talent in the world'
+          }
+        }
+      },
+      trustEyebrow: 'Trusted by organizers',
+      trustTitle: 'From the neighborhood tournament to the semi-pro league.',
+      trustLogosTitle: 'Organizations already on the court with Go Champs',
+      metrics: {
+        organizations: 'Organizations',
+        tournaments: 'Competitions',
+        teams: 'Teams',
+        athletes: 'Athletes',
+        games: 'Games'
+      },
+      platformEyebrow: 'The platform',
+      platformTitle:
+        'Everything a competition needs, from the tip-off to the result.',
+      platformDescription: 'Forget messy spreadsheets and lost stats.',
+      platform: {
+        scoresheet: {
+          title: 'Digital scoresheet',
+          description: 'The game recorded right from the table, play by play.'
+        },
+        calendar: {
+          title: 'Game schedule',
+          description: 'Time, venue and the standout of every game, day by day.'
+        },
+        brackets: {
+          title: 'Playoff brackets',
+          description: 'Every knockout matchup updated with the result.'
+        },
+        liveResults: {
+          title: 'Real-time results',
+          description:
+            'Whoever is not at the gym follows the score from anywhere.'
+        },
+        stats: {
+          title: 'Competition stats',
+          description:
+            'Totals and per-game averages for every athlete, no spreadsheets, no guessing.'
+        },
+        standings: {
+          title: 'Standings',
+          description:
+            'Wins, points and point differential for every team, updated after each game.'
+        }
+      },
+      teamEyebrow: 'The team',
+      teamTitle: 'Sports people building for sports.',
+      teamDescription:
+        'People who play, cheer and organize are on this side of the screen too.',
+      organizersEyebrow: 'For organizers',
+      organizersTitle: 'Bring your competition to Go Champs.',
+      organizersDescription:
+        'Start for free and add game operations when your competition needs them.',
+      bookDemo: 'Book a demo',
+      packages: {
+        free: {
+          name: 'Free',
+          includes: 'To publish your competition:'
+        },
+        scoresheet: {
+          name: 'Scoresheet package',
+          includes: 'Everything in Free, plus:'
+        },
+        stats: {
+          name: 'Stats package',
+          includes: 'Everything in Free, plus:'
+        },
+        complete: {
+          name: 'Complete package',
+          includes: 'Everything in Free, plus:'
+        },
+        features: {
+          tournamentCreation: 'Tournament creation',
+          website: 'Competition website with team and athlete pages',
+          results: 'Game results',
+          api: 'Integrate your website via our API',
+          onSite: 'On-site operation',
+          live: 'Live games',
+          playByPlay: 'Play-by-play',
+          scoresheetReport: 'Scoresheet report',
+          boxScoreReport: 'Box score report',
+          tournamentStats: 'Competition stats',
+          leaderboard: 'Leaderboard',
+          obsScoreboard: 'Scoreboard for OBS streaming',
+          officialsPin: 'Officials sign by PIN'
+        },
+        seeExample: 'See an example competition'
+      },
+      ctaTitle: 'The next competition is right around the corner.',
+      ctaDescription:
+        'Explore the competitions and organizations on the platform.',
+      exploreTournaments: 'Explore competitions'
+    },
     plans: {
       basketball_scoresheet: {
         name: 'Basketball Scoresheet',
