@@ -7,11 +7,9 @@ import { useThemeV2 } from '../../ThemeV2';
 import AuthenticatedWrapper, {
   NotAuthenticatedWrapper
 } from '../../Shared/UI/AdminWrapper';
-import BehindFeatureFlag from '../../Shared/UI/BehindFeatureFlag';
 import { LOCAL_STORAGE_USERNAME_KEY } from '../../Accounts/constants';
-import LegacyNavBar from './LegacyNavBar';
 
-function SiteNavBar() {
+function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentTheme, toggleTheme } = useThemeV2();
   const { i18n } = useTranslation();
@@ -101,14 +99,6 @@ function SiteNavBar() {
         </div>
       </div>
     </nav>
-  );
-}
-
-function NavBar() {
-  return (
-    <BehindFeatureFlag fallback={<LegacyNavBar />}>
-      <SiteNavBar />
-    </BehindFeatureFlag>
   );
 }
 

@@ -3,11 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { ThemeV2Provider } from '../../ThemeV2';
 import NavBar from '../Shared/NavBar';
 import Footer from '../Shared/Footer';
-import BehindFeatureFlag from '../../Shared/UI/BehindFeatureFlag';
 import publicHttpClient from '../../Shared/httpClient/publicHttpClient';
 import { ApiAboutStats } from '../../Shared/httpClient/apiTypes';
 import { formatOptionalStatNumber } from './formatStatNumber';
-import LegacyAboutV2 from './LegacyAboutV2';
 import { TrustedOrganization } from './trustedOrganizations';
 import useTrustedOrganizations from './useTrustedOrganizations';
 import './AboutV2.scss';
@@ -628,7 +626,7 @@ function OrganizersSection() {
   );
 }
 
-function KnowGoChampsV2() {
+function AboutV2() {
   const { t } = useTranslation();
   const [stats, setStats] = useState<ApiAboutStats | null>(null);
 
@@ -685,14 +683,6 @@ function KnowGoChampsV2() {
         <Footer />
       </div>
     </ThemeV2Provider>
-  );
-}
-
-function AboutV2() {
-  return (
-    <BehindFeatureFlag fallback={<LegacyAboutV2 />}>
-      <KnowGoChampsV2 />
-    </BehindFeatureFlag>
   );
 }
 

@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import './Footer.scss';
 import logoWhiteName from '../../assets/logo-white-name.png';
 import { REACT_APP_BUILD_NUMBER } from '../../Shared/env';
-import BehindFeatureFlag from '../../Shared/UI/BehindFeatureFlag';
-import LegacyFooter from './LegacyFooter';
 
 const SOCIAL_LINKS = [
   {
@@ -24,7 +22,7 @@ const SOCIAL_LINKS = [
   }
 ];
 
-function SiteFooter() {
+function Footer() {
   const { t } = useTranslation();
 
   return (
@@ -129,14 +127,6 @@ function SiteFooter() {
         </div>
       </footer>
     </>
-  );
-}
-
-function Footer() {
-  return (
-    <BehindFeatureFlag fallback={<LegacyFooter />}>
-      <SiteFooter />
-    </BehindFeatureFlag>
   );
 }
 
