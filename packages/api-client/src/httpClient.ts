@@ -5,7 +5,11 @@ const DEFAULT_HEADERS = {
 };
 
 export const get = async <R>(url: string): Promise<R> => {
-  const response = await fetch(url, { headers: DEFAULT_HEADERS });
+  // A signal opts out of Next.js fetch dedupe, whose shared Response breaks across Workers requests.
+  const response = await fetch(url, {
+    headers: DEFAULT_HEADERS,
+    signal: new AbortController().signal
+  });
 
   if (!response.ok) {
     throw new ApiError({ status: response.status, data: await response.text() });

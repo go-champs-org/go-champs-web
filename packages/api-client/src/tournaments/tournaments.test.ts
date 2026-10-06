@@ -32,7 +32,7 @@ describe('getTournamentsByOrganizationSlug', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://api.example.com/v1/tournaments?where%5Borganization_slug%5D=nlbb',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(result).toEqual([
       { id: 't1', name: 'Taça Bauru', slug: 'tacabauru', logoUrl: 'https://x/l.png' },
@@ -79,12 +79,12 @@ describe('getTournamentBySlug', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
       'https://api.example.com/v1/tournaments?where%5Borganization_slug%5D=test-org&where%5Bslug%5D=test-league',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
       'https://api.example.com/v1/tournaments/tour1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(result).toEqual({
       id: 'tour1',

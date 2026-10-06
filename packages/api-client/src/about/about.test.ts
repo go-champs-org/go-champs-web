@@ -33,7 +33,7 @@ describe('getAboutStats', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://api.example.com/public/about',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(result).toEqual({
       gamesCount: 3247,

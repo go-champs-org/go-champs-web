@@ -26,7 +26,7 @@ describe('search', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/search?term=go+champs',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -44,7 +44,7 @@ describe('search', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/api/v1/search?term=term',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 

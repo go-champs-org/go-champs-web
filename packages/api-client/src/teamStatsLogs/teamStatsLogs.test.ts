@@ -38,7 +38,7 @@ describe('getTeamStatsLogsByGame', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/team-stats-logs?where%5Bgame_id%5D=g1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(result).toEqual([
       {

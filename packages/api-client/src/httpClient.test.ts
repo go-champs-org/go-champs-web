@@ -18,10 +18,25 @@ describe('httpClient.get', () => {
       'https://api.example.com/v1/things'
     );
 
-    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/things', {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/things',
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
+    );
     expect(result).toEqual({ data: ['a'] });
+  });
+
+  it('passes a signal so Next.js does not dedupe the request', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({})
+    }) as unknown as typeof fetch;
+
+    await httpClient.get('https://api.example.com/v1/things');
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/things',
+      expect.objectContaining({ signal: expect.any(AbortSignal) })
+    );
   });
 
   it('throws an ApiError with the status and body text on a non-ok response', async () => {

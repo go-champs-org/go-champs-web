@@ -26,9 +26,9 @@ describe('phases', () => {
 
     const result = await getPhase('ph1');
 
-    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/phases/ph1', {
+    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/phases/ph1', expect.objectContaining({
       headers: { 'Content-Type': 'application/json' }
-    });
+    }));
     expect(result).toEqual({
       id: 'ph1',
       title: 'Group Stage',
@@ -55,7 +55,7 @@ describe('phases', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games?where%5Bphase_id%5D=ph1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 });

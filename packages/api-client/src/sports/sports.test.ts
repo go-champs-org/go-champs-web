@@ -40,7 +40,7 @@ describe('getSportBySlug', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/sports/basketball_5x5',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(result).toEqual({
       slug: 'basketball_5x5',
@@ -71,7 +71,7 @@ describe('getSportBySlug', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/sports/..%2Ftournaments%2Ftour1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 });

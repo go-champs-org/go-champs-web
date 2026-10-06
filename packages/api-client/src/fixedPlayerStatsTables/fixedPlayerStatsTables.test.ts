@@ -28,7 +28,7 @@ describe('getFixedPlayerStatsTablesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/fixed-player-stats-tables?where%5Btournament_id%5D=t1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 });

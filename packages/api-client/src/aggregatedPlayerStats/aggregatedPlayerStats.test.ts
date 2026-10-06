@@ -26,7 +26,7 @@ describe('getAggregatedPlayerStatsByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -44,7 +44,7 @@ describe('getAggregatedPlayerStatsByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1&where%5Bteam_id%5D=team1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -62,7 +62,7 @@ describe('getAggregatedPlayerStatsByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1&where%5Bplayer_id%5D=p1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -80,7 +80,7 @@ describe('getAggregatedPlayerStatsByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1&sort=points',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 });

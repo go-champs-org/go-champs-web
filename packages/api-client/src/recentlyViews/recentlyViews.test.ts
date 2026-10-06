@@ -26,7 +26,7 @@ describe('getRecentlyViews', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/recently-view',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 

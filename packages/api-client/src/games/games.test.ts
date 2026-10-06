@@ -35,9 +35,9 @@ describe('getGame', () => {
 
     const result = await getGame('g1');
 
-    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/games/g1', {
+    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/games/g1', expect.objectContaining({
       headers: { 'Content-Type': 'application/json' }
-    });
+    }));
     expect(result.id).toBe('g1');
     expect(result.awayScore).toBe(1);
     expect(result.homeScore).toBe(2);
@@ -74,7 +74,7 @@ describe('getGamesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games?where%5Bor%5D%5B0%5D%5Bhome_team_id%5D=team-1&where%5Bor%5D%5B1%5D%5Baway_team_id%5D=team-1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -95,7 +95,7 @@ describe('getGamesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games?where%5Bphase_id%5D=ph1&where%5Bor%5D%5B0%5D%5Bhome_team_id%5D=team-1&where%5Bor%5D%5B1%5D%5Baway_team_id%5D=team-1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -118,7 +118,7 @@ describe('getGamesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games?where%5Blocation%5D=Gin%C3%A1sio+A+%26+B&where%5Bor%5D%5B0%5D%5Bhome_team_id%5D=team+1',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -136,7 +136,7 @@ describe('getGamesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
@@ -154,7 +154,7 @@ describe('getGamesByFilter', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/games?where%5Bphase_id%5D=ph1&where%5Bis_finished%5D=true',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 
