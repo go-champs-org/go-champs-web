@@ -8,6 +8,8 @@ import publicHttpClient from '../../Shared/httpClient/publicHttpClient';
 import { ApiAboutStats } from '../../Shared/httpClient/apiTypes';
 import { formatOptionalStatNumber } from './formatStatNumber';
 import LegacyAboutV2 from './LegacyAboutV2';
+import { TrustedOrganization } from './trustedOrganizations';
+import useTrustedOrganizations from './useTrustedOrganizations';
 import './AboutV2.scss';
 import arrowOutward from '../../assets/about/arrow-outward.svg';
 import check from '../../assets/about/check.svg';
@@ -23,17 +25,6 @@ import isaPhoto from '../../assets/photos/isa.png';
 import ruanPhoto from '../../assets/photos/ruan.png';
 import wagnerPhoto from '../../assets/photos/wagner.png';
 import juliaPhoto from '../../assets/photos/julia.png';
-
-// Organizations shown in the "Quem organiza confia" strip. Hardcoded on
-// purpose (GC-316): the list is curated, not derived from the API.
-const TRUSTED_ORGANIZATIONS: { name: string; logo?: string }[] = [
-  { name: 'Liga Itapuã' },
-  { name: 'Bahia Hoops' },
-  { name: 'Copa do Sol' },
-  { name: 'Liga da Orla' },
-  { name: 'Basket Sul' },
-  { name: 'Associação 3R' }
-];
 
 const TEAM = [
   {
@@ -262,8 +253,26 @@ function AudienceSection() {
   );
 }
 
+function OrganizationLogo({
+  organization,
+  className = ''
+}: {
+  organization: TrustedOrganization;
+  className?: string;
+}) {
+  return (
+    <li className={`about-v2-logo ${className}`}>
+      <a href={`/${organization.slug}`} title={organization.name}>
+        <img src={organization.logoUrl} alt="" width={36} height={36} />
+        <span>{organization.name}</span>
+      </a>
+    </li>
+  );
+}
+
 function TrustSection({ stats }: { stats: ApiAboutStats | null }) {
   const { t } = useTranslation();
+  const { fixed, rotating, page } = useTrustedOrganizations();
 
   const metrics = [
     {
@@ -298,13 +307,19 @@ function TrustSection({ stats }: { stats: ApiAboutStats | null }) {
         </div>
         <p className="about-v2-logos-title">{t('aboutPage.trustLogosTitle')}</p>
         <ul className="about-v2-logos">
-          {TRUSTED_ORGANIZATIONS.map(organization => (
-            <li key={organization.name} className="about-v2-logo">
-              {organization.logo && (
-                <img src={organization.logo} alt="" width={18} height={18} />
-              )}
-              <span>{organization.name}</span>
-            </li>
+          {fixed.map(organization => (
+            <OrganizationLogo
+              key={organization.slug}
+              organization={organization}
+            />
+          ))}
+          {/* Keyed by page so each rotation re-runs the fade-in. */}
+          {rotating.map(organization => (
+            <OrganizationLogo
+              key={`${page}-${organization.slug}`}
+              organization={organization}
+              className="about-v2-logo-rotating"
+            />
           ))}
         </ul>
       </div>
