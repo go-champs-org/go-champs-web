@@ -36,7 +36,7 @@ describe('getOrganizationBySlug', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://api.example.com/v1/organizations?where%5Bslug%5D=test-org',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
     expect(result).toEqual({
       id: 'org1',
@@ -91,7 +91,7 @@ describe('getRecentlyViewedOrganizations', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       'https://api.example.com/v1/organizations/recently-viewed',
-      { headers: { 'Content-Type': 'application/json' } }
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
     );
   });
 

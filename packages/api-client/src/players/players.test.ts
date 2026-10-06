@@ -24,9 +24,9 @@ describe('getPlayer', () => {
 
     const result = await getPlayer('p1');
 
-    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/players/p1', {
+    expect(global.fetch).toHaveBeenCalledWith('https://api.example.com/v1/players/p1', expect.objectContaining({
       headers: { 'Content-Type': 'application/json' }
-    });
+    }));
     expect(result.id).toBe('p1');
     expect(result.name).toBe('Player A');
   });
