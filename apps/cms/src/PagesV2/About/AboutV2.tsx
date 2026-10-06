@@ -21,6 +21,12 @@ import missionOrganizer from '../../assets/about/mission-organizer.webp';
 import audienceOrganizer from '../../assets/about/audience-organizer.jpg';
 import audienceAthlete from '../../assets/about/audience-athlete.jpg';
 import audienceFan from '../../assets/about/audience-fan.jpg';
+import platformScoresheet from '../../assets/about/platform-scoresheet.webp';
+import platformSchedule from '../../assets/about/platform-schedule.webp';
+import platformBracket from '../../assets/about/platform-bracket.webp';
+import platformLive from '../../assets/about/platform-live.webp';
+import platformStats from '../../assets/about/platform-stats.webp';
+import platformStandings from '../../assets/about/platform-standings.webp';
 import lairPhoto from '../../assets/photos/lair.png';
 import isaPhoto from '../../assets/photos/isa.png';
 import ruanPhoto from '../../assets/photos/ruan.png';
@@ -137,13 +143,6 @@ const PACKAGES: { key: string; features: string[]; exampleUrl?: string }[] = [
       'officialsPin'
     ]
   }
-];
-
-const STATS_BARS = [
-  { label: 'PTS', value: 78 },
-  { label: 'REB', value: 52 },
-  { label: 'AST', value: 36 },
-  { label: '3PT', value: 24 }
 ];
 
 function SectionHeading({
@@ -482,120 +481,12 @@ function PlatformSection() {
   const { t } = useTranslation();
 
   const cards = [
-    {
-      key: 'scoresheet',
-      preview: (
-        <div className="about-v2-preview">
-          <div className="about-v2-preview-row">
-            <strong>{t('aboutPage.platform.scoresheet.previewTitle')}</strong>
-            <span className="about-v2-preview-live">
-              ● {t('aboutPage.platform.scoresheet.previewStatus')}
-            </span>
-          </div>
-          <span className="about-v2-preview-chip">
-            #7 Caio Santos | +2 · 14 pts
-          </span>
-          <span className="about-v2-preview-chip">
-            #11 Rafa Lima | +3 · 9 pts
-          </span>
-          <span className="about-v2-preview-chip">
-            #4 Davi Rocha | {t('aboutPage.platform.scoresheet.previewFoul')} · 2
-          </span>
-        </div>
-      )
-    },
-    {
-      key: 'calendar',
-      preview: (
-        <div className="about-v2-preview">
-          <strong>{t('aboutPage.platform.calendar.previewTitle')}</strong>
-          <span className="about-v2-preview-game">
-            09:00 Leões do Itapuã × Tubarões da Barra · Quadra 1
-          </span>
-          <span className="about-v2-preview-game">
-            10:30 Pituba Ballers × Rio Vermelho BC · Quadra 2
-          </span>
-          <span className="about-v2-preview-game">
-            14:00 Stella Maris × Brotas Hoops · Quadra 1
-          </span>
-        </div>
-      )
-    },
-    {
-      key: 'brackets',
-      preview: (
-        <div className="about-v2-preview about-v2-preview-bracket">
-          <div className="about-v2-preview-bracket-column">
-            <span className="about-v2-preview-match">
-              <strong>Leões 72</strong>
-              Tubarões 60
-            </span>
-            <span className="about-v2-preview-match">
-              <strong>Pituba 81</strong>
-              Brotas 77
-            </span>
-          </div>
-          <span className="about-v2-preview-match">
-            <strong>Leões</strong>
-            <strong>Pituba</strong>
-          </span>
-          <span className="about-v2-preview-final">
-            {t('aboutPage.platform.brackets.previewFinal')}
-          </span>
-        </div>
-      )
-    },
-    {
-      key: 'liveResults',
-      preview: (
-        <div className="about-v2-preview about-v2-preview-dark">
-          <span className="about-v2-preview-live">
-            ● {t('aboutPage.platform.liveResults.previewStatus')}
-          </span>
-          <div className="about-v2-preview-row">
-            <strong>Leões do Itapuã</strong>
-            <span className="about-v2-preview-score">68</span>
-          </div>
-          <div className="about-v2-preview-row about-v2-preview-muted">
-            <span>Tubarões da Barra</span>
-            <span className="about-v2-preview-score">64</span>
-          </div>
-        </div>
-      )
-    },
-    {
-      key: 'stats',
-      preview: (
-        <div className="about-v2-preview">
-          <strong>{t('aboutPage.platform.stats.previewTitle')}</strong>
-          {STATS_BARS.map(bar => (
-            <div key={bar.label} className="about-v2-preview-bar">
-              <span className="about-v2-preview-bar-label">{bar.label}</span>
-              <span className="about-v2-preview-bar-track">
-                <span
-                  className="about-v2-preview-bar-value"
-                  style={{ width: `${bar.value}%` }}
-                />
-              </span>
-              <span>{bar.value}%</span>
-            </div>
-          ))}
-        </div>
-      )
-    },
-    {
-      key: 'showcase',
-      preview: (
-        <div className="about-v2-preview about-v2-preview-showcase">
-          <div className="about-v2-preview-cover" />
-          <span className="about-v2-preview-avatar">CI</span>
-          <div className="about-v2-preview-identity">
-            <strong>Copa Itapuã de Basquete</strong>
-            <span>{t('aboutPage.platform.showcase.previewSubtitle')}</span>
-          </div>
-        </div>
-      )
-    }
+    { key: 'scoresheet', screenshot: platformScoresheet },
+    { key: 'calendar', screenshot: platformSchedule },
+    { key: 'brackets', screenshot: platformBracket },
+    { key: 'liveResults', screenshot: platformLive },
+    { key: 'stats', screenshot: platformStats },
+    { key: 'standings', screenshot: platformStandings }
   ];
 
   return (
@@ -612,7 +503,9 @@ function PlatformSection() {
               key={card.key}
               className="about-v2-card about-v2-platform-card"
             >
-              <div aria-hidden="true">{card.preview}</div>
+              <div className="about-v2-preview" aria-hidden="true">
+                <img src={card.screenshot} alt="" />
+              </div>
               <h3 className="about-v2-card-title">
                 {t(`aboutPage.platform.${card.key}.title`)}
               </h3>

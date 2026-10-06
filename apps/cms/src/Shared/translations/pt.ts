@@ -386,38 +386,30 @@ export default {
       platform: {
         scoresheet: {
           title: 'Súmula eletrônica',
-          description:
-            'O registro do jogo feito direto da mesa, lance a lance.',
-          previewTitle: 'Súmula · 3º quarto',
-          previewStatus: 'registrando',
-          previewFoul: 'Falta'
+          description: 'O registro do jogo feito direto da mesa, lance a lance.'
         },
         calendar: {
-          title: 'Calendário atualizado',
-          description: 'Datas, horários e locais de cada jogo num só lugar.',
-          previewTitle: 'Sábado, 14 de março'
+          title: 'Calendário de jogos',
+          description: 'Horário, local e o destaque de cada partida, dia a dia.'
         },
         brackets: {
-          title: 'Chaves e classificação',
-          description: 'Tabelas e playoffs que se atualizam a cada resultado.',
-          previewFinal: 'Final'
+          title: 'Chaves de playoff',
+          description: 'Cada confronto do mata-mata atualizado com o resultado.'
         },
         liveResults: {
           title: 'Resultados em tempo real',
           description:
-            'Quem não está no ginásio acompanha o placar de onde estiver.',
-          previewStatus: 'AO VIVO · 4º QUARTO · 02:14'
+            'Quem não está no ginásio acompanha o placar de onde estiver.'
         },
         stats: {
-          title: 'Estatísticas objetivas',
+          title: 'Estatísticas do campeonato',
           description:
-            'Números de atletas e equipes, sem planilha e sem achismo.',
-          previewTitle: 'Médias por jogo · Caio Santos'
+            'Totais e médias por jogo de cada atleta, sem planilha e sem achismo.'
         },
-        showcase: {
-          title: 'Vitrine do campeonato',
-          description: 'Uma página própria para cada competição e organização.',
-          previewSubtitle: 'Liga Itapuã · 16 equipes · Basquete 5×5'
+        standings: {
+          title: 'Classificação',
+          description:
+            'Vitórias, pontos e saldo de cada equipe, atualizados a cada jogo.'
         }
       },
       teamEyebrow: 'O time',

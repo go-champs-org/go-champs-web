@@ -383,38 +383,30 @@ export default {
       platform: {
         scoresheet: {
           title: 'Digital scoresheet',
-          description: 'The game recorded right from the table, play by play.',
-          previewTitle: 'Scoresheet · 3rd quarter',
-          previewStatus: 'recording',
-          previewFoul: 'Foul'
+          description: 'The game recorded right from the table, play by play.'
         },
         calendar: {
-          title: 'Up-to-date schedule',
-          description: 'Dates, times and venues of every game in one place.',
-          previewTitle: 'Saturday, March 14'
+          title: 'Game schedule',
+          description: 'Time, venue and the standout of every game, day by day.'
         },
         brackets: {
-          title: 'Brackets and standings',
-          description: 'Tables and playoffs that update with every result.',
-          previewFinal: 'Final'
+          title: 'Playoff brackets',
+          description: 'Every knockout matchup updated with the result.'
         },
         liveResults: {
           title: 'Real-time results',
           description:
-            'Whoever is not at the gym follows the score from anywhere.',
-          previewStatus: 'LIVE · 4TH QUARTER · 02:14'
+            'Whoever is not at the gym follows the score from anywhere.'
         },
         stats: {
-          title: 'Objective stats',
+          title: 'Competition stats',
           description:
-            'Athlete and team numbers, no spreadsheets, no guessing.',
-          previewTitle: 'Per-game averages · Caio Santos'
+            'Totals and per-game averages for every athlete, no spreadsheets, no guessing.'
         },
-        showcase: {
-          title: 'Competition showcase',
+        standings: {
+          title: 'Standings',
           description:
-            'A page of its own for every competition and organization.',
-          previewSubtitle: 'Liga Itapuã · 16 teams · 5×5 Basketball'
+            'Wins, points and point differential for every team, updated after each game.'
         }
       },
       teamEyebrow: 'The team',
