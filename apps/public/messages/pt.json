@@ -214,7 +214,8 @@
     "apiDocumentation": "Documentação da API",
     "knowGoChamps": "Conheça a Go Champs",
     "faq": "Perguntas Frequentes",
-    "contactUs": "Fale com a gente"
+    "contactUs": "Fale com a gente",
+    "navigation": "Navegação do rodapé"
   },
   "game": {
     "live": "Ao vivo",

@@ -17,6 +17,7 @@ export interface FooterTranslations {
   copyright: string;
   andContributors: string;
   allRightsReserved: string;
+  navigation: string;
 }
 
 export interface FooterLinks {
@@ -67,8 +68,9 @@ const LEGAL_LINK_CLASS = 'text-primary hover:opacity-80';
 // light text color instead of the page foreground.
 export function Footer({ t, links, logoSrc, buildNumber }: FooterProps) {
   return (
-    <>
-      <div className="mt-auto h-12 shrink-0 md:h-20" aria-hidden="true" />
+    // The wrapper pushes the footer to the bottom of short pages and keeps a
+    // minimum gap between it and the page content on long ones.
+    <div className="mt-auto shrink-0 pt-12 md:pt-20">
       <footer className="bg-navbar pb-8 pt-16 text-white md:pb-10 md:pt-12">
         <div className="mx-auto flex max-w-[calc(var(--content-max-width,1200px)+2.5rem)] flex-col gap-10 px-5 md:max-w-[calc(var(--content-max-width,1200px)+4rem)] md:gap-8 md:px-8">
           <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
@@ -100,7 +102,10 @@ export function Footer({ t, links, logoSrc, buildNumber }: FooterProps) {
               </div>
             </div>
 
-            <nav className="flex flex-col gap-10 md:flex-row md:gap-12">
+            <nav
+              aria-label={t.navigation}
+              className="flex flex-col gap-10 md:flex-row md:gap-12"
+            >
               <div className="flex flex-col gap-0.5 md:w-[180px]">
                 <span className={COLUMN_TITLE_CLASS}>{t.platform}</span>
                 <a href={links.organizers} className={COLUMN_LINK_CLASS}>
@@ -164,6 +169,6 @@ export function Footer({ t, links, logoSrc, buildNumber }: FooterProps) {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

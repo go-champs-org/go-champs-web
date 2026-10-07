@@ -45,7 +45,7 @@ export function Section({
 
 export function Eyebrow({
   children,
-  className = 'text-primary-dark'
+  className = 'text-accent-text'
 }: {
   children: ReactNode;
   className?: string;
@@ -72,7 +72,7 @@ export function SectionHeading({
 }) {
   return (
     <div className="mb-10 flex max-w-[800px] flex-col gap-4">
-      <Eyebrow className={inverted ? 'text-primary' : 'text-primary-dark'}>
+      <Eyebrow className={inverted ? 'text-primary' : 'text-accent-text'}>
         {eyebrow}
       </Eyebrow>
       <h2 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.02em] md:text-[2.875rem]">

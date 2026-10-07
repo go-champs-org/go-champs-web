@@ -49,6 +49,9 @@
 
   --color-primary: #A6CD63;
   --color-primary-dark: #7A9949;
+  /* Brand green for small text on the page and card backgrounds: 4.5:1 or
+     better in both themes, which --color-primary-dark is not in light. */
+  --color-accent-text: #5B7335;
   --color-secondary: #F4D35E;
 
   --color-neutral-100: #FFFFFF;
@@ -87,6 +90,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --color-primary: #7A9949;
+    --color-accent-text: #A6CD63;
     --color-background: var(--color-neutral-900);
     --color-foreground: var(--color-neutral-100);
     --color-muted: var(--color-neutral-100);
@@ -102,6 +106,7 @@
 
 :root[data-theme="dark"] {
   --color-primary: #7A9949;
+  --color-accent-text: #A6CD63;
   --color-background: var(--color-neutral-900);
   --color-foreground: var(--color-neutral-100);
   --color-muted: var(--color-neutral-100);
@@ -116,6 +121,7 @@
 
 :root[data-theme="light"] {
   --color-primary: #A6CD63;
+  --color-accent-text: #5B7335;
   --color-background: var(--color-neutral-300);
   --color-foreground: #131F00;
   --color-muted: #45483D;

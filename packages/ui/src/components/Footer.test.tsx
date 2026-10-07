@@ -17,7 +17,8 @@ const t = {
   theSourceCodeIsLicensed: 'The source code is licensed',
   copyright: 'Copyright',
   andContributors: 'and contributors',
-  allRightsReserved: 'All rights reserved'
+  allRightsReserved: 'All rights reserved',
+  navigation: 'Footer navigation'
 };
 
 const links = {
@@ -73,6 +74,14 @@ describe('Footer', () => {
       'href',
       '/contact'
     );
+  });
+
+  it('labels the footer navigation landmark', () => {
+    render(<Footer t={t} links={links} />);
+
+    expect(
+      screen.getByRole('navigation', { name: 'Footer navigation' })
+    ).toBeInTheDocument();
   });
 
   it('renders the license, privacy and terms links', () => {

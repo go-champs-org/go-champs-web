@@ -83,7 +83,8 @@ export default async function LocaleLayout({
               theSourceCodeIsLicensed: tFooter('theSourceCodeIsLicensed'),
               copyright: tFooter('copyright'),
               andContributors: tFooter('andContributors'),
-              allRightsReserved: tFooter('allRightsReserved')
+              allRightsReserved: tFooter('allRightsReserved'),
+              navigation: tFooter('navigation')
             }}
             links={{
               home: publicPath(''),

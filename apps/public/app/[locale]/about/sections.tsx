@@ -142,7 +142,7 @@ const PACKAGES = [
 ];
 
 const TEXT_LINK_CLASS =
-  'mt-auto inline-flex items-center self-start gap-1.5 pt-2 text-[0.9375rem] font-bold text-primary-dark underline underline-offset-[3px] hover:opacity-85';
+  'mt-auto inline-flex items-center self-start gap-1.5 pt-2 text-[0.9375rem] font-bold text-accent-text underline underline-offset-[3px] hover:opacity-85';
 
 export function HeroSection({ t }: { t: Translate }) {
   return (
@@ -333,7 +333,7 @@ function AudienceCard({
         className="h-[340px] rounded-none!"
       />
       <div className="relative flex flex-col gap-[0.9375rem] px-7 pb-7 pt-8 before:absolute before:left-7 before:right-7 before:top-0 before:h-1 before:bg-primary before:content-['']">
-        <span className="text-sm font-bold uppercase text-primary-dark">
+        <span className="text-sm font-bold uppercase text-accent-text">
           {t(`${base}.label`)}
         </span>
         <h3 className="text-[1.875rem] font-normal">{t(`${base}.title`)}</h3>
@@ -489,7 +489,7 @@ function MemberCard({
     <article
       className={`${CARD_CLASS} lg:min-w-0 lg:flex-1 w-[260px] shrink-0 snap-start items-center pt-4 lg:w-auto`}
     >
-      <div className="relative h-[208px] w-[193px] overflow-hidden rounded-[100px] bg-border">
+      <div className="relative aspect-[193/208] w-full max-w-[193px] overflow-hidden rounded-[100px] bg-border">
         <Image
           src={member.photo}
           alt={member.name}
@@ -500,7 +500,7 @@ function MemberCard({
       </div>
       <div className="flex w-full flex-col gap-2.5 p-5">
         <h3 className="text-xl font-extrabold">{member.name}</h3>
-        <span className="text-xs font-bold uppercase tracking-[0.12em] text-primary">
+        <span className="text-xs font-bold uppercase tracking-[0.12em] text-accent-text">
           {t(member.roleKey)}
         </span>
         <p className="text-sm leading-normal text-muted">{t(member.bioKey)}</p>
@@ -509,7 +509,7 @@ function MemberCard({
             href={member.cta.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-bold text-primary-dark hover:opacity-80"
+            className="text-sm font-bold text-accent-text hover:opacity-80"
           >
             {t(member.cta.labelKey)} →
           </a>
