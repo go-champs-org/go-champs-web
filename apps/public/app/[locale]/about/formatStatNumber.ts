@@ -32,3 +32,12 @@ export const formatStatNumber = (value: number): string => {
   // German separators match the pt-BR format: 3000 -> "3.000"
   return `+${rounded.toLocaleString('de-DE')}`;
 };
+
+export const STAT_PLACEHOLDER = '---';
+
+/**
+ * Formats a counter that may be missing — the stats request failed, or the API
+ * does not serve that count yet — falling back to the placeholder.
+ */
+export const formatOptionalStatNumber = (value?: number | null): string =>
+  typeof value === 'number' ? formatStatNumber(value) : STAT_PLACEHOLDER;

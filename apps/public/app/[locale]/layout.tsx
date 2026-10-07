@@ -68,19 +68,34 @@ export default async function LocaleLayout({
           {children}
           <Footer
             t={{
+              tagline: tFooter('tagline'),
+              platform: tFooter('platform'),
+              forOrganizers: tFooter('forOrganizers'),
+              tournaments: tFooter('tournaments'),
+              apiDocumentation: tFooter('apiDocumentation'),
+              knowGoChamps: tFooter('knowGoChamps'),
+              faq: tFooter('faq'),
+              contactUs: tFooter('contactUs'),
+              privacyPolicyBR: tFooter('privacyPolicyBR'),
+              termsBR: tFooter('termsBR'),
               with: tFooter('with'),
               byGoChampsTeam: tFooter('byGoChampsTeam'),
               theSourceCodeIsLicensed: tFooter('theSourceCodeIsLicensed'),
-              privacyPolicyBR: tFooter('privacyPolicyBR'),
-              termsBR: tFooter('termsBR'),
               copyright: tFooter('copyright'),
               andContributors: tFooter('andContributors'),
               allRightsReserved: tFooter('allRightsReserved'),
-              apiDocumentationPrefix: tFooter('apiDocumentationPrefix'),
-              apiDocumentationSuffix: tFooter('apiDocumentationSuffix')
+              navigation: tFooter('navigation')
             }}
-            privacyHref={cmsPath('/PrivacyPolicyBR')}
-            termsHref={cmsPath('/TermsBR')}
+            links={{
+              home: publicPath(''),
+              about: publicPath('/about'),
+              organizers: `${publicPath('/about')}#organizers`,
+              faq: publicPath('/faq'),
+              contact: publicPath('/contact'),
+              privacy: cmsPath('/PrivacyPolicyBR'),
+              terms: cmsPath('/TermsBR')
+            }}
+            logoSrc="/logo/logo-white-name.png"
             buildNumber={process.env.NEXT_PUBLIC_BUILD_NUMBER}
           />
         </NextIntlClientProvider>

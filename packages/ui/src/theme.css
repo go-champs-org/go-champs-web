@@ -49,6 +49,12 @@
 
   --color-primary: #A6CD63;
   --color-primary-dark: #7A9949;
+  /* Brand green for small text on the page and card backgrounds: 4.5:1 or
+     better in both themes, which --color-primary-dark is not in light. */
+  --color-accent-text: #5B7335;
+  /* Full-bleed brand band that carries dark text: 8:1 or better in both
+     themes (the brand green at 60% over a dark page is only 2.7:1). */
+  --color-band: #C8DF9B;
   --color-secondary: #F4D35E;
 
   --color-neutral-100: #FFFFFF;
@@ -64,32 +70,37 @@
   --color-muted: #45483D;
   --color-surface-input: #E3E3D8;
   --color-surface: var(--color-neutral-100);
+  /* Alternating page sections: the page color in light, one step up in dark. */
+  --color-surface-alt: var(--color-neutral-300);
   --color-navbar: var(--color-neutral-950);
   --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
   --shadow-strong: rgba(29, 29, 27, 0.15);
 
-  /* Height of the sticky NavBar. It is the NavBar's own padding + logo size,
-     declared here so pages that must clear it (sticky illustrations, anchor
-     offsets) never hard-code the pixel value. NavBar applies it as min-height,
-     so changing it here moves the bar and every offset together. */
-  --navbar-height: 4.125rem;
+  /* Height of the sticky NavBar, declared here so pages that must clear it
+     (sticky illustrations, anchor offsets) never hard-code the pixel value.
+     NavBar applies it as its own height, so changing it here moves the bar
+     and every offset together. */
+  --navbar-height: 4.5rem;
 }
 
 @media (min-width: 64rem) {
   :root {
-    --navbar-height: 8.5rem;
+    --navbar-height: 6.25rem;
   }
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --color-primary: #7A9949;
+    --color-accent-text: #A6CD63;
+    --color-band: #9BBF5B;
     --color-background: var(--color-neutral-900);
     --color-foreground: var(--color-neutral-100);
     --color-muted: var(--color-neutral-100);
     --color-surface-input: var(--color-neutral-700);
     --color-surface: var(--color-neutral-700);
+    --color-surface-alt: var(--color-neutral-700);
     --color-navbar: var(--color-neutral-900);
     --color-border: var(--color-neutral-500);
     --shadow-elevated: rgba(0, 0, 0, 0.2);
@@ -99,11 +110,14 @@
 
 :root[data-theme="dark"] {
   --color-primary: #7A9949;
+  --color-accent-text: #A6CD63;
+  --color-band: #9BBF5B;
   --color-background: var(--color-neutral-900);
   --color-foreground: var(--color-neutral-100);
   --color-muted: var(--color-neutral-100);
   --color-surface-input: var(--color-neutral-700);
   --color-surface: var(--color-neutral-700);
+  --color-surface-alt: var(--color-neutral-700);
   --color-navbar: var(--color-neutral-900);
   --color-border: var(--color-neutral-500);
   --shadow-elevated: rgba(0, 0, 0, 0.2);
@@ -112,10 +126,13 @@
 
 :root[data-theme="light"] {
   --color-primary: #A6CD63;
+  --color-accent-text: #5B7335;
+  --color-band: #C8DF9B;
   --color-background: var(--color-neutral-300);
   --color-foreground: #131F00;
   --color-muted: #45483D;
   --color-surface: var(--color-neutral-100);
+  --color-surface-alt: var(--color-neutral-300);
   --color-navbar: var(--color-neutral-950);
   --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
