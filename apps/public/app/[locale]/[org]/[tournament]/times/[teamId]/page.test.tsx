@@ -172,7 +172,9 @@ describe('TeamPage', () => {
   it('renders the team name from the tournament roster', async () => {
     await renderPage();
 
-    expect(screen.getByText('Time B')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Time B' })
+    ).toBeInTheDocument();
   });
 
   it('links back to the tournament page on the CMS', async () => {

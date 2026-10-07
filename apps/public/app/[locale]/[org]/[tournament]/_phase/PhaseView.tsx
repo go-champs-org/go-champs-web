@@ -23,10 +23,12 @@ import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { publicPath } from '@/src/i18n/publicPath';
 import { gamesByDate, closestDayIndex, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName, teamShortName } from '@/src/games/gameTeams';
+import { gameIdsByNumber } from '@/src/games/gameNumbers';
 import { toPagerDays } from '@/src/games/pagerGames';
 import { GamesPager } from './GamesPager';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { ManageButton } from '@/src/components/ManageButton';
+import { Breadcrumb } from '@/src/components/Breadcrumb';
 
 export interface PhaseViewParams {
   locale: string;
@@ -103,44 +105,6 @@ const teamById = (
 ): Record<string, TeamEntity> =>
   Object.fromEntries((tournament?.teams || []).map(team => [team.id, team]));
 
-interface TournamentBreadcrumbProps {
-  homeHref: string;
-  homeLabel: string;
-  organizationHref: string;
-  organizationLabel: string;
-  currentLabel: string;
-}
-
-function TournamentBreadcrumb({
-  homeHref,
-  homeLabel,
-  organizationHref,
-  organizationLabel,
-  currentLabel
-}: TournamentBreadcrumbProps) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-xs text-muted">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link href={homeHref} className="hover:text-primary-dark">
-            {homeLabel}
-          </Link>
-        </li>
-        <li aria-hidden="true">/</li>
-        <li>
-          <Link href={organizationHref} className="hover:text-primary-dark">
-            {organizationLabel}
-          </Link>
-        </li>
-        <li aria-hidden="true">/</li>
-        <li className="font-semibold text-primary-dark" aria-current="page">
-          {currentLabel}
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
 function TournamentLogo({ logoUrl, name }: { logoUrl: string; name: string }) {
   return logoUrl ? (
     <RemoteImage
@@ -206,11 +170,11 @@ function TournamentHeader({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <TournamentBreadcrumb
-          homeHref={homeHref}
-          homeLabel={homeLabel}
-          organizationHref={organizationHref}
-          organizationLabel={tournament.organization.name}
+        <Breadcrumb
+          items={[
+            { label: homeLabel, href: homeHref },
+            { label: tournament.organization.name, href: organizationHref }
+          ]}
           currentLabel={tournament.name}
         />
         <div className="flex flex-wrap items-center gap-2">{actions}</div>
@@ -302,23 +266,6 @@ const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
 
-function ResponsiveTeamLabel({
-  fullName,
-  shortName
-}: {
-  fullName: string;
-  shortName: string;
-}) {
-  if (shortName === fullName) return <span>{fullName}</span>;
-
-  return (
-    <span>
-      <span className="lg:hidden">{shortName}</span>
-      <span className="hidden lg:inline">{fullName}</span>
-    </span>
-  );
-}
-
 // A row can name a team the roster no longer carries, or none at all while a
 // group is still being seeded — only a real team has a page to link to.
 function TeamName({
@@ -332,12 +279,7 @@ function TeamName({
   undecidedLabel: string;
   teamHref: (teamId: string) => string;
 }) {
-  const label = (
-    <ResponsiveTeamLabel
-      fullName={teamDisplayName(team, placeholder, undecidedLabel)}
-      shortName={teamShortName(team, placeholder, undecidedLabel)}
-    />
-  );
+  const label = teamShortName(team, placeholder, undecidedLabel);
 
   if (!team.id) return <span className="truncate">{label}</span>;
 
@@ -481,6 +423,7 @@ function EliminationStandings({
 
 interface DrawMatchCardProps {
   match: DrawEntity['matches'][number];
+  gameHref: string;
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
   teamHref: (teamId: string) => string;
@@ -539,7 +482,10 @@ function DrawMatchSide({
   if (!team.id) return row;
 
   return (
-    <Link href={teamHref(team.id)} className="hover:opacity-80">
+    <Link
+      href={teamHref(team.id)}
+      className="pointer-events-auto relative z-10 hover:opacity-80"
+    >
       {row}
     </Link>
   );
@@ -547,6 +493,7 @@ function DrawMatchSide({
 
 function DrawMatchCard({
   match,
+  gameHref,
   teams,
   undecidedLabel,
   teamHref
@@ -557,9 +504,17 @@ function DrawMatchCard({
   const secondTeam = teamOrEmpty(teams, match.secondTeamId);
 
   return (
-    <Surface className="p-4">
+    <Surface className="relative p-4">
+      {gameHref && (
+        <Link
+          href={gameHref}
+          aria-label={match.name}
+          data-testid="draw-match-link"
+          className="absolute inset-0"
+        />
+      )}
       <DrawMatchName name={match.name} />
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-sm">
+      <div className="pointer-events-none grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-sm">
         <DrawMatchSide
           team={firstTeam}
           placeholder={match.firstTeamPlaceholder}
@@ -587,6 +542,7 @@ function DrawMatchCard({
 
 interface DrawBracketProps {
   draws: DrawEntity[];
+  gameHrefs: Record<string, string>;
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
   teamHref: (teamId: string) => string;
@@ -594,6 +550,7 @@ interface DrawBracketProps {
 
 function DrawBracket({
   draws,
+  gameHrefs,
   teams,
   undecidedLabel,
   teamHref
@@ -614,6 +571,7 @@ function DrawBracket({
                 <DrawMatchCard
                   key={match.id}
                   match={match}
+                  gameHref={gameHrefs[match.name] || ''}
                   teams={teams}
                   undecidedLabel={undecidedLabel}
                   teamHref={teamHref}
@@ -637,6 +595,7 @@ const hasBracket = (phase: PhaseEntity): boolean =>
 
 interface PhaseMainContentProps {
   phase: PhaseEntity;
+  gameHrefs: Record<string, string>;
   teams: Record<string, TeamEntity>;
   undecidedLabel: string;
   teamLabel: string;
@@ -645,6 +604,7 @@ interface PhaseMainContentProps {
 
 function PhaseMainContent({
   phase,
+  gameHrefs,
   teams,
   undecidedLabel,
   teamLabel,
@@ -667,6 +627,7 @@ function PhaseMainContent({
     return (
       <DrawBracket
         draws={phase.draws}
+        gameHrefs={gameHrefs}
         teams={teams}
         undecidedLabel={undecidedLabel}
         teamHref={teamHref}
@@ -726,6 +687,16 @@ function PhaseGamesSection({
   );
 }
 
+const gameHrefsByNumber = (
+  days: GameDay[],
+  gameHrefBase: string
+): Record<string, string> =>
+  Object.fromEntries(
+    Object.entries(gameIdsByNumber(days.flatMap(day => day.games))).map(
+      ([number, id]) => [number, `${gameHrefBase}${id}`]
+    )
+  );
+
 interface PhaseBodyProps {
   phase: PhaseEntity;
   tournament: TournamentWithTeamsEntity | null;
@@ -768,6 +739,7 @@ function PhaseBody({
       <div className="flex flex-col gap-6 lg:flex-[2]">
         <PhaseMainContent
           phase={phase}
+          gameHrefs={gameHrefsByNumber(games, gameHrefBase)}
           teams={teamById(tournament)}
           undecidedLabel={undecidedLabel}
           teamLabel={teamLabel}
