@@ -6,6 +6,8 @@ export interface AboutStats {
   gamesCount: number;
   tournamentsCount: number;
   organizationsCount: number;
+  teamsCount?: number;
+  playersCount?: number;
 }
 
 export const getAboutStats = async (): Promise<AboutStats> => {
@@ -16,6 +18,8 @@ export const getAboutStats = async (): Promise<AboutStats> => {
   return {
     gamesCount: data.public_games_count,
     tournamentsCount: data.public_tournaments_count,
-    organizationsCount: data.organizations_with_public_tournaments_count
+    organizationsCount: data.organizations_with_public_tournaments_count,
+    teamsCount: data.public_teams_count,
+    playersCount: data.public_players_count
   };
 };

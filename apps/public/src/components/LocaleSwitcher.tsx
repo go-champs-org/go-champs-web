@@ -33,7 +33,7 @@ export function LocaleSwitcher() {
         aria-haspopup="true"
         aria-expanded={isOpen}
         aria-label="language"
-        className="flex size-8 items-center justify-center rounded-full text-lg text-white hover:opacity-80"
+        className="flex size-10 cursor-pointer items-center justify-center rounded-lg border border-white/20 text-lg text-white transition-colors hover:border-primary"
       >
         {LOCALE_FLAGS[locale] ?? locale}
       </button>

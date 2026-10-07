@@ -1,27 +1,153 @@
 {
   "common": {
     "siteName": "Go Champs",
-    "navAbout": "About us",
+    "navAbout": "Meet Go Champs",
     "navFaq": "FAQ",
     "navContact": "Get in touch",
     "navLogin": "Log in",
     "manage": "Manage"
   },
   "about": {
-    "aboutUs": "About us",
-    "aboutUsParagraph1": "Sport never stops, and neither do we. GO CHAMPS was born to transform championship management with simplicity and reliable data. Forget confusing spreadsheets and lost statistics.",
-    "aboutUsParagraph2": "We want you to feel the atmosphere of competition in every detail. That is why we deliver — from amateur to semi-professional — fast information, clean visuals, and an experience designed for everyone: those who organize with mastery, those who play with grit, and those who cheer with their heart.",
-    "aboutUsParagraph3": "GO CHAMPS is the home of sport. Our platform was designed to be as fast as a counter-attack and as clear as a blowout victory.",
-    "aboutUsListTitle": "Here you will find:",
-    "aboutUsListItem1": "Electronic match reports and updated calendars.",
-    "aboutUsListItem2": "Brackets and results in real time.",
-    "aboutUsListItem3": "Objective statistics.",
-    "aboutUsParagraph4": "Whether you are the organizer seeking efficiency, the athlete wanting visibility, or the passionate fan, GO CHAMPS is your place.",
-    "ourImpact": "Our impact",
-    "games": "Games",
-    "tournaments": "Tournaments",
-    "organizations": "Organizations",
-    "theTeam": "The team",
+    "heroEyebrow": "About Go Champs",
+    "heroTitle": "Every competition deserves its place.",
+    "heroDescription": "Go Champs is a platform for organizers to share their competitions and for everyone to find the competitions they want to follow.",
+    "heroLiveLabel": "Live · U-17 final",
+    "findTournaments": "Find competitions",
+    "manifestoLine1": "The game happens on the court.",
+    "manifestoLine2": "The connection continues here.",
+    "manifestoDescription": "We started with 5×5 basketball, bringing together those who organize, play and follow.",
+    "missionEyebrow": "What drives us",
+    "missionTitle": "Give the competition visibility.",
+    "missionTitleHighlight": "And everyone who is part of it.",
+    "missionParagraph1": "Behind every game there is an organization, a team and a lot of people involved. We want the information and stories of these competitions to reach their audience, from amateur to semi-pro.",
+    "missionParagraph2": "The portal is the showcase of everyone on the court. Stats and scoresheet services help record every game, as each competition needs.",
+    "values": {
+      "visibility": {
+        "title": "Visibility",
+        "description": "Each competition with its own identity, easy to find."
+      },
+      "information": {
+        "title": "Information",
+        "description": "Stats and the scoresheet shape the record of the game."
+      },
+      "connection": {
+        "title": "Connection",
+        "description": "Organizers, athletes, officials and fans in the same experience."
+      }
+    },
+    "audienceEyebrow": "For those who make the game",
+    "audienceTitle": "Find your place in Go Champs.",
+    "audiences": {
+      "organizers": {
+        "label": "Organizers",
+        "title": "You organize",
+        "description": "Present your competition and discover the services for every game."
+      },
+      "athletes": {
+        "label": "Athletes",
+        "title": "You play",
+        "description": "Find your competition, check the published information and follow your stats.",
+        "features": {
+          "career": "Follow your career progress",
+          "stats": "Count your stats across all tournaments",
+          "photos": "Use your own photos",
+          "schedule": "Know when your next games are"
+        }
+      },
+      "fans": {
+        "label": "Fans",
+        "title": "You cheer",
+        "description": "Follow your team with an up-to-date schedule, results and brackets.",
+        "features": {
+          "regional": "Follow regional tournaments",
+          "liveStats": "Watch live game stats",
+          "cheer": "Root for your team and your athletes",
+          "talent": "Find the best sports talent in the world"
+        }
+      }
+    },
+    "trustEyebrow": "Trusted by organizers",
+    "trustTitle": "From the neighborhood tournament to the semi-pro league.",
+    "trustLogosTitle": "Organizations already on the court with Go Champs",
+    "metrics": {
+      "organizations": "Organizations",
+      "tournaments": "Competitions",
+      "teams": "Teams",
+      "athletes": "Athletes",
+      "games": "Games"
+    },
+    "platformEyebrow": "The platform",
+    "platformTitle": "Everything a competition needs, from the tip-off to the result.",
+    "platformDescription": "Forget messy spreadsheets and lost stats.",
+    "platform": {
+      "scoresheet": {
+        "title": "Digital scoresheet",
+        "description": "The game recorded right from the table, play by play."
+      },
+      "calendar": {
+        "title": "Game schedule",
+        "description": "Time, venue and the standout of every game, day by day."
+      },
+      "brackets": {
+        "title": "Playoff brackets",
+        "description": "Every knockout matchup updated with the result."
+      },
+      "liveResults": {
+        "title": "Real-time results",
+        "description": "Whoever is not at the gym follows the score from anywhere."
+      },
+      "stats": {
+        "title": "Competition stats",
+        "description": "Totals and per-game averages for every athlete, no spreadsheets, no guessing."
+      },
+      "standings": {
+        "title": "Standings",
+        "description": "Wins, points and point differential for every team, updated after each game."
+      }
+    },
+    "teamEyebrow": "The team",
+    "teamTitle": "Sports people building for sports.",
+    "teamDescription": "People who play, cheer and organize are on this side of the screen too.",
+    "organizersEyebrow": "For organizers",
+    "organizersTitle": "Bring your competition to Go Champs.",
+    "organizersDescription": "Start for free and add game operations when your competition needs them.",
+    "packages": {
+      "free": {
+        "name": "Free",
+        "includes": "To publish your competition:"
+      },
+      "scoresheet": {
+        "name": "Scoresheet package",
+        "includes": "Everything in Free, plus:"
+      },
+      "stats": {
+        "name": "Stats package",
+        "includes": "Everything in Free, plus:"
+      },
+      "complete": {
+        "name": "Complete package",
+        "includes": "Everything in Free, plus:"
+      },
+      "features": {
+        "tournamentCreation": "Tournament creation",
+        "website": "Competition website with team and athlete pages",
+        "results": "Game results",
+        "api": "Integrate your website via our API",
+        "onSite": "On-site operation",
+        "live": "Live games",
+        "playByPlay": "Play-by-play",
+        "scoresheetReport": "Scoresheet report",
+        "boxScoreReport": "Box score report",
+        "tournamentStats": "Competition stats",
+        "leaderboard": "Leaderboard",
+        "obsScoreboard": "Scoreboard for OBS streaming",
+        "officialsPin": "Officials sign by PIN"
+      },
+      "seeExample": "See an example competition"
+    },
+    "ctaTitle": "The next competition is right around the corner.",
+    "ctaDescription": "Explore the competitions and organizations on the platform.",
+    "exploreTournaments": "Explore competitions",
     "founder": "Founder",
     "productDesigner": "Product Designer",
     "softwareEngineer": "Software Engineer",
@@ -81,8 +207,14 @@
     "copyright": "Copyright",
     "andContributors": "and contributors",
     "allRightsReserved": "All rights reserved",
-    "apiDocumentationPrefix": "Check out the",
-    "apiDocumentationSuffix": "documentation"
+    "tagline": "The home of sport. Digital scoresheets, brackets and real-time stats for competitions from amateur to semi-pro.",
+    "platform": "Platform",
+    "forOrganizers": "For organizers",
+    "tournaments": "Tournaments",
+    "apiDocumentation": "API documentation",
+    "knowGoChamps": "Meet Go Champs",
+    "faq": "FAQ",
+    "contactUs": "Contact us"
   },
   "game": {
     "live": "Live",
@@ -100,13 +232,34 @@
     "glossary": "Glossary",
     "sortByStat": "Sort by {stat}",
     "basketballColumns": {
-      "minutes_played": { "label": "MIN", "description": "Minutes played" },
-      "points": { "label": "PTS", "description": "Player total points" },
-      "rebounds": { "label": "REB", "description": "Player total rebounds" },
-      "assists": { "label": "AST", "description": "Player assists" },
-      "blocks": { "label": "BLK", "description": "Player blocks" },
-      "steals": { "label": "STL", "description": "Player steals" },
-      "turnovers": { "label": "TO", "description": "Player turnovers" },
+      "minutes_played": {
+        "label": "MIN",
+        "description": "Minutes played"
+      },
+      "points": {
+        "label": "PTS",
+        "description": "Player total points"
+      },
+      "rebounds": {
+        "label": "REB",
+        "description": "Player total rebounds"
+      },
+      "assists": {
+        "label": "AST",
+        "description": "Player assists"
+      },
+      "blocks": {
+        "label": "BLK",
+        "description": "Player blocks"
+      },
+      "steals": {
+        "label": "STL",
+        "description": "Player steals"
+      },
+      "turnovers": {
+        "label": "TO",
+        "description": "Player turnovers"
+      },
       "efficiency": {
         "label": "EFF",
         "description": "Player efficiency by Martin Manley (1986) = PTS + REB + AST + STL + BLK - (Missed FG + Missed FT + TO)"
@@ -139,10 +292,22 @@
         "label": "3P%",
         "description": "Player three pointers percentage"
       },
-      "rebounds_offensive": { "label": "OREB", "description": "Player offensive rebounds" },
-      "rebounds_defensive": { "label": "DREB", "description": "Player defensive rebounds" },
-      "fouls_personal": { "label": "PF", "description": "Player personal fouls" },
-      "fouls_technical": { "label": "TF", "description": "Player technical fouls" }
+      "rebounds_offensive": {
+        "label": "OREB",
+        "description": "Player offensive rebounds"
+      },
+      "rebounds_defensive": {
+        "label": "DREB",
+        "description": "Player defensive rebounds"
+      },
+      "fouls_personal": {
+        "label": "PF",
+        "description": "Player personal fouls"
+      },
+      "fouls_technical": {
+        "label": "TF",
+        "description": "Player technical fouls"
+      }
     }
   },
   "player": {
@@ -240,8 +405,8 @@
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",
     "homeDescription": "Follow tournaments, teams, games and statistics from amateur to semi-professional. Live results, electronic scoresheets and up-to-date standings.",
-    "aboutTitle": "About us",
-    "aboutDescription": "Meet GO CHAMPS: the platform that turns championship management into something simple and data-driven.",
+    "aboutTitle": "Meet Go Champs",
+    "aboutDescription": "Meet Go Champs: the platform that gives visibility to competitions, teams and athletes, from amateur to semi-pro.",
     "faqTitle": "FAQ",
     "faqDescription": "Questions about following tournaments, games and statistics on GO CHAMPS.",
     "contactTitle": "Get in touch",

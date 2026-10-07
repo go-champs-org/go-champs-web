@@ -74,13 +74,16 @@ describe('LocaleLayout', () => {
       { container: document.documentElement }
     );
 
-    expect(screen.getByRole('link', { name: 'Sobre nós' })).toBeInTheDocument();
+    // Header and footer both link to these pages.
     expect(
-      screen.getByRole('link', { name: 'Perguntas Frequentes' })
-    ).toBeInTheDocument();
+      screen.getAllByRole('link', { name: 'Conheça a Go Champs' })
+    ).toHaveLength(2);
     expect(
-      screen.getByRole('link', { name: 'Fale com a gente' })
-    ).toBeInTheDocument();
+      screen.getAllByRole('link', { name: 'Perguntas Frequentes' })
+    ).toHaveLength(2);
+    expect(
+      screen.getAllByRole('link', { name: 'Fale com a gente' })
+    ).toHaveLength(2);
     expect(
       screen.getByRole('link', { name: 'Fazer login' })
     ).toBeInTheDocument();

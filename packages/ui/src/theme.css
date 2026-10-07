@@ -64,21 +64,23 @@
   --color-muted: #45483D;
   --color-surface-input: #E3E3D8;
   --color-surface: var(--color-neutral-100);
+  /* Alternating page sections: the page color in light, one step up in dark. */
+  --color-surface-alt: var(--color-neutral-300);
   --color-navbar: var(--color-neutral-950);
   --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);
   --shadow-strong: rgba(29, 29, 27, 0.15);
 
-  /* Height of the sticky NavBar. It is the NavBar's own padding + logo size,
-     declared here so pages that must clear it (sticky illustrations, anchor
-     offsets) never hard-code the pixel value. NavBar applies it as min-height,
-     so changing it here moves the bar and every offset together. */
-  --navbar-height: 4.125rem;
+  /* Height of the sticky NavBar, declared here so pages that must clear it
+     (sticky illustrations, anchor offsets) never hard-code the pixel value.
+     NavBar applies it as its own height, so changing it here moves the bar
+     and every offset together. */
+  --navbar-height: 4.5rem;
 }
 
 @media (min-width: 64rem) {
   :root {
-    --navbar-height: 8.5rem;
+    --navbar-height: 6.25rem;
   }
 }
 
@@ -90,6 +92,7 @@
     --color-muted: var(--color-neutral-100);
     --color-surface-input: var(--color-neutral-700);
     --color-surface: var(--color-neutral-700);
+    --color-surface-alt: var(--color-neutral-700);
     --color-navbar: var(--color-neutral-900);
     --color-border: var(--color-neutral-500);
     --shadow-elevated: rgba(0, 0, 0, 0.2);
@@ -104,6 +107,7 @@
   --color-muted: var(--color-neutral-100);
   --color-surface-input: var(--color-neutral-700);
   --color-surface: var(--color-neutral-700);
+  --color-surface-alt: var(--color-neutral-700);
   --color-navbar: var(--color-neutral-900);
   --color-border: var(--color-neutral-500);
   --shadow-elevated: rgba(0, 0, 0, 0.2);
@@ -116,6 +120,7 @@
   --color-foreground: #131F00;
   --color-muted: #45483D;
   --color-surface: var(--color-neutral-100);
+  --color-surface-alt: var(--color-neutral-300);
   --color-navbar: var(--color-neutral-950);
   --color-border: var(--color-neutral-400);
   --shadow-elevated: rgba(29, 29, 27, 0.08);

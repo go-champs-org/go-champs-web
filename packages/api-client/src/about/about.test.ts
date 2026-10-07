@@ -23,7 +23,9 @@ describe('getAboutStats', () => {
         data: {
           public_games_count: 3247,
           public_tournaments_count: 315,
-          organizations_with_public_tournaments_count: 31
+          organizations_with_public_tournaments_count: 31,
+          public_teams_count: 480,
+          public_players_count: 5230
         }
       })
     });
@@ -38,8 +40,32 @@ describe('getAboutStats', () => {
     expect(result).toEqual({
       gamesCount: 3247,
       tournamentsCount: 315,
-      organizationsCount: 31
+      organizationsCount: 31,
+      teamsCount: 480,
+      playersCount: 5230
     });
+  });
+
+  it('leaves the new counts undefined when the API does not serve them yet', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getAboutStats } = await import('./about');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: {
+          public_games_count: 1,
+          public_tournaments_count: 2,
+          organizations_with_public_tournaments_count: 3
+        }
+      })
+    }) as unknown as typeof fetch;
+
+    const result = await getAboutStats();
+
+    expect(result.teamsCount).toBeUndefined();
+    expect(result.playersCount).toBeUndefined();
   });
 
   it('throws an ApiError when the request fails', async () => {

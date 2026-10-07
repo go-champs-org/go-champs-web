@@ -1,27 +1,153 @@
 {
   "common": {
     "siteName": "Go Champs",
-    "navAbout": "Sobre nós",
+    "navAbout": "Conheça a Go Champs",
     "navFaq": "Perguntas Frequentes",
     "navContact": "Fale com a gente",
     "navLogin": "Fazer login",
     "manage": "Gerenciar"
   },
   "about": {
-    "aboutUs": "Sobre nós",
-    "aboutUsParagraph1": "O esporte não para, e a gente também não. A GO CHAMPS nasceu para transformar a gestão de campeonatos com simplicidade e dados confiáveis. Esqueça planilhas confusas e estatísticas perdidas.",
-    "aboutUsParagraph2": "Queremos que você sinta o clima da competição em cada detalhe. Por isso, entregamos - do amador ao semiprofissional, informação rápida, visual limpo e uma experiência pensada para todos: quem organiza com maestria, quem joga com raça e quem torce com o coração.",
-    "aboutUsParagraph3": "A GO CHAMPS é a casa do esporte. Nossa plataforma foi desenhada para ser rápida como um contra-ataque e clara como uma vitória por goleada.",
-    "aboutUsListTitle": "Aqui você encontra:",
-    "aboutUsListItem1": "Súmulas eletrônicas e calendários atualizados.",
-    "aboutUsListItem2": "Chaves e resultados em tempo real.",
-    "aboutUsListItem3": "Estatísticas objetivas.",
-    "aboutUsParagraph4": "Seja você o organizador que busca eficiência, o atleta que quer visibilidade ou o torcedor apaixonado, a GO CHAMPS é o seu lugar.",
-    "ourImpact": "Nosso impacto",
-    "games": "Partidas",
-    "tournaments": "Campeonatos",
-    "organizations": "Organizações",
-    "theTeam": "O time",
+    "heroEyebrow": "Sobre a Go Champs",
+    "heroTitle": "Toda competição merece seu espaço.",
+    "heroDescription": "A Go Champs é uma plataforma para organizadores compartilharem seus campeonatos e para o público encontrar as competições que quer acompanhar.",
+    "heroLiveLabel": "Ao vivo · Final sub-17",
+    "findTournaments": "Encontrar campeonatos",
+    "manifestoLine1": "O jogo acontece na quadra.",
+    "manifestoLine2": "A conexão continua aqui.",
+    "manifestoDescription": "Começamos pelo basquete 5×5, aproximando quem organiza, joga e acompanha.",
+    "missionEyebrow": "O que nos move",
+    "missionTitle": "Dar visibilidade ao campeonato.",
+    "missionTitleHighlight": "E a quem faz parte dele.",
+    "missionParagraph1": "Por trás de cada partida existe uma organização, uma equipe e muita gente envolvida. Queremos que as informações e as histórias dessas competições encontrem seu público, do amador ao semiprofissional.",
+    "missionParagraph2": "O portal é a vitrine de quem está em quadra. Os serviços de estatísticas e súmula ajudam a registrar cada jogo, conforme a necessidade do campeonato.",
+    "values": {
+      "visibility": {
+        "title": "Visibilidade",
+        "description": "Cada competição com sua identidade, fácil de encontrar."
+      },
+      "information": {
+        "title": "Informação",
+        "description": "Estatísticas e súmula dão forma ao registro do jogo."
+      },
+      "connection": {
+        "title": "Conexão",
+        "description": "Organizadores, atletas, oficiais e torcida na mesma experiência."
+      }
+    },
+    "audienceEyebrow": "Para quem faz o jogo",
+    "audienceTitle": "Conheça o seu lugar na Go Champs.",
+    "audiences": {
+      "organizers": {
+        "label": "Organizadores",
+        "title": "Você organiza",
+        "description": "Apresente sua competição e conheça os serviços para cada partida."
+      },
+      "athletes": {
+        "label": "Atletas",
+        "title": "Você joga",
+        "description": "Encontre sua competição, consulte as informações publicadas e acompanhe suas estatísticas.",
+        "features": {
+          "career": "Acompanhe a evolução da sua carreira",
+          "stats": "Some suas estatísticas em todos os campeonatos",
+          "photos": "Use suas próprias fotos",
+          "schedule": "Saiba quando são seus próximos jogos"
+        }
+      },
+      "fans": {
+        "label": "Fãs",
+        "title": "Você torce",
+        "description": "Acompanhe seu time com calendário, resultados e chaves atualizados.",
+        "features": {
+          "regional": "Acompanhe campeonatos regionais",
+          "liveStats": "Veja as estatísticas dos jogos ao vivo",
+          "cheer": "Torça pelo seu time e pelos seus atletas",
+          "talent": "Encontre os melhores talentos do esporte no mundo"
+        }
+      }
+    },
+    "trustEyebrow": "Quem organiza confia",
+    "trustTitle": "Do campeonato de bairro à liga semiprofissional.",
+    "trustLogosTitle": "Organizações que já estão em quadra com a Go Champs",
+    "metrics": {
+      "organizations": "Organizações",
+      "tournaments": "Campeonatos",
+      "teams": "Equipes",
+      "athletes": "Atletas",
+      "games": "Partidas"
+    },
+    "platformEyebrow": "A plataforma",
+    "platformTitle": "Tudo que o campeonato precisa, do apito ao resultado.",
+    "platformDescription": "Esqueça planilhas confusas e estatísticas perdidas.",
+    "platform": {
+      "scoresheet": {
+        "title": "Súmula eletrônica",
+        "description": "O registro do jogo feito direto da mesa, lance a lance."
+      },
+      "calendar": {
+        "title": "Calendário de jogos",
+        "description": "Horário, local e o destaque de cada partida, dia a dia."
+      },
+      "brackets": {
+        "title": "Chaves de playoff",
+        "description": "Cada confronto do mata-mata atualizado com o resultado."
+      },
+      "liveResults": {
+        "title": "Resultados em tempo real",
+        "description": "Quem não está no ginásio acompanha o placar de onde estiver."
+      },
+      "stats": {
+        "title": "Estatísticas do campeonato",
+        "description": "Totais e médias por jogo de cada atleta, sem planilha e sem achismo."
+      },
+      "standings": {
+        "title": "Classificação",
+        "description": "Vitórias, pontos e saldo de cada equipe, atualizados a cada jogo."
+      }
+    },
+    "teamEyebrow": "O time",
+    "teamTitle": "Gente do esporte construindo para o esporte.",
+    "teamDescription": "Quem joga, quem torce e quem organiza também está deste lado da tela.",
+    "organizersEyebrow": "Para organizadores",
+    "organizersTitle": "Leve seu campeonato para a Go Champs.",
+    "organizersDescription": "Comece grátis e adicione a operação dos jogos quando o campeonato precisar.",
+    "packages": {
+      "free": {
+        "name": "Grátis",
+        "includes": "Para publicar o campeonato:"
+      },
+      "scoresheet": {
+        "name": "Pacote Súmula",
+        "includes": "Tudo do Grátis, mais:"
+      },
+      "stats": {
+        "name": "Pacote Estatísticas",
+        "includes": "Tudo do Grátis, mais:"
+      },
+      "complete": {
+        "name": "Pacote Completo",
+        "includes": "Tudo do Grátis, mais:"
+      },
+      "features": {
+        "tournamentCreation": "Criação de campeonato",
+        "website": "Site do campeonato com páginas de equipe e de atleta",
+        "results": "Resultados dos jogos",
+        "api": "Integre seu site pela nossa API",
+        "onSite": "Operação in loco",
+        "live": "Jogos ao vivo",
+        "playByPlay": "Play-by-play",
+        "scoresheetReport": "Relatório de súmula",
+        "boxScoreReport": "Relatório de box score",
+        "tournamentStats": "Estatísticas do campeonato",
+        "leaderboard": "Leaderboard",
+        "obsScoreboard": "Placar para streaming no OBS",
+        "officialsPin": "Assinatura dos oficiais por PIN"
+      },
+      "seeExample": "Ver campeonato de exemplo"
+    },
+    "ctaTitle": "O próximo campeonato está logo ali.",
+    "ctaDescription": "Explore as competições e as organizações da plataforma.",
+    "exploreTournaments": "Explorar campeonatos",
     "founder": "Fundador",
     "productDesigner": "Product Designer",
     "softwareEngineer": "Software Engineer",
@@ -81,8 +207,14 @@
     "copyright": "Copyright",
     "andContributors": "e colaboradores",
     "allRightsReserved": "Todos os direitos reservados",
-    "apiDocumentationPrefix": "Confira a Documentação da",
-    "apiDocumentationSuffix": ""
+    "tagline": "A casa do esporte. Súmulas eletrônicas, chaves e estatísticas em tempo real para campeonatos do amador ao semiprofissional.",
+    "platform": "Plataforma",
+    "forOrganizers": "Para organizadores",
+    "tournaments": "Campeonatos",
+    "apiDocumentation": "Documentação da API",
+    "knowGoChamps": "Conheça a Go Champs",
+    "faq": "Perguntas Frequentes",
+    "contactUs": "Fale com a gente"
   },
   "game": {
     "live": "Ao vivo",
@@ -100,13 +232,34 @@
     "glossary": "Glossário",
     "sortByStat": "Ordenar por {stat}",
     "basketballColumns": {
-      "minutes_played": { "label": "MIN", "description": "Minutos jogados" },
-      "points": { "label": "PTS", "description": "Pontos" },
-      "rebounds": { "label": "REB", "description": "Rebotes" },
-      "assists": { "label": "ASS", "description": "Assistências" },
-      "blocks": { "label": "TOC", "description": "Tocos" },
-      "steals": { "label": "ROU", "description": "Roubadas" },
-      "turnovers": { "label": "ERR", "description": "Erros" },
+      "minutes_played": {
+        "label": "MIN",
+        "description": "Minutos jogados"
+      },
+      "points": {
+        "label": "PTS",
+        "description": "Pontos"
+      },
+      "rebounds": {
+        "label": "REB",
+        "description": "Rebotes"
+      },
+      "assists": {
+        "label": "ASS",
+        "description": "Assistências"
+      },
+      "blocks": {
+        "label": "TOC",
+        "description": "Tocos"
+      },
+      "steals": {
+        "label": "ROU",
+        "description": "Roubadas"
+      },
+      "turnovers": {
+        "label": "ERR",
+        "description": "Erros"
+      },
       "efficiency": {
         "label": "EFF",
         "description": "Eficiência básica por Martin Manley (1986) = PTS + REB + AST + ROU + TOC − Arremessos errados - TO"
@@ -139,10 +292,22 @@
         "label": "3PT%",
         "description": "3 pontos percentual de acerto"
       },
-      "rebounds_offensive": { "label": "REO", "description": "Rebotes ofensivos" },
-      "rebounds_defensive": { "label": "RED", "description": "Rebotes defensivos" },
-      "fouls_personal": { "label": "FLP", "description": "Faltas pessoais" },
-      "fouls_technical": { "label": "FLT", "description": "Faltas técnicas" }
+      "rebounds_offensive": {
+        "label": "REO",
+        "description": "Rebotes ofensivos"
+      },
+      "rebounds_defensive": {
+        "label": "RED",
+        "description": "Rebotes defensivos"
+      },
+      "fouls_personal": {
+        "label": "FLP",
+        "description": "Faltas pessoais"
+      },
+      "fouls_technical": {
+        "label": "FLT",
+        "description": "Faltas técnicas"
+      }
     }
   },
   "player": {
@@ -240,8 +405,8 @@
   "metadata": {
     "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",
     "homeDescription": "Acompanhe campeonatos, times, jogos e estatísticas do amador ao semiprofissional. Resultados em tempo real, súmulas eletrônicas e tabelas atualizadas.",
-    "aboutTitle": "Sobre nós",
-    "aboutDescription": "Conheça a GO CHAMPS: a plataforma que transforma a gestão de campeonatos com simplicidade e dados confiáveis.",
+    "aboutTitle": "Conheça a Go Champs",
+    "aboutDescription": "Conheça a Go Champs: a plataforma que dá visibilidade a campeonatos, equipes e atletas, do amador ao semiprofissional.",
     "faqTitle": "Perguntas Frequentes",
     "faqDescription": "Dúvidas sobre como acompanhar campeonatos, jogos e estatísticas na GO CHAMPS.",
     "contactTitle": "Fale com a gente",
