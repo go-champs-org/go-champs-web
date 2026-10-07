@@ -1,6 +1,6 @@
 import type { TeamEntity } from '@gochamps/domain-types';
 import type { GameEntity } from '@gochamps/api-client';
-import { gameTeamNames, teamDisplayName } from './gameTeams';
+import { gameTeamNames, teamDisplayName, teamShortName } from './gameTeams';
 
 const team = (name: string): TeamEntity => ({
   id: 't1',
@@ -36,6 +36,24 @@ describe('teamDisplayName', () => {
 
   it('falls back to the translated label when there is no placeholder either', () => {
     expect(teamDisplayName(team(''), '', 'A definir')).toBe('A definir');
+  });
+});
+
+describe('teamShortName', () => {
+  it('uses the tri code when the team has one', () => {
+    expect(
+      teamShortName({ ...team('Time Casa'), triCode: 'TCA' }, '', 'A definir')
+    ).toBe('TCA');
+  });
+
+  it('falls back to the display name when the team has no tri code', () => {
+    expect(teamShortName(team('Time Casa'), '', 'A definir')).toBe('Time Casa');
+  });
+
+  it('falls back to the placeholder while the team is undecided', () => {
+    expect(teamShortName(team(''), 'Vencedor do jogo 3', 'A definir')).toBe(
+      'Vencedor do jogo 3'
+    );
   });
 });
 
