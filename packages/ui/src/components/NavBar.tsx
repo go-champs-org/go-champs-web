@@ -52,16 +52,13 @@ function LogoImage({
     return <span className="text-lg font-bold text-primary">Go Champs</span>;
   }
 
-  if (!logoSrcMobile) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={logoSrc} alt="Go Champs" className={LOGO_CLASS} />;
-  }
-
+  // The desktop logo covers lg and up; the mobile one (or, without it, the
+  // same logo) is the fallback below that.
   return (
     <picture>
       <source media="(min-width: 1024px)" srcSet={logoSrc} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={logoSrcMobile} alt="Go Champs" className={LOGO_CLASS} />
+      <img src={logoSrcMobile ?? logoSrc} alt="Go Champs" className={LOGO_CLASS} />
     </picture>
   );
 }

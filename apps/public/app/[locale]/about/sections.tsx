@@ -194,7 +194,7 @@ function LiveScoreCard({ label }: { label: string }) {
       aria-hidden="true"
       className="absolute bottom-[18px] left-[18px] flex w-[240px] flex-col gap-2.5 rounded-2xl bg-surface p-[18px] text-foreground shadow-[0_12px_32px_var(--shadow-strong)] md:w-[280px]"
     >
-      <span className="text-xs font-extrabold uppercase tracking-[0.08em] text-red-500">
+      <span className="text-xs font-extrabold uppercase tracking-[0.08em] text-red-600">
         ● {label}
       </span>
       <div className="flex items-baseline justify-between text-[0.9375rem] font-bold">
@@ -210,8 +210,8 @@ function LiveScoreCard({ label }: { label: string }) {
   );
 }
 
-// Full-bleed green band; the design's light green is the brand green at 60%
-// over the page.
+// Full-bleed green band. In light it is the design's brand green at 60% over
+// the page; in dark it is lifted so the dark text keeps its contrast.
 export function BandSection({
   title,
   description,
@@ -225,7 +225,7 @@ export function BandSection({
     'flex-1 text-[1.0625rem] font-semibold leading-normal';
 
   return (
-    <section className="bg-primary/60 py-12 text-neutral-900 md:py-14">
+    <section className="bg-band py-12 text-neutral-900 md:py-14">
       <Container className="flex flex-col gap-6 md:flex-row md:items-center md:gap-16">
         {/* With an action the description sits under the title and the action
             takes the second column; without one, the description does. */}
@@ -289,7 +289,7 @@ export function MissionSection({ t }: { t: Translate }) {
             <Eyebrow>{t('missionEyebrow')}</Eyebrow>
             <h2 className="text-[2rem] font-extrabold leading-[1.08] tracking-[-0.02em] md:text-[2.875rem]">
               {t('missionTitle')}{' '}
-              <span className="text-primary">{t('missionTitleHighlight')}</span>
+              <span className="text-primary-dark">{t('missionTitleHighlight')}</span>
             </h2>
           </div>
           <p className="text-[1.0625rem] leading-normal text-muted">
