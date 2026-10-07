@@ -4,6 +4,9 @@ export interface ApiAboutStats {
   public_games_count: number;
   public_tournaments_count: number;
   organizations_with_public_tournaments_count: number;
+  // Optional until every API environment serves them (GC-316).
+  public_teams_count?: number;
+  public_players_count?: number;
 }
 
 export interface ApiAboutStatsResponse {

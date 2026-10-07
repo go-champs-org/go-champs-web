@@ -23,42 +23,30 @@ function NavBar() {
   };
 
   return (
-    <nav className="navbar-v2">
-      <div className="navbar-v2-container">
-        <div className="navbar-v2-brand">
-          <a href="/" className="navbar-v2-logo">
-            <picture>
-              <source media="(min-width: 769px)" srcSet={logoWhiteName} />
-              <img src={logoGreen} alt="Go Champs" />
-            </picture>
-            <span className="navbar-v2-brand-name">Go Champs</span>
-          </a>
-          <button
-            className={`navbar-v2-burger ${isMenuOpen ? 'is-active' : ''}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
+    <nav className="site-header">
+      <div className="site-header-container">
+        <a href="/" className="site-header-logo">
+          <picture>
+            <source media="(min-width: 769px)" srcSet={logoWhiteName} />
+            <img src={logoGreen} alt="Go Champs" />
+          </picture>
+        </a>
 
-        <div className={`navbar-v2-menu ${isMenuOpen ? 'is-active' : ''}`}>
-          <div className="navbar-v2-links">
-            <a href="/About" className="navbar-v2-link">
-              <Trans>aboutUs</Trans>
+        <div className={`site-header-menu ${isMenuOpen ? 'is-active' : ''}`}>
+          <div className="site-header-links">
+            <a href="/About" className="site-header-link">
+              <Trans>knowGoChamps</Trans>
             </a>
-            <a href="/Faq" className="navbar-v2-link">
+            <a href="/Faq" className="site-header-link">
               <Trans>faq</Trans>
             </a>
-            <a href="/Contact" className="navbar-v2-link">
+            <a href="/Contact" className="site-header-link">
               <Trans>contactUs</Trans>
             </a>
           </div>
-          <div className="navbar-v2-actions">
+          <div className="site-header-toggles">
             <button
-              className="navbar-v2-theme-toggle"
+              className="site-header-toggle"
               onClick={toggleTheme}
               aria-label={
                 currentTheme === 'dark'
@@ -69,7 +57,7 @@ function NavBar() {
               {currentTheme === 'dark' ? '☀' : '☾'}
             </button>
             <button
-              className="navbar-v2-lang-toggle"
+              className="site-header-toggle"
               onClick={toggleLanguage}
               aria-label={
                 i18n.language.startsWith('pt')
@@ -79,22 +67,35 @@ function NavBar() {
             >
               {i18n.language.startsWith('pt') ? '🇧🇷 PT' : '🇺🇸 EN'}
             </button>
-            <NotAuthenticatedWrapper>
-              <a href="/SignIn" className="navbar-v2-login-button button-v2">
-                <Trans>signIn</Trans>
-              </a>
-            </NotAuthenticatedWrapper>
-            <AuthenticatedWrapper>
-              <a href="/Account" className="navbar-v2-login-button button-v2">
-                {(() => {
-                  const username = localStorage.getItem(
-                    LOCAL_STORAGE_USERNAME_KEY
-                  );
-                  return username ? `@${username}` : <Trans>account</Trans>;
-                })()}
-              </a>
-            </AuthenticatedWrapper>
           </div>
+        </div>
+
+        <div className="site-header-actions">
+          <NotAuthenticatedWrapper>
+            <a href="/SignIn" className="site-header-login">
+              <Trans>signIn</Trans>
+            </a>
+          </NotAuthenticatedWrapper>
+          <AuthenticatedWrapper>
+            <a href="/Account" className="site-header-login">
+              {(() => {
+                const username = localStorage.getItem(
+                  LOCAL_STORAGE_USERNAME_KEY
+                );
+                return username ? `@${username}` : <Trans>account</Trans>;
+              })()}
+            </a>
+          </AuthenticatedWrapper>
+          <button
+            className={`site-header-burger ${isMenuOpen ? 'is-active' : ''}`}
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </div>
     </nav>
