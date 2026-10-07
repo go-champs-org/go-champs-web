@@ -12,14 +12,12 @@ interface BreadcrumbProps {
 
 function BreadcrumbLink({ label, href }: BreadcrumbItem) {
   return (
-    <>
-      <li>
-        <Link href={href} className="hover:text-primary-dark">
-          {label}
-        </Link>
-      </li>
-      <li aria-hidden="true">/</li>
-    </>
+    <li className="flex items-center gap-1.5">
+      <Link href={href} className="hover:text-primary-dark">
+        {label}
+      </Link>
+      <span aria-hidden="true">/</span>
+    </li>
   );
 }
 
