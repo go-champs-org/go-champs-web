@@ -49,8 +49,18 @@ describe('toPagerDays', () => {
             awayPlaceholder: '',
             isFinished: true,
             resultType: 'automatic',
-            homeTeam: { id: 'home', name: 'Team home' },
-            awayTeam: { id: 'away', name: 'Team away' }
+            homeTeam: {
+              id: 'home',
+              name: 'Team home',
+              logoUrl: 'https://x/logo.png',
+              triCode: 'TT'
+            },
+            awayTeam: {
+              id: 'away',
+              name: 'Team away',
+              logoUrl: 'https://x/logo.png',
+              triCode: 'TT'
+            }
           }
         ]
       }

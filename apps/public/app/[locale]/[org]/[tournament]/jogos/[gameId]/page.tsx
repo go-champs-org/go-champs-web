@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { ManageButton } from '@/src/components/ManageButton';
+import { Breadcrumb, type BreadcrumbItem } from '@/src/components/Breadcrumb';
 import { organizationIdOf } from '@/src/auth/organizationIdOf';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
@@ -405,6 +406,20 @@ const pollLiveFor = (isLive: boolean, liveSiteUpdate: LiveSiteUpdate): boolean =
 
 // The whole box score decision in one place, so the page component never has
 // to branch on it: a null result is a page with no box score section at all.
+// The organization is only known once the tournament loaded; without it the
+// trail still gets the visitor back to the tournament.
+const organizationCrumbs = (
+  tournament: TournamentWithTeamsEntity | null
+): BreadcrumbItem[] =>
+  tournament
+    ? [
+        {
+          label: tournament.organization.name,
+          href: publicPath(`/${tournament.organization.slug}`)
+        }
+      ]
+    : [];
+
 const resolveBoxScore = (
   game: GameEntity,
   tournament: TournamentWithTeamsEntity | null,
@@ -461,7 +476,8 @@ export default async function GamePage({
     t,
     tBoxScore,
     tTeam,
-    tCommon
+    tCommon,
+    tPhase
   ] = await Promise.all([
     loadGame(gameId),
     loadTournament(org, tournament),
@@ -470,7 +486,8 @@ export default async function GamePage({
     getTranslations('game'),
     getTranslations('boxScore'),
     getTranslations('team'),
-    getTranslations('common')
+    getTranslations('common'),
+    getTranslations('phase')
   ]);
 
   if (!game) notFound();
@@ -515,12 +532,14 @@ export default async function GamePage({
 
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Link
-            href={publicPath(`/${org}/${tournament}`)}
-            className="text-sm font-semibold text-primary-dark hover:underline"
-          >
-            {backLabel}
-          </Link>
+          <Breadcrumb
+            items={[
+              { label: tPhase('breadcrumbHome'), href: publicPath('') },
+              ...organizationCrumbs(tournamentEntity),
+              { label: backLabel, href: publicPath(`/${org}/${tournament}`) }
+            ]}
+            currentLabel={`${names.homeTeam} x ${names.awayTeam}`}
+          />
 
           <div className="flex flex-wrap items-center gap-2">
             <GameAssetLinks

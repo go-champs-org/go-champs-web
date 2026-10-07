@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Surface } from '@gochamps/ui';
+import { RemoteImage, Surface } from '@gochamps/ui';
 import type { PagerDay, PagerGame } from '@/src/games/pagerGames';
 import { formatDayDate, formatGameTime } from '@/src/games/gameDateTime';
-import { teamDisplayName } from '@/src/games/gameTeams';
+import { teamDisplayName, teamShortName } from '@/src/games/gameTeams';
 import { gameWinner } from '@/src/games/teamRecord';
 import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
 
@@ -20,6 +20,7 @@ const EMPHASIS_CLASS: Record<SideEmphasis, string> = {
 
 interface GameSideRowProps {
   name: string;
+  logoUrl: string;
   score: number;
   emphasis: SideEmphasis;
   winnerLabel: string;
@@ -30,29 +31,43 @@ interface GameSideRowProps {
 // team id and therefore no page to link to.
 function GameSideRow({
   name,
+  logoUrl,
   score,
   emphasis,
   winnerLabel,
   teamHref
 }: GameSideRowProps) {
   const nameClass = `truncate ${EMPHASIS_CLASS[emphasis]}`;
+  const label = (
+    <>
+      {name}
+      {emphasis === 'winner' && <span className="sr-only"> {winnerLabel}</span>}
+    </>
+  );
 
   return (
-    <div className="flex items-center justify-between gap-2 py-0.5 text-sm">
-      {teamHref ? (
-        <Link
-          href={teamHref}
-          className={`relative z-10 ${nameClass} hover:underline`}
-        >
-          {name}
-          {emphasis === 'winner' && <span className="sr-only"> {winnerLabel}</span>}
-        </Link>
-      ) : (
-        <span className={nameClass}>
-          {name}
-          {emphasis === 'winner' && <span className="sr-only"> {winnerLabel}</span>}
-        </span>
-      )}
+    <div className="pointer-events-none flex items-center justify-between gap-2 py-0.5 text-sm">
+      <span className="flex min-w-0 items-center gap-2">
+        {logoUrl && (
+          <RemoteImage
+            src={logoUrl}
+            alt=""
+            width={20}
+            height={20}
+            className="h-5 w-5 shrink-0 rounded-full object-cover"
+          />
+        )}
+        {teamHref ? (
+          <Link
+            href={teamHref}
+            className={`pointer-events-auto relative z-10 ${nameClass} hover:underline`}
+          >
+            {label}
+          </Link>
+        ) : (
+          <span className={nameClass}>{label}</span>
+        )}
+      </span>
       <span className={`tabular-nums ${EMPHASIS_CLASS[emphasis]}`}>{score}</span>
     </div>
   );
@@ -84,8 +99,10 @@ function GameCard({
   const winner = gameWinner(game);
   const home = sideEmphasis(winner, 'home');
   const away = sideEmphasis(winner, 'away');
-  const homeName = teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel);
-  const awayName = teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel);
+  const fullHomeName = teamDisplayName(game.homeTeam, game.homePlaceholder, undecidedLabel);
+  const fullAwayName = teamDisplayName(game.awayTeam, game.awayPlaceholder, undecidedLabel);
+  const homeName = teamShortName(game.homeTeam, game.homePlaceholder, undecidedLabel);
+  const awayName = teamShortName(game.awayTeam, game.awayPlaceholder, undecidedLabel);
 
   return (
     // Team names carry their own link to their team page; nesting an <a>
@@ -97,7 +114,7 @@ function GameCard({
     <div className="relative border-b border-border px-4 py-3 transition-colors last:border-0 hover:bg-background">
       <Link
         href={href}
-        aria-label={`${homeName} x ${awayName}`}
+        aria-label={`${fullHomeName} x ${fullAwayName}`}
         data-testid="game-card-link"
         className="absolute inset-0"
       />
@@ -107,6 +124,7 @@ function GameCard({
       </div>
       <GameSideRow
         name={homeName}
+        logoUrl={game.homeTeam.logoUrl}
         score={game.homeScore}
         emphasis={home}
         winnerLabel={winnerLabel}
@@ -114,6 +132,7 @@ function GameCard({
       />
       <GameSideRow
         name={awayName}
+        logoUrl={game.awayTeam.logoUrl}
         score={game.awayScore}
         emphasis={away}
         winnerLabel={winnerLabel}

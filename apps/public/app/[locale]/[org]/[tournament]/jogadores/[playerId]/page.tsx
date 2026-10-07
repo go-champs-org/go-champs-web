@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { CMS_URL } from '@/src/config/cms';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { ManageButton } from '@/src/components/ManageButton';
+import { Breadcrumb } from '@/src/components/Breadcrumb';
 import { organizationIdOf } from '@/src/auth/organizationIdOf';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
@@ -194,44 +195,6 @@ export async function generateMetadata({
     description: t('playerDescription', values),
     noIndex: !player
   });
-}
-
-interface BreadcrumbProps {
-  homeHref: string;
-  homeLabel: string;
-  tournamentHref: string;
-  tournamentLabel: string;
-  currentLabel: string;
-}
-
-function Breadcrumb({
-  homeHref,
-  homeLabel,
-  tournamentHref,
-  tournamentLabel,
-  currentLabel
-}: BreadcrumbProps) {
-  return (
-    <nav aria-label="Breadcrumb" className="text-xs text-muted">
-      <ol className="flex flex-wrap items-center gap-1.5">
-        <li>
-          <Link href={homeHref} className="hover:text-primary-dark">
-            {homeLabel}
-          </Link>
-        </li>
-        <li aria-hidden="true">/</li>
-        <li>
-          <Link href={tournamentHref} className="hover:text-primary-dark">
-            {tournamentLabel}
-          </Link>
-        </li>
-        <li aria-hidden="true">/</li>
-        <li className="font-semibold text-primary-dark" aria-current="page">
-          {currentLabel}
-        </li>
-      </ol>
-    </nav>
-  );
 }
 
 function PlayerAvatar({ name }: { name: string }) {
@@ -444,10 +407,10 @@ export default async function PlayerPage({
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Breadcrumb
-            homeHref={publicPath('')}
-            homeLabel={t('breadcrumbHome')}
-            tournamentHref={tournamentHref}
-            tournamentLabel={tournamentLabel}
+            items={[
+              { label: t('breadcrumbHome'), href: publicPath('') },
+              { label: tournamentLabel, href: tournamentHref }
+            ]}
             currentLabel={t('profile')}
           />
           <div className="flex flex-wrap items-center gap-2">

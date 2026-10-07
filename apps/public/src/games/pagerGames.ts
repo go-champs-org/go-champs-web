@@ -2,7 +2,7 @@ import type { GameEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
 import type { GameDay } from './gamesByDate';
 
-type PagerTeam = Pick<TeamEntity, 'id' | 'name'>;
+type PagerTeam = Pick<TeamEntity, 'id' | 'name' | 'logoUrl' | 'triCode'>;
 
 // Client island: full GameEntity fields (coaches, assets, free text) would bloat the RSC payload.
 export type PagerGame = Pick<
@@ -24,7 +24,12 @@ export interface PagerDay {
   games: PagerGame[];
 }
 
-const pagerTeam = ({ id, name }: TeamEntity): PagerTeam => ({ id, name });
+const pagerTeam = ({ id, name, logoUrl, triCode }: TeamEntity): PagerTeam => ({
+  id,
+  name,
+  logoUrl,
+  triCode
+});
 
 const toPagerGame = (game: GameEntity): PagerGame => ({
   id: game.id,

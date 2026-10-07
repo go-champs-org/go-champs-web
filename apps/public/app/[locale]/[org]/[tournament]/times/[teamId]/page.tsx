@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { ManageButton } from '@/src/components/ManageButton';
+import { Breadcrumb } from '@/src/components/Breadcrumb';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -615,12 +616,20 @@ export default async function TeamPage({
     >
       <div className="mx-auto flex w-full max-w-[var(--content-max-width)] flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Link
-            href={publicPath(`/${org}/${tournamentSlug}`)}
-            className="text-sm font-semibold text-primary-dark hover:underline"
-          >
-            {tournament.name}
-          </Link>
+          <Breadcrumb
+            items={[
+              { label: tPhase('breadcrumbHome'), href: publicPath('') },
+              {
+                label: tournament.organization.name,
+                href: publicPath(`/${tournament.organization.slug}`)
+              },
+              {
+                label: tournament.name,
+                href: publicPath(`/${org}/${tournamentSlug}`)
+              }
+            ]}
+            currentLabel={team.name}
+          />
           <div className="flex flex-wrap items-center gap-2">
             <ManageButton
               organizationId={tournament.organization.id}
