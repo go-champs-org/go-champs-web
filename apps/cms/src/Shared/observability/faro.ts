@@ -1,4 +1,9 @@
-import { initializeFaro } from '@grafana/faro-web-sdk';
+import {
+  ErrorsInstrumentation,
+  initializeFaro,
+  SessionInstrumentation,
+  WebVitalsInstrumentation
+} from '@grafana/faro-web-sdk';
 import {
   REACT_APP_BUILD_NUMBER,
   REACT_APP_ENV,
@@ -14,7 +19,18 @@ const bootstrap = () => {
   });
 
   if (config) {
-    initializeFaro(config);
+    try {
+      initializeFaro({
+        ...config,
+        instrumentations: [
+          new ErrorsInstrumentation(),
+          new WebVitalsInstrumentation(),
+          new SessionInstrumentation()
+        ]
+      });
+    } catch (error) {
+      console.error('Faro initialization failed', error);
+    }
   }
 };
 

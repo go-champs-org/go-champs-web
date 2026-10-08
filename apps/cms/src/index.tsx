@@ -6,9 +6,9 @@ import faro from './Shared/observability/faro';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 
+faro.bootstrap();
 ReactDOM.render(<App />, document.getElementById('root'));
 analytics.bootstrap();
-faro.bootstrap();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
