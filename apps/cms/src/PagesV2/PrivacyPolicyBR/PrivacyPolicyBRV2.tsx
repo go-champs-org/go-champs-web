@@ -51,8 +51,8 @@ function PrivacyPolicyBRV2() {
                       <li>Informações de cadastro (nome, email, etc.)</li>
                       <li>Dados de perfil (foto, biografia, etc.)</li>
                       <li>
-                        Comentários e mensagens que você nos envia (ex:
-                        opiniões sobre o uso da plataforma)
+                        Comentários e mensagens que você nos envia (ex: opiniões
+                        sobre o uso da plataforma)
                       </li>
                     </ul>
 
