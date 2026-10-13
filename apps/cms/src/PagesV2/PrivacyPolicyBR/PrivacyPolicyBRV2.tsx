@@ -23,7 +23,7 @@ function PrivacyPolicyBRV2() {
               <div className="card-v2-content privacy-policy-br-content">
                 {/* TODO: Add privacy policy content here */}
                 <p className="privacy-policy-br-update-date">
-                  Última atualização: 11/04/2026
+                  Última atualização: 13/10/2026
                 </p>
 
                 <section className="privacy-policy-br-section">
@@ -50,6 +50,10 @@ function PrivacyPolicyBRV2() {
                     <ul>
                       <li>Informações de cadastro (nome, email, etc.)</li>
                       <li>Dados de perfil (foto, biografia, etc.)</li>
+                      <li>
+                        Comentários e mensagens que você nos envia (ex:
+                        opiniões sobre o uso da plataforma)
+                      </li>
                     </ul>
 
                     <li>Dados coletados automaticamente:</li>

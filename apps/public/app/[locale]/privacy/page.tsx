@@ -60,7 +60,7 @@ export default async function PrivacyPolicyPage({
 
           <div className="text-[0.9375rem] leading-[1.7] text-muted sm:text-base">
             <p className="mb-8 text-[0.9375rem] italic text-muted">
-              Última atualização: 11/04/2026
+              Última atualização: 13/10/2026
             </p>
 
             <section className={SECTION_CLASS}>
@@ -90,6 +90,10 @@ export default async function PrivacyPolicyPage({
                     </li>
                     <li className="mb-2">
                       Dados de perfil (foto, biografia, etc.)
+                    </li>
+                    <li className="mb-2">
+                      Comentários e mensagens que você nos envia (ex: opiniões
+                      sobre o uso da plataforma)
                     </li>
                   </ul>
                 </li>
