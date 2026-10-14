@@ -13,7 +13,7 @@ export interface AvatarProps {
 
 // An image that failed before hydration never fires React's onError, so the
 // ref callback checks the already-settled state.
-const hasBrokenLoad = (img: HTMLImageElement | null): boolean =>
+export const hasBrokenLoad =(img: HTMLImageElement | null): boolean =>
   img?.complete === true && img.naturalWidth === 0;
 
 // An organization or team with no logo, or one whose image fails to load,
