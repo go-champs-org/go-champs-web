@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { THEME_MODES, THEME_STORAGE_KEY, ThemeMode } from '../theme/constants';
+import { keepTheme } from '../theme/keepTheme';
 
 function readCurrentTheme(): ThemeMode {
   const stored = document.documentElement.getAttribute('data-theme');
@@ -24,6 +25,7 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
 
   useEffect(() => {
     setThemeState(readCurrentTheme());
+    return keepTheme(document.documentElement, localStorage);
   }, []);
 
   const toggle = () => {
