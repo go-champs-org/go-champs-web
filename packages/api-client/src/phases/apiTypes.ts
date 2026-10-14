@@ -37,7 +37,7 @@ export interface ApiEliminationTeamStat {
   placeholder: string | null;
   // Keyed by ApiEliminationStat.id. The API sends numbers, not the strings
   // the CMS's own (looser) type declares.
-  stats: Record<string, number>;
+  stats: Record<string, number> | null;
   ranking_criteria_used: ApiRankingCriteria | null;
   ranking_stat_used: string | null;
 }

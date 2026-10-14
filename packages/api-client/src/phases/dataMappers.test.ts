@@ -87,6 +87,36 @@ describe('mapApiPhaseToPhaseEntity', () => {
     ]);
   });
 
+  it('maps a team stat without computed stats (null) to an empty record', () => {
+    const result = mapApiPhaseToPhaseEntity({
+      id: 'ph1',
+      title: 'Fase 1',
+      type: 'elimination',
+      order: 1,
+      is_in_progress: true,
+      eliminations: [
+        {
+          id: 'group-a',
+          order: 1,
+          title: 'Grupo A',
+          info: null,
+          team_stats: [
+            {
+              id: 'ts1',
+              team_id: 'team1',
+              placeholder: null,
+              stats: null,
+              ranking_criteria_used: null,
+              ranking_stat_used: null
+            }
+          ]
+        }
+      ]
+    });
+
+    expect(result.eliminations?.[0].teamStats[0].stats).toEqual({});
+  });
+
   it('defaults a null ranking_criteria to overall (a stat set up before ranking criteria existed)', () => {
     const result = mapApiPhaseToPhaseEntity({
       id: 'ph1',

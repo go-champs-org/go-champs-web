@@ -64,18 +64,20 @@ export interface PhaseEntity {
   eliminations: EliminationEntity[];
 }
 
+const orEmpty = (value: string | null): string => value || '';
+
 const mapApiDrawMatchToDrawMatchEntity = (
   apiDrawMatch: ApiDrawMatch
 ): DrawMatchEntity => ({
   id: apiDrawMatch.id,
-  firstTeamId: apiDrawMatch.first_team_id || '',
-  firstTeamPlaceholder: apiDrawMatch.first_team_placeholder || '',
-  firstTeamScore: apiDrawMatch.first_team_score || '',
-  secondTeamId: apiDrawMatch.second_team_id || '',
-  secondTeamPlaceholder: apiDrawMatch.second_team_placeholder || '',
-  secondTeamScore: apiDrawMatch.second_team_score || '',
-  name: apiDrawMatch.name || '',
-  info: apiDrawMatch.info || ''
+  firstTeamId: orEmpty(apiDrawMatch.first_team_id),
+  firstTeamPlaceholder: orEmpty(apiDrawMatch.first_team_placeholder),
+  firstTeamScore: orEmpty(apiDrawMatch.first_team_score),
+  secondTeamId: orEmpty(apiDrawMatch.second_team_id),
+  secondTeamPlaceholder: orEmpty(apiDrawMatch.second_team_placeholder),
+  secondTeamScore: orEmpty(apiDrawMatch.second_team_score),
+  name: orEmpty(apiDrawMatch.name),
+  info: orEmpty(apiDrawMatch.info)
 });
 
 const mapApiDrawToDrawEntity = (apiDraw: ApiDraw): DrawEntity => ({
@@ -101,7 +103,7 @@ const mapApiEliminationTeamStatToEntity = (
   id: apiTeamStat.id,
   teamId: apiTeamStat.team_id,
   placeholder: apiTeamStat.placeholder || '',
-  stats: apiTeamStat.stats,
+  stats: apiTeamStat.stats ?? {},
   rankingCriteriaUsed: apiTeamStat.ranking_criteria_used,
   rankingStatUsed: apiTeamStat.ranking_stat_used || ''
 });
