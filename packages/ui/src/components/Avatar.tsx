@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { RemoteImage } from './RemoteImage';
 import { initials } from '../utils/initials';
 
@@ -8,15 +11,29 @@ export interface AvatarProps {
   className?: string;
 }
 
-// An organization or team with no logo falls back to a circle of its own
-// initials, the same fallback both the sidebar and the tournament card need.
+// An image that failed before hydration never fires React's onError, so the
+// ref callback checks the already-settled state.
+const hasBrokenLoad = (img: HTMLImageElement | null): boolean =>
+  img?.complete === true && img.naturalWidth === 0;
+
+// An organization or team with no logo, or one whose image fails to load,
+// falls back to a circle of its own initials, the same fallback both the
+// sidebar and the tournament card need.
 export function Avatar({ name, logoUrl, size, className = '' }: AvatarProps) {
-  return logoUrl ? (
+  const [failedUrl, setFailedUrl] = useState('');
+  const showLogo = logoUrl !== '' && logoUrl !== failedUrl;
+  const markFailed = () => setFailedUrl(logoUrl);
+
+  return showLogo ? (
     <RemoteImage
       src={logoUrl}
       alt={name}
       width={size}
       height={size}
+      onError={markFailed}
+      imgRef={(img) => {
+        hasBrokenLoad(img) && markFailed();
+      }}
       className={`shrink-0 rounded-full border-2 border-[#a6cd63] object-cover ${className}`}
     />
   ) : (

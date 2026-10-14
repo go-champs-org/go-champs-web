@@ -1,3 +1,5 @@
+import type { Ref } from 'react';
+
 export interface RemoteImageProps {
   src: string;
   alt: string;
@@ -5,6 +7,8 @@ export interface RemoteImageProps {
   height: number;
   className?: string;
   loading?: 'lazy' | 'eager';
+  onError?: () => void;
+  imgRef?: Ref<HTMLImageElement>;
 }
 
 // Team crests, player photos and organization logos live on arbitrary
@@ -18,10 +22,14 @@ export function RemoteImage({
   width,
   height,
   className = '',
-  loading = 'lazy'
+  loading = 'lazy',
+  onError,
+  imgRef
 }: RemoteImageProps) {
   return (
     <img
+      ref={imgRef}
+      onError={onError}
       src={src}
       alt={alt}
       width={width}
