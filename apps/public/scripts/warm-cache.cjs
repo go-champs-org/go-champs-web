@@ -2,7 +2,11 @@
 const WARM_LIMIT = 50;
 const CONCURRENCY = 2;
 
+const STATIC_PAGES = ['about', 'privacy', 'terms', 'faq', 'contact'];
+
 const homeUrls = baseUrl => [`${baseUrl}/`];
+
+const staticUrls = baseUrl => STATIC_PAGES.map(page => `${baseUrl}/${page}`);
 
 const viewUrls = (baseUrl, view) => [
   `${baseUrl}/${view.tournament.organization.slug}`,
@@ -16,6 +20,7 @@ const warmCacheUrls = (baseUrl, recentlyViews, limit) =>
   [
     ...new Set([
       ...homeUrls(baseUrl),
+      ...staticUrls(baseUrl),
       ...recentlyViews.filter(hasSlugs).flatMap(view => viewUrls(baseUrl, view))
     ])
   ].slice(0, limit);
@@ -26,7 +31,9 @@ const EN = ['en', { Cookie: 'NEXT_LOCALE=en' }];
 const pathSegments = url => url.replace(/^https?:\/\/[^/]+/, '').split('/').filter(Boolean);
 
 // en renders only for the home and org pages: a cold cache after a deploy leaves little CPU budget for more.
-const localesFor = url => (pathSegments(url).length <= 1 ? [PT, EN] : [PT]);
+const isStaticPage = url => STATIC_PAGES.includes(pathSegments(url)[0]);
+
+const localesFor = url => (pathSegments(url).length <= 1 && !isStaticPage(url) ? [PT, EN] : [PT]);
 
 const warmTargets = urls =>
   urls.flatMap(url => localesFor(url).map(([locale, headers]) => ({ url, locale, headers })));

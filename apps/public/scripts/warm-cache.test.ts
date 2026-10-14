@@ -5,6 +5,8 @@ const view = (org: string, tournament: string) => ({
   tournament: { slug: tournament, organization: { slug: org } }
 });
 
+const staticPages = ['about', 'privacy', 'terms', 'faq', 'contact'].map(page => `https://x.test/${page}`);
+
 describe('warmCacheUrls', () => {
   it('warms the home page first, then each org and tournament root once', () => {
     expect(
@@ -12,9 +14,10 @@ describe('warmCacheUrls', () => {
         view('fberj', 'adulto'),
         view('fberj', 'sub17'),
         view('cbb', 'sub17final')
-      ], 10)
+      ], 20)
     ).toEqual([
       'https://pre-prod.go-champs.com/',
+      ...['about', 'privacy', 'terms', 'faq', 'contact'].map(page => `https://pre-prod.go-champs.com/${page}`),
       'https://pre-prod.go-champs.com/fberj',
       'https://pre-prod.go-champs.com/fberj/adulto',
       'https://pre-prod.go-champs.com/fberj/sub17',
@@ -24,7 +27,7 @@ describe('warmCacheUrls', () => {
   });
 
   it('still warms the home page when the API returned nothing', () => {
-    expect(warmCacheUrls('https://x.test', [], 10)).toEqual(['https://x.test/']);
+    expect(warmCacheUrls('https://x.test', [], 10)).toEqual(['https://x.test/', ...staticPages]);
   });
 
   it('caps the list', () => {
@@ -43,6 +46,7 @@ describe('warmCacheUrls', () => {
       ], 10)
     ).toEqual([
       'https://x.test/',
+      ...staticPages,
       'https://x.test/fberj',
       'https://x.test/fberj/adulto'
     ]);
@@ -63,6 +67,12 @@ describe('warmTargets', () => {
     expect(warmTargets(['https://x.test/fberj/adulto'])).toEqual([
       { url: 'https://x.test/fberj/adulto', locale: 'pt', headers: {} }
     ]);
+  });
+
+  it('yields only a pt target for each static page', () => {
+    expect(warmTargets(staticPages).map((target: { locale: string }) => target.locale)).toEqual(
+      staticPages.map(() => 'pt')
+    );
   });
 
   it('no longer targets the legacy /en redirect', () => {
