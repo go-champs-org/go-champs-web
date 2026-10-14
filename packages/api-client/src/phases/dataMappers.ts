@@ -101,7 +101,7 @@ const mapApiEliminationTeamStatToEntity = (
   id: apiTeamStat.id,
   teamId: apiTeamStat.team_id,
   placeholder: apiTeamStat.placeholder || '',
-  stats: apiTeamStat.stats,
+  stats: apiTeamStat.stats ?? {},
   rankingCriteriaUsed: apiTeamStat.ranking_criteria_used,
   rankingStatUsed: apiTeamStat.ranking_stat_used || ''
 });
