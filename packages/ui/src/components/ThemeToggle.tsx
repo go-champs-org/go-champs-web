@@ -24,8 +24,9 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
   const [theme, setThemeState] = useState<ThemeMode | null>(null);
 
   useEffect(() => {
+    const stop = keepTheme(document.documentElement, () => localStorage);
     setThemeState(readCurrentTheme());
-    return keepTheme(document.documentElement, localStorage);
+    return stop;
   }, []);
 
   const toggle = () => {

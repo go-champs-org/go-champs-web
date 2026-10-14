@@ -1,7 +1,7 @@
 import { THEME_STORAGE_KEY } from './constants';
 import { keepTheme, restoreTheme } from './keepTheme';
 
-const storageWith = (value: string | null) => ({ getItem: () => value });
+const storageWith = (value: string | null) => () => ({ getItem: () => value });
 
 describe('restoreTheme', () => {
   beforeEach(() => document.documentElement.removeAttribute('data-theme'));
@@ -23,12 +23,10 @@ describe('restoreTheme', () => {
   });
 
   it('ignores unavailable storage', () => {
-    const storage = {
-      getItem: () => {
-        throw new Error('denied');
-      }
+    const getStorage = () => {
+      throw new Error('denied');
     };
-    restoreTheme(document.documentElement, storage);
+    restoreTheme(document.documentElement, getStorage);
     expect(document.documentElement.getAttribute('data-theme')).toBeNull();
   });
 });
@@ -37,7 +35,7 @@ describe('keepTheme', () => {
   it('reapplies the theme after the attribute is removed', async () => {
     localStorage.setItem(THEME_STORAGE_KEY, 'light');
     document.documentElement.setAttribute('data-theme', 'light');
-    const stop = keepTheme(document.documentElement, localStorage);
+    const stop = keepTheme(document.documentElement, () => localStorage);
 
     document.documentElement.removeAttribute('data-theme');
     await Promise.resolve();
