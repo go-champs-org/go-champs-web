@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import { buildPageMetadata } from '../../../src/seo/metadata';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getAboutStats } from '@gochamps/api-client';
+import {
+  getAboutStats,
+  getRecentlyViewedOrganizations
+} from '@gochamps/api-client';
+import {
+  EXCLUDED_ORGANIZATION_SLUGS,
+  FIXED_TRUSTED_ORGANIZATIONS,
+  selectRotatingCandidates
+} from '../../../src/about/trustedOrganizations';
 import {
   AudienceSection,
   ClosingBand,
@@ -49,6 +57,22 @@ const loadAboutStats = async () => {
   }
 };
 
+// The strip still shows the fixed organizations when this fails.
+const loadRotatingOrganizations = async () => {
+  try {
+    return selectRotatingCandidates(
+      await getRecentlyViewedOrganizations(),
+      [
+        ...FIXED_TRUSTED_ORGANIZATIONS.map(organization => organization.slug),
+        ...EXCLUDED_ORGANIZATION_SLUGS
+      ]
+    );
+  } catch (error) {
+    console.error('Failed to fetch recently viewed organizations:', error);
+    return [];
+  }
+};
+
 export default async function AboutPage({
   params
 }: {
@@ -58,7 +82,10 @@ export default async function AboutPage({
   setRequestLocale(locale);
   const t = (await getTranslations('about')) as Translate;
 
-  const stats = await loadAboutStats();
+  const [stats, rotatingOrganizations] = await Promise.all([
+    loadAboutStats(),
+    loadRotatingOrganizations()
+  ]);
 
   return (
     <main>
@@ -66,7 +93,11 @@ export default async function AboutPage({
       <ManifestoBand t={t} />
       <MissionSection t={t} />
       <AudienceSection t={t} />
-      <TrustSection t={t} stats={stats} />
+      <TrustSection
+        t={t}
+        stats={stats}
+        rotatingOrganizations={rotatingOrganizations}
+      />
       <PlatformSection t={t} />
       <ClosingBand t={t} />
       <TeamSection t={t} />
