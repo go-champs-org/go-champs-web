@@ -11,17 +11,13 @@ export function RotatingOrganizations({
 }) {
   const { organizations, page } = useRotatingOrganizations(candidates);
 
-  return (
-    <>
-      {organizations.map(organization => (
-        <OrganizationTile
-          key={`${page}-${organization.slug}`}
-          name={organization.name}
-          slug={organization.slug}
-          logo={organization.logoUrl}
-          className="logo-fade-in"
-        />
-      ))}
-    </>
-  );
+  return organizations.map(organization => (
+    <OrganizationTile
+      key={`${page}-${organization.slug}`}
+      name={organization.name}
+      slug={organization.slug}
+      logo={organization.logoUrl}
+      className="logo-fade-in"
+    />
+  ));
 }

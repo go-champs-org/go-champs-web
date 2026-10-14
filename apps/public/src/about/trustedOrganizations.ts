@@ -19,20 +19,25 @@ export const EXCLUDED_ORGANIZATION_SLUGS = [
 
 export const ROTATING_SLOTS = 3;
 
+const isTaken = (
+  slug: string,
+  excludedSlugs: string[],
+  candidates: TrustedOrganization[]
+) =>
+  excludedSlugs.includes(slug) ||
+  candidates.some(candidate => candidate.slug === slug);
+
 export const selectRotatingCandidates = (
   organizations: OrganizationEntity[],
   excludedSlugs: string[]
 ): TrustedOrganization[] => {
-  const seen = new Set(excludedSlugs);
-
   return organizations.reduce<TrustedOrganization[]>(
     (candidates, organization) => {
       const logoUrl = organization.logoUrl.trim();
-      if (!logoUrl || seen.has(organization.slug)) {
+      if (!logoUrl || isTaken(organization.slug, excludedSlugs, candidates)) {
         return candidates;
       }
 
-      seen.add(organization.slug);
       return [
         ...candidates,
         { name: organization.name.trim(), slug: organization.slug, logoUrl }

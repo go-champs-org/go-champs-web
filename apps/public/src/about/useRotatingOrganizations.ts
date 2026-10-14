@@ -24,11 +24,15 @@ const prefersReducedMotion = () =>
   typeof window.matchMedia === 'function' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const useLoadableOrganizations = (candidates: TrustedOrganization[]) => {
+const emptied = (current: TrustedOrganization[]): TrustedOrganization[] =>
+  current.length === 0 ? current : [];
+
+const useLoadableOrganizations =(candidates: TrustedOrganization[]) => {
   const [loadable, setLoadable] = useState<TrustedOrganization[]>([]);
 
   useEffect(() => {
     if (candidates.length === 0) {
+      setLoadable(emptied);
       return;
     }
 
