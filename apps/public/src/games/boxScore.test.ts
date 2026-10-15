@@ -141,8 +141,8 @@ describe('shouldShowBoxScore', () => {
     ).toBe(true);
   });
 
-  it('hides a live game with full live updates but no logs yet', () => {
-    expect(shouldShowBoxScore('in_progress', 'full-live-update', [], [])).toBe(false);
+  it('shows a live game with full live updates before any log is saved', () => {
+    expect(shouldShowBoxScore('in_progress', 'full-live-update', [], [])).toBe(true);
   });
 
   it('shows a finished game with logs regardless of the live update setting', () => {

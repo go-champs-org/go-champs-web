@@ -219,7 +219,10 @@ function BoxScoreTable({
   totalsLabel
 }: BoxScoreTableProps) {
   return (
-    <div className="flex flex-col" data-testid="box-score-team">
+    <div
+      className="flex flex-col overflow-hidden rounded-lg border border-border"
+      data-testid="box-score-team"
+    >
       <TeamHeading teamName={team.teamName} logoUrl={team.logoUrl} />
 
       {/* Narrow screens scroll the table instead of the page. */}
@@ -283,7 +286,7 @@ function GenericBoxScoreViewer({
   labels
 }: ViewerProps) {
   return (
-    <div className="flex flex-col divide-y divide-border">
+    <div className="flex flex-col gap-4 px-4 pb-4 md:gap-6 md:px-6 md:pb-6">
       <BoxScoreTable
         team={home}
         columns={columns}
