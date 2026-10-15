@@ -93,6 +93,18 @@ describe('closestDayIndex', () => {
     expect(closestDayIndex(days, new Date('2026-08-28T15:00:00Z'))).toBe(1);
   });
 
+  it('keeps the evening on the same day once UTC has rolled over', () => {
+    const days = [day('2026-08-12'), day('2026-08-13')];
+
+    expect(closestDayIndex(days, new Date('2026-08-13T01:00:00Z'))).toBe(0);
+  });
+
+  it('moves to the next day when it is past midnight in São Paulo', () => {
+    const days = [day('2026-08-12'), day('2026-08-13')];
+
+    expect(closestDayIndex(days, new Date('2026-08-13T03:00:00Z'))).toBe(1);
+  });
+
   it('returns 0 for an empty list', () => {
     expect(closestDayIndex([], new Date('2026-08-28T15:00:00Z'))).toBe(0);
   });

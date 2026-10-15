@@ -3,6 +3,10 @@
 // conversion to another zone would shift every game away from what was typed.
 export const GAME_TIME_ZONE = 'UTC';
 
+// Where the games are played, so "today" is the date on the wall there, which
+// is what the stored kickoffs are written against.
+export const SCHEDULE_TIME_ZONE = 'America/Sao_Paulo';
+
 const LOCALE_TAGS: Record<string, string> = {
   pt: 'pt-BR',
   en: 'en-US'
