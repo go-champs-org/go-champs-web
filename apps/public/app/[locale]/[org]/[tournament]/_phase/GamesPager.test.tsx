@@ -43,10 +43,26 @@ const DEFAULT_PROPS = {
   nextDayLabel: 'Próximo dia',
   undecidedLabel: 'A definir',
   winnerLabel: 'Vencedor',
+  liveLabel: 'Ao vivo',
   teamHrefBase: '/org/tour/times/'
 };
 
 describe('GamesPager', () => {
+  it('flags a game in progress with the live badge', () => {
+    const days: GameDay[] = [
+      {
+        key: '2026-08-27',
+        label: '27 de agosto',
+        games: [game({ id: 'live', liveState: 'in_progress' }), game({ id: 'idle' })]
+      }
+    ];
+
+    render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
+
+    expect(screen.getAllByTestId('live-badge')).toHaveLength(1);
+    expect(screen.getByText('Ao vivo')).toBeInTheDocument();
+  });
+
   it('shows the title, the initial day date, and its games', () => {
     const days: GameDay[] = [
       { key: '2026-08-27', label: '27 de agosto', games: [game()] }

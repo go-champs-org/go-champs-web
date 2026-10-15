@@ -1,8 +1,8 @@
 import type { GameEntity } from '@gochamps/api-client';
-import { GAME_TIME_ZONE, localeTag } from './gameDateTime';
+import { GAME_TIME_ZONE, SCHEDULE_TIME_ZONE, localeTag } from './gameDateTime';
 
 export interface GameDay {
-  // Sortable São Paulo calendar day ('2026-08-12'), empty for a game the API
+  // Sortable calendar day ('2026-08-12'), empty for a game the API
   // has no datetime for. Also the stable React key of the group.
   key: string;
   label: string;
@@ -12,27 +12,28 @@ export interface GameDay {
 // Read as parts, not as a formatted string: every locale pattern puts the year,
 // month and day somewhere else, and the ICU build behind Intl is not the same
 // on a developer machine and on CI. The part types are the same everywhere.
-const DAY_PARTS_FORMAT = new Intl.DateTimeFormat('en-US', {
-  timeZone: GAME_TIME_ZONE,
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit'
-});
+const dayPartsFormat = (timeZone: string): Intl.DateTimeFormat =>
+  new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+
+const GAME_DAY_FORMAT = dayPartsFormat(GAME_TIME_ZONE);
+const SCHEDULE_DAY_FORMAT = dayPartsFormat(SCHEDULE_TIME_ZONE);
 
 const datePart = (
   parts: Intl.DateTimeFormatPart[],
   type: Intl.DateTimeFormatPartTypes
 ): string => parts.find(part => part.type === type)?.value || '';
 
-// The CMS slices the raw UTC timestamp instead
-// (apps/cms/src/Games/selectors.ts), which files a 22:30 game in São Paulo
-// under the following day.
-const dayKey = (datetime: string): string => {
+const dayKey = (datetime: string, format = GAME_DAY_FORMAT): string => {
   const parsed = new Date(datetime);
 
   if (Number.isNaN(parsed.getTime())) return '';
 
-  const parts = DAY_PARTS_FORMAT.formatToParts(parsed);
+  const parts = format.formatToParts(parsed);
 
   return `${datePart(parts, 'year')}-${datePart(parts, 'month')}-${datePart(parts, 'day')}`;
 };
@@ -86,7 +87,7 @@ export const gamesByDate = (games: GameEntity[], locale: string): GameDay[] => {
 export const closestDayIndex = (days: GameDay[], now: Date): number => {
   if (days.length === 0) return 0;
 
-  const todayKey = dayKey(now.toISOString());
+  const todayKey = dayKey(now.toISOString(), SCHEDULE_DAY_FORMAT);
   const todayIndex = days.findIndex(day => day.key === todayKey);
 
   if (todayIndex !== -1) return todayIndex;

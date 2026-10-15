@@ -151,7 +151,7 @@ interface StatsTableSectionProps {
     statsScope: string;
     glossary: string;
     total: string;
-    shirtNumber: string;
+    position: string;
     playerName: string;
     teamColumn: string;
     sortByStat: string;
@@ -194,7 +194,7 @@ function StatsTableSection({
         title={labels.title}
         scopeLegend={labels.statsScope}
         glossaryLabel={labels.glossary}
-        numberLabel={labels.shirtNumber}
+        numberLabel={labels.position}
         nameLabel={labels.playerName}
         totalLabel={labels.total}
         sortLabel={labels.sortByStat}
@@ -262,17 +262,9 @@ export default async function PlayerStatsPage({
           />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">
-            {t('title')}
-          </h1>
-          <Link
-            href={publicPath(`/${org}/${tournamentSlug}/estatisticas/resumo`)}
-            className="text-sm font-semibold text-primary-dark hover:underline"
-          >
-            {t('viewSummary')}
-          </Link>
-        </div>
+        <h1 className="text-2xl font-extrabold leading-tight text-foreground md:text-3xl">
+          {t('title')}
+        </h1>
 
         <StatsTableSection
           tournamentId={tournament.id}
@@ -293,7 +285,7 @@ export default async function PlayerStatsPage({
             statsScope: tTeam('statsScope'),
             glossary: tTeam('glossary'),
             total: tTeam('total'),
-            shirtNumber: tTeam('shirtNumber'),
+            position: tTeam('position'),
             playerName: tTeam('playerName'),
             teamColumn: t('teamColumn'),
             sortByStat: tTeam.raw('sortByStat') as string,

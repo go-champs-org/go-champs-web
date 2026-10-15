@@ -36,7 +36,7 @@ export function GameTeamRow({
           alt=""
           width={crestSize}
           height={crestSize}
-          className={`shrink-0 rounded-full object-cover ${emphasis === 'loser' ? 'opacity-60' : ''}`}
+          className={`shrink-0 object-contain ${emphasis === 'loser' ? 'opacity-60' : ''}`}
         />
       )}
       <span className={`truncate ${EMPHASIS_CLASS[emphasis]}`}>{name}</span>

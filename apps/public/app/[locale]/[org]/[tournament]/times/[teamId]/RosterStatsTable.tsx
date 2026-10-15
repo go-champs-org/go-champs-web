@@ -2,7 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ScopeFilter, StatGlossaryToggle, StatGlossaryList } from '@gochamps/ui';
+import {
+  RemoteImage,
+  ScopeFilter,
+  StatGlossaryToggle,
+  StatGlossaryList
+} from '@gochamps/ui';
 import {
   formatStatValue,
   sortRosterRows,
@@ -35,6 +40,9 @@ interface RosterStatsTableProps {
   // component test renders in isolation and never actually crosses the RSC
   // boundary).
   hasTeamColumn?: boolean;
+  // The tournament-wide table ranks players, so its first column is the
+  // position in the current ordering instead of the shirt number.
+  showPosition?: boolean;
   teamColumnLabel?: string;
   playerHrefBase?: string;
   teamHrefBase?: string;
@@ -76,7 +84,7 @@ const HEADER_BAND =
 const TOTALS_BAND =
   'bg-[color-mix(in_srgb,var(--color-primary)_60%,var(--color-surface))]';
 
-// The shirt number and the name stay put while the statistics scroll under
+// The first column and the name stay put while the statistics scroll under
 // them, the pair the CMS pins too. The width of the first cell is what the
 // offset of the second is measured against, so the two move together.
 const NUMBER_CELL = 'sticky left-0 z-20 w-12 pl-4 pr-2 md:w-16 md:pl-6';
@@ -205,30 +213,69 @@ function PlayerNameCell({ row, playerHrefBase }: PlayerNameCellProps) {
 }
 
 interface TeamNameCellProps {
-  teamName: string;
-  teamId?: string;
+  row: RosterStatRow;
   teamHrefBase?: string;
+}
+
+function TeamCrest({ logoUrl }: { logoUrl: string }) {
+  return (
+    <RemoteImage
+      src={logoUrl}
+      alt=""
+      width={20}
+      height={20}
+      className="h-5 w-5 shrink-0 object-contain"
+    />
+  );
+}
+
+interface TeamLabelProps {
+  label: string;
+  teamName: string;
+  href: string;
+}
+
+function TeamLabel({ label, teamName, href }: TeamLabelProps) {
+  return href ? (
+    <Link href={href} title={teamName} className="hover:underline">
+      {label}
+    </Link>
+  ) : (
+    <>{label}</>
+  );
 }
 
 // A stat row can name a team the tournament's roster no longer carries —
 // its id survives on the player but the name lookup comes up empty, so only
 // a real team id AND name together are worth a link.
-function TeamNameCell({ teamName, teamId, teamHrefBase }: TeamNameCellProps) {
-  if (!teamHrefBase || !teamId || !teamName) {
-    return <td className={TEAM_CELL}>{teamName}</td>;
-  }
+const teamHref = (
+  teamHrefBase: string | undefined,
+  teamId: string | undefined,
+  teamName: string
+): string => (teamHrefBase && teamId && teamName ? `${teamHrefBase}${teamId}` : '');
+
+// The tri code leads and the full name only stands in for a team without one,
+// next to the crest, the same way a game card names its sides.
+function TeamNameCell({ row, teamHrefBase }: TeamNameCellProps) {
+  const { teamName = '', teamShortName = '', teamLogoUrl = '', teamId } = row;
 
   return (
     <td className={TEAM_CELL}>
-      <Link href={`${teamHrefBase}${teamId}`} className="hover:underline">
-        {teamName}
-      </Link>
+      <span className="flex items-center gap-2">
+        {teamLogoUrl && <TeamCrest logoUrl={teamLogoUrl} />}
+        <TeamLabel
+          label={teamShortName || teamName}
+          teamName={teamName}
+          href={teamHref(teamHrefBase, teamId, teamName)}
+        />
+      </span>
     </td>
   );
 }
 
 interface StatRowProps {
   row: RosterStatRow;
+  leadingCell: string;
   columns: StatColumnView[];
   hasTeamColumn: boolean;
   playerHrefBase?: string;
@@ -237,6 +284,7 @@ interface StatRowProps {
 
 function StatRow({
   row,
+  leadingCell,
   columns,
   hasTeamColumn,
   playerHrefBase,
@@ -247,15 +295,11 @@ function StatRow({
       <td
         className={`${NUMBER_CELL} bg-surface text-xs tabular-nums text-muted`}
       >
-        {row.shirtNumber}
+        {leadingCell}
       </td>
       <PlayerNameCell row={row} playerHrefBase={playerHrefBase} />
       {hasTeamColumn && (
-        <TeamNameCell
-          teamName={row.teamName || ''}
-          teamId={row.teamId}
-          teamHrefBase={teamHrefBase}
-        />
+        <TeamNameCell row={row} teamHrefBase={teamHrefBase} />
       )}
       {columns.map(column => (
         <td
@@ -312,6 +356,7 @@ export function RosterStatsTable({
   totalLabel,
   sortLabel,
   hasTeamColumn = false,
+  showPosition = false,
   teamColumnLabel,
   playerHrefBase,
   teamHrefBase,
@@ -448,10 +493,11 @@ export function RosterStatsTable({
             </tr>
           </thead>
           <tbody>
-            {sortedRows.map(row => (
+            {sortedRows.map((row, index) => (
               <StatRow
                 key={row.playerId}
                 row={row}
+                leadingCell={showPosition ? String(index + 1) : row.shirtNumber}
                 columns={columns}
                 hasTeamColumn={hasTeamColumn}
                 playerHrefBase={playerHrefBase}

@@ -1,8 +1,11 @@
-// Games are stored as UTC instants, but the audience — and every scoreboard
-// operator typing the schedule in — reads them in Brazilian time. Formatting
-// against the viewer's own timezone would also make the server HTML and the
-// hydrated markup disagree for anyone outside it.
-export const GAME_TIME_ZONE = 'America/Sao_Paulo';
+// The scoreboard operator types the kickoff as a wall-clock time and the API
+// stores it as that same UTC wall clock, which the CMS shows untouched. Any
+// conversion to another zone would shift every game away from what was typed.
+export const GAME_TIME_ZONE = 'UTC';
+
+// Where the games are played, so "today" is the date on the wall there, which
+// is what the stored kickoffs are written against.
+export const SCHEDULE_TIME_ZONE = 'America/Sao_Paulo';
 
 const LOCALE_TAGS: Record<string, string> = {
   pt: 'pt-BR',
@@ -24,8 +27,6 @@ export const formatGameDateTime = (datetime: string, locale: string): string => 
   }).format(parsed);
 };
 
-// Parsed at noon UTC so America/Sao_Paulo formatting never crosses back into
-// the previous calendar day.
 export const formatDayDate = (dateKey: string, locale: string): string => {
   const parsed = new Date(`${dateKey}T12:00:00Z`);
 

@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { RemoteImage, Surface } from '@gochamps/ui';
+import { LiveBadge, RemoteImage, Surface } from '@gochamps/ui';
 import type { PagerDay, PagerGame } from '@/src/games/pagerGames';
 import { formatDayDate, formatGameTime } from '@/src/games/gameDateTime';
 import { teamDisplayName, teamShortName } from '@/src/games/gameTeams';
+import { isLiveGame } from '@/src/games/liveScore';
 import { gameWinner } from '@/src/games/teamRecord';
 import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
 
@@ -54,7 +55,7 @@ function GameSideRow({
             alt=""
             width={20}
             height={20}
-            className="h-5 w-5 shrink-0 rounded-full object-cover"
+            className="h-5 w-5 shrink-0 object-contain"
           />
         )}
         {teamHref ? (
@@ -78,6 +79,7 @@ interface GameCardProps {
   locale: string;
   undecidedLabel: string;
   winnerLabel: string;
+  liveLabel: string;
   href: string;
   // Where a team name sends the visitor, minus the team id — a plain string
   // so this client component never has to receive a function prop from its
@@ -93,6 +95,7 @@ function GameCard({
   locale,
   undecidedLabel,
   winnerLabel,
+  liveLabel,
   href,
   teamHrefBase
 }: GameCardProps) {
@@ -119,7 +122,10 @@ function GameCard({
         className="absolute inset-0"
       />
       <div className="pointer-events-none mb-1 flex items-center justify-between gap-2 text-xs text-muted">
-        <span className="notranslate">{formatGameTime(game.datetime, locale)}</span>
+        <span className="flex items-center gap-2">
+          <span className="notranslate">{formatGameTime(game.datetime, locale)}</span>
+          {isLiveGame(game.liveState) && <LiveBadge label={liveLabel} />}
+        </span>
         {game.location && <span className="truncate">{game.location}</span>}
       </div>
       <GameSideRow
@@ -151,6 +157,7 @@ export interface GamesPagerProps {
   nextDayLabel: string;
   undecidedLabel: string;
   winnerLabel: string;
+  liveLabel: string;
   // Where a card sends the visitor, minus the game id.
   gameHrefBase: string;
   teamHrefBase: string;
@@ -167,6 +174,7 @@ export function GamesPager({
   nextDayLabel,
   undecidedLabel,
   winnerLabel,
+  liveLabel,
   gameHrefBase,
   teamHrefBase
 }: GamesPagerProps) {
@@ -211,6 +219,7 @@ export function GamesPager({
             locale={locale}
             undecidedLabel={undecidedLabel}
             winnerLabel={winnerLabel}
+            liveLabel={liveLabel}
             href={`${gameHrefBase}${gameItem.id}`}
             teamHrefBase={teamHrefBase}
           />

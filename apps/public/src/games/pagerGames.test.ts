@@ -49,6 +49,7 @@ describe('toPagerDays', () => {
             awayPlaceholder: '',
             isFinished: true,
             resultType: 'automatic',
+            liveState: 'ended',
             homeTeam: {
               id: 'home',
               name: 'Team home',

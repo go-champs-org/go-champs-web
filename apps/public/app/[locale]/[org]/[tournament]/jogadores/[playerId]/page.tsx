@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CMS_URL } from '@/src/config/cms';
+import { playerSocialLinks, type SocialLink, type SocialNetwork } from '@/src/players/socialLinks';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { ManageButton } from '@/src/components/ManageButton';
 import { Breadcrumb } from '@/src/components/Breadcrumb';
@@ -20,7 +20,8 @@ import {
   type SportEntity,
   type TournamentWithTeamsEntity
 } from '@gochamps/api-client';
-import { FaUser } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
 import { ProfileBanner, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { buildPageMetadata } from '@/src/seo/metadata';
@@ -227,8 +228,7 @@ interface PlayerBannerProps {
   teamName: string;
   teamHref: string;
   gamesText: string;
-  profileHref: string;
-  profileLabel: string;
+  socialLinks: SocialLink[];
 }
 
 // The team name is a plain label when the player has none to link to — a
@@ -272,6 +272,42 @@ function PlayerBannerSubtitle({
   );
 }
 
+const SOCIAL_ICONS: Record<SocialNetwork, IconType> = {
+  instagram: FaInstagram,
+  twitter: FaTwitter,
+  facebook: FaFacebook
+};
+
+const SOCIAL_LABELS: Record<SocialNetwork, string> = {
+  instagram: 'Instagram',
+  twitter: 'Twitter',
+  facebook: 'Facebook'
+};
+
+function PlayerSocialLinks({ links }: { links: SocialLink[] }) {
+  return (
+    <ul className="mt-1 flex items-center justify-center gap-3 md:justify-start">
+      {links.map(({ network, href }) => {
+        const Icon = SOCIAL_ICONS[network];
+
+        return (
+          <li key={network}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={SOCIAL_LABELS[network]}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100/15 transition-colors hover:bg-neutral-100/30"
+            >
+              <Icon aria-hidden="true" className="h-4 w-4" />
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 function PlayerBanner({
   name,
   photoUrl,
@@ -279,8 +315,7 @@ function PlayerBanner({
   teamName,
   teamHref,
   gamesText,
-  profileHref,
-  profileLabel
+  socialLinks
 }: PlayerBannerProps) {
   return (
     <ProfileBanner className={BANNER_CLASS} testId="player-banner">
@@ -304,13 +339,7 @@ function PlayerBanner({
             />
           )}
 
-          <a
-            href={profileHref}
-            className="mt-1 inline-flex w-fit items-center gap-2 self-center rounded-full bg-neutral-100/15 px-4 py-2 text-xs font-semibold transition-colors hover:bg-neutral-100/30 md:self-start"
-          >
-            <FaUser aria-hidden="true" className="h-3.5 w-3.5" />
-            {profileLabel}
-          </a>
+          {socialLinks.length > 0 && <PlayerSocialLinks links={socialLinks} />}
         </div>
       </div>
     </ProfileBanner>
@@ -437,8 +466,7 @@ export default async function PlayerPage({
           teamName={view.teamName}
           teamHref={teamHref}
           gamesText={gamesText}
-          profileHref={`${CMS_URL}/${org}/${tournamentSlug}/Player/${playerId}`}
-          profileLabel={t('fullProfile')}
+          socialLinks={playerSocialLinks(view.player)}
         />
 
         <StatsSection

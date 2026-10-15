@@ -16,6 +16,7 @@ export type PagerGame = Pick<
   | 'awayPlaceholder'
   | 'isFinished'
   | 'resultType'
+  | 'liveState'
 > & { homeTeam: PagerTeam; awayTeam: PagerTeam };
 
 export interface PagerDay {
@@ -41,6 +42,7 @@ const toPagerGame = (game: GameEntity): PagerGame => ({
   awayPlaceholder: game.awayPlaceholder,
   isFinished: game.isFinished,
   resultType: game.resultType,
+  liveState: game.liveState,
   homeTeam: pagerTeam(game.homeTeam),
   awayTeam: pagerTeam(game.awayTeam)
 });

@@ -7,6 +7,7 @@ export * from './components/NavBar';
 export * from './components/Footer';
 export * from './components/ThemeToggle';
 export * from './components/RemoteImage';
+export * from './components/LiveBadge';
 export * from './components/Avatar';
 export * from './components/ScopeFilter';
 export * from './components/StatGlossary';

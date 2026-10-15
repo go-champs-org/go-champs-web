@@ -155,7 +155,7 @@ function TournamentGrid({
                 alt=""
                 width={40}
                 height={40}
-                className="h-10 w-10 shrink-0 rounded-full object-cover"
+                className="h-10 w-10 shrink-0 object-contain"
               />
             ) : (
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-extrabold text-[#4d6b2c]">

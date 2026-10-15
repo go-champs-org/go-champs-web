@@ -59,6 +59,11 @@ export function TournamentStatsTable({
   );
 
   return (
-    <RosterStatsTable {...tableProps} hasTeamColumn onSortRequest={onSortRequest} />
+    <RosterStatsTable
+      {...tableProps}
+      hasTeamColumn
+      showPosition
+      onSortRequest={onSortRequest}
+    />
   );
 }

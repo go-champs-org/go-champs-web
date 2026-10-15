@@ -188,12 +188,31 @@ describe('PlayerPage', () => {
     );
   });
 
-  it('links the pill to the full athlete profile on the CMS', async () => {
+  it('links the social networks the player filled in, as the CMS does', async () => {
+    getPlayerMock.mockResolvedValue(
+      player('p1', 'Jogador Um', { instagram: 'jogador1', facebook: 'jogador.um' })
+    );
+
+    await renderPage();
+
+    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
+      'href',
+      'https://instagram.com/jogador1'
+    );
+    expect(screen.getByRole('link', { name: 'Facebook' })).toHaveAttribute(
+      'href',
+      'https://facebook.com/jogador.um'
+    );
+    expect(screen.queryByRole('link', { name: 'Twitter' })).not.toBeInTheDocument();
+  });
+
+  it('shows no profile button nor social links for a player without networks', async () => {
     await renderPage();
 
     expect(
-      screen.getByRole('link', { name: 'Ver perfil de atleta completo' })
-    ).toHaveAttribute('href', expect.stringContaining('/org/torneio-teste/Player/p1'));
+      screen.queryByRole('link', { name: 'Ver perfil de atleta completo' })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Instagram' })).not.toBeInTheDocument();
   });
 
   it('renders a photo when the player has one', async () => {

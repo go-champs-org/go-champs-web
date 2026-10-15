@@ -22,16 +22,13 @@ describe('gamesByDate', () => {
     expect(day.label).toBe('August 12, 2026');
   });
 
-  // A 22:30 game in São Paulo is already the next day in UTC: grouping on the
-  // raw timestamp would file it under a day nobody played on.
-  it('groups a late game on its São Paulo day, not its UTC day', () => {
+  it('groups a late game on its stored UTC day, matching the CMS', () => {
     const days = gamesByDate(
       [game('early', '2026-08-12T18:00:00Z'), game('late', '2026-08-13T01:30:00Z')],
       'pt'
     );
 
-    expect(days).toHaveLength(1);
-    expect(days[0].games.map(g => g.id)).toEqual(['early', 'late']);
+    expect(days.map(day => day.key)).toEqual(['2026-08-12', '2026-08-13']);
   });
 
   it('returns the days oldest first, and each day kicks off in order', () => {
@@ -94,6 +91,18 @@ describe('closestDayIndex', () => {
     const days = [day('2026-08-20'), day('2026-08-25')];
 
     expect(closestDayIndex(days, new Date('2026-08-28T15:00:00Z'))).toBe(1);
+  });
+
+  it('keeps the evening on the same day once UTC has rolled over', () => {
+    const days = [day('2026-08-12'), day('2026-08-13')];
+
+    expect(closestDayIndex(days, new Date('2026-08-13T01:00:00Z'))).toBe(0);
+  });
+
+  it('moves to the next day when it is past midnight in São Paulo', () => {
+    const days = [day('2026-08-12'), day('2026-08-13')];
+
+    expect(closestDayIndex(days, new Date('2026-08-13T03:00:00Z'))).toBe(1);
   });
 
   it('returns 0 for an empty list', () => {
