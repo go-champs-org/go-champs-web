@@ -316,6 +316,18 @@ describe('TeamPage', () => {
     expect(link.textContent).toContain('74');
   });
 
+  it('flags a game in progress with the live badge', async () => {
+    getGamesByFilterMock.mockResolvedValue([
+      game('g1', '2026-08-12T21:00:00Z', { liveState: 'in_progress' }),
+      game('g2', '2026-08-13T21:00:00Z')
+    ]);
+
+    await renderPage();
+
+    expect(screen.getAllByTestId('live-badge')).toHaveLength(1);
+    expect(screen.getByText('Ao vivo')).toBeInTheDocument();
+  });
+
   it('shows the crest of each side that has one', async () => {
     getGamesByFilterMock.mockResolvedValue([
       game('g1', '2026-08-12T21:00:00Z', {

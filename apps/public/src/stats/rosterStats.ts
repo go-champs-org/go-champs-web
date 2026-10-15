@@ -22,6 +22,10 @@ export interface RosterStatRow {
   // Set only by the tournament-wide table (Task 12b) — the team roster table
   // never carries it, so its team column stays off.
   teamName?: string;
+  // What the team column shows: the tri code when the team has one, the full
+  // name (kept as `teamName`) otherwise — same priority as a game card.
+  teamShortName?: string;
+  teamLogoUrl?: string;
   teamId?: string;
 }
 

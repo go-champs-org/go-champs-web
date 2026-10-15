@@ -1,23 +1,21 @@
 import { formatGameDateTime, formatGameTime, formatDayDate } from './gameDateTime';
 
 describe('formatGameDateTime', () => {
-  it('formats a UTC instant in Brazilian time for pt', () => {
+  it('formats the stored wall clock without shifting it for pt', () => {
     expect(formatGameDateTime('2026-08-01T23:00:00Z', 'pt')).toBe(
-      '01/08/2026, 20:00'
+      '01/08/2026, 23:00'
     );
   });
 
   it('formats the same instant with the en-US conventions', () => {
     expect(formatGameDateTime('2026-08-01T23:00:00Z', 'en')).toBe(
-      '8/1/26, 8:00 PM'
+      '8/1/26, 11:00 PM'
     );
   });
 
-  it('keeps the game in Brazilian time regardless of the viewer locale', () => {
-    // 00:30Z is still the previous day in São Paulo — the whole point of
-    // pinning the timezone.
+  it('keeps the stored calendar day regardless of the viewer timezone', () => {
     expect(formatGameDateTime('2026-08-02T00:30:00Z', 'pt')).toBe(
-      '01/08/2026, 21:30'
+      '02/08/2026, 00:30'
     );
   });
 
@@ -31,12 +29,12 @@ describe('formatGameDateTime', () => {
 });
 
 describe('formatGameTime', () => {
-  it('formats only the kickoff time, in Brazilian time', () => {
-    expect(formatGameTime('2026-08-01T23:00:00Z', 'pt')).toBe('20:00');
+  it('formats only the stored kickoff time', () => {
+    expect(formatGameTime('2026-08-01T23:00:00Z', 'pt')).toBe('23:00');
   });
 
   it('formats the same instant with the en-US conventions', () => {
-    expect(formatGameTime('2026-08-01T23:00:00Z', 'en')).toBe('8:00 PM');
+    expect(formatGameTime('2026-08-01T23:00:00Z', 'en')).toBe('11:00 PM');
   });
 
   it('returns an empty string for a game without a date', () => {

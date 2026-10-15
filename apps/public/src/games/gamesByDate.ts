@@ -2,7 +2,7 @@ import type { GameEntity } from '@gochamps/api-client';
 import { GAME_TIME_ZONE, localeTag } from './gameDateTime';
 
 export interface GameDay {
-  // Sortable São Paulo calendar day ('2026-08-12'), empty for a game the API
+  // Sortable calendar day ('2026-08-12'), empty for a game the API
   // has no datetime for. Also the stable React key of the group.
   key: string;
   label: string;
@@ -24,9 +24,6 @@ const datePart = (
   type: Intl.DateTimeFormatPartTypes
 ): string => parts.find(part => part.type === type)?.value || '';
 
-// The CMS slices the raw UTC timestamp instead
-// (apps/cms/src/Games/selectors.ts), which files a 22:30 game in São Paulo
-// under the following day.
 const dayKey = (datetime: string): string => {
   const parsed = new Date(datetime);
 

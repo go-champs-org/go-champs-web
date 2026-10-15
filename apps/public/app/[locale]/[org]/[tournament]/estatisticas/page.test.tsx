@@ -157,6 +157,30 @@ describe('PlayerStatsPage', () => {
     expect(row.getByText('15')).toBeInTheDocument();
   });
 
+  it('numbers the rows by position instead of shirt number', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [
+          player('p1', 'Camisa Um', 't1', { shirtNumber: '23' }),
+          player('p2', 'Camisa Dois', 't2', { shirtNumber: '7' })
+        ],
+        playerStats: [playerStat('points', 'Pontos')]
+      })
+    );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p1', { points: '15' }),
+      statsLog('p2', { points: '9' })
+    ]);
+
+    await renderPage();
+
+    const first = within(screen.getByText('Camisa Um').closest('tr') as HTMLElement);
+    const second = within(screen.getByText('Camisa Dois').closest('tr') as HTMLElement);
+    expect(first.getByText('1')).toBeInTheDocument();
+    expect(second.getByText('2')).toBeInTheDocument();
+    expect(first.queryByText('23')).not.toBeInTheDocument();
+  });
+
   it('asks for every log in the tournament, with no team or player filter', async () => {
     await renderPage();
 
@@ -199,13 +223,10 @@ describe('PlayerStatsPage', () => {
     );
   });
 
-  it('links to the summary page', async () => {
+  it('does not offer the leaders link for now', async () => {
     await renderPage();
 
-    expect(screen.getByRole('link', { name: 'Ver líderes' })).toHaveAttribute(
-      'href',
-      '/org/torneio-teste/estatisticas/resumo'
-    );
+    expect(screen.queryByRole('link', { name: 'Ver líderes' })).not.toBeInTheDocument();
   });
 
   it('renders a 404 when the tournament does not exist', async () => {

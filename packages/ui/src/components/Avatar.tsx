@@ -34,7 +34,7 @@ export function Avatar({ name, logoUrl, size, className = '' }: AvatarProps) {
       imgRef={(img) => {
         hasBrokenLoad(img) && markFailed();
       }}
-      className={`shrink-0 rounded-full border-2 border-[#a6cd63] object-cover ${className}`}
+      className={`shrink-0 object-contain ${className}`}
     />
   ) : (
     <div

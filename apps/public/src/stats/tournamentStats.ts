@@ -7,25 +7,50 @@ import {
   type PlayerStatEntity
 } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
+import { teamShortName } from '@/src/games/gameTeams';
 import { rosterStatRows, type RosterStatRow } from './rosterStats';
 
 export interface TournamentStatRow extends RosterStatRow {
   teamName: string;
+  teamShortName: string;
+  teamLogoUrl: string;
   teamId: string;
 }
 
 // Client-table props land in the RSC payload: ship only what the join reads.
 export type PickedPlayer = Pick<PlayerEntity, 'id' | 'name' | 'shirtNumber' | 'teamId'>;
-export type PickedTeam = Pick<TeamEntity, 'id' | 'name'>;
+export type PickedTeam = Pick<TeamEntity, 'id' | 'name' | 'triCode' | 'logoUrl'>;
 
 export const pickPlayers = (players: PlayerEntity[]): PickedPlayer[] =>
   players.map(({ id, name, shirtNumber, teamId }) => ({ id, name, shirtNumber, teamId }));
 
 export const pickTeams = (teams: TeamEntity[]): PickedTeam[] =>
-  teams.map(({ id, name }) => ({ id, name }));
+  teams.map(({ id, name, triCode, logoUrl }) => ({ id, name, triCode, logoUrl }));
 
 const teamNameById = (teams: PickedTeam[]): Map<string, string> =>
   new Map(teams.map(team => [team.id, team.name]));
+
+interface TeamColumnFields {
+  teamName: string;
+  teamShortName: string;
+  teamLogoUrl: string;
+}
+
+const NO_TEAM: TeamColumnFields = { teamName: '', teamShortName: '', teamLogoUrl: '' };
+
+const teamColumnFields = (team: PickedTeam): TeamColumnFields => ({
+  teamName: team.name,
+  teamShortName: teamShortName(team, '', ''),
+  teamLogoUrl: team.logoUrl
+});
+
+const teamColumnFieldsById = (
+  teams: PickedTeam[]
+): ((teamId: string) => TeamColumnFields) => {
+  const byId = new Map(teams.map(team => [team.id, teamColumnFields(team)]));
+
+  return teamId => byId.get(teamId) ?? NO_TEAM;
+};
 
 // Unlike the team page's roster table — which lists every player on the
 // roster, stats or not, because a roster is what that page is — a
@@ -37,7 +62,7 @@ export const tournamentStatRows = (
   statsLogs: AggregatedPlayerStatsLogEntity[],
   teams: TeamEntity[]
 ): TournamentStatRow[] => {
-  const teamNames = teamNameById(teams);
+  const teamFields = teamColumnFieldsById(teams);
   const playerTeamId = new Map(players.map(player => [player.id, player.teamId]));
   const playersWithStats = new Set(statsLogs.map(statsLog => statsLog.playerId));
 
@@ -49,7 +74,7 @@ export const tournamentStatRows = (
 
     return {
       ...row,
-      teamName: teamNames.get(teamId) || '',
+      ...teamFields(teamId),
       teamId
     };
   });
@@ -62,7 +87,7 @@ export const tournamentStatRowsInStatsOrder = (
   statsLogs: AggregatedPlayerStatsLogEntity[],
   teams: PickedTeam[]
 ): TournamentStatRow[] => {
-  const teamNames = teamNameById(teams);
+  const teamFields = teamColumnFieldsById(teams);
   const playersById = new Map(players.map(player => [player.id, player]));
 
   return statsLogs
@@ -75,7 +100,7 @@ export const tournamentStatRowsInStatsOrder = (
         name: player.name,
         shirtNumber: player.shirtNumber,
         stats: statsLog.stats,
-        teamName: teamNames.get(player.teamId) || '',
+        ...teamFields(player.teamId),
         teamId: player.teamId
       };
     });

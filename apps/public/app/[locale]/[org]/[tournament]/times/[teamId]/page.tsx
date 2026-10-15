@@ -18,13 +18,14 @@ import {
 } from '@gochamps/api-client';
 import type { PlayerEntity, PlayerStatEntity } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
-import { GameTeamRow, RemoteImage, Surface } from '@gochamps/ui';
+import { GameTeamRow, LiveBadge, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { publicPath } from '@/src/i18n/publicPath';
 import { formatGameTime } from '@/src/games/gameDateTime';
 import { gamesByDate, type GameDay } from '@/src/games/gamesByDate';
 import { teamDisplayName } from '@/src/games/gameTeams';
 import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
+import { isLiveGame } from '@/src/games/liveScore';
 import { gameWinner, teamRecord } from '@/src/games/teamRecord';
 import { buildPageMetadata } from '@/src/seo/metadata';
 import { TeamSections, type TeamTab } from './TeamSections';
@@ -267,7 +268,7 @@ function TeamIdentity({
             width={120}
             height={120}
             loading="eager"
-            className="h-[84px] w-[84px] shrink-0 rounded-full border-4 border-[#a6cd63] bg-neutral-100 object-cover md:h-[120px] md:w-[120px]"
+            className="h-[84px] w-[84px] shrink-0 object-contain md:h-[120px] md:w-[120px]"
           />
         )}
 
@@ -366,6 +367,7 @@ interface GameRowProps {
   time: string;
   undecidedLabel: string;
   winnerLabel: string;
+  liveLabel: string;
 }
 
 // The winner carries the row: it is the only side in full weight, and the side
@@ -382,7 +384,8 @@ function GameRow({
   href,
   time,
   undecidedLabel,
-  winnerLabel
+  winnerLabel,
+  liveLabel
 }: GameRowProps) {
   const winner = gameWinner(game);
   const home = sideEmphasis(winner, 'home');
@@ -415,6 +418,7 @@ function GameRow({
         {/* The kickoff time is a formatted number: machine translation of the
             page must leave it alone, same as on the game page. */}
         <span className="notranslate text-xs text-muted">{time}</span>
+        {isLiveGame(game.liveState) && <LiveBadge label={liveLabel} />}
       </span>
       <GameTeamRow
         logoUrl={game.awayTeam.logoUrl}
@@ -439,6 +443,7 @@ interface GamesScheduleProps {
   gameHref: (gameId: string) => string;
   undecidedLabel: string;
   winnerLabel: string;
+  liveLabel: string;
 }
 
 function GamesSchedule({
@@ -447,7 +452,8 @@ function GamesSchedule({
   locale,
   gameHref,
   undecidedLabel,
-  winnerLabel
+  winnerLabel,
+  liveLabel
 }: GamesScheduleProps) {
   return (
     <Surface as="section" className={SECTION_CLASS} data-testid="games">
@@ -478,6 +484,7 @@ function GamesSchedule({
                   time={formatGameTime(game.datetime, locale)}
                   undecidedLabel={undecidedLabel}
                   winnerLabel={winnerLabel}
+                  liveLabel={liveLabel}
                 />
               ))}
             </div>
@@ -603,6 +610,7 @@ export default async function TeamPage({
           gameHref={gameId => gamePageHref(routeParams, gameId)}
           undecidedLabel={tGame('undecidedTeam')}
           winnerLabel={t('winner')}
+          liveLabel={tGame('live')}
         />
       ),
       hasContent: days.length > 0

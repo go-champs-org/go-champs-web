@@ -22,7 +22,7 @@ import {
 } from '@gochamps/api-client';
 import { FaFileAlt, FaTable } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
-import { RemoteImage, Surface } from '@gochamps/ui';
+import { LiveBadge, RemoteImage, Surface } from '@gochamps/ui';
 import { isNotFoundError } from '@/src/api/isNotFoundError';
 import { publicPath } from '@/src/i18n/publicPath';
 import {
@@ -45,10 +45,6 @@ import { isLiveGame } from '@/src/games/liveScore';
 import { buildPageMetadata, pageUrl } from '@/src/seo/metadata';
 import { BoxScore } from './BoxScore';
 import { Scoreboard } from './Scoreboard';
-
-// The same red the CMS live indicator uses; it is a status signal, not part of
-// the brand palette, so it stays out of the theme tokens.
-const LIVE_RED = '#FF4136';
 
 const SCOREBOARD_URL = process.env.NEXT_PUBLIC_SCOREBOARD_APP_URL || '';
 
@@ -164,7 +160,7 @@ function TeamIdentity({ name, logoUrl, href }: TeamIdentityProps) {
           alt=""
           width={64}
           height={64}
-          className="h-12 w-12 rounded-full object-cover md:h-16 md:w-16"
+          className="h-12 w-12 object-contain md:h-16 md:w-16"
         />
       )}
       {href ? (
@@ -174,22 +170,6 @@ function TeamIdentity({ name, logoUrl, href }: TeamIdentityProps) {
       ) : (
         <span className={nameClass}>{name}</span>
       )}
-    </div>
-  );
-}
-
-function LiveIndicator({ label }: { label: string }) {
-  return (
-    <div
-      className="mt-4 flex items-center justify-center gap-2 text-xs font-bold uppercase"
-      style={{ color: LIVE_RED }}
-    >
-      <span
-        className="h-2.5 w-2.5 animate-pulse rounded-full"
-        style={{ backgroundColor: LIVE_RED }}
-        aria-hidden="true"
-      />
-      {label}
     </div>
   );
 }
@@ -243,7 +223,11 @@ function GameCard({
         <span>{venue}</span>
       </header>
 
-      {isLive && <LiveIndicator label={liveLabel} />}
+      {isLive && (
+        <div className="mt-4 flex justify-center">
+          <LiveBadge label={liveLabel} />
+        </div>
+      )}
 
       <div className="mt-6 grid grid-cols-3 items-center gap-2 md:gap-6">
         <TeamIdentity

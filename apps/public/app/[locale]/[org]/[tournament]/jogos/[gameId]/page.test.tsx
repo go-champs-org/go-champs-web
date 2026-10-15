@@ -148,7 +148,7 @@ describe('GamePage', () => {
     expect(
       screen.getByText('Ginásio Municipal — São Paulo')
     ).toBeInTheDocument();
-    expect(screen.getByText('01/08/2026, 20:00')).toBeInTheDocument();
+    expect(screen.getByText('01/08/2026, 23:00')).toBeInTheDocument();
   });
 
   it('reads each score out with the team it belongs to', async () => {

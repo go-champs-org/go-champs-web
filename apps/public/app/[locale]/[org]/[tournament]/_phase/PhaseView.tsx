@@ -112,7 +112,7 @@ function TournamentLogo({ logoUrl, name }: { logoUrl: string; name: string }) {
       alt=""
       width={56}
       height={56}
-      className="h-14 w-14 shrink-0 rounded-xl bg-neutral-100 object-cover md:h-16 md:w-16"
+      className="h-14 w-14 shrink-0 object-contain md:h-16 md:w-16"
     />
   ) : (
     <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-xl font-extrabold text-[#4d6b2c] md:h-16 md:w-16">
@@ -359,7 +359,7 @@ function StandingsGroup({
                           alt=""
                           width={20}
                           height={20}
-                          className="h-5 w-5 shrink-0 rounded-full object-cover"
+                          className="h-5 w-5 shrink-0 object-contain"
                         />
                       )}
                       <TeamName
@@ -647,6 +647,7 @@ interface PhaseGamesSectionProps {
   previousDayLabel: string;
   nextDayLabel: string;
   winnerLabel: string;
+  liveLabel: string;
   gameHrefBase: string;
   teamHrefBase: string;
 }
@@ -660,6 +661,7 @@ function PhaseGamesSection({
   previousDayLabel,
   nextDayLabel,
   winnerLabel,
+  liveLabel,
   gameHrefBase,
   teamHrefBase
 }: PhaseGamesSectionProps) {
@@ -681,6 +683,7 @@ function PhaseGamesSection({
       nextDayLabel={nextDayLabel}
       undecidedLabel={undecidedLabel}
       winnerLabel={winnerLabel}
+      liveLabel={liveLabel}
       gameHrefBase={gameHrefBase}
       teamHrefBase={teamHrefBase}
     />
@@ -709,6 +712,7 @@ interface PhaseBodyProps {
   previousDayLabel: string;
   nextDayLabel: string;
   winnerLabel: string;
+  liveLabel: string;
   teamHref: (teamId: string) => string;
   gameHrefBase: string;
   teamHrefBase: string;
@@ -730,6 +734,7 @@ function PhaseBody({
   previousDayLabel,
   nextDayLabel,
   winnerLabel,
+  liveLabel,
   teamHref,
   gameHrefBase,
   teamHrefBase
@@ -756,6 +761,7 @@ function PhaseBody({
           previousDayLabel={previousDayLabel}
           nextDayLabel={nextDayLabel}
           winnerLabel={winnerLabel}
+          liveLabel={liveLabel}
           gameHrefBase={gameHrefBase}
           teamHrefBase={teamHrefBase}
         />
@@ -907,6 +913,7 @@ export async function PhaseView({
           previousDayLabel={tPhase('previousDay')}
           nextDayLabel={tPhase('nextDay')}
           winnerLabel={tGame('winner')}
+          liveLabel={tGame('live')}
           teamHref={teamId =>
             publicPath(`/${org}/${tournamentSlug}/times/${teamId}`)
           }
