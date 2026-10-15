@@ -41,7 +41,8 @@
       "organizers": {
         "label": "Organizers",
         "title": "You organize",
-        "description": "Present your competition and discover the services for every game."
+        "description": "Present your competition and discover the services for every game.",
+        "cta": "See the packages"
       },
       "athletes": {
         "label": "Athletes",
@@ -111,6 +112,7 @@
     "organizersEyebrow": "For organizers",
     "organizersTitle": "Bring your competition to Go Champs.",
     "organizersDescription": "Start for free and add game operations when your competition needs them.",
+    "bookDemo": "Book a demo",
     "packages": {
       "free": {
         "name": "Free",

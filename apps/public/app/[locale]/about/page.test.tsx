@@ -1,11 +1,15 @@
 import { render, screen, within } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
-import { getAboutStats } from '@gochamps/api-client';
+import {
+  getAboutStats,
+  getRecentlyViewedOrganizations
+} from '@gochamps/api-client';
 import AboutPage from './page';
 import messages from '../../../messages/pt.json';
 
 jest.mock('@gochamps/api-client', () => ({
-  getAboutStats: jest.fn()
+  getAboutStats: jest.fn(),
+  getRecentlyViewedOrganizations: jest.fn()
 }));
 
 // Resolves dotted keys ("values.visibility.title") against the nested catalogue.
@@ -42,6 +46,7 @@ const renderPage = async () =>
 describe('AboutPage', () => {
   beforeEach(() => {
     getAboutStatsMock.mockReset();
+    jest.mocked(getRecentlyViewedOrganizations).mockResolvedValue([]);
   });
 
   it('renders every section of the page', async () => {
@@ -123,7 +128,7 @@ describe('AboutPage', () => {
     ).toHaveAttribute('href', '/');
   });
 
-  it('renders the organizers audience card without a link or demo booking', async () => {
+  it('links the organizers audience card to the organizers section', async () => {
     getAboutStatsMock.mockResolvedValue(stats);
 
     await renderPage();
@@ -132,11 +137,21 @@ describe('AboutPage', () => {
       .getByRole('heading', { name: messages.about.audiences.organizers.title })
       .closest('article') as HTMLElement;
 
-    expect(within(card).queryByRole('link')).not.toBeInTheDocument();
-    expect(card.querySelector('a')).toBeNull();
     expect(
-      screen.queryByText(/Agende uma demonstração/)
-    ).not.toBeInTheDocument();
+      within(card).getByRole('link', {
+        name: messages.about.audiences.organizers.cta
+      })
+    ).toHaveAttribute('href', '#organizers');
+  });
+
+  it('offers to book a demo from the organizers section', async () => {
+    getAboutStatsMock.mockResolvedValue(stats);
+
+    await renderPage();
+
+    expect(
+      screen.getByRole('link', { name: messages.about.bookDemo })
+    ).toHaveAttribute('href', 'https://wa.me/5551996863254');
   });
 
   it('exposes the organizers section as an anchor target', async () => {

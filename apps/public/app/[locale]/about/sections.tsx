@@ -2,7 +2,13 @@ import type { ReactNode } from 'react';
 import Image from 'next/image';
 import type { AboutStats } from '@gochamps/api-client';
 import { publicPath } from '../../../src/i18n/publicPath';
+import {
+  FIXED_TRUSTED_ORGANIZATIONS,
+  type TrustedOrganization
+} from '../../../src/about/trustedOrganizations';
 import { formatOptionalStatNumber } from './formatStatNumber';
+import { OrganizationTile } from './OrganizationTile';
+import { RotatingOrganizations } from './RotatingOrganizations';
 import {
   ArrowButton,
   CARD_CLASS,
@@ -58,11 +64,17 @@ const TEAM = [
   }
 ] as const;
 
-const AUDIENCES = [
+const AUDIENCES: {
+  key: string;
+  photo: string;
+  features: string[];
+  targetId?: string;
+}[] = [
   {
     key: 'organizers',
     photo: '/about/audience-organizer.jpg',
-    features: [] as string[]
+    features: [],
+    targetId: ORGANIZERS_SECTION_ID
   },
   {
     key: 'athletes',
@@ -76,15 +88,9 @@ const AUDIENCES = [
   }
 ];
 
-const MISSION_VALUES = ['visibility', 'information', 'connection'];
+const BOOK_DEMO_URL = 'https://wa.me/5551996863254';
 
-// Their logos ship with the app, so the strip never depends on what the API
-// serves for them.
-const TRUSTED_ORGANIZATIONS = [
-  { name: 'CBB', slug: 'cbb', logo: '/about/logos/cbb.png' },
-  { name: 'FGB', slug: 'ffgb', logo: '/about/logos/fgb.png' },
-  { name: 'FBERJ', slug: 'fberj', logo: '/about/logos/fberj.png' }
-];
+const MISSION_VALUES = ['visibility', 'information', 'connection'];
 
 const PLATFORM_CARDS = [
   { key: 'scoresheet', screenshot: '/about/platform-scoresheet.webp' },
@@ -316,6 +322,45 @@ export function MissionSection({ t }: { t: Translate }) {
   );
 }
 
+const CLICKABLE_CARD_CLASS =
+  'transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_var(--shadow-strong)] motion-reduce:transition-none motion-reduce:hover:transform-none';
+
+const audienceCardClass = (targetId?: string) =>
+  `${CARD_CLASS} relative ${targetId ? CLICKABLE_CARD_CLASS : ''}`;
+
+function AudienceCardLink({
+  targetId,
+  label
+}: {
+  targetId: string;
+  label: string;
+}) {
+  return (
+    <a
+      href={`#${targetId}`}
+      aria-label={label}
+      className="absolute inset-0 z-10 rounded-[20px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    />
+  );
+}
+
+function AudienceCardCta({ label }: { label: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="mt-auto inline-flex items-center self-start gap-1.5 pt-2 text-[0.9375rem] font-bold text-accent-text underline underline-offset-[3px]"
+    >
+      {label}
+      <svg viewBox="0 0 24 24" width={18} height={18}>
+        <path
+          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
+  );
+}
+
 function AudienceCard({
   audience,
   t
@@ -324,9 +369,13 @@ function AudienceCard({
   t: Translate;
 }) {
   const base = `audiences.${audience.key}`;
+  const { targetId } = audience;
 
   return (
-    <article className={CARD_CLASS}>
+    <article className={audienceCardClass(targetId)}>
+      {targetId && (
+        <AudienceCardLink targetId={targetId} label={t(`${base}.cta`)} />
+      )}
       <Photo
         src={audience.photo}
         sizes="(min-width: 769px) 33vw, 100vw"
@@ -347,6 +396,7 @@ function AudienceCard({
             )}
           />
         )}
+        {targetId && <AudienceCardCta label={t(`${base}.cta`)} />}
       </div>
     </article>
   );
@@ -368,39 +418,14 @@ export function AudienceSection({ t }: { t: Translate }) {
   );
 }
 
-function OrganizationTile({
-  organization
-}: {
-  organization: (typeof TRUSTED_ORGANIZATIONS)[number];
-}) {
-  return (
-    <li className="min-w-0 md:col-span-2">
-      <a
-        href={publicPath(`/${organization.slug}`)}
-        title={organization.name}
-        className="flex h-[88px] flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-white/20 px-2 text-[0.5625rem] font-extrabold uppercase tracking-[0.03em] text-white transition-colors hover:border-primary"
-      >
-        <span className="relative block h-10 w-full shrink-0">
-          <Image
-            src={organization.logo}
-            alt=""
-            fill
-            sizes="200px"
-            className="object-contain"
-          />
-        </span>
-        <span className="opacity-80">{organization.name}</span>
-      </a>
-    </li>
-  );
-}
-
 export function TrustSection({
   t,
-  stats
+  stats,
+  rotatingOrganizations
 }: {
   t: Translate;
   stats: AboutStats | null;
+  rotatingOrganizations: TrustedOrganization[];
 }) {
   const metrics = [
     { key: 'organizations', value: stats?.organizationsCount },
@@ -433,9 +458,15 @@ export function TrustSection({
         {t('trustLogosTitle')}
       </p>
       <ul className="grid grid-cols-3 gap-3 md:grid-cols-6">
-        {TRUSTED_ORGANIZATIONS.map(organization => (
-          <OrganizationTile key={organization.slug} organization={organization} />
+        {FIXED_TRUSTED_ORGANIZATIONS.map(organization => (
+          <OrganizationTile
+            key={organization.slug}
+            name={organization.name}
+            slug={organization.slug}
+            logo={organization.logo}
+          />
         ))}
+        <RotatingOrganizations candidates={rotatingOrganizations} />
       </ul>
     </Section>
   );
@@ -591,9 +622,12 @@ export function OrganizersSection({ t }: { t: Translate }) {
             title={t('organizersTitle')}
           />
         </div>
-        <p className="text-[1.0625rem] leading-normal text-muted lg:flex-1">
-          {t('organizersDescription')}
-        </p>
+        <div className="flex flex-col items-start gap-6 lg:flex-1">
+          <p className="text-[1.0625rem] leading-normal text-muted">
+            {t('organizersDescription')}
+          </p>
+          <ArrowButton href={BOOK_DEMO_URL} label={t('bookDemo')} external />
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
         {PACKAGES.map(item => (

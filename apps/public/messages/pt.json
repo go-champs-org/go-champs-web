@@ -41,7 +41,8 @@
       "organizers": {
         "label": "Organizadores",
         "title": "Você organiza",
-        "description": "Apresente sua competição e conheça os serviços para cada partida."
+        "description": "Apresente sua competição e conheça os serviços para cada partida.",
+        "cta": "Conheça os pacotes"
       },
       "athletes": {
         "label": "Atletas",
@@ -111,6 +112,7 @@
     "organizersEyebrow": "Para organizadores",
     "organizersTitle": "Leve seu campeonato para a Go Champs.",
     "organizersDescription": "Comece grátis e adicione a operação dos jogos quando o campeonato precisar.",
+    "bookDemo": "Agende uma demonstração",
     "packages": {
       "free": {
         "name": "Grátis",

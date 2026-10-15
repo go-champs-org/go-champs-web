@@ -112,10 +112,19 @@ export function Photo({
   );
 }
 
-export function ArrowButton({ href, label }: { href: string; label: string }) {
+export function ArrowButton({
+  href,
+  label,
+  external = false
+}: {
+  href: string;
+  label: string;
+  external?: boolean;
+}) {
   return (
     <a
       href={href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-navbar px-6 py-4 text-base font-medium tracking-[0.01em] text-white transition-all hover:-translate-y-px hover:opacity-90 md:w-[292px]"
     >
       {label}

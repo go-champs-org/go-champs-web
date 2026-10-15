@@ -46,8 +46,23 @@ body {
 
 /* Motion is decoration here: without it the content is already in its final
    position, so the whole animation is dropped rather than shortened. */
+@keyframes logo-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.logo-fade-in {
+  animation: logo-fade-in 0.6s ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .slide-fade-in {
+  .slide-fade-in,
+  .logo-fade-in {
     animation: none;
   }
 }
