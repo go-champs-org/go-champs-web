@@ -66,22 +66,19 @@ export const boxScoreRows = (
 
 const FULL_LIVE_UPDATE: LiveSiteUpdate = 'full-live-update';
 
-// Mirrors the CMS gate (apps/cms/src/Pages/GameView.tsx `shouldShowBoxScore`):
-// a game in progress only publishes its box score when the tournament opted
-// into full live updates, and only once there is something to show. A
+// A game in progress publishes its box score when the tournament opted into
+// full live updates, even before any log is saved: the live logs only exist in
+// the scoreboard, and the box score is what polls it to fill them in. A
 // finished or upcoming game shows it whenever logs exist.
 export const shouldShowBoxScore = (
   liveState: string,
   liveSiteUpdate: LiveSiteUpdate,
   homeLogs: unknown[],
   awayLogs: unknown[]
-): boolean => {
-  const hasLogs = homeLogs.length > 0 || awayLogs.length > 0;
-
-  return isLiveGame(liveState)
-    ? liveSiteUpdate === FULL_LIVE_UPDATE && hasLogs
-    : hasLogs;
-};
+): boolean =>
+  isLiveGame(liveState)
+    ? liveSiteUpdate === FULL_LIVE_UPDATE
+    : homeLogs.length > 0 || awayLogs.length > 0;
 
 // A statistic the sport does not order sorts after every one it does, the
 // same stable sort the roster table uses (src/stats/rosterStats.ts).
