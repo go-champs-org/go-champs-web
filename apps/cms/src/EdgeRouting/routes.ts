@@ -10,6 +10,7 @@
 const PASSTHROUGH_PREFIXES = [
   '/_next/',
   // apps/public/public/* — pages reference these by absolute root path
+  '/about/',
   '/logo/',
   '/photos/',
   '/illustrations/',

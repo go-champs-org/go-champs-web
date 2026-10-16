@@ -18,6 +18,8 @@ describe('isPublicPassthroughPath', () => {
     ['/_next/static/chunks/main.js'],
     ['/_next/image?url=%2Flogo.png'],
     // apps/public/public/*, referenced by absolute root path
+    ['/about/hero-court.jpg'],
+    ['/about/arrow-outward.svg'],
     ['/logo/logo-green.png'],
     ['/photos/ruan.png'],
     ['/illustrations/hands-on-trophy.svg'],
