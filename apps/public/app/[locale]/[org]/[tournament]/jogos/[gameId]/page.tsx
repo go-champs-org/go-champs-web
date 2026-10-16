@@ -525,7 +525,7 @@ export default async function GamePage({
             currentLabel={`${names.homeTeam} x ${names.awayTeam}`}
           />
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
             <GameAssetLinks
               assets={game.assets}
               labels={{
