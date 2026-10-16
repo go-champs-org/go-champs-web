@@ -1,5 +1,7 @@
 import { PRIVATE_STAT_SLUGS } from '@gochamps/api-client';
 import {
+  defaultSortSlug,
+  defaultSortSlugs,
   playerProfileStatOrder,
   sportStatOrder
 } from './sportStatColumns';
@@ -39,5 +41,16 @@ describe('basketball_3x3', () => {
 
   it('shares no shooting slug with basketball_5x5', () => {
     expect(sportStatOrder('basketball_3x3')).not.toContain('field_goals_made');
+  });
+
+  it('opens basketball_5x5 ranked by points in both scopes', () => {
+    expect(defaultSortSlugs('basketball_5x5')).toEqual({
+      aggregate: 'points',
+      per_game: 'points_per_game'
+    });
+  });
+
+  it('leaves a sport with no default ranking in the order it arrived', () => {
+    expect(defaultSortSlug('basketball_3x3', 'aggregate')).toBeNull();
   });
 });

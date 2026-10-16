@@ -49,6 +49,9 @@ interface RosterStatsTableProps {
   // Set only by the tournament-wide table: a header click asks the API for
   // freshly sorted rows instead of reordering rows in memory.
   onSortRequest?: (slug: string) => Promise<RosterStatRow[]>;
+  // The column each scope opens ranked by; a sport with none opens in the
+  // order the rows arrived.
+  defaultSortSlugs?: Record<string, string>;
 }
 
 interface SortState {
@@ -57,6 +60,19 @@ interface SortState {
 }
 
 const NO_SORT: SortState = { slug: null, direction: 'desc' };
+
+const NO_DEFAULT_SORTS: Record<string, string> = {};
+
+const initialSort = (
+  defaultSortSlugs: Record<string, string>,
+  scope: StatScope
+): SortState =>
+  defaultSortSlugs[scope]
+    ? { slug: defaultSortSlugs[scope], direction: 'desc' }
+    : NO_SORT;
+
+const rankedRows = (rows: RosterStatRow[], sort: SortState): RosterStatRow[] =>
+  sortRosterRows(rows, sort.slug, sort.direction);
 
 // A first click ranks the column, the best mark first. The same column again
 // turns it around.
@@ -360,12 +376,17 @@ export function RosterStatsTable({
   teamColumnLabel,
   playerHrefBase,
   teamHrefBase,
-  onSortRequest
+  onSortRequest,
+  defaultSortSlugs = NO_DEFAULT_SORTS
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
-  const [sort, setSort] = useState<SortState>(NO_SORT);
+  const [sort, setSort] = useState<SortState>(() =>
+    initialSort(defaultSortSlugs, scopes[0])
+  );
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
-  const [serverRows, setServerRows] = useState(rows);
+  const [serverRows, setServerRows] = useState(() =>
+    rankedRows(rows, initialSort(defaultSortSlugs, scopes[0]))
+  );
   const [isSorting, setIsSorting] = useState(false);
   // Bumped on every scope switch (and every sort request) so a request that
   // resolves after the visitor has moved on can tell it's stale and skip
@@ -375,7 +396,7 @@ export function RosterStatsTable({
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = onSortRequest
     ? serverRows
-    : sortRosterRows(rows, sort.slug, sort.direction);
+    : rankedRows(rows, sort);
 
   // A fresh `rows` prop (a different tournament, or a revalidated fetch)
   // replaces whatever this island was showing, sorted or not — including the
@@ -383,9 +404,10 @@ export function RosterStatsTable({
   // (columnsFor would render no columns for a scope the new props dropped).
   useEffect(() => {
     requestId.current += 1;
+    const start = initialSort(defaultSortSlugs, scopes[0]);
     setScope(scopes[0]);
-    setServerRows(rows);
-    setSort(NO_SORT);
+    setServerRows(rankedRows(rows, start));
+    setSort(start);
     setIsSorting(false);
   }, [rows]);
 
@@ -395,9 +417,10 @@ export function RosterStatsTable({
     // Invalidates any sort still in flight for the old scope — its loading
     // state has to end here too, or a header click never spins down again.
     requestId.current += 1;
+    const start = initialSort(defaultSortSlugs, next);
     setScope(next);
-    setSort(NO_SORT);
-    setServerRows(rows);
+    setSort(start);
+    setServerRows(rankedRows(rows, start));
     setIsSorting(false);
   };
 

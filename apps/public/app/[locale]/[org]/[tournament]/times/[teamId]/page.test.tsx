@@ -528,22 +528,28 @@ describe('TeamPage roster stats', () => {
     expect(rosterCells('Camisa Dez')).toEqual(['10', 'Camisa Dez', '-', '-']);
   });
 
+  it('opens ranked by points, the way the CMS does for basketball 5x5', async () => {
+    withRosterStats();
+
+    await renderPage();
+
+    expect(rosterOrder()).toEqual(['Camisa Dez', 'Camisa Quatro']);
+  });
+
   it('ranks the roster by the column whose header was clicked', async () => {
     withRosterStats();
 
     await renderPage();
-    await userEvent.click(screen.getByRole('button', { name: /Pontos/ }));
+    await userEvent.click(screen.getByRole('button', { name: /Rebotes/ }));
 
-    expect(rosterOrder()).toEqual(['Camisa Dez', 'Camisa Quatro']);
+    expect(rosterOrder()).toEqual(['Camisa Quatro', 'Camisa Dez']);
   });
 
   it('turns the ranking around on a second click of the same column', async () => {
     withRosterStats();
 
     await renderPage();
-    const pointsHeader = screen.getByRole('button', { name: /Pontos/ });
-    await userEvent.click(pointsHeader);
-    await userEvent.click(pointsHeader);
+    await userEvent.click(screen.getByRole('button', { name: /Pontos/ }));
 
     expect(rosterOrder()).toEqual(['Camisa Quatro', 'Camisa Dez']);
   });
@@ -606,7 +612,7 @@ describe('TeamPage roster stats', () => {
 
     await renderPage();
 
-    expect(rosterOrder()).toEqual(['Camisa Quatro', 'Camisa Dez']);
+    expect(rosterOrder()).toEqual(['Camisa Dez', 'Camisa Quatro']);
   });
 });
 
