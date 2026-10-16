@@ -13,7 +13,7 @@ export function OrganizationTile({
   className?: string;
 }) {
   return (
-    <li className={`min-w-0 md:col-span-2 ${className}`}>
+    <li className={`min-w-0 ${className}`}>
       <a
         href={publicPath(`/${slug}`)}
         title={name}
