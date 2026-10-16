@@ -20,7 +20,7 @@ const phasePagePath = ({
   org,
   tournament,
   phaseId
-}: PhaseViewParams): string => `/${org}/${tournament}/fases/${phaseId}`;
+}: PhaseViewParams): string => `/${org}/${tournament}/stage/${phaseId}`;
 
 export async function generateMetadata({
   params

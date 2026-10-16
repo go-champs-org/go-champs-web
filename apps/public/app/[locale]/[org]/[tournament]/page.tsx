@@ -9,7 +9,7 @@ import {
   resolveDefaultPhaseId
 } from './_phase/PhaseView';
 
-// Same view as fases/[phaseId], so the same window.
+// Same view as stage/[phaseId], so the same window.
 export const revalidate = 300;
 
 // Unbounded list: nothing prerendered, but declaring params opts into ISR.

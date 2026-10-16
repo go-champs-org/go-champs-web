@@ -63,7 +63,7 @@ interface TeamPageParams {
 }
 
 const teamPagePath = ({ org, tournament, teamId }: TeamPageParams): string =>
-  `/${org}/${tournament}/times/${teamId}`;
+  `/${org}/${tournament}/team/${teamId}`;
 
 // The athlete and official profile pages of the CMS lift every block off the
 // page with a soft shadow; Surface already owns the radius, border and
@@ -77,7 +77,7 @@ const FLUSH_SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 const gamePageHref = (
   { org, tournament }: TeamPageParams,
   gameId: string
-): string => publicPath(`/${org}/${tournament}/jogos/${gameId}`);
+): string => publicPath(`/${org}/${tournament}/game/${gameId}`);
 
 // generateMetadata and the page both need the tournament; cache() keeps that to
 // a single request instead of fetching it twice per view.
@@ -562,7 +562,7 @@ export default async function TeamPage({
   // Which statistic a header sorts by is only known per column, so the island
   // fills the placeholder itself and the pattern crosses the boundary raw.
   const sortLabel = t.raw('sortByStat') as string;
-  const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/jogadores/`);
+  const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/athlete/`);
 
   // Newest day first, the order the CMS team view already shows: a visitor
   // opening a team mid-tournament is looking for the last result, not the

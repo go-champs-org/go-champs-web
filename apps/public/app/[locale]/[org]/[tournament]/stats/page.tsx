@@ -53,7 +53,7 @@ interface PlayerStatsPageParams {
 }
 
 const playerStatsPagePath = ({ org, tournament }: PlayerStatsPageParams): string =>
-  `/${org}/${tournament}/estatisticas`;
+  `/${org}/${tournament}/stats`;
 
 // The stats card carries no padding of its own — its header band and totals
 // band run edge to edge, the same trim the team page's roster card uses.
@@ -238,8 +238,8 @@ export default async function PlayerStatsPage({
   const totalsByScope = statTotalsByScope(rows, columnsByScope);
 
   const tournamentHref = publicPath(`/${org}/${tournamentSlug}`);
-  const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/jogadores/`);
-  const teamHrefBase = publicPath(`/${org}/${tournamentSlug}/times/`);
+  const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/athlete/`);
+  const teamHrefBase = publicPath(`/${org}/${tournamentSlug}/team/`);
 
   return (
     <main

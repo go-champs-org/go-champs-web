@@ -17,7 +17,7 @@ const buildSchema = (overrides: Partial<GameEntity> = {}, venue = 'Ginásio') =>
   gameStructuredData({
     game: game(overrides),
     names,
-    url: 'https://go-champs.com/pt/org/torneio/jogos/g1',
+    url: 'https://go-champs.com/pt/org/torneio/game/g1',
     venue
   }) as Record<string, unknown>;
 
@@ -28,7 +28,7 @@ describe('gameStructuredData', () => {
     expect(schema['@context']).toBe('https://schema.org');
     expect(schema['@type']).toBe('SportsEvent');
     expect(schema.name).toBe('Time Casa x Time Visitante');
-    expect(schema.url).toBe('https://go-champs.com/pt/org/torneio/jogos/g1');
+    expect(schema.url).toBe('https://go-champs.com/pt/org/torneio/game/g1');
   });
 
   it('names both sides as competitors', () => {

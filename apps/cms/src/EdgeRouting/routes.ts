@@ -34,12 +34,18 @@ const isPublicApiRoute = (pathname: string): boolean =>
 const PASSTHROUGH_LOCALES = ['pt', 'en'];
 
 /**
- * apps/public's tournament sub-pages (app/[locale]/[org]/[tournament]/*), in
- * their public Portuguese path shape. Never collides with a CMS route: the
- * CMS's own route names for these pages (GameView, Player, PlayerStats, Teams,
- * Phase) are English and capitalized.
+ * apps/public's tournament sub-pages (app/[locale]/[org]/[tournament]/*).
+ * The CMS routes the same pages as GameView, Player, PlayerStats, Teams and
+ * Phase, and its router ignores case, so none of these may equal one of those
+ * names (team, not teams; stage, not phase). The Portuguese segments are the
+ * old public paths, kept only so apps/public can answer them with a 301.
  */
 const PUBLIC_TOURNAMENT_SEGMENTS = [
+  'game',
+  'athlete',
+  'stats',
+  'team',
+  'stage',
   'jogos',
   'jogadores',
   'estatisticas',
@@ -127,27 +133,27 @@ const ROUTES: Rewrite[] = [
   // lote 1 — rotas de leitura por torneio
   [
     new RegExp(`^/${SLUG}/${SLUG}/GameView/${SLUG}$`),
-    m => `/${m[1]}/${m[2]}/jogos/${m[3]}`
+    m => `/${m[1]}/${m[2]}/game/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Player/${SLUG}$`),
-    m => `/${m[1]}/${m[2]}/jogadores/${m[3]}`
+    m => `/${m[1]}/${m[2]}/athlete/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStatsSummary$`),
-    m => `/${m[1]}/${m[2]}/estatisticas/resumo`
+    m => `/${m[1]}/${m[2]}/stats/summary`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStats$`),
-    m => `/${m[1]}/${m[2]}/estatisticas`
+    m => `/${m[1]}/${m[2]}/stats`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Teams/${SLUG}$`),
-    m => `/${m[1]}/${m[2]}/times/${m[3]}`
+    m => `/${m[1]}/${m[2]}/team/${m[3]}`
   ],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Phase/${SLUG}$`),
-    m => `/${m[1]}/${m[2]}/fases/${m[3]}`
+    m => `/${m[1]}/${m[2]}/stage/${m[3]}`
   ],
 
   // The tournament root, which renders its default phase. Last on purpose: no

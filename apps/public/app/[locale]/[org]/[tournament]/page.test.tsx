@@ -166,7 +166,7 @@ describe('generateMetadata', () => {
     const metadata = await generateMetadata({ params: paramsFor('meta-canonical') });
 
     expect(metadata.alternates?.canonical).toContain('/org/meta-canonical');
-    expect(metadata.alternates?.canonical).not.toContain('/fases/');
+    expect(metadata.alternates?.canonical).not.toContain('/stage/');
   });
 
   it('falls back to translated placeholders when the tournament cannot be found', async () => {

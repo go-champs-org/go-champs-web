@@ -66,7 +66,7 @@ interface GamePageParams {
 }
 
 const gamePagePath = ({ org, tournament, gameId }: GamePageParams): string =>
-  `/${org}/${tournament}/jogos/${gameId}`;
+  `/${org}/${tournament}/game/${gameId}`;
 
 // generateMetadata and the page both need the game; cache() keeps that to a
 // single request instead of fetching it twice per view.
@@ -481,9 +481,9 @@ export default async function GamePage({
   const names = gameTeamNames(game, t('undecidedTeam'));
   const venue = gameVenue(game.location, game.city);
   const isLive = isLiveGame(game.liveState);
-  const playerHrefBase = publicPath(`/${org}/${tournament}/jogadores/`);
+  const playerHrefBase = publicPath(`/${org}/${tournament}/athlete/`);
   const teamHref = (teamId: string): string =>
-    teamId ? publicPath(`/${org}/${tournament}/times/${teamId}`) : '';
+    teamId ? publicPath(`/${org}/${tournament}/team/${teamId}`) : '';
   const backLabel = tournamentLinkLabel(tournamentEntity, t('backToTournament'));
 
   // The whole box score decision resolves here, so the page below only asks

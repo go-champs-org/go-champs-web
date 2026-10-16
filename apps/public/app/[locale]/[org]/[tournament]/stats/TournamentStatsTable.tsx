@@ -9,7 +9,7 @@ import {
   type TournamentStatRow
 } from '@/src/stats/tournamentStats';
 import type { StatColumnView, StatScope } from '@/src/stats/rosterStats';
-import { RosterStatsTable } from '../times/[teamId]/RosterStatsTable';
+import { RosterStatsTable } from '../team/[teamId]/RosterStatsTable';
 
 interface TournamentStatsTableProps {
   tournamentId: string;
