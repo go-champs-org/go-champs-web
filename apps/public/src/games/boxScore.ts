@@ -11,7 +11,12 @@ import {
   type TeamStatsLogEntity
 } from '@gochamps/api-client';
 import { baseStatSlug, sportStatOrder } from '@/src/stats/sportStatColumns';
-import { formatStatValue, statColumnViews, type StatColumnView } from '@/src/stats/rosterStats';
+import {
+  formatStatValue,
+  sortRosterRows,
+  statColumnViews,
+  type StatColumnView
+} from '@/src/stats/rosterStats';
 import { isLiveGame } from './liveScore';
 
 export interface BoxScoreRow {
@@ -218,3 +223,18 @@ export const boxScoreCellValue = (
   const attempted = formatStatValue(column.attemptedSlug, stats[column.attemptedSlug]);
   return `${made} / ${attempted}`;
 };
+
+interface LiveTeamRows {
+  rows: BoxScoreRow[];
+  totals: Record<string, string>;
+}
+
+export const rankedLiveTeam = <Team extends LiveTeamRows>(
+  team: Team,
+  live: LiveTeamRows,
+  rankSlug: string | null
+): Team => ({
+  ...team,
+  ...live,
+  rows: sortRosterRows(live.rows, rankSlug, 'desc')
+});

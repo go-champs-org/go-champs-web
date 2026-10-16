@@ -8,9 +8,13 @@ import {
   StatGlossaryToggle,
   Surface
 } from '@gochamps/ui';
-import { sortRosterRows, type StatColumnView } from '@/src/stats/rosterStats';
+import { type StatColumnView } from '@/src/stats/rosterStats';
 import { defaultSortSlug } from '@/src/stats/sportStatColumns';
-import { boxScoreCellValue, type BoxScoreRow } from '@/src/games/boxScore';
+import {
+  boxScoreCellValue,
+  rankedLiveTeam,
+  type BoxScoreRow
+} from '@/src/games/boxScore';
 import {
   scoreboardTeamRows,
   scoreboardTeamTotals,
@@ -69,16 +73,6 @@ const mapResponseToLiveBoxScore = (
     rows: scoreboardTeamRows(response.data.away_team),
     totals: scoreboardTeamTotals(response.data.away_team)
   }
-});
-
-const rankedTeam = (
-  team: TeamBoxScoreData,
-  live: TeamBoxScoreState,
-  rankSlug: string | null
-): TeamBoxScoreData => ({
-  ...team,
-  ...live,
-  rows: sortRosterRows(live.rows, rankSlug, 'desc')
 });
 
 // Finished games never poll: their box score is already final in the page
@@ -381,8 +375,8 @@ export function BoxScore({
 
       <Viewer
         columns={columns}
-        home={rankedTeam(home, live.home, rankSlug)}
-        away={rankedTeam(away, live.away, rankSlug)}
+        home={rankedLiveTeam(home, live.home, rankSlug)}
+        away={rankedLiveTeam(away, live.away, rankSlug)}
         playerHrefBase={playerHrefBase}
         labels={labels}
       />

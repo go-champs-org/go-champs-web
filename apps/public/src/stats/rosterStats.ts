@@ -202,6 +202,21 @@ const DIRECTION_SIGN: Record<SortDirection, number> = { asc: 1, desc: -1 };
 
 export type SortDirection = 'asc' | 'desc';
 
+export interface SortState {
+  slug: string | null;
+  direction: SortDirection;
+}
+
+const NO_SORT: SortState = { slug: null, direction: 'desc' };
+
+export const initialSort = (
+  defaultSortSlugs: Record<string, string>,
+  scope: StatScope
+): SortState =>
+  defaultSortSlugs[scope]
+    ? { slug: defaultSortSlugs[scope], direction: 'desc' }
+    : NO_SORT;
+
 // A player with no value for the column sorts to the bottom of both
 // directions: he is on the roster, not in the ranking. That is a rank of its
 // own, decided before the values are compared.

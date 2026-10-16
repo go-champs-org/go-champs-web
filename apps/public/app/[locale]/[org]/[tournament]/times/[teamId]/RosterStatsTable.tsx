@@ -10,7 +10,9 @@ import {
 } from '@gochamps/ui';
 import {
   formatStatValue,
+  initialSort,
   sortRosterRows,
+  type SortState,
   type RosterStatRow,
   type StatColumnView,
   type SortDirection,
@@ -54,22 +56,7 @@ interface RosterStatsTableProps {
   defaultSortSlugs?: Record<string, string>;
 }
 
-interface SortState {
-  slug: string | null;
-  direction: SortDirection;
-}
-
-const NO_SORT: SortState = { slug: null, direction: 'desc' };
-
 const NO_DEFAULT_SORTS: Record<string, string> = {};
-
-const initialSort = (
-  defaultSortSlugs: Record<string, string>,
-  scope: StatScope
-): SortState =>
-  defaultSortSlugs[scope]
-    ? { slug: defaultSortSlugs[scope], direction: 'desc' }
-    : NO_SORT;
 
 const rankedRows = (rows: RosterStatRow[], sort: SortState): RosterStatRow[] =>
   sortRosterRows(rows, sort.slug, sort.direction);
