@@ -23,7 +23,10 @@ function BreadcrumbLink({ label, href }: BreadcrumbItem) {
 
 export function Breadcrumb({ items, currentLabel }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className="text-xs text-muted">
+    <nav
+      aria-label="Breadcrumb"
+      className="min-w-0 basis-full text-xs text-muted md:flex-1 md:basis-0"
+    >
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map(item => (
           <BreadcrumbLink key={`${item.href}-${item.label}`} {...item} />

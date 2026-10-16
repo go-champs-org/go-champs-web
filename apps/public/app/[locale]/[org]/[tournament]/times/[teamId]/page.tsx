@@ -638,7 +638,7 @@ export default async function TeamPage({
             ]}
             currentLabel={team.name}
           />
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
             <ManageButton
               organizationId={tournament.organization.id}
               org={org}
