@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
-import { legacyLocaleRedirect } from './src/i18n/legacyLocaleRedirect';
+import { legacyRedirect, type LegacyRedirect } from './src/i18n/legacyRedirect';
 import {
   LOCALE_COOKIE,
   LOCALE_COOKIE_MAX_AGE
@@ -11,20 +11,22 @@ const intlMiddleware = createMiddleware(routing);
 
 const redirectToCleanUrl = (
   request: NextRequest,
-  { locale, location }: { locale: string; location: string }
+  { locale, location }: LegacyRedirect
 ) => {
   const response = NextResponse.redirect(new URL(location, request.url), 301);
-  response.cookies.set(LOCALE_COOKIE, locale, {
-    path: '/',
-    maxAge: LOCALE_COOKIE_MAX_AGE,
-    sameSite: 'lax'
-  });
+  if (locale) {
+    response.cookies.set(LOCALE_COOKIE, locale, {
+      path: '/',
+      maxAge: LOCALE_COOKIE_MAX_AGE,
+      sameSite: 'lax'
+    });
+  }
 
   return response;
 };
 
 export default function middleware(request: NextRequest) {
-  const legacy = legacyLocaleRedirect(
+  const legacy = legacyRedirect(
     request.nextUrl.pathname,
     request.nextUrl.search
   );

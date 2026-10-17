@@ -1,18 +1,16 @@
 import { render, screen, within } from '@testing-library/react';
 import {
   ApiError,
-  getAggregatedPlayerStatsByFilter,
-  getSportBySlug,
+  getFixedPlayerStatsTablesByFilter,
   getTournamentBySlug
 } from '@gochamps/api-client';
 import { notFound } from 'next/navigation';
-import PlayerStatsPage, { generateMetadata, revalidate } from './page';
+import PlayerStatsSummaryPage, { generateMetadata, revalidate } from './page';
 import { SITE_URL } from '@/src/seo/metadata';
 
 jest.mock('@gochamps/api-client', () => ({
   ...jest.requireActual('@gochamps/api-client'),
-  getAggregatedPlayerStatsByFilter: jest.fn(),
-  getSportBySlug: jest.fn(),
+  getFixedPlayerStatsTablesByFilter: jest.fn(),
   getTournamentBySlug: jest.fn()
 }));
 
@@ -51,9 +49,8 @@ jest.mock('next-intl/server', () => ({
 }));
 
 const getTournamentBySlugMock = getTournamentBySlug as jest.Mock;
-const getSportBySlugMock = getSportBySlug as jest.Mock;
-const getAggregatedPlayerStatsByFilterMock =
-  getAggregatedPlayerStatsByFilter as jest.Mock;
+const getFixedPlayerStatsTablesByFilterMock =
+  getFixedPlayerStatsTablesByFilter as jest.Mock;
 
 const team = (id: string, name: string, overrides = {}) => ({
   id,
@@ -76,35 +73,18 @@ const player = (id: string, name: string, teamId: string, overrides = {}) => ({
   ...overrides
 });
 
-const playerStat = (slug: string, title: string) => ({
-  id: `stat-${slug}`,
+const playerStat = (id: string, title: string) => ({
+  id,
   title,
-  slug,
+  slug: title.toLowerCase(),
   visibility: 'public'
 });
 
-const sportStatistic = (slug: string, scope: string) => ({
-  slug,
-  name: slug,
-  level: 'tournament',
-  scope,
-  valueType: 'calculated'
-});
-
-const sport = (overrides = {}) => ({
-  slug: 'basketball_5x5',
-  name: 'Basquete 5x5',
-  playerStatistics: [
-    sportStatistic('points', 'aggregate'),
-    sportStatistic('rebounds', 'aggregate')
-  ],
+const fixedStatsTable = (id: string, statId: string, overrides = {}) => ({
+  id,
+  statId,
+  playerStats: [],
   ...overrides
-});
-
-const statsLog = (playerId: string, stats: Record<string, string>) => ({
-  id: `log-${playerId}`,
-  playerId,
-  stats
 });
 
 const tournament = (overrides = {}) => ({
@@ -128,105 +108,121 @@ const params = Promise.resolve({
   tournament: 'torneio-teste'
 });
 
-const renderPage = async () => render(await PlayerStatsPage({ params }));
+const renderPage = async () => render(await PlayerStatsSummaryPage({ params }));
 
-describe('PlayerStatsPage', () => {
+describe('PlayerStatsSummaryPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getTournamentBySlugMock.mockResolvedValue(tournament());
-    getSportBySlugMock.mockResolvedValue(sport());
-    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([]);
   });
 
-  it('renders a visible player, team and stat value from the tournament roster', async () => {
+  it('renders a leaderboard card title and a ranked entry player, team and value', async () => {
     getTournamentBySlugMock.mockResolvedValue(
       tournament({
         players: [player('p1', 'Camisa Um', 't1')],
-        playerStats: [playerStat('points', 'Pontos')]
+        playerStats: [playerStat('stat1', 'Pontos')]
       })
     );
-    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
-      statsLog('p1', { points: '15' })
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([
+      fixedStatsTable('ft1', 'stat1', {
+        playerStats: [{ id: 'r1', playerId: 'p1', value: '22' }]
+      })
     ]);
 
     await renderPage();
 
-    const row = within(screen.getByText('Camisa Um').closest('tr') as HTMLElement);
-    expect(row.getByText('Camisa Um')).toBeInTheDocument();
-    expect(row.getByText('Time A')).toBeInTheDocument();
-    expect(row.getByText('15')).toBeInTheDocument();
+    const card = screen.getByTestId('leaderboard-card');
+    expect(within(card).getByText('Pontos')).toBeInTheDocument();
+    expect(within(card).getByText('Camisa Um')).toBeInTheDocument();
+    expect(within(card).getByText('Time A')).toBeInTheDocument();
+    expect(within(card).getByText('22')).toBeInTheDocument();
   });
 
-  it('numbers the rows by position instead of shirt number', async () => {
-    getTournamentBySlugMock.mockResolvedValue(
-      tournament({
-        players: [
-          player('p1', 'Camisa Um', 't1', { shirtNumber: '23' }),
-          player('p2', 'Camisa Dois', 't2', { shirtNumber: '7' })
-        ],
-        playerStats: [playerStat('points', 'Pontos')]
-      })
-    );
-    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
-      statsLog('p1', { points: '15' }),
-      statsLog('p2', { points: '9' })
-    ]);
-
+  it('asks for the fixed stats tables of the tournament', async () => {
     await renderPage();
 
-    const first = within(screen.getByText('Camisa Um').closest('tr') as HTMLElement);
-    const second = within(screen.getByText('Camisa Dois').closest('tr') as HTMLElement);
-    expect(first.getByText('1')).toBeInTheDocument();
-    expect(second.getByText('2')).toBeInTheDocument();
-    expect(first.queryByText('23')).not.toBeInTheDocument();
-  });
-
-  it('asks for every log in the tournament, with no team or player filter', async () => {
-    await renderPage();
-
-    expect(getAggregatedPlayerStatsByFilterMock).toHaveBeenCalledWith({
+    expect(getFixedPlayerStatsTablesByFilterMock).toHaveBeenCalledWith({
       tournamentId: 'tour1'
     });
   });
 
-  it('links each player to his player page', async () => {
+  it('links each ranked entry to its player page', async () => {
     getTournamentBySlugMock.mockResolvedValue(
-      tournament({ players: [player('p1', 'Camisa Um', 't1')] })
+      tournament({
+        players: [player('p1', 'Camisa Um', 't1')],
+        playerStats: [playerStat('stat1', 'Pontos')]
+      })
     );
-    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
-      statsLog('p1', {})
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([
+      fixedStatsTable('ft1', 'stat1', {
+        playerStats: [{ id: 'r1', playerId: 'p1', value: '22' }]
+      })
     ]);
 
     await renderPage();
 
     expect(screen.getByRole('link', { name: 'Camisa Um' })).toHaveAttribute(
       'href',
-      '/org/torneio-teste/jogadores/p1'
+      '/org/torneio-teste/athlete/p1'
     );
   });
 
-  it('renders the empty state when the tournament has no players', async () => {
+  it('renders a stale entry (no matching player) as plain text, not an empty link', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [],
+        playerStats: [playerStat('stat1', 'Pontos')]
+      })
+    );
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([
+      fixedStatsTable('ft1', 'stat1', {
+        playerStats: [{ id: 'r1', playerId: 'stale', value: '22' }]
+      })
+    ]);
+
     await renderPage();
 
-    expect(screen.queryByTestId('roster-player-name')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: '' })
+    ).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('link')).toHaveLength(2);
+  });
+
+  it('renders the player column header label', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p1', 'Camisa Um', 't1')],
+        playerStats: [playerStat('stat1', 'Pontos')]
+      })
+    );
+    getFixedPlayerStatsTablesByFilterMock.mockResolvedValue([
+      fixedStatsTable('ft1', 'stat1', {
+        playerStats: [{ id: 'r1', playerId: 'p1', value: '22' }]
+      })
+    ]);
+
+    await renderPage();
+
+    expect(screen.getByText('Jogador')).toBeInTheDocument();
+  });
+
+  it('renders the empty state when there are no fixed stats tables', async () => {
+    await renderPage();
+
+    expect(screen.queryByTestId('leaderboard-card')).not.toBeInTheDocument();
     expect(
       screen.getByText('Sem estatísticas para este campeonato ainda.')
     ).toBeInTheDocument();
   });
 
-  it('links back to the tournament page on the CMS', async () => {
+  it('links back to the full stats table page', async () => {
     await renderPage();
 
-    expect(screen.getByRole('link', { name: 'Torneio Teste' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Ver tabela completa' })).toHaveAttribute(
       'href',
-      expect.stringContaining('/org/torneio-teste')
+      '/org/torneio-teste/stats'
     );
-  });
-
-  it('does not offer the leaders link for now', async () => {
-    await renderPage();
-
-    expect(screen.queryByRole('link', { name: 'Ver líderes' })).not.toBeInTheDocument();
   });
 
   it('renders a 404 when the tournament does not exist', async () => {
@@ -254,7 +250,7 @@ describe('generateMetadata', () => {
 
     expect(metadata.title).toContain('Torneio Teste');
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/org/torneio-teste/estatisticas`
+      `${SITE_URL}/org/torneio-teste/stats/summary`
     );
     expect(metadata.robots).toBeUndefined();
   });

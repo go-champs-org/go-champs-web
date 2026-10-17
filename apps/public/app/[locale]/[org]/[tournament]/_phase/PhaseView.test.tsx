@@ -222,12 +222,12 @@ describe('PhaseView', () => {
     // Tabs link across every phase of the tournament.
     expect(screen.getByRole('link', { name: 'Playoffs' })).toHaveAttribute(
       'href',
-      '/org/tour/fases/ph2'
+      '/org/tour/stage/ph2'
     );
     // A team in the standings is the way into its page, as it is on the CMS.
     expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
       'href',
-      '/org/tour/times/t1'
+      '/org/tour/team/t1'
     );
   });
 
@@ -285,7 +285,7 @@ describe('PhaseView', () => {
     expect(screen.getByText('Final')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Time A' })).toHaveAttribute(
       'href',
-      '/org/tour/times/t1'
+      '/org/tour/team/t1'
     );
     // A slot still waiting on another match names no team, so it links nowhere.
     expect(screen.getByText('Vencedor B')).toBeInTheDocument();
@@ -468,7 +468,7 @@ describe('PhaseView statistics links', () => {
 
     expect(
       screen.getByRole('link', { name: 'Estatísticas avançadas' })
-    ).toHaveAttribute('href', '/org/tour/estatisticas');
+    ).toHaveAttribute('href', '/org/tour/stats');
   });
 
   // Mirrors the CMS's TopLevel, which hides the dropdown entirely rather than

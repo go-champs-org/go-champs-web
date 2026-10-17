@@ -149,7 +149,7 @@ describe('Vary on responses relayed from PUBLIC', () => {
 
   it('extends the Vary of a passthrough path with the locale signals', async () => {
     const response = await worker.fetch(
-      get('/fberj/adulto/jogos/x'),
+      get('/fberj/adulto/game/x'),
       env({}, nextVary)
     );
 
@@ -169,7 +169,7 @@ describe('Vary on responses relayed from PUBLIC', () => {
 
   it('keeps the rest of the PUBLIC response intact', async () => {
     const response = await worker.fetch(
-      get('/fberj/adulto/jogos/x'),
+      get('/fberj/adulto/game/x'),
       env({}, nextVary)
     );
 
@@ -180,7 +180,7 @@ describe('Vary on responses relayed from PUBLIC', () => {
 
   it('extends the Vary of an RSC payload', async () => {
     const response = await worker.fetch(
-      get('/fberj/adulto/jogos/x'),
+      get('/fberj/adulto/game/x'),
       env({}, { Vary: 'rsc', 'Content-Type': 'text/x-component' })
     );
 

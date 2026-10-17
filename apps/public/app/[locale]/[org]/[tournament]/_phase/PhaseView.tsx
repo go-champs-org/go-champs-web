@@ -1,5 +1,5 @@
 /**
- * The phase view, shared by fases/[phaseId] and the tournament root. Route
+ * The phase view, shared by stage/[phaseId] and the tournament root. Route
  * exports (revalidate, generateStaticParams, generateMetadata) stay in each
  * page.tsx — Next reads those only from a route module.
  */
@@ -237,7 +237,7 @@ function PhaseTabs({ routeParams, phases }: PhaseTabsProps) {
           return (
             <Link
               key={phase.id}
-              href={publicPath(`/${org}/${tournament}/fases/${phase.id}`)}
+              href={publicPath(`/${org}/${tournament}/stage/${phase.id}`)}
               className={`-mb-px border-b-2 px-3 py-2 text-sm font-semibold ${
                 isActive
                   ? 'border-primary text-primary'
@@ -253,7 +253,7 @@ function PhaseTabs({ routeParams, phases }: PhaseTabsProps) {
 }
 
 // Same visual language as the roster/player stats tables
-// (times/[teamId]/RosterStatsTable.tsx, estatisticas' PlayerStatsTable.tsx) —
+// (team/[teamId]/RosterStatsTable.tsx, stats' PlayerStatsTable.tsx) —
 // opaque color-mix band, sticky rank+team columns, tabular-nums stat cells.
 // No shared table primitive yet (packages/ui Task 16 tech debt calls this
 // out across all three), so these tokens are this file's own copy.
@@ -829,7 +829,7 @@ function TournamentTopSection({
           <>
             {tournament.hasAggregatedPlayerStats && (
               <StatisticsLink
-                href={publicPath(`/${routeParams.org}/${routeParams.tournament}/estatisticas`)}
+                href={publicPath(`/${routeParams.org}/${routeParams.tournament}/stats`)}
                 label={advancedStatsLabel}
               />
             )}
@@ -915,10 +915,10 @@ export async function PhaseView({
           winnerLabel={tGame('winner')}
           liveLabel={tGame('live')}
           teamHref={teamId =>
-            publicPath(`/${org}/${tournamentSlug}/times/${teamId}`)
+            publicPath(`/${org}/${tournamentSlug}/team/${teamId}`)
           }
-          gameHrefBase={publicPath(`/${org}/${tournamentSlug}/jogos/`)}
-          teamHrefBase={publicPath(`/${org}/${tournamentSlug}/times/`)}
+          gameHrefBase={publicPath(`/${org}/${tournamentSlug}/game/`)}
+          teamHrefBase={publicPath(`/${org}/${tournamentSlug}/team/`)}
         />
       </div>
     </main>

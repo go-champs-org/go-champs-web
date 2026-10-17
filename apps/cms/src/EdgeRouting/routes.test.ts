@@ -32,9 +32,16 @@ describe('isPublicPassthroughPath', () => {
     ['/en'],
     ['/pt/about'],
     ['/en/faq'],
-    ['/pt/canoas/copa-cidadao/jogos/game-1'],
+    ['/pt/canoas/copa-cidadao/game/game-1'],
     // Default locale (pt) has no prefix, so these tournament sub-pages reach
     // the worker bare — must still be recognized as apps/public's own paths.
+    ['/canoas/copa-cidadao/game/game-1'],
+    ['/canoas/copa-cidadao/athlete/player-1'],
+    ['/canoas/copa-cidadao/stats'],
+    ['/canoas/copa-cidadao/stats/summary'],
+    ['/canoas/copa-cidadao/team/team-1'],
+    ['/canoas/copa-cidadao/stage/phase-1'],
+    // The old Portuguese paths stay forwarded so apps/public can 301 them.
     ['/canoas/copa-cidadao/jogos/game-1'],
     ['/canoas/copa-cidadao/jogadores/player-1'],
     ['/canoas/copa-cidadao/estatisticas'],
@@ -102,8 +109,8 @@ describe('isJunkPath', () => {
   it.each([
     ['/'],
     ['/fberj/adulto'],
-    ['/cbb/sub17final/jogadores/32da7668-3749-4666-9d63-97d113b8688e'],
-    ['/liga-ninja-rs/sub-16-masculino-2026/times/team-1'],
+    ['/cbb/sub17final/athlete/32da7668-3749-4666-9d63-97d113b8688e'],
+    ['/liga-ninja-rs/sub-16-masculino-2026/team/team-1'],
     ['/api/search'],
     ['/api/tournament-stats'],
     ['/_next/static/chunks/main.js'],
@@ -111,7 +118,7 @@ describe('isJunkPath', () => {
     ['/.well-known/security.txt'],
     ['/wp-sports'],
     ['/wp-sports/liga-2026'],
-    ['/wp-sports/liga-2026/jogadores/player-1']
+    ['/wp-sports/liga-2026/athlete/player-1']
   ])('lets %s through', pathname => {
     expect(isJunkPath(pathname)).toBe(false);
   });
@@ -137,15 +144,12 @@ describe('resolvePublicPath', () => {
       ['/Contact', '/contact'],
       ['/PrivacyPolicyBR', '/privacy'],
       ['/TermsBR', '/terms'],
-      ['/acme/liga-2026/GameView/game-1', '/acme/liga-2026/jogos/game-1'],
-      ['/acme/liga-2026/Player/player-1', '/acme/liga-2026/jogadores/player-1'],
-      ['/acme/liga-2026/PlayerStats', '/acme/liga-2026/estatisticas'],
-      [
-        '/acme/liga-2026/PlayerStatsSummary',
-        '/acme/liga-2026/estatisticas/resumo'
-      ],
-      ['/acme/liga-2026/Teams/team-1', '/acme/liga-2026/times/team-1'],
-      ['/acme/liga-2026/Phase/phase-1', '/acme/liga-2026/fases/phase-1'],
+      ['/acme/liga-2026/GameView/game-1', '/acme/liga-2026/game/game-1'],
+      ['/acme/liga-2026/Player/player-1', '/acme/liga-2026/athlete/player-1'],
+      ['/acme/liga-2026/PlayerStats', '/acme/liga-2026/stats'],
+      ['/acme/liga-2026/PlayerStatsSummary', '/acme/liga-2026/stats/summary'],
+      ['/acme/liga-2026/Teams/team-1', '/acme/liga-2026/team/team-1'],
+      ['/acme/liga-2026/Phase/phase-1', '/acme/liga-2026/stage/phase-1'],
       ['/acme/liga-2026', '/acme/liga-2026'],
       ['/lair/torneio-basquete', '/lair/torneio-basquete'],
       ['/Organization/acme', '/acme'],
@@ -163,7 +167,7 @@ describe('resolvePublicPath', () => {
       expect(resolvePublicPath('/About')).toBe('/about');
       expect(resolvePublicPath('/Organization/acme')).toBe('/acme');
       expect(resolvePublicPath('/acme/liga-2026/GameView/game-1')).toBe(
-        '/acme/liga-2026/jogos/game-1'
+        '/acme/liga-2026/game/game-1'
       );
     });
   });

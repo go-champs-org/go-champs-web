@@ -248,7 +248,7 @@ describe('TeamPage', () => {
 
     expect(screen.getByRole('link', { name: 'Camisa Quatro' })).toHaveAttribute(
       'href',
-      '/org/torneio-teste/jogadores/p4'
+      '/org/torneio-teste/athlete/p4'
     );
   });
 
@@ -309,7 +309,7 @@ describe('TeamPage', () => {
     const link = screen.getByTestId('game-row');
     expect(link).toHaveAttribute(
       'href',
-      '/org/torneio-teste/jogos/g1'
+      '/org/torneio-teste/game/g1'
     );
     expect(link.textContent).toContain('Time A');
     expect(link.textContent).toContain('88');
@@ -758,7 +758,7 @@ describe('generateMetadata', () => {
 
     expect(metadata.title).toContain('Time B');
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL}/org/torneio-teste/times/t2`
+      `${SITE_URL}/org/torneio-teste/team/t2`
     );
     expect(metadata.robots).toBeUndefined();
   });

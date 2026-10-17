@@ -38,7 +38,7 @@ const playerStatsSummaryPagePath = ({
   org,
   tournament
 }: PlayerStatsSummaryPageParams): string =>
-  `/${org}/${tournament}/estatisticas/resumo`;
+  `/${org}/${tournament}/stats/summary`;
 
 const SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
@@ -282,9 +282,9 @@ export default async function PlayerStatsSummaryPage({
 
   const tournamentHref = publicPath(`/${org}/${tournamentSlug}`);
   const playerHref = (playerId: string) =>
-    publicPath(`/${org}/${tournamentSlug}/jogadores/${playerId}`);
+    publicPath(`/${org}/${tournamentSlug}/athlete/${playerId}`);
   const teamHref = (teamId: string) =>
-    publicPath(`/${org}/${tournamentSlug}/times/${teamId}`);
+    publicPath(`/${org}/${tournamentSlug}/team/${teamId}`);
 
   return (
     <main
@@ -312,7 +312,7 @@ export default async function PlayerStatsSummaryPage({
             {t('summaryTitle')}
           </h1>
           <Link
-            href={publicPath(`/${org}/${tournamentSlug}/estatisticas`)}
+            href={publicPath(`/${org}/${tournamentSlug}/stats`)}
             className="text-sm font-semibold text-primary-dark hover:underline"
           >
             {t('viewAll')}

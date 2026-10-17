@@ -54,7 +54,7 @@ const playerPagePath = ({
   org,
   tournament,
   playerId
-}: PlayerPageParams): string => `/${org}/${tournament}/jogadores/${playerId}`;
+}: PlayerPageParams): string => `/${org}/${tournament}/athlete/${playerId}`;
 
 // The stats card carries no padding of its own — its header band and totals
 // band run edge to edge; the banner and its shadow are the elevated block.
@@ -111,7 +111,7 @@ const teamHrefOf = (
   org: string,
   tournamentSlug: string,
   teamId: string
-): string => (teamId ? publicPath(`/${org}/${tournamentSlug}/times/${teamId}`) : '');
+): string => (teamId ? publicPath(`/${org}/${tournamentSlug}/team/${teamId}`) : '');
 
 const sportSlugOf = (
   tournament: TournamentWithTeamsEntity | null
