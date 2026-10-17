@@ -2,6 +2,7 @@ import type { PlayerStatEntity, SportEntity } from '@gochamps/api-client';
 import {
   availableScopes,
   formatStatValue,
+  initialSort,
   rosterStatRows,
   sortRosterRows,
   columnViewsByScope,
@@ -389,5 +390,54 @@ describe('statTotalsByScope', () => {
 
     expect(totals.aggregate).toEqual({ points: '32' });
     expect(totals.per_game).toEqual({});
+  });
+});
+
+describe('initialSort', () => {
+  const defaults = { aggregate: 'points', per_game: 'points_per_game' };
+
+  it('opens the aggregate scope ranked by its default column, best first', () => {
+    expect(initialSort(defaults, 'aggregate')).toEqual({
+      slug: 'points',
+      direction: 'desc'
+    });
+  });
+
+  it('opens the per game scope ranked by its own column', () => {
+    expect(initialSort(defaults, 'per_game')).toEqual({
+      slug: 'points_per_game',
+      direction: 'desc'
+    });
+  });
+
+  it('keeps the arrival order when the sport has no default', () => {
+    expect(initialSort({}, 'aggregate')).toEqual({
+      slug: null,
+      direction: 'desc'
+    });
+  });
+
+  it('ranks players differently per scope when totals and averages disagree', () => {
+    const rows: RosterStatRow[] = [
+      {
+        playerId: 'p1',
+        name: 'Ana',
+        shirtNumber: '1',
+        stats: { points: '100', points_per_game: '10' }
+      },
+      {
+        playerId: 'p2',
+        name: 'Bia',
+        shirtNumber: '2',
+        stats: { points: '60', points_per_game: '20' }
+      }
+    ];
+    const order = (scope: 'aggregate' | 'per_game') => {
+      const { slug, direction } = initialSort(defaults, scope);
+      return sortRosterRows(rows, slug, direction).map(row => row.playerId);
+    };
+
+    expect(order('aggregate')).toEqual(['p1', 'p2']);
+    expect(order('per_game')).toEqual(['p2', 'p1']);
   });
 });

@@ -30,6 +30,7 @@ interface TournamentStatsTableProps {
   teamColumnLabel: string;
   playerHrefBase: string;
   teamHrefBase: string;
+  defaultSortSlugs: Record<string, string>;
 }
 
 // The sort fetch lives here, not in the (server) page component, because a

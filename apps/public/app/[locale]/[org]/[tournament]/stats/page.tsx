@@ -32,6 +32,7 @@ import {
   type PickedTeam,
   type TournamentStatRow
 } from '@/src/stats/tournamentStats';
+import { defaultSortSlugs } from '@/src/stats/sportStatColumns';
 import { TournamentStatsTable } from './TournamentStatsTable';
 
 // The tournament-wide stats table moves as rarely as a team's roster, so the
@@ -146,6 +147,7 @@ interface StatsTableSectionProps {
   scopeLabels: Record<string, string>;
   playerHrefBase: string;
   teamHrefBase: string;
+  defaultSortSlugs: Record<string, string>;
   labels: {
     title: string;
     statsScope: string;
@@ -174,6 +176,7 @@ function StatsTableSection({
   scopeLabels,
   playerHrefBase,
   teamHrefBase,
+  defaultSortSlugs,
   labels
 }: StatsTableSectionProps) {
   return rows.length > 0 ? (
@@ -201,6 +204,7 @@ function StatsTableSection({
         teamColumnLabel={labels.teamColumn}
         playerHrefBase={playerHrefBase}
         teamHrefBase={teamHrefBase}
+        defaultSortSlugs={defaultSortSlugs}
       />
     </Surface>
   ) : (
@@ -280,6 +284,7 @@ export default async function PlayerStatsPage({
           }}
           playerHrefBase={playerHrefBase}
           teamHrefBase={teamHrefBase}
+          defaultSortSlugs={defaultSortSlugs(tournament.sportSlug)}
           labels={{
             title: t('title'),
             statsScope: tTeam('statsScope'),

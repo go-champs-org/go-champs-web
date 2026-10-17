@@ -83,3 +83,16 @@ export const baseStatSlug = (slug: string): string =>
 
 export const sportStatOrder = (sportSlug: string): string[] =>
   SPORT_STAT_ORDER[sportSlug] || [];
+
+// The CMS opens every Basketball 5x5 stats table ranked by points, best first
+// (apps/cms/src/Sports/Basketball5x5/GameBoxScoreViewer.tsx). Keyed by scope
+// because the per game column is its own slug.
+const DEFAULT_SORT_SLUGS: Record<string, Record<string, string>> = {
+  basketball_5x5: { aggregate: 'points', per_game: `points${PER_GAME_SUFFIX}` }
+};
+
+export const defaultSortSlugs = (sportSlug: string): Record<string, string> =>
+  DEFAULT_SORT_SLUGS[sportSlug] || {};
+
+export const defaultSortSlug = (sportSlug: string, scope: string): string | null =>
+  defaultSortSlugs(sportSlug)[scope] || null;

@@ -8,8 +8,13 @@ import {
   StatGlossaryToggle,
   Surface
 } from '@gochamps/ui';
-import type { StatColumnView } from '@/src/stats/rosterStats';
-import { boxScoreCellValue, type BoxScoreRow } from '@/src/games/boxScore';
+import { type StatColumnView } from '@/src/stats/rosterStats';
+import { defaultSortSlug } from '@/src/stats/sportStatColumns';
+import {
+  boxScoreCellValue,
+  rankedLiveTeam,
+  type BoxScoreRow
+} from '@/src/games/boxScore';
 import {
   scoreboardTeamRows,
   scoreboardTeamTotals,
@@ -332,6 +337,7 @@ export function BoxScore({
     away: { rows: away.rows, totals: away.totals }
   });
   const Viewer = boxScoreViewerFor(sportSlug);
+  const rankSlug = defaultSortSlug(sportSlug, 'aggregate');
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
 
   return (
@@ -369,8 +375,8 @@ export function BoxScore({
 
       <Viewer
         columns={columns}
-        home={{ ...home, ...live.home }}
-        away={{ ...away, ...live.away }}
+        home={rankedLiveTeam(home, live.home, rankSlug)}
+        away={rankedLiveTeam(away, live.away, rankSlug)}
         playerHrefBase={playerHrefBase}
         labels={labels}
       />

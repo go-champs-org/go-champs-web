@@ -32,6 +32,7 @@ import { TeamSections, type TeamTab } from './TeamSections';
 import { RosterStatsTable } from './RosterStatsTable';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
+import { defaultSortSlugs } from '@/src/stats/sportStatColumns';
 import {
   availableScopes,
   columnViewsByScope,
@@ -343,6 +344,7 @@ interface RosterProps {
   totalLabel: string;
   sortLabel: string;
   playerHrefBase: string;
+  defaultSortSlugs: Record<string, string>;
 }
 
 // The roster of the CMS team view is the aggregated stats table, not a list of
@@ -595,6 +597,7 @@ export default async function TeamPage({
           nameLabel={t('playerName')}
           sortLabel={sortLabel}
           playerHrefBase={playerHrefBase}
+          defaultSortSlugs={defaultSortSlugs(tournament.sportSlug)}
         />
       ),
       hasContent: rows.length + team.coaches.length > 0

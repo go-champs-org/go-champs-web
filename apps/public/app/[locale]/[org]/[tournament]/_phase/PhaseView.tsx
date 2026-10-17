@@ -259,7 +259,7 @@ function PhaseTabs({ routeParams, phases }: PhaseTabsProps) {
 // out across all three), so these tokens are this file's own copy.
 const HEADER_BAND =
   'bg-[color-mix(in_srgb,var(--color-primary)_40%,var(--color-surface))]';
-const RANK_CELL = 'sticky left-0 z-20 w-12 px-4 md:px-6';
+const RANK_CELL = 'sticky left-0 z-20 w-12 pl-4 pr-2 md:w-16 md:pl-6';
 const TEAM_CELL =
   'sticky left-12 z-20 whitespace-nowrap pr-6 shadow-[8px_0_6px_-6px_var(--shadow-elevated)] md:left-16';
 const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';

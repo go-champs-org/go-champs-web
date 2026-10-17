@@ -5,6 +5,7 @@ import {
   boxScoreColumnViews,
   boxScoreRows,
   playerNamesById,
+  rankedLiveTeam,
   shouldShowBoxScore,
   splitLogsByTeam,
   teamTotals
@@ -323,5 +324,48 @@ describe('boxScoreCellValue', () => {
     const column = { slug: 'points', label: 'PTS', description: '' };
 
     expect(boxScoreCellValue(column, { points: '24' })).toBe('24');
+  });
+});
+
+describe('rankedLiveTeam', () => {
+  const staticTeam = {
+    teamName: 'Lions',
+    logoUrl: 'lions.png',
+    rows: [{ playerId: 'old', name: 'Old', stats: { points: '99' } }],
+    totals: { points: '99' }
+  };
+  const live = {
+    rows: [
+      { playerId: 'p1', name: 'Ana', stats: { points: '4' } },
+      { playerId: 'p2', name: 'Bia', stats: { points: '12' } },
+      { playerId: 'p3', name: 'Cris', stats: { points: '8' } }
+    ],
+    totals: { points: '24' }
+  };
+
+  it('ranks the live rows by the column, best first', () => {
+    expect(
+      rankedLiveTeam(staticTeam, live, 'points').rows.map(row => row.playerId)
+    ).toEqual(['p2', 'p3', 'p1']);
+  });
+
+  it('takes rows and totals from the live data and keeps the team metadata', () => {
+    const result = rankedLiveTeam(staticTeam, live, 'points');
+
+    expect(result.totals).toEqual({ points: '24' });
+    expect(result.teamName).toBe('Lions');
+    expect(result.logoUrl).toBe('lions.png');
+  });
+
+  it('keeps the live order when there is no column to rank by', () => {
+    expect(
+      rankedLiveTeam(staticTeam, live, null).rows.map(row => row.playerId)
+    ).toEqual(['p1', 'p2', 'p3']);
+  });
+
+  it('does not reorder the input rows', () => {
+    rankedLiveTeam(staticTeam, live, 'points');
+
+    expect(live.rows.map(row => row.playerId)).toEqual(['p1', 'p2', 'p3']);
   });
 });
