@@ -147,10 +147,7 @@ describe('resolvePublicPath', () => {
       ['/acme/liga-2026/GameView/game-1', '/acme/liga-2026/game/game-1'],
       ['/acme/liga-2026/Player/player-1', '/acme/liga-2026/athlete/player-1'],
       ['/acme/liga-2026/PlayerStats', '/acme/liga-2026/stats'],
-      [
-        '/acme/liga-2026/PlayerStatsSummary',
-        '/acme/liga-2026/stats/summary'
-      ],
+      ['/acme/liga-2026/PlayerStatsSummary', '/acme/liga-2026/stats/summary'],
       ['/acme/liga-2026/Teams/team-1', '/acme/liga-2026/team/team-1'],
       ['/acme/liga-2026/Phase/phase-1', '/acme/liga-2026/stage/phase-1'],
       ['/acme/liga-2026', '/acme/liga-2026'],

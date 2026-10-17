@@ -143,10 +143,7 @@ const ROUTES: Rewrite[] = [
     new RegExp(`^/${SLUG}/${SLUG}/PlayerStatsSummary$`),
     m => `/${m[1]}/${m[2]}/stats/summary`
   ],
-  [
-    new RegExp(`^/${SLUG}/${SLUG}/PlayerStats$`),
-    m => `/${m[1]}/${m[2]}/stats`
-  ],
+  [new RegExp(`^/${SLUG}/${SLUG}/PlayerStats$`), m => `/${m[1]}/${m[2]}/stats`],
   [
     new RegExp(`^/${SLUG}/${SLUG}/Teams/${SLUG}$`),
     m => `/${m[1]}/${m[2]}/team/${m[3]}`
