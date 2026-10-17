@@ -229,7 +229,7 @@
     "assetFibaBoxscore": "Boxscore FIBA"
   },
   "boxScore": {
-    "title": "Súmula",
+    "title": "Estatísticas",
     "player": "Jogador",
     "totals": "Totais",
     "glossary": "Glossário",
@@ -382,6 +382,19 @@
     "statDescriptions": {
       "points": "Pontos",
       "game_played": "Jogos",
+      "rebounds": "Rebotes",
+      "assists": "Assistências",
+      "blocks": "Tocos",
+      "steals": "Roubadas",
+      "turnovers": "Erros",
+      "free_throws_made": "Lances livres convertidos",
+      "free_throw_percentage": "Porcentagem de lances livres",
+      "field_goals_made": "Arremessos de 2 pontos convertidos",
+      "field_goal_percentage": "Porcentagem de arremessos de 2 pontos",
+      "three_point_field_goals_made": "Arremessos de 3 pontos convertidos",
+      "three_point_field_goal_percentage": "Porcentagem de arremessos de 3 pontos",
+      "rebounds_offensive": "Rebotes ofensivos",
+      "rebounds_defensive": "Rebotes defensivos",
       "one_point_made": "Arremessos de 1 ponto convertidos",
       "one_point_attempted": "Arremessos de 1 ponto tentados",
       "one_point_percentage": "Porcentagem de arremessos de 1 ponto",

@@ -191,12 +191,31 @@ export const statTotals = (
 
 const MISSING = Number.NEGATIVE_INFINITY;
 
-const statNumber = (row: RosterStatRow, slug: string): number =>
+export interface StatsRow {
+  stats: Record<string, string>;
+}
+
+const statNumber = (row: StatsRow, slug: string): number =>
   parseStat(row.stats[slug]) ?? MISSING;
 
 const DIRECTION_SIGN: Record<SortDirection, number> = { asc: 1, desc: -1 };
 
 export type SortDirection = 'asc' | 'desc';
+
+export interface SortState {
+  slug: string | null;
+  direction: SortDirection;
+}
+
+const NO_SORT: SortState = { slug: null, direction: 'desc' };
+
+export const initialSort = (
+  defaultSortSlugs: Record<string, string>,
+  scope: StatScope
+): SortState =>
+  defaultSortSlugs[scope]
+    ? { slug: defaultSortSlugs[scope], direction: 'desc' }
+    : NO_SORT;
 
 // A player with no value for the column sorts to the bottom of both
 // directions: he is on the roster, not in the ranking. That is a rank of its
@@ -209,7 +228,7 @@ const compareValues = (left: number, right: number, sign: number): number =>
 
 const byStat =
   (slug: string, direction: SortDirection) =>
-  (left: RosterStatRow, right: RosterStatRow): number => {
+  (left: StatsRow, right: StatsRow): number => {
     const leftValue = statNumber(left, slug);
     const rightValue = statNumber(right, slug);
     const rankDelta = missingRank(leftValue) - missingRank(rightValue);
@@ -222,11 +241,11 @@ const byStat =
 
 // No column chosen means the roster order the page arrived with — shirt
 // number first, the way a printed roster reads.
-export const sortRosterRows = (
-  rows: RosterStatRow[],
+export const sortRosterRows = <Row extends StatsRow>(
+  rows: Row[],
   slug: string | null,
   direction: SortDirection
-): RosterStatRow[] => (slug ? [...rows].sort(byStat(slug, direction)) : rows);
+): Row[] => (slug ? [...rows].sort(byStat(slug, direction)) : rows);
 
 export interface StatColumnView {
   slug: string;
