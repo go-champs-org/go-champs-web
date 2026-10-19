@@ -119,7 +119,19 @@ const tournament = (overrides = {}) => ({
   teams: [team('t1', 'Time A'), team('t2', 'Time B')],
   organization: { id: '', name: '', slug: '', logoUrl: '' },
   players: [],
+  phases: [],
   ...overrides
+});
+
+const phase = (id: string, title: string, order: number) => ({
+  id,
+  title,
+  order,
+  type: 'draw',
+  isInProgress: false,
+  draws: [],
+  eliminationStats: [],
+  eliminations: []
 });
 
 const params = Promise.resolve({
@@ -227,6 +239,46 @@ describe('PlayerStatsPage', () => {
     await renderPage();
 
     expect(screen.queryByRole('link', { name: 'Ver líderes' })).not.toBeInTheDocument();
+  });
+
+  it('offers the phases in order, the teams and the games played minimum as filters', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p1', 'Camisa Um', 't1')],
+        playerStats: [playerStat('points', 'Pontos'), playerStat('game_played', 'Jogos')],
+        phases: [phase('ph2', 'Playoffs', 2), phase('ph1', 'Classificatória', 1)]
+      })
+    );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p1', { points: '15' })
+    ]);
+
+    await renderPage();
+
+    const filters = within(screen.getByTestId('stats-filters'));
+    expect(
+      within(filters.getByLabelText('Fase'))
+        .getAllByRole('option')
+        .map(option => option.textContent)
+    ).toEqual(['Todas as fases', 'Classificatória', 'Playoffs']);
+    expect(filters.getByLabelText('Time')).toBeInTheDocument();
+    expect(filters.getByLabelText('Jogos (mín.)')).toBeInTheDocument();
+  });
+
+  it('offers no games played minimum when the tournament does not record it', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p1', 'Camisa Um', 't1')],
+        playerStats: [playerStat('points', 'Pontos')]
+      })
+    );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p1', { points: '15' })
+    ]);
+
+    await renderPage();
+
+    expect(screen.queryByLabelText('Jogos (mín.)')).not.toBeInTheDocument();
   });
 
   it('renders a 404 when the tournament does not exist', async () => {

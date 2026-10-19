@@ -30,8 +30,41 @@ describe('GET /api/tournament-stats', () => {
 
     expect(getAggregatedPlayerStatsByFilterMock).toHaveBeenCalledWith({
       tournamentId: 't1',
-      sort: 'points'
+      sort: 'points',
+      minStats: {}
     });
+  });
+
+  it('forwards the phase, team and stat minimum filters', async () => {
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
+
+    await GET(
+      new Request(
+        'http://localhost/api/tournament-stats?tournamentId=t1&sort=points&phaseId=ph1&teamId=team1&min%5Bgame_played%5D=3'
+      )
+    );
+
+    expect(getAggregatedPlayerStatsByFilterMock).toHaveBeenCalledWith({
+      tournamentId: 't1',
+      sort: 'points',
+      phaseId: 'ph1',
+      teamId: 'team1',
+      minStats: { game_played: 3 }
+    });
+  });
+
+  it('drops a stat minimum that is not a number', async () => {
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([]);
+
+    await GET(
+      new Request(
+        'http://localhost/api/tournament-stats?tournamentId=t1&min%5Bgame_played%5D=many'
+      )
+    );
+
+    expect(getAggregatedPlayerStatsByFilterMock).toHaveBeenCalledWith(
+      expect.objectContaining({ minStats: {} })
+    );
   });
 
   it('returns the sorted logs from the API', async () => {

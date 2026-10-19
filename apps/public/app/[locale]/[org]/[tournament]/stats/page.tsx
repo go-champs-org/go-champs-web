@@ -33,7 +33,12 @@ import {
   type TournamentStatRow
 } from '@/src/stats/tournamentStats';
 import { defaultSortSlugs } from '@/src/stats/sportStatColumns';
+import { minStatFilterSlugs } from '@/src/stats/sportStatFilters';
 import { TournamentStatsTable } from './TournamentStatsTable';
+import type {
+  StatsFilterOption,
+  TournamentStatsFilterLabels
+} from './TournamentStatsFilters';
 
 // The tournament-wide stats table moves as rarely as a team's roster, so the
 // rendered HTML can be reused for minutes at a time instead of hitting the
@@ -148,6 +153,9 @@ interface StatsTableSectionProps {
   playerHrefBase: string;
   teamHrefBase: string;
   defaultSortSlugs: Record<string, string>;
+  phases: StatsFilterOption[];
+  minStatFilters: StatsFilterOption[];
+  filterLabels: TournamentStatsFilterLabels;
   labels: {
     title: string;
     statsScope: string;
@@ -158,6 +166,7 @@ interface StatsTableSectionProps {
     teamColumn: string;
     sortByStat: string;
     noStats: string;
+    noFilteredStats: string;
   };
 }
 
@@ -177,6 +186,9 @@ function StatsTableSection({
   playerHrefBase,
   teamHrefBase,
   defaultSortSlugs,
+  phases,
+  minStatFilters,
+  filterLabels,
   labels
 }: StatsTableSectionProps) {
   return rows.length > 0 ? (
@@ -205,6 +217,10 @@ function StatsTableSection({
         playerHrefBase={playerHrefBase}
         teamHrefBase={teamHrefBase}
         defaultSortSlugs={defaultSortSlugs}
+        phases={phases}
+        minStatFilters={minStatFilters}
+        filterLabels={filterLabels}
+        noFilteredStatsLabel={labels.noFilteredStats}
       />
     </Surface>
   ) : (
@@ -232,14 +248,26 @@ export default async function PlayerStatsPage({
 
   const { tournament, sport, statsLogs } = view;
 
+  const statDescriptions = tTeam.raw('statDescriptions') as Record<string, string>;
   const rows = tournamentStatRows(tournament.players, statsLogs, tournament.teams);
   const scopes = availableScopes(tournament.playerStats, sport);
   const columnsByScope = columnViewsByScope(
     statColumnsByScope(tournament.playerStats, sport, scopes),
     tTeam.raw('statColumns') as Record<string, string>,
-    tTeam.raw('statDescriptions') as Record<string, string>
+    statDescriptions
   );
   const totalsByScope = statTotalsByScope(rows, columnsByScope);
+
+  const phases = [...tournament.phases]
+    .sort((left, right) => left.order - right.order)
+    .map(phase => ({ id: phase.id, label: phase.title }));
+  const minStatFilters = minStatFilterSlugs(
+    tournament.sportSlug,
+    tournament.playerStats
+  ).map(slug => ({
+    id: slug,
+    label: t('minStatFilter', { stat: statDescriptions[slug] || slug })
+  }));
 
   const tournamentHref = publicPath(`/${org}/${tournamentSlug}`);
   const playerHrefBase = publicPath(`/${org}/${tournamentSlug}/athlete/`);
@@ -285,6 +313,15 @@ export default async function PlayerStatsPage({
           playerHrefBase={playerHrefBase}
           teamHrefBase={teamHrefBase}
           defaultSortSlugs={defaultSortSlugs(tournament.sportSlug)}
+          phases={phases}
+          minStatFilters={minStatFilters}
+          filterLabels={{
+            legend: t('filters'),
+            phase: t('phaseFilter'),
+            allPhases: t('allPhases'),
+            team: t('teamFilter'),
+            allTeams: t('allTeams')
+          }}
           labels={{
             title: t('title'),
             statsScope: tTeam('statsScope'),
@@ -294,7 +331,8 @@ export default async function PlayerStatsPage({
             playerName: tTeam('playerName'),
             teamColumn: t('teamColumn'),
             sortByStat: tTeam.raw('sortByStat') as string,
-            noStats: t('noStats')
+            noStats: t('noStats'),
+            noFilteredStats: t('noFilteredStats')
           }}
         />
       </div>

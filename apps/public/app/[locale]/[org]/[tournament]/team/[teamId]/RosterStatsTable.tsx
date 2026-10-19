@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import {
   RemoteImage,
@@ -12,6 +12,7 @@ import {
   formatStatValue,
   initialSort,
   sortRosterRows,
+  statTotals,
   type SortState,
   type RosterStatRow,
   type StatColumnView,
@@ -54,6 +55,14 @@ interface RosterStatsTableProps {
   // The column each scope opens ranked by; a sport with none opens in the
   // order the rows arrived.
   defaultSortSlugs?: Record<string, string>;
+  // Set with `onSortRequest`: a new key asks it again for the column already
+  // ranked, e.g. once the tournament-wide table's filters change what it
+  // returns. A plain string so it can tell a change from a re-render.
+  refetchKey?: string;
+  // Shown in place of the rows when there are none, e.g. a filter nobody meets.
+  emptyLabel?: string;
+  // Rendered under the card's title, for controls that narrow the rows.
+  filters?: ReactNode;
 }
 
 const NO_DEFAULT_SORTS: Record<string, string> = {};
@@ -105,6 +114,7 @@ const columnsFor = (
 
 interface StatsCardHeaderProps {
   title: string;
+  filters?: ReactNode;
   columns: StatColumnView[];
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
@@ -118,6 +128,7 @@ interface StatsCardHeaderProps {
 
 function StatsCardHeader({
   title,
+  filters,
   columns,
   scopes,
   scopeLabels,
@@ -157,6 +168,8 @@ function StatsCardHeader({
           )}
         </div>
       </div>
+
+      {filters}
 
       {columns.length > 0 && (
         <StatGlossaryList id="stats-glossary" columns={columns} isOpen={isGlossaryOpen} />
@@ -323,6 +336,24 @@ interface TotalsRowProps {
   hasTeamColumn: boolean;
 }
 
+interface EmptyRowProps {
+  label?: string;
+  isEmpty: boolean;
+  columnCount: number;
+}
+
+function EmptyRow({ label, isEmpty, columnCount }: EmptyRowProps) {
+  if (!(isEmpty && label)) return null;
+
+  return (
+    <tr className={`${ROW_HEIGHT} border-b border-border/60`}>
+      <td colSpan={columnCount} className="px-4 text-sm text-muted md:px-6">
+        {label}
+      </td>
+    </tr>
+  );
+}
+
 // Only counts add up, so a percentage and a per game average arrive missing
 // from `totals` and read as a dash.
 function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
@@ -342,6 +373,23 @@ function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
     </tr>
   );
 }
+
+// Server-sorted rows are whichever players the last request returned — a
+// different 50 per column or filter — so the band adds up the rows on screen
+// rather than the ones the page first arrived with.
+const displayedTotals = (
+  isServerSorted: boolean,
+  serverRows: RosterStatRow[],
+  columns: StatColumnView[],
+  scopeTotals: Record<string, string> | undefined
+): Record<string, string> =>
+  isServerSorted
+    ? statTotals(serverRows, columns.map(column => column.slug))
+    : scopeTotals || {};
+
+// Number and name, the team when there is one, then every statistic.
+const tableColumnCount = (hasTeamColumn: boolean, columns: StatColumnView[]): number =>
+  2 + Number(hasTeamColumn) + columns.length;
 
 // The roster and its numbers are one table: the CMS team view has no plain
 // list of names to keep them apart.
@@ -364,7 +412,10 @@ export function RosterStatsTable({
   playerHrefBase,
   teamHrefBase,
   onSortRequest,
-  defaultSortSlugs = NO_DEFAULT_SORTS
+  defaultSortSlugs = NO_DEFAULT_SORTS,
+  refetchKey,
+  emptyLabel,
+  filters
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(() =>
@@ -379,11 +430,18 @@ export function RosterStatsTable({
   // resolves after the visitor has moved on can tell it's stale and skip
   // its own state update instead of overwriting a newer one.
   const requestId = useRef(0);
+  const lastRefetchKey = useRef(refetchKey);
 
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = onSortRequest
     ? serverRows
     : rankedRows(rows, sort);
+  const totals = displayedTotals(
+    Boolean(onSortRequest),
+    serverRows,
+    columns,
+    totalsByScope[scope]
+  );
 
   // A fresh `rows` prop (a different tournament, or a revalidated fetch)
   // replaces whatever this island was showing, sorted or not — including the
@@ -449,10 +507,37 @@ export function RosterStatsTable({
   const onSort = (slug: string) =>
     onSortRequest && !isSorting ? requestSort(onSortRequest, slug) : undefined;
 
+  const applyRefetchResult = (fetchedRows: RosterStatRow[] | null) => {
+    if (fetchedRows) setServerRows(fetchedRows);
+    setIsSorting(false);
+  };
+
+  // Same ranking, different rows: the sort stays put while the request is out,
+  // and a failed one leaves the rows already on screen.
+  const refetchRows = async (
+    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>
+  ) => {
+    const thisRequestId = ++requestId.current;
+    setIsSorting(true);
+
+    const fetchedRows = await fetchSortedRows(sort.slug ?? '').catch(() => null);
+    if (!isStaleRequest(thisRequestId)) applyRefetchResult(fetchedRows);
+  };
+
+  useEffect(() => {
+    if (!onSortRequest || lastRefetchKey.current === refetchKey) return;
+
+    lastRefetchKey.current = refetchKey;
+    refetchRows(onSortRequest);
+  }, [refetchKey]);
+
+  const columnCount = tableColumnCount(hasTeamColumn, columns);
+
   return (
     <div className="flex flex-col">
       <StatsCardHeader
         title={title}
+        filters={filters}
         columns={columns}
         scopes={scopes}
         scopeLabels={scopeLabels}
@@ -466,7 +551,7 @@ export function RosterStatsTable({
 
       {/* Narrow screens scroll the table instead of the page. */}
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-left">
+        <table className="w-full border-collapse text-left" aria-busy={isSorting}>
           <thead>
             <tr className={`${HEADER_BAND} ${ROW_HEIGHT} text-foreground`}>
               <th
@@ -503,6 +588,11 @@ export function RosterStatsTable({
             </tr>
           </thead>
           <tbody>
+            <EmptyRow
+              label={emptyLabel}
+              isEmpty={sortedRows.length === 0}
+              columnCount={columnCount}
+            />
             {sortedRows.map((row, index) => (
               <StatRow
                 key={row.playerId}
@@ -517,7 +607,7 @@ export function RosterStatsTable({
           </tbody>
           <tfoot>
             <TotalsRow
-              totals={totalsByScope[scope] || {}}
+              totals={totals}
               columns={columns}
               label={totalLabel}
               hasTeamColumn={hasTeamColumn}

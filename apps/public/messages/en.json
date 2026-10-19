@@ -416,7 +416,14 @@
     "noStats": "No statistics for this tournament yet.",
     "rankColumn": "Rank",
     "playerColumn": "Player",
-    "valueColumn": "Value"
+    "valueColumn": "Value",
+    "filters": "Filters",
+    "phaseFilter": "Phase",
+    "allPhases": "All phases",
+    "teamFilter": "Team",
+    "allTeams": "All teams",
+    "minStatFilter": "{stat} (min.)",
+    "noFilteredStats": "No athletes match these filters."
   },
   "metadata": {
     "homeTitle": "Go Champs — tournaments, games and stats",
