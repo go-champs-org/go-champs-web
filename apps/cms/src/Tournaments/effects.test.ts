@@ -266,7 +266,10 @@ describe('getTournamentBySlug', () => {
       } as unknown) as ApiTournamentWithDependecies);
       jest.spyOn(recentlyViewsEffects, 'postRecentlyView').mockReturnValue();
       jest
-        .spyOn(fixedPlayerStatsTablesEffects, 'getFixedPlayerStatsTablesByFilter')
+        .spyOn(
+          fixedPlayerStatsTablesEffects,
+          'getFixedPlayerStatsTablesByFilter'
+        )
         .mockReturnValue(async () => undefined);
       getBillingAgreementSpy = jest
         .spyOn(tournamentHttpClient, 'getBillingAgreement')
