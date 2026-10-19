@@ -34,6 +34,7 @@ import ApiError from '../Shared/httpClient/ApiError';
 import { getFixedPlayerStatsTablesByFilter } from '../FixedPlayerStatsTables/effects';
 import { postRecentlyView } from '../RecentlyViews/effects';
 import { getSport } from '../Sports/effects';
+import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
 
 export const deleteTournament = (tournament: TournamentEntity) => async (
   dispatch: Dispatch
@@ -232,8 +233,11 @@ export const getTournamentBySlug = (
     if (response.sport_slug) {
       await getSport(response.sport_slug)(dispatch);
     }
-    // Always try to fetch billing agreement, returns null for unauthorized users
-    await getBillingAgreement(tournamentId)(dispatch);
+    // Only organization members can read the billing agreement and only the
+    // management screens use it, so an anonymous visit would just get a 401.
+    if (localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY)) {
+      await getBillingAgreement(tournamentId)(dispatch);
+    }
   } catch (err) {
     dispatch(getTournamentFailure(err));
   }

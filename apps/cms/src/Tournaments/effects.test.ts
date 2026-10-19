@@ -37,6 +37,7 @@ import {
 } from './actions';
 import tournamentHttpClient from './tournamentHttpClient';
 import * as toast from '../Shared/bulma/toast';
+import { LOCAL_STORAGE_TOKEN_KEY } from '../Accounts/constants';
 import ApiError from '../Shared/httpClient/ApiError';
 import { History } from 'history';
 import { ApiTournamentWithDependecies } from '../Shared/httpClient/apiTypes';
@@ -236,6 +237,67 @@ describe('getTournamentBySlug', () => {
       expect(
         fixedPlayerStatsTablesEffects.getFixedPlayerStatsTablesByFilter
       ).toHaveBeenCalledWith({ tournament_id: 'get-id' });
+    });
+  });
+
+  describe('billing agreement', () => {
+    let getBillingAgreementSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      jest.spyOn(tournamentHttpClient, 'getByFilter').mockResolvedValue([
+        {
+          id: 'get-id',
+          name: 'get tournament',
+          slug: 'get-tournament-slug',
+          visibility: 'public'
+        }
+      ]);
+      jest.spyOn(tournamentHttpClient, 'get').mockResolvedValue(({
+        id: 'get-id',
+        name: 'get tournament',
+        slug: 'get-tournament-slug',
+        organization: {
+          id: 'organization-id',
+          name: 'organization name',
+          slug: 'organization-slug'
+        },
+        phases: [],
+        teams: []
+      } as unknown) as ApiTournamentWithDependecies);
+      jest.spyOn(recentlyViewsEffects, 'postRecentlyView').mockReturnValue();
+      jest
+        .spyOn(fixedPlayerStatsTablesEffects, 'getFixedPlayerStatsTablesByFilter')
+        .mockReturnValue(async () => undefined);
+      getBillingAgreementSpy = jest
+        .spyOn(tournamentHttpClient, 'getBillingAgreement')
+        .mockResolvedValue(null);
+      dispatch = jest.fn();
+    });
+
+    afterEach(() => {
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+    });
+
+    it('fetches the billing agreement when the user is authenticated', async () => {
+      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, 'some-token');
+
+      await getTournamentBySlug(
+        'some-organization-slug',
+        'some-tournament-slug'
+      )(dispatch);
+
+      expect(getBillingAgreementSpy).toHaveBeenCalledWith('get-id');
+    });
+
+    it('does not fetch the billing agreement for an anonymous visitor', async () => {
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+
+      await getTournamentBySlug(
+        'some-organization-slug',
+        'some-tournament-slug'
+      )(dispatch);
+
+      expect(getBillingAgreementSpy).not.toHaveBeenCalled();
     });
   });
 
