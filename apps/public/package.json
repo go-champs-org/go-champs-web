@@ -37,7 +37,7 @@
     "@jest/reporters": "30.4.1",
     "@jest/test-sequencer": "30.4.1",
     "@jest/types": "30.4.1",
-    "@opennextjs/cloudflare": "1.20.0",
+    "@opennextjs/cloudflare": "1.20.2",
     "@tailwindcss/postcss": "4.3.3",
     "@testing-library/jest-dom": "7.0.0",
     "@testing-library/react": "16.3.2",
