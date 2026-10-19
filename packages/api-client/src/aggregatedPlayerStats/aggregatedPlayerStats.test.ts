@@ -48,6 +48,45 @@ describe('getAggregatedPlayerStatsByFilter', () => {
     );
   });
 
+  it('adds phase_id to the filter when provided', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getAggregatedPlayerStatsByFilter } = await import('./aggregatedPlayerStats');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [] })
+    }) as unknown as typeof fetch;
+
+    await getAggregatedPlayerStatsByFilter({ tournamentId: 't1', phaseId: 'ph1' });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1&where%5Bphase_id%5D=ph1',
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
+    );
+  });
+
+  it('adds one where[stat][gte] param per stat minimum', async () => {
+    process.env.API_HOST = 'https://api.example.com';
+    jest.resetModules();
+    const { getAggregatedPlayerStatsByFilter } = await import('./aggregatedPlayerStats');
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [] })
+    }) as unknown as typeof fetch;
+
+    await getAggregatedPlayerStatsByFilter({
+      tournamentId: 't1',
+      minStats: { game_played: 3, points: 10 }
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://api.example.com/v1/aggregated-player-stats-by-tournament?where%5Btournament_id%5D=t1&where%5Bgame_played%5D%5Bgte%5D=3&where%5Bpoints%5D%5Bgte%5D=10',
+      expect.objectContaining({ headers: { 'Content-Type': 'application/json' } })
+    );
+  });
+
   it('adds player_id to the filter when provided', async () => {
     process.env.API_HOST = 'https://api.example.com';
     jest.resetModules();

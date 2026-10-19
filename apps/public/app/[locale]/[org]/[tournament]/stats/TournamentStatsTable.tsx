@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import type { AggregatedPlayerStatsLogEntity } from '@gochamps/api-client';
 import {
   tournamentStatRowsInStatsOrder,
@@ -10,6 +10,14 @@ import {
 } from '@/src/stats/tournamentStats';
 import type { StatColumnView, StatScope } from '@/src/stats/rosterStats';
 import { RosterStatsTable } from '../team/[teamId]/RosterStatsTable';
+import {
+  NO_STATS_FILTERS,
+  TournamentStatsFilters,
+  withMinimum,
+  type StatsFilterOption,
+  type TournamentStatsFilterLabels,
+  type TournamentStatsFilterValues
+} from './TournamentStatsFilters';
 
 interface TournamentStatsTableProps {
   tournamentId: string;
@@ -31,21 +39,50 @@ interface TournamentStatsTableProps {
   playerHrefBase: string;
   teamHrefBase: string;
   defaultSortSlugs: Record<string, string>;
+  phases: StatsFilterOption[];
+  minStatFilters: StatsFilterOption[];
+  filterLabels: TournamentStatsFilterLabels;
+  noFilteredStatsLabel: string;
 }
 
+const statsUrl = (
+  tournamentId: string,
+  slug: string,
+  filters: TournamentStatsFilterValues
+): string => {
+  const params = new URLSearchParams({ tournamentId, sort: slug });
+  if (filters.phaseId) params.set('phaseId', filters.phaseId);
+  if (filters.teamId) params.set('teamId', filters.teamId);
+  Object.entries(filters.minStats).forEach(([statSlug, minimum]) =>
+    params.set(`min[${statSlug}]`, String(minimum))
+  );
+
+  return `/api/tournament-stats?${params.toString()}`;
+};
+
+const teamOptions = (teams: PickedTeam[]): StatsFilterOption[] =>
+  teams
+    .map(team => ({ id: team.id, label: team.name }))
+    .sort((left, right) => left.label.localeCompare(right.label));
+
 // The sort fetch lives here, not in the (server) page component, because a
-// function prop can't cross the server-to-client boundary.
+// function prop can't cross the server-to-client boundary. The filters live
+// here too: every ranking the table asks for is narrowed by them.
 export function TournamentStatsTable({
   tournamentId,
   players,
   teams,
+  phases,
+  minStatFilters,
+  filterLabels,
+  noFilteredStatsLabel,
   ...tableProps
 }: TournamentStatsTableProps) {
+  const [filters, setFilters] = useState(NO_STATS_FILTERS);
+
   const onSortRequest = useCallback(
     async (slug: string) => {
-      const response = await fetch(
-        `/api/tournament-stats?tournamentId=${encodeURIComponent(tournamentId)}&sort=${encodeURIComponent(slug)}`
-      );
+      const response = await fetch(statsUrl(tournamentId, slug, filters));
 
       // A failed request is not a valid (empty) ranking — throwing here lets
       // the table's requestSort leave the rows it already has on screen
@@ -56,7 +93,7 @@ export function TournamentStatsTable({
 
       return tournamentStatRowsInStatsOrder(players, statsLogs, teams);
     },
-    [tournamentId, players, teams]
+    [tournamentId, players, teams, filters]
   );
 
   return (
@@ -65,6 +102,26 @@ export function TournamentStatsTable({
       hasTeamColumn
       showPosition
       onSortRequest={onSortRequest}
+      refetchKey={JSON.stringify(filters)}
+      emptyLabel={noFilteredStatsLabel}
+      filters={
+        <TournamentStatsFilters
+          phases={phases}
+          teams={teamOptions(teams)}
+          minStatFilters={minStatFilters}
+          values={filters}
+          onPhaseChange={phaseId => setFilters(current => ({ ...current, phaseId }))}
+          onTeamChange={teamId => setFilters(current => ({ ...current, teamId }))}
+          onMinStatChange={(slug, minimum) =>
+            setFilters(current => {
+              const minStats = withMinimum(current.minStats, slug, minimum);
+
+              return minStats === current.minStats ? current : { ...current, minStats };
+            })
+          }
+          labels={filterLabels}
+        />
+      }
     />
   );
 }

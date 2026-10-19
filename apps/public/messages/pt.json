@@ -416,7 +416,14 @@
     "noStats": "Sem estatísticas para este campeonato ainda.",
     "rankColumn": "Pos.",
     "playerColumn": "Jogador",
-    "valueColumn": "Valor"
+    "valueColumn": "Valor",
+    "filters": "Filtros",
+    "phaseFilter": "Fase",
+    "allPhases": "Todas as fases",
+    "teamFilter": "Time",
+    "allTeams": "Todos os times",
+    "minStatFilter": "{stat} (mín.)",
+    "noFilteredStats": "Nenhum atleta atende a esses filtros."
   },
   "metadata": {
     "homeTitle": "Go Champs — campeonatos, jogos e estatísticas",
