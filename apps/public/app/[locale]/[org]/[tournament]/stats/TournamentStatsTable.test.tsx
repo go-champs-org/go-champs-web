@@ -106,6 +106,27 @@ describe('TournamentStatsTable filters', () => {
     ]);
   });
 
+  it('collapses the filters behind a toggle that counts the active ones', async () => {
+    mockFetch([{ id: 'log-p1', playerId: 'p1', stats: { points: '8' } }]);
+    renderTable();
+
+    const toggle = screen.getByRole('button', { name: 'Filtros' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(toggle).toHaveAttribute('aria-controls', 'stats-filters-panel');
+    expect(document.getElementById('stats-filters-panel')).toHaveClass('hidden', 'md:flex');
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(document.getElementById('stats-filters-panel')).not.toHaveClass('hidden');
+
+    fireEvent.change(screen.getByLabelText('Time'), { target: { value: 'team-a' } });
+    expect(await screen.findByRole('button', { name: 'Filtros (1)' })).toBeInTheDocument();
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.getByLabelText('Time')).toHaveValue('team-a');
+  });
+
   it('leaves the phase filter out when the tournament has a single phase', () => {
     mockFetch([]);
     renderTable({ phases: [{ id: 'ph1', label: 'Fase 1' }] });

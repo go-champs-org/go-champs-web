@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { FaChevronDown, FaChevronUp, FaFilter } from 'react-icons/fa';
 
 export interface StatsFilterOption {
   id: string;
@@ -43,7 +44,8 @@ interface TournamentStatsFiltersProps {
   labels: TournamentStatsFilterLabels;
 }
 
-const FIELD_CLASS = 'flex flex-col gap-1 text-xs font-semibold text-muted';
+// Full width and stacked on a phone, side by side from md up.
+const FIELD_CLASS = 'flex w-full flex-col gap-1 text-xs font-semibold text-muted md:w-auto';
 const CONTROL_CLASS =
   'rounded-lg border border-border bg-surface-input px-3 py-2 text-sm font-normal text-foreground outline-none transition focus:border-primary focus:shadow-[0_0_0_3px_var(--shadow-elevated)]';
 
@@ -148,7 +150,7 @@ function MinStatFilter({ slug, label, onChange }: MinStatFilterProps) {
         step={1}
         value={input}
         onChange={event => setInput(event.target.value)}
-        className={`${CONTROL_CLASS} w-24`}
+        className={`${CONTROL_CLASS} w-full md:w-24`}
       />
     </label>
   );
@@ -168,6 +170,49 @@ const hasAnyFilter = (
   teams.length >= MINIMUM_TEAMS ||
   minStatFilters.length > 0;
 
+const PANEL_ID = 'stats-filters-panel';
+
+const activeFilterCount = (values: TournamentStatsFilterValues): number =>
+  Number(Boolean(values.phaseId)) +
+  Number(Boolean(values.teamId)) +
+  Object.keys(values.minStats).length;
+
+// Collapsed, the toggle is all a phone shows of the filters, so it says how
+// many are narrowing the table.
+const toggleLabel = (legend: string, activeCount: number): string =>
+  activeCount > 0 ? `${legend} (${activeCount})` : legend;
+
+// Hidden by CSS, not unmounted: a minimum typed before collapsing is still
+// there on the next expand. From md up the panel is always shown.
+const panelClass = (isOpen: boolean): string =>
+  `${isOpen ? 'flex' : 'hidden'} flex-col gap-3 md:flex md:flex-row md:flex-wrap md:items-end md:gap-4`;
+
+interface FiltersToggleProps {
+  label: string;
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+// Phones only: the filters stacked one below another take more of the screen
+// than the table they narrow.
+function FiltersToggle({ label, isOpen, onToggle }: FiltersToggleProps) {
+  const Chevron = isOpen ? FaChevronUp : FaChevronDown;
+
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-expanded={isOpen}
+      aria-controls={PANEL_ID}
+      className="flex cursor-pointer items-center gap-2 self-start text-sm font-semibold text-foreground md:hidden"
+    >
+      <FaFilter aria-hidden="true" className="h-4 w-4 text-primary-dark" />
+      {label}
+      <Chevron aria-hidden="true" className="h-4 w-4" />
+    </button>
+  );
+}
+
 export function TournamentStatsFilters({
   phases,
   teams,
@@ -178,43 +223,53 @@ export function TournamentStatsFilters({
   onMinStatChange,
   labels
 }: TournamentStatsFiltersProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   if (!hasAnyFilter(phases, teams, minStatFilters)) return null;
 
   return (
     <div
       role="group"
       aria-label={labels.legend}
-      className="flex flex-wrap items-end gap-4"
+      className="flex flex-col gap-3"
       data-testid="stats-filters"
     >
-      <SelectFilter
-        id="stats-phase"
-        label={labels.phase}
-        allLabel={labels.allPhases}
-        options={phases}
-        minimumOptions={MINIMUM_PHASES}
-        value={values.phaseId}
-        onChange={onPhaseChange}
+      <FiltersToggle
+        label={toggleLabel(labels.legend, activeFilterCount(values))}
+        isOpen={isOpen}
+        onToggle={() => setIsOpen(!isOpen)}
       />
 
-      <SelectFilter
-        id="stats-team"
-        label={labels.team}
-        allLabel={labels.allTeams}
-        options={teams}
-        minimumOptions={MINIMUM_TEAMS}
-        value={values.teamId}
-        onChange={onTeamChange}
-      />
-
-      {minStatFilters.map(filter => (
-        <MinStatFilter
-          key={filter.id}
-          slug={filter.id}
-          label={filter.label}
-          onChange={onMinStatChange}
+      <div id={PANEL_ID} className={panelClass(isOpen)}>
+        <SelectFilter
+          id="stats-phase"
+          label={labels.phase}
+          allLabel={labels.allPhases}
+          options={phases}
+          minimumOptions={MINIMUM_PHASES}
+          value={values.phaseId}
+          onChange={onPhaseChange}
         />
-      ))}
+
+        <SelectFilter
+          id="stats-team"
+          label={labels.team}
+          allLabel={labels.allTeams}
+          options={teams}
+          minimumOptions={MINIMUM_TEAMS}
+          value={values.teamId}
+          onChange={onTeamChange}
+        />
+
+        {minStatFilters.map(filter => (
+          <MinStatFilter
+            key={filter.id}
+            slug={filter.id}
+            label={filter.label}
+            onChange={onMinStatChange}
+          />
+        ))}
+      </div>
     </div>
   );
 }
