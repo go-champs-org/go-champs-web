@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GamesPager } from './GamesPager';
+import { subscribeScoreboard } from '@/src/games/liveGameStore';
 import type { GameDay } from '@/src/games/gamesByDate';
 
 const emptyTeam = (id: string, name: string) => ({
@@ -44,8 +45,13 @@ const DEFAULT_PROPS = {
   undecidedLabel: 'A definir',
   winnerLabel: 'Vencedor',
   liveLabel: 'Ao vivo',
-  teamHrefBase: '/org/tour/team/'
+  teamHrefBase: '/org/tour/team/',
+  scoreboardUrl: 'https://scoreboard.test'
 };
+
+jest.mock('@/src/games/liveGameStore', () => ({
+  subscribeScoreboard: jest.fn(() => () => undefined)
+}));
 
 describe('GamesPager', () => {
   it('flags a game in progress with the live badge', () => {
@@ -174,5 +180,33 @@ describe('GamesPager', () => {
       'href',
       '/org/tour/team/t2'
     );
+  });
+  it('updates the score of a live game from the scoreboard', () => {
+    jest.mocked(subscribeScoreboard).mockImplementation((_url, _id, listener) => {
+      listener({
+        data: {
+          home_team: { total_player_stats: { points: 71 }, players: [] },
+          away_team: { total_player_stats: { points: 64 }, players: [] }
+        }
+      });
+
+      return () => undefined;
+    });
+    const days: GameDay[] = [
+      {
+        key: '2026-08-27',
+        label: '27 de agosto',
+        games: [game({ liveState: 'in_progress' })]
+      }
+    ];
+
+    render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
+
+    expect(screen.getByText('71')).toBeInTheDocument();
+    expect(screen.getByText('71').closest('[aria-live]')).toHaveAttribute(
+      'aria-live',
+      'polite'
+    );
+    expect(screen.getByText('64')).toBeInTheDocument();
   });
 });

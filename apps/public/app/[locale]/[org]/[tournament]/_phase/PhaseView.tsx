@@ -30,6 +30,8 @@ import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { ManageButton } from '@/src/components/ManageButton';
 import { Breadcrumb } from '@/src/components/Breadcrumb';
 
+const SCOREBOARD_URL = process.env.NEXT_PUBLIC_SCOREBOARD_APP_URL || '';
+
 export interface PhaseViewParams {
   locale: string;
   org: string;
@@ -115,7 +117,7 @@ function TournamentLogo({ logoUrl, name }: { logoUrl: string; name: string }) {
       className="h-14 w-14 shrink-0 object-contain md:h-16 md:w-16"
     />
   ) : (
-    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-xl font-extrabold text-[#4d6b2c] md:h-16 md:w-16">
+    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-primary bg-neutral-100 text-xl font-extrabold text-[#4d6b2c] md:h-16 md:w-16">
       {name.charAt(0).toUpperCase()}
     </div>
   );
@@ -686,6 +688,7 @@ function PhaseGamesSection({
       liveLabel={liveLabel}
       gameHrefBase={gameHrefBase}
       teamHrefBase={teamHrefBase}
+      scoreboardUrl={SCOREBOARD_URL}
     />
   );
 }

@@ -71,7 +71,7 @@ export function Footer({ t, links, logoSrc, buildNumber }: FooterProps) {
     // The wrapper pushes the footer to the bottom of short pages and keeps a
     // minimum gap between it and the page content on long ones.
     <div className="mt-auto shrink-0 pt-12 md:pt-20">
-      <footer className="bg-navbar pb-8 pt-16 text-white md:pb-10 md:pt-12">
+      <footer className="border-t border-chrome-border bg-navbar pb-8 pt-16 text-white md:pb-10 md:pt-12">
         <div className="mx-auto flex max-w-[calc(var(--content-max-width,1200px)+2.5rem)] flex-col gap-10 px-5 md:max-w-[calc(var(--content-max-width,1200px)+4rem)] md:gap-8 md:px-8">
           <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
             <div className="flex flex-col items-start gap-8 md:w-[340px]">

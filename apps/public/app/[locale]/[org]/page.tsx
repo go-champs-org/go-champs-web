@@ -158,7 +158,7 @@ function TournamentGrid({
                 className="h-10 w-10 shrink-0 object-contain"
               />
             ) : (
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-sm font-extrabold text-[#4d6b2c]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-neutral-100 text-sm font-extrabold text-[#4d6b2c]">
                 {tournament.name.charAt(0).toUpperCase()}
               </div>
             )}

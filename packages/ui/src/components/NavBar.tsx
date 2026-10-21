@@ -173,7 +173,7 @@ export function NavBar({
   const authLink = resolveAuthLink({ account, loginHref, loginLabel });
 
   return (
-    <nav className="sticky top-0 z-50 h-[var(--navbar-height)] bg-navbar">
+    <nav className="sticky top-0 z-50 h-[var(--navbar-height)] border-b border-chrome-border bg-navbar">
       <div className={CONTAINER_CLASS}>
         <a
           href={logoHref}

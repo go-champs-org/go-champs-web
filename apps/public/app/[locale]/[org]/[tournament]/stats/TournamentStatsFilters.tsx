@@ -47,7 +47,7 @@ interface TournamentStatsFiltersProps {
 // Full width and stacked on a phone, side by side from md up.
 const FIELD_CLASS = 'flex w-full flex-col gap-1 text-xs font-semibold text-muted md:w-auto';
 const CONTROL_CLASS =
-  'rounded-lg border border-border bg-surface-input px-3 py-2 text-sm font-normal text-foreground outline-none transition focus:border-primary focus:shadow-[0_0_0_3px_var(--shadow-elevated)]';
+  'h-10 rounded-lg border border-border bg-surface-input px-3 py-2 text-sm font-normal text-foreground outline-none transition focus:border-primary focus:shadow-[0_0_0_3px_var(--shadow-elevated)]';
 
 // Each keystroke would otherwise be a request of its own.
 const MIN_STAT_DEBOUNCE_MS = 400;

@@ -41,6 +41,7 @@ jobs:
         working-directory: apps/public
         env:
           NEXT_PUBLIC_CMS_URL: https://pre-prod.go-champs.com
+          NEXT_PUBLIC_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
           # wrangler.pre-prod.jsonc declares API_HOST too, but a var there only
           # exists inside the deployed Worker. Every page carrying `revalidate`
           # is prerendered here, during the build, and its fetches need the
