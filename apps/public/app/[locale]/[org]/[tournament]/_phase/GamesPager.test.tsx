@@ -203,6 +203,10 @@ describe('GamesPager', () => {
     render(<GamesPager days={days} initialIndex={0} {...DEFAULT_PROPS} />);
 
     expect(screen.getByText('71')).toBeInTheDocument();
+    expect(screen.getByText('71').closest('[aria-live]')).toHaveAttribute(
+      'aria-live',
+      'polite'
+    );
     expect(screen.getByText('64')).toBeInTheDocument();
   });
 });

@@ -102,10 +102,11 @@ function GameCard({
   scoreboardUrl,
   teamHrefBase
 }: GameCardProps) {
+  const isLive = isLiveGame(game.liveState);
   const score = useLiveScore({
     gameId: game.id,
     scoreboardUrl,
-    isLive: isLiveGame(game.liveState),
+    isLive,
     initialScore: { homeScore: game.homeScore, awayScore: game.awayScore }
   });
   const winner = gameWinner(game);
@@ -133,26 +134,28 @@ function GameCard({
       <div className="pointer-events-none mb-1 flex items-center justify-between gap-2 text-xs text-muted">
         <span className="flex items-center gap-2">
           <span className="notranslate">{formatGameTime(game.datetime, locale)}</span>
-          {isLiveGame(game.liveState) && <LiveBadge label={liveLabel} />}
+          {isLive && <LiveBadge label={liveLabel} />}
         </span>
         {game.location && <span className="truncate">{game.location}</span>}
       </div>
-      <GameSideRow
-        name={homeName}
-        logoUrl={game.homeTeam.logoUrl}
-        score={score.homeScore}
-        emphasis={home}
-        winnerLabel={winnerLabel}
-        teamHref={teamHref(teamHrefBase, game.homeTeam.id)}
-      />
-      <GameSideRow
-        name={awayName}
-        logoUrl={game.awayTeam.logoUrl}
-        score={score.awayScore}
-        emphasis={away}
-        winnerLabel={winnerLabel}
-        teamHref={teamHref(teamHrefBase, game.awayTeam.id)}
-      />
+      <div aria-live={isLive ? 'polite' : 'off'} aria-atomic="true">
+        <GameSideRow
+          name={homeName}
+          logoUrl={game.homeTeam.logoUrl}
+          score={score.homeScore}
+          emphasis={home}
+          winnerLabel={winnerLabel}
+          teamHref={teamHref(teamHrefBase, game.homeTeam.id)}
+        />
+        <GameSideRow
+          name={awayName}
+          logoUrl={game.awayTeam.logoUrl}
+          score={score.awayScore}
+          emphasis={away}
+          winnerLabel={winnerLabel}
+          teamHref={teamHref(teamHrefBase, game.awayTeam.id)}
+        />
+      </div>
     </div>
   );
 }
