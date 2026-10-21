@@ -269,7 +269,7 @@
       },
       "plus_minus": {
         "label": "+/-",
-        "description": "Diferença de pontos quando o jogador está em quadra"
+        "description": "Diferença de pontos quando o atleta está em quadra"
       },
       "free_throws_made": {
         "label": "LL",
@@ -486,6 +486,7 @@
     "highlightsPrevious": "Destaques anteriores",
     "highlightsNext": "Mais destaques",
     "highlightTitles": {
+      "plus_minus": "+/-",
       "field_goal_percentage": "% 2 Pontos",
       "three_point_field_goal_percentage": "% 3 Pontos"
     }

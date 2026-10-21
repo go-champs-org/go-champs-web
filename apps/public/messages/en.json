@@ -486,6 +486,7 @@
     "highlightsPrevious": "Previous highlights",
     "highlightsNext": "More highlights",
     "highlightTitles": {
+      "plus_minus": "+/-",
       "field_goal_percentage": "% 2 Points",
       "three_point_field_goal_percentage": "% 3 Points"
     }
