@@ -85,7 +85,7 @@ export default async function TermsPage({
               <p className="mb-4">
                 A Go Champs é uma plataforma digital que permite a criação,
                 gestão e acompanhamento de torneios esportivos, incluindo
-                cadastro de equipes, jogadores, partidas e estatísticas.
+                cadastro de equipes, atletas, partidas e estatísticas.
               </p>
             </section>
 
@@ -140,7 +140,7 @@ export default async function TermsPage({
               <h2 className={HEADING_CLASS}>4. Conteúdo do usuário</h2>
               <p className="mb-4">Os usuários podem inserir conteúdos como:</p>
               <ul className="mb-4 ml-6 list-disc">
-                <li className="mb-2">Nomes de equipes e jogadores</li>
+                <li className="mb-2">Nomes de equipes e atletas</li>
                 <li className="mb-2">Informações de partidas</li>
                 <li className="mb-2">
                   Imagens e dados relacionados a torneios

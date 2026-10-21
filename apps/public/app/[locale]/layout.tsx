@@ -19,7 +19,7 @@ export const metadata = {
   // Open Graph images) against the live domain.
   metadataBase: new URL(SITE_URL),
   title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
-  description: 'Go Champs — campeonatos, times e jogadores'
+  description: 'Go Champs — campeonatos, times e atletas'
 };
 
 export function generateStaticParams() {
