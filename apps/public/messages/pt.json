@@ -230,7 +230,7 @@
   },
   "boxScore": {
     "title": "Estatísticas",
-    "player": "Jogador",
+    "player": "Atleta",
     "totals": "Totais",
     "glossary": "Glossário",
     "sortByStat": "Ordenar por {stat}",
@@ -314,9 +314,9 @@
     }
   },
   "player": {
-    "unknownPlayer": "Jogador",
+    "unknownPlayer": "Atleta",
     "unknownTournament": "campeonato",
-    "profile": "Perfil do jogador",
+    "profile": "Perfil do atleta",
     "breadcrumbHome": "Home",
     "breadcrumbTournament": "Campeonato",
     "gamesPlayedCount": "{count} jogos disputados",
@@ -417,7 +417,7 @@
     "teamColumn": "Time",
     "noStats": "Sem estatísticas para este campeonato ainda.",
     "rankColumn": "Pos.",
-    "playerColumn": "Jogador",
+    "playerColumn": "Atleta",
     "valueColumn": "Valor",
     "filters": "Filtros",
     "phaseFilter": "Fase",
@@ -447,7 +447,7 @@
     "playerTitle": "{player} — {tournament}",
     "playerDescription": "Estatísticas de {player} no {tournament} na Go Champs.",
     "playerStatsTitle": "Estatísticas — {tournament}",
-    "playerStatsDescription": "Estatísticas de todos os jogadores do {tournament} na Go Champs.",
+    "playerStatsDescription": "Estatísticas de todos os atletas do {tournament} na Go Champs.",
     "playerStatsSummaryTitle": "Líderes de estatísticas — {tournament}",
     "playerStatsSummaryDescription": "Os líderes de cada estatística do {tournament} na Go Champs.",
     "phaseTitle": "{phase} — {tournament}",
