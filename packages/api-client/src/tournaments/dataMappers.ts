@@ -19,7 +19,6 @@ import {
 export const PRIVATE_STAT_SLUGS = [
   'disqualifications',
   'ejections',
-  'efficiency',
   'field_goals_attempted',
   'field_goals_missed',
   'fouls_flagrant',
@@ -30,7 +29,6 @@ export const PRIVATE_STAT_SLUGS = [
   'game_played',
   'game_started',
   'minutes_played',
-  'plus_minus',
   'three_point_field_goals_attempted',
   'three_point_field_goals_missed'
 ];

@@ -377,7 +377,8 @@
       "plus_minus": "+/-",
       "unsportsmanlike_fouls": "UF",
       "disqualifying_fouls": "DQF",
-      "game_played": "GP"
+      "game_played": "GP",
+      "efficiency": "EFF"
     },
     "statDescriptions": {
       "points": "Points",
@@ -404,7 +405,8 @@
       "free_throw_made": "Free throws made",
       "plus_minus": "Plus/minus",
       "unsportsmanlike_fouls": "Unsportsmanlike fouls",
-      "disqualifying_fouls": "Disqualifying fouls"
+      "disqualifying_fouls": "Disqualifying fouls",
+      "efficiency": "Efficiency"
     }
   },
   "playerStats": {
@@ -475,6 +477,17 @@
     "summaryStats": "Statistics leaders",
     "shareQrCode": "Share by QR code",
     "closeQrCode": "Close",
-    "scanQrCode": "Scan to open it"
+    "scanQrCode": "Scan to open it",
+    "highlights": "Highlights",
+    "seeAll": "See all",
+    "scopeAggregate": "Totals",
+    "scopePerGame": "Per game",
+    "highlightsScope": "Statistics",
+    "highlightsPrevious": "Previous highlights",
+    "highlightsNext": "More highlights",
+    "highlightTitles": {
+      "field_goal_percentage": "% 2 Points",
+      "three_point_field_goal_percentage": "% 3 Points"
+    }
   }
 }

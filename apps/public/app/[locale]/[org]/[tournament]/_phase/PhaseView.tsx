@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import { cache, type ReactNode } from 'react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import {
+  getAggregatedPlayerStatsLeaders,
   getPhase,
   getGamesByPhaseId,
   getTournamentBySlug,
@@ -29,6 +30,14 @@ import { GamesPager } from './GamesPager';
 import { TournamentQrCode } from '@/src/components/TournamentQrCode';
 import { ManageButton } from '@/src/components/ManageButton';
 import { Breadcrumb } from '@/src/components/Breadcrumb';
+import {
+  leaderCards,
+  leaderStatKeys,
+  leaderStatsFor,
+  type LeaderCard
+} from '@/src/stats/statLeaders';
+import type { StatScope } from '@/src/stats/rosterStats';
+import { StatLeaders } from './StatLeaders';
 
 const SCOREBOARD_URL = process.env.NEXT_PUBLIC_SCOREBOARD_APP_URL || '';
 
@@ -69,6 +78,29 @@ export const loadTournament = cache(
 // phase standing with an empty list instead of taking the page down.
 const loadGames = (phaseId: string) =>
   getGamesByPhaseId(phaseId).catch(() => []);
+
+const HIGHLIGHTS_PER_CARD = 3;
+
+// The highlights are a companion too: an unreachable endpoint leaves the
+// header without them. One request for every stat the sport highlights; a
+// tournament without aggregated stats, or a sport without a list, makes none.
+const loadStatLeaderCards = async (
+  tournament: TournamentWithTeamsEntity,
+  statTitles: Record<string, string>
+): Promise<LeaderCard[]> => {
+  const stats = tournament.hasAggregatedPlayerStats
+    ? leaderStatsFor(tournament.sportSlug, tournament.playerStats, statTitles)
+    : [];
+
+  if (stats.length === 0) return [];
+
+  return getAggregatedPlayerStatsLeaders({
+    tournamentId: tournament.id,
+    stats: leaderStatKeys(stats)
+  })
+    .then(groups => leaderCards(stats, groups, tournament.teams, HIGHLIGHTS_PER_CARD))
+    .catch(() => []);
+};
 
 /**
  * Mirrors the CMS's currentPhaseId (Tournaments/dataMappers.ts): the phase in
@@ -154,6 +186,7 @@ interface TournamentHeaderProps {
   teamsLabel: string;
   phasesLabel: string;
   actions: ReactNode;
+  highlights: ReactNode;
 }
 
 function TournamentHeader({
@@ -165,7 +198,8 @@ function TournamentHeader({
   athletesLabel,
   teamsLabel,
   phasesLabel,
-  actions
+  actions,
+  highlights
 }: TournamentHeaderProps) {
   const isActive = tournamentIsActive(tournament);
 
@@ -211,6 +245,7 @@ function TournamentHeader({
           <TournamentStat value={tournament.teams.length} label={teamsLabel} />
           <TournamentStat value={tournament.phases.length} label={phasesLabel} />
         </div>
+        {highlights}
       </Surface>
     </div>
   );
@@ -799,6 +834,12 @@ interface TournamentTopSectionProps {
   advancedStatsLabel: string;
   manageLabel: string;
   qrLabels: { open: string; close: string; scan: string };
+  statLeaderCards: LeaderCard[];
+  highlightsLabel: string;
+  seeAllLabel: string;
+  scopeLabels: Record<StatScope, string>;
+  scopeLegend: string;
+  carouselLabels: { previous: string; next: string };
 }
 
 // The tournament identity (breadcrumb + banner + counts) and the tabs across
@@ -815,8 +856,16 @@ function TournamentTopSection({
   phasesLabel,
   advancedStatsLabel,
   manageLabel,
-  qrLabels
+  qrLabels,
+  statLeaderCards,
+  highlightsLabel,
+  seeAllLabel,
+  scopeLabels,
+  scopeLegend,
+  carouselLabels
 }: TournamentTopSectionProps) {
+  const statsPath = `/${routeParams.org}/${routeParams.tournament}/stats`;
+
   return (
     <>
       <TournamentHeader
@@ -828,11 +877,23 @@ function TournamentTopSection({
         athletesLabel={athletesLabel}
         teamsLabel={teamsLabel}
         phasesLabel={phasesLabel}
+        highlights={
+          <StatLeaders
+            cards={statLeaderCards}
+            title={highlightsLabel}
+            statsPath={publicPath(statsPath)}
+            seeAllLabel={seeAllLabel}
+            scopeLabels={scopeLabels}
+            scopeLegend={scopeLegend}
+            previousLabel={carouselLabels.previous}
+            nextLabel={carouselLabels.next}
+          />
+        }
         actions={
           <>
             {tournament.hasAggregatedPlayerStats && (
               <StatisticsLink
-                href={publicPath(`/${routeParams.org}/${routeParams.tournament}/stats`)}
+                href={publicPath(statsPath)}
                 label={advancedStatsLabel}
               />
             )}
@@ -865,16 +926,27 @@ export async function PhaseView({
   const { locale, org, tournament: tournamentSlug, phaseId } = routeParams;
   setRequestLocale(locale);
 
-  const [phase, tournament, games, tPhase, tGame, tCommon] = await Promise.all([
+  const [phase, tournament, games, tPhase, tGame, tCommon, tTeam] = await Promise.all([
     loadPhase(phaseId),
     loadTournament(org, tournamentSlug),
     loadGames(phaseId),
     getTranslations('phase'),
     getTranslations('game'),
-    getTranslations('common')
+    getTranslations('common'),
+    getTranslations('team')
   ]);
 
   if (!phase) notFound();
+
+  // The stat names the stats tables use, so a card reads in the page's
+  // language rather than the title the tournament was configured with; a few
+  // long ones get a card-sized name of their own.
+  const statLeaderCards = tournament
+    ? await loadStatLeaderCards(tournament, {
+        ...(tTeam.raw('statDescriptions') as Record<string, string>),
+        ...(tPhase.raw('highlightTitles') as Record<string, string>)
+      })
+    : [];
 
   return (
     <main
@@ -898,6 +970,18 @@ export async function PhaseView({
               open: tPhase('shareQrCode'),
               close: tPhase('closeQrCode'),
               scan: tPhase('scanQrCode')
+            }}
+            statLeaderCards={statLeaderCards}
+            highlightsLabel={tPhase('highlights')}
+            seeAllLabel={tPhase('seeAll')}
+            scopeLabels={{
+              aggregate: tPhase('scopeAggregate'),
+              per_game: tPhase('scopePerGame')
+            }}
+            scopeLegend={tPhase('highlightsScope')}
+            carouselLabels={{
+              previous: tPhase('highlightsPrevious'),
+              next: tPhase('highlightsNext')
             }}
           />
         )}

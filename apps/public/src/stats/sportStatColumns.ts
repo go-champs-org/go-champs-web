@@ -13,6 +13,8 @@ const BASKETBALL_5X5_ORDER = [
   'blocks',
   'steals',
   'turnovers',
+  'efficiency',
+  'plus_minus',
   'free_throws_made',
   'free_throw_percentage',
   'field_goals_made',
