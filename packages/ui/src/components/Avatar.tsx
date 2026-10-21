@@ -39,7 +39,7 @@ export function Avatar({ name, logoUrl, size, className = '' }: AvatarProps) {
   ) : (
     <div
       style={{ width: size, height: size }}
-      className={`flex flex-shrink-0 items-center justify-center rounded-full border-2 border-[#a6cd63] bg-primary text-foreground ${className}`}
+      className={`flex flex-shrink-0 items-center justify-center rounded-full border-2 border-accent-text bg-primary text-foreground ${className}`}
     >
       {initials(name)}
     </div>

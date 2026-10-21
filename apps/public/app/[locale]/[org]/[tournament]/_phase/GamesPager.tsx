@@ -8,6 +8,7 @@ import type { PagerDay, PagerGame } from '@/src/games/pagerGames';
 import { formatDayDate, formatGameTime } from '@/src/games/gameDateTime';
 import { teamDisplayName, teamShortName } from '@/src/games/gameTeams';
 import { isLiveGame } from '@/src/games/liveScore';
+import { useLiveScore } from '@/src/hooks/useLiveScore';
 import { gameWinner } from '@/src/games/teamRecord';
 import { sideEmphasis, type SideEmphasis } from '@/src/games/sideEmphasis';
 
@@ -81,6 +82,7 @@ interface GameCardProps {
   winnerLabel: string;
   liveLabel: string;
   href: string;
+  scoreboardUrl: string;
   // Where a team name sends the visitor, minus the team id — a plain string
   // so this client component never has to receive a function prop from its
   // server caller (Next can't serialize a function across that boundary).
@@ -97,8 +99,15 @@ function GameCard({
   winnerLabel,
   liveLabel,
   href,
+  scoreboardUrl,
   teamHrefBase
 }: GameCardProps) {
+  const score = useLiveScore({
+    gameId: game.id,
+    scoreboardUrl,
+    isLive: isLiveGame(game.liveState),
+    initialScore: { homeScore: game.homeScore, awayScore: game.awayScore }
+  });
   const winner = gameWinner(game);
   const home = sideEmphasis(winner, 'home');
   const away = sideEmphasis(winner, 'away');
@@ -131,7 +140,7 @@ function GameCard({
       <GameSideRow
         name={homeName}
         logoUrl={game.homeTeam.logoUrl}
-        score={game.homeScore}
+        score={score.homeScore}
         emphasis={home}
         winnerLabel={winnerLabel}
         teamHref={teamHref(teamHrefBase, game.homeTeam.id)}
@@ -139,7 +148,7 @@ function GameCard({
       <GameSideRow
         name={awayName}
         logoUrl={game.awayTeam.logoUrl}
-        score={game.awayScore}
+        score={score.awayScore}
         emphasis={away}
         winnerLabel={winnerLabel}
         teamHref={teamHref(teamHrefBase, game.awayTeam.id)}
@@ -161,6 +170,7 @@ export interface GamesPagerProps {
   // Where a card sends the visitor, minus the game id.
   gameHrefBase: string;
   teamHrefBase: string;
+  scoreboardUrl: string;
 }
 
 // The phase's games, one day at a time — matches the mockup's compact
@@ -176,7 +186,8 @@ export function GamesPager({
   winnerLabel,
   liveLabel,
   gameHrefBase,
-  teamHrefBase
+  teamHrefBase,
+  scoreboardUrl
 }: GamesPagerProps) {
   const [index, setIndex] = useState(initialIndex);
   const day = days[index];
@@ -221,6 +232,7 @@ export function GamesPager({
             winnerLabel={winnerLabel}
             liveLabel={liveLabel}
             href={`${gameHrefBase}${gameItem.id}`}
+            scoreboardUrl={scoreboardUrl}
             teamHrefBase={teamHrefBase}
           />
         ))}

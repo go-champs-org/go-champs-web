@@ -41,13 +41,13 @@ export function TournamentMiniCard({
           <button
             type="button"
             onClick={onTogglePin}
-            className={`relative z-10 flex cursor-pointer items-center gap-1 rounded-full px-2 py-1 text-[0.65rem] font-semibold transition-opacity hover:opacity-90 ${
+            className={`relative z-10 flex cursor-pointer items-center gap-1 rounded-xl px-3 py-1.5 align-middle text-[11px] font-medium leading-4 tracking-[0.5px] transition-opacity hover:opacity-90 ${
               isPinned
-                ? 'bg-secondary text-neutral-900'
-                : 'bg-primary text-foreground'
+                ? 'bg-[#4F6628] text-white'
+                : 'bg-[#DDE6C6] text-neutral-900'
             }`}
           >
-            <FaThumbtack className="h-3 w-3" aria-hidden="true" />
+            <FaThumbtack className="size-[15px]" aria-hidden="true" />
             <span>{pinLabel}</span>
           </button>
         )}

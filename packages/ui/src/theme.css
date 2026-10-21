@@ -21,6 +21,14 @@
 
 @font-face {
   font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
   src: url('/fonts/proximanova_bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
@@ -74,6 +82,9 @@
   --color-surface-alt: var(--color-neutral-300);
   --color-navbar: var(--color-neutral-950);
   --color-border: var(--color-neutral-400);
+  /* Separates NavBar and Footer from the page: only dark needs it, where all
+     three share nearly the same color. */
+  --color-chrome-border: transparent;
   --shadow-elevated: rgba(29, 29, 27, 0.08);
   --shadow-strong: rgba(29, 29, 27, 0.15);
 
@@ -103,12 +114,14 @@
     --color-surface-alt: var(--color-neutral-700);
     --color-navbar: var(--color-neutral-900);
     --color-border: var(--color-neutral-500);
+    --color-chrome-border: var(--color-neutral-500);
     --shadow-elevated: rgba(0, 0, 0, 0.2);
     --shadow-strong: rgba(0, 0, 0, 0.5);
   }
 }
 
 :root[data-theme="dark"] {
+  --color-chrome-border: var(--color-neutral-500);
   --color-primary: #7A9949;
   --color-accent-text: #A6CD63;
   --color-band: #9BBF5B;
@@ -125,6 +138,7 @@
 }
 
 :root[data-theme="light"] {
+  --color-chrome-border: transparent;
   --color-primary: #A6CD63;
   --color-accent-text: #5B7335;
   --color-band: #C8DF9B;
