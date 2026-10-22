@@ -356,6 +356,60 @@ interface TotalsRowProps {
   columns: StatColumnView[];
   label: string;
   hasTeamColumn: boolean;
+  isLoading: boolean;
+}
+
+// Bars where the text goes, pulsing, while the rows wait on the API — the
+// same placeholder the tournament grid waits for its cards with.
+const SHIMMER_BAR = 'inline-block h-3 rounded bg-border';
+
+// At least a handful of rows, and otherwise as many as the table already
+// shows, so it keeps its height while it waits.
+const MIN_SHIMMER_ROWS = 5;
+
+interface ShimmerRowProps {
+  columns: StatColumnView[];
+  hasTeamColumn: boolean;
+}
+
+function ShimmerRow({ columns, hasTeamColumn }: ShimmerRowProps) {
+  return (
+    <tr
+      className={`${ROW_HEIGHT} animate-pulse border-b border-border/60`}
+      data-testid="stats-shimmer-row"
+    >
+      <td className={`${NUMBER_CELL} bg-surface`}>
+        <span className={`${SHIMMER_BAR} w-4`} />
+      </td>
+      <td className={`${NAME_CELL} bg-surface`}>
+        <span className={`${SHIMMER_BAR} w-28`} />
+      </td>
+      {hasTeamColumn && (
+        <td className={TEAM_CELL}>
+          <span className={`${SHIMMER_BAR} w-10`} />
+        </td>
+      )}
+      {columns.map(column => (
+        <td key={column.slug} className={STAT_CELL}>
+          <span className={`${SHIMMER_BAR} w-6`} />
+        </td>
+      ))}
+    </tr>
+  );
+}
+
+interface ShimmerRowsProps extends ShimmerRowProps {
+  rowCount: number;
+}
+
+function ShimmerRows({ rowCount, columns, hasTeamColumn }: ShimmerRowsProps) {
+  return (
+    <>
+      {Array.from({ length: Math.max(rowCount, MIN_SHIMMER_ROWS) }, (_, index) => (
+        <ShimmerRow key={index} columns={columns} hasTeamColumn={hasTeamColumn} />
+      ))}
+    </>
+  );
 }
 
 interface EmptyRowProps {
@@ -376,9 +430,55 @@ function EmptyRow({ label, isEmpty, columnCount }: EmptyRowProps) {
   );
 }
 
+interface StatRowsProps {
+  rows: RosterStatRow[];
+  showPosition: boolean;
+  columns: StatColumnView[];
+  hasTeamColumn: boolean;
+  playerHrefBase?: string;
+  teamHrefBase?: string;
+  emptyLabel?: string;
+  columnCount: number;
+}
+
+function StatRows({
+  rows,
+  showPosition,
+  columns,
+  hasTeamColumn,
+  playerHrefBase,
+  teamHrefBase,
+  emptyLabel,
+  columnCount
+}: StatRowsProps) {
+  return (
+    <>
+      <EmptyRow label={emptyLabel} isEmpty={rows.length === 0} columnCount={columnCount} />
+      {rows.map((row, index) => (
+        <StatRow
+          key={row.playerId}
+          row={row}
+          leadingCell={showPosition ? String(index + 1) : row.shirtNumber}
+          columns={columns}
+          hasTeamColumn={hasTeamColumn}
+          playerHrefBase={playerHrefBase}
+          teamHrefBase={teamHrefBase}
+        />
+      ))}
+    </>
+  );
+}
+
+// The band adds up the rows on screen, so it waits along with them.
+function TotalValue({ value, isLoading }: { value?: string; isLoading: boolean }) {
+  if (isLoading) return <span className={`${SHIMMER_BAR} w-6 animate-pulse`} />;
+
+  return <>{value || '-'}</>;
+}
+
 // Only counts add up, so a percentage and a per game average arrive missing
 // from `totals` and read as a dash.
-function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
+function TotalsRow({ totals, columns, label, hasTeamColumn, isLoading }: TotalsRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} ${TOTALS_BAND} font-bold text-foreground`}>
       <td className={`${NUMBER_CELL} ${TOTALS_BAND}`} />
@@ -389,7 +489,7 @@ function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
           key={column.slug}
           className={`${STAT_CELL} notranslate text-xs tabular-nums`}
         >
-          {totals[column.slug] || '-'}
+          <TotalValue value={totals[column.slug]} isLoading={isLoading} />
         </td>
       ))}
     </tr>
@@ -640,22 +740,24 @@ export function RosterStatsTable({
             </tr>
           </thead>
           <tbody>
-            <EmptyRow
-              label={emptyLabel}
-              isEmpty={sortedRows.length === 0}
-              columnCount={columnCount}
-            />
-            {sortedRows.map((row, index) => (
-              <StatRow
-                key={row.playerId}
-                row={row}
-                leadingCell={showPosition ? String(index + 1) : row.shirtNumber}
+            {isSorting ? (
+              <ShimmerRows
+                rowCount={sortedRows.length}
+                columns={columns}
+                hasTeamColumn={hasTeamColumn}
+              />
+            ) : (
+              <StatRows
+                rows={sortedRows}
+                showPosition={showPosition}
                 columns={columns}
                 hasTeamColumn={hasTeamColumn}
                 playerHrefBase={playerHrefBase}
                 teamHrefBase={teamHrefBase}
+                emptyLabel={emptyLabel}
+                columnCount={columnCount}
               />
-            ))}
+            )}
           </tbody>
           <tfoot>
             <TotalsRow
@@ -663,6 +765,7 @@ export function RosterStatsTable({
               columns={columns}
               label={totalLabel}
               hasTeamColumn={hasTeamColumn}
+              isLoading={isSorting}
             />
           </tfoot>
         </table>

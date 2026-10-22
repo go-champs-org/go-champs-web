@@ -228,7 +228,7 @@ describe('TournamentStatsTable filters', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Totais' }));
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(3));
     expect(requestedUrl(fetchMock).searchParams.get('sort')).toBe('points');
-    expect(playerNames()).toEqual(['Ana']);
+    await waitFor(() => expect(playerNames()).toEqual(['Ana']));
   });
 
   it('switches scope from the rows it opened with while no filter is set', () => {
@@ -257,7 +257,7 @@ describe('TournamentStatsTable filters', () => {
     fireEvent.change(screen.getByLabelText('Time'), { target: { value: 'team-a' } });
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
 
-    expect(playerNames()).toEqual(['Bia', 'Ana']);
+    await waitFor(() => expect(playerNames()).toEqual(['Bia', 'Ana']));
   });
 
   it('opens the scope and ranking a stat highlight linked to', async () => {
@@ -301,5 +301,31 @@ describe('TournamentStatsTable filters', () => {
     const header = screen.getByRole('columnheader', { name: /PTS/ });
     expect(header).toHaveAttribute('aria-sort', 'descending');
     expect(within(header).getByTestId('sort-arrow-desc')).toBeInTheDocument();
+  });
+
+  it('shimmers the rows while the API ranks them, then shows the new ones', async () => {
+    let resolve: (value: unknown) => void = () => undefined;
+    global.fetch = jest.fn(
+      () =>
+        new Promise(done => {
+          resolve = done;
+        })
+    ) as unknown as typeof fetch;
+    renderTable();
+
+    fireEvent.change(screen.getByLabelText('Time'), { target: { value: 'team-a' } });
+
+    expect(await screen.findAllByTestId('stats-shimmer-row')).toHaveLength(5);
+    expect(screen.queryAllByTestId('roster-player-name')).toEqual([]);
+
+    await act(async () => {
+      resolve({
+        ok: true,
+        json: async () => [{ id: 'log-p1', playerId: 'p1', stats: { points: '8' } }]
+      });
+    });
+
+    expect(screen.queryAllByTestId('stats-shimmer-row')).toEqual([]);
+    expect(playerNames()).toEqual(['Ana']);
   });
 });
