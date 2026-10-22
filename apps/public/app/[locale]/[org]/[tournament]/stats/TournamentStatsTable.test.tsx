@@ -1,6 +1,12 @@
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { TournamentStatsTable } from './TournamentStatsTable';
 
+let mockSearch = '';
+
+jest.mock('next/navigation', () => ({
+  useSearchParams: () => new URLSearchParams(mockSearch)
+}));
+
 const players = [
   { id: 'p1', name: 'Ana', shirtNumber: '4', teamId: 'team-a' },
   { id: 'p2', name: 'Bia', shirtNumber: '7', teamId: 'team-b' }
@@ -85,6 +91,7 @@ describe('TournamentStatsTable filters', () => {
   afterEach(() => {
     global.fetch = originalFetch;
     jest.useRealTimers();
+    mockSearch = '';
   });
 
   it('lists every phase and team, teams by name, each with an "all" option', () => {
@@ -192,6 +199,56 @@ describe('TournamentStatsTable filters', () => {
     ).toBeInTheDocument();
   });
 
+  it('keeps the filters when the visitor switches between totals and per game', async () => {
+    const fetchMock = mockFetch([
+      { id: 'log-p1', playerId: 'p1', stats: { points: '8', points_per_game: '4' } }
+    ]);
+    renderTable({
+      columnsByScope: {
+        aggregate: [{ slug: 'points', label: 'PTS', description: 'Pontos' }],
+        per_game: [{ slug: 'points_per_game', label: 'PTS', description: 'Pontos' }]
+      },
+      totalsByScope: { aggregate: { points: '30' }, per_game: {} },
+      scopes: ['aggregate', 'per_game'],
+      scopeLabels: { aggregate: 'Totais', per_game: 'Por jogo' },
+      defaultSortSlugs: { aggregate: 'points', per_game: 'points_per_game' }
+    });
+
+    fireEvent.change(screen.getByLabelText('Time'), { target: { value: 'team-a' } });
+    await waitFor(() => expect(playerNames()).toEqual(['Ana']));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Por jogo' }));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+
+    const url = requestedUrl(fetchMock);
+    expect(url.searchParams.get('sort')).toBe('points_per_game');
+    expect(url.searchParams.get('teamId')).toBe('team-a');
+    await waitFor(() => expect(playerNames()).toEqual(['Ana']));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Totais' }));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(3));
+    expect(requestedUrl(fetchMock).searchParams.get('sort')).toBe('points');
+    expect(playerNames()).toEqual(['Ana']);
+  });
+
+  it('switches scope from the rows it opened with while no filter is set', () => {
+    const fetchMock = mockFetch([]);
+    renderTable({
+      columnsByScope: {
+        aggregate: [{ slug: 'points', label: 'PTS', description: 'Pontos' }],
+        per_game: [{ slug: 'points_per_game', label: 'PTS', description: 'Pontos' }]
+      },
+      scopes: ['aggregate', 'per_game'],
+      scopeLabels: { aggregate: 'Totais', per_game: 'Por jogo' },
+      defaultSortSlugs: { aggregate: 'points', per_game: 'points_per_game' }
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Por jogo' }));
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(playerNames()).toEqual(['Ana', 'Bia']);
+  });
+
   it('keeps the rows on screen when the request fails', async () => {
     const fetchMock = jest.fn().mockResolvedValue({ ok: false });
     global.fetch = fetchMock as unknown as typeof fetch;
@@ -200,6 +257,40 @@ describe('TournamentStatsTable filters', () => {
     fireEvent.change(screen.getByLabelText('Time'), { target: { value: 'team-a' } });
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
 
+    expect(playerNames()).toEqual(['Bia', 'Ana']);
+  });
+
+  it('opens the scope and ranking a stat highlight linked to', async () => {
+    mockSearch = 'stat=points_per_game';
+    const fetchMock = mockFetch([
+      { id: 'log-p2', playerId: 'p2', stats: { points_per_game: '9' } },
+      { id: 'log-p1', playerId: 'p1', stats: { points_per_game: '4' } }
+    ]);
+    renderTable({
+      columnsByScope: {
+        aggregate: [{ slug: 'points', label: 'PTS', description: 'Pontos' }],
+        per_game: [{ slug: 'points_per_game', label: 'PTS', description: 'Pontos' }]
+      },
+      scopes: ['aggregate', 'per_game'],
+      scopeLabels: { aggregate: 'Totais', per_game: 'Por jogo' },
+      defaultSortSlugs: { aggregate: 'points', per_game: 'points_per_game' }
+    });
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    expect(requestedUrl(fetchMock).searchParams.get('sort')).toBe('points_per_game');
+    expect(screen.getByRole('button', { name: 'Por jogo' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await waitFor(() => expect(playerNames()).toEqual(['Bia', 'Ana']));
+  });
+
+  it('ignores a linked stat the table has no column for', () => {
+    mockSearch = 'stat=unknown_stat';
+    const fetchMock = mockFetch([]);
+    renderTable();
+
+    expect(fetchMock).not.toHaveBeenCalled();
     expect(playerNames()).toEqual(['Bia', 'Ana']);
   });
 });

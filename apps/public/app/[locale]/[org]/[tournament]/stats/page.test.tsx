@@ -19,7 +19,8 @@ jest.mock('@gochamps/api-client', () => ({
 jest.mock('next/navigation', () => ({
   notFound: jest.fn(() => {
     throw new Error('NEXT_NOT_FOUND');
-  })
+  }),
+  useSearchParams: () => new URLSearchParams()
 }));
 
 interface Messages {

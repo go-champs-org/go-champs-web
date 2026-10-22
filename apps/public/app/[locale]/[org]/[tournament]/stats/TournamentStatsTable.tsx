@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import type { AggregatedPlayerStatsLogEntity } from '@gochamps/api-client';
 import {
   tournamentStatRowsInStatsOrder,
@@ -60,6 +61,18 @@ const statsUrl = (
   return `/api/tournament-stats?${params.toString()}`;
 };
 
+// The stat highlights on the tournament home link here as `?stat=<key>`, the
+// ranking the card had in view. Its own component behind a Suspense boundary:
+// reading the URL in the browser is what lets the rest of the page stay
+// static.
+function RequestedStat({ onRead }: { onRead: (slug: string) => void }) {
+  const stat = useSearchParams()?.get('stat') || '';
+
+  useEffect(() => onRead(stat), [stat]);
+
+  return null;
+}
+
 const teamOptions = (teams: PickedTeam[]): StatsFilterOption[] =>
   teams
     .map(team => ({ id: team.id, label: team.name }))
@@ -79,6 +92,7 @@ export function TournamentStatsTable({
   ...tableProps
 }: TournamentStatsTableProps) {
   const [filters, setFilters] = useState(NO_STATS_FILTERS);
+  const [requestedSortSlug, setRequestedSortSlug] = useState('');
 
   const onSortRequest = useCallback(
     async (slug: string) => {
@@ -97,31 +111,37 @@ export function TournamentStatsTable({
   );
 
   return (
-    <RosterStatsTable
-      {...tableProps}
-      hasTeamColumn
-      showPosition
-      onSortRequest={onSortRequest}
-      refetchKey={JSON.stringify(filters)}
-      emptyLabel={noFilteredStatsLabel}
-      filters={
-        <TournamentStatsFilters
-          phases={phases}
-          teams={teamOptions(teams)}
-          minStatFilters={minStatFilters}
-          values={filters}
-          onPhaseChange={phaseId => setFilters(current => ({ ...current, phaseId }))}
-          onTeamChange={teamId => setFilters(current => ({ ...current, teamId }))}
-          onMinStatChange={(slug, minimum) =>
-            setFilters(current => {
-              const minStats = withMinimum(current.minStats, slug, minimum);
+    <>
+      <Suspense fallback={null}>
+        <RequestedStat onRead={setRequestedSortSlug} />
+      </Suspense>
+      <RosterStatsTable
+        {...tableProps}
+        hasTeamColumn
+        showPosition
+        onSortRequest={onSortRequest}
+        refetchKey={JSON.stringify(filters)}
+        emptyLabel={noFilteredStatsLabel}
+        requestedSortSlug={requestedSortSlug}
+        filters={
+          <TournamentStatsFilters
+            phases={phases}
+            teams={teamOptions(teams)}
+            minStatFilters={minStatFilters}
+            values={filters}
+            onPhaseChange={phaseId => setFilters(current => ({ ...current, phaseId }))}
+            onTeamChange={teamId => setFilters(current => ({ ...current, teamId }))}
+            onMinStatChange={(slug, minimum) =>
+              setFilters(current => {
+                const minStats = withMinimum(current.minStats, slug, minimum);
 
-              return minStats === current.minStats ? current : { ...current, minStats };
-            })
-          }
-          labels={filterLabels}
-        />
-      }
-    />
+                return minStats === current.minStats ? current : { ...current, minStats };
+              })
+            }
+            labels={filterLabels}
+          />
+        }
+      />
+    </>
   );
 }

@@ -63,6 +63,10 @@ interface RosterStatsTableProps {
   emptyLabel?: string;
   // Rendered under the card's title, for controls that narrow the rows.
   filters?: ReactNode;
+  // A column asked for from outside the table — the "see all" link of a stat
+  // highlight — opened in its scope and ranked best first. A slug no scope
+  // has a column for is ignored.
+  requestedSortSlug?: string;
 }
 
 const NO_DEFAULT_SORTS: Record<string, string> = {};
@@ -111,6 +115,17 @@ const columnsFor = (
   columnsByScope: Record<string, StatColumnView[]>,
   scope: StatScope
 ): StatColumnView[] => columnsByScope[scope] || [];
+
+// The scope a column belongs to: per game slugs are their own, so at most one
+// scope carries it.
+const scopeWithColumn = (
+  scopes: StatScope[],
+  columnsByScope: Record<string, StatColumnView[]>,
+  slug: string
+): StatScope | undefined =>
+  scopes.find(scope =>
+    columnsFor(columnsByScope, scope).some(column => column.slug === slug)
+  );
 
 interface StatsCardHeaderProps {
   title: string;
@@ -415,7 +430,8 @@ export function RosterStatsTable({
   defaultSortSlugs = NO_DEFAULT_SORTS,
   refetchKey,
   emptyLabel,
-  filters
+  filters,
+  requestedSortSlug
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(() =>
@@ -431,6 +447,9 @@ export function RosterStatsTable({
   // its own state update instead of overwriting a newer one.
   const requestId = useRef(0);
   const lastRefetchKey = useRef(refetchKey);
+  // The key the table opened with: the rows it arrived with are only that
+  // ranking's, so any other key has to ask the API for its rows instead.
+  const initialRefetchKey = useRef(refetchKey);
 
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = onSortRequest
@@ -456,6 +475,40 @@ export function RosterStatsTable({
     setIsSorting(false);
   }, [rows]);
 
+  // A scope switch (or another sort) may have started and finished while a
+  // request was in flight — its result belongs to whatever was asked for
+  // then, not to what's on screen now.
+  const isStaleRequest = (thisRequestId: number): boolean =>
+    requestId.current !== thisRequestId;
+
+  const applyRefetchResult = (fetchedRows: RosterStatRow[] | null) => {
+    if (fetchedRows) setServerRows(fetchedRows);
+    setIsSorting(false);
+  };
+
+  // Same ranking, different rows: the sort stays put while the request is out,
+  // and a failed one leaves the rows already on screen.
+  const refetchRows = async (
+    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>,
+    slug: string | null
+  ) => {
+    const thisRequestId = ++requestId.current;
+    setIsSorting(true);
+
+    const fetchedRows = await fetchSortedRows(slug ?? '').catch(() => null);
+    if (!isStaleRequest(thisRequestId)) applyRefetchResult(fetchedRows);
+  };
+
+  // The rows the page arrived with are unfiltered: once a filter narrowed the
+  // table, another scope's rows have to come from the API with that filter, or
+  // the switch would bring back every player.
+  const loadScopeRows = (start: SortState) => {
+    if (onSortRequest && refetchKey !== initialRefetchKey.current) {
+      return refetchRows(onSortRequest, start.slug);
+    }
+    setServerRows(rankedRows(rows, start));
+  };
+
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
   const selectScope = (next: StatScope) => {
@@ -465,15 +518,9 @@ export function RosterStatsTable({
     const start = initialSort(defaultSortSlugs, next);
     setScope(next);
     setSort(start);
-    setServerRows(rankedRows(rows, start));
     setIsSorting(false);
+    loadScopeRows(start);
   };
-
-  // A scope switch (or another sort) may have started and finished while a
-  // request was in flight — its result belongs to whatever was asked for
-  // then, not to what's on screen now.
-  const isStaleRequest = (thisRequestId: number): boolean =>
-    requestId.current !== thisRequestId;
 
   // A failed request (`sortedRows` null) leaves the rows already on screen
   // alone, but the header it was requested for can't claim to be sorted —
@@ -507,28 +554,26 @@ export function RosterStatsTable({
   const onSort = (slug: string) =>
     onSortRequest && !isSorting ? requestSort(onSortRequest, slug) : undefined;
 
-  const applyRefetchResult = (fetchedRows: RosterStatRow[] | null) => {
-    if (fetchedRows) setServerRows(fetchedRows);
-    setIsSorting(false);
+  const openSort = (slug: string) => {
+    if (onSortRequest) return requestSort(onSortRequest, slug);
+    requestId.current += 1;
+    setSort({ slug, direction: 'desc' });
   };
 
-  // Same ranking, different rows: the sort stays put while the request is out,
-  // and a failed one leaves the rows already on screen.
-  const refetchRows = async (
-    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>
-  ) => {
-    const thisRequestId = ++requestId.current;
-    setIsSorting(true);
+  useEffect(() => {
+    const slug = requestedSortSlug || '';
+    const requestedScope = scopeWithColumn(scopes, columnsByScope, slug);
+    if (!requestedScope) return;
 
-    const fetchedRows = await fetchSortedRows(sort.slug ?? '').catch(() => null);
-    if (!isStaleRequest(thisRequestId)) applyRefetchResult(fetchedRows);
-  };
+    setScope(requestedScope);
+    openSort(slug);
+  }, [requestedSortSlug]);
 
   useEffect(() => {
     if (!onSortRequest || lastRefetchKey.current === refetchKey) return;
 
     lastRefetchKey.current = refetchKey;
-    refetchRows(onSortRequest);
+    refetchRows(onSortRequest, sort.slug);
   }, [refetchKey]);
 
   const columnCount = tableColumnCount(hasTeamColumn, columns);
