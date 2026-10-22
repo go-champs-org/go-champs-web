@@ -6,9 +6,13 @@ on:
       - master
   workflow_dispatch:
 
-# Same group as main.yml: both deploy to the shared staging site before e2e.
+# Keeps one master run at a time through the admin -> prod e2e -> prod chain:
+# those are separate jobs, and with only job-level groups a second merge's
+# deploy_admin could land between this run's deploy_admin and its prod e2e.
+# The shared staging site is guarded by the job-level `staging-environment`
+# group on deploy_staging_e2e, which PR runs (main.yml) queue on too.
 concurrency:
-  group: staging-environment
+  group: production-environment
   queue: max
 
 jobs:
@@ -24,9 +28,14 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
+        # Only the e2e jobs run Cypress; skip its ~7s binary download elsewhere.
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Running lint
         run: pnpm lint:check
+      - name: Validate SCSS color mapping
+        run: pnpm --filter @gochamps/cms validate-colors
 
   unit_test:
     runs-on: ubuntu-latest
@@ -40,6 +49,8 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Running test
         run: pnpm --filter @gochamps/cms test -- --watchAll=false
@@ -58,6 +69,8 @@ jobs:
           node-version: '20.18.1'
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       # Jest runs through SWC and never checks types, so `next build` is the
       # only thing that type-checks apps/public. It needs no secrets: without
@@ -66,7 +79,9 @@ jobs:
       - name: Build public app
         run: pnpm --filter @gochamps/public build
 
-  color_validation:
+  # The three CMS builds run at t=0 instead of inside the deploy jobs, so each
+  # deploy only downloads its artifact.
+  build_cms_staging:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -78,26 +93,8 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Validate SCSS color mapping
-        run: pnpm --filter @gochamps/cms validate-colors
-
-  deploy_staging:
-    needs:
-      - unit_test
-      - lint_check
-      - color_validation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-          cache: 'pnpm'
-      - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Verify build secrets
         env:
@@ -115,6 +112,124 @@ jobs:
           STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: pnpm --filter @gochamps/cms build:staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-build-staging
+          path: apps/cms/build
+          retention-days: 1
+
+  build_cms_admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.0.0'
+          cache: 'pnpm'
+      - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+        run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+        run: |
+          if [ -z "$PROD_API_HOST" ]; then
+            echo "::error::PROD_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
+      - name: Build Prod
+        env:
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
+          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
+        run: pnpm --filter @gochamps/cms build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-build-admin
+          path: apps/cms/build
+          retention-days: 1
+
+  # Same build as build_cms_admin plus the analytics keys, which only the
+  # production site gets.
+  build_cms_prod:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.0.0'
+          cache: 'pnpm'
+      - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+        run: pnpm install --frozen-lockfile
+      - name: Verify build secrets
+        env:
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+        run: |
+          if [ -z "$PROD_API_HOST" ]; then
+            echo "::error::PROD_API_HOST is missing - the build would produce an app without an API host"
+            exit 1
+          fi
+      - name: Build Prod
+        env:
+          AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
+          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
+          FARO_URL: ${{ secrets.FARO_URL }}
+          GA_ID: ${{ secrets.GA_ID }}
+          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
+          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
+          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
+        run: pnpm --filter @gochamps/cms build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-build-prod
+          path: apps/cms/build
+          retention-days: 1
+
+  # Deploy and e2e are one job so that the job-level concurrency group holds
+  # both: as two jobs, a PR run's deploy could land between this run's deploy
+  # and its e2e, and the e2e would test someone else's build.
+  deploy_staging_e2e:
+    needs:
+      - unit_test
+      - lint_check
+      - build_cms_staging
+    # Same group as main.yml: both deploy to the shared staging site before e2e.
+    concurrency:
+      group: staging-environment
+      queue: max
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.0.0'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Cypress binary
+        working-directory: apps/cms
+        run: pnpm exec cypress install
+      - uses: actions/download-artifact@v4
+        with:
+          name: cms-build-staging
+          path: apps/cms/build
       - name: Verify Netlify credentials
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
@@ -139,24 +254,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
           NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
         timeout-minutes: 1
-
-  staging_e2e_test:
-    needs: deploy_staging
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Install Cypress binary
-        working-directory: apps/cms
-        run: pnpm exec cypress install
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
@@ -192,36 +289,15 @@ jobs:
           retention-days: 1
 
   deploy_admin:
-    needs: staging_e2e_test
+    needs:
+      - deploy_staging_e2e
+      - build_cms_admin
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
+      - uses: actions/download-artifact@v4
         with:
-          version: 9.15.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Verify build secrets
-        env:
-          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
-        run: |
-          if [ -z "$PROD_API_HOST" ]; then
-            echo "::error::PROD_API_HOST is missing - the build would produce an app without an API host"
-            exit 1
-          fi
-      - name: Build Prod
-        env:
-          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
-          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
-          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
-          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
-        run: pnpm --filter @gochamps/cms build
+          name: cms-build-admin
+          path: apps/cms/build
       - name: Verify Netlify credentials
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
@@ -299,39 +375,15 @@ jobs:
           retention-days: 1
 
   deploy_prod:
-    needs: prod_e2e_test
+    needs:
+      - prod_e2e_test
+      - build_cms_prod
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
+      - uses: actions/download-artifact@v4
         with:
-          version: 9.15.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Verify build secrets
-        env:
-          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
-        run: |
-          if [ -z "$PROD_API_HOST" ]; then
-            echo "::error::PROD_API_HOST is missing - the build would produce an app without an API host"
-            exit 1
-          fi
-      - name: Build Prod
-        env:
-          AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
-          EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
-          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
-          FACEBOOK_APP_ID: ${{ secrets.FACEBOOK_APP_ID }}
-          FARO_URL: ${{ secrets.FARO_URL }}
-          GA_ID: ${{ secrets.GA_ID }}
-          PROD_API_HOST: ${{ secrets.PROD_API_HOST }}
-          PROD_RECAPTCHA_SITE_KEY: ${{ secrets.PROD_RECAPTCHA_SITE_KEY }}
-          PROD_SCOREBOARD_APP_URL: ${{ secrets.PROD_SCOREBOARD_APP_URL }}
-        run: pnpm --filter @gochamps/cms build
+          name: cms-build-prod
+          path: apps/cms/build
       - name: Verify Netlify credentials
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
