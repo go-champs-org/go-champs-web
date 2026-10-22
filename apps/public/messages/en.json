@@ -310,8 +310,18 @@
       "fouls_technical": {
         "label": "TF",
         "description": "Player technical fouls"
+      },
+      "fouls_flagrant": {
+        "label": "FF",
+        "description": "Player flagrant fouls"
+      },
+      "disqualifications": {
+        "label": "DQ",
+        "description": "Player disqualifications"
       }
-    }
+    },
+    "started": "Started",
+    "didNotPlay": "DNP"
   },
   "player": {
     "unknownPlayer": "Player",

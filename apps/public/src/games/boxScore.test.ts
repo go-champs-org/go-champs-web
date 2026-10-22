@@ -3,9 +3,14 @@ import {
   boxScoreCellValue,
   boxScoreColumns,
   boxScoreColumnViews,
+  boxScoreRanking,
   boxScoreRows,
+  didNotPlay,
+  isStarter,
   playerNamesById,
+  playerPhotosById,
   rankedLiveTeam,
+  type BoxScoreRow,
   shouldShowBoxScore,
   splitLogsByTeam,
   teamTotals
@@ -117,9 +122,19 @@ describe('boxScoreRows', () => {
     const rows = boxScoreRows(logs, { p1: 'Ana', p2: 'Bia' });
 
     expect(rows).toEqual([
-      { playerId: 'p2', name: 'Bia', stats: { points: '10' } },
-      { playerId: 'p1', name: 'Ana', stats: { points: '20' } }
+      { playerId: 'p2', name: 'Bia', stats: { points: '10' }, photoUrl: '' },
+      { playerId: 'p1', name: 'Ana', stats: { points: '20' }, photoUrl: '' }
     ]);
+  });
+
+  it('carries the roster photo of each player', () => {
+    const rows = boxScoreRows(
+      [playerLog('p1', 'home', { points: '5' })],
+      { p1: 'Ana' },
+      { p1: 'https://cdn/p1.png' }
+    );
+
+    expect(rows[0].photoUrl).toBe('https://cdn/p1.png');
   });
 
   it('reads an empty name for a log the roster no longer names', () => {
@@ -254,7 +269,9 @@ describe('boxScoreColumnViews', () => {
       'rebounds_offensive',
       'rebounds_defensive',
       'fouls_personal',
-      'fouls_technical'
+      'fouls_technical',
+      'fouls_flagrant',
+      'disqualifications'
     ]);
     expect(columns.find(column => column.slug === 'minutes_played')).toEqual({
       slug: 'minutes_played',
@@ -345,12 +362,12 @@ describe('rankedLiveTeam', () => {
 
   it('ranks the live rows by the column, best first', () => {
     expect(
-      rankedLiveTeam(staticTeam, live, 'points').rows.map(row => row.playerId)
+      rankedLiveTeam(staticTeam, live, ['points']).rows.map(row => row.playerId)
     ).toEqual(['p2', 'p3', 'p1']);
   });
 
   it('takes rows and totals from the live data and keeps the team metadata', () => {
-    const result = rankedLiveTeam(staticTeam, live, 'points');
+    const result = rankedLiveTeam(staticTeam, live, ['points']);
 
     expect(result.totals).toEqual({ points: '24' });
     expect(result.teamName).toBe('Lions');
@@ -359,13 +376,83 @@ describe('rankedLiveTeam', () => {
 
   it('keeps the live order when there is no column to rank by', () => {
     expect(
-      rankedLiveTeam(staticTeam, live, null).rows.map(row => row.playerId)
+      rankedLiveTeam(staticTeam, live, []).rows.map(row => row.playerId)
     ).toEqual(['p1', 'p2', 'p3']);
   });
 
   it('does not reorder the input rows', () => {
-    rankedLiveTeam(staticTeam, live, 'points');
+    rankedLiveTeam(staticTeam, live, ['points']);
 
     expect(live.rows.map(row => row.playerId)).toEqual(['p1', 'p2', 'p3']);
+  });
+
+  it('puts the starters first, then the most minutes, then the most points', () => {
+    const rows: BoxScoreRow[] = [
+      { playerId: 'bench-long', name: 'A', stats: { game_started: '0', minutes_played: '900', points: '2' } },
+      { playerId: 'starter-short', name: 'B', stats: { game_started: '1', minutes_played: '600', points: '20' } },
+      { playerId: 'dnp', name: 'C', stats: { game_played: '0', game_started: '0' } },
+      { playerId: 'starter-long', name: 'D', stats: { game_started: '1', minutes_played: '1200', points: '4' } },
+      { playerId: 'bench-tie', name: 'E', stats: { game_started: '0', minutes_played: '900', points: '9' } }
+    ];
+
+    expect(
+      rankedLiveTeam(staticTeam, { rows, totals: {} }, boxScoreRanking('basketball_5x5')).rows.map(
+        row => row.playerId
+      )
+    ).toEqual(['starter-long', 'starter-short', 'bench-tie', 'bench-long', 'dnp']);
+  });
+
+  it('gives a live row the photo the page arrived with', () => {
+    const team = {
+      ...staticTeam,
+      rows: [{ playerId: 'p2', name: 'Bia', stats: {}, photoUrl: 'bia.png' }]
+    };
+
+    const result = rankedLiveTeam(team, live, []);
+
+    expect(result.rows.find(row => row.playerId === 'p2')?.photoUrl).toBe('bia.png');
+    expect(result.rows.find(row => row.playerId === 'p1')?.photoUrl).toBe('');
+  });
+});
+
+describe('boxScoreRanking', () => {
+  it('ranks a sport with no ranking of its own by its default column', () => {
+    expect(boxScoreRanking('basketball_3x3')).toEqual([]);
+  });
+});
+
+describe('playerPhotosById', () => {
+  it('maps each player to the photo, empty without one', () => {
+    expect(
+      playerPhotosById([
+        { ...player('p1', 'Ana'), photoUrl: 'ana.png' },
+        player('p2', 'Bia')
+      ])
+    ).toEqual({ p1: 'ana.png', p2: '' });
+  });
+});
+
+describe('didNotPlay', () => {
+  it('reads a game played of 0 as a player who never got in', () => {
+    expect(didNotPlay({ game_played: '0' })).toBe(true);
+  });
+
+  it('reads a game played of 1 as a player who played', () => {
+    expect(didNotPlay({ game_played: '1', points: '0' })).toBe(false);
+  });
+
+  it('reads a log without the stat as played', () => {
+    expect(didNotPlay({ points: '4' })).toBe(false);
+  });
+});
+
+describe('isStarter', () => {
+  it('marks a player who started the game', () => {
+    expect(isStarter({ game_started: '1' })).toBe(true);
+  });
+
+  it('leaves a bench player or a log without the stat unmarked', () => {
+    expect(isStarter({ game_started: '0' })).toBe(false);
+    expect(isStarter({})).toBe(false);
   });
 });

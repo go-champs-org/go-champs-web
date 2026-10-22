@@ -3,15 +3,18 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import Link from 'next/link';
 import {
+  Avatar,
   RemoteImage,
   StatGlossaryList,
   StatGlossaryToggle,
   Surface
 } from '@gochamps/ui';
 import { type StatColumnView } from '@/src/stats/rosterStats';
-import { defaultSortSlug } from '@/src/stats/sportStatColumns';
 import {
   boxScoreCellValue,
+  boxScoreRanking,
+  didNotPlay,
+  isStarter,
   rankedLiveTeam,
   type BoxScoreRow
 } from '@/src/games/boxScore';
@@ -35,6 +38,8 @@ interface BoxScoreLabels {
   title: string;
   glossary: string;
   sortByStat: string;
+  started: string;
+  didNotPlay: string;
   home?: string;
   away?: string;
 }
@@ -134,7 +139,22 @@ function TeamHeading({ teamName, logoUrl }: TeamHeadingProps) {
   );
 }
 
-interface PlayerNameCellProps {
+// A dot, not a column: whether a player started is a yes or no, and the
+// name is where the eye already is. The word is the hover and the screen
+// reader's.
+function StarterMark({ label }: { label: string }) {
+  return (
+    <span
+      title={label}
+      className="h-2 w-2 shrink-0 rounded-full bg-primary-dark"
+      data-testid="box-score-starter"
+    >
+      <span className="sr-only">{label}</span>
+    </span>
+  );
+}
+
+interface PlayerNameProps {
   playerId: string;
   name: string;
   href: string;
@@ -142,16 +162,35 @@ interface PlayerNameCellProps {
 
 // A log without a player id — the scoreboard never assigns one to a bench
 // placeholder — reads as plain text; only a real player id is worth a link.
-function PlayerNameCell({ playerId, name, href }: PlayerNameCellProps) {
-  const cellClass = `${NAME_CELL} bg-surface text-sm font-semibold text-foreground`;
-
-  if (!playerId) return <td className={cellClass}>{name}</td>;
+function PlayerName({ playerId, name, href }: PlayerNameProps) {
+  if (!playerId) return <>{name}</>;
 
   return (
-    <td className={cellClass}>
-      <Link href={href} className="hover:underline">
-        {name}
-      </Link>
+    <Link href={href} className="hover:underline">
+      {name}
+    </Link>
+  );
+}
+
+interface PlayerNameCellProps {
+  row: BoxScoreRow;
+  href: string;
+  startedLabel: string;
+}
+
+function PlayerNameCell({ row, href, startedLabel }: PlayerNameCellProps) {
+  return (
+    <td className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}>
+      <span className="flex items-center gap-2">
+        <Avatar
+          name={row.name}
+          logoUrl={row.photoUrl || ''}
+          size={28}
+          className="rounded-full text-[10px]"
+        />
+        <PlayerName playerId={row.playerId} name={row.name} href={href} />
+        {isStarter(row.stats) && <StarterMark label={startedLabel} />}
+      </span>
     </td>
   );
 }
@@ -160,28 +199,40 @@ interface BoxScoreTableRowProps {
   row: BoxScoreRow;
   columns: StatColumnView[];
   playerHrefBase: string;
+  startedLabel: string;
+  didNotPlayLabel: string;
 }
 
+// A player who never got in has no numbers to read: one cell across the
+// statistics says so instead of a row of dashes.
 function BoxScoreTableRow({
   row,
   columns,
-  playerHrefBase
+  playerHrefBase,
+  startedLabel,
+  didNotPlayLabel
 }: BoxScoreTableRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} border-b border-border/60`}>
       <PlayerNameCell
-        playerId={row.playerId}
-        name={row.name}
+        row={row}
         href={`${playerHrefBase}${row.playerId}`}
+        startedLabel={startedLabel}
       />
-      {columns.map(column => (
-        <td
-          key={column.slug}
-          className={`${STAT_CELL} notranslate text-xs tabular-nums`}
-        >
-          {boxScoreCellValue(column, row.stats)}
+      {didNotPlay(row.stats) ? (
+        <td colSpan={columns.length} className="px-3 text-xs text-muted md:px-4">
+          {didNotPlayLabel}
         </td>
-      ))}
+      ) : (
+        columns.map(column => (
+          <td
+            key={column.slug}
+            className={`${STAT_CELL} notranslate text-xs tabular-nums`}
+          >
+            {boxScoreCellValue(column, row.stats)}
+          </td>
+        ))
+      )}
     </tr>
   );
 }
@@ -212,16 +263,14 @@ interface BoxScoreTableProps {
   team: TeamBoxScoreData;
   columns: StatColumnView[];
   playerHrefBase: string;
-  playerLabel: string;
-  totalsLabel: string;
+  labels: BoxScoreLabels;
 }
 
 function BoxScoreTable({
   team,
   columns,
   playerHrefBase,
-  playerLabel,
-  totalsLabel
+  labels
 }: BoxScoreTableProps) {
   return (
     <div
@@ -239,7 +288,7 @@ function BoxScoreTable({
                 scope="col"
                 className={`${NAME_CELL} ${HEADER_BAND} ${BAND_LABEL}`}
               >
-                {playerLabel}
+                {labels.player}
               </th>
               {columns.map(column => (
                 <th
@@ -263,11 +312,13 @@ function BoxScoreTable({
                 row={row}
                 columns={columns}
                 playerHrefBase={playerHrefBase}
+                startedLabel={labels.started}
+                didNotPlayLabel={labels.didNotPlay}
               />
             ))}
           </tbody>
           <tfoot>
-            <TotalsRow totals={team.totals} columns={columns} label={totalsLabel} />
+            <TotalsRow totals={team.totals} columns={columns} label={labels.totals} />
           </tfoot>
         </table>
       </div>
@@ -296,15 +347,13 @@ function GenericBoxScoreViewer({
         team={home}
         columns={columns}
         playerHrefBase={playerHrefBase}
-        playerLabel={labels.player}
-        totalsLabel={labels.totals}
+        labels={labels}
       />
       <BoxScoreTable
         team={away}
         columns={columns}
         playerHrefBase={playerHrefBase}
-        playerLabel={labels.player}
-        totalsLabel={labels.totals}
+        labels={labels}
       />
     </div>
   );
@@ -319,6 +368,22 @@ const BOX_SCORE_VIEWERS: Record<string, ComponentType<ViewerProps>> = {
 
 const boxScoreViewerFor = (sportSlug: string): ComponentType<ViewerProps> =>
   BOX_SCORE_VIEWERS[sportSlug] || GenericBoxScoreViewer;
+
+const STARTER_MARK = '●';
+
+const hasStarter = (live: LiveBoxScoreState): boolean =>
+  [...live.home.rows, ...live.away.rows].some(row => isStarter(row.stats));
+
+// The starter dot is not a column, but it is read off the table like one, so
+// the glossary explains it ahead of the columns — only once a starter shows.
+const glossaryEntries = (
+  columns: StatColumnView[],
+  live: LiveBoxScoreState,
+  startedLabel: string
+): StatColumnView[] =>
+  hasStarter(live)
+    ? [{ slug: 'game_started', label: STARTER_MARK, description: startedLabel }, ...columns]
+    : columns;
 
 export function BoxScore({
   gameId,
@@ -337,7 +402,8 @@ export function BoxScore({
     away: { rows: away.rows, totals: away.totals }
   });
   const Viewer = boxScoreViewerFor(sportSlug);
-  const rankSlug = defaultSortSlug(sportSlug, 'aggregate');
+  const ranking = boxScoreRanking(sportSlug);
+  const glossary = glossaryEntries(columns, live, labels.started);
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
 
   return (
@@ -367,7 +433,7 @@ export function BoxScore({
         {columns.length > 0 && (
           <StatGlossaryList
             id="box-score-glossary"
-            columns={columns}
+            columns={glossary}
             isOpen={isGlossaryOpen}
           />
         )}
@@ -375,8 +441,8 @@ export function BoxScore({
 
       <Viewer
         columns={columns}
-        home={rankedLiveTeam(home, live.home, rankSlug)}
-        away={rankedLiveTeam(away, live.away, rankSlug)}
+        home={rankedLiveTeam(home, live.home, ranking)}
+        away={rankedLiveTeam(away, live.away, ranking)}
         playerHrefBase={playerHrefBase}
         labels={labels}
       />

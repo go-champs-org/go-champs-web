@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import {
   ApiError,
   getGame,
@@ -354,6 +354,49 @@ describe('GamePage box score', () => {
     expect(screen.getByText('Ana')).toBeInTheDocument();
     expect(screen.getByText('Bia Souza')).toBeInTheDocument();
     expect(screen.getByText(messages.boxScore.title)).toBeInTheDocument();
+  });
+
+  it('reads DNP across the row of a player who never got in and marks a starter', async () => {
+    getPlayerStatsLogsByGameMock.mockResolvedValue([
+      playerLog('p1', 't1', { points: '20', game_played: '1', game_started: '1' }),
+      playerLog('p2', 't2', { game_played: '0', game_started: '0' })
+    ]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    const starterRow = within(screen.getByText('Ana').closest('tr') as HTMLElement);
+    expect(starterRow.getByTitle(messages.boxScore.started)).toBeInTheDocument();
+    expect(starterRow.getByText('20')).toBeInTheDocument();
+
+    const benchRow = within(screen.getByText('Bia Souza').closest('tr') as HTMLElement);
+    expect(benchRow.getByText(messages.boxScore.didNotPlay)).toBeInTheDocument();
+    expect(benchRow.queryByTitle(messages.boxScore.started)).not.toBeInTheDocument();
+  });
+
+  it('explains the starter dot first in the glossary once a starter shows', async () => {
+    getPlayerStatsLogsByGameMock.mockResolvedValue([
+      playerLog('p1', 't1', { points: '20', game_started: '1' })
+    ]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    const entries = screen.getByTestId('box-score-glossary').querySelectorAll('li');
+    expect(entries[0]).toHaveTextContent(`● - ${messages.boxScore.started}`);
+  });
+
+  it('leaves the starter dot out of the glossary when no one is marked', async () => {
+    getPlayerStatsLogsByGameMock.mockResolvedValue([playerLog('p1', 't1', { points: '20' })]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+
+    await renderPage();
+
+    expect(
+      within(screen.getByTestId('box-score-glossary')).queryByText(
+        `● - ${messages.boxScore.started}`
+      )
+    ).not.toBeInTheDocument();
   });
 
   it('hides the box score when a finished game has no logs', async () => {

@@ -310,8 +310,18 @@
       "fouls_technical": {
         "label": "FLT",
         "description": "Faltas técnicas"
+      },
+      "fouls_flagrant": {
+        "label": "FLF",
+        "description": "Faltas flagrantes"
+      },
+      "disqualifications": {
+        "label": "DSQ",
+        "description": "Desqualificações"
       }
-    }
+    },
+    "started": "Titular",
+    "didNotPlay": "Não jogou"
   },
   "player": {
     "unknownPlayer": "Atleta",

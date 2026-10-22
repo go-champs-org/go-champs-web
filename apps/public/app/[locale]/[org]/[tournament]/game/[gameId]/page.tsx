@@ -29,6 +29,7 @@ import {
   boxScoreColumnViews,
   boxScoreRows,
   playerNamesById,
+  playerPhotosById,
   shouldShowBoxScore,
   splitLogsByTeam,
   teamTotals,
@@ -336,6 +337,7 @@ const gameBoxScoreView = (
     game.awayTeam.id
   );
   const namesById = playerNamesById(tournamentEntity.players);
+  const photosById = playerPhotosById(tournamentEntity.players);
   const columns = boxScoreColumnViews(
     tournamentEntity.playerStats,
     sport,
@@ -350,13 +352,13 @@ const gameBoxScoreView = (
     home: {
       teamName: game.homeTeam.name,
       logoUrl: game.homeTeam.logoUrl,
-      rows: boxScoreRows(logs.home, namesById),
+      rows: boxScoreRows(logs.home, namesById, photosById),
       totals: teamTotals(teamStatsLogs, game.homeTeam.id)
     },
     away: {
       teamName: game.awayTeam.name,
       logoUrl: game.awayTeam.logoUrl,
-      rows: boxScoreRows(logs.away, namesById),
+      rows: boxScoreRows(logs.away, namesById, photosById),
       totals: teamTotals(teamStatsLogs, game.awayTeam.id)
     }
   };
@@ -573,7 +575,9 @@ export default async function GamePage({
               totals: tBoxScore('totals'),
               title: tBoxScore('title'),
               glossary: tBoxScore('glossary'),
-              sortByStat: tBoxScore.raw('sortByStat') as string
+              sortByStat: tBoxScore.raw('sortByStat') as string,
+              started: tBoxScore('started'),
+              didNotPlay: tBoxScore('didNotPlay')
             }}
           />
         )}
