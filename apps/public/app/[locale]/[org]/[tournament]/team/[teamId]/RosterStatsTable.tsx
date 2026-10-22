@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import {
-  RemoteImage,
+  Avatar,
   ScopeFilter,
   StatGlossaryToggle,
   StatGlossaryList
@@ -19,6 +19,11 @@ import {
   type StatScope
 } from '@/src/stats/rosterStats';
 import { SortArrow } from '@/src/components/SortArrow';
+import {
+  PINNED_EDGE_SHADOW,
+  SCROLL_GROUP,
+  useScrolledX
+} from '@/src/components/useScrolledX';
 
 interface RosterStatsTableProps {
   rows: RosterStatRow[];
@@ -48,6 +53,9 @@ interface RosterStatsTableProps {
   // The tournament-wide table ranks players, so its first column is the
   // position in the current ordering instead of the shirt number.
   showPosition?: boolean;
+  // The team roster puts a face to each name; the tournament-wide ranking
+  // keeps to the name and the team.
+  showPhotos?: boolean;
   teamColumnLabel?: string;
   playerHrefBase?: string;
   teamHrefBase?: string;
@@ -105,13 +113,32 @@ const TOTALS_BAND =
 // The first column and the name stay put while the statistics scroll under
 // them, the pair the CMS pins too. The width of the first cell is what the
 // offset of the second is measured against, so the two move together.
-const NUMBER_CELL = 'sticky left-0 z-20 w-12 pl-4 pr-2 md:w-16 md:pl-6';
-const NAME_CELL =
-  'sticky left-12 z-20 whitespace-nowrap pr-6 shadow-[8px_0_6px_-6px_var(--shadow-elevated)] md:left-16';
-const TEAM_CELL = 'whitespace-nowrap px-3 text-left text-xs text-muted md:px-4';
-const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
+//
+// The width sits on a block inside the cell, not on the cell: a phone
+// browser squeezes a cell's own width below it, opening a gap between the two
+// pinned columns that the statistics show through.
+//
+// A phone keeps the pinned pair narrow enough to read the name and the next
+// four statistics: the name is capped at 134px plus 16px of padding and cut
+// short with an ellipsis, and every cell trims its padding.
+const NUMBER_CELL = 'sticky left-0 z-20 p-0';
+//
+// One variable on the table sizes the first column and pins the name right
+// after it: a shirt number is two digits, while the ranking's "Pos." header
+// needs a little more on a phone.
+const NUMBER_BOX = 'block w-(--number-width) pl-3 pr-1 md:pl-6 md:pr-2';
+const NAME_CELL = `sticky left-(--number-width) z-20 whitespace-nowrap px-2 md:pl-0 md:pr-6 ${PINNED_EDGE_SHADOW}`;
+
+const numberWidth = (showPosition: boolean): string =>
+  showPosition
+    ? '[--number-width:3rem] md:[--number-width:4rem]'
+    : '[--number-width:2.25rem] md:[--number-width:4rem]';
+const NAME_BOX = 'flex max-w-[134px] items-center gap-2 md:max-w-none';
+const TEAM_CELL = 'whitespace-nowrap px-1.5 text-center text-xs text-muted md:px-4';
+const STAT_CELL = 'whitespace-nowrap px-1.5 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
-const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
+const BAND_TEXT = 'text-xs font-bold uppercase tracking-[0.5px]';
+const BAND_LABEL = `text-left ${BAND_TEXT}`;
 
 const columnsFor = (
   columnsByScope: Record<string, StatColumnView[]>,
@@ -231,22 +258,46 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
 interface PlayerNameCellProps {
   row: RosterStatRow;
   playerHrefBase?: string;
+  showPhoto: boolean;
 }
 
-// Links to the player's profile wherever a caller supplies the base path.
-function PlayerNameCell({ row, playerHrefBase }: PlayerNameCellProps) {
+// The title carries the whole name wherever a phone cuts it short.
+function PlayerName({ row, playerHrefBase }: Omit<PlayerNameCellProps, 'showPhoto'>) {
+  return playerHrefBase ? (
+    <Link
+      href={`${playerHrefBase}${row.playerId}`}
+      title={row.name}
+      className="hover:underline"
+    >
+      {row.name}
+    </Link>
+  ) : (
+    <>{row.name}</>
+  );
+}
+
+// Links to the player's profile wherever a caller supplies the base path. The
+// photo, initials without one, is the same avatar the box score names a
+// player with.
+function PlayerNameCell({ row, playerHrefBase, showPhoto }: PlayerNameCellProps) {
   return (
     <td
       className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}
       data-testid="roster-player-name"
     >
-      {playerHrefBase ? (
-        <Link href={`${playerHrefBase}${row.playerId}`} className="hover:underline">
-          {row.name}
-        </Link>
-      ) : (
-        row.name
-      )}
+      <span className={NAME_BOX}>
+        {showPhoto && (
+          <Avatar
+            name={row.name}
+            logoUrl={row.photoUrl || ''}
+            size={28}
+            className="rounded-full text-[10px]"
+          />
+        )}
+        <span className="min-w-0 truncate">
+          <PlayerName row={row} playerHrefBase={playerHrefBase} />
+        </span>
+      </span>
     </td>
   );
 }
@@ -256,31 +307,41 @@ interface TeamNameCellProps {
   teamHrefBase?: string;
 }
 
-function TeamCrest({ logoUrl }: { logoUrl: string }) {
+// The crest, or a circle of the team's initials without one: the same avatar
+// a player gets, a size smaller. `leading-none` keeps the initials on the
+// circle's middle instead of riding the line height.
+function TeamCrest({ teamName, logoUrl }: { teamName: string; logoUrl: string }) {
   return (
-    <RemoteImage
-      src={logoUrl}
-      alt=""
-      width={20}
-      height={20}
-      className="h-5 w-5 shrink-0 object-contain"
+    <Avatar
+      name={teamName}
+      logoUrl={logoUrl}
+      size={24}
+      className="text-[9px] leading-none"
     />
   );
 }
 
-interface TeamLabelProps {
-  label: string;
+// Inline so the cell's `text-center` centers it; `align-middle` keeps it on
+// the row's middle rather than the text baseline.
+const TEAM_LINK = 'inline-flex align-middle';
+
+interface TeamLinkProps {
   teamName: string;
   href: string;
+  children: ReactNode;
 }
 
-function TeamLabel({ label, teamName, href }: TeamLabelProps) {
+// The crest is all the cell shows, so the team's name is what a screen reader
+// and a hover get.
+function TeamLink({ teamName, href, children }: TeamLinkProps) {
   return href ? (
-    <Link href={href} title={teamName} className="hover:underline">
-      {label}
+    <Link href={href} title={teamName} aria-label={teamName} className={TEAM_LINK}>
+      {children}
     </Link>
   ) : (
-    <>{label}</>
+    <span title={teamName} className={TEAM_LINK}>
+      {children}
+    </span>
   );
 }
 
@@ -293,21 +354,16 @@ const teamHref = (
   teamName: string
 ): string => (teamHrefBase && teamId && teamName ? `${teamHrefBase}${teamId}` : '');
 
-// The tri code leads and the full name only stands in for a team without one,
-// next to the crest, the same way a game card names its sides.
+// Only the crest: a name or a tri code next to it would take the room a
+// phone needs for the statistics.
 function TeamNameCell({ row, teamHrefBase }: TeamNameCellProps) {
-  const { teamName = '', teamShortName = '', teamLogoUrl = '', teamId } = row;
+  const { teamName = '', teamLogoUrl = '', teamId } = row;
 
   return (
     <td className={TEAM_CELL}>
-      <span className="flex items-center gap-2">
-        {teamLogoUrl && <TeamCrest logoUrl={teamLogoUrl} />}
-        <TeamLabel
-          label={teamShortName || teamName}
-          teamName={teamName}
-          href={teamHref(teamHrefBase, teamId, teamName)}
-        />
-      </span>
+      <TeamLink teamName={teamName} href={teamHref(teamHrefBase, teamId, teamName)}>
+        <TeamCrest teamName={teamName} logoUrl={teamLogoUrl} />
+      </TeamLink>
     </td>
   );
 }
@@ -317,6 +373,7 @@ interface StatRowProps {
   leadingCell: string;
   columns: StatColumnView[];
   hasTeamColumn: boolean;
+  showPhoto: boolean;
   playerHrefBase?: string;
   teamHrefBase?: string;
 }
@@ -326,6 +383,7 @@ function StatRow({
   leadingCell,
   columns,
   hasTeamColumn,
+  showPhoto,
   playerHrefBase,
   teamHrefBase
 }: StatRowProps) {
@@ -334,9 +392,9 @@ function StatRow({
       <td
         className={`${NUMBER_CELL} bg-surface text-xs tabular-nums text-muted`}
       >
-        {leadingCell}
+        <span className={NUMBER_BOX}>{leadingCell}</span>
       </td>
-      <PlayerNameCell row={row} playerHrefBase={playerHrefBase} />
+      <PlayerNameCell row={row} playerHrefBase={playerHrefBase} showPhoto={showPhoto} />
       {hasTeamColumn && (
         <TeamNameCell row={row} teamHrefBase={teamHrefBase} />
       )}
@@ -379,7 +437,9 @@ function ShimmerRow({ columns, hasTeamColumn }: ShimmerRowProps) {
       data-testid="stats-shimmer-row"
     >
       <td className={`${NUMBER_CELL} bg-surface`}>
-        <span className={`${SHIMMER_BAR} w-4`} />
+        <span className={NUMBER_BOX}>
+          <span className={`${SHIMMER_BAR} w-4`} />
+        </span>
       </td>
       <td className={`${NAME_CELL} bg-surface`}>
         <span className={`${SHIMMER_BAR} w-28`} />
@@ -433,6 +493,7 @@ function EmptyRow({ label, isEmpty, columnCount }: EmptyRowProps) {
 interface StatRowsProps {
   rows: RosterStatRow[];
   showPosition: boolean;
+  showPhotos: boolean;
   columns: StatColumnView[];
   hasTeamColumn: boolean;
   playerHrefBase?: string;
@@ -444,6 +505,7 @@ interface StatRowsProps {
 function StatRows({
   rows,
   showPosition,
+  showPhotos,
   columns,
   hasTeamColumn,
   playerHrefBase,
@@ -461,6 +523,7 @@ function StatRows({
           leadingCell={showPosition ? String(index + 1) : row.shirtNumber}
           columns={columns}
           hasTeamColumn={hasTeamColumn}
+          showPhoto={showPhotos}
           playerHrefBase={playerHrefBase}
           teamHrefBase={teamHrefBase}
         />
@@ -492,7 +555,9 @@ function TotalsFooter({ totals, columns, label = '', hasTeamColumn }: TotalsFoot
 function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} ${TOTALS_BAND} font-bold text-foreground`}>
-      <td className={`${NUMBER_CELL} ${TOTALS_BAND}`} />
+      <td className={`${NUMBER_CELL} ${TOTALS_BAND}`}>
+        <span className={NUMBER_BOX} />
+      </td>
       <td className={`${NAME_CELL} ${TOTALS_BAND} text-sm`}>{label}</td>
       {hasTeamColumn && <td className={TEAM_CELL} />}
       {columns.map(column => (
@@ -528,6 +593,7 @@ export function RosterStatsTable({
   sortLabel,
   hasTeamColumn = false,
   showPosition = false,
+  showPhotos = false,
   teamColumnLabel,
   playerHrefBase,
   teamHrefBase,
@@ -547,6 +613,7 @@ export function RosterStatsTable({
     rankedRows(rows, initialSort(defaultSortSlugs, scopes[0]))
   );
   const [isSorting, setIsSorting] = useState(false);
+  const scrollBoxProps = useScrolledX();
   // Bumped on every scope switch (and every sort request) so a request that
   // resolves after the visitor has moved on can tell it's stale and skip
   // its own state update instead of overwriting a newer one.
@@ -694,15 +761,18 @@ export function RosterStatsTable({
       />
 
       {/* Narrow screens scroll the table instead of the page. */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-left" aria-busy={isSorting}>
+      <div className={`${SCROLL_GROUP} overflow-x-auto`} {...scrollBoxProps}>
+        <table
+          className={`${numberWidth(showPosition)} w-full border-collapse text-left`}
+          aria-busy={isSorting}
+        >
           <thead>
             <tr className={`${HEADER_BAND} ${ROW_HEIGHT} text-foreground`}>
               <th
                 scope="col"
                 className={`${NUMBER_CELL} ${HEADER_BAND} ${BAND_LABEL}`}
               >
-                {numberLabel}
+                <span className={NUMBER_BOX}>{numberLabel}</span>
               </th>
               <th
                 scope="col"
@@ -713,7 +783,7 @@ export function RosterStatsTable({
               {hasTeamColumn && (
                 <th
                   scope="col"
-                  className={`${HEADER_BAND} ${BAND_LABEL} px-3 md:px-4`}
+                  className={`${HEADER_BAND} ${BAND_TEXT} px-1.5 text-center md:px-4`}
                 >
                   {teamColumnLabel}
                 </th>
@@ -742,6 +812,7 @@ export function RosterStatsTable({
               <StatRows
                 rows={sortedRows}
                 showPosition={showPosition}
+                showPhotos={showPhotos}
                 columns={columns}
                 hasTeamColumn={hasTeamColumn}
                 playerHrefBase={playerHrefBase}

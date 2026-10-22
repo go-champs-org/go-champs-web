@@ -1,6 +1,7 @@
 import type { PlayerStatEntity, SportEntity } from '@gochamps/api-client';
 import {
   availableScopes,
+  formatSecondsAsClock,
   formatStatValue,
   initialSort,
   rosterStatRows,
@@ -232,6 +233,32 @@ describe('formatStatValue', () => {
   it('renders an unrecorded value as a dash, not as a zero', () => {
     expect(formatStatValue('points', '')).toBe('-');
   });
+
+  it('renders the minutes per game, recorded in seconds, as a MM:SS clock', () => {
+    expect(formatStatValue('minutes_played_per_game', '1655.6')).toBe('27:35');
+  });
+
+  it('pads a per game minutes clock under ten minutes', () => {
+    expect(formatStatValue('minutes_played_per_game', '305')).toBe('05:05');
+  });
+
+  it('renders the total minutes, recorded in seconds, as whole minutes', () => {
+    expect(formatStatValue('minutes_played', '3311')).toBe('55');
+  });
+
+  it('renders missing per game minutes as a dash', () => {
+    expect(formatStatValue('minutes_played_per_game', '')).toBe('-');
+  });
+});
+
+describe('formatSecondsAsClock', () => {
+  it('reads seconds as minutes and seconds', () => {
+    expect(formatSecondsAsClock(754)).toBe('12:34');
+  });
+
+  it('reads no time at all as a zeroed clock', () => {
+    expect(formatSecondsAsClock(0)).toBe('00:00');
+  });
 });
 
 describe('sortRosterRows', () => {
@@ -299,6 +326,24 @@ describe('statTotals', () => {
 
   it('leaves out a column no player has a number for', () => {
     expect(statTotals(rows, ['blocks'])).toEqual({});
+  });
+
+  it('adds up the minutes in seconds before reading them as minutes', () => {
+    const withMinutes: RosterStatRow[] = [
+      { playerId: 'p1', name: 'Ana', shirtNumber: '7', stats: { minutes_played: '89' } },
+      { playerId: 'p2', name: 'Bia', shirtNumber: '9', stats: { minutes_played: '31' } }
+    ];
+
+    expect(statTotals(withMinutes, ['minutes_played']).minutes_played).toBe('2');
+  });
+
+  it('leaves the games played and started out: they count per player', () => {
+    const withGames: RosterStatRow[] = [
+      { playerId: 'p1', name: 'Ana', shirtNumber: '7', stats: { game_played: '5', game_started: '5' } },
+      { playerId: 'p2', name: 'Bia', shirtNumber: '9', stats: { game_played: '4', game_started: '0' } }
+    ];
+
+    expect(statTotals(withGames, ['game_played', 'game_started'])).toEqual({});
   });
 
   it('leaves out a column every player left unrecorded', () => {

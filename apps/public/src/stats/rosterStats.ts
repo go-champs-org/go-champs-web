@@ -19,12 +19,12 @@ export interface RosterStatRow {
   name: string;
   shirtNumber: string;
   stats: Record<string, string>;
+  // Set only by the team roster, whose name cell carries the player's photo
+  // (initials without one), the way the box score does.
+  photoUrl?: string;
   // Set only by the tournament-wide table (Task 12b) — the team roster table
   // never carries it, so its team column stays off.
   teamName?: string;
-  // What the team column shows: the tri code when the team has one, the full
-  // name (kept as `teamName`) otherwise — same priority as a game card.
-  teamShortName?: string;
   teamLogoUrl?: string;
   teamId?: string;
 }
@@ -156,12 +156,34 @@ const parseStat = (value: string | undefined): number | null => {
   return value && Number.isFinite(parsed) ? parsed : null;
 };
 
+// Minutes are recorded in seconds and read as a clock, MM:SS.
+export const formatSecondsAsClock = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = Math.floor(seconds % 60);
+  return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
+};
+
+// A whole tournament of seconds reads as the minutes it adds up to; the
+// seconds left over are not worth a clock of their own.
+const secondsAsWholeMinutes = (seconds: number): string =>
+  String(Math.floor(seconds / 60));
+
+// Statistics recorded in a unit of their own. The minutes are seconds: the
+// total reads as whole minutes, and the per game average — one game's worth
+// — as a clock.
+const FORMAT_BY_EXACT_SLUG: Record<string, (value: number) => string> = {
+  minutes_played: secondsAsWholeMinutes,
+  [`minutes_played${PER_GAME_SUFFIX}`]: formatSecondsAsClock
+};
+
 // A percentage is a whole number with a sign, an average carries one decimal,
 // and everything else is a count — the same three cells the CMS renders
 // (apps/cms/src/Shared/UI/TableCells.tsx).
 const formatBySlug = (slug: string, value: number): string => {
   const base = baseStatSlug(slug);
+  const exactFormat = FORMAT_BY_EXACT_SLUG[slug];
 
+  if (exactFormat) return exactFormat(value);
   if (base.endsWith(PERCENTAGE_SUFFIX)) return `${value.toFixed(0)}%`;
   if (slug.endsWith(PER_GAME_SUFFIX)) return value.toFixed(1);
   return value.toFixed(0);
@@ -176,12 +198,17 @@ export const formatStatValue = (
   return parsed === null ? '-' : formatBySlug(slug, parsed);
 };
 
+// Games played and started count per player: twelve players with five games
+// each is not a team that played sixty.
+const PER_PLAYER_COUNT_SLUGS = new Set(['game_played', 'game_started']);
+
 // Only counts add up. A percentage of the whole team is not the sum of the
 // column, and neither is a per game average — the design draws the band, the
 // arithmetic decides which of its cells can be filled.
 const isSummable = (slug: string): boolean =>
   !slug.endsWith(PER_GAME_SUFFIX) &&
-  !baseStatSlug(slug).endsWith(PERCENTAGE_SUFFIX);
+  !baseStatSlug(slug).endsWith(PERCENTAGE_SUFFIX) &&
+  !PER_PLAYER_COUNT_SLUGS.has(slug);
 
 const statSum = (rows: RosterStatRow[], slug: string): number | null => {
   const values = rows
@@ -204,7 +231,9 @@ export const statTotals = (
       .filter(isSummable)
       .map(slug => [slug, statSum(rows, slug)] as const)
       .filter(([, total]) => total !== null)
-      .map(([slug, total]) => [slug, (total as number).toFixed(0)])
+      // Summed in seconds and read as minutes only once, so the band is not
+      // short the leftover seconds of every player.
+      .map(([slug, total]) => [slug, formatBySlug(slug, total as number)])
   );
 
 const MISSING = Number.NEGATIVE_INFINITY;

@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   ApiError,
@@ -160,6 +160,12 @@ const params = Promise.resolve({
 
 const renderPage = async () => render(await TeamPage({ params }));
 
+// The name cell also carries the avatar, whose initials are text of their own:
+// the name is the link to the player.
+const playerNameIn = (cell: HTMLElement) => within(cell).getByRole('link').textContent;
+
+const rosterNames = () => screen.getAllByTestId('roster-player-name').map(playerNameIn);
+
 describe('TeamPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -232,10 +238,7 @@ describe('TeamPage', () => {
 
     await renderPage();
 
-    const rosterNames = screen
-      .getAllByTestId('roster-player-name')
-      .map(cell => cell.textContent);
-    expect(rosterNames).toEqual(['Camisa Quatro', 'Camisa Dez']);
+    expect(rosterNames()).toEqual(['Camisa Quatro', 'Camisa Dez']);
     expect(screen.queryByText('Jogador do Time A')).not.toBeInTheDocument();
   });
 
@@ -476,10 +479,11 @@ describe('TeamPage roster stats', () => {
   const rosterCells = (playerName: string) =>
     within(screen.getByText(playerName).closest('tr') as HTMLElement)
       .getAllByRole('cell')
-      .map(cell => cell.textContent);
+      .map(cell =>
+        cell.dataset.testid === 'roster-player-name' ? playerNameIn(cell) : cell.textContent
+      );
 
-  const rosterOrder = () =>
-    screen.getAllByTestId('roster-player-name').map(cell => cell.textContent);
+  const rosterOrder = rosterNames;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -604,6 +608,131 @@ describe('TeamPage roster stats', () => {
     await renderPage();
 
     expect(screen.queryByTestId('stats-scope')).not.toBeInTheDocument();
+  });
+
+  describe('with the columns of the tournament stats page', () => {
+    beforeEach(() => {
+      getSportBySlugMock.mockResolvedValue(
+        sport({
+          playerStatistics: [
+            sportStatistic('points', 'aggregate'),
+            sportStatistic('game_played', 'aggregate'),
+            sportStatistic('minutes_played', 'aggregate'),
+            sportStatistic('fouls_personal', 'aggregate'),
+            sportStatistic('minutes_played_per_game', 'per_game')
+          ]
+        })
+      );
+      getTournamentBySlugMock.mockResolvedValue(
+        tournament({
+          players: [
+            player('p4', 'Camisa Quatro', { shirtNumber: '4' }),
+            player('p10', 'Camisa Dez', { shirtNumber: '10' })
+          ],
+          playerStats: [
+            playerStat('points', 'Pontos'),
+            playerStat('game_played', 'Jogos'),
+            playerStat('minutes_played', 'Minutos jogados'),
+            playerStat('fouls_personal', 'Faltas pessoais'),
+            playerStat('minutes_played_per_game', 'Minutos por jogo')
+          ]
+        })
+      );
+      getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+        statsLog('p4', {
+          points: '10',
+          game_played: '2',
+          minutes_played: '3311',
+          fouls_personal: '3',
+          minutes_played_per_game: '1655.5'
+        }),
+        statsLog('p10', {
+          points: '22',
+          game_played: '2',
+          minutes_played: '2400',
+          fouls_personal: '1',
+          minutes_played_per_game: '1200'
+        })
+      ]);
+    });
+
+    it('lists the games, minutes and fouls the tournament stats page lists', async () => {
+      await renderPage();
+
+      const headers = within(screen.getByTestId('roster'))
+        .getAllByRole('columnheader')
+        .map(header => header.textContent);
+      expect(headers).toEqual(['Nº', 'Nome', 'JOG', 'MIN', 'PTS', 'FLP']);
+    });
+
+    it('reads the minutes per game as a MM:SS clock', async () => {
+      await renderPage();
+      await userEvent.click(screen.getByRole('button', { name: 'Por jogo' }));
+
+      expect(rosterCells('Camisa Quatro')).toEqual(['4', 'Camisa Quatro', '27:35']);
+    });
+
+    it('reads the minutes, recorded in seconds, as whole minutes', async () => {
+      await renderPage();
+
+      expect(rosterCells('Camisa Quatro')).toEqual(['4', 'Camisa Quatro', '2', '55', '10', '3']);
+    });
+
+    it('closes the band with the minutes of the whole team, games played left out', async () => {
+      await renderPage();
+
+      expect(rosterCells('Total')).toEqual(['', 'Total', '-', '95', '32', '4']);
+    });
+  });
+
+  it('marks the table scrolled once the stats slide under the pinned names', async () => {
+    withRosterStats();
+
+    await renderPage();
+    const scrollBox = within(screen.getByTestId('roster')).getByRole('table')
+      .parentElement as HTMLElement;
+    expect(scrollBox).not.toHaveAttribute('data-scrolled');
+
+    scrollBox.scrollLeft = 40;
+    fireEvent.scroll(scrollBox);
+    expect(scrollBox).toHaveAttribute('data-scrolled');
+
+    scrollBox.scrollLeft = 0;
+    fireEvent.scroll(scrollBox);
+    expect(scrollBox).not.toHaveAttribute('data-scrolled');
+  });
+
+  it('puts the photo of the player next to his name', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [
+          player('p4', 'Camisa Quatro', {
+            shirtNumber: '4',
+            photoUrl: 'https://example.com/p4.png'
+          })
+        ]
+      })
+    );
+
+    await renderPage();
+
+    const nameCell = screen.getByTestId('roster-player-name');
+    expect(within(nameCell).getByRole('img', { name: 'Camisa Quatro' })).toHaveAttribute(
+      'src',
+      expect.stringContaining('p4.png')
+    );
+  });
+
+  it('puts the initials of a player without a photo next to his name', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({ players: [player('p4', 'Camisa Quatro', { shirtNumber: '4' })] })
+    );
+
+    await renderPage();
+
+    const nameCell = screen.getByTestId('roster-player-name');
+    expect(within(nameCell).queryByRole('img')).not.toBeInTheDocument();
+    expect(within(nameCell).getByText('CQ')).toBeInTheDocument();
   });
 
   it('still lists the roster when the sport catalogue is unreachable', async () => {

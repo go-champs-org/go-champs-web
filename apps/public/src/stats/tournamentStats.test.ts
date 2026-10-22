@@ -59,25 +59,22 @@ describe('tournamentStatRows', () => {
         shirtNumber: '',
         stats: { points: '10' },
         teamName: 'Time A',
-        teamShortName: 'Time A',
         teamLogoUrl: '',
         teamId: 't1'
       }
     ]);
   });
 
-  it('labels the team by tri code, falling back to its name', () => {
+  it('carries the name and the crest of the team, not its tri code', () => {
     const rows = tournamentStatRows(
       [player('p1', 'Camisa Um', 't1'), player('p2', 'Camisa Dois', 't2')],
       [statsLog('p1', { points: '10' }), statsLog('p2', { points: '8' })],
       [team('t1', 'Time A', 'TMA', 'https://x/a.png'), team('t2', 'Time B')]
     );
 
-    expect(
-      rows.map(row => [row.teamName, row.teamShortName, row.teamLogoUrl])
-    ).toEqual([
-      ['Time A', 'TMA', 'https://x/a.png'],
-      ['Time B', 'Time B', '']
+    expect(rows.map(row => [row.teamName, row.teamLogoUrl])).toEqual([
+      ['Time A', 'https://x/a.png'],
+      ['Time B', '']
     ]);
   });
 
@@ -244,11 +241,11 @@ describe('pickPlayers', () => {
 });
 
 describe('pickTeams', () => {
-  it('keeps only id, name, tri code and logo', () => {
+  it('keeps only id, name and logo', () => {
     const team = {
       id: 't1', name: 'Flamengo', logoUrl: 'https://x/l.png', triCode: 'FLA',
       primaryColor: '#f00', coaches: [{ id: 'c1', name: 'Coach', type: 'head_coach' }]
     };
-    expect(pickTeams([team] as never)).toEqual([{ id: 't1', name: 'Flamengo', triCode: 'FLA', logoUrl: 'https://x/l.png' }]);
+    expect(pickTeams([team] as never)).toEqual([{ id: 't1', name: 'Flamengo', logoUrl: 'https://x/l.png' }]);
   });
 });

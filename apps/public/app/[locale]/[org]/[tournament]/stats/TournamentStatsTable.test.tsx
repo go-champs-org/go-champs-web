@@ -13,8 +13,8 @@ const players = [
 ];
 
 const teams = [
-  { id: 'team-b', name: 'Bravo', triCode: 'BRA', logoUrl: '' },
-  { id: 'team-a', name: 'Alfa', triCode: 'ALF', logoUrl: '' }
+  { id: 'team-b', name: 'Bravo', logoUrl: '' },
+  { id: 'team-a', name: 'Alfa', logoUrl: '' }
 ];
 
 const row = (playerId: string, name: string, teamId: string, points: string) => ({
@@ -24,7 +24,6 @@ const row = (playerId: string, name: string, teamId: string, points: string) => 
   stats: { points },
   teamId,
   teamName: '',
-  teamShortName: '',
   teamLogoUrl: ''
 });
 

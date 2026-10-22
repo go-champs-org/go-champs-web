@@ -32,7 +32,8 @@ import { TeamSections, type TeamTab } from './TeamSections';
 import { RosterStatsTable } from './RosterStatsTable';
 import { labelCoaches, type LabelledCoach } from '@/src/teams/coaches';
 import { teamRoster } from '@/src/teams/roster';
-import { defaultSortSlugs } from '@/src/stats/sportStatColumns';
+import { playerPhotosById } from '@/src/games/boxScore';
+import { defaultSortSlugs, tournamentStatsOrder } from '@/src/stats/sportStatColumns';
 import {
   availableScopes,
   columnViewsByScope,
@@ -358,7 +359,7 @@ function Roster(rosterProps: RosterProps) {
       className={`${FLUSH_SECTION_CLASS} overflow-hidden`}
       data-testid="roster"
     >
-      <RosterStatsTable {...rosterProps} />
+      <RosterStatsTable {...rosterProps} showPhotos />
     </Surface>
   );
 }
@@ -548,14 +549,21 @@ export default async function TeamPage({
     ]);
 
   // Which scopes the table offers, and the columns of each, are decided here:
-  // the client island only switches between what the page resolved.
-  const scopes = availableScopes(tournament.playerStats, sport);
+  // the client island only switches between what the page resolved. The
+  // columns are the tournament stats page's: a team's numbers read the same
+  // as the ranking they come from.
+  const columnOrder = tournamentStatsOrder(tournament.sportSlug);
+  const scopes = availableScopes(tournament.playerStats, sport, columnOrder);
   const columnsByScope = columnViewsByScope(
-    statColumnsByScope(tournament.playerStats, sport, scopes),
+    statColumnsByScope(tournament.playerStats, sport, scopes, columnOrder),
     t.raw('statColumns') as Record<string, string>,
     t.raw('statDescriptions') as Record<string, string>
   );
-  const rows = rosterStatRows(roster, statsLogs);
+  const photosById = playerPhotosById(roster);
+  const rows = rosterStatRows(roster, statsLogs).map(row => ({
+    ...row,
+    photoUrl: photosById[row.playerId] || ''
+  }));
   const totalsByScope = statTotalsByScope(rows, columnsByScope);
   const scopeLabels = {
     aggregate: t('scopeAggregate'),
