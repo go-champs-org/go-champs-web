@@ -36,6 +36,9 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
       - name: Install dependencies
+        # Only the e2e jobs run Cypress; skip its ~7s binary download elsewhere.
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Build the Worker bundle
         working-directory: apps/public
@@ -59,14 +62,10 @@ jobs:
         # Unlike wrangler deploy, this also runs populateCache to seed prerendered pages into R2.
         run: npx opennextjs-cloudflare deploy -c wrangler.pre-prod.jsonc
 
-  deploy_cms:
-    # The CMS Worker declares a service binding to gochamps-public-pre-prod,
-    # and deploying against a Worker that does not exist yet fails.
-    needs: deploy_public
+  # Builds at t=0 instead of after deploy_public; only the deploy needs the
+  # public Worker to exist.
+  build_cms:
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -77,6 +76,8 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Verify build secrets
         env:
@@ -102,6 +103,34 @@ jobs:
           name: cms-build-pre-prod
           path: apps/cms/build
           retention-days: 3
+
+  deploy_cms:
+    # The CMS Worker declares a service binding to gochamps-public-pre-prod,
+    # and deploying against a Worker that does not exist yet fails.
+    needs:
+      - deploy_public
+      - build_cms
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+        run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: cms-build-pre-prod
+          path: apps/cms/build
       - name: Deploy
         working-directory: apps/cms
         # Strips Netlify's _redirects, which Cloudflare parses natively and

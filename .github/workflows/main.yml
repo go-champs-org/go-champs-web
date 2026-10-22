@@ -6,11 +6,6 @@ on:
       - master
   workflow_dispatch:
 
-# Runs share one staging site and API; concurrent runs would test each other's deploys and data.
-concurrency:
-  group: staging-environment
-  queue: max
-
 jobs:
   lint_check:
     runs-on: ubuntu-latest
@@ -24,9 +19,14 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
+        # Only the e2e jobs run Cypress; skip its ~7s binary download elsewhere.
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Running lint
         run: pnpm lint:check
+      - name: Validate SCSS color mapping
+        run: pnpm --filter @gochamps/cms validate-colors
 
   unit_test:
     runs-on: ubuntu-latest
@@ -40,6 +40,8 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Running test
         run: pnpm test:ci
@@ -58,6 +60,8 @@ jobs:
           node-version: '20.18.1'
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       # Jest runs through SWC and never checks types, so `next build` is the
       # only thing that type-checks apps/public. It needs no secrets: without
@@ -66,27 +70,9 @@ jobs:
       - name: Build public app
         run: pnpm --filter @gochamps/public build
 
-  color_validation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Validate SCSS color mapping
-        run: pnpm --filter @gochamps/cms validate-colors
-
-  deploy_staging:
-    needs:
-      - unit_test
-      - lint_check
-      - color_validation
+  # Builds at t=0 instead of after the gates, so the staging job below only
+  # downloads and deploys.
+  build_cms_staging:
     # Dependabot PRs run with the Dependabot secret store, so every secret used
     # below is empty. Skipping keeps them off a deploy that cannot work.
     if: github.actor != 'dependabot[bot]'
@@ -101,6 +87,8 @@ jobs:
           node-version: '20.0.0'
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
         run: pnpm install --frozen-lockfile
       - name: Verify build secrets
         env:
@@ -118,6 +106,47 @@ jobs:
           STAGING_RECAPTCHA_SITE_KEY: ${{ secrets.STAGING_RECAPTCHA_SITE_KEY }}
           STAGING_SCOREBOARD_APP_URL: ${{ secrets.STAGING_SCOREBOARD_APP_URL }}
         run: pnpm --filter @gochamps/cms build:staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-build-staging
+          path: apps/cms/build
+          retention-days: 1
+
+  # Deploy and e2e are one job so that the job-level concurrency group holds
+  # both: as two jobs, another run's deploy could land between this run's
+  # deploy and its e2e, and the e2e would test someone else's build.
+  deploy_staging_e2e:
+    needs:
+      - unit_test
+      - lint_check
+      - build_cms_staging
+    if: github.actor != 'dependabot[bot]'
+    # Runs share one staging site and API; concurrent runs would test each
+    # other's deploys and data. Only this job queues, so lint, tests and builds
+    # of a waiting PR run while another PR's e2e holds staging. `queue: max`
+    # keeps every waiting run instead of cancelling all but the newest.
+    concurrency:
+      group: staging-environment
+      queue: max
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.0.0'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Cypress binary
+        working-directory: apps/cms
+        run: pnpm exec cypress install
+      - uses: actions/download-artifact@v4
+        with:
+          name: cms-build-staging
+          path: apps/cms/build
       - name: Verify Netlify credentials
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
@@ -142,25 +171,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH }}
           NETLIFY_SITE_ID: ${{ secrets.STAGING_SITE_ID }}
         timeout-minutes: 1
-
-  staging_e2e_test:
-    needs: deploy_staging
-    if: github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.0.0'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Install Cypress binary
-        working-directory: apps/cms
-        run: pnpm exec cypress install
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
