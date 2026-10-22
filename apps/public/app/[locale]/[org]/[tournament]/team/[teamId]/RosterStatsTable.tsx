@@ -12,7 +12,6 @@ import {
   formatStatValue,
   initialSort,
   sortRosterRows,
-  statTotals,
   type SortState,
   type RosterStatRow,
   type StatColumnView,
@@ -24,7 +23,9 @@ import { SortArrow } from '@/src/components/SortArrow';
 interface RosterStatsTableProps {
   rows: RosterStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
-  totalsByScope: Record<string, Record<string, string>>;
+  // Set only by the team roster: a roster adds up to its team, while the
+  // tournament stats page ranks players and has no totals band.
+  totalsByScope?: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   title: string;
@@ -32,7 +33,7 @@ interface RosterStatsTableProps {
   glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
-  totalLabel: string;
+  totalLabel?: string;
   sortLabel: string;
   // Only the tournament-wide table needs a team column; the team page is
   // already on one team.
@@ -356,7 +357,6 @@ interface TotalsRowProps {
   columns: StatColumnView[];
   label: string;
   hasTeamColumn: boolean;
-  isLoading: boolean;
 }
 
 // Bars where the text goes, pulsing, while the rows wait on the API — the
@@ -469,16 +469,27 @@ function StatRows({
   );
 }
 
-// The band adds up the rows on screen, so it waits along with them.
-function TotalValue({ value, isLoading }: { value?: string; isLoading: boolean }) {
-  if (isLoading) return <span className={`${SHIMMER_BAR} w-6 animate-pulse`} />;
+interface TotalsFooterProps {
+  totals?: Record<string, string>;
+  columns: StatColumnView[];
+  label?: string;
+  hasTeamColumn: boolean;
+}
 
-  return <>{value || '-'}</>;
+// A table without totals (the tournament stats page) has no band at all.
+function TotalsFooter({ totals, columns, label = '', hasTeamColumn }: TotalsFooterProps) {
+  if (!totals) return null;
+
+  return (
+    <tfoot>
+      <TotalsRow totals={totals} columns={columns} label={label} hasTeamColumn={hasTeamColumn} />
+    </tfoot>
+  );
 }
 
 // Only counts add up, so a percentage and a per game average arrive missing
 // from `totals` and read as a dash.
-function TotalsRow({ totals, columns, label, hasTeamColumn, isLoading }: TotalsRowProps) {
+function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
   return (
     <tr className={`${ROW_HEIGHT} ${TOTALS_BAND} font-bold text-foreground`}>
       <td className={`${NUMBER_CELL} ${TOTALS_BAND}`} />
@@ -489,25 +500,12 @@ function TotalsRow({ totals, columns, label, hasTeamColumn, isLoading }: TotalsR
           key={column.slug}
           className={`${STAT_CELL} notranslate text-xs tabular-nums`}
         >
-          <TotalValue value={totals[column.slug]} isLoading={isLoading} />
+          {totals[column.slug] || '-'}
         </td>
       ))}
     </tr>
   );
 }
-
-// Server-sorted rows are whichever players the last request returned — a
-// different 50 per column or filter — so the band adds up the rows on screen
-// rather than the ones the page first arrived with.
-const displayedTotals = (
-  isServerSorted: boolean,
-  serverRows: RosterStatRow[],
-  columns: StatColumnView[],
-  scopeTotals: Record<string, string> | undefined
-): Record<string, string> =>
-  isServerSorted
-    ? statTotals(serverRows, columns.map(column => column.slug))
-    : scopeTotals || {};
 
 // Number and name, the team when there is one, then every statistic.
 const tableColumnCount = (hasTeamColumn: boolean, columns: StatColumnView[]): number =>
@@ -562,12 +560,6 @@ export function RosterStatsTable({
   const sortedRows = onSortRequest
     ? serverRows
     : rankedRows(rows, sort);
-  const totals = displayedTotals(
-    Boolean(onSortRequest),
-    serverRows,
-    columns,
-    totalsByScope[scope]
-  );
 
   // A fresh `rows` prop (a different tournament, or a revalidated fetch)
   // replaces whatever this island was showing, sorted or not — including the
@@ -759,15 +751,12 @@ export function RosterStatsTable({
               />
             )}
           </tbody>
-          <tfoot>
-            <TotalsRow
-              totals={totals}
-              columns={columns}
-              label={totalLabel}
-              hasTeamColumn={hasTeamColumn}
-              isLoading={isSorting}
-            />
-          </tfoot>
+          <TotalsFooter
+            totals={totalsByScope?.[scope]}
+            columns={columns}
+            label={totalLabel}
+            hasTeamColumn={hasTeamColumn}
+          />
         </table>
       </div>
     </div>

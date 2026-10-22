@@ -26,7 +26,6 @@ interface TournamentStatsTableProps {
   teams: PickedTeam[];
   rows: TournamentStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
-  totalsByScope: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   title: string;
@@ -34,7 +33,6 @@ interface TournamentStatsTableProps {
   glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
-  totalLabel: string;
   sortLabel: string;
   teamColumnLabel: string;
   playerHrefBase: string;

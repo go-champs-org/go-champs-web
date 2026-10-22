@@ -20,7 +20,6 @@ import {
   availableScopes,
   columnViewsByScope,
   statColumnsByScope,
-  statTotalsByScope,
   type StatColumnView,
   type StatScope
 } from '@/src/stats/rosterStats';
@@ -61,8 +60,8 @@ interface PlayerStatsPageParams {
 const playerStatsPagePath = ({ org, tournament }: PlayerStatsPageParams): string =>
   `/${org}/${tournament}/stats`;
 
-// The stats card carries no padding of its own — its header band and totals
-// band run edge to edge, the same trim the team page's roster card uses.
+// The stats card carries no padding of its own — its header band runs edge
+// to edge, the same trim the team page's roster card uses.
 const SECTION_CLASS = 'shadow-[0_2px_10px_var(--shadow-elevated)]';
 
 // generateMetadata and the page both need the tournament; cache() keeps that
@@ -147,7 +146,6 @@ interface StatsTableSectionProps {
   teams: PickedTeam[];
   rows: TournamentStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
-  totalsByScope: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   playerHrefBase: string;
@@ -160,7 +158,6 @@ interface StatsTableSectionProps {
     title: string;
     statsScope: string;
     glossary: string;
-    total: string;
     position: string;
     playerName: string;
     teamColumn: string;
@@ -180,7 +177,6 @@ function StatsTableSection({
   teams,
   rows,
   columnsByScope,
-  totalsByScope,
   scopes,
   scopeLabels,
   playerHrefBase,
@@ -203,7 +199,6 @@ function StatsTableSection({
         teams={teams}
         rows={rows}
         columnsByScope={columnsByScope}
-        totalsByScope={totalsByScope}
         scopes={scopes}
         scopeLabels={scopeLabels}
         title={labels.title}
@@ -211,7 +206,6 @@ function StatsTableSection({
         glossaryLabel={labels.glossary}
         numberLabel={labels.position}
         nameLabel={labels.playerName}
-        totalLabel={labels.total}
         sortLabel={labels.sortByStat}
         teamColumnLabel={labels.teamColumn}
         playerHrefBase={playerHrefBase}
@@ -257,7 +251,6 @@ export default async function PlayerStatsPage({
     tTeam.raw('statColumns') as Record<string, string>,
     statDescriptions
   );
-  const totalsByScope = statTotalsByScope(rows, columnsByScope);
 
   const phases = [...tournament.phases]
     .sort((left, right) => left.order - right.order)
@@ -305,7 +298,6 @@ export default async function PlayerStatsPage({
           teams={pickTeams(tournament.teams)}
           rows={rows}
           columnsByScope={columnsByScope}
-          totalsByScope={totalsByScope}
           scopes={scopes}
           scopeLabels={{
             aggregate: tTeam('scopeAggregate'),
@@ -327,7 +319,6 @@ export default async function PlayerStatsPage({
             title: t('title'),
             statsScope: tTeam('statsScope'),
             glossary: tTeam('glossary'),
-            total: tTeam('total'),
             position: tTeam('position'),
             playerName: tTeam('playerName'),
             teamColumn: t('teamColumn'),

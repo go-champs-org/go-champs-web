@@ -38,7 +38,6 @@ const renderTable = (overrides = {}) =>
       columnsByScope={{
         aggregate: [{ slug: 'points', label: 'PTS', description: 'Pontos' }]
       }}
-      totalsByScope={{ aggregate: { points: '30' } }}
       scopes={['aggregate']}
       scopeLabels={{ aggregate: 'Totais' }}
       title="Estatísticas"
@@ -46,7 +45,6 @@ const renderTable = (overrides = {}) =>
       glossaryLabel="Glossário"
       numberLabel="Pos."
       nameLabel="Nome"
-      totalLabel="Total"
       sortLabel="Ordenar por {stat}"
       teamColumnLabel="Time"
       playerHrefBase="/org/t/athlete/"
@@ -162,14 +160,11 @@ describe('TournamentStatsTable filters', () => {
     expect(url.searchParams.get('teamId')).toBe('team-a');
   });
 
-  it('adds up the rows on screen in the totals band', async () => {
-    mockFetch([{ id: 'log-p1', playerId: 'p1', stats: { points: '8' } }]);
-    renderTable();
+  it('ranks players without a totals band', () => {
+    mockFetch([]);
+    const { container } = renderTable();
 
-    fireEvent.change(screen.getByLabelText('Time'), { target: { value: 'team-a' } });
-
-    const totals = await screen.findByText('8', { selector: 'tfoot td' });
-    expect(totals).toBeInTheDocument();
+    expect(container.querySelector('tfoot')).toBeNull();
   });
 
   it('sends a stat minimum once the visitor stops typing', async () => {
@@ -208,7 +203,6 @@ describe('TournamentStatsTable filters', () => {
         aggregate: [{ slug: 'points', label: 'PTS', description: 'Pontos' }],
         per_game: [{ slug: 'points_per_game', label: 'PTS', description: 'Pontos' }]
       },
-      totalsByScope: { aggregate: { points: '30' }, per_game: {} },
       scopes: ['aggregate', 'per_game'],
       scopeLabels: { aggregate: 'Totais', per_game: 'Por jogo' },
       defaultSortSlugs: { aggregate: 'points', per_game: 'points_per_game' }
