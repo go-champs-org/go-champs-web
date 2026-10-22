@@ -19,6 +19,7 @@ import {
   formatStatValue,
   sortRosterRows,
   statColumnViews,
+  type SortState,
   type StatColumnView
 } from '@/src/stats/rosterStats';
 import { isLiveGame } from './liveScore';
@@ -299,3 +300,23 @@ export const rankedLiveTeam = <Team extends LiveTeamRows>(
   ...live,
   rows: rankRows(withPhotos(live.rows, team.rows), ranking)
 });
+
+// A header click ranks the column best first; the same column again turns it
+// around. Every other header starts over from best first.
+export const nextBoxScoreSort = (
+  sort: SortState | null,
+  slug: string
+): SortState =>
+  sort?.slug === slug
+    ? { slug, direction: sort.direction === 'desc' ? 'asc' : 'desc' }
+    : { slug, direction: 'desc' };
+
+// A team is a handful of players, so a clicked column reorders the rows in
+// the browser. Rows already in the default order keep it among ties, and a
+// player without the number (one who never got in) stays at the bottom both
+// ways.
+export const sortedBoxScoreTeam = <Team extends LiveTeamRows>(
+  team: Team,
+  sort: SortState | null
+): Team =>
+  sort ? { ...team, rows: sortRosterRows(team.rows, sort.slug, sort.direction) } : team;

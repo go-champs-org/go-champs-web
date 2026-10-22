@@ -9,13 +9,15 @@ import {
   StatGlossaryToggle,
   Surface
 } from '@gochamps/ui';
-import { type StatColumnView } from '@/src/stats/rosterStats';
+import { type SortState, type StatColumnView } from '@/src/stats/rosterStats';
 import {
   boxScoreCellValue,
   boxScoreRanking,
   didNotPlay,
   isStarter,
+  nextBoxScoreSort,
   rankedLiveTeam,
+  sortedBoxScoreTeam,
   type BoxScoreRow
 } from '@/src/games/boxScore';
 import {
@@ -259,18 +261,57 @@ function TotalsRow({ totals, columns, label }: TotalsRowProps) {
   );
 }
 
+const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
+
+const ariaSort = (
+  sort: SortState | null,
+  slug: string
+): 'ascending' | 'descending' | 'none' =>
+  sort?.slug === slug ? ARIA_SORT[sort.direction] : 'none';
+
+interface StatHeaderProps {
+  column: StatColumnView;
+  sort: SortState | null;
+  sortLabel: string;
+  onSort: (slug: string) => void;
+}
+
+function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
+  return (
+    <th
+      scope="col"
+      aria-sort={ariaSort(sort, column.slug)}
+      className={`${STAT_CELL} text-xs font-bold uppercase tracking-[0.5px]`}
+    >
+      <button
+        type="button"
+        onClick={() => onSort(column.slug)}
+        title={column.description}
+        aria-label={sortLabel.replace('{stat}', column.description)}
+        className="cursor-pointer uppercase hover:underline"
+      >
+        {column.label}
+      </button>
+    </th>
+  );
+}
+
 interface BoxScoreTableProps {
   team: TeamBoxScoreData;
   columns: StatColumnView[];
   playerHrefBase: string;
   labels: BoxScoreLabels;
+  sort: SortState | null;
+  onSort: (slug: string) => void;
 }
 
 function BoxScoreTable({
   team,
   columns,
   playerHrefBase,
-  labels
+  labels,
+  sort,
+  onSort
 }: BoxScoreTableProps) {
   return (
     <div
@@ -291,14 +332,13 @@ function BoxScoreTable({
                 {labels.player}
               </th>
               {columns.map(column => (
-                <th
+                <StatHeader
                   key={column.slug}
-                  scope="col"
-                  title={column.description}
-                  className={`${STAT_CELL} text-xs font-bold uppercase tracking-[0.5px]`}
-                >
-                  {column.label}
-                </th>
+                  column={column}
+                  sort={sort}
+                  sortLabel={labels.sortByStat}
+                  onSort={onSort}
+                />
               ))}
             </tr>
           </thead>
@@ -332,14 +372,20 @@ interface ViewerProps {
   away: TeamBoxScoreData;
   playerHrefBase: string;
   labels: BoxScoreLabels;
+  sort: SortState | null;
+  onSort: (slug: string) => void;
 }
 
+// One sort for both sides: a click on either table's header reads the same
+// column across the whole game.
 function GenericBoxScoreViewer({
   columns,
   home,
   away,
   playerHrefBase,
-  labels
+  labels,
+  sort,
+  onSort
 }: ViewerProps) {
   return (
     <div className="flex flex-col gap-4 px-4 pb-4 md:gap-6 md:px-6 md:pb-6">
@@ -348,12 +394,16 @@ function GenericBoxScoreViewer({
         columns={columns}
         playerHrefBase={playerHrefBase}
         labels={labels}
+        sort={sort}
+        onSort={onSort}
       />
       <BoxScoreTable
         team={away}
         columns={columns}
         playerHrefBase={playerHrefBase}
         labels={labels}
+        sort={sort}
+        onSort={onSort}
       />
     </div>
   );
@@ -405,6 +455,8 @@ export function BoxScore({
   const ranking = boxScoreRanking(sportSlug);
   const glossary = glossaryEntries(columns, live, labels.started);
   const [isGlossaryOpen, setGlossaryOpen] = useState(false);
+  // Null until a header is clicked: the box score opens in its default order.
+  const [sort, setSort] = useState<SortState | null>(null);
 
   return (
     <Surface
@@ -441,10 +493,12 @@ export function BoxScore({
 
       <Viewer
         columns={columns}
-        home={rankedLiveTeam(home, live.home, ranking)}
-        away={rankedLiveTeam(away, live.away, ranking)}
+        home={sortedBoxScoreTeam(rankedLiveTeam(home, live.home, ranking), sort)}
+        away={sortedBoxScoreTeam(rankedLiveTeam(away, live.away, ranking), sort)}
         playerHrefBase={playerHrefBase}
         labels={labels}
+        sort={sort}
+        onSort={slug => setSort(current => nextBoxScoreSort(current, slug))}
       />
     </Surface>
   );

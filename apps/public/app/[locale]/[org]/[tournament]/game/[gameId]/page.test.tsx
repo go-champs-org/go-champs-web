@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import {
   ApiError,
   getGame,
@@ -397,6 +397,40 @@ describe('GamePage box score', () => {
         `● - ${messages.boxScore.started}`
       )
     ).not.toBeInTheDocument();
+  });
+
+  it('sorts both sides by a clicked column, best first and then the other way', async () => {
+    getPlayerStatsLogsByGameMock.mockResolvedValue([
+      playerLog('p1', 't1', { points: '5' }),
+      playerLog('p3', 't1', { points: '20' })
+    ]);
+    getTeamStatsLogsByGameMock.mockResolvedValue([]);
+    getTournamentBySlugMock.mockResolvedValue({
+      ...(await getTournamentBySlugMock()),
+      players: [
+        { id: 'p1', name: 'Ana Silva', shirtName: 'Ana', teamId: 't1' },
+        { id: 'p3', name: 'Cris Lima', shirtName: 'Cris', teamId: 't1' }
+      ]
+    });
+
+    await renderPage();
+
+    const homeNames = () =>
+      within(screen.getAllByTestId('box-score-team')[0])
+        .getAllByRole('link')
+        .map(link => link.textContent);
+    const sortByPoints = () =>
+      fireEvent.click(
+        screen.getAllByRole('button', {
+          name: messages.boxScore.sortByStat.replace('{stat}', 'Pontos')
+        })[0]
+      );
+
+    sortByPoints();
+    expect(homeNames()).toEqual(['Cris', 'Ana']);
+
+    sortByPoints();
+    expect(homeNames()).toEqual(['Ana', 'Cris']);
   });
 
   it('hides the box score when a finished game has no logs', async () => {

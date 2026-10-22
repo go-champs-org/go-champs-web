@@ -7,9 +7,11 @@ import {
   boxScoreRows,
   didNotPlay,
   isStarter,
+  nextBoxScoreSort,
   playerNamesById,
   playerPhotosById,
   rankedLiveTeam,
+  sortedBoxScoreTeam,
   type BoxScoreRow,
   shouldShowBoxScore,
   splitLogsByTeam,
@@ -454,5 +456,57 @@ describe('isStarter', () => {
   it('leaves a bench player or a log without the stat unmarked', () => {
     expect(isStarter({ game_started: '0' })).toBe(false);
     expect(isStarter({})).toBe(false);
+  });
+});
+
+describe('nextBoxScoreSort', () => {
+  it('ranks a first clicked column best first', () => {
+    expect(nextBoxScoreSort(null, 'points')).toEqual({ slug: 'points', direction: 'desc' });
+  });
+
+  it('turns the same column around on the next click, and back again', () => {
+    const asc = nextBoxScoreSort({ slug: 'points', direction: 'desc' }, 'points');
+
+    expect(asc).toEqual({ slug: 'points', direction: 'asc' });
+    expect(nextBoxScoreSort(asc, 'points')).toEqual({ slug: 'points', direction: 'desc' });
+  });
+
+  it('starts another column over from best first', () => {
+    expect(nextBoxScoreSort({ slug: 'points', direction: 'asc' }, 'assists')).toEqual({
+      slug: 'assists',
+      direction: 'desc'
+    });
+  });
+});
+
+describe('sortedBoxScoreTeam', () => {
+  const team: { teamName: string; logoUrl: string; totals: Record<string, string>; rows: BoxScoreRow[] } = {
+    teamName: 'Lions',
+    logoUrl: '',
+    totals: {},
+    rows: [
+      { playerId: 'p1', name: 'Ana', stats: { points: '4' } },
+      { playerId: 'dnp', name: 'Bia', stats: { game_played: '0' } },
+      { playerId: 'p3', name: 'Cris', stats: { points: '12' } }
+    ]
+  };
+
+  const order = (sorted: typeof team) => sorted.rows.map(row => row.playerId);
+
+  it('keeps the default order when no column is clicked', () => {
+    expect(order(sortedBoxScoreTeam(team, null))).toEqual(['p1', 'dnp', 'p3']);
+  });
+
+  it('sorts by the clicked column both ways, a player without it last', () => {
+    expect(order(sortedBoxScoreTeam(team, { slug: 'points', direction: 'desc' }))).toEqual([
+      'p3',
+      'p1',
+      'dnp'
+    ]);
+    expect(order(sortedBoxScoreTeam(team, { slug: 'points', direction: 'asc' }))).toEqual([
+      'p1',
+      'p3',
+      'dnp'
+    ]);
   });
 });
