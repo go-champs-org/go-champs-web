@@ -13,6 +13,7 @@ import {
   statColumnsForScope,
   type RosterStatRow
 } from './rosterStats';
+import { tournamentStatsOrder } from './sportStatColumns';
 
 const playerStat = (slug: string, title: string): PlayerStatEntity => ({
   id: `stat-${slug}`,
@@ -20,7 +21,7 @@ const playerStat = (slug: string, title: string): PlayerStatEntity => ({
   slug,
   // The mapper is what decides visibility from the slug; the fixtures below
   // pass whatever a tournament payload would carry.
-  visibility: slug === 'efficiency' ? 'private' : 'public'
+  visibility: slug === 'game_played' ? 'private' : 'public'
 });
 
 const sportStatistic = (slug: string, scope: string) => ({
@@ -57,14 +58,14 @@ describe('statColumnsForScope', () => {
   const tournamentStats = [
     playerStat('assists', 'Assistências'),
     playerStat('points', 'Pontos'),
-    playerStat('efficiency', 'Eficiência'),
+    playerStat('game_played', 'Jogos'),
     playerStat('points_per_game', 'Pontos por jogo')
   ];
 
   const basketball = sport([
     sportStatistic('assists', 'aggregate'),
     sportStatistic('points', 'aggregate'),
-    sportStatistic('efficiency', 'aggregate'),
+    sportStatistic('game_played', 'aggregate'),
     sportStatistic('points_per_game', 'per_game')
   ]);
 
@@ -74,10 +75,25 @@ describe('statColumnsForScope', () => {
     expect(columns.map(column => column.slug)).toEqual(['points_per_game']);
   });
 
-  it('drops the stats the tournament keeps private', () => {
+  it('leaves out a stat the team roster table does not carry', () => {
     const columns = statColumnsForScope(tournamentStats, basketball, 'aggregate');
 
-    expect(columns.map(column => column.slug)).not.toContain('efficiency');
+    expect(columns.map(column => column.slug)).not.toContain('game_played');
+  });
+
+  it('lists a stat the CMS keeps private when the table it is given carries it', () => {
+    const columns = statColumnsForScope(
+      tournamentStats,
+      basketball,
+      'aggregate',
+      tournamentStatsOrder('basketball_5x5')
+    );
+
+    expect(columns.map(column => column.slug)).toEqual([
+      'game_played',
+      'points',
+      'assists'
+    ]);
   });
 
   it('orders the columns the way the sport reads them, not the way the API listed them', () => {
@@ -137,8 +153,8 @@ describe('availableScopes', () => {
 
   it('offers the aggregate scope when no statistic of the tournament is on the table', () => {
     const scopes = availableScopes(
-      [playerStat('efficiency', 'Eficiência')],
-      sport([sportStatistic('efficiency', 'aggregate')])
+      [playerStat('game_played', 'Jogos')],
+      sport([sportStatistic('game_played', 'aggregate')])
     );
 
     expect(scopes).toEqual(['aggregate']);

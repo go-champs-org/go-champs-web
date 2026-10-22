@@ -175,7 +175,7 @@ describe('PlayerPage', () => {
       'href',
       expect.stringContaining('/org/torneio-teste')
     );
-    expect(crumb).toHaveTextContent('Perfil do jogador');
+    expect(crumb).toHaveTextContent('Perfil do atleta');
   });
 
   it('names the team and games played in the banner subtitle', async () => {

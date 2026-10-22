@@ -230,7 +230,7 @@
   },
   "boxScore": {
     "title": "Estatísticas",
-    "player": "Jogador",
+    "player": "Atleta",
     "totals": "Totais",
     "glossary": "Glossário",
     "sortByStat": "Ordenar por {stat}",
@@ -269,7 +269,7 @@
       },
       "plus_minus": {
         "label": "+/-",
-        "description": "Diferença de pontos quando o jogador está em quadra"
+        "description": "Diferença de pontos quando o atleta está em quadra"
       },
       "free_throws_made": {
         "label": "LL",
@@ -310,13 +310,23 @@
       "fouls_technical": {
         "label": "FLT",
         "description": "Faltas técnicas"
+      },
+      "fouls_flagrant": {
+        "label": "FLF",
+        "description": "Faltas flagrantes"
+      },
+      "disqualifications": {
+        "label": "DSQ",
+        "description": "Desqualificações"
       }
-    }
+    },
+    "started": "Titular",
+    "didNotPlay": "Não jogou"
   },
   "player": {
-    "unknownPlayer": "Jogador",
+    "unknownPlayer": "Atleta",
     "unknownTournament": "campeonato",
-    "profile": "Perfil do jogador",
+    "profile": "Perfil do atleta",
     "breadcrumbHome": "Home",
     "breadcrumbTournament": "Campeonato",
     "gamesPlayedCount": "{count} jogos disputados",
@@ -377,7 +387,16 @@
       "plus_minus": "+/-",
       "unsportsmanlike_fouls": "FA",
       "disqualifying_fouls": "FD",
-      "game_played": "JOG"
+      "game_played": "JOG",
+      "efficiency": "EFF",
+      "game_started": "TIT",
+      "minutes_played": "MIN",
+      "free_throws_attempted": "LLT",
+      "field_goals_attempted": "2PT",
+      "three_point_field_goals_attempted": "3PT",
+      "fouls_personal": "FLP",
+      "fouls_technical": "FLT",
+      "fouls_flagrant": "FLF"
     },
     "statDescriptions": {
       "points": "Pontos",
@@ -404,7 +423,16 @@
       "free_throw_made": "Lances livres convertidos",
       "plus_minus": "Mais/menos",
       "unsportsmanlike_fouls": "Faltas antidesportivas",
-      "disqualifying_fouls": "Faltas desqualificantes"
+      "disqualifying_fouls": "Faltas desqualificantes",
+      "efficiency": "Eficiência",
+      "game_started": "Jogos como titular",
+      "minutes_played": "Minutos jogados",
+      "free_throws_attempted": "Lances livres tentados",
+      "field_goals_attempted": "Arremessos de 2 pontos tentados",
+      "three_point_field_goals_attempted": "Arremessos de 3 pontos tentados",
+      "fouls_personal": "Faltas pessoais",
+      "fouls_technical": "Faltas técnicas",
+      "fouls_flagrant": "Faltas flagrantes"
     }
   },
   "playerStats": {
@@ -415,7 +443,7 @@
     "teamColumn": "Time",
     "noStats": "Sem estatísticas para este campeonato ainda.",
     "rankColumn": "Pos.",
-    "playerColumn": "Jogador",
+    "playerColumn": "Atleta",
     "valueColumn": "Valor",
     "filters": "Filtros",
     "phaseFilter": "Fase",
@@ -445,7 +473,7 @@
     "playerTitle": "{player} — {tournament}",
     "playerDescription": "Estatísticas de {player} no {tournament} na Go Champs.",
     "playerStatsTitle": "Estatísticas — {tournament}",
-    "playerStatsDescription": "Estatísticas de todos os jogadores do {tournament} na Go Champs.",
+    "playerStatsDescription": "Estatísticas de todos os atletas do {tournament} na Go Champs.",
     "playerStatsSummaryTitle": "Líderes de estatísticas — {tournament}",
     "playerStatsSummaryDescription": "Os líderes de cada estatística do {tournament} na Go Champs.",
     "phaseTitle": "{phase} — {tournament}",
@@ -475,6 +503,18 @@
     "summaryStats": "Líderes de estatísticas",
     "shareQrCode": "Compartilhar por QR Code",
     "closeQrCode": "Fechar",
-    "scanQrCode": "Escaneie para acessar"
+    "scanQrCode": "Escaneie para acessar",
+    "highlights": "Destaques",
+    "seeAll": "Ver todos",
+    "scopeAggregate": "Totais",
+    "scopePerGame": "Por jogo",
+    "highlightsScope": "Estatísticas",
+    "highlightsPrevious": "Destaques anteriores",
+    "highlightsNext": "Mais destaques",
+    "highlightTitles": {
+      "plus_minus": "+/-",
+      "field_goal_percentage": "% 2 Pontos",
+      "three_point_field_goal_percentage": "% 3 Pontos"
+    }
   }
 }

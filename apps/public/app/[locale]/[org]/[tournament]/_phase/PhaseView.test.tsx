@@ -32,7 +32,18 @@ jest.mock('next-intl/server', () => ({
         previousDay: 'Dia anterior',
         nextDay: 'Próximo dia',
         advancedStats: 'Estatísticas avançadas',
-        summaryStats: 'Líderes de estatísticas'
+        summaryStats: 'Líderes de estatísticas',
+        highlights: 'Destaques',
+        seeAll: 'Ver todos',
+        scopeAggregate: 'Totais',
+        scopePerGame: 'Por jogo',
+        highlightsScope: 'Estatísticas',
+        highlightsPrevious: 'Destaques anteriores',
+        highlightsNext: 'Mais destaques',
+        highlightTitles: { field_goal_percentage: '% 2 Pontos' }
+      },
+      team: {
+        statDescriptions: { points: 'Pontos', rebounds: 'Rebotes' }
       },
       game: {
         undecidedTeam: 'A definir',
@@ -479,5 +490,152 @@ describe('PhaseView statistics links', () => {
     expect(
       screen.queryByRole('link', { name: 'Estatísticas avançadas' })
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('PhaseView highlights', () => {
+  const statLeaders = (statKey: string, names: string[]) => ({
+    statKey,
+    qualifier: null,
+    leaders: names.map((name, index) => ({
+      playerId: `${statKey}-${index}`,
+      teamId: 't1',
+      value: 30 - index,
+      playerName: name,
+      shirtNumber: '',
+      photoUrl: ''
+    }))
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (apiClient.playerStatThatIsVisible as jest.Mock).mockImplementation(
+      (stat: { visibility: string }) => stat.visibility === 'public'
+    );
+    (apiClient.getGamesByPhaseId as jest.Mock).mockResolvedValue([]);
+    (apiClient.getPhase as jest.Mock).mockResolvedValue({
+      id: 'ph1',
+      title: 'Fase 1',
+      type: 'elimination',
+      order: 1,
+      isInProgress: false,
+      draws: [],
+      eliminationStats: [],
+      eliminations: []
+    });
+  });
+
+  const renderWith = async (overrides: Record<string, unknown>) => {
+    (apiClient.getTournamentBySlug as jest.Mock).mockResolvedValue({
+      id: 'tour1',
+      name: 'Torneio Teste',
+      slug: 'tour',
+      teams: [{ id: 't1', name: 'Recreio da Juventude', logoUrl: '', triCode: '', primaryColor: '', coaches: [] }],
+      players: [],
+      organization: { id: '', name: '', slug: '', logoUrl: '' },
+      phases: [
+        { id: 'ph1', title: 'Fase 1', type: 'elimination', order: 1, isInProgress: false }
+      ],
+      hasAggregatedPlayerStats: true,
+      sportSlug: 'basketball_5x5',
+      playerStats: [
+        { id: 's1', title: 'Points', slug: 'points', visibility: 'public' },
+        { id: 's2', title: 'Pontos por jogo', slug: 'points_per_game', visibility: 'public' },
+        { id: 's3', title: 'Rebounds', slug: 'rebounds', visibility: 'public' },
+        {
+          id: 's5',
+          title: 'Eficiência por jogo',
+          slug: 'efficiency_per_game',
+          visibility: 'public'
+        }
+      ],
+      ...overrides
+    });
+
+    render(
+      await PhaseView({
+        routeParams: { locale: 'pt', org: 'org', tournament: 'tour', phaseId: 'ph1' }
+      })
+    );
+  };
+
+  it('shows a card per highlighted stat with its top 3 and a link to the stat', async () => {
+    (apiClient.getAggregatedPlayerStatsLeaders as jest.Mock).mockResolvedValue([
+      statLeaders('points', ['Ana', 'Bia', 'Cris', 'Dani']),
+      statLeaders('points_per_game', ['Bia']),
+      statLeaders('rebounds', ['Eva']),
+      statLeaders('efficiency_per_game', ['Fabi'])
+    ]);
+
+    await renderWith({});
+
+    expect(apiClient.getAggregatedPlayerStatsLeaders).toHaveBeenCalledTimes(1);
+    expect(apiClient.getAggregatedPlayerStatsLeaders).toHaveBeenCalledWith({
+      tournamentId: 'tour1',
+      stats: ['points', 'points_per_game', 'rebounds', 'efficiency_per_game']
+    });
+
+    expect(screen.getByText('Destaques')).toBeInTheDocument();
+    const cards = screen.getAllByTestId('stat-leader-card');
+    expect(cards).toHaveLength(3);
+    // Titled in the page's language, not the tournament's English "Points".
+    expect(cards[0]).toHaveTextContent('Pontos');
+    expect(cards[0]).not.toHaveTextContent('Points');
+    expect(cards[0]).toHaveTextContent('Ana');
+    expect(cards[0]).toHaveTextContent('Recreio da Juventude');
+    expect(cards[0]).toHaveTextContent('Cris');
+    expect(cards[0]).not.toHaveTextContent('Dani');
+    expect(cards[0]).toHaveTextContent('Por jogo');
+    expect(cards[1]).toHaveTextContent('Rebotes');
+    expect(cards[1]).not.toHaveTextContent('Por jogo');
+    // Recorded only per game: that ranking alone, under its own title.
+    expect(cards[2]).toHaveTextContent('Eficiência por jogo');
+    expect(cards[2]).toHaveTextContent('Fabi');
+
+    const seeAll = screen.getAllByRole('link', { name: 'Ver todos →' });
+    expect(seeAll[0]).toHaveAttribute('href', '/org/tour/stats?stat=points');
+    expect(seeAll[1]).toHaveAttribute('href', '/org/tour/stats?stat=rebounds');
+    expect(seeAll[2]).toHaveAttribute(
+      'href',
+      '/org/tour/stats?stat=efficiency_per_game'
+    );
+  });
+
+  it('leaves out a stat with no leaders yet', async () => {
+    (apiClient.getAggregatedPlayerStatsLeaders as jest.Mock).mockResolvedValue([
+      statLeaders('points', ['Ana']),
+      statLeaders('points_per_game', []),
+      statLeaders('rebounds', []),
+      statLeaders('efficiency_per_game', [])
+    ]);
+
+    await renderWith({});
+
+    expect(screen.getAllByTestId('stat-leader-card')).toHaveLength(1);
+  });
+
+  it('renders the page without highlights when the leaders request fails', async () => {
+    (apiClient.getAggregatedPlayerStatsLeaders as jest.Mock).mockRejectedValue(
+      new Error('down')
+    );
+
+    await renderWith({});
+
+    expect(screen.getByText('Fase 1', { selector: 'h2' })).toBeInTheDocument();
+    expect(screen.queryByTestId('stat-leaders')).not.toBeInTheDocument();
+  });
+
+  it('asks for nothing for a sport without highlights', async () => {
+    await renderWith({ sportSlug: 'basketball_3x3' });
+
+    expect(apiClient.getAggregatedPlayerStatsLeaders).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('stat-leaders')).not.toBeInTheDocument();
+  });
+
+  it('asks for nothing when the tournament has no aggregated stats', async () => {
+    await renderWith({ hasAggregatedPlayerStats: false });
+
+    expect(apiClient.getAggregatedPlayerStatsLeaders).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('stat-leaders')).not.toBeInTheDocument();
   });
 });

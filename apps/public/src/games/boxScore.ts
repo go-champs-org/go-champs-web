@@ -10,11 +10,16 @@ import {
   type SportEntity,
   type TeamStatsLogEntity
 } from '@gochamps/api-client';
-import { baseStatSlug, sportStatOrder } from '@/src/stats/sportStatColumns';
+import {
+  baseStatSlug,
+  defaultSortSlug,
+  sportStatOrder
+} from '@/src/stats/sportStatColumns';
 import {
   formatStatValue,
   sortRosterRows,
   statColumnViews,
+  type SortState,
   type StatColumnView
 } from '@/src/stats/rosterStats';
 import { isLiveGame } from './liveScore';
@@ -23,6 +28,8 @@ export interface BoxScoreRow {
   playerId: string;
   name: string;
   stats: Record<string, string>;
+  // The roster's photo; the avatar falls back to the initials without one.
+  photoUrl?: string;
 }
 
 export interface TeamLogsSplit {
@@ -56,18 +63,34 @@ export const playerNamesById = (
     players.map(player => [player.id, player.shirtName || player.name || ''])
   );
 
+export const playerPhotosById = (
+  players: PlayerEntity[]
+): Record<string, string> =>
+  Object.fromEntries(players.map(player => [player.id, player.photoUrl || '']));
+
 // A log for a player the roster no longer carries a name for still gets a
 // row — the box score reports what the game recorded, not who the roster
 // happens to list today.
 export const boxScoreRows = (
   logs: PlayerStatsLogEntity[],
-  namesById: Record<string, string>
+  namesById: Record<string, string>,
+  photosById: Record<string, string> = {}
 ): BoxScoreRow[] =>
   logs.map(log => ({
     playerId: log.playerId,
     name: namesById[log.playerId] || '',
-    stats: log.stats
+    stats: log.stats,
+    photoUrl: photosById[log.playerId] || ''
   }));
+
+// The scoreboard counts a game for every athlete who stepped on the court. A
+// log that says 0 is a player who was on the roster and never got in; a log
+// without the stat at all (older games) is read as played.
+export const didNotPlay = (stats: Record<string, string>): boolean =>
+  Boolean(stats.game_played) && Number(stats.game_played) === 0;
+
+export const isStarter = (stats: Record<string, string>): boolean =>
+  Number(stats.game_started) > 0;
 
 const FULL_LIVE_UPDATE: LiveSiteUpdate = 'full-live-update';
 
@@ -139,6 +162,8 @@ interface BasketballBoxScoreColumn {
 // tournament's statistic configuration — a stat the tournament turned off
 // still shows here, since these are the fields a basketball scoresheet
 // always carries.
+// Whether a player played or started is not a column: a starter is marked
+// next to his name and a player who never got in reads "DNP" across the row.
 const BASKETBALL_5X5_BOX_SCORE_COLUMNS: BasketballBoxScoreColumn[] = [
   { slug: 'minutes_played' },
   { slug: 'points' },
@@ -161,7 +186,9 @@ const BASKETBALL_5X5_BOX_SCORE_COLUMNS: BasketballBoxScoreColumn[] = [
   { slug: 'rebounds_offensive' },
   { slug: 'rebounds_defensive' },
   { slug: 'fouls_personal' },
-  { slug: 'fouls_technical' }
+  { slug: 'fouls_technical' },
+  { slug: 'fouls_flagrant' },
+  { slug: 'disqualifications' }
 ];
 
 export interface BoxScoreColumnLabel {
@@ -229,12 +256,67 @@ interface LiveTeamRows {
   totals: Record<string, string>;
 }
 
+// The starters first, then whoever played the most, then whoever scored the
+// most — the way a basketball box score reads from top to bottom. Every key
+// ranks best first; a sport not listed here ranks by its default column.
+const BOX_SCORE_RANKING: Record<string, string[]> = {
+  [BASKETBALL_5X5_SLUG]: ['game_started', 'minutes_played', 'points']
+};
+
+export const boxScoreRanking = (sportSlug: string): string[] => {
+  const fallback = defaultSortSlug(sportSlug, 'aggregate');
+
+  return BOX_SCORE_RANKING[sportSlug] || (fallback ? [fallback] : []);
+};
+
+// Sorting by the last key first and the first key last leaves the rows in the
+// order of the first key, ties broken by the next ones: each sort is stable.
+const rankRows = <Row extends BoxScoreRow>(rows: Row[], ranking: string[]): Row[] =>
+  [...ranking].reverse().reduce(
+    (ranked, slug) => sortRosterRows(ranked, slug, 'desc'),
+    rows
+  );
+
+// The scoreboard does not know the roster's photos, so a live row takes the
+// one the page arrived with for the same player.
+const withPhotos = (
+  rows: BoxScoreRow[],
+  photoRows: BoxScoreRow[]
+): BoxScoreRow[] => {
+  const photos = new Map(photoRows.map(row => [row.playerId, row.photoUrl || '']));
+
+  return rows.map(row => ({
+    ...row,
+    photoUrl: row.photoUrl || photos.get(row.playerId) || ''
+  }));
+};
+
 export const rankedLiveTeam = <Team extends LiveTeamRows>(
   team: Team,
   live: LiveTeamRows,
-  rankSlug: string | null
+  ranking: string[]
 ): Team => ({
   ...team,
   ...live,
-  rows: sortRosterRows(live.rows, rankSlug, 'desc')
+  rows: rankRows(withPhotos(live.rows, team.rows), ranking)
 });
+
+// A header click ranks the column best first; the same column again turns it
+// around. Every other header starts over from best first.
+export const nextBoxScoreSort = (
+  sort: SortState | null,
+  slug: string
+): SortState =>
+  sort?.slug === slug
+    ? { slug, direction: sort.direction === 'desc' ? 'asc' : 'desc' }
+    : { slug, direction: 'desc' };
+
+// A team is a handful of players, so a clicked column reorders the rows in
+// the browser. Rows already in the default order keep it among ties, and a
+// player without the number (one who never got in) stays at the bottom both
+// ways.
+export const sortedBoxScoreTeam = <Team extends LiveTeamRows>(
+  team: Team,
+  sort: SortState | null
+): Team =>
+  sort ? { ...team, rows: sortRosterRows(team.rows, sort.slug, sort.direction) } : team;

@@ -16,6 +16,8 @@ export * from './players/dataMappers';
 export * from './players/players';
 export * from './aggregatedPlayerStats/dataMappers';
 export * from './aggregatedPlayerStats/aggregatedPlayerStats';
+export * from './aggregatedPlayerStatsLeaders/dataMappers';
+export * from './aggregatedPlayerStatsLeaders/aggregatedPlayerStatsLeaders';
 export * from './phases/dataMappers';
 export * from './phases/phases';
 export * from './playerStatsLogs/dataMappers';

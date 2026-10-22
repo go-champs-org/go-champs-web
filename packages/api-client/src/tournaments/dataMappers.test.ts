@@ -125,7 +125,7 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       teams: [],
       player_stats: [
         { id: 'ps1', title: 'Points', slug: 'points' },
-        { id: 'ps2', title: 'Plus minus', slug: 'plus_minus' }
+        { id: 'ps2', title: 'Minutes played', slug: 'minutes_played' }
       ]
     });
 
@@ -133,8 +133,8 @@ describe('mapApiTournamentToTournamentWithTeamsEntity', () => {
       { id: 'ps1', title: 'Points', slug: 'points', visibility: 'public' },
       {
         id: 'ps2',
-        title: 'Plus minus',
-        slug: 'plus_minus',
+        title: 'Minutes played',
+        slug: 'minutes_played',
         visibility: 'private'
       }
     ]);

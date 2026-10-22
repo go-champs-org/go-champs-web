@@ -12,18 +12,20 @@ import {
   formatStatValue,
   initialSort,
   sortRosterRows,
-  statTotals,
   type SortState,
   type RosterStatRow,
   type StatColumnView,
   type SortDirection,
   type StatScope
 } from '@/src/stats/rosterStats';
+import { SortArrow } from '@/src/components/SortArrow';
 
 interface RosterStatsTableProps {
   rows: RosterStatRow[];
   columnsByScope: Record<string, StatColumnView[]>;
-  totalsByScope: Record<string, Record<string, string>>;
+  // Set only by the team roster: a roster adds up to its team, while the
+  // tournament stats page ranks players and has no totals band.
+  totalsByScope?: Record<string, Record<string, string>>;
   scopes: StatScope[];
   scopeLabels: Record<string, string>;
   title: string;
@@ -31,7 +33,7 @@ interface RosterStatsTableProps {
   glossaryLabel: string;
   numberLabel: string;
   nameLabel: string;
-  totalLabel: string;
+  totalLabel?: string;
   sortLabel: string;
   // Only the tournament-wide table needs a team column; the team page is
   // already on one team.
@@ -63,6 +65,10 @@ interface RosterStatsTableProps {
   emptyLabel?: string;
   // Rendered under the card's title, for controls that narrow the rows.
   filters?: ReactNode;
+  // A column asked for from outside the table — the "see all" link of a stat
+  // highlight — opened in its scope and ranked best first. A slug no scope
+  // has a column for is ignored.
+  requestedSortSlug?: string;
 }
 
 const NO_DEFAULT_SORTS: Record<string, string> = {};
@@ -111,6 +117,17 @@ const columnsFor = (
   columnsByScope: Record<string, StatColumnView[]>,
   scope: StatScope
 ): StatColumnView[] => columnsByScope[scope] || [];
+
+// The scope a column belongs to: per game slugs are their own, so at most one
+// scope carries it.
+const scopeWithColumn = (
+  scopes: StatScope[],
+  columnsByScope: Record<string, StatColumnView[]>,
+  slug: string
+): StatScope | undefined =>
+  scopes.find(scope =>
+    columnsFor(columnsByScope, scope).some(column => column.slug === slug)
+  );
 
 interface StatsCardHeaderProps {
   title: string;
@@ -178,6 +195,11 @@ function StatsCardHeader({
   );
 }
 
+const sortDirection = (
+  sort: SortState | null,
+  slug: string
+): SortDirection | null => (sort?.slug === slug ? sort.direction : null);
+
 interface StatHeaderProps {
   column: StatColumnView;
   sort: SortState;
@@ -197,9 +219,10 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
         onClick={() => onSort(column.slug)}
         title={column.description}
         aria-label={sortLabel.replace('{stat}', column.description)}
-        className="cursor-pointer hover:underline"
+        className="inline-flex cursor-pointer items-center gap-1 hover:underline"
       >
         {column.label}
+        <SortArrow direction={sortDirection(sort, column.slug)} />
       </button>
     </th>
   );
@@ -336,6 +359,59 @@ interface TotalsRowProps {
   hasTeamColumn: boolean;
 }
 
+// Bars where the text goes, pulsing, while the rows wait on the API — the
+// same placeholder the tournament grid waits for its cards with.
+const SHIMMER_BAR = 'inline-block h-3 rounded bg-border';
+
+// At least a handful of rows, and otherwise as many as the table already
+// shows, so it keeps its height while it waits.
+const MIN_SHIMMER_ROWS = 5;
+
+interface ShimmerRowProps {
+  columns: StatColumnView[];
+  hasTeamColumn: boolean;
+}
+
+function ShimmerRow({ columns, hasTeamColumn }: ShimmerRowProps) {
+  return (
+    <tr
+      className={`${ROW_HEIGHT} animate-pulse border-b border-border/60`}
+      data-testid="stats-shimmer-row"
+    >
+      <td className={`${NUMBER_CELL} bg-surface`}>
+        <span className={`${SHIMMER_BAR} w-4`} />
+      </td>
+      <td className={`${NAME_CELL} bg-surface`}>
+        <span className={`${SHIMMER_BAR} w-28`} />
+      </td>
+      {hasTeamColumn && (
+        <td className={TEAM_CELL}>
+          <span className={`${SHIMMER_BAR} w-10`} />
+        </td>
+      )}
+      {columns.map(column => (
+        <td key={column.slug} className={STAT_CELL}>
+          <span className={`${SHIMMER_BAR} w-6`} />
+        </td>
+      ))}
+    </tr>
+  );
+}
+
+interface ShimmerRowsProps extends ShimmerRowProps {
+  rowCount: number;
+}
+
+function ShimmerRows({ rowCount, columns, hasTeamColumn }: ShimmerRowsProps) {
+  return (
+    <>
+      {Array.from({ length: Math.max(rowCount, MIN_SHIMMER_ROWS) }, (_, index) => (
+        <ShimmerRow key={index} columns={columns} hasTeamColumn={hasTeamColumn} />
+      ))}
+    </>
+  );
+}
+
 interface EmptyRowProps {
   label?: string;
   isEmpty: boolean;
@@ -351,6 +427,63 @@ function EmptyRow({ label, isEmpty, columnCount }: EmptyRowProps) {
         {label}
       </td>
     </tr>
+  );
+}
+
+interface StatRowsProps {
+  rows: RosterStatRow[];
+  showPosition: boolean;
+  columns: StatColumnView[];
+  hasTeamColumn: boolean;
+  playerHrefBase?: string;
+  teamHrefBase?: string;
+  emptyLabel?: string;
+  columnCount: number;
+}
+
+function StatRows({
+  rows,
+  showPosition,
+  columns,
+  hasTeamColumn,
+  playerHrefBase,
+  teamHrefBase,
+  emptyLabel,
+  columnCount
+}: StatRowsProps) {
+  return (
+    <>
+      <EmptyRow label={emptyLabel} isEmpty={rows.length === 0} columnCount={columnCount} />
+      {rows.map((row, index) => (
+        <StatRow
+          key={row.playerId}
+          row={row}
+          leadingCell={showPosition ? String(index + 1) : row.shirtNumber}
+          columns={columns}
+          hasTeamColumn={hasTeamColumn}
+          playerHrefBase={playerHrefBase}
+          teamHrefBase={teamHrefBase}
+        />
+      ))}
+    </>
+  );
+}
+
+interface TotalsFooterProps {
+  totals?: Record<string, string>;
+  columns: StatColumnView[];
+  label?: string;
+  hasTeamColumn: boolean;
+}
+
+// A table without totals (the tournament stats page) has no band at all.
+function TotalsFooter({ totals, columns, label = '', hasTeamColumn }: TotalsFooterProps) {
+  if (!totals) return null;
+
+  return (
+    <tfoot>
+      <TotalsRow totals={totals} columns={columns} label={label} hasTeamColumn={hasTeamColumn} />
+    </tfoot>
   );
 }
 
@@ -373,19 +506,6 @@ function TotalsRow({ totals, columns, label, hasTeamColumn }: TotalsRowProps) {
     </tr>
   );
 }
-
-// Server-sorted rows are whichever players the last request returned — a
-// different 50 per column or filter — so the band adds up the rows on screen
-// rather than the ones the page first arrived with.
-const displayedTotals = (
-  isServerSorted: boolean,
-  serverRows: RosterStatRow[],
-  columns: StatColumnView[],
-  scopeTotals: Record<string, string> | undefined
-): Record<string, string> =>
-  isServerSorted
-    ? statTotals(serverRows, columns.map(column => column.slug))
-    : scopeTotals || {};
 
 // Number and name, the team when there is one, then every statistic.
 const tableColumnCount = (hasTeamColumn: boolean, columns: StatColumnView[]): number =>
@@ -415,7 +535,8 @@ export function RosterStatsTable({
   defaultSortSlugs = NO_DEFAULT_SORTS,
   refetchKey,
   emptyLabel,
-  filters
+  filters,
+  requestedSortSlug
 }: RosterStatsTableProps) {
   const [scope, setScope] = useState<StatScope>(scopes[0]);
   const [sort, setSort] = useState<SortState>(() =>
@@ -431,17 +552,14 @@ export function RosterStatsTable({
   // its own state update instead of overwriting a newer one.
   const requestId = useRef(0);
   const lastRefetchKey = useRef(refetchKey);
+  // The key the table opened with: the rows it arrived with are only that
+  // ranking's, so any other key has to ask the API for its rows instead.
+  const initialRefetchKey = useRef(refetchKey);
 
   const columns = columnsFor(columnsByScope, scope);
   const sortedRows = onSortRequest
     ? serverRows
     : rankedRows(rows, sort);
-  const totals = displayedTotals(
-    Boolean(onSortRequest),
-    serverRows,
-    columns,
-    totalsByScope[scope]
-  );
 
   // A fresh `rows` prop (a different tournament, or a revalidated fetch)
   // replaces whatever this island was showing, sorted or not — including the
@@ -456,6 +574,40 @@ export function RosterStatsTable({
     setIsSorting(false);
   }, [rows]);
 
+  // A scope switch (or another sort) may have started and finished while a
+  // request was in flight — its result belongs to whatever was asked for
+  // then, not to what's on screen now.
+  const isStaleRequest = (thisRequestId: number): boolean =>
+    requestId.current !== thisRequestId;
+
+  const applyRefetchResult = (fetchedRows: RosterStatRow[] | null) => {
+    if (fetchedRows) setServerRows(fetchedRows);
+    setIsSorting(false);
+  };
+
+  // Same ranking, different rows: the sort stays put while the request is out,
+  // and a failed one leaves the rows already on screen.
+  const refetchRows = async (
+    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>,
+    slug: string | null
+  ) => {
+    const thisRequestId = ++requestId.current;
+    setIsSorting(true);
+
+    const fetchedRows = await fetchSortedRows(slug ?? '').catch(() => null);
+    if (!isStaleRequest(thisRequestId)) applyRefetchResult(fetchedRows);
+  };
+
+  // The rows the page arrived with are unfiltered: once a filter narrowed the
+  // table, another scope's rows have to come from the API with that filter, or
+  // the switch would bring back every player.
+  const loadScopeRows = (start: SortState) => {
+    if (onSortRequest && refetchKey !== initialRefetchKey.current) {
+      return refetchRows(onSortRequest, start.slug);
+    }
+    setServerRows(rankedRows(rows, start));
+  };
+
   // The per game slugs are their own, so the column a scope was ranked by
   // does not exist in the other one.
   const selectScope = (next: StatScope) => {
@@ -465,15 +617,9 @@ export function RosterStatsTable({
     const start = initialSort(defaultSortSlugs, next);
     setScope(next);
     setSort(start);
-    setServerRows(rankedRows(rows, start));
     setIsSorting(false);
+    loadScopeRows(start);
   };
-
-  // A scope switch (or another sort) may have started and finished while a
-  // request was in flight — its result belongs to whatever was asked for
-  // then, not to what's on screen now.
-  const isStaleRequest = (thisRequestId: number): boolean =>
-    requestId.current !== thisRequestId;
 
   // A failed request (`sortedRows` null) leaves the rows already on screen
   // alone, but the header it was requested for can't claim to be sorted —
@@ -507,28 +653,26 @@ export function RosterStatsTable({
   const onSort = (slug: string) =>
     onSortRequest && !isSorting ? requestSort(onSortRequest, slug) : undefined;
 
-  const applyRefetchResult = (fetchedRows: RosterStatRow[] | null) => {
-    if (fetchedRows) setServerRows(fetchedRows);
-    setIsSorting(false);
+  const openSort = (slug: string) => {
+    if (onSortRequest) return requestSort(onSortRequest, slug);
+    requestId.current += 1;
+    setSort({ slug, direction: 'desc' });
   };
 
-  // Same ranking, different rows: the sort stays put while the request is out,
-  // and a failed one leaves the rows already on screen.
-  const refetchRows = async (
-    fetchSortedRows: (slug: string) => Promise<RosterStatRow[]>
-  ) => {
-    const thisRequestId = ++requestId.current;
-    setIsSorting(true);
+  useEffect(() => {
+    const slug = requestedSortSlug || '';
+    const requestedScope = scopeWithColumn(scopes, columnsByScope, slug);
+    if (!requestedScope) return;
 
-    const fetchedRows = await fetchSortedRows(sort.slug ?? '').catch(() => null);
-    if (!isStaleRequest(thisRequestId)) applyRefetchResult(fetchedRows);
-  };
+    setScope(requestedScope);
+    openSort(slug);
+  }, [requestedSortSlug]);
 
   useEffect(() => {
     if (!onSortRequest || lastRefetchKey.current === refetchKey) return;
 
     lastRefetchKey.current = refetchKey;
-    refetchRows(onSortRequest);
+    refetchRows(onSortRequest, sort.slug);
   }, [refetchKey]);
 
   const columnCount = tableColumnCount(hasTeamColumn, columns);
@@ -588,31 +732,31 @@ export function RosterStatsTable({
             </tr>
           </thead>
           <tbody>
-            <EmptyRow
-              label={emptyLabel}
-              isEmpty={sortedRows.length === 0}
-              columnCount={columnCount}
-            />
-            {sortedRows.map((row, index) => (
-              <StatRow
-                key={row.playerId}
-                row={row}
-                leadingCell={showPosition ? String(index + 1) : row.shirtNumber}
+            {isSorting ? (
+              <ShimmerRows
+                rowCount={sortedRows.length}
+                columns={columns}
+                hasTeamColumn={hasTeamColumn}
+              />
+            ) : (
+              <StatRows
+                rows={sortedRows}
+                showPosition={showPosition}
                 columns={columns}
                 hasTeamColumn={hasTeamColumn}
                 playerHrefBase={playerHrefBase}
                 teamHrefBase={teamHrefBase}
+                emptyLabel={emptyLabel}
+                columnCount={columnCount}
               />
-            ))}
+            )}
           </tbody>
-          <tfoot>
-            <TotalsRow
-              totals={totals}
-              columns={columns}
-              label={totalLabel}
-              hasTeamColumn={hasTeamColumn}
-            />
-          </tfoot>
+          <TotalsFooter
+            totals={totalsByScope?.[scope]}
+            columns={columns}
+            label={totalLabel}
+            hasTeamColumn={hasTeamColumn}
+          />
         </table>
       </div>
     </div>

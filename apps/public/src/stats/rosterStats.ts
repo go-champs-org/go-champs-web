@@ -55,25 +55,41 @@ const bySportOrder =
 const inSportTable = (order: string[], stat: PlayerStatEntity): boolean =>
   order.length === 0 || order.includes(baseStatSlug(stat.slug));
 
-// The columns of the table: the tournament's own statistics, minus the ones
-// it keeps private, narrowed to one scope and to the table of the sport.
-// A tournament whose sport could not be loaded still gets its visible
-// statistics — one column each, in the order the API sent them.
+// The columns a sport's table lists, in its order; the team roster's by
+// default. A table the page curates for itself (the tournament stats page, see
+// `tournamentStatsOrder`) passes its own.
+const tableOrder = (sport: SportEntity, order?: string[]): string[] =>
+  order || sportStatOrder(sport.slug);
+
+// The table of the sport is what decides a column: it names the statistics
+// worth reading there, the ones the CMS calls private included. A sport with
+// no table of its own falls back to the statistics the CMS shows everywhere.
+const tableCandidates = (
+  playerStats: PlayerStatEntity[],
+  order: string[]
+): PlayerStatEntity[] =>
+  order.length > 0
+    ? playerStats.filter(stat => inSportTable(order, stat))
+    : playerStats.filter(playerStatThatIsVisible);
+
+// The columns of the table: the tournament's own statistics, narrowed to one
+// scope and to the table of the sport. A tournament whose sport could not be
+// loaded still gets its visible statistics — one column each, in the order the
+// API sent them.
 export const statColumnsForScope = (
   playerStats: PlayerStatEntity[],
   sport: SportEntity | null,
-  scope: StatScope
+  scope: StatScope,
+  order?: string[]
 ): PlayerStatEntity[] => {
-  const visible = playerStats.filter(playerStatThatIsVisible);
-
-  if (!sport) return visible;
+  if (!sport) return playerStats.filter(playerStatThatIsVisible);
 
   const scoped = slugsInScope(sport, scope);
-  const order = sportStatOrder(sport.slug);
+  const columnOrder = tableOrder(sport, order);
 
-  return visible
-    .filter(stat => scoped.has(stat.slug) && inSportTable(order, stat))
-    .sort(bySportOrder(order));
+  return tableCandidates(playerStats, columnOrder)
+    .filter(stat => scoped.has(stat.slug))
+    .sort(bySportOrder(columnOrder));
 };
 
 // Only a scope with columns of its own is worth offering: a tournament that
@@ -82,12 +98,13 @@ export const statColumnsForScope = (
 // totals it is.
 export const availableScopes = (
   playerStats: PlayerStatEntity[],
-  sport: SportEntity | null
+  sport: SportEntity | null,
+  order?: string[]
 ): StatScope[] => {
   if (!sport) return ['aggregate'];
 
   const scopes = STAT_SCOPES.filter(
-    scope => statColumnsForScope(playerStats, sport, scope).length > 0
+    scope => statColumnsForScope(playerStats, sport, scope, order).length > 0
   );
 
   // A tournament that publishes no statistic at all still has a scope: the
@@ -101,10 +118,11 @@ export const availableScopes = (
 export const statColumnsByScope = (
   playerStats: PlayerStatEntity[],
   sport: SportEntity | null,
-  scopes: StatScope[]
+  scopes: StatScope[],
+  order?: string[]
 ): Record<string, PlayerStatEntity[]> =>
   Object.fromEntries(
-    scopes.map(scope => [scope, statColumnsForScope(playerStats, sport, scope)])
+    scopes.map(scope => [scope, statColumnsForScope(playerStats, sport, scope, order)])
   );
 
 // The roster is what the table lists, not the stats endpoint: a player who

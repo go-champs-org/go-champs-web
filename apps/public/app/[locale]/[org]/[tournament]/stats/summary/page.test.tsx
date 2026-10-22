@@ -204,7 +204,7 @@ describe('PlayerStatsSummaryPage', () => {
 
     await renderPage();
 
-    expect(screen.getByText('Jogador')).toBeInTheDocument();
+    expect(screen.getByText('Atleta')).toBeInTheDocument();
   });
 
   it('renders the empty state when there are no fixed stats tables', async () => {
