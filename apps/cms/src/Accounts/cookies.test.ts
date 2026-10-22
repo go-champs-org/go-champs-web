@@ -4,8 +4,14 @@ import {
   clearUsernameCookie,
   ORGANIZATIONS_COOKIE_NAME,
   setOrganizationIdsCookie,
-  clearOrganizationIdsCookie
+  clearOrganizationIdsCookie,
+  syncAuthCookies
 } from './cookies';
+import {
+  LOCAL_STORAGE_ORGANIZATIONS_KEY,
+  LOCAL_STORAGE_TOKEN_KEY,
+  LOCAL_STORAGE_USERNAME_KEY
+} from './constants';
 
 describe('cookies', () => {
   afterEach(() => {
@@ -55,6 +61,47 @@ describe('cookies', () => {
 
       clearOrganizationIdsCookie();
 
+      expect(document.cookie).not.toContain('org1');
+    });
+  });
+
+  describe('syncAuthCookies', () => {
+    afterEach(() => {
+      localStorage.clear();
+    });
+
+    it('sets the cookies from a session stored in localStorage', () => {
+      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, 'some-token');
+      localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, 'someusername');
+      localStorage.setItem(LOCAL_STORAGE_ORGANIZATIONS_KEY, 'org1,org2');
+
+      syncAuthCookies();
+
+      expect(document.cookie).toContain(`${USERNAME_COOKIE_NAME}=someusername`);
+      expect(document.cookie).toContain(
+        `${ORGANIZATIONS_COOKIE_NAME}=org1%2Corg2`
+      );
+    });
+
+    it('clears a stale organizations cookie when none are stored', () => {
+      localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, 'some-token');
+      localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, 'someusername');
+      setOrganizationIdsCookie(['org1']);
+
+      syncAuthCookies();
+
+      expect(document.cookie).toContain(`${USERNAME_COOKIE_NAME}=someusername`);
+      expect(document.cookie).not.toContain('org1');
+    });
+
+    it('clears both cookies when there is no token', () => {
+      localStorage.setItem(LOCAL_STORAGE_USERNAME_KEY, 'someusername');
+      setUsernameCookie('someusername');
+      setOrganizationIdsCookie(['org1']);
+
+      syncAuthCookies();
+
+      expect(document.cookie).not.toContain('someusername');
       expect(document.cookie).not.toContain('org1');
     });
   });

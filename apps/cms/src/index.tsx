@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { syncAuthCookies } from './Accounts/cookies';
 import analytics from './Shared/analytics/analytics';
 import faro from './Shared/observability/faro';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 
 faro.bootstrap();
+syncAuthCookies();
 ReactDOM.render(<App />, document.getElementById('root'));
 analytics.bootstrap();
 
