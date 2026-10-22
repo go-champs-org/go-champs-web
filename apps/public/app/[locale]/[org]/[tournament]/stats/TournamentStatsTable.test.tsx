@@ -293,4 +293,13 @@ describe('TournamentStatsTable filters', () => {
     expect(fetchMock).not.toHaveBeenCalled();
     expect(playerNames()).toEqual(['Bia', 'Ana']);
   });
+
+  it('marks the column the table is ranked by with a down arrow', () => {
+    mockFetch([]);
+    renderTable();
+
+    const header = screen.getByRole('columnheader', { name: /PTS/ });
+    expect(header).toHaveAttribute('aria-sort', 'descending');
+    expect(within(header).getByTestId('sort-arrow-desc')).toBeInTheDocument();
+  });
 });

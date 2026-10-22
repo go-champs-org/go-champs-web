@@ -426,11 +426,16 @@ describe('GamePage box score', () => {
         })[0]
       );
 
+    expect(screen.queryByTestId('sort-arrow-desc')).not.toBeInTheDocument();
+
     sortByPoints();
     expect(homeNames()).toEqual(['Cris', 'Ana']);
+    expect(screen.getAllByTestId('sort-arrow-desc')).toHaveLength(2);
 
     sortByPoints();
     expect(homeNames()).toEqual(['Ana', 'Cris']);
+    expect(screen.getAllByTestId('sort-arrow-asc')).toHaveLength(2);
+    expect(screen.queryByTestId('sort-arrow-desc')).not.toBeInTheDocument();
   });
 
   it('hides the box score when a finished game has no logs', async () => {

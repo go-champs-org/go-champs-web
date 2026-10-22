@@ -19,6 +19,7 @@ import {
   type SortDirection,
   type StatScope
 } from '@/src/stats/rosterStats';
+import { SortArrow } from '@/src/components/SortArrow';
 
 interface RosterStatsTableProps {
   rows: RosterStatRow[];
@@ -193,6 +194,11 @@ function StatsCardHeader({
   );
 }
 
+const sortDirection = (
+  sort: SortState | null,
+  slug: string
+): SortDirection | null => (sort?.slug === slug ? sort.direction : null);
+
 interface StatHeaderProps {
   column: StatColumnView;
   sort: SortState;
@@ -212,9 +218,10 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
         onClick={() => onSort(column.slug)}
         title={column.description}
         aria-label={sortLabel.replace('{stat}', column.description)}
-        className="cursor-pointer hover:underline"
+        className="inline-flex cursor-pointer items-center gap-1 hover:underline"
       >
         {column.label}
+        <SortArrow direction={sortDirection(sort, column.slug)} />
       </button>
     </th>
   );

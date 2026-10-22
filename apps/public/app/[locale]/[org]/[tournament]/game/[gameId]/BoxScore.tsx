@@ -9,7 +9,12 @@ import {
   StatGlossaryToggle,
   Surface
 } from '@gochamps/ui';
-import { type SortState, type StatColumnView } from '@/src/stats/rosterStats';
+import {
+  type SortDirection,
+  type SortState,
+  type StatColumnView
+} from '@/src/stats/rosterStats';
+import { SortArrow } from '@/src/components/SortArrow';
 import {
   boxScoreCellValue,
   boxScoreRanking,
@@ -269,6 +274,11 @@ const ariaSort = (
 ): 'ascending' | 'descending' | 'none' =>
   sort?.slug === slug ? ARIA_SORT[sort.direction] : 'none';
 
+const sortDirection = (
+  sort: SortState | null,
+  slug: string
+): SortDirection | null => (sort?.slug === slug ? sort.direction : null);
+
 interface StatHeaderProps {
   column: StatColumnView;
   sort: SortState | null;
@@ -288,9 +298,10 @@ function StatHeader({ column, sort, sortLabel, onSort }: StatHeaderProps) {
         onClick={() => onSort(column.slug)}
         title={column.description}
         aria-label={sortLabel.replace('{stat}', column.description)}
-        className="cursor-pointer uppercase hover:underline"
+        className="inline-flex cursor-pointer items-center gap-1 uppercase hover:underline"
       >
         {column.label}
+        <SortArrow direction={sortDirection(sort, column.slug)} />
       </button>
     </th>
   );
