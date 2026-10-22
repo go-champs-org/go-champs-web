@@ -43,6 +43,44 @@ const SPORT_STAT_ORDER: Record<string, string[]> = {
   basketball_3x3: BASKETBALL_3X3_ORDER
 };
 
+// The tournament stats page reads the whole season, so it also carries what a
+// single game or a team roster leaves out: games, minutes, the attempts next
+// to each made shot, and the fouls. Every one of them is public; it is the
+// table, not the statistic, that decides what is worth a column.
+const BASKETBALL_5X5_TOURNAMENT_STATS_ORDER = [
+  'game_played',
+  'game_started',
+  'minutes_played',
+  'points',
+  'rebounds',
+  'assists',
+  'blocks',
+  'steals',
+  'turnovers',
+  'efficiency',
+  'plus_minus',
+  'free_throws_made',
+  'free_throws_attempted',
+  'free_throw_percentage',
+  'field_goals_made',
+  'field_goals_attempted',
+  'field_goal_percentage',
+  'three_point_field_goals_made',
+  'three_point_field_goals_attempted',
+  'three_point_field_goal_percentage',
+  'rebounds_offensive',
+  'rebounds_defensive',
+  'fouls_personal',
+  'fouls_technical',
+  'fouls_flagrant'
+];
+
+// A sport that is not here uses its table order, the same columns the team
+// roster shows.
+const TOURNAMENT_STATS_ORDER: Record<string, string[]> = {
+  basketball_5x5: BASKETBALL_5X5_TOURNAMENT_STATS_ORDER
+};
+
 // The curated set the CMS player profile shows, and its order
 // (apps/cms/src/Sports/Basketball5x5/AggregatedPlayerStatsViewer.tsx
 // ABSOLUTE_STATS) — a subset of the full box score, minus game_played, which
@@ -85,6 +123,9 @@ export const baseStatSlug = (slug: string): string =>
 
 export const sportStatOrder = (sportSlug: string): string[] =>
   SPORT_STAT_ORDER[sportSlug] || [];
+
+export const tournamentStatsOrder = (sportSlug: string): string[] =>
+  TOURNAMENT_STATS_ORDER[sportSlug] || sportStatOrder(sportSlug);
 
 // The CMS opens every Basketball 5x5 stats table ranked by points, best first
 // (apps/cms/src/Sports/Basketball5x5/GameBoxScoreViewer.tsx). Keyed by scope

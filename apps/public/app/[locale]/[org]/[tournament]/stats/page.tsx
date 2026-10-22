@@ -32,7 +32,7 @@ import {
   type PickedTeam,
   type TournamentStatRow
 } from '@/src/stats/tournamentStats';
-import { defaultSortSlugs } from '@/src/stats/sportStatColumns';
+import { defaultSortSlugs, tournamentStatsOrder } from '@/src/stats/sportStatColumns';
 import { minStatFilterSlugs } from '@/src/stats/sportStatFilters';
 import { TournamentStatsTable } from './TournamentStatsTable';
 import type {
@@ -250,9 +250,10 @@ export default async function PlayerStatsPage({
 
   const statDescriptions = tTeam.raw('statDescriptions') as Record<string, string>;
   const rows = tournamentStatRows(tournament.players, statsLogs, tournament.teams);
-  const scopes = availableScopes(tournament.playerStats, sport);
+  const columnOrder = tournamentStatsOrder(tournament.sportSlug);
+  const scopes = availableScopes(tournament.playerStats, sport, columnOrder);
   const columnsByScope = columnViewsByScope(
-    statColumnsByScope(tournament.playerStats, sport, scopes),
+    statColumnsByScope(tournament.playerStats, sport, scopes, columnOrder),
     tTeam.raw('statColumns') as Record<string, string>,
     statDescriptions
   );

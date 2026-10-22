@@ -378,7 +378,15 @@
       "unsportsmanlike_fouls": "FA",
       "disqualifying_fouls": "FD",
       "game_played": "JOG",
-      "efficiency": "EFF"
+      "efficiency": "EFF",
+      "game_started": "TIT",
+      "minutes_played": "MIN",
+      "free_throws_attempted": "LLT",
+      "field_goals_attempted": "2PT",
+      "three_point_field_goals_attempted": "3PT",
+      "fouls_personal": "FLP",
+      "fouls_technical": "FLT",
+      "fouls_flagrant": "FLF"
     },
     "statDescriptions": {
       "points": "Pontos",
@@ -406,7 +414,15 @@
       "plus_minus": "Mais/menos",
       "unsportsmanlike_fouls": "Faltas antidesportivas",
       "disqualifying_fouls": "Faltas desqualificantes",
-      "efficiency": "Eficiência"
+      "efficiency": "Eficiência",
+      "game_started": "Jogos como titular",
+      "minutes_played": "Minutos jogados",
+      "free_throws_attempted": "Lances livres tentados",
+      "field_goals_attempted": "Arremessos de 2 pontos tentados",
+      "three_point_field_goals_attempted": "Arremessos de 3 pontos tentados",
+      "fouls_personal": "Faltas pessoais",
+      "fouls_technical": "Faltas técnicas",
+      "fouls_flagrant": "Faltas flagrantes"
     }
   },
   "playerStats": {

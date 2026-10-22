@@ -169,6 +169,39 @@ describe('PlayerStatsPage', () => {
     expect(row.getByText('15')).toBeInTheDocument();
   });
 
+  it('adds games, minutes, attempts and fouls the CMS keeps private, but not the misses', async () => {
+    const slugs = [
+      'points',
+      'game_played',
+      'minutes_played',
+      'field_goals_made',
+      'field_goals_attempted',
+      'field_goals_missed',
+      'fouls_personal'
+    ];
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        players: [player('p1', 'Camisa Um', 't1')],
+        playerStats: slugs.map(slug => ({
+          ...playerStat(slug, slug),
+          visibility: ['points', 'field_goals_made'].includes(slug) ? 'public' : 'private'
+        }))
+      })
+    );
+    getSportBySlugMock.mockResolvedValue(
+      sport({ playerStatistics: slugs.map(slug => sportStatistic(slug, 'aggregate')) })
+    );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p1', { points: '15' })
+    ]);
+
+    await renderPage();
+
+    expect(
+      screen.getAllByRole('columnheader').map(header => header.textContent)
+    ).toEqual(['Pos.', 'Nome', 'Time', 'JOG', 'MIN', 'PTS', '2PC', '2PT', 'FLP']);
+  });
+
   it('numbers the rows by position instead of shirt number', async () => {
     getTournamentBySlugMock.mockResolvedValue(
       tournament({

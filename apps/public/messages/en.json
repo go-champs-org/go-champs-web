@@ -378,7 +378,15 @@
       "unsportsmanlike_fouls": "UF",
       "disqualifying_fouls": "DQF",
       "game_played": "GP",
-      "efficiency": "EFF"
+      "efficiency": "EFF",
+      "game_started": "GS",
+      "minutes_played": "MIN",
+      "free_throws_attempted": "FTA",
+      "field_goals_attempted": "FGA",
+      "three_point_field_goals_attempted": "3PA",
+      "fouls_personal": "PF",
+      "fouls_technical": "TF",
+      "fouls_flagrant": "FF"
     },
     "statDescriptions": {
       "points": "Points",
@@ -406,7 +414,15 @@
       "plus_minus": "Plus/minus",
       "unsportsmanlike_fouls": "Unsportsmanlike fouls",
       "disqualifying_fouls": "Disqualifying fouls",
-      "efficiency": "Efficiency"
+      "efficiency": "Efficiency",
+      "game_started": "Games started",
+      "minutes_played": "Minutes played",
+      "free_throws_attempted": "Free throws attempted",
+      "field_goals_attempted": "Two-point shots attempted",
+      "three_point_field_goals_attempted": "Three-point shots attempted",
+      "fouls_personal": "Personal fouls",
+      "fouls_technical": "Technical fouls",
+      "fouls_flagrant": "Flagrant fouls"
     }
   },
   "playerStats": {
