@@ -16,6 +16,11 @@ import {
 } from '@/src/stats/rosterStats';
 import { SortArrow } from '@/src/components/SortArrow';
 import {
+  PINNED_EDGE_SHADOW,
+  SCROLL_GROUP,
+  useScrolledX
+} from '@/src/components/useScrolledX';
+import {
   boxScoreCellValue,
   boxScoreRanking,
   didNotPlay,
@@ -118,9 +123,12 @@ const HEADER_BAND =
 const TOTALS_BAND =
   'bg-[color-mix(in_srgb,var(--color-primary)_60%,var(--color-surface))]';
 
-const NAME_CELL =
-  'sticky left-0 z-10 whitespace-nowrap px-4 shadow-[8px_0_6px_-6px_var(--shadow-elevated)] md:px-6';
-const STAT_CELL = 'whitespace-nowrap px-3 text-right last:pr-6 md:px-4';
+// A phone keeps the pinned name narrow enough to read the next four
+// statistics: 134px plus 16px of padding, the name cut short with an
+// ellipsis, and the statistics' padding trimmed.
+const NAME_CELL = `sticky left-0 z-10 whitespace-nowrap px-2 md:px-6 ${PINNED_EDGE_SHADOW}`;
+const NAME_BOX = 'flex max-w-[134px] items-center gap-2 md:max-w-none';
+const STAT_CELL = 'whitespace-nowrap px-1.5 text-right last:pr-6 md:px-4';
 const ROW_HEIGHT = 'h-[43px] md:h-[49px]';
 const BAND_LABEL = 'text-left text-xs font-bold uppercase tracking-[0.5px]';
 
@@ -173,7 +181,7 @@ function PlayerName({ playerId, name, href }: PlayerNameProps) {
   if (!playerId) return <>{name}</>;
 
   return (
-    <Link href={href} className="hover:underline">
+    <Link href={href} title={name} className="hover:underline">
       {name}
     </Link>
   );
@@ -188,14 +196,16 @@ interface PlayerNameCellProps {
 function PlayerNameCell({ row, href, startedLabel }: PlayerNameCellProps) {
   return (
     <td className={`${NAME_CELL} bg-surface text-sm font-semibold text-foreground`}>
-      <span className="flex items-center gap-2">
+      <span className={NAME_BOX}>
         <Avatar
           name={row.name}
           logoUrl={row.photoUrl || ''}
           size={28}
           className="rounded-full text-[10px]"
         />
-        <PlayerName playerId={row.playerId} name={row.name} href={href} />
+        <span className="min-w-0 truncate">
+          <PlayerName playerId={row.playerId} name={row.name} href={href} />
+        </span>
         {isStarter(row.stats) && <StarterMark label={startedLabel} />}
       </span>
     </td>
@@ -324,6 +334,8 @@ function BoxScoreTable({
   sort,
   onSort
 }: BoxScoreTableProps) {
+  const scrollBoxProps = useScrolledX();
+
   return (
     <div
       className="flex flex-col overflow-hidden rounded-lg border border-border"
@@ -332,7 +344,7 @@ function BoxScoreTable({
       <TeamHeading teamName={team.teamName} logoUrl={team.logoUrl} />
 
       {/* Narrow screens scroll the table instead of the page. */}
-      <div className="overflow-x-auto">
+      <div className={`${SCROLL_GROUP} overflow-x-auto`} {...scrollBoxProps}>
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className={`${HEADER_BAND} ${ROW_HEIGHT} text-foreground`}>

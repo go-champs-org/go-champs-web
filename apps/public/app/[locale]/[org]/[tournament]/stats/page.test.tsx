@@ -166,8 +166,37 @@ describe('PlayerStatsPage', () => {
 
     const row = within(screen.getByText('Camisa Um').closest('tr') as HTMLElement);
     expect(row.getByText('Camisa Um')).toBeInTheDocument();
-    expect(row.getByText('Time A')).toBeInTheDocument();
+    expect(row.getByRole('link', { name: 'Time A' })).toBeInTheDocument();
     expect(row.getByText('15')).toBeInTheDocument();
+  });
+
+  it('shows only the crest in the team column, the initials without one', async () => {
+    getTournamentBySlugMock.mockResolvedValue(
+      tournament({
+        teams: [
+          team('t1', 'Time A', { triCode: 'TMA', logoUrl: 'https://x/a.png' }),
+          team('t2', 'Time B', { triCode: 'TMB' })
+        ],
+        players: [player('p1', 'Camisa Um', 't1'), player('p2', 'Camisa Dois', 't2')],
+        playerStats: [playerStat('points', 'Pontos')]
+      })
+    );
+    getAggregatedPlayerStatsByFilterMock.mockResolvedValue([
+      statsLog('p1', { points: '15' }),
+      statsLog('p2', { points: '9' })
+    ]);
+
+    await renderPage();
+
+    const withCrest = within(screen.getByText('Camisa Um').closest('tr') as HTMLElement);
+    const crestLink = withCrest.getByRole('link', { name: 'Time A' });
+    expect(within(crestLink).getByRole('img')).toHaveAttribute('src', 'https://x/a.png');
+    expect(withCrest.queryByText('TMA')).not.toBeInTheDocument();
+
+    const withoutCrest = within(screen.getByText('Camisa Dois').closest('tr') as HTMLElement);
+    const placeholderLink = withoutCrest.getByRole('link', { name: 'Time B' });
+    expect(within(placeholderLink).getByText('TB')).toBeInTheDocument();
+    expect(withoutCrest.queryByText('TMB')).not.toBeInTheDocument();
   });
 
   it('adds games, minutes, attempts and fouls the CMS keeps private, but not the misses', async () => {

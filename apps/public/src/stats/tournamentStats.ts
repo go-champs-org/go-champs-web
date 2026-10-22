@@ -7,40 +7,37 @@ import {
   type PlayerStatEntity
 } from '@gochamps/api-client';
 import type { TeamEntity } from '@gochamps/domain-types';
-import { teamShortName } from '@/src/games/gameTeams';
 import { rosterStatRows, type RosterStatRow } from './rosterStats';
 
 export interface TournamentStatRow extends RosterStatRow {
   teamName: string;
-  teamShortName: string;
   teamLogoUrl: string;
   teamId: string;
 }
 
 // Client-table props land in the RSC payload: ship only what the join reads.
 export type PickedPlayer = Pick<PlayerEntity, 'id' | 'name' | 'shirtNumber' | 'teamId'>;
-export type PickedTeam = Pick<TeamEntity, 'id' | 'name' | 'triCode' | 'logoUrl'>;
+export type PickedTeam = Pick<TeamEntity, 'id' | 'name' | 'logoUrl'>;
 
 export const pickPlayers = (players: PlayerEntity[]): PickedPlayer[] =>
   players.map(({ id, name, shirtNumber, teamId }) => ({ id, name, shirtNumber, teamId }));
 
 export const pickTeams = (teams: TeamEntity[]): PickedTeam[] =>
-  teams.map(({ id, name, triCode, logoUrl }) => ({ id, name, triCode, logoUrl }));
+  teams.map(({ id, name, logoUrl }) => ({ id, name, logoUrl }));
 
 const teamNameById = (teams: PickedTeam[]): Map<string, string> =>
   new Map(teams.map(team => [team.id, team.name]));
 
+// The team column shows only the crest; the name is its link's label.
 interface TeamColumnFields {
   teamName: string;
-  teamShortName: string;
   teamLogoUrl: string;
 }
 
-const NO_TEAM: TeamColumnFields = { teamName: '', teamShortName: '', teamLogoUrl: '' };
+const NO_TEAM: TeamColumnFields = { teamName: '', teamLogoUrl: '' };
 
 const teamColumnFields = (team: PickedTeam): TeamColumnFields => ({
   teamName: team.name,
-  teamShortName: teamShortName(team, '', ''),
   teamLogoUrl: team.logoUrl
 });
 

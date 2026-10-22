@@ -16,6 +16,7 @@ import {
   sportStatOrder
 } from '@/src/stats/sportStatColumns';
 import {
+  formatSecondsAsClock,
   formatStatValue,
   sortRosterRows,
   statColumnViews,
@@ -228,9 +229,7 @@ const formatMinutesPlayed = (value: string | undefined): string => {
   const seconds = Number(value);
   if (!value || !Number.isFinite(seconds)) return '-';
 
-  const minutes = Math.floor(seconds / 60);
-  const remainder = Math.floor(seconds % 60);
-  return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
+  return formatSecondsAsClock(seconds);
 };
 
 const MINUTES_PLAYED_SLUG = 'minutes_played';
