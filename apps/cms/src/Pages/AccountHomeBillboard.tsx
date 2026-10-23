@@ -14,6 +14,7 @@ import { isGettingAccountLoading } from '../Accounts/selectors';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { officialProfileByUsername } from '../OfficialProfiles/selectors';
+import LegalAcceptanceCard from '../LegalDocuments/LegalAcceptanceCard';
 
 const mapStateToProps = (state: StoreState) => {
   const username = localStorage.getItem(LOCAL_STORAGE_USERNAME_KEY) || '';
@@ -63,6 +64,7 @@ function AccountHomeBillboard({
             </h1>
           </div>
         </div>
+        <LegalAcceptanceCard />
         {isGettingAccountLoading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>

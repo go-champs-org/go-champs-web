@@ -1511,6 +1511,17 @@ export default {
     forOrganizationAdministrators:
       'Para administradores de organizações e campeonatos',
     welcomeChamps: 'Fala Champs!',
+    legalAcceptanceTitle: 'Termos de Uso e Política de Privacidade',
+    legalAcceptanceDescription:
+      'Para seguir com a sua conta na Go Champs, confirme que você leu e aceita os nossos termos.',
+    legalAcceptanceAgree:
+      'Li e aceito os <1>Termos de Uso</1> e a <3>Política de Privacidade</3>',
+    legalAcceptanceAccept: 'Aceitar',
+    legalAcceptanceAccepted: 'Aceite registrado. Obrigado!',
+    legalAcceptanceOutdated:
+      'Os termos foram atualizados. Leia a nova versão e aceite novamente.',
+    legalAcceptanceError:
+      'Não foi possível registrar o aceite. Tente novamente.',
     seeAthleteProfile: 'Confira seu Perfil de Atleta',
     seeOfficialProfile: 'Confira seu Perfil de Oficial',
     createAthleteProfile: 'Crie seu Perfil de Atleta',

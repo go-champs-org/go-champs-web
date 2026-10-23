@@ -1,0 +1,20 @@
+.legal-acceptance-card {
+  .legal-acceptance-description {
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-acceptance-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .legal-acceptance-agree {
+    label a {
+      text-decoration: underline;
+    }
+  }
+}

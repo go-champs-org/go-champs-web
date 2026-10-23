@@ -1493,6 +1493,16 @@ export default {
     yourName: 'Your name',
     yourTournaments: 'Your tournaments',
     welcomeChamps: 'Welcome Champs!',
+    legalAcceptanceTitle: 'Terms of Use and Privacy Policy',
+    legalAcceptanceDescription:
+      'To keep your Go Champs account, confirm that you have read and accept our terms.',
+    legalAcceptanceAgree:
+      'I have read and accept the <1>Terms of Use</1> and the <3>Privacy Policy</3>',
+    legalAcceptanceAccept: 'Accept',
+    legalAcceptanceAccepted: 'Acceptance recorded. Thank you!',
+    legalAcceptanceOutdated:
+      'The terms were updated. Read the new version and accept again.',
+    legalAcceptanceError: 'Could not record the acceptance. Please try again.',
     manageYourAthleteProfile: 'Manage your Athlete Profile',
     createYourAthleteProfileToGetStarted:
       'Create your Athlete Profile to get started!',
