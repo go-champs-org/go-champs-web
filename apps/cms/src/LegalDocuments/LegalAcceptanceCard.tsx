@@ -56,40 +56,39 @@ function LegalAcceptanceCard() {
   }
 
   return (
-    <div className="hero is-small is-warning legal-acceptance-card slide-fade-content">
+    <div className="hero is-small legal-acceptance-card slide-fade-content">
       <div className="hero-body">
-        <p className="is-size-5">
-          <Trans>legalAcceptanceTitle</Trans>
-        </p>
-        <p className="is-size-7 legal-acceptance-description">
-          <Trans>legalAcceptanceDescription</Trans>
-        </p>
-        <div className="legal-acceptance-actions">
-          <div className="legal-acceptance-agree">
-            <input
-              id="legal-acceptance-agree"
-              type="checkbox"
-              className="is-checkradio"
-              checked={hasAgreed}
-              disabled={isSubmitting}
-              onChange={event => setHasAgreed(event.target.checked)}
-            />
-            <label htmlFor="legal-acceptance-agree">
-              <Trans i18nKey="legalAcceptanceAgree">
-                Li e aceito os
-                <a href="/TermsBR" target="_blank" rel="noopener noreferrer">
-                  Termos de Uso
-                </a>
-                e a
-                <a
-                  href="/PrivacyPolicyBR"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Política de Privacidade
-                </a>
-              </Trans>
-            </label>
+        <div className="legal-acceptance-content">
+          <div className="legal-acceptance-text">
+            <p className="is-size-5 legal-acceptance-title">
+              <Trans>legalAcceptanceTitle</Trans>
+            </p>
+            <div className="legal-acceptance-agree">
+              <input
+                id="legal-acceptance-agree"
+                type="checkbox"
+                className="is-checkradio"
+                checked={hasAgreed}
+                disabled={isSubmitting}
+                onChange={event => setHasAgreed(event.target.checked)}
+              />
+              <label htmlFor="legal-acceptance-agree">
+                <Trans i18nKey="legalAcceptanceAgree">
+                  Li e aceito os
+                  <a href="/TermsBR" target="_blank" rel="noopener noreferrer">
+                    Termos de Uso
+                  </a>
+                  e a
+                  <a
+                    href="/PrivacyPolicyBR"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Política de Privacidade
+                  </a>
+                </Trans>
+              </label>
+            </div>
           </div>
           <button
             className={`button is-dark ${isSubmitting ? 'is-loading' : ''}`}

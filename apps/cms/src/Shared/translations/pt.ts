@@ -1512,8 +1512,6 @@ export default {
       'Para administradores de organizações e campeonatos',
     welcomeChamps: 'Fala Champs!',
     legalAcceptanceTitle: 'Termos de Uso e Política de Privacidade',
-    legalAcceptanceDescription:
-      'Para seguir com a sua conta na Go Champs, confirme que você leu e aceita os nossos termos.',
     legalAcceptanceAgree:
       'Li e aceito os <1>Termos de Uso</1> e a <3>Política de Privacidade</3>',
     legalAcceptanceAccept: 'Aceitar',

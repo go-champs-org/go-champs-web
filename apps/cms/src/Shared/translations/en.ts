@@ -1494,8 +1494,6 @@ export default {
     yourTournaments: 'Your tournaments',
     welcomeChamps: 'Welcome Champs!',
     legalAcceptanceTitle: 'Terms of Use and Privacy Policy',
-    legalAcceptanceDescription:
-      'To keep your Go Champs account, confirm that you have read and accept our terms.',
     legalAcceptanceAgree:
       'I have read and accept the <1>Terms of Use</1> and the <3>Privacy Policy</3>',
     legalAcceptanceAccept: 'Accept',
