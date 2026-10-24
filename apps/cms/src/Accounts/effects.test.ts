@@ -54,6 +54,7 @@ const ACCOUNT_RESET: AccountResetEntity = {
   repeatedPassword: 'some repeated password'
 };
 const SIGN_UP: SignUpEntity = {
+  acceptedLegalDocumentIds: ['terms-id', 'privacy-id'],
   email: 'some@email.com',
   username: 'someusername',
   password: 'some password',
@@ -310,6 +311,37 @@ describe('accountEffects', () => {
           'Sign up failed :(',
           'is-primary'
         );
+      });
+    });
+
+    describe('on legal documents no longer current', () => {
+      let result: unknown;
+
+      beforeEach(async () => {
+        dispatch.mockReset();
+
+        jest.spyOn(accountHttpClient, 'signUp').mockRejectedValue(
+          new ApiError({
+            status: 422,
+            data: {
+              errors: {
+                accepted_legal_document_ids: ['legal_documents_outdated']
+              }
+            }
+          })
+        );
+
+        result = await signUp(SIGN_UP, mockHistory)(dispatch);
+      });
+
+      it('returns the error on the acceptance field', () => {
+        expect(result).toEqual({
+          acceptedLegalDocumentIds: ['legal_documents_outdated']
+        });
+      });
+
+      it('does not display toast', () => {
+        expect(toast.displayToast).not.toHaveBeenCalled();
       });
     });
 

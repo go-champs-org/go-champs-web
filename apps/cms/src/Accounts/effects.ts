@@ -85,6 +85,11 @@ export const signIn = (
 
 const SIGN_UP_FIELDS = ['email', 'password', 'username'];
 
+// The API's field names that differ from the form's.
+const SIGN_UP_API_FIELDS: { [apiField: string]: string } = {
+  accepted_legal_document_ids: 'acceptedLegalDocumentIds'
+};
+
 /**
  * Turns a sign up rejection into field level errors react-final-form can
  * display, so that a taken username lands on the username field instead of a
@@ -94,11 +99,15 @@ const signUpSubmitErrors = (err: unknown) => {
   if (err instanceof ApiError && err.payload.data && err.payload.data.errors) {
     const { errors } = err.payload.data;
     const fieldErrors = Object.keys(errors)
-      .filter(field => SIGN_UP_FIELDS.includes(field))
+      .filter(
+        field => SIGN_UP_FIELDS.includes(field) || field in SIGN_UP_API_FIELDS
+      )
       .reduce(
         (acc, field) => ({
           ...acc,
-          [field]: ([] as string[]).concat(errors[field])
+          [SIGN_UP_API_FIELDS[field] || field]: ([] as string[]).concat(
+            errors[field]
+          )
         }),
         {}
       );

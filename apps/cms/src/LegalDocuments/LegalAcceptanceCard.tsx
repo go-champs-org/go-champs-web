@@ -5,6 +5,7 @@ import { displayToast } from '../Shared/bulma/toast';
 import legalDocumentHttpClient, {
   isLegalDocumentsOutdatedError
 } from './legalDocumentHttpClient';
+import LegalAcceptanceLabel from './LegalAcceptanceLabel';
 import './LegalAcceptanceCard.scss';
 
 // Asks an account that has not accepted the current Terms of Use and Privacy
@@ -72,22 +73,7 @@ function LegalAcceptanceCard() {
                 disabled={isSubmitting}
                 onChange={event => setHasAgreed(event.target.checked)}
               />
-              <label htmlFor="legal-acceptance-agree">
-                <Trans i18nKey="legalAcceptanceAgree">
-                  Li e aceito os
-                  <a href="/TermsBR" target="_blank" rel="noopener noreferrer">
-                    Termos de Uso
-                  </a>
-                  e a
-                  <a
-                    href="/PrivacyPolicyBR"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Política de Privacidade
-                  </a>
-                </Trans>
-              </label>
+              <LegalAcceptanceLabel htmlFor="legal-acceptance-agree" />
             </div>
           </div>
           <button

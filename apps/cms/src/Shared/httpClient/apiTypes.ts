@@ -685,6 +685,7 @@ export interface ApiRegistrationResponseForSignUpRequest {
 
 export interface ApiSignUpRequest {
   user: {
+    accepted_legal_document_ids: string[];
     email: string;
     password: string;
     recaptcha: string;

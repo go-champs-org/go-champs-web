@@ -58,11 +58,25 @@ const signIn = async (user: SignInEntity): Promise<ApiUserResponse> => {
   return await httpClient.post<ApiSignInRequest, ApiUserResponse>(url, user);
 };
 
+const mapSignUpEntityToApiUser = ({
+  acceptedLegalDocumentIds,
+  email,
+  password,
+  recaptcha,
+  username
+}: SignUpEntity): ApiSignUpRequest['user'] => ({
+  accepted_legal_document_ids: acceptedLegalDocumentIds,
+  email,
+  password,
+  recaptcha,
+  username
+});
+
 const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
   const url = `${ACCOUNT_API}/signup`;
 
   return await httpClient.post<ApiSignUpRequest, ApiUserResponse>(url, {
-    user
+    user: mapSignUpEntityToApiUser(user)
   });
 };
 
@@ -95,7 +109,7 @@ const signUpWithRegistration = async (
   const url = `${ACCOUNT_API}/signup`;
 
   return await httpClient.post<ApiSignUpRequest, ApiUserResponse>(url, {
-    user,
+    user: mapSignUpEntityToApiUser(user),
     registration: {
       registration_response_id: registrationResponseId
     }

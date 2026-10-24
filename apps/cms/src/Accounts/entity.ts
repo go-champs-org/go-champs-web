@@ -4,6 +4,8 @@ export interface SignInEntity {
 }
 
 export interface SignUpEntity {
+  // The current legal document versions the user accepted (GC-346).
+  acceptedLegalDocumentIds: string[];
   email: string;
   password: string;
   recaptcha: string;

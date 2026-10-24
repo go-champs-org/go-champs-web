@@ -8,6 +8,21 @@ import {
 import { REACT_APP_API_HOST } from '../Shared/env';
 
 const LEGAL_ACCEPTANCES_API = `${REACT_APP_API_HOST}v1/accounts/legal-acceptances`;
+const LEGAL_DOCUMENTS_API = `${REACT_APP_API_HOST}v1/legal-documents`;
+
+// Public: the signup form shows them before there is an account.
+const getCurrent = async (): Promise<ApiLegalDocument[]> => {
+  const response = await fetch(`${LEGAL_DOCUMENTS_API}/current`, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const jsonData = (await response.json()) as ApiLegalDocumentsResponse;
+  return jsonData.data || [];
+};
 
 const getPending = async (): Promise<ApiLegalDocument[]> => {
   const response = await httpClient.get<ApiLegalDocumentsResponse>(
@@ -38,5 +53,6 @@ export const isLegalDocumentsOutdatedError = (error: unknown): boolean =>
 
 export default {
   accept,
+  getCurrent,
   getPending
 };
