@@ -6,7 +6,6 @@ import {
   ApiAccountResetRequest,
   ApiAccountRecoveryRequest,
   ApiAccountResponse,
-  ApiFacebookSignUpRequest,
   ApiFacebookSignInRequest,
   ApiUsernameSuggestionRequest,
   ApiUsernameSuggestionResponse,
@@ -18,13 +17,9 @@ import {
   SignUpEntity,
   AccountResetEntity,
   AccountRecoveryEntity,
-  FacebookSignUpEntity,
   FacebookSignInEntity
 } from './entity';
-import {
-  mapFacebookSignUpEntityToApiFacebookSignUpPostRequest,
-  mapFacebookSignInEntityToApiFacebookSignInPostRequest
-} from './dataMappers';
+import { mapFacebookSignInEntityToApiFacebookSignInPostRequest } from './dataMappers';
 import { REACT_APP_API_HOST } from '../Shared/env';
 
 const ACCOUNT_API = `${REACT_APP_API_HOST}v1/accounts`;
@@ -58,11 +53,25 @@ const signIn = async (user: SignInEntity): Promise<ApiUserResponse> => {
   return await httpClient.post<ApiSignInRequest, ApiUserResponse>(url, user);
 };
 
+const mapSignUpEntityToApiUser = ({
+  acceptedLegalDocumentIds,
+  email,
+  password,
+  recaptcha,
+  username
+}: SignUpEntity): ApiSignUpRequest['user'] => ({
+  accepted_legal_document_ids: acceptedLegalDocumentIds,
+  email,
+  password,
+  recaptcha,
+  username
+});
+
 const signUp = async (user: SignUpEntity): Promise<ApiUserResponse> => {
   const url = `${ACCOUNT_API}/signup`;
 
   return await httpClient.post<ApiSignUpRequest, ApiUserResponse>(url, {
-    user
+    user: mapSignUpEntityToApiUser(user)
   });
 };
 
@@ -95,25 +104,11 @@ const signUpWithRegistration = async (
   const url = `${ACCOUNT_API}/signup`;
 
   return await httpClient.post<ApiSignUpRequest, ApiUserResponse>(url, {
-    user,
+    user: mapSignUpEntityToApiUser(user),
     registration: {
       registration_response_id: registrationResponseId
     }
   });
-};
-
-const facebookSignUp = async (
-  facebookUser: FacebookSignUpEntity
-): Promise<ApiUserResponse> => {
-  const url = `${ACCOUNT_API}/facebook-signup`;
-  const body = mapFacebookSignUpEntityToApiFacebookSignUpPostRequest(
-    facebookUser
-  );
-
-  return await httpClient.post<ApiFacebookSignUpRequest, ApiUserResponse>(
-    url,
-    body
-  );
 };
 
 const facebookSignIn = async (
@@ -134,7 +129,6 @@ const facebookSignIn = async (
 export default {
   checkUsernameAvailability,
   facebookSignIn,
-  facebookSignUp,
   getAccount,
   getUsernameSuggestion,
   recovery,

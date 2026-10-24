@@ -7,8 +7,7 @@ import {
   SignInEntity,
   SignUpEntity,
   AccountRecoveryEntity,
-  AccountResetEntity,
-  FacebookSignUpEntity
+  AccountResetEntity
 } from './entity';
 import {
   signInStart,
@@ -85,6 +84,11 @@ export const signIn = (
 
 const SIGN_UP_FIELDS = ['email', 'password', 'username'];
 
+// The API's field names that differ from the form's.
+const SIGN_UP_API_FIELDS: { [apiField: string]: string } = {
+  accepted_legal_document_ids: 'acceptedLegalDocumentIds'
+};
+
 /**
  * Turns a sign up rejection into field level errors react-final-form can
  * display, so that a taken username lands on the username field instead of a
@@ -94,11 +98,15 @@ const signUpSubmitErrors = (err: unknown) => {
   if (err instanceof ApiError && err.payload.data && err.payload.data.errors) {
     const { errors } = err.payload.data;
     const fieldErrors = Object.keys(errors)
-      .filter(field => SIGN_UP_FIELDS.includes(field))
+      .filter(
+        field => SIGN_UP_FIELDS.includes(field) || field in SIGN_UP_API_FIELDS
+      )
       .reduce(
         (acc, field) => ({
           ...acc,
-          [field]: ([] as string[]).concat(errors[field])
+          [SIGN_UP_API_FIELDS[field] || field]: ([] as string[]).concat(
+            errors[field]
+          )
         }),
         {}
       );
@@ -149,28 +157,16 @@ export const signUpWithRegistration = (
   }
 };
 
-export const facebookSignUp = (
-  user: FacebookSignUpEntity,
-  history: History
-) => async (dispatch: Dispatch) => {
-  dispatch(signUpStart());
-
-  try {
-    const response = await accountHttpClient.facebookSignUp(user);
-
-    dispatch(signUpSuccess(response));
-    history.push('/SignIn');
-  } catch (err) {
-    dispatch(signUpFailure(err));
-    displayToast(`Sign up failed :(`, 'is-primary');
-  }
-};
-
-export const redirectToFacebookSignUp = (history: History) => async (
+/**
+ * Signs in an account linked to Facebook. One that is not linked yet goes to
+ * the regular sign up, with the Facebook email filled in: there is no sign up
+ * through Facebook anymore (GC-346).
+ */
+export const signInWithFacebook = (history: History) => async (
   facebookResponse: ReactFacebookLoginInfo | ReactFacebookFailureResponse
 ) => {
   if (!('id' in facebookResponse)) {
-    displayToast(`Sign up failed :(`, 'is-primary');
+    displayToast(`Sign in failed :(`, 'is-primary');
     return;
   }
 
@@ -186,7 +182,7 @@ export const redirectToFacebookSignUp = (history: History) => async (
     setUsernameCookie(response.data.username);
     history.push('/Account');
   } catch {
-    history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
+    history.push(`/SignUp?email=${encodeURIComponent(email || '')}`);
   }
 };
 

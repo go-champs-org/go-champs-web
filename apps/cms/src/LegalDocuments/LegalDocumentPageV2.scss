@@ -1,7 +1,7 @@
-@import '../../Shared/styles/colorsV2.scss';
-@import '../Shared/page-v2';
+@import '../Shared/styles/colorsV2.scss';
+@import '../PagesV2/Shared/page-v2';
 
-.terms-br-illustration {
+.legal-document-illustration {
   order: 1;
   display: none;
 
@@ -17,7 +17,7 @@
   }
 }
 
-.terms-br-content {
+.legal-document-content {
   line-height: 1.7;
 
   p {
@@ -75,21 +75,9 @@
   }
 }
 
-.terms-br-update-date {
+.legal-document-update-date {
   color: var(--theme-v2-textSecondary);
   font-size: 0.9375rem;
   font-style: italic;
   margin-bottom: 2rem;
-}
-
-.terms-br-section {
-  margin-bottom: 2rem;
-
-  &:first-of-type h2 {
-    margin-top: 0;
-  }
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
 }

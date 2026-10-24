@@ -75,6 +75,7 @@ function SignUpV2({
               <Form
                 onSubmit={signUp}
                 initialValues={{
+                  acceptedLegalDocumentIds: [],
                   username: '',
                   email: emailFromQuery,
                   password: '',

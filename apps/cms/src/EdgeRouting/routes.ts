@@ -110,7 +110,7 @@ const CMS_RESERVED_SEGMENTS = [
 ];
 
 /** App.tsx declares these with a trailing `*`, matching any segment. */
-const CMS_RESERVED_SEGMENT_PREFIXES = ['PrivacyPolicy', 'FacebookSignUp'];
+const CMS_RESERVED_SEGMENT_PREFIXES = ['PrivacyPolicy'];
 
 const isReservedByCms = (segment: string): boolean =>
   CMS_RESERVED_SEGMENTS.includes(segment) ||

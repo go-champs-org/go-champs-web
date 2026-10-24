@@ -5,16 +5,14 @@ import {
   accountReset,
   accountRecovery,
   getAccount,
-  facebookSignUp,
-  redirectToFacebookSignUp,
+  signInWithFacebook,
   signOut
 } from './effects';
 import {
   SignInEntity,
   SignUpEntity,
   AccountResetEntity,
-  AccountRecoveryEntity,
-  FacebookSignUpEntity
+  AccountRecoveryEntity
 } from './entity';
 import * as toast from '../Shared/bulma/toast';
 import { History, Location } from 'history';
@@ -54,17 +52,12 @@ const ACCOUNT_RESET: AccountResetEntity = {
   repeatedPassword: 'some repeated password'
 };
 const SIGN_UP: SignUpEntity = {
+  acceptedLegalDocumentIds: ['terms-id', 'privacy-id'],
   email: 'some@email.com',
   username: 'someusername',
   password: 'some password',
   recaptcha: 'some recaptcha',
   repeatedPassword: 'some repeated password'
-};
-const FACEBOOK_SIGN_UP: FacebookSignUpEntity = {
-  email: 'some@email.com',
-  facebookId: 'some-facebook-id',
-  recaptcha: 'some recaptcha',
-  username: 'someusername'
 };
 const SOME_USER: SignInEntity = {
   username: 'some@email.com',
@@ -313,6 +306,37 @@ describe('accountEffects', () => {
       });
     });
 
+    describe('on legal documents no longer current', () => {
+      let result: unknown;
+
+      beforeEach(async () => {
+        dispatch.mockReset();
+
+        jest.spyOn(accountHttpClient, 'signUp').mockRejectedValue(
+          new ApiError({
+            status: 422,
+            data: {
+              errors: {
+                accepted_legal_document_ids: ['legal_documents_outdated']
+              }
+            }
+          })
+        );
+
+        result = await signUp(SIGN_UP, mockHistory)(dispatch);
+      });
+
+      it('returns the error on the acceptance field', () => {
+        expect(result).toEqual({
+          acceptedLegalDocumentIds: ['legal_documents_outdated']
+        });
+      });
+
+      it('does not display toast', () => {
+        expect(toast.displayToast).not.toHaveBeenCalled();
+      });
+    });
+
     describe('on username already taken', () => {
       let result: unknown;
 
@@ -428,76 +452,7 @@ describe('accountEffects', () => {
     });
   });
 
-  describe('facebookSignUp', () => {
-    beforeEach(() => {
-      dispatch = jest.fn();
-    });
-
-    it('dispatches start sign in action', () => {
-      facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
-
-      expect(dispatch).toHaveBeenCalledWith(signUpStart());
-    });
-
-    describe('on success', () => {
-      beforeEach(() => {
-        dispatch.mockReset();
-
-        jest.spyOn(accountHttpClient, 'facebookSignUp').mockResolvedValue({
-          data: {
-            email: 'some@email.com',
-            token: 'some token',
-            username: 'someusername'
-          }
-        });
-
-        facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
-      });
-
-      it('dispatches post success action', () => {
-        expect(dispatch).toHaveBeenCalledWith(
-          signUpSuccess({
-            data: {
-              email: 'some@email.com',
-              token: 'some token',
-              username: 'someusername'
-            }
-          })
-        );
-      });
-
-      it('redirects to account page', () => {
-        expect(mockHistory.push).toHaveBeenCalledWith('/SignIn');
-      });
-    });
-
-    describe('on failure', () => {
-      beforeEach(async () => {
-        dispatch.mockReset();
-
-        jest
-          .spyOn(accountHttpClient, 'facebookSignUp')
-          .mockRejectedValue(new Error('some error'));
-
-        await facebookSignUp(FACEBOOK_SIGN_UP, mockHistory)(dispatch);
-      });
-
-      it('dispatches post failure action', () => {
-        expect(dispatch).toHaveBeenCalledWith(
-          signUpFailure(new Error('some error'))
-        );
-      });
-
-      it('dispatches display toast', () => {
-        expect(toast.displayToast).toHaveBeenCalledWith(
-          'Sign up failed :(',
-          'is-primary'
-        );
-      });
-    });
-  });
-
-  describe('redirectToFacebookSignUp', () => {
+  describe('signInWithFacebook', () => {
     const FACEBOOK_LOGIN_INFO = ({
       id: 'some-facebook-id',
       email: 'some@email.com'
@@ -517,7 +472,7 @@ describe('accountEffects', () => {
           }
         });
 
-        await redirectToFacebookSignUp(mockHistory)(FACEBOOK_LOGIN_INFO);
+        await signInWithFacebook(mockHistory)(FACEBOOK_LOGIN_INFO);
       });
 
       it('sets the username cookie', () => {
@@ -537,16 +492,16 @@ describe('accountEffects', () => {
           .spyOn(accountHttpClient, 'facebookSignIn')
           .mockRejectedValue(new Error('some error'));
 
-        await redirectToFacebookSignUp(mockHistory)(FACEBOOK_LOGIN_INFO);
+        await signInWithFacebook(mockHistory)(FACEBOOK_LOGIN_INFO);
       });
 
       it('does not set the username cookie', () => {
         expect(document.cookie).not.toContain(USERNAME_COOKIE_NAME);
       });
 
-      it('redirects to the facebook sign up page', () => {
+      it('redirects to the sign up page with the Facebook email', () => {
         expect(mockHistory.push).toHaveBeenCalledWith(
-          '/FacebookSignUp?email=some@email.com&facebookId=some-facebook-id'
+          '/SignUp?email=some%40email.com'
         );
       });
     });

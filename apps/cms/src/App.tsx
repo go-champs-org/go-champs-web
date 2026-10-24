@@ -28,7 +28,6 @@ import UseAsApp from './Pages/UseAsApp';
 import AuthenticatedRoute from './Accounts/AuthenticatedRoute';
 import { RouteProps } from './Pages/support/routerInterfaces';
 import './Shared/translations/i18n';
-import FacebookSignUp from './Pages/FacebookSignUp';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import PWAInstallPrompt from './Shared/UI/PWAInstallPrompt';
 import TeamRosterInvites from './Pages/TeamRosterInvites';
@@ -88,18 +87,6 @@ const App: React.FC = () => {
                       <AccountHome />
                     </AuthenticatedRoute>
                   )}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/FacebookSignUp"
-                  component={FacebookSignUp}
-                />
-                <Route
-                  exact
-                  sensitive
-                  path="/FacebookSignUp*"
-                  component={FacebookSignUp}
                 />
                 <Route
                   exact

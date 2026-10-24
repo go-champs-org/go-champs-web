@@ -566,7 +566,6 @@ export default {
     signUp: 'Novo usuário',
     signUpSubtitle:
       'Fique por dentro dos jogos e resultados tudo em um só lugar.',
-    signUpWithFacebook: 'Acesse com Facebook',
     alreadyHaveAnAccount: 'Já tem uma conta?',
     accountRecoverySubtitle:
       'Informe seu email e enviaremos um link para redefinir sua senha.',
@@ -1511,6 +1510,15 @@ export default {
     forOrganizationAdministrators:
       'Para administradores de organizações e campeonatos',
     welcomeChamps: 'Fala Champs!',
+    legalAcceptanceTitle: 'Termos de Uso e Política de Privacidade',
+    legalAcceptanceAgree:
+      'Li e aceito os <1>Termos de Uso</1> e a <3>Política de Privacidade</3>',
+    legalAcceptanceAccept: 'Aceitar',
+    legalAcceptanceAccepted: 'Aceite registrado. Obrigado!',
+    legalAcceptanceOutdated:
+      'Os termos foram atualizados. Leia a nova versão e aceite novamente.',
+    legalAcceptanceError:
+      'Não foi possível registrar o aceite. Tente novamente.',
     seeAthleteProfile: 'Confira seu Perfil de Atleta',
     seeOfficialProfile: 'Confira seu Perfil de Oficial',
     createAthleteProfile: 'Crie seu Perfil de Atleta',

@@ -15,6 +15,7 @@ import { REACT_APP_RECAPTCHA_SITE_KEY } from '../Shared/env';
 import useUsernameSuggestion from './useUsernameSuggestion';
 import useUsernameAvailability from './useUsernameAvailability';
 import useUsernameCollisionSuggestion from './useUsernameCollisionSuggestion';
+import LegalAcceptanceField from '../LegalDocuments/LegalAcceptanceField';
 import './SignUpFormV2.scss';
 
 interface FormProps extends FormRenderProps<SignUpEntity> {
@@ -122,6 +123,10 @@ function SignUpFormV2({
           placeholder="Repita sua senha"
           validate={required}
         />
+      </div>
+
+      <div className="signup-form-v2-field">
+        <LegalAcceptanceField name="acceptedLegalDocumentIds" />
       </div>
 
       <div className="signup-form-v2-field signup-form-v2-recaptcha">
