@@ -1,6 +1,7 @@
 export { default as httpClient } from './httpClient';
 export { default as ApiError } from './ApiError';
 export * from './about/about';
+export * from './legalDocuments/legalDocuments';
 export * from './organizations/dataMappers';
 export * from './organizations/organizations';
 export * from './recentlyViews/dataMappers';
