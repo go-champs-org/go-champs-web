@@ -566,7 +566,6 @@ export default {
     signUp: 'Novo usuário',
     signUpSubtitle:
       'Fique por dentro dos jogos e resultados tudo em um só lugar.',
-    signUpWithFacebook: 'Acesse com Facebook',
     alreadyHaveAnAccount: 'Já tem uma conta?',
     accountRecoverySubtitle:
       'Informe seu email e enviaremos um link para redefinir sua senha.',

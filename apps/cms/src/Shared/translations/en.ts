@@ -560,7 +560,6 @@ export default {
     sendYourFeedbackSuccessMsg: 'Thank you for your message!',
     signUp: 'Sign up',
     signUpSubtitle: 'Follow games and results, all in one place.',
-    signUpWithFacebook: 'Sign up with Facebook',
     alreadyHaveAnAccount: 'Already have an account?',
     accountRecoverySubtitle:
       "Enter your email and we'll send you a link to reset your password.",

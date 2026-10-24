@@ -13,13 +13,6 @@ export interface SignUpEntity {
   username: string;
 }
 
-export interface FacebookSignUpEntity {
-  email: string;
-  facebookId: string;
-  recaptcha: string;
-  username: string;
-}
-
 export interface FacebookSignInEntity {
   facebookId: string;
 }

@@ -15,7 +15,6 @@ const V2_PATHS = new Set([
 const RESERVED_SEGMENTS = new Set([
   'Organization',
   'Account',
-  'FacebookSignUp',
   'Invite',
   'PrivacyPolicyBR',
   'PrivacyPolicy',

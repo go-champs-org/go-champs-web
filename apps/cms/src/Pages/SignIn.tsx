@@ -5,7 +5,7 @@ import SingInForm from '../Accounts/SignInForm';
 import { StoreState } from '../store';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { signIn, redirectToFacebookSignUp } from '../Accounts/effects';
+import { signIn, signInWithFacebook } from '../Accounts/effects';
 import { SignInEntity } from '../Accounts/entity';
 import { isSigingIn } from '../Accounts/selectors';
 import { Trans, useTranslation } from 'react-i18next';
@@ -67,7 +67,7 @@ function SignIn({
                   appId={REACT_APP_FACEBOOK_APP_ID || ''}
                   fields="id,email"
                   isDisabled={false}
-                  callback={redirectToFacebookSignUp(history)}
+                  callback={signInWithFacebook(history)}
                   cssClass="button facebook"
                   textButton={t('signInWithFacebook')}
                   icon="fab fa-facebook"

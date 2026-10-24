@@ -7,8 +7,7 @@ import {
   SignInEntity,
   SignUpEntity,
   AccountRecoveryEntity,
-  AccountResetEntity,
-  FacebookSignUpEntity
+  AccountResetEntity
 } from './entity';
 import {
   signInStart,
@@ -158,28 +157,16 @@ export const signUpWithRegistration = (
   }
 };
 
-export const facebookSignUp = (
-  user: FacebookSignUpEntity,
-  history: History
-) => async (dispatch: Dispatch) => {
-  dispatch(signUpStart());
-
-  try {
-    const response = await accountHttpClient.facebookSignUp(user);
-
-    dispatch(signUpSuccess(response));
-    history.push('/SignIn');
-  } catch (err) {
-    dispatch(signUpFailure(err));
-    displayToast(`Sign up failed :(`, 'is-primary');
-  }
-};
-
-export const redirectToFacebookSignUp = (history: History) => async (
+/**
+ * Signs in an account linked to Facebook. One that is not linked yet goes to
+ * the regular sign up, with the Facebook email filled in: there is no sign up
+ * through Facebook anymore (GC-346).
+ */
+export const signInWithFacebook = (history: History) => async (
   facebookResponse: ReactFacebookLoginInfo | ReactFacebookFailureResponse
 ) => {
   if (!('id' in facebookResponse)) {
-    displayToast(`Sign up failed :(`, 'is-primary');
+    displayToast(`Sign in failed :(`, 'is-primary');
     return;
   }
 
@@ -195,7 +182,7 @@ export const redirectToFacebookSignUp = (history: History) => async (
     setUsernameCookie(response.data.username);
     history.push('/Account');
   } catch {
-    history.push(`/FacebookSignUp?email=${email}&facebookId=${facebookId}`);
+    history.push(`/SignUp?email=${encodeURIComponent(email || '')}`);
   }
 };
 

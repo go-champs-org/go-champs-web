@@ -180,8 +180,7 @@ describe('resolvePublicPath', () => {
     it.each([
       ['/Invite/invite-1'],
       ['/Account/settings'],
-      ['/PrivacyPolicy/anything'],
-      ['/FacebookSignUp/callback']
+      ['/PrivacyPolicy/anything']
     ])('leaves two-segment %s on the CMS', cmsPath => {
       expect(resolvePublicPath(cmsPath)).toBeNull();
     });
@@ -192,8 +191,7 @@ describe('resolvePublicPath', () => {
       ['/SignUp'],
       ['/Account'],
       ['/Search'],
-      ['/PrivacyPolicy'],
-      ['/FacebookSignUp']
+      ['/PrivacyPolicy']
     ])('leaves bare %s on the CMS', cmsPath => {
       expect(resolvePublicPath(cmsPath)).toBeNull();
     });

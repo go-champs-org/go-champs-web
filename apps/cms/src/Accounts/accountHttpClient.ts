@@ -6,7 +6,6 @@ import {
   ApiAccountResetRequest,
   ApiAccountRecoveryRequest,
   ApiAccountResponse,
-  ApiFacebookSignUpRequest,
   ApiFacebookSignInRequest,
   ApiUsernameSuggestionRequest,
   ApiUsernameSuggestionResponse,
@@ -18,13 +17,9 @@ import {
   SignUpEntity,
   AccountResetEntity,
   AccountRecoveryEntity,
-  FacebookSignUpEntity,
   FacebookSignInEntity
 } from './entity';
-import {
-  mapFacebookSignUpEntityToApiFacebookSignUpPostRequest,
-  mapFacebookSignInEntityToApiFacebookSignInPostRequest
-} from './dataMappers';
+import { mapFacebookSignInEntityToApiFacebookSignInPostRequest } from './dataMappers';
 import { REACT_APP_API_HOST } from '../Shared/env';
 
 const ACCOUNT_API = `${REACT_APP_API_HOST}v1/accounts`;
@@ -116,20 +111,6 @@ const signUpWithRegistration = async (
   });
 };
 
-const facebookSignUp = async (
-  facebookUser: FacebookSignUpEntity
-): Promise<ApiUserResponse> => {
-  const url = `${ACCOUNT_API}/facebook-signup`;
-  const body = mapFacebookSignUpEntityToApiFacebookSignUpPostRequest(
-    facebookUser
-  );
-
-  return await httpClient.post<ApiFacebookSignUpRequest, ApiUserResponse>(
-    url,
-    body
-  );
-};
-
 const facebookSignIn = async (
   facebookUser: FacebookSignInEntity
 ): Promise<ApiUserResponse> => {
@@ -148,7 +129,6 @@ const facebookSignIn = async (
 export default {
   checkUsernameAvailability,
   facebookSignIn,
-  facebookSignUp,
   getAccount,
   getUsernameSuggestion,
   recovery,
