@@ -52,18 +52,40 @@ describe('LegalDocumentPage', () => {
     expect(getCurrentLegalDocumentsMock).toHaveBeenCalledWith('pt-BR');
   });
 
-  it('says the document could not be loaded when the API fails', async () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-    getCurrentLegalDocumentsMock.mockRejectedValue(new Error('offline'));
+  describe('when the API fails', () => {
+    beforeEach(() => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      getCurrentLegalDocumentsMock.mockRejectedValue(new Error('offline'));
+    });
 
-    await renderPage('terms_of_use');
+    afterEach(() => {
+      delete process.env.NEXT_PHASE;
+    });
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Fallback' })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Não foi possível carregar o documento/)
-    ).toBeInTheDocument();
-    expect(screen.queryByTestId('markdown')).not.toBeInTheDocument();
+    it('throws while serving, so a failed refresh keeps the last good page', async () => {
+      await expect(renderPage('terms_of_use')).rejects.toThrow('offline');
+    });
+
+    it('throws while serving when the API has no current version of the document', async () => {
+      getCurrentLegalDocumentsMock.mockResolvedValue([privacy]);
+
+      await expect(renderPage('terms_of_use')).rejects.toThrow(
+        'The API has no current terms_of_use'
+      );
+    });
+
+    it('says the document could not be loaded during the build', async () => {
+      process.env.NEXT_PHASE = 'phase-production-build';
+
+      await renderPage('terms_of_use');
+
+      expect(
+        screen.getByRole('heading', { level: 1, name: 'Fallback' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/Não foi possível carregar o documento/)
+      ).toBeInTheDocument();
+      expect(screen.queryByTestId('markdown')).not.toBeInTheDocument();
+    });
   });
 });

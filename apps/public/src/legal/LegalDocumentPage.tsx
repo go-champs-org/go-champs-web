@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { PHASE_PRODUCTION_BUILD } from 'next/constants';
 import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
 import { getCurrentLegalDocuments } from '@gochamps/api-client';
@@ -31,15 +32,33 @@ const MARKDOWN_COMPONENTS: Components = {
 const formatEffectiveAt = (effectiveAt: string) =>
   new Date(effectiveAt).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
-// The page is still worth serving when the API is down: it says so instead of
-// an error page.
+// Only the build falls back to a page that says the document could not be
+// loaded, so an API outage cannot fail a deploy. Afterwards a failure is
+// thrown: a failed hourly refresh then keeps serving the last good page, which
+// a cached fallback would replace for the next hour.
+const fetchDocument = async (
+  kind: LegalDocumentKind
+): Promise<LegalDocument> => {
+  const documents = await getCurrentLegalDocuments('pt-BR');
+  const document = documents.find(candidate => candidate.kind === kind);
+
+  if (!document) {
+    throw new Error(`The API has no current ${kind}`);
+  }
+
+  return document;
+};
+
 const loadDocument = async (
   kind: LegalDocumentKind
 ): Promise<LegalDocument | null> => {
   try {
-    const documents = await getCurrentLegalDocuments('pt-BR');
-    return documents.find(document => document.kind === kind) ?? null;
+    return await fetchDocument(kind);
   } catch (error) {
+    if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) {
+      throw error;
+    }
+
     console.error(`Failed to fetch the current ${kind}:`, error);
     return null;
   }
